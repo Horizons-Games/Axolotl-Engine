@@ -45,7 +45,7 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	for (int i = 0; i < modules.size(); ++i)
+	for (int i = 0; i < modules.size() && ret; ++i)
 		ret = modules[i]->Init();
 
 	return ret;
@@ -57,7 +57,7 @@ bool Application::Start()
 
 	appTimer->Start();
 
-	for (int i = 0; i < modules.size(); ++i)
+	for (int i = 0; i < modules.size() && ret; ++i)
 		ret = modules[i]->Start();
 
 	return ret;
@@ -96,7 +96,7 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (int i = modules.size() - 1; i >= 0; i--)
+	for (int i = modules.size() - 1; i >= 0; --i)
 		ret = modules[i]->CleanUp();
 
 	return ret;
