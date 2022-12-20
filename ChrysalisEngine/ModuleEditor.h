@@ -5,7 +5,7 @@ class ModuleEditor : public Module
 {
 public:
 	ModuleEditor();
-	~ModuleEditor();
+	~ModuleEditor() override;
 
 	bool Init() override;
 	bool Start() override;

@@ -14,7 +14,7 @@ class ModuleDebugDraw : public Module
 public:
 
     ModuleDebugDraw();
-    ~ModuleDebugDraw();
+    ~ModuleDebugDraw() override;
 
     bool            Init();
     update_status   Update();

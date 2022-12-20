@@ -7,7 +7,7 @@ class ModuleTexture : public Module
 {
 public:
 	ModuleTexture();
-	~ModuleTexture();
+	~ModuleTexture() override;
 
 	bool Init();
 	bool Start();

@@ -25,7 +25,7 @@ class ModuleEngineCamera : public Module
 {
 public:
 	ModuleEngineCamera();
-	~ModuleEngineCamera();
+	~ModuleEngineCamera() override;
 
 	bool Init() override;
 	bool Start() override;

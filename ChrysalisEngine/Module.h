@@ -12,6 +12,10 @@ public:
 	{
 	}
 
+	virtual ~Module()
+	{
+	}
+
 	virtual bool Start()
 	{
 		return true;

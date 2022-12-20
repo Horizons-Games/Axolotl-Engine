@@ -5,7 +5,7 @@ class ModuleProgram : public Module
 {
 public:
 	ModuleProgram();
-	~ModuleProgram();
+	~ModuleProgram() override;
 
 	bool CleanUp() override;
 
