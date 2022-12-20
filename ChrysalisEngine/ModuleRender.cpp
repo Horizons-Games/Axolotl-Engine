@@ -58,7 +58,6 @@ ModuleRender::ModuleRender()
 // Destructor
 ModuleRender::~ModuleRender()
 {
-	delete context;
 }
 
 // Called before render is available
