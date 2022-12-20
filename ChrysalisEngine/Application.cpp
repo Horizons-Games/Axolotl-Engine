@@ -9,8 +9,6 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleTexture.h"
 
-using namespace std;
-
 constexpr int FRAMES_BUFFER = 50;
 
 Application::Application()
