@@ -35,6 +35,8 @@ Application::~Application()
 	for(int i = 0; i < modules.size(); ++i)
         delete modules[i];
 
+	delete appTimer;
+
 	fpsLog.clear();
 	msLog.clear();
 }
