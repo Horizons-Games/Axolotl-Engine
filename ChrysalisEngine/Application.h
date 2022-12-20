@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <memory>
+
 #include "Globals.h"
 #include "Module.h"
 #include "Timer.h"

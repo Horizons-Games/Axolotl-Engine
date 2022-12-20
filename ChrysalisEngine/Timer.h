@@ -2,8 +2,6 @@
 
 #include "SDL/include/SDL.h"
 
-#include <vector>
-
 class Timer
 {
 public:
