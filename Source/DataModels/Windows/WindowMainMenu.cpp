@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "SDL.h"
 
-const std::string WindowMainMenu::repositoryLink = "https://github.com/Pre-SuperAwesomeEngine/Assignment-2";
+const std::string WindowMainMenu::repositoryLink = "https://github.com/Pre-SuperAwesomeEngine/Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(const std::vector< std::shared_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
