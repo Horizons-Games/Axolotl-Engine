@@ -18,28 +18,16 @@ void WindowConsole::DrawWindowContents()
 	for (int i = 0; i < engineLog->logLines.size(); ++i)
 	{
 		logInfo = engineLog->logLines[i].c_str();
-		lines.push_back(logInfo);
+		consoleContents.push_back(logInfo);
 	}
 
 	engineLog->logLines.clear();
 
-	for (std::string line : lines)
+	for (std::string line : consoleContents)
 	{
 		ImGui::TextUnformatted(&line[0]);
 	}
 
 	if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
 		ImGui::SetScrollHereY(1.0f);
-
-	/*for (int i = 0; i < consloneContents.size(); ++i)
-	{
-		const char* line = consloneContents[i];
-		ImGui::TextUnformatted(line);
-	}*/
-}
-
-void WindowConsole::Output(const char* textToPrint)
-{
-	//APP_LOG(textToPrint);
-	consloneContents.push_back(_strdup(textToPrint));
 }

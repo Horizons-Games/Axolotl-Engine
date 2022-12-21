@@ -4,6 +4,7 @@
 #include "Windows/SubWindows/SubWindow.h"
 
 #include <vector>
+#include <memory>
 
 class WindowConfiguration : public EditorWindow
 {
@@ -14,12 +15,13 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-private:
-	std::vector<SubWindow*> collapsingSubWindows;
-
 	ImVec2 GetStartingSize() const override
 	{
 		return ImVec2(900, 250);
 	}
+
+
+private:
+	std::vector<std::unique_ptr<SubWindow> > collapsingSubWindows;
 };
 

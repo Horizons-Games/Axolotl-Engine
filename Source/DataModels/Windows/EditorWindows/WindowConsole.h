@@ -8,8 +8,6 @@ public:
 	WindowConsole();
 	~WindowConsole();
 
-	void Output(const char* textToPrint);
-
 protected:
 	void DrawWindowContents() override;
 
@@ -19,8 +17,6 @@ protected:
 	}
 
 private:
-	ImVector<const char*> consloneContents;
-
-	std::vector<std::string> lines;
+	std::vector<std::string> consoleContents;
 };
 

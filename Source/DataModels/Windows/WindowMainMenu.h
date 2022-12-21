@@ -4,6 +4,7 @@
 
 #include <list>
 #include <vector>
+#include <memory>
 
 #include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
@@ -35,7 +36,7 @@ private:
 
 	static bool defaultEnabled;
 
-	WindowAbout* about = nullptr;
+	std::unique_ptr<WindowAbout> about;
 	bool showAbout = false;
 
 	int nWindows;

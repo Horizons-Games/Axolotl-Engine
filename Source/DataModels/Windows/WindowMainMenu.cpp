@@ -8,7 +8,7 @@ bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(const std::vector<EditorWindow*>& editorWindows) : Window("Main Menu")
 {
-	about = new WindowAbout();
+	about = std::make_unique<WindowAbout>();
 
 	nWindows = editorWindows.size();
 	for (EditorWindow* window : editorWindows)

@@ -6,18 +6,16 @@ WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
-	collapsingSubWindows.push_back(new WindowRenderer());
+	collapsingSubWindows.push_back(std::make_unique<WindowRenderer>());
 }
 
 WindowConfiguration::~WindowConfiguration()
 {
-	for (SubWindow* window : collapsingSubWindows)
-		delete window;
 	collapsingSubWindows.clear();
 }
 
 void WindowConfiguration::DrawWindowContents()
 {
-	for (SubWindow* subWindow : collapsingSubWindows)
-		subWindow->Draw();
+	for (int i = 0; i < collapsingSubWindows.size(); ++i)
+		collapsingSubWindows[i]->Draw();
 }
