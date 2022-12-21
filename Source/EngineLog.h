@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #define ENGINE_LOG(format, ...) engineLog->Log(__FILE__, __LINE__, format, __VA_ARGS__);
 
@@ -21,4 +22,4 @@ public:
 	std::vector<std::string> logLines;
 };
 
-extern EngineLog* engineLog;
+extern std::unique_ptr<EngineLog> engineLog;

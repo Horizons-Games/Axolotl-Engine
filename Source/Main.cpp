@@ -17,7 +17,7 @@ enum main_states
 };
 
 std::unique_ptr<Application> App;
-EngineLog* engineLog = new EngineLog();
+std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
 
 int main(int argc, char ** argv)
 {
@@ -96,7 +96,5 @@ int main(int argc, char ** argv)
 	}
 
 	ENGINE_LOG("Bye :)\n");
-	delete engineLog;
-
 	return mainReturn;
 }
