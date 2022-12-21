@@ -55,7 +55,7 @@ private:
 	int cacheLineSize;
 	int cpuCount;
 	int ram;
-	char caps[75];
+	char caps[75] {};
 
 	friend class ModuleEditor;
 };

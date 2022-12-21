@@ -17,26 +17,22 @@ Application::Application()
 	msLog = std::vector<float>(FRAMES_BUFFER, 0.0f);
 
 	// Order matters: they will Init/start/update in this order
-	modules.push_back(window = new ModuleWindow());
-	modules.push_back(editor = new ModuleEditor());
-	modules.push_back(input = new ModuleInput());
-	modules.push_back(program = new ModuleProgram()); 
-	modules.push_back(renderer = new ModuleRender());
-	modules.push_back(debug = new ModuleDebugDraw());
-	modules.push_back(textures = new ModuleTexture());
-	modules.push_back(engineCamera = new ModuleEngineCamera());
+	modules.push_back(window = std::make_shared<ModuleWindow>());
+	modules.push_back(editor = std::make_shared<ModuleEditor>());
+	modules.push_back(input = std::make_shared<ModuleInput>());
+	modules.push_back(program = std::make_shared<ModuleProgram>());
+	modules.push_back(renderer = std::make_shared<ModuleRender>());
+	modules.push_back(debug = std::make_shared<ModuleDebugDraw>());
+	modules.push_back(textures = std::make_shared<ModuleTexture>());
+	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
 
-	appTimer = new Timer();
+	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
 }
 
 Application::~Application()
 {
-	for(int i = 0; i < modules.size(); ++i)
-        delete modules[i];
-
-	delete appTimer;
-
+	modules.clear();
 	fpsLog.clear();
 	msLog.clear();
 }

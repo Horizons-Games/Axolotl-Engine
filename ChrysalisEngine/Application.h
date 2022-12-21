@@ -34,14 +34,14 @@ public:
 	int GetMaxFrameRate() const;
 
 public:
-	ModuleRender* renderer = nullptr;
-	ModuleWindow* window = nullptr;
-	ModuleInput* input = nullptr;
-	ModuleProgram* program = nullptr;
-	ModuleDebugDraw* debug = nullptr;
-	ModuleEditor* editor = nullptr;
-	ModuleEngineCamera* engineCamera = nullptr;
-	ModuleTexture* textures = nullptr;
+	std::shared_ptr<ModuleRender> renderer;
+	std::shared_ptr<ModuleWindow> window;
+	std::shared_ptr<ModuleInput> input;
+	std::shared_ptr<ModuleProgram> program;
+	std::shared_ptr<ModuleDebugDraw> debug;
+	std::shared_ptr<ModuleEditor> editor;
+	std::shared_ptr<ModuleEngineCamera> engineCamera;
+	std::shared_ptr<ModuleTexture> textures;
 
 	float deltaTime = 0.f;
 	int fps = 0;
@@ -49,12 +49,12 @@ public:
 	std::vector<float> fpsLog;
 	std::vector<float> msLog;
 
-	Timer* appTimer;
+	std::unique_ptr<Timer> appTimer;
 
 private:
-	std::vector<Module*> modules;
+	std::vector<std::shared_ptr<Module> > modules;
 
 	int maxFramerate;
 };
 
-extern Application* App;
+extern std::unique_ptr<Application> App;
