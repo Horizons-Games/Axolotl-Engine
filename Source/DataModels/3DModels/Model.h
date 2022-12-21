@@ -27,7 +27,7 @@ public:
 
 	int GetNumVertices() const;
 	int GetNumTriangles() const;
-	unsigned GetTextureId(unsigned idx) const;
+	unsigned GetTextureID(unsigned idx) const;
 	const float3& GetTranslation() const;
 	const float3& GetScale() const;
 	const float3& GetRotationF3() const;

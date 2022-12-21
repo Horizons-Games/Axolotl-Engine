@@ -474,7 +474,7 @@ development at UPC School.");
 				
 					ImGui::EndTable();
 				}
-				ImGui::Image((void*)model->GetTextureId(0), ImVec2(100.0f, 100.0f));
+				ImGui::Image((void*)model->GetTextureID(0), ImVec2(100.0f, 100.0f));
 			}
 
 			else ImGui::Text("There's no model loaded in scene.");

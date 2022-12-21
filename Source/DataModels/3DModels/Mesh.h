@@ -15,7 +15,7 @@ public:
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
 	void CreateVAO();
-	void Draw(const std::vector<unsigned>& model_textures, 
+	void Draw(const std::vector<unsigned>& modelTextures, 
 		const float3 &translation, const float4x4 &rotation, const float3 &scale);
 
 	vec* GetVertices() const;

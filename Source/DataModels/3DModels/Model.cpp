@@ -63,8 +63,6 @@ void Model::Load(const char* fileName)
 	const aiScene* scene = aiImportFile(fileName, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
-		// TODO: LoadTextures(scene->mMaterials, scene->mNumMaterials);
-		// TODO: LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 		LoadMaterials(scene);
 		LoadMeshes(scene);
 
@@ -169,7 +167,7 @@ int Model::GetNumTriangles() const
 	return count;
 }
 
-unsigned Model::GetTextureId(unsigned idx) const
+unsigned Model::GetTextureID(unsigned idx) const
 {
 	if (!textures.empty())
 		return textures[idx];
