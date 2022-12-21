@@ -210,7 +210,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
-    <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
     <ClCompile Include="Modules\ModuleEditor.cpp" />

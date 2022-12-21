@@ -7,9 +7,6 @@
     <ClCompile Include="EngineLog.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
