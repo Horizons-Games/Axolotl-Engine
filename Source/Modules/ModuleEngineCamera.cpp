@@ -162,7 +162,7 @@ void ModuleEngineCamera::KeyboardRotate()
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixX * rotationMatrixY;
+	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
 }
@@ -200,7 +200,7 @@ void ModuleEngineCamera::FreeLook()
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixX * rotationMatrixY;
+	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
 }
@@ -257,7 +257,7 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(verticalOrbit);
 	float3x3 rotationMatrixY = float3x3::FromQuat(sideOrbit);
-	float3x3 rotationDeltaMatrix = rotationMatrixX * rotationMatrixY;
+	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
 
