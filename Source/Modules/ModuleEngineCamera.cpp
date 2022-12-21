@@ -52,11 +52,11 @@ bool ModuleEngineCamera::Start()
 
 update_status ModuleEngineCamera::Update()
 {
+	projectionMatrix = frustum.ProjectionMatrix();
+	viewMatrix = frustum.ViewMatrix();
+
 	if (App->editor->IsSceneFocused())
 	{
-		projectionMatrix = frustum.ProjectionMatrix();
-		viewMatrix = frustum.ViewMatrix();
-
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
