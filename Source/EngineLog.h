@@ -14,7 +14,10 @@ public:
 
 	EngineLog() {};
 
-	~EngineLog() { logLines.clear(); }
+	~EngineLog() 
+	{ 
+		logLines.clear(); 
+	}
 
 	void Log(const char file[], int line, const char* format, ...);
 
