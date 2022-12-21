@@ -90,7 +90,7 @@ bool ModuleRender::Init()
 	if (SDL_HasSSE41()) sprintf_s(caps, 75, "%sSSE41, ", caps);
 	if (SDL_HasSSE42()) sprintf_s(caps, 75, "%sSSE42, ", caps);
 
-	this->context = SDL_GL_CreateContext(App->window->window);
+	this->context = SDL_GL_CreateContext(App->window->GetWindow());
 
 	this->backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
@@ -159,7 +159,7 @@ update_status ModuleRender::PreUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	SDL_GetWindowSize(App->window->window, &width, &height);
+	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
 
 	glViewport(0, 0, width, height);
 
@@ -180,7 +180,7 @@ update_status ModuleRender::Update()
 	}
 
 	int w, h;
-	SDL_GetWindowSize(App->window->window, &w, &h);
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
 		App->engineCamera->GetProjectionMatrix(), w, h);
@@ -190,7 +190,7 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_GL_SwapWindow(App->window->window);
+	SDL_GL_SwapWindow(App->window->GetWindow());
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	

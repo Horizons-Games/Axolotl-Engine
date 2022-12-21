@@ -13,12 +13,9 @@ class ModuleWindow : public Module
 public:
 
 	ModuleWindow();
-	// Destructor
 	virtual ~ModuleWindow();
 
-	// Called before quitting
 	bool Init() override;
-	// Called before quitting
 	bool CleanUp() override;
 
 	std::pair<int, int> GetWindowSize() const;
@@ -32,14 +29,35 @@ public:
 	void SetWindowType(bool fullscreen, bool borderless, bool resizable, bool fullscreenDesktop);
 	void SetBrightness(float brightness);
 
-public:
-	//The window we'll be rendering to
-	SDL_Window* window = nullptr;
-
-	//The surface contained by the window
-	SDL_Surface* screenSurface = nullptr;
+	inline SDL_Window* GetWindow() const
+	{
+		return window.get();
+	}
 
 private:
+	//SDL_Window is incomplete, so we must provide a destructor to the compiler
+	struct SDLWindowDestroyer
+	{
+		void operator()(SDL_Window* window) const
+		{
+			SDL_DestroyWindow(window);
+		}
+	};
+	//SDL_Surface is also incomplete
+	struct SDLSurfaceDestroyer
+	{
+		void operator()(SDL_Surface* surface) const
+		{
+			SDL_FreeSurface(surface);
+		}
+	};
+
+	//The window we'll be rendering to
+	std::unique_ptr<SDL_Window, SDLWindowDestroyer> window;
+
+	//The surface contained by the window
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> screenSurface;
+
 	bool fullscreen;
 	bool borderless;
 	bool resizable;

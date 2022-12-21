@@ -21,7 +21,7 @@ bool ModuleEngineCamera::Init()
 {
 	int w, h;
 
-	SDL_GetWindowSize(App->window->window, &w, &h);
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 	aspectRatio = float(w) / h;
 
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);

@@ -55,8 +55,9 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+		SDL_Window* windowRawPointer = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			width, height, flags);
+		window = std::unique_ptr<SDL_Window, SDLWindowDestroyer>(windowRawPointer);
 
 		if(window == NULL)
 		{
@@ -68,7 +69,8 @@ bool ModuleWindow::Init()
 			SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
 			//Get window surface
-			screenSurface = SDL_GetWindowSurface(window);
+			SDL_Surface* sufaceRawPointer = SDL_GetWindowSurface(window.get());
+			screenSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(sufaceRawPointer);
 		}
 	}
 
@@ -80,12 +82,6 @@ bool ModuleWindow::CleanUp()
 {
 	ENGINE_LOG("Destroying SDL window and quitting all SDL systems");
 
-	//Destroy window
-	if(window != NULL)
-	{
-		SDL_DestroyWindow(window);
-	}
-
 	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
@@ -95,7 +91,7 @@ std::pair<int, int> ModuleWindow::GetWindowSize() const
 {
 	int width, height;
 
-	SDL_GetWindowSize(this->window, &width, &height);
+	SDL_GetWindowSize(this->GetWindow(), &width, &height);
 
 	return std::make_pair(width, height);
 }
@@ -127,7 +123,7 @@ float ModuleWindow::GetBrightness() const
 
 void ModuleWindow::SetWindowSize(int width, int height)
 {
-	SDL_SetWindowSize(this->window, width, height);
+	SDL_SetWindowSize(this->GetWindow(), width, height);
 }
 
 void ModuleWindow::SetWindowType(bool fullscreen, bool borderless,
@@ -141,28 +137,28 @@ void ModuleWindow::SetWindowType(bool fullscreen, bool borderless,
 	this->fullscreenDesktop = fullscreenDesktop;
 
 	if (this->fullscreen)
-		SDL_SetWindowFullscreen(this->window, SDL_WINDOW_FULLSCREEN);
+		SDL_SetWindowFullscreen(this->GetWindow(), SDL_WINDOW_FULLSCREEN);
 	else if (this->fullscreenDesktop)
-		SDL_SetWindowFullscreen(this->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_SetWindowFullscreen(this->GetWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
 	else
-		SDL_SetWindowFullscreen(this->window, 0);
+		SDL_SetWindowFullscreen(this->GetWindow(), 0);
 
 	if (this->borderless)
-		SDL_SetWindowBordered(this->window, SDL_FALSE);
+		SDL_SetWindowBordered(this->GetWindow(), SDL_FALSE);
 	else
-		SDL_SetWindowBordered(this->window, SDL_TRUE);
+		SDL_SetWindowBordered(this->GetWindow(), SDL_TRUE);
 
 	if (this->resizable)
-		SDL_SetWindowResizable(this->window, SDL_TRUE);
+		SDL_SetWindowResizable(this->GetWindow(), SDL_TRUE);
 	else
-		SDL_SetWindowResizable(this->window, SDL_FALSE);
+		SDL_SetWindowResizable(this->GetWindow(), SDL_FALSE);
 }
 
 void ModuleWindow::SetBrightness(float brightness)
 {
 	this->brightness = brightness;
 
-	if (SDL_SetWindowBrightness(this->window, brightness))
+	if (SDL_SetWindowBrightness(this->GetWindow(), brightness))
 	{
 		ENGINE_LOG("Error setting window brightness: %s", &SDL_GetError()[0]);
 	}
