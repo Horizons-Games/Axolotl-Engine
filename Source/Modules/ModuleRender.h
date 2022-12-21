@@ -4,6 +4,7 @@
 #include "3DModels/Model.h"
 
 #include "Math/float4x4.h"
+#include "GL/glew.h"
 
 #include <SDL.h>
 
@@ -28,7 +29,7 @@ public:
 	update_status PostUpdate();
 
 	void WindowResized(unsigned width, unsigned height);
-
+	void UpdateBuffers(unsigned width, unsigned height);
 	void SetBackgroundColor(float4 color);
 
 	float4 GetBackgroundColor() const;
@@ -38,6 +39,10 @@ public:
 	int GetCacheLineSize() const;
 	float GetRamGB() const;
 	const char* GetCaps() const;
+	inline unsigned int GetRenderedTexture() const
+	{
+		return renderedTexture;
+	}
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();
@@ -56,6 +61,10 @@ private:
 	int cpuCount;
 	int ram;
 	char caps[75] {};
+
+	GLuint frameBuffer = 0;
+	GLuint renderedTexture = 0;
+	GLuint depthRenderBuffer = 0;
 
 	friend class ModuleEditor;
 };

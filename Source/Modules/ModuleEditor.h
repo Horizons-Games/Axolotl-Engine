@@ -1,6 +1,11 @@
 #pragma once
 #include "Module.h"
 
+class EditorWindow;
+class WindowMainMenu;
+class WindowConsole;
+class WindowScene;
+
 class ModuleEditor : public Module
 {
 public:
@@ -19,6 +24,10 @@ public:
 
 private:
 	std::vector<std::string> lines;
+	std::vector<EditorWindow*> windows;
+	WindowMainMenu* mainMenu = nullptr;
+	WindowConsole* console = nullptr;
+	WindowScene* scene = nullptr;
 
 	bool windowResized = false;
 };

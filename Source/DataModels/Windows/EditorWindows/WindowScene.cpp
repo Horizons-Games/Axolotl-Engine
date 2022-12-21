@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleRender.h"
+#include "Modules/ModuleEngineCamera.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene")
 {
@@ -17,7 +18,7 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
-	//ImGui::Image((void*)App->renderer->GetRenderedTexture(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)App->renderer->GetRenderedTexture(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void WindowScene::ManageResize()
@@ -27,7 +28,7 @@ void WindowScene::ManageResize()
 	bool heightChanged = previousHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		//App->camera->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
 		previousWidht = availableRegion.x;
 		previousHeight = availableRegion.y;
 	}

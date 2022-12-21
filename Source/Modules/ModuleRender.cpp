@@ -48,7 +48,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 	};
 }
 
-
 ModuleRender::ModuleRender()
 {
 	this->context = nullptr;
@@ -115,6 +114,19 @@ bool ModuleRender::Init()
 	glDisable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
+	glEnable(GL_TEXTURE_2D);
+
+	glGenFramebuffers(1, &frameBuffer);
+	glGenTextures(1, &renderedTexture);
+	glGenRenderbuffers(1, &depthRenderBuffer);
+
+	std::pair<int, int> windowSize = App->window->GetWindowSize();
+	UpdateBuffers(windowSize.first, windowSize.second);
+
+	// Set the list of draw buffers.
+	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+
 	return true;
 }
 
@@ -144,6 +156,8 @@ bool ModuleRender::Start()
 update_status ModuleRender::PreUpdate()
 {
 	int width, height;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->window, &width, &height);
 
@@ -177,6 +191,8 @@ update_status ModuleRender::Update()
 update_status ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->window->window);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	return UPDATE_CONTINUE;
 }
@@ -204,6 +220,24 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 	App->engineCamera->SetAspectRatio(float(width) / height);
 	App->editor->Resized();
+}
+
+void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ModuleRender::SetBackgroundColor(float4 color)

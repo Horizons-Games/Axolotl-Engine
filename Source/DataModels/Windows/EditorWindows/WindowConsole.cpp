@@ -11,11 +11,31 @@ WindowConsole::~WindowConsole()
 
 void WindowConsole::DrawWindowContents()
 {
-	for (int i = 0; i < consloneContents.size(); ++i)
+	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
+
+	std::string logInfo = "";
+
+	for (int i = 0; i < engineLog->logLines.size(); ++i)
+	{
+		logInfo = engineLog->logLines[i].c_str();
+		lines.push_back(logInfo);
+	}
+
+	engineLog->logLines.clear();
+
+	for (std::string line : lines)
+	{
+		ImGui::TextUnformatted(&line[0]);
+	}
+
+	if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+		ImGui::SetScrollHereY(1.0f);
+
+	/*for (int i = 0; i < consloneContents.size(); ++i)
 	{
 		const char* line = consloneContents[i];
 		ImGui::TextUnformatted(line);
-	}
+	}*/
 }
 
 void WindowConsole::Output(const char* textToPrint)

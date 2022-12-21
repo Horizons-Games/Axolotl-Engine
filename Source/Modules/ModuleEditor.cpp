@@ -7,6 +7,10 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleTexture.h"
 
+#include "Windows/WindowMainMenu.h"
+#include "Windows/EditorWindows/WindowConsole.h"
+#include "Windows/EditorWindows/WindowScene.h"
+
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
@@ -34,7 +38,11 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+
+	windows.push_back(console = new WindowConsole());
+	windows.push_back(scene = new WindowScene());
+	mainMenu = new WindowMainMenu(windows);
 
 	return true;
 }
@@ -55,6 +63,12 @@ bool ModuleEditor::CleanUp()
 
 	lines.clear();
 
+	for (int i = 0; i < windows.size(); ++i)
+	{
+		delete windows[i];
+	}
+	windows.clear();
+
 	return true;
 }
 
@@ -70,6 +84,34 @@ update_status ModuleEditor::PreUpdate()
 update_status ModuleEditor::Update()
 {
 	update_status status = UPDATE_CONTINUE;
+
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
+
+	ImGuiWindowFlags dockSpaceWindowFlags = 0;
+	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | 
+		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
+	dockSpaceWindowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
+	ImGui::PopStyleVar(3);
+	ImGui::DockSpace(dockSpaceId);
+	ImGui::End();
+
+	mainMenu->Draw();
+	for (int i = 0; i < windows.size(); ++i) {
+		bool windowEnabled = mainMenu->IsWindowEnabled(i);
+		windows[i]->Draw(windowEnabled);
+		mainMenu->SetWindowEnabled(i, windowEnabled);
+	}
+
+	/*
 
 	std::pair<int, int>&& window = App->window->GetWindowSize();
 
@@ -484,19 +526,36 @@ development at UPC School.");
 
 	if (windowResized) windowResized = false;
 
+	*/
+
 	return status;
 }
 
 update_status ModuleEditor::PostUpdate()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		SDL_Window* backupCurrentWindow = SDL_GL_GetCurrentWindow();
+		SDL_GLContext backupCurrentContext = SDL_GL_GetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
+	}
+
+	/*ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_Window* backupCurrentWindow = SDL_GL_GetCurrentWindow();
 	SDL_GLContext backupCurrentContext = SDL_GL_GetCurrentContext();
 	ImGui::UpdatePlatformWindows();
 	ImGui::RenderPlatformWindowsDefault();
-	SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
+	SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);*/
 
 	return UPDATE_CONTINUE;
 }

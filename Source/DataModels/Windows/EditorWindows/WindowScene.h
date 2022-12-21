@@ -13,6 +13,11 @@ public:
 protected:
 	void DrawWindowContents() override;
 
+	ImVec2 GetStartingSize() const override
+	{
+		return ImVec2(900, 250);
+	}
+
 private:
 	void ManageResize();
 

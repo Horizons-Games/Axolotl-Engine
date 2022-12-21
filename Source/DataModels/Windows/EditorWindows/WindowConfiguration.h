@@ -16,5 +16,10 @@ protected:
 
 private:
 	std::vector<SubWindow*> collapsingSubWindows;
+
+	ImVec2 GetStartingSize() const override
+	{
+		return ImVec2(900, 250);
+	}
 };
 

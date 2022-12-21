@@ -97,5 +97,6 @@ int main(int argc, char ** argv)
 
 	ENGINE_LOG("Bye :)\n");
 	delete engineLog;
+
 	return mainReturn;
 }

@@ -13,7 +13,14 @@ public:
 protected:
 	void DrawWindowContents() override;
 
+	ImVec2 GetStartingSize() const override
+	{
+		return ImVec2(900, 250);
+	}
+
 private:
 	ImVector<const char*> consloneContents;
+
+	std::vector<std::string> lines;
 };
 

@@ -152,8 +152,6 @@ void ModuleEngineCamera::KeyboardRotate()
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
-	else
-		mouseSpeedModifier = 0.f;
 
 	Quat pitchQuat(frustum.WorldRight(), pitch * App->deltaTime * rotationSpeed * acceleration);
 	Quat yawQuat(float3::unitY, yaw * App->deltaTime * rotationSpeed * acceleration);
@@ -181,11 +179,12 @@ void ModuleEngineCamera::FreeLook()
 	float yrel = App->input->GetMouseMotionY();
 	float rotationAngle = RadToDeg(frustum.Front().Normalized().AngleBetween(float3::unitY));
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::REPEAT && 
-		mouseSpeedModifier < MAX_MOUSE_SPEED_MODIFIER)
+	if (abs(xrel) + abs(yrel) != 0  && mouseSpeedModifier < MAX_MOUSE_SPEED_MODIFIER)
 	{
-		mouseSpeedModifier += 5.f;
+		mouseSpeedModifier += 0.5f;
 	}
+	else if (abs(xrel) + abs(yrel) == 0)
+		mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
 
 	if (yrel > 0) { if (rotationAngle - yrel > 0) pitch = math::DegToRad(yrel); }
 	else if (yrel < 0) { if (rotationAngle - yrel < 180) pitch = math::DegToRad(yrel); }

@@ -83,7 +83,7 @@ update_status ModuleInput::Update()
                 sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-
+                App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
             }
 
             break;
