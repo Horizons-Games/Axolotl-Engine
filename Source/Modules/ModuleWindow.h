@@ -29,7 +29,7 @@ public:
 	float GetBrightness() const;
 
 	void SetWindowSize(int width, int height);
-	void SetWindowType(bool fullscreen, bool borderless, bool resizable, bool fullscrnDsktp);
+	void SetWindowType(bool fullscreen, bool borderless, bool resizable, bool fullscreenDesktop);
 	void SetBrightness(float brightness);
 
 public:
@@ -37,7 +37,7 @@ public:
 	SDL_Window* window = nullptr;
 
 	//The surface contained by the window
-	SDL_Surface* screen_surface = nullptr;
+	SDL_Surface* screenSurface = nullptr;
 
 private:
 	bool fullscreen;

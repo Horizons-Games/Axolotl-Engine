@@ -63,9 +63,9 @@ GLuint ModuleTexture::Load(const char* fileName, const char* filePath)
 
 	ENGINE_LOG("Loading texture %s", &texturePath[0]);
 
-	std::string narrow_string(texturePath);
-	std::wstring wide_string = std::wstring(narrow_string.begin(), narrow_string.end());
-	const wchar_t* path = wide_string.c_str();
+	std::string narrowString(texturePath);
+	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
+	const wchar_t* path = wideString.c_str();
 
 	DirectX::TexMetadata md;
 	DirectX::ScratchImage img, flippedImg, dcmprsdImg;

@@ -68,7 +68,7 @@ bool ModuleWindow::Init()
 			SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
 			//Get window surface
-			screen_surface = SDL_GetWindowSurface(window);
+			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
 
@@ -131,14 +131,14 @@ void ModuleWindow::SetWindowSize(int width, int height)
 }
 
 void ModuleWindow::SetWindowType(bool fullscreen, bool borderless,
-	bool resizable, bool fullscrnDsktp)
+	bool resizable, bool fullscreenDesktop)
 {
 	ENGINE_LOG("---- Changing window mode ----")
 
 	this->fullscreen = fullscreen;
 	this->borderless = borderless;
 	this->resizable = resizable;
-	this->fullscreenDesktop = fullscrnDsktp;
+	this->fullscreenDesktop = fullscreenDesktop;
 
 	if (this->fullscreen)
 		SDL_SetWindowFullscreen(this->window, SDL_WINDOW_FULLSCREEN);

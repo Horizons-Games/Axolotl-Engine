@@ -9,9 +9,9 @@ public:
 
 	bool CleanUp() override;
 
-	void CreateProgram(unsigned vtx_shader, unsigned frg_shader);
+	void CreateProgram(unsigned vtxShader, unsigned frgShader);
 
-	char* LoadShaderSource(const char* shader_file_name);
+	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
 	const unsigned& GetProgram() const
