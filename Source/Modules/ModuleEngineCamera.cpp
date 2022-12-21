@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
@@ -51,39 +52,42 @@ bool ModuleEngineCamera::Start()
 
 update_status ModuleEngineCamera::Update()
 {
-	projectionMatrix = frustum.ProjectionMatrix();
-	viewMatrix = frustum.ViewMatrix();
-
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		Run();
-	else
-		Walk();
-
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
+	if (App->editor->IsSceneFocused())
 	{
-		Move();
-		FreeLook();
+		projectionMatrix = frustum.ProjectionMatrix();
+		viewMatrix = frustum.ViewMatrix();
+
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+			Run();
+		else
+			Walk();
+
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
+		{
+			Move();
+			FreeLook();
+		}
+
+		if (App->input->IsMouseWeelScrolled())
+		{
+			Zoom();
+		}
+
+		if (App->renderer->AnyModelLoaded() && App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			Focus(App->renderer->GetModel(0)->GetOBB());
+
+		if (App->renderer->AnyModelLoaded() &&
+			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
+			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
+		{
+			const OBB& obb = App->renderer->GetModel(0)->GetOBB();
+
+			SetLookAt(obb.CenterPoint());
+			Orbit(obb);
+		}
+
+		KeyboardRotate();
 	}
-
-	if (App->input->IsMouseWeelScrolled())
-	{
-		Zoom();
-	}
-
-	if (App->renderer->AnyModelLoaded() && App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-		Focus(App->renderer->GetModel(0)->GetOBB());
-
-	if (App->renderer->AnyModelLoaded() &&
-		App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
-		App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
-	{
-		const OBB& obb = App->renderer->GetModel(0)->GetOBB();
-
-		SetLookAt(obb.CenterPoint());
-		Orbit(obb);
-	}
-	
-	KeyboardRotate();
 
 	return UPDATE_CONTINUE;
 }

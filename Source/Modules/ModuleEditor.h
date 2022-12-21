@@ -22,6 +22,8 @@ public:
 
 	void Resized();
 
+	bool IsSceneFocused() const;
+
 private:
 	std::vector<std::string> lines;
 	std::vector<EditorWindow*> windows;

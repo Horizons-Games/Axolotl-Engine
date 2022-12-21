@@ -564,3 +564,8 @@ void ModuleEditor::Resized()
 {
 	windowResized = true;
 }
+
+bool ModuleEditor::IsSceneFocused() const
+{
+	return this->scene->IsFocused();
+}
