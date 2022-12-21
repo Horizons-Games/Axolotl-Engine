@@ -40,9 +40,9 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-	windows.push_back(console = new WindowConsole());
-	windows.push_back(scene = new WindowScene());
-	mainMenu = new WindowMainMenu(windows);
+	windows.push_back(console = std::make_shared<WindowConsole>());
+	windows.push_back(scene = std::make_shared<WindowScene>());
+	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
 }
@@ -62,11 +62,6 @@ bool ModuleEditor::CleanUp()
 	ImGui::DestroyContext();
 
 	lines.clear();
-
-	for (int i = 0; i < windows.size(); ++i)
-	{
-		delete windows[i];
-	}
 	windows.clear();
 
 	return true;

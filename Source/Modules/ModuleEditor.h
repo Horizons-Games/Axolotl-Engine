@@ -26,10 +26,10 @@ public:
 
 private:
 	std::vector<std::string> lines;
-	std::vector<EditorWindow*> windows;
-	WindowMainMenu* mainMenu = nullptr;
-	WindowConsole* console = nullptr;
-	WindowScene* scene = nullptr;
+	std::vector<std::shared_ptr<EditorWindow> > windows;
+	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
+	std::shared_ptr<WindowConsole> console = nullptr;
+	std::shared_ptr<WindowScene> scene = nullptr;
 
 	bool windowResized = false;
 };

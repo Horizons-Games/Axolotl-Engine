@@ -145,7 +145,7 @@ bool ModuleRender::Start()
 
 	App->program->CreateProgram(vertexShader, fragmentShader);
 
-	Model* bakerHouse = new Model;
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
 
 	models.push_back(bakerHouse);
@@ -174,7 +174,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	for (Model* model : models)
+	for (std::shared_ptr<Model> model : models)
 	{
 		model->Draw();
 	}
@@ -205,11 +205,6 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(this->context);
 
 	glDeleteBuffers(1, &this->vbo);
-
-	for (Model* model : models)
-	{
-		delete model;
-	}
 
 	models.clear();
 
@@ -250,7 +245,7 @@ float4 ModuleRender::GetBackgroundColor() const
 	return backgroundColor;
 }
 
-Model* ModuleRender::GetModel(unsigned pos) const
+std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
 {
 	return models[pos];
 }
@@ -284,12 +279,11 @@ bool ModuleRender::LoadModel(const char* path)
 {
 	ENGINE_LOG("---- Loading Model ----");
 
-	Model* newModel = new Model;
+	std::shared_ptr<Model> newModel = std::make_shared<Model>();
 	newModel->Load(path);
 
 	if (AnyModelLoaded())
 	{
-		delete models[0];
 		models[0] = nullptr;
 		models.clear();
 	}

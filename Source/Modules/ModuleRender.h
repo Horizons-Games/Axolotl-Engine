@@ -33,7 +33,7 @@ public:
 	void SetBackgroundColor(float4 color);
 
 	float4 GetBackgroundColor() const;
-	Model* GetModel(unsigned pos) const;
+	std::shared_ptr<Model> GetModel(unsigned pos) const;
 	const SDL_version& GetSDLVersion() const;
 	int GetCPUCount() const;
 	int GetCacheLineSize() const;
@@ -53,7 +53,7 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-	std::vector<Model*> models;
+	std::vector<std::shared_ptr<Model> > models;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	SDL_version sdlVersion;

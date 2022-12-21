@@ -12,7 +12,7 @@
 class WindowMainMenu : public Window
 {
 public:
-	WindowMainMenu(const std::vector<EditorWindow*>& editorWindows);
+	WindowMainMenu(const std::vector<std::shared_ptr<EditorWindow> >& editorWindows);
 	~WindowMainMenu();
 
 	static const std::string repositoryLink;
