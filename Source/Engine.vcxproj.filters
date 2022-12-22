@@ -226,6 +226,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -569,6 +572,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
