@@ -13,10 +13,7 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override
-	{
-		return ImVec2(900, 250);
-	}
+	ImVec2 GetStartingSize() const override;
 
 private:
 	void ManageResize();
@@ -26,3 +23,7 @@ private:
 	float previousHeight = 0;
 };
 
+inline ImVec2 WindowScene::GetStartingSize() const
+{
+	return ImVec2(900, 250);
+}

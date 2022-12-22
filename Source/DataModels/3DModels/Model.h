@@ -32,15 +32,15 @@ public:
 	void SetRotation(const float3 &roation);
 	void SetScale(const float3& scale);
 
-	inline const AABB& GetAABB() const { return aabb; }
-	inline const OBB& GetOBB() const { return obb; }
+	const AABB& GetAABB() const;
+	const OBB& GetOBB() const;
 
-	inline const float3& GetTranslation() const { return translation; }
-	inline const float3& GetScale() const { return scale; }
-	inline const float3& GetRotationF3() const { return rotation; }
+	const float3& GetTranslation() const;
+	const float3& GetScale() const;
+	const float3& GetRotationF3() const;
 
-	inline unsigned int GetTextureWidth(int index) const { return textureWidths[index]; }
-	inline unsigned int GetTextureHeight(int index) const { return textureHeights[index]; }
+	unsigned int GetTextureWidth(int index) const;
+	unsigned int GetTextureHeight(int index) const;
 
 private:
 	const char* path;
@@ -58,3 +58,37 @@ private:
 	OBB obb;
 };
 
+inline const AABB& Model::GetAABB() const
+{
+	return aabb;
+}
+
+inline const OBB& Model::GetOBB() const
+{
+	return obb;
+}
+
+inline const float3& Model::GetTranslation() const
+{
+	return translation;
+}
+
+inline const float3& Model::GetScale() const
+{
+	return scale;
+}
+
+inline const float3& Model::GetRotationF3() const
+{
+	return rotation;
+}
+
+inline unsigned int Model::GetTextureWidth(int index) const
+{
+	return textureWidths[index];
+}
+
+inline unsigned int Model::GetTextureHeight(int index) const
+{
+	return textureHeights[index];
+}

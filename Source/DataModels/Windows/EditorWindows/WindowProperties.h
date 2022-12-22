@@ -15,10 +15,7 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override
-	{
-		return ImVec2(900, 250);
-	}
+	ImVec2 GetStartingSize() const override;
 
 private:
 	void DrawTransformationTable();
@@ -28,3 +25,7 @@ private:
 	std::weak_ptr<Model> model;
 };
 
+inline ImVec2 WindowProperties::GetStartingSize() const
+{
+	return ImVec2(900, 250);
+}

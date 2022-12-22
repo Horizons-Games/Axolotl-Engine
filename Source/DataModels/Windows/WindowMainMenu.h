@@ -19,8 +19,8 @@ public:
 
 	void Draw(bool& enabled = defaultEnabled) override;
 
-	inline bool IsWindowEnabled(int windowIndex) const { return windowsEnabled[windowIndex]; }
-	inline void SetWindowEnabled(int windowIndex, bool enabled) { windowsEnabled[windowIndex] = enabled; }
+	bool IsWindowEnabled(int windowIndex) const;
+	void SetWindowEnabled(int windowIndex, bool enabled);
 
 private:
 	void DrawWindowsMenu();
@@ -38,3 +38,12 @@ private:
 	std::vector<bool> windowsEnabled;
 };
 
+inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
+{
+	return windowsEnabled[windowIndex];
+}
+
+inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool enabled)
+{
+	windowsEnabled[windowIndex] = enabled;
+}

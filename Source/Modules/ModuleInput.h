@@ -25,15 +25,15 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	inline KeyState GetKey(int scanCode) const { return this->keysState[scanCode]; }
-	inline KeyState GetMouseButton(int mouseButton) const { return this->mouseButtonState[mouseButton]; }
+	KeyState GetKey(int scanCode) const;
+	KeyState GetMouseButton(int mouseButton) const;
 
-	inline float GetMouseMotionX() const { return this->mouseMotion.first; }
-	inline float GetMouseMotionY() const { return this->mouseMotion.second; }
-	inline float GetMouseWheelX() const { return this->mouseWheel.first; }
-	inline float GetMouseWheelY() const { return this->mouseWheel.second; }
+	float GetMouseMotionX() const;
+	float GetMouseMotionY() const;
+	float GetMouseWheelX() const;
+	float GetMouseWheelY() const;
 
-	inline bool IsMouseWeelScrolled() const { return this->mouseWheelScrolled; }
+	bool IsMouseWeelScrolled() const;
 
 private:
 	const Uint8 *keyboard = NULL;
@@ -46,3 +46,38 @@ private:
 
 	bool mouseWheelScrolled;
 };
+
+inline KeyState ModuleInput::GetKey(int scanCode) const
+{
+	return this->keysState[scanCode];
+}
+
+inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
+{
+	return this->mouseButtonState[mouseButton];
+}
+
+inline float ModuleInput::GetMouseMotionX() const
+{
+	return this->mouseMotion.first; 
+}
+
+inline float ModuleInput::GetMouseMotionY() const
+{ 
+	return this->mouseMotion.second;
+}
+
+inline float ModuleInput::GetMouseWheelX() const
+{
+	return this->mouseWheel.first;
+}
+
+inline float ModuleInput::GetMouseWheelY() const 
+{
+	return this->mouseWheel.second;
+}
+
+inline bool ModuleInput::IsMouseWeelScrolled() const
+{
+	return this->mouseWheelScrolled;
+}

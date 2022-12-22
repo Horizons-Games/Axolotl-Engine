@@ -14,10 +14,7 @@ public:
 
 	EngineLog() {};
 
-	~EngineLog() 
-	{ 
-		logLines.clear();
-	}
+	~EngineLog();
 
 	void Log(const char file[], int line, const char* format, ...);
 
@@ -26,3 +23,8 @@ public:
 };
 
 extern std::unique_ptr<EngineLog> engineLog;
+
+inline EngineLog::~EngineLog()
+{
+	logLines.clear();
+}

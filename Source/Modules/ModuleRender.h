@@ -33,12 +33,12 @@ public:
 
 	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
 
-	inline void SetBackgroundColor(float4 color) { backgroundColor = color; }
-	inline float4 GetBackgroundColor() const { return backgroundColor; }
-	inline std::shared_ptr<Model> GetModel(unsigned pos) const { return models[pos]; }
-	inline unsigned int GetRenderedTexture() const { return renderedTexture; }
-	inline const std::string& GetVertexShader() const { return vertexShader; }
-	inline const std::string& GetFragmentShader() const { return fragmentShader; }
+	void SetBackgroundColor(float4 color);
+	float4 GetBackgroundColor() const;
+	std::shared_ptr<Model> GetModel(unsigned pos) const;
+	unsigned int GetRenderedTexture() const;
+	const std::string& GetVertexShader() const;
+	const std::string& GetFragmentShader() const;
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();
@@ -63,3 +63,34 @@ private:
 
 	friend class ModuleEditor;
 };
+
+inline void ModuleRender::SetBackgroundColor(float4 color)
+{
+	backgroundColor = color;
+}
+
+inline float4 ModuleRender::GetBackgroundColor() const
+{
+	return backgroundColor;
+}
+
+inline std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
+{
+	return models[pos];
+}
+
+inline unsigned int ModuleRender::GetRenderedTexture() const
+{
+	return renderedTexture;
+}
+
+inline const std::string& ModuleRender::GetVertexShader() const
+{
+	return vertexShader;
+}
+
+inline const std::string& ModuleRender::GetFragmentShader() const
+{
+	return fragmentShader;
+}
+

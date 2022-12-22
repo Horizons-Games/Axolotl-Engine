@@ -28,9 +28,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	inline void SetMaxFrameRate(int maxFrames) { this->maxFramerate = maxFrames; }
-	inline int GetMaxFrameRate() const { return maxFramerate; }
-	inline float GetDeltaTime() const { return deltaTime; }
+	void SetMaxFrameRate(int maxFrames);
+	int GetMaxFrameRate() const;
+	float GetDeltaTime() const;
 
 public:
 	std::shared_ptr<ModuleRender> renderer;
@@ -51,3 +51,18 @@ private:
 };
 
 extern std::unique_ptr<Application> App;
+
+inline void Application::SetMaxFrameRate(int maxFrames)
+{
+	this->maxFramerate = maxFrames;
+}
+
+inline int Application::GetMaxFrameRate() const
+{
+	return maxFramerate;
+}
+
+inline float Application::GetDeltaTime() const
+{
+	return deltaTime;
+}

@@ -10,23 +10,11 @@ public:
 	Component(const Type type, const bool active, GameObject* owner);
 	~Component();
 
-	virtual void Enable() 
-	{
-		this->active = true;
-	};
+	virtual void Enable();
 
-	virtual void Update() 
-	{
-		if (this->active)
-		{
-			//TODO: Update the active component
-		}
-	};
+	virtual void Update();
 
-	virtual void Disable() 
-	{
-		this->active = false;
-	};
+	virtual void Disable();
 
 private:
 	Type type;
@@ -34,3 +22,20 @@ private:
 	GameObject* owner;
 };
 
+void Component::Enable()
+{
+	this->active = true;
+}
+
+inline void Component::Update()
+{
+	if (this->active)
+	{
+		//TODO: Update the active component
+	}
+}
+
+inline void Component::Disable()
+{
+	this->active = false;
+}

@@ -10,14 +10,20 @@ public:
 
 	virtual void Draw(bool& enabled) = 0;
 
-	inline const std::string& GetName() const { return name; }
+	const std::string& GetName() const;
 	
 protected:
-	Window(const std::string& name)
-	{
-		this->name = name;
-	}
+	Window(const std::string& name);
 
 	std::string name;
 };
 
+inline Window::Window(const std::string& name)
+{
+	this->name = name;
+}
+
+inline const std::string& Window::GetName() const
+{
+	return name;
+}

@@ -133,9 +133,9 @@ void ModuleWindow::SetBrightness(float brightness)
 	}
 }
 
-SDL_bool ModuleWindow::BoolToSDL_Bool(bool i_bool)
+SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
 {
-	if (i_bool)
+	if (boolVal)
 		return SDL_TRUE;
 	return SDL_FALSE;
 }

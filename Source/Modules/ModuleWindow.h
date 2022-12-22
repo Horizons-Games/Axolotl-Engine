@@ -1,5 +1,4 @@
-#ifndef __ModuleWindow_H__
-#define __ModuleWindow_H__
+#pragma once
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
@@ -18,11 +17,11 @@ public:
 	bool CleanUp() override;
 
 	std::pair<int, int> GetWindowSize() const;
-	inline bool IsWindowFullscreen() const { return IsFlagSet(SDL_WINDOW_FULLSCREEN) && fullscreen; }
-	inline bool IsWindowResizable() const { return IsFlagSet(SDL_WINDOW_RESIZABLE); }
-	inline bool IsWindowBorderless() const { return IsFlagSet(SDL_WINDOW_BORDERLESS); }
-	inline bool IsWindowDesktopFullscreen() const { return IsFlagSet(SDL_WINDOW_FULLSCREEN_DESKTOP) && !fullscreen; }
-	inline float GetBrightness() const { return this->brightness; }
+	bool IsWindowFullscreen() const;
+	bool IsWindowResizable() const;
+	bool IsWindowBorderless() const;
+	bool IsWindowDesktopFullscreen() const;
+	float GetBrightness() const;
 
 	void SetWindowSize(int width, int height);
 	void SetWindowToDefault();
@@ -32,15 +31,11 @@ public:
 	void SetDesktopFullscreen(bool fullDesktop);
 	void SetBrightness(float brightness);
 
-	inline SDL_Window* GetWindow() const { return window.get(); }
+	SDL_Window* GetWindow() const;
 
 private:
-	SDL_bool BoolToSDL_Bool(bool i_bool);
-	inline bool IsFlagSet(SDL_WindowFlags i_flag) const 
-	{
-		Uint32 windowFlags = SDL_GetWindowFlags(this->GetWindow());
-		return windowFlags & i_flag;
-	}
+	SDL_bool BoolToSDL_Bool(bool boolVal);
+	bool IsFlagSet(SDL_WindowFlags flag) const;
 
 	//SDL_Window is incomplete, so we must provide a destructor to the compiler
 	struct SDLWindowDestroyer
@@ -72,4 +67,38 @@ private:
 	float brightness;
 };
 
-#endif // __ModuleWindow_H__
+inline bool ModuleWindow::IsWindowFullscreen() const
+{
+	return IsFlagSet(SDL_WINDOW_FULLSCREEN) && fullscreen;
+}
+
+inline bool ModuleWindow::IsWindowResizable() const
+{
+	return IsFlagSet(SDL_WINDOW_RESIZABLE);
+}
+
+inline bool ModuleWindow::IsWindowBorderless() const
+{
+	return IsFlagSet(SDL_WINDOW_BORDERLESS);
+}
+
+inline bool ModuleWindow::IsWindowDesktopFullscreen() const
+{
+	return IsFlagSet(SDL_WINDOW_FULLSCREEN_DESKTOP) && !fullscreen;
+}
+
+inline float ModuleWindow::GetBrightness() const
+{
+	return this->brightness;
+}
+
+inline SDL_Window* ModuleWindow::GetWindow() const
+{
+	return window.get();
+}
+
+inline bool ModuleWindow::IsFlagSet(SDL_WindowFlags flag) const
+{
+	Uint32 windowFlags = SDL_GetWindowFlags(this->GetWindow());
+	return windowFlags & flag;
+}
