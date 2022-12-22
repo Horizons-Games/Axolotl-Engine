@@ -37,10 +37,21 @@ public:
 	void SetRotation(const float3 &roation);
 	void SetScale(const float3& scale);
 
+	inline unsigned int GetTextureWidth(int index) const
+	{
+		return textureWidths[index];
+	}
+	inline unsigned int GetTextureHeight(int index) const
+	{
+		return textureHeights[index];
+	}
+
 private:
 	const char* path;
 
 	std::vector<unsigned> textures;
+	std::vector<unsigned> textureWidths;
+	std::vector<unsigned> textureHeights;
 	std::vector<Mesh*> meshes;
 
 	float3 translation;

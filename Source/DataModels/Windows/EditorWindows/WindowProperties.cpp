@@ -4,7 +4,6 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
-#include "ModuleTexture.h"
 
 #include "3DModels/Model.h"
 
@@ -156,11 +155,11 @@ void WindowProperties::DrawTextureTable()
 		ImGui::TableNextColumn();
 		ImGui::Text("Height: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", App->textures->GetHeight());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureHeight(0));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", App->textures->GetWidth());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureWidth(0));
 
 		ImGui::EndTable();
 	}

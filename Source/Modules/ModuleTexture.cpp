@@ -32,7 +32,7 @@ update_status ModuleTexture::Update()
 	return UPDATE_CONTINUE;
 }
 
-GLuint ModuleTexture::Load(const char* fileName, const char* filePath)
+GLuint ModuleTexture::Load(const char* fileName, const char* filePath, unsigned int & textureWidth, unsigned int & textureHeight)
 {
 	ENGINE_LOG("---- Loading texture ----");
 
@@ -144,20 +144,10 @@ GLuint ModuleTexture::Load(const char* fileName, const char* filePath)
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	this->width = img.GetMetadata().width;
-	this->height = img.GetMetadata().height;
+	textureWidth = img.GetMetadata().width;
+	textureHeight = img.GetMetadata().height;
 
 	ENGINE_LOG("Texture %i loaded", texture);
 
 	return texture;
-}
-
-int ModuleTexture::GetWidth() const
-{
-	return this->width;
-}
-
-int ModuleTexture::GetHeight() const
-{
-	return this->height;
 }

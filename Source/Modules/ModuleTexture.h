@@ -14,13 +14,6 @@ public:
 
 	update_status Update();
 
-	GLuint Load(const char* fileName, const char* filePath);
-
-	int GetWidth() const;
-	int GetHeight() const;
-
-private:
-	int width;
-	int height;
+	GLuint Load(const char* fileName, const char* filePath, unsigned int & textureWidth, unsigned int & textureHeight);
 };
 
