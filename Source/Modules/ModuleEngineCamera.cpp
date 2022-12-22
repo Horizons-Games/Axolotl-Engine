@@ -327,7 +327,6 @@ void ModuleEngineCamera::SetRotationSpeed(float speed)
 
 const float4x4& ModuleEngineCamera::GetProjectionMatrix() const
 {
-	//return frustum.ProjectionMatrix().Transposed(); // Needs to be transposed to use withGL
 	return projectionMatrix;
 }
 
