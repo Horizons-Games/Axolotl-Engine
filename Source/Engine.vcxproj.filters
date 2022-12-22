@@ -235,6 +235,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -587,6 +590,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
