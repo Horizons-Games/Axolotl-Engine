@@ -28,10 +28,13 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddFrame(int fps, float ms);
-
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
+
+	inline float GetDeltaTime() const
+	{
+		return deltaTime;
+	}
 
 public:
 	std::shared_ptr<ModuleRender> renderer;
@@ -43,18 +46,12 @@ public:
 	std::shared_ptr<ModuleEngineCamera> engineCamera;
 	std::shared_ptr<ModuleTexture> textures;
 
-	float deltaTime = 0.f;
-	int fps = 0;
-
-	std::vector<float> fpsLog;
-	std::vector<float> msLog;
-
-	std::unique_ptr<Timer> appTimer;
-
 private:
 	std::vector<std::shared_ptr<Module> > modules;
+	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;
+	float deltaTime = 0.f;
 };
 
 extern std::unique_ptr<Application> App;

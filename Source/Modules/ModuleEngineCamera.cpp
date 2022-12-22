@@ -94,41 +94,43 @@ update_status ModuleEngineCamera::Update()
 
 void ModuleEngineCamera::Move()
 {
+	float deltaTime = App->GetDeltaTime();
+
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position = position + frustum.Front().Normalized() * 
-			moveSpeed * acceleration * App->deltaTime;
+			moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Front().Normalized()) * 
-			moveSpeed * acceleration * App->deltaTime;
+			moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position = position + -(frustum.WorldRight()) * moveSpeed * acceleration * App->deltaTime;
+		position = position + -(frustum.WorldRight()) * moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position = position + frustum.WorldRight() * moveSpeed * acceleration * App->deltaTime;
+		position = position + frustum.WorldRight() * moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
-		position = position + frustum.Up() * moveSpeed * acceleration * App->deltaTime;
+		position = position + frustum.Up() * moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
-		position = position + -(frustum.Up()) * moveSpeed * acceleration * App->deltaTime;
+		position = position + -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
 		frustum.SetPos(position);
 	}
 }
@@ -157,8 +159,9 @@ void ModuleEngineCamera::KeyboardRotate()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 
-	Quat pitchQuat(frustum.WorldRight(), pitch * App->deltaTime * rotationSpeed * acceleration);
-	Quat yawQuat(float3::unitY, yaw * App->deltaTime * rotationSpeed * acceleration);
+	float deltaTime = App->GetDeltaTime();
+	Quat pitchQuat(frustum.WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
+	Quat yawQuat(float3::unitY, yaw * deltaTime * rotationSpeed * acceleration);
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
@@ -195,8 +198,9 @@ void ModuleEngineCamera::FreeLook()
 	
 	yaw = math::DegToRad(-xrel);
 
-	Quat pitchQuat(frustum.WorldRight(), pitch * mouseSpeedModifier * App->deltaTime);
-	Quat yawQuat(float3::unitY, yaw * mouseSpeedModifier * App->deltaTime);
+	float deltaTime = App->GetDeltaTime();
+	Quat pitchQuat(frustum.WorldRight(), pitch * mouseSpeedModifier * deltaTime);
+	Quat yawQuat(float3::unitY, yaw * mouseSpeedModifier * deltaTime);
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
@@ -242,16 +246,17 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 	vec oldPosition = position + frustum.Front().Normalized() * distance;
 
+	float deltaTime = App->GetDeltaTime();
 	Quat verticalOrbit(
 		frustum.WorldRight(),
 		DegToRad(-App->input->GetMouseMotionY() * rotationSpeed * 
-			ORBIT_SPEED_MULTIPLIER * App->deltaTime
+			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);
 	Quat sideOrbit(
 		float3::unitY, 
 		DegToRad(-App->input->GetMouseMotionX() * rotationSpeed *
-			ORBIT_SPEED_MULTIPLIER * App->deltaTime
+			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);
 

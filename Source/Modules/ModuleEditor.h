@@ -3,7 +3,6 @@
 
 class EditorWindow;
 class WindowMainMenu;
-class WindowConsole;
 class WindowScene;
 
 class ModuleEditor : public Module
@@ -28,7 +27,6 @@ private:
 	std::vector<std::string> lines;
 	std::vector<std::shared_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-	std::shared_ptr<WindowConsole> console = nullptr;
 	std::shared_ptr<WindowScene> scene = nullptr;
 
 	bool windowResized = false;

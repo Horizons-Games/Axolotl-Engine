@@ -13,9 +13,6 @@ constexpr int FRAMES_BUFFER = 50;
 
 Application::Application()
 {
-	fpsLog = std::vector<float>(FRAMES_BUFFER, 0.0f);
-	msLog = std::vector<float>(FRAMES_BUFFER, 0.0f);
-
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(window = std::make_shared<ModuleWindow>());
 	modules.push_back(editor = std::make_shared<ModuleEditor>());
@@ -33,8 +30,6 @@ Application::Application()
 Application::~Application()
 {
 	modules.clear();
-	fpsLog.clear();
-	msLog.clear();
 }
 
 bool Application::Init()
@@ -82,8 +77,6 @@ update_status Application::Update()
 	}
 
 	this->deltaTime = (appTimer->Read() - ms) / 1000.0f;
-	this->fps = 1 / this->deltaTime;
-	this->AddFrame(App->fps, App->deltaTime);
 
 	return ret;
 }
@@ -96,18 +89,6 @@ bool Application::CleanUp()
 		ret = modules[i]->CleanUp();
 
 	return ret;
-}
-
-void Application::AddFrame(int fps, float ms)
-{
-	for (unsigned i = 0; i < FRAMES_BUFFER - 1; ++i)
-	{
-		fpsLog[i] = fpsLog[i + 1];
-		msLog[i] = msLog[i + 1];
-	}
-
-	fpsLog[FRAMES_BUFFER - 1] = fps;
-	msLog[FRAMES_BUFFER - 1] = ms * 1000.0f;
 }
 
 void Application::SetMaxFrameRate(int maxFrames)

@@ -10,6 +10,7 @@
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
+#include "Windows/EditorWindows/WindowConfiguration.h"
 
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
@@ -38,10 +39,10 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-	windows.push_back(console = std::make_shared<WindowConsole>());
+	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
+	windows.push_back(std::make_shared<WindowConfiguration>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
