@@ -94,12 +94,10 @@ ModuleRender::ModuleRender()
 	this->context = nullptr;
 }
 
-// Destructor
 ModuleRender::~ModuleRender()
 {
 }
 
-// Called before render is available
 bool ModuleRender::Init()
 {
 	ENGINE_LOG("--------- Render Init ----------");
@@ -184,7 +182,6 @@ update_status ModuleRender::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// Called every draw update
 update_status ModuleRender::Update()
 {
 	for (std::shared_ptr<Model> model : models)
@@ -210,7 +207,6 @@ update_status ModuleRender::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleRender::CleanUp()
 {
 	ENGINE_LOG("Destroying renderer");
@@ -248,26 +244,11 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ModuleRender::SetBackgroundColor(float4 color)
-{
-	backgroundColor = color;
-}
-
 void ModuleRender::SetShaders(const std::string& vertexShader, const std::string& fragmentShader)
 {
 	this->vertexShader = vertexShader.c_str();
 	this->fragmentShader = fragmentShader.c_str();
 	UpdateProgram();
-}
-
-float4 ModuleRender::GetBackgroundColor() const
-{
-	return backgroundColor;
-}
-
-std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
-{
-	return models[pos];
 }
 
 bool ModuleRender::LoadModel(const char* path)

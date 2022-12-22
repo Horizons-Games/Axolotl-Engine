@@ -90,13 +90,3 @@ bool Application::CleanUp()
 
 	return ret;
 }
-
-void Application::SetMaxFrameRate(int maxFrames)
-{
-	this->maxFramerate = maxFrames;
-}
-
-int Application::GetMaxFrameRate() const
-{
-	return this->maxFramerate;
-}

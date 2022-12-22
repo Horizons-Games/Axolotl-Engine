@@ -30,21 +30,15 @@ public:
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
-	void SetBackgroundColor(float4 color);
+
 	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
 
-	float4 GetBackgroundColor() const;
-	std::shared_ptr<Model> GetModel(unsigned pos) const;
-	inline unsigned int GetRenderedTexture() const
-	{
-		return renderedTexture;
-	}
-	inline const std::string& GetVertexShader() const {
-		return vertexShader;
-	}
-	inline const std::string& GetFragmentShader() const {
-		return fragmentShader;
-	}
+	inline void SetBackgroundColor(float4 color) { backgroundColor = color; }
+	inline float4 GetBackgroundColor() const { return backgroundColor; }
+	inline std::shared_ptr<Model> GetModel(unsigned pos) const { return models[pos]; }
+	inline unsigned int GetRenderedTexture() const { return renderedTexture; }
+	inline const std::string& GetVertexShader() const { return vertexShader; }
+	inline const std::string& GetFragmentShader() const { return fragmentShader; }
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();

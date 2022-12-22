@@ -123,18 +123,3 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
 }
-
-vec* Mesh::GetVertices() const
-{
-	return this->vertices;
-}
-
-unsigned Mesh::GetNumVertices() const
-{
-	return this->numVertices;
-}
-
-unsigned Mesh::GetNumTriangles() const
-{
-	return this->numIndexes / 3;
-}

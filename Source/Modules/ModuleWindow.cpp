@@ -6,12 +6,10 @@ ModuleWindow::ModuleWindow()
 {
 }
 
-// Destructor
 ModuleWindow::~ModuleWindow()
 {
 }
 
-// Called before render is available
 bool ModuleWindow::Init()
 {
 	ENGINE_LOG("Init SDL window & surface");
@@ -61,7 +59,6 @@ bool ModuleWindow::Init()
 	return ret;
 }
 
-// Called before quitting
 bool ModuleWindow::CleanUp()
 {
 	ENGINE_LOG("Destroying SDL window and quitting all SDL systems");
@@ -78,11 +75,6 @@ std::pair<int, int> ModuleWindow::GetWindowSize() const
 	SDL_GetWindowSize(this->GetWindow(), &width, &height);
 
 	return std::make_pair(width, height);
-}
-
-float ModuleWindow::GetBrightness() const
-{
-	return this->brightness;
 }
 
 void ModuleWindow::SetWindowSize(int width, int height)

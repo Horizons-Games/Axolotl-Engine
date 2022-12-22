@@ -129,17 +129,6 @@ const std::string Model::GetDirectory() const
 	return directory;
 }
 
-const AABB& Model::GetAABB() const
-{
-	return aabb;
-}
-
-const OBB& Model::GetOBB() const
-{
-	return obb;
-}
-
-
 int Model::GetNumVertices() const
 {
 	int count = 0;
@@ -168,21 +157,6 @@ unsigned Model::GetTextureID(unsigned idx) const
 {
 	if (!textures.empty())
 		return textures[idx];
-}
-
-const float3& Model::GetTranslation() const
-{
-	return translation;
-}
-
-const float3& Model::GetScale() const
-{
-	return scale;
-}
-
-const float3& Model::GetRotationF3() const
-{
-	return rotation;
 }
 
 const float4x4& Model::GetRotationF4x4() const

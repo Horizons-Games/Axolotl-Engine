@@ -19,14 +19,8 @@ public:
 
 	void Draw(bool& enabled = defaultEnabled) override;
 
-	inline bool IsWindowEnabled(int windowIndex) const
-	{
-		return windowsEnabled[windowIndex];
-	}
-	inline void SetWindowEnabled(int windowIndex, bool enabled)
-	{
-		windowsEnabled[windowIndex] = enabled;
-	}
+	inline bool IsWindowEnabled(int windowIndex) const { return windowsEnabled[windowIndex]; }
+	inline void SetWindowEnabled(int windowIndex, bool enabled) { windowsEnabled[windowIndex] = enabled; }
 
 private:
 	void DrawWindowsMenu();

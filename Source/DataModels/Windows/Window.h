@@ -10,10 +10,7 @@ public:
 
 	virtual void Draw(bool& enabled) = 0;
 
-	inline const std::string& GetName() const
-	{
-		return name;
-	}
+	inline const std::string& GetName() const { return name; }
 	
 protected:
 	Window(const std::string& name)

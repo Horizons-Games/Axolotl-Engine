@@ -14,10 +14,7 @@ public:
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
-	const unsigned& GetProgram() const
-	{
-		return program;
-	}
+	const unsigned& GetProgram() const { return program; }
 
 private:
 	unsigned program;

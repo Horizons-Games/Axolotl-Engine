@@ -25,15 +25,15 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	KeyState GetKey(int scanCode) const;
-	KeyState GetMouseButton(int mouseButton) const;
+	inline KeyState GetKey(int scanCode) const { return this->keysState[scanCode]; }
+	inline KeyState GetMouseButton(int mouseButton) const { return this->mouseButtonState[mouseButton]; }
 
-	float GetMouseMotionX() const;
-	float GetMouseMotionY() const;
-	float GetMouseWheelX() const;
-	float GetMouseWheelY() const; 
+	inline float GetMouseMotionX() const { return this->mouseMotion.first; }
+	inline float GetMouseMotionY() const { return this->mouseMotion.second; }
+	inline float GetMouseWheelX() const { return this->mouseWheel.first; }
+	inline float GetMouseWheelY() const { return this->mouseWheel.second; }
 
-	bool IsMouseWeelScrolled() const;
+	inline bool IsMouseWeelScrolled() const { return this->mouseWheelScrolled; }
 
 private:
 	const Uint8 *keyboard = NULL;

@@ -13,11 +13,9 @@
 ModuleInput::ModuleInput()
 {}
 
-// Destructor
 ModuleInput::~ModuleInput()
 {}
 
-// Called before render is available
 bool ModuleInput::Init()
 {
     ENGINE_LOG("Init SDL input event system");
@@ -33,7 +31,6 @@ bool ModuleInput::Init()
 	return ret;
 }
 
-// Called every draw update
 update_status ModuleInput::Update()
 {
     update_status status = UPDATE_CONTINUE;
@@ -126,42 +123,6 @@ update_status ModuleInput::Update()
     return status;
 }
 
-KeyState ModuleInput::GetKey(int scanCode) const
-{
-    return this->keysState[scanCode];
-}
-
-KeyState ModuleInput::GetMouseButton(int mouseButton) const
-{
-    return this->mouseButtonState[mouseButton];
-}
-
-float ModuleInput::GetMouseMotionX() const
-{
-    return this->mouseMotion.first;
-}
-
-float ModuleInput::GetMouseMotionY() const
-{
-    return this->mouseMotion.second;
-}
-
-float ModuleInput::GetMouseWheelX() const
-{
-    return this->mouseWheel.first;
-}
-
-float ModuleInput::GetMouseWheelY() const
-{
-    return this->mouseWheel.second;
-}
-
-bool ModuleInput::IsMouseWeelScrolled() const
-{
-    return this->mouseWheelScrolled;
-}
-
-// Called before quitting
 bool ModuleInput::CleanUp()
 {
     ENGINE_LOG("Quitting SDL input event subsystem");

@@ -23,29 +23,24 @@ public:
 
 	const std::string GetDirectory() const;
 
-	const AABB& GetAABB() const;
-	const OBB& GetOBB() const;
-
 	int GetNumVertices() const;
 	int GetNumTriangles() const;
 	unsigned GetTextureID(unsigned idx) const;
-	const float3& GetTranslation() const;
-	const float3& GetScale() const;
-	const float3& GetRotationF3() const;
 	const float4x4& GetRotationF4x4() const;
 
 	void SetTranslation(const float3 &translation);
 	void SetRotation(const float3 &roation);
 	void SetScale(const float3& scale);
 
-	inline unsigned int GetTextureWidth(int index) const
-	{
-		return textureWidths[index];
-	}
-	inline unsigned int GetTextureHeight(int index) const
-	{
-		return textureHeights[index];
-	}
+	inline const AABB& GetAABB() const { return aabb; }
+	inline const OBB& GetOBB() const { return obb; }
+
+	inline const float3& GetTranslation() const { return translation; }
+	inline const float3& GetScale() const { return scale; }
+	inline const float3& GetRotationF3() const { return rotation; }
+
+	inline unsigned int GetTextureWidth(int index) const { return textureWidths[index]; }
+	inline unsigned int GetTextureHeight(int index) const { return textureHeights[index]; }
 
 private:
 	const char* path;

@@ -28,13 +28,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void SetMaxFrameRate(int maxFrames);
-	int GetMaxFrameRate() const;
-
-	inline float GetDeltaTime() const
-	{
-		return deltaTime;
-	}
+	inline void SetMaxFrameRate(int maxFrames) { this->maxFramerate = maxFrames; }
+	inline int GetMaxFrameRate() const { return maxFramerate; }
+	inline float GetDeltaTime() const { return deltaTime; }
 
 public:
 	std::shared_ptr<ModuleRender> renderer;

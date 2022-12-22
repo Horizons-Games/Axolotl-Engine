@@ -18,19 +18,11 @@ public:
 	bool CleanUp() override;
 
 	std::pair<int, int> GetWindowSize() const;
-	inline bool IsWindowFullscreen() const {
-		return IsFlagSet(SDL_WINDOW_FULLSCREEN) && fullscreen;
-	}
-	inline bool IsWindowResizable() const {
-		return IsFlagSet(SDL_WINDOW_RESIZABLE);
-	}
-	inline bool IsWindowBorderless() const {
-		return IsFlagSet(SDL_WINDOW_BORDERLESS);
-	}
-	inline bool IsWindowDesktopFullscreen() const {
-		return IsFlagSet(SDL_WINDOW_FULLSCREEN_DESKTOP) && !fullscreen;
-	}
-	float GetBrightness() const;
+	inline bool IsWindowFullscreen() const { return IsFlagSet(SDL_WINDOW_FULLSCREEN) && fullscreen; }
+	inline bool IsWindowResizable() const { return IsFlagSet(SDL_WINDOW_RESIZABLE); }
+	inline bool IsWindowBorderless() const { return IsFlagSet(SDL_WINDOW_BORDERLESS); }
+	inline bool IsWindowDesktopFullscreen() const { return IsFlagSet(SDL_WINDOW_FULLSCREEN_DESKTOP) && !fullscreen; }
+	inline float GetBrightness() const { return this->brightness; }
 
 	void SetWindowSize(int width, int height);
 	void SetWindowToDefault();
@@ -40,14 +32,12 @@ public:
 	void SetDesktopFullscreen(bool fullDesktop);
 	void SetBrightness(float brightness);
 
-	inline SDL_Window* GetWindow() const
-	{
-		return window.get();
-	}
+	inline SDL_Window* GetWindow() const { return window.get(); }
 
 private:
 	SDL_bool BoolToSDL_Bool(bool i_bool);
-	inline bool IsFlagSet(SDL_WindowFlags i_flag) const {
+	inline bool IsFlagSet(SDL_WindowFlags i_flag) const 
+	{
 		Uint32 windowFlags = SDL_GetWindowFlags(this->GetWindow());
 		return windowFlags & i_flag;
 	}

@@ -18,9 +18,9 @@ public:
 	void Draw(const std::vector<unsigned>& modelTextures, 
 		const float3 &translation, const float4x4 &rotation, const float3 &scale);
 
-	vec* GetVertices() const;
-	unsigned GetNumVertices() const;
-	unsigned GetNumTriangles() const;
+	vec* GetVertices() const { return this->vertices; }
+	unsigned GetNumVertices() const { return this->numVertices; }
+	unsigned GetNumTriangles() const { return this->numIndexes / 3; }
 	
 private:
 	unsigned vbo;
