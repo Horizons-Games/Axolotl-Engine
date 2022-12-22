@@ -229,6 +229,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -574,6 +577,9 @@
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
   </ItemGroup>
