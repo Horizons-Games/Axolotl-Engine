@@ -38,12 +38,6 @@ Model::~Model()
 {
 	ENGINE_LOG("Destroying model");
 
-	for (Mesh* mesh : meshes)
-	{
-		delete mesh;
-		mesh = nullptr;
-	}
-
 	meshes.clear();
 
 	for (unsigned texture : textures)
@@ -102,7 +96,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 		aabb.Enclose(mesh->GetVertices(), mesh->GetNumVertices());
 
-		meshes.push_back(mesh);
+		meshes.push_back(std::unique_ptr<Mesh>(mesh));
 	}
 
 	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));
@@ -150,9 +144,9 @@ int Model::GetNumVertices() const
 {
 	int count = 0;
 
-	for (Mesh* mesh : meshes)
+	for (int i = 0; i < meshes.size(); ++i)
 	{
-		count += mesh->GetNumVertices();
+		count += meshes[i]->GetNumVertices();
 	}
 
 	return count;
@@ -162,9 +156,9 @@ int Model::GetNumTriangles() const
 {
 	int count = 0;
 
-	for (Mesh* mesh : meshes)
+	for (int i = 0; i < meshes.size(); ++i)
 	{
-		count += mesh->GetNumTriangles();
+		count += meshes[i]->GetNumTriangles();
 	}
 
 	return count;

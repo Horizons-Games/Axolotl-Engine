@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
@@ -52,7 +53,7 @@ private:
 	std::vector<unsigned> textures;
 	std::vector<unsigned> textureWidths;
 	std::vector<unsigned> textureHeights;
-	std::vector<Mesh*> meshes;
+	std::vector< std::unique_ptr<Mesh> > meshes;
 
 	float3 translation;
 	float3 scale;
