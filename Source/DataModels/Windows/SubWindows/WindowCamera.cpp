@@ -28,8 +28,10 @@ void WindowCamera::DrawWindowContents()
 
 	float nearDistance = App->engineCamera->GetZNear();
 	float farDistance = App->engineCamera->GetZFar();
-	bool nearDistanceChanged = ImGui::SliderFloat("Z near", &nearDistance, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-	bool farDistanceChanged = ImGui::SliderFloat("Z far", &farDistance, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+	bool nearDistanceChanged = 
+		ImGui::SliderFloat("Z near", &nearDistance, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+	bool farDistanceChanged = 
+		ImGui::SliderFloat("Z far", &farDistance, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 	if (nearDistanceChanged || farDistanceChanged) {
 		App->engineCamera->SetPlaneDistance(nearDistance, farDistance);
 	}

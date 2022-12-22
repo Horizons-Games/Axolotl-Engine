@@ -18,7 +18,8 @@
 		 
 #include "GL/glew.h"
 
-void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
+GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	const char* tmpSource = "", * tmpType = "", * tmpSeverity = "";
 
@@ -116,7 +117,7 @@ bool ModuleRender::Init()
 
 	GLenum err = glewInit();
 	ENGINE_LOG("glew error %s", glewGetErrorString(err));
-	// … check for errors
+	// ï¿½ check for errors
 	ENGINE_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 	// Should be 2.0
 

@@ -99,8 +99,8 @@ void WindowHardware::DrawWindowContents()
 
 void WindowHardware::GetSoftwareVersionsAndGPUInfo()
 {
-	//this needs to be done after all modules have been initialized
-	//this way is a bit ugly but otherwise it would require a Start/Init function in Window that would be useless for the others
+	//this needs to be done after all modules have been initialized this way is a bit ugly but otherwise it would
+	//require a Start/Init function in Window that would be useless for the others
 	if (!versionsSet)
 	{
 		GetGPUinfo();

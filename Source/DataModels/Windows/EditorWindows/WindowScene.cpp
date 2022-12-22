@@ -18,7 +18,8 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
-	ImGui::Image((void*)App->renderer->GetRenderedTexture(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)App->renderer->GetRenderedTexture(), 
+		ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void WindowScene::ManageResize()
