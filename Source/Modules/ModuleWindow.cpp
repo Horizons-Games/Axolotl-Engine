@@ -30,29 +30,13 @@ bool ModuleWindow::Init()
 		int width = DM.w;
 		int height = DM.h - TOP_WINDOWED_PADDING;
 
-		this->fullscreen = FULLSCREEN;
-		this->borderless = BORDERLESS;
-		this->resizable = RESIZABLE;
-		this->fullscreenDesktop = FULLSCREEN_DESKTOP;
 		this->brightness = BRIGHTNESS;
 
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL | SDL_WINDOW_MAXIMIZED;
 
-		if (this->fullscreen)
+		if (FULLSCREEN)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
-		}
-		if (this->borderless)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
-		if (this->resizable)
-		{
-			flags |= SDL_WINDOW_RESIZABLE;
-		}
-		if (this->fullscreenDesktop)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
 		SDL_Window* windowRawPointer = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -96,26 +80,6 @@ std::pair<int, int> ModuleWindow::GetWindowSize() const
 	return std::make_pair(width, height);
 }
 
-bool ModuleWindow::GetFullscreen() const
-{
-	return this->fullscreen;
-}
-
-bool ModuleWindow::GetBorderless() const
-{
-	return this->borderless;
-}
-
-bool ModuleWindow::GetResizable() const
-{
-	return this->resizable;
-}
-
-bool ModuleWindow::GetFulscreenDesktop() const
-{
-	return this->fullscreenDesktop;
-}
-
 float ModuleWindow::GetBrightness() const
 {
 	return this->brightness;
@@ -126,32 +90,45 @@ void ModuleWindow::SetWindowSize(int width, int height)
 	SDL_SetWindowSize(this->GetWindow(), width, height);
 }
 
-void ModuleWindow::SetWindowType(bool fullscreen, bool borderless,
-	bool resizable, bool fullscreenDesktop)
+void ModuleWindow::SetWindowToDefault()
 {
-	ENGINE_LOG("---- Changing window mode ----")
+	ENGINE_LOG("---- Changing window mode ----");
 
-	this->fullscreen = fullscreen;
-	this->borderless = borderless;
-	this->resizable = resizable;
-	this->fullscreenDesktop = fullscreenDesktop;
+	SDL_SetWindowFullscreen(this->GetWindow(), 0);
+	SDL_SetWindowResizable(this->GetWindow(), SDL_FALSE);
+	SDL_SetWindowBordered(this->GetWindow(), SDL_TRUE);
+}
 
-	if (this->fullscreen)
+void ModuleWindow::SetFullscreen(bool fullscreen)
+{
+	SetWindowToDefault();
+	if (fullscreen) {
 		SDL_SetWindowFullscreen(this->GetWindow(), SDL_WINDOW_FULLSCREEN);
-	else if (this->fullscreenDesktop)
+		this->fullscreen = true;
+	}
+}
+
+void ModuleWindow::SetResizable(bool resizable)
+{
+	SetWindowToDefault();
+	SDL_SetWindowResizable(this->GetWindow(), BoolToSDL_Bool(resizable));
+}
+
+void ModuleWindow::SetBorderless(bool borderless)
+{
+	SetWindowToDefault();
+	//this call sets borders, so it's the opposite of what we want
+	//thus the negation
+	SDL_SetWindowBordered(this->GetWindow(), BoolToSDL_Bool(!borderless));
+}
+
+void ModuleWindow::SetDesktopFullscreen(bool fullDesktop)
+{
+	SetWindowToDefault();
+	if (fullDesktop) {
 		SDL_SetWindowFullscreen(this->GetWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-	else
-		SDL_SetWindowFullscreen(this->GetWindow(), 0);
-
-	if (this->borderless)
-		SDL_SetWindowBordered(this->GetWindow(), SDL_FALSE);
-	else
-		SDL_SetWindowBordered(this->GetWindow(), SDL_TRUE);
-
-	if (this->resizable)
-		SDL_SetWindowResizable(this->GetWindow(), SDL_TRUE);
-	else
-		SDL_SetWindowResizable(this->GetWindow(), SDL_FALSE);
+		this->fullscreen = false;
+	}
 }
 
 void ModuleWindow::SetBrightness(float brightness)
@@ -162,6 +139,13 @@ void ModuleWindow::SetBrightness(float brightness)
 	{
 		ENGINE_LOG("Error setting window brightness: %s", &SDL_GetError()[0]);
 	}
+}
+
+SDL_bool ModuleWindow::BoolToSDL_Bool(bool i_bool)
+{
+	if (i_bool)
+		return SDL_TRUE;
+	return SDL_FALSE;
 }
 
 

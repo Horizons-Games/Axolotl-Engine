@@ -30,40 +30,31 @@ void WindowWindow::DrawWindowContents()
 	if (widthChanged || heighChanged)
 		App->window->SetWindowSize(windowDimensions.first, windowDimensions.second);
 
-	bool modified = false;
-
-	bool fullscreen = App->window->GetFullscreen();
+	bool fullscreen = App->window->IsWindowFullscreen();
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
 	{
-		modified = true;
+		App->window->SetFullscreen(fullscreen);
 	}
 
 	ImGui::SameLine();
 
-	bool resizable = App->window->GetResizable();
+	bool resizable = App->window->IsWindowResizable();
 	if (ImGui::Checkbox("Resizable", &resizable))
 	{
-		modified = true;
+		App->window->SetResizable(resizable);
 	}
 		
-	bool borderless = App->window->GetBorderless();
+	bool borderless = App->window->IsWindowBorderless();
 	if (ImGui::Checkbox("Borderless", &borderless))
 	{
-		modified = true;
+		App->window->SetBorderless(borderless);
 	}
 
 	ImGui::SameLine();
 
-	bool fullDesktop = App->window->GetFulscreenDesktop();
+	bool fullDesktop = App->window->IsWindowDesktopFullscreen();
 	if (ImGui::Checkbox("Desktop Fullscreen", &fullDesktop))
 	{
-		modified = true;
-	}
-
-	if (modified)
-	{
-		App->window->SetWindowType(
-			fullscreen, borderless, resizable, fullDesktop
-		);
+		App->window->SetDesktopFullscreen(fullDesktop);
 	}
 }
