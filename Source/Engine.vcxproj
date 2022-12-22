@@ -206,6 +206,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h" />

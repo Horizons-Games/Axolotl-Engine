@@ -4,6 +4,7 @@
 #include "Windows/SubWindows/WindowRenderer.h"
 #include "Windows/SubWindows/WindowHardware.h"
 #include "Windows/SubWindows/WindowWindow.h"
+#include "Windows/SubWindows/WindowCamera.h"
 
 WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {
@@ -13,6 +14,7 @@ WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 	collapsingSubWindows.push_back(std::make_unique<WindowRenderer>());
 	collapsingSubWindows.push_back(std::make_unique<WindowHardware>());
 	collapsingSubWindows.push_back(std::make_unique<WindowWindow>());
+	collapsingSubWindows.push_back(std::make_unique<WindowCamera>());
 }
 
 WindowConfiguration::~WindowConfiguration()
