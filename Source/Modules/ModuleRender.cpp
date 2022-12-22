@@ -21,30 +21,71 @@
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	const char* tmpSource = "", * tmpType = "", * tmpSeverity = "";
+
 	switch (source) {
-	case GL_DEBUG_SOURCE_API: tmpSource = "API"; break;
-	case GL_DEBUG_SOURCE_WINDOW_SYSTEM: tmpSource = "Window System"; break;
-	case GL_DEBUG_SOURCE_SHADER_COMPILER: tmpSource = "Shader Compiler"; break;
-	case GL_DEBUG_SOURCE_THIRD_PARTY: tmpSource = "Third Party"; break;
-	case GL_DEBUG_SOURCE_APPLICATION: tmpSource = "Application"; break;
-	case GL_DEBUG_SOURCE_OTHER: tmpSource = "Other"; break;
+		case GL_DEBUG_SOURCE_API:
+			tmpSource = "API";
+			break;
+		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+			tmpSource = "Window System";
+			break;
+		case GL_DEBUG_SOURCE_SHADER_COMPILER:
+			tmpSource = "Shader Compiler";
+			break;
+		case GL_DEBUG_SOURCE_THIRD_PARTY:
+			tmpSource = "Third Party";
+			break;
+		case GL_DEBUG_SOURCE_APPLICATION:
+			tmpSource = "Application";
+			break;
+		case GL_DEBUG_SOURCE_OTHER:
+			tmpSource = "Other";
+			break;
 	};
+
 	switch (type) {
-	case GL_DEBUG_TYPE_ERROR: tmpType = "Error"; break;
-	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: tmpType = "Deprecated Behaviour"; break;
-	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: tmpType = "Undefined Behaviour"; break;
-	case GL_DEBUG_TYPE_PORTABILITY: tmpType = "Portability"; break;
-	case GL_DEBUG_TYPE_PERFORMANCE: tmpType = "Performance"; break;
-	case GL_DEBUG_TYPE_MARKER: tmpType = "Marker"; break;
-	case GL_DEBUG_TYPE_PUSH_GROUP: tmpType = "Push Group"; break;
-	case GL_DEBUG_TYPE_POP_GROUP: tmpType = "Pop Group"; break;
-	case GL_DEBUG_TYPE_OTHER: tmpType = "Other"; break;
+		case GL_DEBUG_TYPE_ERROR:
+			tmpType = "Error";
+			break;
+		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+			tmpType = "Deprecated Behaviour";
+			break;
+		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+			tmpType = "Undefined Behaviour";
+			break;
+		case GL_DEBUG_TYPE_PORTABILITY:
+			tmpType = "Portability";
+			break;
+		case GL_DEBUG_TYPE_PERFORMANCE:
+			tmpType = "Performance";
+			break;
+		case GL_DEBUG_TYPE_MARKER:
+			tmpType = "Marker";
+			break;
+		case GL_DEBUG_TYPE_PUSH_GROUP:
+			tmpType = "Push Group";
+			break;
+		case GL_DEBUG_TYPE_POP_GROUP:
+			tmpType = "Pop Group";
+			break;
+		case GL_DEBUG_TYPE_OTHER:
+			tmpType = "Other";
+			break;
 	};
+
 	switch (severity) {
-	case GL_DEBUG_SEVERITY_HIGH: tmpSeverity = "high"; break;
-	case GL_DEBUG_SEVERITY_MEDIUM: tmpSeverity = "medium"; break;
-	case GL_DEBUG_SEVERITY_LOW: tmpSeverity = "low"; break;
-	case GL_DEBUG_SEVERITY_NOTIFICATION: tmpSeverity = "notification"; break;
+		case GL_DEBUG_SEVERITY_HIGH:
+			tmpSeverity = "high";
+			break;
+		case GL_DEBUG_SEVERITY_MEDIUM:
+			tmpSeverity = "medium";
+			break;
+		case GL_DEBUG_SEVERITY_LOW:
+			tmpSeverity = "low";
+			break;
+		case GL_DEBUG_SEVERITY_NOTIFICATION:
+			tmpSeverity = "notification";
+			break;
 	};
 }
 
