@@ -220,13 +220,13 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowHardware.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
   </ItemGroup>
@@ -567,13 +567,13 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowHardware.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
   </ItemGroup>

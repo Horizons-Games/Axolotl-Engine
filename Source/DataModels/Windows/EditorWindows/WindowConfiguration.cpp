@@ -2,6 +2,7 @@
 
 #include "Windows/SubWindows/WindowFPS.h"
 #include "Windows/SubWindows/WindowRenderer.h"
+#include "Windows/SubWindows/WindowHardware.h"
 
 WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {
@@ -9,6 +10,7 @@ WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 
 	collapsingSubWindows.push_back(std::make_unique<WindowFPS>());
 	collapsingSubWindows.push_back(std::make_unique<WindowRenderer>());
+	collapsingSubWindows.push_back(std::make_unique<WindowHardware>());
 }
 
 WindowConfiguration::~WindowConfiguration()

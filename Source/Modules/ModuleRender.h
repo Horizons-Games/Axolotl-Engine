@@ -34,11 +34,6 @@ public:
 
 	float4 GetBackgroundColor() const;
 	std::shared_ptr<Model> GetModel(unsigned pos) const;
-	const SDL_version& GetSDLVersion() const;
-	int GetCPUCount() const;
-	int GetCacheLineSize() const;
-	float GetRamGB() const;
-	const char* GetCaps() const;
 	inline unsigned int GetRenderedTexture() const
 	{
 		return renderedTexture;
@@ -55,12 +50,6 @@ private:
 	unsigned vbo;
 	std::vector<std::shared_ptr<Model> > models;
 	const std::vector<std::string> modelTypes = { "FBX" };
-
-	SDL_version sdlVersion;
-	int cacheLineSize;
-	int cpuCount;
-	int ram;
-	char caps[75] {};
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;

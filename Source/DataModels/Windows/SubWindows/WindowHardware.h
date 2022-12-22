@@ -1,10 +1,10 @@
 #pragma once
 
-#include "EditorWindow.h"
+#include "SubWindow.h"
 
 #include <string>
 
-class WindowHardware : public EditorWindow
+class WindowHardware : public SubWindow
 {
 public:
 	WindowHardware();
@@ -13,12 +13,8 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override
-	{
-		return ImVec2(900, 250);
-	}
-
 private:
+	void GetSoftwareVersionsAndGPUInfo();
 	void GetSoftwareVersions();
 	void GetCPUinfo();
 	void GetCaps();
@@ -30,6 +26,7 @@ private:
 	bool versionsSet = false;
 	std::string glewVersion;
 	std::string openGLVersion;
+	std::string glslVersion;
 	std::string sdlVersion;
 	std::string assimpVersion;
 	std::string dirextXTexVersion;
@@ -37,14 +34,15 @@ private:
 	std::string mathGeoLibVersion;
 
 	std::string cpusAndCache;
-	std::string caps;
+	char caps[75]{};
 
 	std::string ram;
-	std::string gpuVendorAndDevice;
+	std::string gpuVendor;
 	std::string gpuBrand;
 
 	std::string availableRam;
 	std::string totalRam;
 	std::string usedRam;
+	std::string reservedRam;
 };
 

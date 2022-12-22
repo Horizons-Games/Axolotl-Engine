@@ -112,25 +112,6 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	SDL_GetVersion(&sdlVersion);
-
-	this->cacheLineSize = SDL_GetCPUCacheLineSize();
-	this->cpuCount = SDL_GetCPUCount();
-	this->ram = SDL_GetSystemRAM();
-
-	// CAPS
-	if (SDL_Has3DNow()) sprintf_s(caps, 75, "%s3DNow, ", caps);
-	if (SDL_HasAltiVec()) sprintf_s(caps, 75, "%sAltiVec, ", caps);
-	if (SDL_HasAVX()) sprintf_s(caps, 75, "%sAVX, ", caps);
-	if (SDL_HasAVX2()) sprintf_s(caps, 75, "%sAVX2, ", caps);
-	if (SDL_HasMMX()) sprintf_s(caps, 75, "%sMMX, ", caps);
-	if (SDL_HasRDTSC()) sprintf_s(caps, 75, "%sRDTSC, ", caps);
-	if (SDL_HasSSE()) sprintf_s(caps, 75, "%sSSE, ", caps);
-	if (SDL_HasSSE2()) sprintf_s(caps, 75, "%sSSE2, ", caps);
-	if (SDL_HasSSE3()) sprintf_s(caps, 75, "%sSSE3, ", caps);
-	if (SDL_HasSSE41()) sprintf_s(caps, 75, "%sSSE41, ", caps);
-	if (SDL_HasSSE42()) sprintf_s(caps, 75, "%sSSE42, ", caps);
-
 	this->context = SDL_GL_CreateContext(App->window->GetWindow());
 
 	this->backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
@@ -224,7 +205,7 @@ update_status ModuleRender::Update()
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
-		App->engineCamera->GetProjectionMatrix(), w, h);
+	App->engineCamera->GetProjectionMatrix(), w, h);
 
 	return UPDATE_CONTINUE;
 }
@@ -289,31 +270,6 @@ float4 ModuleRender::GetBackgroundColor() const
 std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
 {
 	return models[pos];
-}
-
-const SDL_version& ModuleRender::GetSDLVersion() const
-{
-	return this->sdlVersion;
-}
-
-int ModuleRender::GetCPUCount() const
-{
-	return this->cpuCount;
-}
-
-int ModuleRender::GetCacheLineSize() const
-{
-	return this->cacheLineSize;
-}
-
-float ModuleRender::GetRamGB() const
-{
-	return (float)this->ram/1024.0f;
-}
-
-const char* ModuleRender::GetCaps() const
-{
-	return this->caps;
 }
 
 bool ModuleRender::LoadModel(const char* path)
