@@ -9,8 +9,8 @@ int WindowRenderer::bufferSize = 128;
 
 WindowRenderer::WindowRenderer() : SubWindow("Renderer")
 {
-	//vertexShaderBuffer = App->renderer->GetVertexShader();
-	//fragmentShaderBuffer = App->renderer->GetFragmentShader();
+	vertexShaderBuffer = App->renderer->GetVertexShader();
+	fragmentShaderBuffer = App->renderer->GetFragmentShader();
 }
 
 WindowRenderer::~WindowRenderer()
@@ -27,6 +27,6 @@ void WindowRenderer::DrawWindowContents()
 	ImGui::Dummy(ImVec2(0.f, 5.f)); //spacing
 	if (ImGui::Button("Update shaders"))
 	{
-		//App->renderer->SetShaders(vertexShaderBuffer, fragmentShaderBuffer);
+		App->renderer->SetShaders(vertexShaderBuffer, fragmentShaderBuffer);
 	}
 }

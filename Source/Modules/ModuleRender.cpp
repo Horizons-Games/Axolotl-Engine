@@ -156,16 +156,7 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	const char* vertexSource = App->program->LoadShaderSource("Assets/Shaders/default_vertex.glsl");
-	const char* fragmentSource = App->program->LoadShaderSource("Assets/Shaders/default_fragment.glsl");
-
-	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-	delete vertexSource;
-	delete fragmentSource;
-
-	App->program->CreateProgram(vertexShader, fragmentShader);
+	UpdateProgram();
 
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
@@ -262,6 +253,13 @@ void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
+void ModuleRender::SetShaders(const std::string& vertexShader, const std::string& fragmentShader)
+{
+	this->vertexShader = vertexShader.c_str();
+	this->fragmentShader = fragmentShader.c_str();
+	UpdateProgram();
+}
+
 float4 ModuleRender::GetBackgroundColor() const
 {
 	return backgroundColor;
@@ -308,4 +306,18 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	}
 
 	return valid;
+}
+
+void ModuleRender::UpdateProgram()
+{
+	const char* vertexSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->vertexShader).c_str());
+	const char* fragmentSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->fragmentShader).c_str());
+
+	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
+	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+
+	delete vertexSource;
+	delete fragmentSource;
+
+	App->program->CreateProgram(vertexShader, fragmentShader);
 }

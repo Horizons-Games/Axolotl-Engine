@@ -31,6 +31,7 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
 	void SetBackgroundColor(float4 color);
+	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
 
 	float4 GetBackgroundColor() const;
 	std::shared_ptr<Model> GetModel(unsigned pos) const;
@@ -38,12 +39,20 @@ public:
 	{
 		return renderedTexture;
 	}
+	inline const std::string& GetVertexShader() const {
+		return vertexShader;
+	}
+	inline const std::string& GetFragmentShader() const {
+		return fragmentShader;
+	}
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();
 	bool IsSupportedPath(const std::string& modelPath);
 
 private:
+	void UpdateProgram();
+
 	void* context;
 	float4 backgroundColor;
 
@@ -54,6 +63,9 @@ private:
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;
 	GLuint depthRenderBuffer = 0;
+
+	std::string vertexShader = "default_vertex.glsl";
+	std::string fragmentShader = "default_fragment.glsl";
 
 	friend class ModuleEditor;
 };
