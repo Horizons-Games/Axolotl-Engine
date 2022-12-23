@@ -11,5 +11,5 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
-	// TODO: Change position/rotation/scale to match user input
+	// TODO: Perform Transform updates (move, rotate, scale...)
 }

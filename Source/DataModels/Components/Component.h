@@ -24,10 +24,12 @@ private:
 
 inline void Component::Enable()
 {
-	active = true;
+	if (type != ComponentType::TRANSFORM)
+		active = true;
 }
 
 inline void Component::Disable()
 {
-	active = false;
+	if (type != ComponentType::TRANSFORM)
+		active = false;
 }

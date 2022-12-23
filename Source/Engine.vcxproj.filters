@@ -241,6 +241,9 @@
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -598,6 +601,9 @@
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="ComponentTransform.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
