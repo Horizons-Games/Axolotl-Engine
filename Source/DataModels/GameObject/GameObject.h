@@ -13,13 +13,26 @@ public:
 
 	void Update();
 
-	Component* CreateComponent();
+	Component* CreateComponent(/*ComponentType type*/);
+
+	bool GetActive() const;
+	const char* GetName() const;
 
 private:
-	std::string name;
-	std::vector<Component*> components;
+	bool active = true;
+	std::string name = "Empty";
+	std::vector<Component*> components = {};
 
-	GameObject* parent;
-	std::vector<GameObject*> children;
+	GameObject* parent = nullptr;
+	std::vector<GameObject*> children = {};
 };
 
+inline bool GameObject::GetActive() const 
+{
+	return active;
+}
+
+inline const char* GameObject::GetName() const
+{
+	return name.c_str();
+}
