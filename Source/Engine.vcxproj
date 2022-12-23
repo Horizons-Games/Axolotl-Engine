@@ -195,6 +195,7 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
@@ -311,6 +312,7 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="DataModels\3DModels\Mesh.h" />
     <ClInclude Include="DataModels\3DModels\Model.h" />
     <ClInclude Include="DataModels\Components\Component.h" />

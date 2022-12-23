@@ -8,7 +8,7 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
-	~Component();
+	virtual ~Component();
 
 	virtual void Enable();
 
