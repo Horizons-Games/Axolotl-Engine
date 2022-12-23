@@ -12,7 +12,7 @@ public:
 
 	virtual void Enable();
 
-	virtual void Update();
+	virtual void Update() = 0; // Pure Virtual because each component will perform a its own Update
 
 	virtual void Disable();
 
@@ -22,7 +22,7 @@ private:
 	GameObject* owner;
 };
 
-void Component::Enable()
+inline void Component::Enable()
 {
 	active = true;
 }

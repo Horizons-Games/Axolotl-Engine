@@ -13,10 +13,12 @@ public:
 
 	void Update();
 
+	const char* GetName() const;
 	Component* CreateComponent(/*ComponentType type*/);
 
 	bool GetActive() const;
-	const char* GetName() const;
+	void Enable();
+	void Disable();
 
 private:
 	bool active = true;
@@ -27,12 +29,22 @@ private:
 	std::vector<GameObject*> children = {};
 };
 
+inline const char* GameObject::GetName() const
+{
+	return name.c_str();
+}
+
 inline bool GameObject::GetActive() const 
 {
 	return active;
 }
 
-inline const char* GameObject::GetName() const
+inline void GameObject::Enable()
 {
-	return name.c_str();
+	active = true;
+}
+
+inline void GameObject::Disable()
+{
+	active = false;
 }
