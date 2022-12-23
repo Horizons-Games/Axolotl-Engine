@@ -334,6 +334,7 @@
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
