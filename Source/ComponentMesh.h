@@ -1,7 +1,7 @@
 #pragma once
 #include "Components/Component.h"
 
-class ComponentMesh : Component
+class ComponentMesh : public Component
 {
 public:
 	ComponentMesh(const bool active, GameObject* owner);

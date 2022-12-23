@@ -244,6 +244,9 @@
     <ClCompile Include="ComponentMesh.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -604,6 +607,9 @@
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentMesh.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>

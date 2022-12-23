@@ -4,6 +4,7 @@
 #include <vector>
 
 class Component;
+enum class ComponentType;
 
 class GameObject
 {
@@ -14,7 +15,7 @@ public:
 	void Update();
 
 	const char* GetName() const;
-	Component* CreateComponent(/*ComponentType type*/);
+	Component* CreateComponent(ComponentType type);
 
 	bool GetActive() const;
 	void Enable();
