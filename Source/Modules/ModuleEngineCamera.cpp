@@ -10,6 +10,7 @@
 #include "Math/Quat.h"
 #include "Math/MathAll.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/Plane.h"
 
 #include <GL/glew.h>
 
@@ -271,6 +272,33 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 	position = position + (oldPosition - newPosition);
 
 	frustum.SetPos(position);
+}
+
+bool ModuleEngineCamera::IsInside(const OBB& obb)
+{
+	math::vec cornerPoints[8];
+	math::Plane frustumPlanes[6];
+
+	
+	frustum.GetPlanes(frustumPlanes);
+	obb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0 ; itPoints < 8; itPoints++)
+		{
+			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+	
+	return true;
 }
 
 void ModuleEngineCamera::SetHFOV(float fov)

@@ -41,6 +41,8 @@ public:
 	void Zoom();
 	void Focus(const OBB& obb);
 	void Orbit(const OBB& obb);
+	
+	bool IsInside(const OBB& obb);
 
 	void SetHFOV(float fov);
 	void SetVFOV(float fov);

@@ -104,9 +104,15 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	for (int i = 0; i < meshes.size(); ++i)
+	if (App->engineCamera->IsInside(obb))
 	{
-		meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
+		for (int i = 0; i < meshes.size(); ++i)
+		{
+			meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
+		}
+	}
+	else {
+		int test = 0;
 	}
 }
 
