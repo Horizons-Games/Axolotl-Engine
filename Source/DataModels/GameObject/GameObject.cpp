@@ -18,7 +18,10 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->Update();
+	}
 }
 
 Component* GameObject::CreateComponent(ComponentType type)
