@@ -15,7 +15,11 @@ public:
 
 	Component* CreateComponent();
 
+	bool GetActive() const;
+	const char* GetName() const;
+
 private:
+	bool active;
 	std::string name;
 	std::vector<Component*> components;
 
@@ -23,3 +27,12 @@ private:
 	std::vector<GameObject*> children;
 };
 
+inline bool GameObject::GetActive() const 
+{
+	return active;
+}
+
+inline const char* GameObject::GetName() const
+{
+	return name.c_str();
+}
