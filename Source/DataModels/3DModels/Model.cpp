@@ -111,9 +111,6 @@ void Model::Draw()
 			meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
 		}
 	}
-	else {
-		int test = 0;
-	}
 }
 
 const std::string Model::GetDirectory() const
