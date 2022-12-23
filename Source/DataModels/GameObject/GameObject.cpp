@@ -4,7 +4,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
-#include "EngineLog.h"
+#include <assert.h>
 
 GameObject::GameObject()
 {
@@ -26,21 +26,27 @@ void GameObject::Update()
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
-	if (type == ComponentType::TRANSFORM)
+	switch (type)
 	{
-		ComponentTransform newComponent = ComponentTransform(true, this);
-		return &newComponent;
-	}
+		case ComponentType::TRANSFORM:
+		{
+			ComponentTransform newComponent = ComponentTransform(true, this);
+			return &newComponent;
+		}
 
-	if (type == ComponentType::MESH)
-	{
-		ComponentMesh newComponent = ComponentMesh(true, this);
-		return &newComponent;
-	}
+		case ComponentType::MESH:
+		{
+			ComponentTransform newComponent = ComponentTransform(true, this);
+			return &newComponent;
+		}
 
-	if (type == ComponentType::MATERIAL)
-	{
-		ComponentMaterial newComponent = ComponentMaterial(true, this);
-		return &newComponent;
+		case ComponentType::MATERIAL:
+		{
+			ComponentMaterial newComponent = ComponentMaterial(true, this);
+			return &newComponent;
+		}
+
+		default:
+			assert(false && "Unknown Component Type");
 	}
 }
