@@ -6,21 +6,34 @@
 
 #include <assert.h>
 
-GameObject::GameObject()
+GameObject::GameObject(const char* name, GameObject* parent)
 {
+	this->name = name;
+	this->parent = parent;
+
+	if (this->parent != nullptr)
+		this->parent->children.push_back(this);
+
 	Component* transform = CreateComponent(ComponentType::TRANSFORM);
 	components.push_back(transform);
+
+	active = true;
 }
 
 GameObject::~GameObject()
 {
+	components.clear();
+	children.clear();
 }
 
 void GameObject::Update()
 {
-	for (int i = 0; i < components.size(); i++)
+	if (active)
 	{
-		components[i]->Update();
+		for (int i = 0; i < components.size(); i++)
+		{
+			components[i]->Update();
+		}
 	}
 }
 
