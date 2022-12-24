@@ -239,6 +239,9 @@
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceTexture.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -597,6 +600,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="DataModels\Resources\Resource.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceTexture.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
