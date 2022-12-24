@@ -316,6 +316,7 @@
     <ClInclude Include="DataModels\3DModels\Model.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
+    <ClInclude Include="DataModels\Resources\Resource.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h" />

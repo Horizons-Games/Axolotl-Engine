@@ -238,6 +238,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -594,6 +595,10 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\ModuleFileSystem.h" />
+    <ClInclude Include="DataModels\Resources\Resource.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -649,6 +654,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows">
       <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources">
+      <UniqueIdentifier>{5146d58f-60ae-4fa4-b558-8b121a8eb10e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
