@@ -9,12 +9,14 @@
 GameObject::GameObject(const char* name, GameObject* parent)
 {
 	this->name = name;
-	this->parent = parent;
 
-	if (this->parent != nullptr)
+	if (parent != nullptr)
+	{
+		this->parent = parent;
 		this->parent->children.push_back(this);
+	}
 
-	Component* transform = CreateComponent(ComponentType::TRANSFORM);
+	Component* transform = new ComponentTransform(true, this);
 	components.push_back(transform);
 
 	active = true;
@@ -39,27 +41,32 @@ void GameObject::Update()
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
+	Component* newComponent = nullptr;
+
 	switch (type)
 	{
 		case ComponentType::TRANSFORM:
 		{
-			ComponentTransform newComponent = ComponentTransform(true, this);
-			return &newComponent;
+			newComponent = new ComponentTransform(true, this);
 		}
 
 		case ComponentType::MESH:
 		{
-			ComponentTransform newComponent = ComponentTransform(true, this);
-			return &newComponent;
+			newComponent = new ComponentTransform(true, this);
 		}
 
 		case ComponentType::MATERIAL:
 		{
-			ComponentMaterial newComponent = ComponentMaterial(true, this);
-			return &newComponent;
+			newComponent = new ComponentMaterial(true, this);
+			
 		}
 
 		default:
 			assert(false && "Unknown Component Type");
 	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return newComponent;
 }
