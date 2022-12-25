@@ -18,27 +18,41 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-	
-
-    if (ImGui::TreeNode("Scene:GameObjects"))
+    //int gameObjectSelected = -1;
+    for (int i = 0; i < 5; i++)
     {
-        for (int i = 0; i < 5; i++)
+        if (ImGui::TreeNode((void*)(intptr_t)i, "GameObject %d", i))
         {
-            
-            if (i == 0)
-                ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+            ImGui::Text("blah blah");
 
-            if (ImGui::TreeNode((void*)(intptr_t)i, "GameObject %d", i))
-            {
-                ImGui::Text("blah blah");
-                //ImGui::SameLine();
-                //if (ImGui::SmallButton("button")) {}
-                ImGui::TreePop();
-            }
+            ImGui::TreePop();
         }
-        ImGui::TreePop();
+
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
+        {
+            ImGui::OpenPopup("RightClickHierarchy", ImGuiPopupFlags_NoOpenOverExistingPopup);
+        }
+        if (ImGui::IsItemClicked(1))
+        {
+            ImGui::OpenPopup("RightClickGameObject");
+            //gameObjectSelected = i;
+        }
     }
-	
+
+    if (ImGui::BeginPopup("RightClickGameObject"))
+    {
+        ImGui::Button("Create child");
+        ImGui::Button("Delete");
+
+        ImGui::EndPopup();
+    }
+
+    if (ImGui::BeginPopup("RightClickHierarchy"))
+    {
+        ImGui::Button("Create empty GameObject");
+
+        ImGui::EndPopup();
+    }
 }
 
 
