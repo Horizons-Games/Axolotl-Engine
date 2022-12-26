@@ -6,47 +6,65 @@
 
 #include <assert.h>
 
-GameObject::GameObject()
+GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	Component* transform = CreateComponent(ComponentType::TRANSFORM);
+	this->parent->children.push_back(this);
+
+	Component* transform = new ComponentTransform(true, this);
 	components.push_back(transform);
 }
 
 GameObject::~GameObject()
 {
+	components.clear();
+	std::vector<Component*>().swap(components);
+
+	children.clear();
+	std::vector<GameObject*>().swap(children);
 }
 
 void GameObject::Update()
 {
-	for (int i = 0; i < components.size(); i++)
+	if (active)
 	{
-		components[i]->Update();
+		for (int i = 0; i < components.size(); i++)
+		{
+			components[i]->Update();
+		}
 	}
 }
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
+	Component* newComponent = nullptr;
+
 	switch (type)
 	{
 		case ComponentType::TRANSFORM:
 		{
-			ComponentTransform newComponent = ComponentTransform(true, this);
-			return &newComponent;
+			newComponent = new ComponentTransform(true, this);
+			break;
 		}
 
 		case ComponentType::MESH:
 		{
-			ComponentTransform newComponent = ComponentTransform(true, this);
-			return &newComponent;
+			newComponent = new ComponentTransform(true, this);
+			break;
 		}
 
 		case ComponentType::MATERIAL:
 		{
-			ComponentMaterial newComponent = ComponentMaterial(true, this);
-			return &newComponent;
+			newComponent = new ComponentMaterial(true, this);
+			break;
+			
 		}
 
 		default:
 			assert(false && "Unknown Component Type");
 	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return newComponent;
 }

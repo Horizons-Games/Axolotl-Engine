@@ -9,7 +9,7 @@ enum class ComponentType;
 class GameObject
 {
 public:
-	GameObject();
+	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void Update();
