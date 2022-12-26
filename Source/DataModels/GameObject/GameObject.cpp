@@ -6,26 +6,21 @@
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name, GameObject* parent)
+GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	this->name = name;
-
-	if (parent != nullptr)
-	{
-		this->parent = parent;
-		this->parent->children.push_back(this);
-	}
+	this->parent->children.push_back(this);
 
 	Component* transform = new ComponentTransform(true, this);
 	components.push_back(transform);
-
-	active = true;
 }
 
 GameObject::~GameObject()
 {
 	components.clear();
+	std::vector<Component*>().swap(components);
+
 	children.clear();
+	std::vector<GameObject*>().swap(children);
 }
 
 void GameObject::Update()
@@ -48,16 +43,19 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::TRANSFORM:
 		{
 			newComponent = new ComponentTransform(true, this);
+			break;
 		}
 
 		case ComponentType::MESH:
 		{
 			newComponent = new ComponentTransform(true, this);
+			break;
 		}
 
 		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
+			break;
 			
 		}
 
