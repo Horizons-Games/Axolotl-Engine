@@ -207,6 +207,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
@@ -326,6 +327,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
