@@ -23,6 +23,19 @@ void WindowHierarchy::DrawWindowContents()
     {
         if (ImGui::TreeNode((void*)(intptr_t)i, "GameObject %d", i))
         {
+            if (ImGui::IsItemClicked(1))
+            {
+                ImGui::OpenPopup("RightClickGameObject");
+                //gameObjectSelected = i;
+            }
+            if (ImGui::BeginPopup("RightClickGameObject"))
+            {
+                ImGui::MenuItem("Create child");
+                ImGui::MenuItem("Delete");
+
+                ImGui::EndPopup();
+            }
+
             ImGui::Text("blah blah");
 
             ImGui::TreePop();
@@ -41,15 +54,15 @@ void WindowHierarchy::DrawWindowContents()
 
     if (ImGui::BeginPopup("RightClickGameObject"))
     {
-        ImGui::Button("Create child");
-        ImGui::Button("Delete");
+        ImGui::MenuItem("Create child");
+        ImGui::MenuItem("Delete");
 
         ImGui::EndPopup();
     }
 
     if (ImGui::BeginPopup("RightClickHierarchy"))
     {
-        ImGui::Button("Create empty GameObject");
+        ImGui::MenuItem("Create empty GameObject");
 
         ImGui::EndPopup();
     }
