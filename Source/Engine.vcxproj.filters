@@ -240,6 +240,15 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+     </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -599,6 +608,15 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+     </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
