@@ -104,7 +104,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	if (App->engineCamera->IsInside(obb))
+	if (App->engineCamera->IsInsideOffset(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{

@@ -10,7 +10,6 @@
 #include "Math/Quat.h"
 #include "Math/MathAll.h"
 #include "Geometry/Sphere.h"
-#include "Geometry/Plane.h"
 
 #include <GL/glew.h>
 
@@ -39,6 +38,8 @@ bool ModuleEngineCamera::Init()
 	frustum.SetPos(position);
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
+
+	RecalculateOffsetPlanes();
 
 	return true;
 }
@@ -88,6 +89,7 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
+		RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
@@ -278,7 +280,6 @@ bool ModuleEngineCamera::IsInside(const OBB& obb)
 {
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
-
 	
 	frustum.GetPlanes(frustumPlanes);
 	obb.GetCornerPoints(cornerPoints);
@@ -299,6 +300,43 @@ bool ModuleEngineCamera::IsInside(const OBB& obb)
 	}
 	
 	return true;
+}
+
+bool ModuleEngineCamera::IsInsideOffset(const OBB& obb)
+{
+	math::vec cornerPoints[8];
+	obb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; itPoints++)
+		{
+			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
+}
+
+void ModuleEngineCamera::RecalculateOffsetPlanes() 
+{
+	math::Plane frustumPlanes[6];
+	frustum.GetPlanes(frustumPlanes);
+
+	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	{
+		math::Plane plane = frustumPlanes[itPlanes];
+		plane.Translate(frustumPlanes[itPlanes].normal*-1);
+		offsetFrustumPlanes[itPlanes] = plane;
+	}
+
 }
 
 void ModuleEngineCamera::SetHFOV(float fov)

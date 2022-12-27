@@ -5,6 +5,7 @@
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
+#include "Geometry/Plane.h"
 
 #define DEFAULT_MOVE_SPEED 5.f
 #define DEFAULT_ROTATION_DEGREE 25
@@ -43,6 +44,8 @@ public:
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
+	bool IsInsideOffset(const OBB& obb);
+	void RecalculateOffsetPlanes();
 
 	void SetHFOV(float fov);
 	void SetVFOV(float fov);
@@ -75,5 +78,6 @@ private:
 	float moveSpeed;
 	float rotationSpeed;
 	float mouseSpeedModifier;
+	math::Plane offsetFrustumPlanes[6];
 };
 
