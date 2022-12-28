@@ -32,6 +32,8 @@ bool ModuleEngineCamera::Init()
 	moveSpeed = DEFAULT_MOVE_SPEED;
 	rotationSpeed = DEFAULT_ROTATION_SPEED;
 	mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
+	frustumMode = DEFAULT_FRUSTUM_MODE;
+	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
 
@@ -39,7 +41,8 @@ bool ModuleEngineCamera::Init()
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 
-	RecalculateOffsetPlanes();
+	if (frustumMode == 1)
+		RecalculateOffsetPlanes();
 
 	return true;
 }
@@ -89,8 +92,9 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
-		RecalculateOffsetPlanes();
 		SelectObjects();
+		if(frustumMode==1)
+			RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
@@ -289,6 +293,8 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 bool ModuleEngineCamera::IsInside(const OBB& obb)
 {
+	if (frustumMode == 2) return false;
+	if (frustumMode == 1) return IsInsideOffset(obb);
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 	
@@ -344,7 +350,7 @@ void ModuleEngineCamera::RecalculateOffsetPlanes()
 	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
 	{
 		math::Plane plane = frustumPlanes[itPlanes];
-		plane.Translate(frustumPlanes[itPlanes].normal*-1);
+		plane.Translate(-frustumPlanes[itPlanes].normal*frustumOffset);
 		offsetFrustumPlanes[itPlanes] = plane;
 	}
 
@@ -402,6 +408,17 @@ void ModuleEngineCamera::SetRotationSpeed(float speed)
 	rotationSpeed = speed;
 }
 
+void ModuleEngineCamera::SetFrustumOffset(float offset)
+{
+	frustumOffset = offset;
+}
+
+
+void ModuleEngineCamera::SetFrustumMode(int mode)
+{
+	frustumMode = mode;
+}
+
 const float4x4& ModuleEngineCamera::GetProjectionMatrix() const
 {
 	return projectionMatrix;
@@ -445,4 +462,14 @@ float ModuleEngineCamera::GetRotationSpeed() const
 float ModuleEngineCamera::GetDistance(const float3& point) const
 {
 	return frustum.Pos().Distance(point);
+}
+
+float ModuleEngineCamera::GetFrustumOffset() const 
+{
+	return frustumOffset;
+}
+
+int ModuleEngineCamera::GetFrustumMode() const
+{
+	return frustumMode;
 }
