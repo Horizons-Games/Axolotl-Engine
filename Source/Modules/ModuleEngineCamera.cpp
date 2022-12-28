@@ -176,7 +176,7 @@ void ModuleEngineCamera::SelectObjects() {
 	if (App->renderer->AnyModelLoaded()) {
 		for (int i = 0; i < App->renderer->GetModelCount(); ++i) {
 			for (int j = 0; j < App->renderer->GetModel(i)->GetMeshCount(); ++j) {
-			 App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetAABB());
+				App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetAABB());
 			}
 		}
 	}

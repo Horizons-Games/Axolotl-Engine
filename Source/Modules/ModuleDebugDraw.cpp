@@ -595,7 +595,6 @@ bool ModuleDebugDraw::Init()
     return true;
 }
 
-
 bool ModuleDebugDraw::CleanUp()
 {
     dd::shutdown();
@@ -623,7 +622,17 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
-void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb) {
-    dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
+void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
+{
+    if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
 }
 
+void ModuleDebugDraw::SetShowBoundingBoxes(bool showBoundingBoxes)
+{
+    this->showBoundingBoxes = showBoundingBoxes;
+}
+
+bool ModuleDebugDraw::GetShowBoundingBoxes() const
+{
+    return showBoundingBoxes;
+}
