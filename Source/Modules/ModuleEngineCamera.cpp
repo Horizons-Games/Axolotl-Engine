@@ -70,7 +70,7 @@ update_status ModuleEngineCamera::Update()
 			FreeLook();
 		}
 
-		if (App->input->IsMouseWeelScrolled())
+		if (App->input->IsMouseWheelScrolled())
 		{
 			Zoom();
 		}
@@ -90,6 +90,7 @@ update_status ModuleEngineCamera::Update()
 
 		KeyboardRotate();
 		RecalculateOffsetPlanes();
+		SelectObjects();
 	}
 
 	return UPDATE_CONTINUE;
@@ -171,6 +172,16 @@ void ModuleEngineCamera::KeyboardRotate()
 	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
+}
+
+void ModuleEngineCamera::SelectObjects() {
+	if (App->renderer->AnyModelLoaded()) {
+		for (int i = 0; i < App->renderer->GetModelCount(); ++i) {
+			for (int j = 0; j < App->renderer->GetModel(i)->GetMeshCount(); ++j) {
+				App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetAABB());
+			}
+		}
+	}
 }
 
 void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix) 
