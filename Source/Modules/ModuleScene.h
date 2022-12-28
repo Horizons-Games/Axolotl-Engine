@@ -1,15 +1,22 @@
 #pragma once
 
 #include "Module.h"
-
-class GameObject;
+#include "GameObject/GameObject.h"
 
 class ModuleScene :public Module
 {
 public:
-	GameObject* CreateGameObject();
+	ModuleScene();
+	~ModuleScene();
+
+	update_status Update() override;
+
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
 
 private:
-	GameObject* root;
+	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+
+private:
+	GameObject* root = nullptr;
 };
 

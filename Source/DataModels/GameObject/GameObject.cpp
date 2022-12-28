@@ -8,7 +8,8 @@
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	this->parent->children.push_back(this);
+	if(this->parent != nullptr)
+		this->parent->children.push_back(this);
 
 	Component* transform = new ComponentTransform(true, this);
 	components.push_back(transform);
@@ -27,12 +28,45 @@ void GameObject::Update()
 {
 	if (active)
 	{
-		for (int i = 0; i < components.size(); i++)
+		for (Component* component : components)
+			component->Update();
+	}
+}
+
+void GameObject::SetParent(GameObject* parent)
+{
+	if (this->parent != nullptr)
+		this->parent->RemoveChild(this);
+
+	this->parent = parent;
+
+	if (this->parent != nullptr)
+		this->parent->AddChild(this);
+}
+
+void GameObject::AddChild(GameObject* child)
+{
+	if (!IsADescendant(child))
+		children.push_back(child);
+}
+
+void GameObject::RemoveChild(GameObject* child)
+{
+	if (IsADescendant(child))
+	{
+		bool loop = true;
+
+		for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end() && loop; ++it)
 		{
-			components[i]->Update();
+			if (*it == child)
+			{
+				children.erase(it);
+				loop = false;
+			}
 		}
 	}
 }
+
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
@@ -67,4 +101,17 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+bool GameObject::IsADescendant(const GameObject* descendant)
+{
+	bool isChild = false;
+
+	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end() && !isChild; ++it)
+	{
+		if (*it == descendant || (*it)->IsADescendant(descendant))
+			isChild = true;
+	}
+
+	return isChild;
 }
