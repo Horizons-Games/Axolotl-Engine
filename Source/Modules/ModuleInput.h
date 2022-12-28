@@ -33,7 +33,7 @@ public:
 	float GetMouseWheelX() const;
 	float GetMouseWheelY() const;
 
-	bool IsMouseWeelScrolled() const;
+	bool IsMouseWheelScrolled() const;
 
 private:
 	const Uint8 *keyboard = NULL;
@@ -77,7 +77,7 @@ inline float ModuleInput::GetMouseWheelY() const
 	return this->mouseWheel.second;
 }
 
-inline bool ModuleInput::IsMouseWeelScrolled() const
+inline bool ModuleInput::IsMouseWheelScrolled() const
 {
 	return this->mouseWheelScrolled;
 }
