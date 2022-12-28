@@ -107,9 +107,9 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 {
 	bool isChild = false;
 
-	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end() && !isChild; ++it)
+	for (GameObject* child : children)
 	{
-		if (*it == descendant || (*it)->IsADescendant(descendant))
+		if (child == descendant || child->IsADescendant(descendant))
 			isChild = true;
 	}
 
