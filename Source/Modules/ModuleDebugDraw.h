@@ -4,6 +4,7 @@
 #include "Module.h"
 
 #include "Math/float4x4.h"
+#include "Geometry/AABB.h"
 
 class DDRenderInterfaceCoreGL;
 class Camera;
@@ -21,6 +22,8 @@ public:
     bool            CleanUp();
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
+    void            DrawBoundingBox(const AABB& aabb);
+
 private:
 
     static DDRenderInterfaceCoreGL* implementation;
