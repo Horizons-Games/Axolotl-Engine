@@ -9,6 +9,7 @@ enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
 class ComponentLight : public Component
 {
 public:
+	ComponentLight(LightType type);
 	ComponentLight(LightType type, const float3& color, float intensity);
 	~ComponentLight() {};
 
@@ -16,10 +17,9 @@ public:
 	void Update() override;
 	void Disable() override;
 
-	const float3& GetDir();
-	const float3& GetColor();
-	float GetIntensity();
-	LightType GetType();
+	const float3& GetColor() const;
+	float GetIntensity() const;
+	LightType GetType() const;
 
 	void SetColor(const float3& color);
 	void SetIntensity(float intensity);
@@ -46,17 +46,27 @@ inline void ComponentLight::Disable()
 	Component::Disable();
 }
 
-inline const float3& ComponentLight::GetColor()
+inline const float3& ComponentLight::GetColor() const
 {
 	return color;
 }
 
-inline float ComponentLight::GetIntensity()
+inline float ComponentLight::GetIntensity() const
 {
 	return intensity;
 }
 
-inline LightType ComponentLight::GetType()
+inline LightType ComponentLight::GetType() const
 {
 	return type;
+}
+
+void ComponentLight::SetColor(const float3& color)
+{
+	this->color = color;
+}
+
+void ComponentLight::SetIntensity(float intensity)
+{
+	this->intensity = intensity;
 }
