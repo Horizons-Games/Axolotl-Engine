@@ -627,12 +627,12 @@ void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
     if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
 }
 
-void ModuleDebugDraw::SetShowBoundingBoxes(bool showBoundingBoxes)
+void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
 {
     this->showBoundingBoxes = showBoundingBoxes;
 }
 
-bool ModuleDebugDraw::GetShowBoundingBoxes() const
+bool ModuleDebugDraw::IsShowingBoundingBoxes() const
 {
     return showBoundingBoxes;
 }

@@ -23,8 +23,8 @@ public:
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
     void            DrawBoundingBox(const AABB& aabb);
-    void            SetShowBoundingBoxes(bool showBoundingBoxes);
-    bool            GetShowBoundingBoxes() const;
+    void            ShowBoundingBoxes(bool showBoundingBoxes);
+    bool            IsShowingBoundingBoxes() const;
 
 private:
     bool showBoundingBoxes = true;
