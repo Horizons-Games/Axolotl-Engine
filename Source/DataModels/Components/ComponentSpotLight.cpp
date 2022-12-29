@@ -1,5 +1,7 @@
 #include "ComponentSpotLight.h"
 
+#include "debugdraw.h"
+
 ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT)
 {
 }
@@ -13,4 +15,12 @@ ComponentSpotLight::ComponentSpotLight(const float3& position, const float3& aim
 	this->radius = radius;
 	this->innerAngle = innerAngle;
 	this->outerAngle = outerAngle;
+}
+
+
+void ComponentSpotLight::Draw()
+{
+	if (this->GetActive()) {
+		dd::cone(position, aim * radius, dd::colors::White, radius * tan(outerAngle), 0.0f);
+	}
 }

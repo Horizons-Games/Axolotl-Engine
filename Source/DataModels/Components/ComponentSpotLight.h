@@ -10,6 +10,8 @@ public:
 		               int innerAngle, int outerAntgle, const float3& color, float intensity);
 	~ComponentSpotLight() {};
 
+	void Draw() override;
+
 	const float3& GetPosition() const;
 	const float3& GetAim() const;
 	float GetRadius() const;

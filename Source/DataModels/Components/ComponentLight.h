@@ -16,6 +16,7 @@ public:
 	void Enable() override;
 	void Update() override;
 	void Disable() override;
+	virtual void Draw();
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
