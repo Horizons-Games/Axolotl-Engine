@@ -43,7 +43,8 @@ bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
     {
         return true;
     }
-    else {
+    else 
+    {
         return false;
     }
 }
