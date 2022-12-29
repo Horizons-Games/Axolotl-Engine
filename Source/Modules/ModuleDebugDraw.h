@@ -27,7 +27,7 @@ public:
     bool            IsShowingBoundingBoxes() const;
 
 private:
-    bool showBoundingBoxes = true;
+    bool showBoundingBoxes = false;
     static DDRenderInterfaceCoreGL* implementation;
 };
 
