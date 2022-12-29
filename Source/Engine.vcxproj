@@ -214,6 +214,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
+    <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />

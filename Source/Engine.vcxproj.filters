@@ -241,6 +241,9 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
