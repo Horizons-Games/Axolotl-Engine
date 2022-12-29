@@ -15,7 +15,7 @@ public:
 	void Add(GameObject* gameObject);
 	void Remove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
-	void Subdivide();
+	void Subdivide(GameObject* gameObject);
 	void Clear();
 
 private:
