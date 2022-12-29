@@ -1,4 +1,5 @@
 #include "ModuleScene.h"
+#include "GameObject/GameObject.h"
 
 ModuleScene::ModuleScene()
 {}

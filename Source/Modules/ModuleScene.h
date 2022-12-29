@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Module.h"
-#include "GameObject/GameObject.h"
+
+class GameObject;
 
 class ModuleScene :public Module
 {

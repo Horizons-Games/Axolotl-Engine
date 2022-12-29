@@ -59,14 +59,12 @@ void GameObject::RemoveChild(GameObject* child)
 {
 	if (IsAChild(child))
 	{
-		bool loop = true;
-
-		for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end() && loop; ++it)
+		for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
 		{
 			if (*it == child)
 			{
 				children.erase(it);
-				loop = false;
+				return;
 			}
 		}
 	}
