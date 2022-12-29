@@ -23,6 +23,7 @@ void MeshImporter::Import(const aiMesh* mesh, DataMesh* ourMesh)
 		ourMesh->indices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
 	}
 }
+
 uint64_t MeshImporter::Save(const DataMesh* ourMesh, char* &fileBuffer)
 {
 	

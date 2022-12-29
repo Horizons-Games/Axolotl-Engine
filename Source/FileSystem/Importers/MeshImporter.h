@@ -8,7 +8,7 @@ class MeshImporter : public Importer<aiMesh, DataMesh>
 {
 public:
     MeshImporter() = default;
-    ~MeshImporter() { delete[] buffer; }
+    ~MeshImporter();
 
     void Import(const aiMesh* mesh, DataMesh* ourMesh) override;
     uint64_t Save(const DataMesh* ourMesh, char* &fileBuffer) override;
@@ -17,3 +17,9 @@ public:
 private:
     char* buffer;
 };
+
+inline MeshImporter::~MeshImporter()
+{
+    delete[] buffer;
+}
+
