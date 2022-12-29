@@ -23,7 +23,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 
 unsigned int ModuleFileSystem::Save(const char* file_path, const void* buffer, unsigned int size, bool append) const
 {
-    std::ofstream file(file_path, append ? std::ios::app : std::ios::trunc);
+    std::ofstream file(file_path, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
     file.write(static_cast<const char*>(buffer), size);
     return 0;
 }
