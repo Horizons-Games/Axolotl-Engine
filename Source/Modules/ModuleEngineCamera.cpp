@@ -41,7 +41,7 @@ bool ModuleEngineCamera::Init()
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 
-	if (frustumMode == 1)
+	if (frustumMode == offsetFrustum)
 		RecalculateOffsetPlanes();
 
 	return true;
@@ -93,7 +93,7 @@ update_status ModuleEngineCamera::Update()
 
 		KeyboardRotate();
 		SelectObjects();
-		if(frustumMode==1)
+		if(frustumMode==offsetFrustum)
 			RecalculateOffsetPlanes();
 	}
 
@@ -293,8 +293,8 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 bool ModuleEngineCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == 2) return false;
-	if (frustumMode == 1) return IsInsideOffset(obb);
+	if (frustumMode == noFrustum) return false;
+	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 	

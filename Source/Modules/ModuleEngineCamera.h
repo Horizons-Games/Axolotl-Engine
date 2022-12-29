@@ -26,6 +26,13 @@
 #define MIN_VFOV 34
 #define MIN_FRUSTUM -2.f
 
+enum EFrustumMode
+{
+	normalFrustum,
+	offsetFrustum,
+	noFrustum
+};
+
 class ModuleEngineCamera : public Module
 {
 public:
