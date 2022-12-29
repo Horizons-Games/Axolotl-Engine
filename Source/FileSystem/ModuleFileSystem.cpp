@@ -4,15 +4,20 @@
 #include <cstring>
 #include <direct.h>
 
-unsigned int ModuleFileSystem::Load(const char* file_path, char** buffer) const 
+unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
-    std::ifstream file(file_path);
-    std::vector<char> data((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-    data.push_back('\0');
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
 
-    char** p = new char* [data.size()];
+    buffer = new char[size];
+    if (!file.read(buffer, size))
+    {
+        return 1;
+    }
 
-    std::memcpy(p, data.data(), data.size());
+    // Close the file
+    file.close();
     return 0;
 }
 
