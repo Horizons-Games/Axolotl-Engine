@@ -247,6 +247,9 @@
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -610,6 +613,9 @@
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentPointLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
