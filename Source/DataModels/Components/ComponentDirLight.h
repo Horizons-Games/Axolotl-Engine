@@ -9,7 +9,6 @@ public:
 	ComponentDirLight(const float3 &dir, const float3& color, float intensity);
 	~ComponentDirLight() {};
 
-	void Draw() override;
 	const float3& GetDir() const;
 
 	void SetDir(const float3& dir);
@@ -24,7 +23,7 @@ inline const float3& ComponentDirLight::GetDir() const
 	return dir;
 }
 
-void ComponentDirLight::SetDir(const float3& dir)
+inline void ComponentDirLight::SetDir(const float3& dir)
 {
 	this->dir = dir.Normalized();
 }

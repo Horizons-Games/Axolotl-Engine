@@ -15,6 +15,7 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 	this->intensity = intensity;
 }
 
-void ComponentLight::Draw() {
+void ComponentLight::Draw() 
+{
 	
 }
