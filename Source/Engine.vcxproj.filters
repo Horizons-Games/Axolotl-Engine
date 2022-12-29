@@ -238,6 +238,15 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPointLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -593,6 +602,15 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentDirLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPointLight.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

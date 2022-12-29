@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Type {MATERIAL, MESH, TRANSFORM};
+enum class Type {MATERIAL, MESH, TRANSFORM, LIGHT};
 
 class GameObject;
 
@@ -22,7 +22,7 @@ private:
 	GameObject* owner;
 };
 
-void Component::Enable()
+inline void Component::Enable()
 {
 	this->active = true;
 }
