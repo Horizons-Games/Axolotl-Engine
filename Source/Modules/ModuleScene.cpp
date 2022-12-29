@@ -4,7 +4,17 @@ ModuleScene::ModuleScene()
 {}
 
 ModuleScene::~ModuleScene()
-{}
+{
+	delete root;
+	root = nullptr;
+}
+
+bool ModuleScene::Init()
+{
+	root = new GameObject("Root");
+
+	return true;
+}
 
 update_status ModuleScene::Update()
 {
