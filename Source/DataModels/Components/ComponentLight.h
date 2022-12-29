@@ -61,12 +61,12 @@ inline LightType ComponentLight::GetType() const
 	return type;
 }
 
-void ComponentLight::SetColor(const float3& color)
+inline void ComponentLight::SetColor(const float3& color)
 {
 	this->color = color;
 }
 
-void ComponentLight::SetIntensity(float intensity)
+inline void ComponentLight::SetIntensity(float intensity)
 {
 	this->intensity = intensity;
 }
