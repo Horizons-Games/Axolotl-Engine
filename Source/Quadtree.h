@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <MathGeoLib/Include/Geometry/AABB.h>
+#include "Globals.h"
 
 class GameObject;
 
@@ -11,16 +12,19 @@ public:
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool Add(GameObject* gameObject);
+	void Add(GameObject* gameObject);
 	void Remove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide();
 	void Clear();
 
 private:
-	int capacity;
+
 	std::list<GameObject*> gameObjects;
 	AABB boundaryBox;
+
+	int quadrantCapacity = QUADRANT_CAPACITY;
+	float minQuadrantDiagonalSquared = 3 * MIN_QUADRANT_DIAGONAL * MIN_QUADRANT_DIAGONAL; // D^2 = 3C^2
 
 	Quadtree* frontRightNode = nullptr;
 	Quadtree* frontLeftNode = nullptr;

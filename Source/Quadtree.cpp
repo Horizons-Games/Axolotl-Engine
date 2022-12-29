@@ -3,6 +3,7 @@
 
 Quadtree::Quadtree(const AABB& boundaryBox) : boundaryBox(boundaryBox)
 {
+	
 }
 
 Quadtree::~Quadtree()
@@ -14,10 +15,23 @@ bool Quadtree::IsLeaf() const
 	return frontLeftNode == nullptr;
 }
 
-bool Quadtree::Add(GameObject* gameObject)
+void Quadtree::Add(GameObject* gameObject)
 {
-	if (InQuadrant(gameObject)) return false;
+	assert(gameObject != nullptr);
+	assert(InQuadrant(gameObject));
 
+	if (IsLeaf()) {
+		if (gameObjects.size() < quadrantCapacity) gameObjects.push_back(gameObject);
+		else if (boundaryBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared) gameObjects.push_back(gameObject);
+		else Subdivide();
+	}
+	else 
+	{
+		frontLeftNode->Add(gameObject);
+		frontRightNode->Add(gameObject);
+		backLeftNode->Add(gameObject);
+		backRightNode->Add(gameObject);
+	}
 }
 
 void Quadtree::Remove(GameObject* gameObject)
