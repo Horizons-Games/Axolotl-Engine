@@ -27,3 +27,16 @@ bool ModuleFileSystem::Exists(const char* file_path) const
     std::ifstream file(file_path);
     return file.good();
 }
+
+bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
+{
+    struct _stat statbuf;
+    int result = _stat(directoryPath, &statbuf);
+
+    if (result == 0 && (statbuf.st_mode & _S_IFDIR)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
