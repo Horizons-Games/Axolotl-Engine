@@ -100,7 +100,7 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	quadrantBoundingBox.SetFromCenterAndSize(newCenterBackLeft, newSize);
 	backLeftNode = new Quadtree(quadrantBoundingBox);
 
-	// Redistribution gameObjects part
+	// GameObject redistribution part
 	gameObjects.push_back(gameObject);
 
 	for (std::list<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end();)
