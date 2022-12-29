@@ -39,7 +39,8 @@ bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
     struct _stat statbuf;
     int result = _stat(directoryPath, &statbuf);
 
-    if (result == 0 && (statbuf.st_mode & _S_IFDIR)) {
+    if (result == 0 && (statbuf.st_mode & _S_IFDIR)) 
+    {
         return true;
     }
     else {
