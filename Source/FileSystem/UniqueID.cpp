@@ -21,29 +21,29 @@ std::string UniqueID::GenerateUUID()
 
 	int i;
 
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 8; ++i)
     {
         ss << uuidNew(creator);
     }
     ss << "-";
-    for (i = 0; i < 4; i++)
-    {
-        ss << uuidNew(creator);
-    }
-    ss << "-";
-
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 4; ++i)
     {
         ss << uuidNew(creator);
     }
     ss << "-";
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
         ss << uuidNew(creator);
     }
     ss << "-";
-    for (i = 0; i < 12; i++)
+
+    for (i = 0; i < 3; ++i)
+    {
+        ss << uuidNew(creator);
+    }
+    ss << "-";
+    for (i = 0; i < 12; ++i)
     {
         ss << uuidNew(creator);
     }
