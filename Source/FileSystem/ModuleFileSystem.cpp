@@ -21,16 +21,16 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     return 0;
 }
 
-unsigned int ModuleFileSystem::Save(const char* file_path, const void* buffer, unsigned int size, bool append) const
+unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
 {
-    std::ofstream file(file_path, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
+    std::ofstream file(filePath, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
     file.write(static_cast<const char*>(buffer), size);
     return 0;
 }
 
-bool ModuleFileSystem::Exists(const char* file_path) const
+bool ModuleFileSystem::Exists(const char* filePath) const
 {
-    std::ifstream file(file_path);
+    std::ifstream file(filePath);
     return file.good();
 }
 
