@@ -225,6 +225,7 @@
     <ClCompile Include="Modules\ModuleScene.cpp" />
     <ClCompile Include="Modules\ModuleTexture.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
@@ -346,6 +347,7 @@
     <ClInclude Include="Modules\ModuleScene.h" />
     <ClInclude Include="Modules\ModuleTexture.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
+    <ClInclude Include="Quadtree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
