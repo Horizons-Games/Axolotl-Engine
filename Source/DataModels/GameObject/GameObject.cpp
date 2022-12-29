@@ -6,6 +6,12 @@
 
 #include <assert.h>
 
+GameObject::GameObject(const char* name) : name(name)
+{
+	Component* transform = new ComponentTransform(true, this);
+	components.push_back(transform);
+}
+
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
 	if(this->parent != nullptr)
@@ -46,13 +52,13 @@ void GameObject::SetParent(GameObject* parent)
 
 void GameObject::AddChild(GameObject* child)
 {
-	if (!IsADescendant(child))
+	if (!IsAChild(child))
 		children.push_back(child);
 }
 
 void GameObject::RemoveChild(GameObject* child)
 {
-	if (IsADescendant(child))
+	if (IsAChild(child))
 	{
 		bool loop = true;
 
@@ -103,15 +109,15 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
-bool GameObject::IsADescendant(const GameObject* descendant)
+bool GameObject::IsAChild(const GameObject* child)
 {
-	bool isChild = false;
+	bool isAChild = false;
 
-	for (GameObject* child : children)
+	for (GameObject* gameObject : children)
 	{
-		if (child == descendant || child->IsADescendant(descendant))
-			isChild = true;
+		if (gameObject == child)
+			isAChild = true;
 	}
 
-	return isChild;
+	return isAChild;
 }

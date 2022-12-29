@@ -9,7 +9,8 @@ enum class ComponentType;
 class GameObject
 {
 public:
-	GameObject(const char* name, GameObject* parent = nullptr);
+	explicit GameObject(const char* name);
+	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void Update();
@@ -29,7 +30,7 @@ public:
 	Component* CreateComponent(ComponentType type);
 
 private:
-	bool IsADescendant(const GameObject* descendant);
+	bool IsAChild(const GameObject* child);
 
 private:
 	bool active = true;
