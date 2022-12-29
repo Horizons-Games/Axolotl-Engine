@@ -240,7 +240,7 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
@@ -249,6 +249,9 @@
     </ClCompile>
     <ClCompile Include="ComponentMaterial.cpp">
       <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -608,7 +611,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="ComponentTransform.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -617,6 +620,9 @@
     </ClInclude>
     <ClInclude Include="ComponentMaterial.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
