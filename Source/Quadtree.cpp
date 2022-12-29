@@ -126,5 +126,5 @@ void Quadtree::Subdivide(GameObject* gameObject)
 
 void Quadtree::Clear()
 {
-	//TODO
+	// TODO: implement tree cleaning function
 }
