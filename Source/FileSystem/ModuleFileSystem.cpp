@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
+#include <direct.h>
 
 unsigned int ModuleFileSystem::Load(const char* file_path, char** buffer) const 
 {
@@ -37,6 +38,18 @@ bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
         return true;
     }
     else {
+        return false;
+    }
+}
+
+bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
+{
+    if (_mkdir(directoryPath) == 0)
+    {
+        return true;
+    }
+    else
+    {
         return false;
     }
 }
