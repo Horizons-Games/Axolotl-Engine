@@ -8,7 +8,7 @@ class GameObject;
 class Quadtree
 {
 public:
-	Quadtree(const AABB& boundaryBox);
+	Quadtree(const AABB& boundingBox);
 	~Quadtree();
 
 	bool IsLeaf() const;
@@ -21,10 +21,10 @@ public:
 private:
 
 	std::list<GameObject*> gameObjects;
-	AABB boundaryBox;
+	AABB boundingBox;
 
 	int quadrantCapacity = QUADRANT_CAPACITY;
-	float minQuadrantDiagonalSquared = 3 * MIN_QUADRANT_DIAGONAL * MIN_QUADRANT_DIAGONAL; // D^2 = 3C^2
+	float minQuadrantDiagonalSquared = 3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE; // D^2 = 3C^2
 
 	Quadtree* frontRightNode = nullptr;
 	Quadtree* frontLeftNode = nullptr;

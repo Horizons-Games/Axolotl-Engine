@@ -23,7 +23,7 @@ enum update_status
 
 // Configuration (Frustum)
 #define QUADRANT_CAPACITY 10
-#define MIN_QUADRANT_DIAGONAL 100.0f
+#define MIN_CUBE_SIZE 100.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920
