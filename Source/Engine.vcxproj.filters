@@ -656,6 +656,9 @@
     <Filter Include="Source\DataModels\Windows\SubWindows">
       <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl">
