@@ -299,10 +299,10 @@ bool ModuleEngineCamera::IsInside(const OBB& obb)
 	frustum.GetPlanes(frustumPlanes);
 	obb.GetCornerPoints(cornerPoints);
 
-	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
 	{
 		bool onPlane = false;
-		for (int itPoints = 0 ; itPoints < 8; itPoints++)
+		for (int itPoints = 0 ; itPoints < 8; ++itPoints)
 		{
 			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
 			{
@@ -310,8 +310,7 @@ bool ModuleEngineCamera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane)
-			return false;
+		if (!onPlane) return false;
 	}
 	
 	return true;
@@ -322,10 +321,10 @@ bool ModuleEngineCamera::IsInsideOffset(const OBB& obb)
 	math::vec cornerPoints[8];
 	obb.GetCornerPoints(cornerPoints);
 
-	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
 	{
 		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; itPoints++)
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
 		{
 			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
 			{
@@ -333,8 +332,7 @@ bool ModuleEngineCamera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane)
-			return false;
+		if (!onPlane) return false;
 	}
 
 	return true;
@@ -348,7 +346,7 @@ void ModuleEngineCamera::RecalculateOffsetPlanes()
 	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
 	{
 		math::Plane plane = frustumPlanes[itPlanes];
-		plane.Translate(-frustumPlanes[itPlanes].normal*frustumOffset);
+		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
 		offsetFrustumPlanes[itPlanes] = plane;
 	}
 
