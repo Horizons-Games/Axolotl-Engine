@@ -41,8 +41,7 @@ bool ModuleEngineCamera::Init()
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 
-	if (frustumMode == offsetFrustum)
-		RecalculateOffsetPlanes();
+	if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 
 	return true;
 }
@@ -93,8 +92,7 @@ update_status ModuleEngineCamera::Update()
 
 		KeyboardRotate();
 		SelectObjects();
-		if(frustumMode==offsetFrustum)
-			RecalculateOffsetPlanes();
+		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;

@@ -82,7 +82,7 @@ public:
 	float GetRotationSpeed() const;
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
-	int	  GetFrustumMode() const;
+	int	GetFrustumMode() const;
 
 private:
 	Frustum frustum;
