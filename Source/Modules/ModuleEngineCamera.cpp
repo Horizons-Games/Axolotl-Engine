@@ -343,7 +343,7 @@ void ModuleEngineCamera::RecalculateOffsetPlanes()
 	math::Plane frustumPlanes[6];
 	frustum.GetPlanes(frustumPlanes);
 
-	for (int itPlanes = 0; itPlanes < 6; itPlanes++)
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
 	{
 		math::Plane plane = frustumPlanes[itPlanes];
 		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
