@@ -2,7 +2,7 @@
 #include "EditorWindow.h"
 
 
-
+#include <string>
 #include <memory>
 
 class Model;
@@ -23,6 +23,10 @@ private:
 	void DrawTransformationTable();
 	void DrawGeometryTable();
 	void DrawTextureTable();
+
+	char gameobjectName;
+	
+
 	
 	std::weak_ptr<Model> modelInspector;
 };

@@ -21,6 +21,16 @@ void WindowInspector::DrawWindowContents()
 	modelInspector = App->renderer->GetModel(0);
 	if (App->renderer->AnyModelLoaded() && modelInspector.lock()) //checks the model exists
 	{
+		static bool check = true;
+		ImGui::Checkbox("Enable", &check);
+
+		ImGui::SameLine();
+
+		char str0[128] = "gameobjectName";
+		ImGui::InputText("GameobjectName", str0, IM_ARRAYSIZE(str0));
+
+		ImGui::Separator();
+
 		DrawTransformationTable();
 
 		ImGui::Separator();
