@@ -39,7 +39,6 @@ inline void ComponentLight::Enable()
 
 inline void ComponentLight::Update()
 {
-	Component::Update();
 }
 
 inline void ComponentLight::Disable()
