@@ -39,7 +39,7 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::SetParent(GameObject* parent)
+void GameObject::SetParent(GameObject* newParent)
 {
 	if (this->parent != nullptr)
 	{
@@ -57,15 +57,17 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::RemoveChild(GameObject* child)
 {
-	if (IsAChild(child))
+	if (!IsAChild(child))
 	{
-		for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+		return;
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if (*it == child)
 		{
-			if (*it == child)
-			{
-				children.erase(it);
-				return;
-			}
+			children.erase(it);
+			return;
 		}
 	}
 }
