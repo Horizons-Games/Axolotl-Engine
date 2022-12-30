@@ -235,6 +235,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -249,6 +252,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -603,6 +609,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
@@ -617,6 +626,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +685,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows">
       <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
