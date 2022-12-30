@@ -235,6 +235,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -249,6 +252,27 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
       <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
+      <Filter>Source\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPointLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -603,6 +627,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
@@ -617,6 +644,33 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMaterial.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\ModuleFileSystem.h">
+      <Filter>Source\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\Importer.h">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\MeshImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Data.h">
+      <Filter>Source\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentDirLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPointLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +727,15 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows">
       <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileSystem">
+      <UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileSystem\Importers">
+      <UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ComponentType {TRANSFORM, MESH, MATERIAL};
+enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT};
 
 class GameObject;
 
@@ -15,6 +15,8 @@ public:
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Disable();
+
+	bool GetActive();
 
 private:
 	ComponentType type;
@@ -32,4 +34,9 @@ inline void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
 		active = false;
+}
+
+inline bool Component::GetActive()
+{
+	return this->active;
 }
