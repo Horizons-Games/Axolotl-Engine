@@ -1,5 +1,7 @@
 #include "ComponentDirLight.h"
 
+#include "debugdraw.h"
+
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL) 
 {
 }

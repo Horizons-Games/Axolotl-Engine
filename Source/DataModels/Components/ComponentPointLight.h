@@ -9,6 +9,8 @@ public:
 	ComponentPointLight(const float3& position, float radius, const float3& color, float intensity);
 	~ComponentPointLight() {};
 
+	void Draw() override;
+
 	float GetRadius() const;
 
 	void SetRadius(float radius);

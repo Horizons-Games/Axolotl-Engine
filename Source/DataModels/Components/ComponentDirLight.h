@@ -17,12 +17,13 @@ private:
 	float3 dir = float3(0.0f, 0.0f, 1.0f);
 };
 
+
 inline const float3& ComponentDirLight::GetDir() const
 {
 	return dir;
 }
 
-void ComponentDirLight::SetDir(const float3& dir)
+inline void ComponentDirLight::SetDir(const float3& dir)
 {
 	this->dir = dir.Normalized();
 }

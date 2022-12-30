@@ -7,8 +7,10 @@ class ComponentSpotLight : public ComponentLight
 public:
 	ComponentSpotLight();
 	ComponentSpotLight(const float3 &position, const float3& aim, float radius, 
-		               int innerAngle, int outerAntgle, const float3& color, float intensity);
+					   float innerAngle, float outerAntgle, const float3& color, float intensity);
 	~ComponentSpotLight() {};
+
+	void Draw() override;
 
 	const float3& GetPosition() const;
 	const float3& GetAim() const;
@@ -26,8 +28,8 @@ private:
 	float3 position = float3(0.0f, 0.0f, 0.0f);
 	float3 aim = float3(0.0f, 0.0f, 0.0f);
 	float radius = 1.0f;
-	int innerAngle = 25;
-	int outerAngle = 30;
+	float innerAngle = 2.0f;
+	float outerAngle = 2.5f;
 };
 
 inline const float3& ComponentSpotLight::GetPosition() const
