@@ -1,14 +1,12 @@
 #include "ComponentLight.h"
 
-
-
-ComponentLight::ComponentLight(LightType type) : Component(Type::LIGHT, true, nullptr)
+ComponentLight::ComponentLight(LightType type) : Component(ComponentType::LIGHT, true, nullptr)
 {
 	this->type = type;
 };
 
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity) :
-	Component(Type::LIGHT, true, nullptr)
+	Component(ComponentType::LIGHT, true, nullptr)
 {
 	this->type = type;
 	this->color = color;
