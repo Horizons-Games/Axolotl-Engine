@@ -212,6 +212,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Modules\ModuleScene.cpp" />
     <ClCompile Include="Modules\ModuleTexture.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
@@ -328,6 +330,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h" />
     <ClInclude Include="DataModels\Windows\Window.h" />
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
     <ClInclude Include="debugdraw.h" />
@@ -344,6 +347,7 @@
     <ClInclude Include="Modules\ModuleScene.h" />
     <ClInclude Include="Modules\ModuleTexture.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
+    <ClInclude Include="Quadtree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
