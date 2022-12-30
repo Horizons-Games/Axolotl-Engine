@@ -9,17 +9,28 @@ enum class ComponentType;
 class GameObject
 {
 public:
+	explicit GameObject(const char* name);
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void Update();
 
-	const char* GetName() const;
-	Component* CreateComponent(ComponentType type);
+	void SetParent(GameObject* parent);
+	void AddChild(GameObject* child);
+	void RemoveChild(GameObject* child);
 
 	bool GetActive() const;
+	const char* GetName() const;
+	GameObject* GetParent() const;
+	const std::vector<GameObject*>& GetChildren() const;
+
 	void Enable();
 	void Disable();
+
+	Component* CreateComponent(ComponentType type);
+
+private:
+	bool IsAChild(const GameObject* child);
 
 private:
 	bool active = true;
@@ -30,14 +41,24 @@ private:
 	std::vector<GameObject*> children = {};
 };
 
+inline bool GameObject::GetActive() const
+{
+	return active;
+}
+
 inline const char* GameObject::GetName() const
 {
 	return name.c_str();
 }
 
-inline bool GameObject::GetActive() const 
+inline GameObject* GameObject::GetParent() const
 {
-	return active;
+	return parent;
+}
+
+inline const std::vector<GameObject*>& GameObject::GetChildren() const
+{
+	return children;
 }
 
 inline void GameObject::Enable()
