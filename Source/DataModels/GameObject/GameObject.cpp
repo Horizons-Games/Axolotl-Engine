@@ -70,7 +70,6 @@ void GameObject::RemoveChild(GameObject* child)
 	}
 }
 
-
 Component* GameObject::CreateComponent(ComponentType type)
 {
 	Component* newComponent = nullptr;
