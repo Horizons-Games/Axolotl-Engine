@@ -21,6 +21,7 @@ bool ModuleScene::Init()
 	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
 	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
 	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
+	root->GetChildren()[2]->Disable();
 
 	root->GetChildren()[2]->GetChildren()[1]->AddChild(new GameObject("ccccccccc", root->GetChildren()[2]->GetChildren()[1]));
 	root->GetChildren()[2]->GetChildren()[0]->AddChild(new GameObject("ccccccccc", root->GetChildren()[2]->GetChildren()[0]));

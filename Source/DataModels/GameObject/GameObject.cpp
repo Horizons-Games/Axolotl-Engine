@@ -15,6 +15,9 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	if (this->parent != nullptr)
 		this->parent->children.push_back(this);
 
+	if (!this->parent->GetActive())
+		active = false;
+
 	Component* transform = new ComponentTransform(true, this);
 	components.push_back(transform);
 }

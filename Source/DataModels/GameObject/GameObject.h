@@ -52,11 +52,21 @@ inline bool GameObject::GetActive() const
 inline void GameObject::Enable()
 {
 	active = true;
+
+	for (GameObject* child : children)
+	{
+		child->Enable();
+	}
 }
 
 inline void GameObject::Disable()
 {
 	active = false;
+
+	for (GameObject* child : children)
+	{
+		child->Disable();
+	}
 }
 
 inline const char* GameObject::GetName() const
