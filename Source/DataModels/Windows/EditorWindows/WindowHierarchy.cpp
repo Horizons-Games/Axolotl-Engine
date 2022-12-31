@@ -4,8 +4,12 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "GameObject/GameObject.h"
 
 #include "3DModels/Model.h"
+
+#include <string>
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
@@ -18,16 +22,10 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    //int gameObjectSelected = -1;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < App->scene->GetRoot()->GetChildren().size(); ++i)
     {
-        if (ImGui::TreeNode((void*)(intptr_t)i, "GameObject %d", i))
+        if (ImGui::TreeNodeEx(App->scene->GetRoot()->GetChildren()[i]->GetName(), ImGuiTreeNodeFlags_Leaf))
         {
-            if (ImGui::IsItemClicked(1))
-            {
-                ImGui::OpenPopup("RightClickGameObject");
-                //gameObjectSelected = i;
-            }
             if (ImGui::BeginPopup("RightClickGameObject"))
             {
                 ImGui::MenuItem("Create child");
@@ -36,33 +34,49 @@ void WindowHierarchy::DrawWindowContents()
                 ImGui::EndPopup();
             }
 
-            ImGui::Text("blah blah");
-
             ImGui::TreePop();
         }
 
-        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
-        {
-            ImGui::OpenPopup("RightClickHierarchy", ImGuiPopupFlags_NoOpenOverExistingPopup);
-        }
         if (ImGui::IsItemClicked(1))
         {
             ImGui::OpenPopup("RightClickGameObject");
-            //gameObjectSelected = i;
         }
     }
 
     if (ImGui::BeginPopup("RightClickGameObject"))
     {
-        ImGui::MenuItem("Create child");
-        ImGui::MenuItem("Delete");
+        if (ImGui::MenuItem("Create child"))
+        {
+            ENGINE_LOG("aaaaaaaaaaa");
+        }
+
+        if (ImGui::MenuItem("Delete"))
+        {
+            ENGINE_LOG("bbbbbbbbbbb");
+        }
 
         ImGui::EndPopup();
     }
 
+    // Create Empty GameObjects
+    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
+    {
+        ImGui::OpenPopup("RightClickHierarchy", ImGuiPopupFlags_NoOpenOverExistingPopup);
+    }
+
     if (ImGui::BeginPopup("RightClickHierarchy"))
     {
-        ImGui::MenuItem("Create empty GameObject");
+        if (ImGui::MenuItem("Create empty GameObject"))
+        {
+            std::string newName = "Empty (0)";
+
+            for (int i = 0; i < App->scene->GetRoot()->GetChildren().size(); ++i)
+            {
+                newName = "Empty (" + std::to_string(i + 1) + ")";
+            }
+
+            App->scene->GetRoot()->AddChild(new GameObject(newName.c_str(), App->scene->GetRoot()));
+        }
 
         ImGui::EndPopup();
     }

@@ -12,7 +12,7 @@ GameObject::GameObject(const char* name) : name(name)
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	if(this->parent != nullptr)
+	if (this->parent != nullptr)
 		this->parent->children.push_back(this);
 
 	Component* transform = new ComponentTransform(true, this);
