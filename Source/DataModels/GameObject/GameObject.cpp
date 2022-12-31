@@ -43,12 +43,9 @@ void GameObject::Update()
 
 void GameObject::SetParent(GameObject* newParent)
 {
-	if (parent != nullptr)
-	{
-		parent->RemoveChild(this);
-		parent = newParent;
-		parent->AddChild(this);
-	}	
+	parent->RemoveChild(this);
+	parent = newParent;
+	parent->AddChild(this);
 }
 
 void GameObject::AddChild(GameObject* child)
