@@ -59,6 +59,8 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::RemoveChild(GameObject* child)
 {
+	assert(child != nullptr);
+
 	if (!IsAChild(child))
 	{
 		return;
@@ -111,6 +113,8 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 bool GameObject::IsAChild(const GameObject* child)
 {
+	assert(child != nullptr);
+
 	bool isAChild = false;
 
 	for (GameObject* gameObject : children)
