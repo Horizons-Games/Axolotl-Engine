@@ -8,8 +8,6 @@
 
 GameObject::GameObject(const char* name) : name(name)
 {
-	Component* transform = new ComponentTransform(true, this);
-	components.push_back(transform);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
