@@ -2,7 +2,8 @@
 #include "GameObject/GameObject.h"
 
 ModuleScene::ModuleScene()
-{}
+{
+}
 
 ModuleScene::~ModuleScene()
 {
@@ -12,20 +13,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	root = new GameObject("Root");
-	root->AddChild(new GameObject("aaaaaaaaa", root));
-	root->AddChild(new GameObject("aaaaaaaaa", root));
-	root->AddChild(new GameObject("aaaaaaaaa", root));
-	root->AddChild(new GameObject("aaaaaaaaa", root));
-
-	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
-	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
-	root->GetChildren()[2]->AddChild(new GameObject("bbbbbbbb", root->GetChildren()[2]));
-	root->GetChildren()[2]->Disable();
-
-	root->GetChildren()[2]->GetChildren()[1]->AddChild(new GameObject("ccccccccc", root->GetChildren()[2]->GetChildren()[1]));
-	root->GetChildren()[2]->GetChildren()[0]->AddChild(new GameObject("ccccccccc", root->GetChildren()[2]->GetChildren()[0]));
-
+	root = new GameObject("Scene Root");
 	return true;
 }
 

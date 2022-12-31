@@ -29,22 +29,6 @@ void WindowHierarchy::DrawWindowContents()
     {
         DrawRecursiveHierarchy(App->scene->GetRoot());
     }
-
-    // Create Empty GameObjects in the root
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
-    {
-        ImGui::OpenPopup("RightClickHierarchy", ImGuiPopupFlags_NoOpenOverExistingPopup);
-    }
-
-    if (ImGui::BeginPopup("RightClickHierarchy"))
-    {
-        if (ImGui::MenuItem("Create empty GameObject"))
-        {
-            App->scene->GetRoot()->AddChild(new GameObject("Empty", App->scene->GetRoot()));
-        }
-
-        ImGui::EndPopup();
-    }
 }
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
@@ -61,22 +45,28 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectId, flags);
 
+    ImGui::PopStyleColor();
+
     ImGui::PushID(gameObjectId);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        if (ImGui::MenuItem("Rename"))
+        if (gameObject != App->scene->GetRoot())
         {
-            ENGINE_LOG("aaaaaaaaa");
-        }
+            if (ImGui::MenuItem("Rename"))
+            {
+                gameObject->SetName("Renamed GameObject");
+            }
 
-        if (ImGui::MenuItem("Delete"))
-        {
-            ENGINE_LOG("bbbbbbbbb");
+            if (ImGui::MenuItem("Delete"))
+            {
+                gameObject->GetParent()->RemoveChild(gameObject);
+                delete gameObject;
+            }
         }
 
         if (ImGui::MenuItem("Create child"))
         {
-            ENGINE_LOG("ccccccccc");
+            gameObject->AddChild(new GameObject("Empty GameObject", gameObject));
         }
 
         ImGui::EndPopup();
@@ -92,6 +82,4 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
         ImGui::TreePop();
     }
-
-    ImGui::PopStyleColor();
 }
