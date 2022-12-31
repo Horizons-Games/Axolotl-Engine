@@ -74,8 +74,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     ImGui::PopID();
 
-    ImGui::ShowDemoWindow();
-
     // TODO: Drag and drop GameObjects in the hierarchy
     if (gameObject != App->scene->GetRoot()) // The root cannot be moved around
     {
