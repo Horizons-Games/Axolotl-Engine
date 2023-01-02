@@ -8,19 +8,17 @@
 
 GameObject::GameObject(const char* name) : name(name)
 {
+	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	if (this->parent != nullptr)
-	{
-		this->parent->children.push_back(this);
+	assert(this->parent != nullptr);
 
-		this->active = this->parent->GetActive();
-	}
+	this->parent->children.push_back(this);
+	this->active = this->parent->GetActive();
 
-	Component* transform = new ComponentTransform(true, this);
-	components.push_back(transform);
+	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::~GameObject()
@@ -99,7 +97,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-			
 		}
 
 		default:
