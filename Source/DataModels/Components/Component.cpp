@@ -1,10 +1,8 @@
 #include "Component.h"
 
 Component::Component(const ComponentType type, const bool active, GameObject* owner)
+	: type(type), active(active), owner(owner)
 {
-	this->type = type;
-	this->active = active;
-	this->owner = owner;
 }
 
 Component::~Component() 

@@ -8,17 +8,17 @@
 
 GameObject::GameObject(const char* name) : name(name)
 {
-	Component* transform = new ComponentTransform(true, this);
-	components.push_back(transform);
+	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	if(this->parent != nullptr)
-		this->parent->children.push_back(this);
+	assert(this->parent != nullptr);
 
-	Component* transform = new ComponentTransform(true, this);
-	components.push_back(transform);
+	this->parent->children.push_back(this);
+	this->active = this->parent->GetActive();
+
+	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::~GameObject()
@@ -39,37 +39,41 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::SetParent(GameObject* parent)
+void GameObject::SetParent(GameObject* newParent)
 {
-	if (this->parent != nullptr)
-	{
-		this->parent->RemoveChild(this);
-		this->parent = parent;
-		this->parent->AddChild(this);
-	}	
+	assert(newParent != nullptr);
+
+	parent->RemoveChild(this);
+	parent = newParent;
+	parent->AddChild(this);
 }
 
 void GameObject::AddChild(GameObject* child)
 {
+	assert(child != nullptr);
+
 	if (!IsAChild(child))
 		children.push_back(child);
 }
 
 void GameObject::RemoveChild(GameObject* child)
 {
-	if (IsAChild(child))
+	assert(child != nullptr);
+
+	if (!IsAChild(child))
 	{
-		for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+		return;
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if (*it == child)
 		{
-			if (*it == child)
-			{
-				children.erase(it);
-				return;
-			}
+			children.erase(it);
+			return;
 		}
 	}
 }
-
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
@@ -93,7 +97,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-			
 		}
 
 		default:
@@ -108,6 +111,8 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 bool GameObject::IsAChild(const GameObject* child)
 {
+	assert(child != nullptr);
+
 	bool isAChild = false;
 
 	for (GameObject* gameObject : children)

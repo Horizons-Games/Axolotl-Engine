@@ -15,17 +15,20 @@ public:
 
 	void Update();
 
-	void SetParent(GameObject* parent);
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
 
 	bool GetActive() const;
-	const char* GetName() const;
-	GameObject* GetParent() const;
-	const std::vector<GameObject*>& GetChildren() const;
-
 	void Enable();
 	void Disable();
+
+	const char* GetName() const;
+	void SetName(const char* newName);
+
+	GameObject* GetParent() const;
+	void SetParent(GameObject* newParent);
+
+	const std::vector<GameObject*>& GetChildren() const;
 
 	Component* CreateComponent(ComponentType type);
 
@@ -46,9 +49,34 @@ inline bool GameObject::GetActive() const
 	return active;
 }
 
+inline void GameObject::Enable()
+{
+	active = true;
+
+	for (GameObject* child : children)
+	{
+		child->Enable();
+	}
+}
+
+inline void GameObject::Disable()
+{
+	active = false;
+
+	for (GameObject* child : children)
+	{
+		child->Disable();
+	}
+}
+
 inline const char* GameObject::GetName() const
 {
 	return name.c_str();
+}
+
+inline void GameObject::SetName(const char* newName)
+{
+	name = newName;
 }
 
 inline GameObject* GameObject::GetParent() const
@@ -59,14 +87,4 @@ inline GameObject* GameObject::GetParent() const
 inline const std::vector<GameObject*>& GameObject::GetChildren() const
 {
 	return children;
-}
-
-inline void GameObject::Enable()
-{
-	active = true;
-}
-
-inline void GameObject::Disable()
-{
-	active = false;
 }

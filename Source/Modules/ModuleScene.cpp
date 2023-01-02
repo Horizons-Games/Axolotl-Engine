@@ -1,8 +1,11 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
 
+#include <assert.h>
+
 ModuleScene::ModuleScene()
-{}
+{
+}
 
 ModuleScene::~ModuleScene()
 {
@@ -12,8 +15,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	root = new GameObject("Root");
-
+	root = new GameObject("Scene Root");
 	return true;
 }
 
@@ -26,6 +28,8 @@ update_status ModuleScene::Update()
 
 GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 {
+	assert(name != nullptr && parent != nullptr);
+
 	GameObject* gameObject = new GameObject(name, parent);
 
 	return gameObject;
@@ -33,8 +37,12 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 {
+	assert(gameObject != nullptr);
+
 	gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
+	{
 		UpdateGameObjectAndDescendants(child);
+	}
 }
