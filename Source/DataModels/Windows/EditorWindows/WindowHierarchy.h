@@ -21,8 +21,11 @@ protected:
 
 
 private:
+
 	std::vector<std::unique_ptr<SubWindow> > collapsingSubWindows;
-	void UpdateHierarchyNode(GameObject* game_object);
+
+	void DrawRecursiveHierarchy(GameObject* gameObject);
+
 };
 
 inline ImVec2 WindowHierarchy::GetStartingSize() const

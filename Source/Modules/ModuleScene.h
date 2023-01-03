@@ -10,12 +10,25 @@ class GameObject;
 class ModuleScene :public Module
 {
 public:
-	std::unordered_map<UID, GameObject*> game_objects_id_map;
 
-	GameObject* CreateGameObject();
-	GameObject* GetGameObject(UID id) const;
+	ModuleScene();
+	~ModuleScene();
+
+	bool Init() override;
+	update_status Update() override;
+
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* GetRoot() const;
+
 
 private:
-	GameObject* root;
+	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+
+private:
+	GameObject* root = nullptr;
 };
 
+inline GameObject* ModuleScene::GetRoot() const
+{
+	return root;
+}

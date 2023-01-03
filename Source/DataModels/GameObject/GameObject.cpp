@@ -1,17 +1,24 @@
 #include "GameObject.h"
 #include "Components/Component.h"
-#include "ComponentTransform.h"
-#include "ComponentMesh.h"
-#include "ComponentMaterial.h"
+#include "../Components/ComponentTransform.h"
+#include "../Components/ComponentMesh.h"
+#include "../Components/ComponentMaterial.h"
 
 #include <assert.h>
 
+GameObject::GameObject(const char* name) : name(name)
+{
+	CreateComponent(ComponentType::TRANSFORM);
+}
+
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
 {
-	this->parent->children.push_back(this);
+	assert(this->parent != nullptr);
 
-	Component* transform = new ComponentTransform(true, this);
-	components.push_back(transform);
+	this->parent->children.push_back(this);
+	this->active = this->parent->GetActive();
+
+	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::~GameObject()
@@ -42,9 +49,43 @@ void GameObject::Update()
 
 	if (active)
 	{
-		for (int i = 0; i < components.size(); i++)
+		for (Component* component : components)
+			component->Update();
+	}
+}
+
+void GameObject::SetParent(GameObject* newParent)
+{
+	assert(newParent != nullptr);
+
+	parent->RemoveChild(this);
+	parent = newParent;
+	parent->AddChild(this);
+}
+
+void GameObject::AddChild(GameObject* child)
+{
+	assert(child != nullptr);
+
+	if (!IsAChild(child))
+		children.push_back(child);
+}
+
+void GameObject::RemoveChild(GameObject* child)
+{
+	assert(child != nullptr);
+
+	if (!IsAChild(child))
+	{
+		return;
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if (*it == child)
 		{
-			components[i]->Update();
+			children.erase(it);
+			return;
 		}
 	}
 }
@@ -84,7 +125,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-			
 		}
 
 		default:
@@ -97,7 +137,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
-UID GameObject::GetID()
+bool GameObject::IsAChild(const GameObject* child)
 {
-	return id;
+	assert(child != nullptr);
+
+	bool isAChild = false;
+
+	for (GameObject* gameObject : children)
+	{
+		if (gameObject == child)
+			isAChild = true;
+	}
+
+	return isAChild;
+
 }

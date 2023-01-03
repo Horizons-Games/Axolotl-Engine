@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ComponentType {TRANSFORM, MESH, MATERIAL};
+enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT};
 
 class GameObject;
 
@@ -18,11 +18,8 @@ public:
 
 	virtual void Disable();
 
-	virtual void OnEditorUpdate();
+	bool GetActive();
 
-	virtual void DrawGizmos();
-
-	bool IsActive() const;
 
 private:
 	ComponentType type;
@@ -40,4 +37,9 @@ inline void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
 		active = false;
+}
+
+inline bool Component::GetActive()
+{
+	return this->active;
 }

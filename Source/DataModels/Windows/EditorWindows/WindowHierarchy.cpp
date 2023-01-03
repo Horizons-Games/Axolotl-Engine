@@ -4,9 +4,17 @@
 #include "GameObject/GameObject.h"
 #include "Application.h"
 #include "ModuleRender.h"
-#include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "GameObject/GameObject.h"
+
 
 #include "3DModels/Model.h"
+
+#include <string>
+#include <assert.h>
+
+static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
@@ -19,74 +27,75 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    //int gameObjectSelected = -1;
-    for (int i = 0; i < 5; i++)
+    if (App->scene->GetRoot() != nullptr)
     {
-        if (ImGui::TreeNode((void*)(intptr_t)i, "GameObject %d", i))
-        {
-            if (ImGui::IsItemClicked(1))
-            {
-                ImGui::OpenPopup("RightClickGameObject");
-                //gameObjectSelected = i;
-            }
-            if (ImGui::BeginPopup("RightClickGameObject"))
-            {
-                ImGui::MenuItem("Create child");
-                ImGui::MenuItem("Delete");
-
-                ImGui::EndPopup();
-            }
-
-            ImGui::Text("blah blah");
-
-            ImGui::TreePop();
-        }
-
-        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
-        {
-            ImGui::OpenPopup("RightClickHierarchy", ImGuiPopupFlags_NoOpenOverExistingPopup);
-        }
-        if (ImGui::IsItemClicked(1))
-        {
-            ImGui::OpenPopup("RightClickGameObject");
-            //gameObjectSelected = i;
-        }
-    }
-
-    if (ImGui::BeginPopup("RightClickGameObject"))
-    {
-        ImGui::MenuItem("Create child");
-        ImGui::MenuItem("Delete");
-
-        ImGui::EndPopup();
-    }
-
-    if (ImGui::BeginPopup("RightClickHierarchy"))
-    {
-        ImGui::MenuItem("Create empty GameObject");
-
-        ImGui::EndPopup();
+        DrawRecursiveHierarchy(App->scene->GetRoot());
     }
 }
 
-void WindowHierarchy::UpdateHierarchyNode(GameObject* game_object)
+void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    char label[160];
-    sprintf_s(label, "%s###%p", game_object->name.c_str(), game_object);
+    assert(gameObject != nullptr);
 
-    ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow;
-    ImGuiTreeNodeFlags flags = base_flags;
+    char gameObjectId[160]; // ID created so ImGui can differentiate the GameObjects
+                            // that have the same name in the hierarchy window
+    sprintf_s(gameObjectId, "%s###%p", gameObject->GetName(), gameObject);
 
-    bool is_selected = App->editor->Selected_Object == game_object;
-    if (is_selected) flags |= ImGuiTreeNodeFlags_Selected;
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+    if (gameObject->GetChildren().empty()) flags |= ImGuiTreeNodeFlags_Leaf;
+    if (gameObject == App->scene->GetRoot()) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-    bool open = ImGui::TreeNodeEx(label, flags);
+    ImGui::PushStyleColor(0, gameObject->GetActive() ? white : grey);
+    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectId, flags);
+    ImGui::PopStyleColor();
 
-    if (ImGui::IsItemClicked())
+    ImGui::PushID(gameObjectId);
+    if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        App->editor->Selected_Object = game_object;
+        if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
+        {
+            if (ImGui::MenuItem("Rename"))
+            {
+                gameObject->SetName("Renamed GameObject");
+            }
+
+            if (ImGui::MenuItem("Delete"))
+            {
+                gameObject->GetParent()->RemoveChild(gameObject);
+                delete gameObject;
+            }
+        }
+
+        if (ImGui::MenuItem("Create child"))
+        {
+            App->scene->CreateGameObject("Empty GameObject", gameObject);
+        }
+
+        ImGui::EndPopup();
+    }
+    ImGui::PopID();
+
+    // TODO: Drag and drop GameObjects in the hierarchy
+    if (gameObject != App->scene->GetRoot()) // The root cannot be moved around
+    {
+        if (ImGui::BeginDragDropSource())
+        {
+            ImGui::EndDragDropSource();
+        }
+    }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        ImGui::EndDragDropTarget();
+    }
+
+    if (nodeDrawn) // If the parent node is correctly drawn, draw its children
+    {
+        for (int i = 0; i < gameObject->GetChildren().size(); ++i)
+        {
+            DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+        }
+
+        ImGui::TreePop();
     }
 }
-
-
-
