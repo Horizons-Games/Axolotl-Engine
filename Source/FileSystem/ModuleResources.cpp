@@ -34,6 +34,7 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 const std::string& ModuleResources::CopyFileInAssets(const std::string& originalPath)
 {
 	// TODO: Insertar una instrucción "return" aquí
+	return "";
 }
 
 const std::string& ModuleResources::GetFileName(const std::string& path)
