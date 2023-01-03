@@ -20,16 +20,21 @@ public:
 
 	bool CleanUp() override;
 
-	UID ImportResource(const std::string& assetsPath);
+	UID ImportResource(const std::string& originalPath);
 
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
 
 private:
-	ResourceType FindTypeByPath(const std::string& assetsPath);
+	ResourceType FindTypeByPath(const std::string& path);
+	const std::string& CopyFileInAssets(const std::string& originalPath);
 	//this might not belong here
-	const std::string& GetFileExtension(const std::string& assetsPath);
-	const std::string& CreateLibraryPath(const std::string& assetsPath);
+	const std::string& GetFileName(const std::string& path);
+	const std::string& GetFileExtension(const std::string& path);
+	const std::string& CreateAssetsPath(const std::string& fileName, ResourceType type);
+	const std::string& CreateLibraryPath(UID resourceUID, ResourceType type);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& assetsPath, ResourceType type);
+	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
+	void ImportResourceFromSystem(const std::shared_ptr<Resource>& resource, ResourceType type);
 
 	std::map<UID, std::shared_ptr<Resource> > resources;
 };
