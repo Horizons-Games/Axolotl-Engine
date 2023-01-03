@@ -253,9 +253,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\UID.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -626,9 +623,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\UID.h">
-      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
