@@ -9,8 +9,7 @@ public:
 	~ComponentMesh() override;
 
 	void Update() override;
-	void OnEditorUpdate() override;
-
+	
 	Mesh* mesh = nullptr;
 
 private:

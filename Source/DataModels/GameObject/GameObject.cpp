@@ -30,11 +30,6 @@ GameObject::~GameObject()
 	std::vector<GameObject*>().swap(children);
 }
 
-void GameObject::Init()
-{
-	id = GenerateUID();
-}
-
 void GameObject::Update()
 {
 	for (Component* component : components)
@@ -87,19 +82,6 @@ void GameObject::RemoveChild(GameObject* child)
 			children.erase(it);
 			return;
 		}
-	}
-}
-
-void GameObject::DrawGizmos()
-{
-	for (Component* component : components)
-	{
-		component->DrawGizmos();
-	}
-
-	for (GameObject* child : children)
-	{
-		child->DrawGizmos();
 	}
 }
 

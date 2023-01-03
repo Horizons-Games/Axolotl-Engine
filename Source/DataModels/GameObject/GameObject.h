@@ -1,5 +1,4 @@
 #pragma once
-#include "Windows/UID.h"
 
 #include <string>
 #include <vector>
@@ -16,12 +15,9 @@ public:
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
-	void Init();
 	void Update();
 	void DrawGizmos();
-
-	UID GetID();
-
+	
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
 

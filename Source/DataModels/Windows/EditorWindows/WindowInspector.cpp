@@ -23,14 +23,14 @@ void WindowInspector::DrawWindowContents()
 	modelInspector = App->renderer->GetModel(0);
 	if (App->renderer->AnyModelLoaded() && modelInspector.lock()) //checks the model exists
 	{
-		/*static bool check = true;
-		ImGui::Checkbox("Enable", &check);*/
+		static bool check = true;
+		ImGui::Checkbox("Enable", &check);
 		GameObject* selected = App->editor->Selected_Object;
 		if (selected != nullptr)
 		{
 			ImGui::TextUnformatted("Id:");
 			ImGui::SameLine();
-			ImGui::TextColored(App->editor->text_color, "%llu", selected->GetID());
+			ImGui::TextColored(App->editor->text_color, "%llu", selected->GetName());
 
 			char name[100];
 			sprintf_s(name, 100, "%s", selected->name.c_str());
@@ -54,19 +54,13 @@ void WindowInspector::DrawWindowContents()
 			}
 
 			ImGui::Separator();
-
-			for (Component* component : selected->components)
-			{
-				ImGui::PushID(component);
-				component->OnEditorUpdate();
-				ImGui::PopID();
-			}
+					
 		}
 
 		ImGui::SameLine();
 
-		/*char str0[128] = "gameobjectName";
-		ImGui::InputText("GameobjectName", str0, IM_ARRAYSIZE(str0));*/
+		char str0[128] = "gameobjectName";
+		ImGui::InputText("GameobjectName", str0, IM_ARRAYSIZE(str0));
 
 		ImGui::Separator();
 
@@ -74,7 +68,7 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::Separator();
 
-		//DrawGeometryTable();
+		DrawGeometryTable();
 
 		ImGui::Separator();
 
