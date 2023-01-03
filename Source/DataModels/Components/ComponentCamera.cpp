@@ -32,6 +32,11 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	UpdateFrustumOffset();
 }
 
+ComponentCamera::~ComponentCamera()
+{
+
+}
+
 void ComponentCamera::Update()
 {
 	//TODO:: Make placeholder rotation to see the frustum
