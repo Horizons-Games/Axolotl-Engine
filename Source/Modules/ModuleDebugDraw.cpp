@@ -627,6 +627,11 @@ void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
     if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
 }
 
+void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
+{
+    //dd::frustum(frustum.GetPlanes(), dd::colors::AliceBlue, 1, true);
+}
+
 void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
 {
     this->showBoundingBoxes = showBoundingBoxes;
