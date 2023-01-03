@@ -5,6 +5,7 @@
 
 #include "Math/float4x4.h"
 #include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
 #include "Geometry/Frustum.h"
 
 class DDRenderInterfaceCoreGL;
@@ -24,6 +25,7 @@ public:
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
     void            DrawBoundingBox(const AABB& aabb);
+    void            DrawBoundingBox(const OBB& obb);
     void            DrawFrustum(const Frustum& frustum);
     void            ShowBoundingBoxes(bool showBoundingBoxes);
     bool            IsShowingBoundingBoxes() const;
