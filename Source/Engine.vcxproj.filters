@@ -238,7 +238,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
@@ -273,6 +273,9 @@
     </ClCompile>
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\UniqueID.cpp">
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -630,7 +633,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
@@ -671,6 +674,9 @@
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\UniqueID.h">
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
