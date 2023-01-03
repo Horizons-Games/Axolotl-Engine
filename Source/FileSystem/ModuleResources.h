@@ -6,6 +6,8 @@
 #include <memory>
 #include <map>
 
+#include "FileSystem/UniqueID.h"
+
 class Resource;
 
 enum class ResourceType;
@@ -18,9 +20,9 @@ public:
 
 	bool CleanUp() override;
 
-	int ImportResource(const std::string& assetsPath);
+	UID ImportResource(const std::string& assetsPath);
 
-	const std::shared_ptr<Resource>& RequestResource(int uuid);
+	const std::shared_ptr<Resource>& RequestResource(UID uid);
 
 private:
 	ResourceType FindTypeByPath(const std::string& assetsPath);
@@ -29,7 +31,7 @@ private:
 	const std::string& CreateLibraryPath(const std::string& assetsPath);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& assetsPath, ResourceType type);
 
-	std::map<int, std::shared_ptr<Resource> > resources;
+	std::map<UID, std::shared_ptr<Resource> > resources;
 };
 
 inline bool ModuleResources::CleanUp()
@@ -37,9 +39,9 @@ inline bool ModuleResources::CleanUp()
 	resources.clear();
 }
 
-inline const std::shared_ptr<Resource>& ModuleResources::RequestResource(int uuid)
+inline const std::shared_ptr<Resource>& ModuleResources::RequestResource(UID uid)
 {
-	auto it = resources.find(uuid);
+	auto it = resources.find(uid);
 	if (it != resources.end())
 	{
 		return it->second;

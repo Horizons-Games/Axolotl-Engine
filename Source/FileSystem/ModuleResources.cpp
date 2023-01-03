@@ -3,13 +3,16 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
 
-int ModuleResources::ImportResource(const std::string& assetsPath)
+UID ModuleResources::ImportResource(const std::string& assetsPath)
 {
+	//check file exists
+	//copy file in assets
+	//create meta file
 	ResourceType type = FindTypeByPath(assetsPath);
 	std::shared_ptr<Resource> importedRes = CreateNewResource(assetsPath, type);
-	int uuid = importedRes->GetUUID();
-	resources.insert({ uuid, importedRes });
-	return uuid;
+	UID uid = importedRes->GetUID();
+	resources.insert({ uid, importedRes });
+	return uid;
 }
 
 ResourceType ModuleResources::FindTypeByPath(const std::string& assetsPath)
@@ -39,13 +42,13 @@ const std::string& ModuleResources::CreateLibraryPath(const std::string& assetsP
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& assetsPath, ResourceType type)
 {
-	int uuid = 0;
+	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(assetsPath);
 	std::shared_ptr<Resource> resource = nullptr;
 	switch (type)
 	{
 	case ResourceType::Texture:
-		resource = std::make_shared<ResourceTexture>(uuid, assetsPath, libraryPath);
+		resource = std::make_shared<ResourceTexture>(uid, assetsPath, libraryPath);
 		break;
 	case ResourceType::Mesh:
 		break;
