@@ -6,11 +6,11 @@
 
 class Model;
 
-class WindowProperties : public EditorWindow
+class WindowInspector : public EditorWindow
 {
 public:
-	WindowProperties();
-	~WindowProperties();
+	WindowInspector();
+	~WindowInspector();
 
 protected:
 	void DrawWindowContents() override;
@@ -25,7 +25,7 @@ private:
 	std::weak_ptr<Model> model;
 };
 
-inline ImVec2 WindowProperties::GetStartingSize() const
+inline ImVec2 WindowInspector::GetStartingSize() const
 {
 	return ImVec2(900, 250);
 }

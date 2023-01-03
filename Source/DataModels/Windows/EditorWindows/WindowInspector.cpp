@@ -1,4 +1,4 @@
-#include "WindowProperties.h"
+#include "WindowInspector.h"
 
 #include "imgui.h"
 
@@ -7,16 +7,16 @@
 
 #include "3DModels/Model.h"
 
-WindowProperties::WindowProperties() : EditorWindow("Properties")
+WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
-WindowProperties::~WindowProperties()
+WindowInspector::~WindowInspector()
 {
 }
 
-void WindowProperties::DrawWindowContents()
+void WindowInspector::DrawWindowContents()
 {
 	model = App->renderer->GetModel(0);
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists
@@ -33,7 +33,7 @@ void WindowProperties::DrawWindowContents()
 	}
 }
 
-void WindowProperties::DrawTransformationTable()
+void WindowInspector::DrawTransformationTable()
 {
 	float3 translation = model.lock()->GetTranslation();
 	float3 scale = model.lock()->GetScale();
@@ -127,7 +127,7 @@ void WindowProperties::DrawTransformationTable()
 	}
 }
 
-void WindowProperties::DrawGeometryTable()
+void WindowInspector::DrawGeometryTable()
 {
 	ImGui::Text("GEOMETRY");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
@@ -146,7 +146,7 @@ void WindowProperties::DrawGeometryTable()
 	}
 }
 
-void WindowProperties::DrawTextureTable()
+void WindowInspector::DrawTextureTable()
 {
 	ImGui::Text("TEXTURE");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
