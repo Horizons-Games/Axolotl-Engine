@@ -274,6 +274,9 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\UniqueID.cpp">
+      <Filter>Source\FileSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -671,6 +674,9 @@
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\UniqueID.h">
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
