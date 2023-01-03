@@ -23,14 +23,42 @@ GameObject::~GameObject()
 	std::vector<GameObject*>().swap(children);
 }
 
+void GameObject::Init()
+{
+	id = GenerateUID();
+}
+
 void GameObject::Update()
 {
+	for (Component* component : components)
+	{
+		component->Update();
+	}
+
+	for (GameObject* child : children)
+	{
+		child->Update();
+	}
+
 	if (active)
 	{
 		for (int i = 0; i < components.size(); i++)
 		{
 			components[i]->Update();
 		}
+	}
+}
+
+void GameObject::DrawGizmos()
+{
+	for (Component* component : components)
+	{
+		component->DrawGizmos();
+	}
+
+	for (GameObject* child : children)
+	{
+		child->DrawGizmos();
 	}
 }
 
@@ -67,4 +95,9 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+UID GameObject::GetID()
+{
+	return id;
 }

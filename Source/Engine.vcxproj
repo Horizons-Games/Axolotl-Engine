@@ -217,6 +217,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\UID.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h" />
+    <ClInclude Include="DataModels\Windows\UID.h" />
     <ClInclude Include="DataModels\Windows\Window.h" />
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
     <ClInclude Include="debugdraw.h" />

@@ -9,6 +9,7 @@ class WindowScene : public EditorWindow
 public:
 	WindowScene();
 	~WindowScene();
+	void Update();
 
 protected:
 	void DrawWindowContents() override;

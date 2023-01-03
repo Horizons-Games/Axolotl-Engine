@@ -22,14 +22,15 @@ public:
 	unsigned GetNumVertices() const;
 	unsigned GetNumTriangles() const;
 	
+	unsigned numVertices = 0;
+	unsigned numIndexes  = 0;
+
 private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
 	
 	unsigned materialIndex;
-	unsigned numVertices;
-	unsigned numIndexes;
 
 	float4x4 modelTransform = float4x4::identity;
 

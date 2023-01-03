@@ -88,6 +88,9 @@ update_status ModuleEditor::Update()
 {
 	update_status status = UPDATE_CONTINUE;
 
+	ImGui::CaptureMouseFromApp(true);
+	ImGui::CaptureKeyboardFromApp(true);
+
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 

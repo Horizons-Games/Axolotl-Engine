@@ -1,9 +1,11 @@
 #include "WindowInspector.h"
 
 #include "imgui.h"
-
+#include "GameObject/GameObject.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
+#include "Components/Component.h"
 
 #include "3DModels/Model.h"
 
@@ -21,13 +23,50 @@ void WindowInspector::DrawWindowContents()
 	modelInspector = App->renderer->GetModel(0);
 	if (App->renderer->AnyModelLoaded() && modelInspector.lock()) //checks the model exists
 	{
-		static bool check = true;
-		ImGui::Checkbox("Enable", &check);
+		/*static bool check = true;
+		ImGui::Checkbox("Enable", &check);*/
+		GameObject* selected = App->editor->Selected_Object;
+		if (selected != nullptr)
+		{
+			ImGui::TextUnformatted("Id:");
+			ImGui::SameLine();
+			ImGui::TextColored(App->editor->text_color, "%llu", selected->GetID());
+
+			char name[100];
+			sprintf_s(name, 100, "%s", selected->name.c_str());
+			if (ImGui::InputText("Name", name, 100))
+			{
+				selected->name = name;
+			}
+
+			bool active = selected->GetActive();
+
+			if (ImGui::Checkbox("Active##game_object", &active))
+			{
+				if (active)
+				{
+					selected->Enable();
+				}
+				else
+				{
+					selected->Disable();
+				}
+			}
+
+			ImGui::Separator();
+
+			for (Component* component : selected->components)
+			{
+				ImGui::PushID(component);
+				component->OnEditorUpdate();
+				ImGui::PopID();
+			}
+		}
 
 		ImGui::SameLine();
 
-		char str0[128] = "gameobjectName";
-		ImGui::InputText("GameobjectName", str0, IM_ARRAYSIZE(str0));
+		/*char str0[128] = "gameobjectName";
+		ImGui::InputText("GameobjectName", str0, IM_ARRAYSIZE(str0));*/
 
 		ImGui::Separator();
 
@@ -35,7 +74,7 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::Separator();
 
-		DrawGeometryTable();
+		//DrawGeometryTable();
 
 		ImGui::Separator();
 

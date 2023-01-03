@@ -1,9 +1,12 @@
 #pragma once
 #include "EditorWindow.h"
 #include "Windows/SubWindows/SubWindow.h"
+#include "Windows/UID.h"
 
 #include <vector>
 #include <memory>
+
+class GameObject;
 
 class WindowHierarchy : public EditorWindow
 {
@@ -19,6 +22,7 @@ protected:
 
 private:
 	std::vector<std::unique_ptr<SubWindow> > collapsingSubWindows;
+	void UpdateHierarchyNode(GameObject* game_object);
 };
 
 inline ImVec2 WindowHierarchy::GetStartingSize() const

@@ -1,9 +1,10 @@
 #include "WindowHierarchy.h"
 
 #include "imgui.h"
-
+#include "GameObject/GameObject.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 
 #include "3DModels/Model.h"
 
@@ -65,6 +66,25 @@ void WindowHierarchy::DrawWindowContents()
         ImGui::MenuItem("Create empty GameObject");
 
         ImGui::EndPopup();
+    }
+}
+
+void WindowHierarchy::UpdateHierarchyNode(GameObject* game_object)
+{
+    char label[160];
+    sprintf_s(label, "%s###%p", game_object->name.c_str(), game_object);
+
+    ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow;
+    ImGuiTreeNodeFlags flags = base_flags;
+
+    bool is_selected = App->editor->Selected_Object == game_object;
+    if (is_selected) flags |= ImGuiTreeNodeFlags_Selected;
+
+    bool open = ImGui::TreeNodeEx(label, flags);
+
+    if (ImGui::IsItemClicked())
+    {
+        App->editor->Selected_Object = game_object;
     }
 }
 

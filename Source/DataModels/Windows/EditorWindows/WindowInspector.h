@@ -18,16 +18,13 @@ protected:
 
 	ImVec2 GetStartingSize() const override;
 
-
 private:
 	void DrawTransformationTable();
 	void DrawGeometryTable();
 	void DrawTextureTable();
 
 	char gameobjectName;
-	
-
-	
+		
 	std::weak_ptr<Model> modelInspector;
 };
 

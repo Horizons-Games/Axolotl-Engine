@@ -12,9 +12,17 @@ public:
 
 	virtual void Enable();
 
+	virtual void Init();
+
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Disable();
+
+	virtual void OnEditorUpdate();
+
+	virtual void DrawGizmos();
+
+	bool IsActive() const;
 
 private:
 	ComponentType type;

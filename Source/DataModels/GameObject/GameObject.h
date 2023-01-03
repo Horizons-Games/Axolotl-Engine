@@ -1,4 +1,5 @@
 #pragma once
+#include "Windows/UID.h"
 
 #include <string>
 #include <vector>
@@ -9,10 +10,15 @@ enum class ComponentType;
 class GameObject
 {
 public:
+	UID id = 0;
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
+	void Init();
 	void Update();
+	void DrawGizmos();
+
+	UID GetID();
 
 	const char* GetName() const;
 	Component* CreateComponent(ComponentType type);
@@ -20,11 +26,11 @@ public:
 	bool GetActive() const;
 	void Enable();
 	void Disable();
+	std::string name = "Empty";
+	std::vector<Component*> components = {};
 
 private:
 	bool active = true;
-	std::string name = "Empty";
-	std::vector<Component*> components = {};
 
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children = {};
