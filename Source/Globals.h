@@ -20,6 +20,10 @@ enum update_status
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 
+
+// Configuration (Frustum)
+#define QUADRANT_CAPACITY 10
+#define MIN_CUBE_SIZE 100.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920

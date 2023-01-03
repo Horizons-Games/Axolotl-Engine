@@ -7,9 +7,18 @@ class GameObject;
 class ModuleScene :public Module
 {
 public:
-	GameObject* CreateGameObject();
+	ModuleScene();
+	~ModuleScene();
+
+	bool Init() override;
+	update_status Update() override;
+
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
 
 private:
-	GameObject* root;
+	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+
+private:
+	GameObject* root = nullptr;
 };
 

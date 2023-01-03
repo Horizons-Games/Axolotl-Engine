@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -198,13 +198,20 @@
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMesh.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
-    <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Timer\Timer.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
@@ -213,8 +220,10 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
+    <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -227,6 +236,8 @@
     <ClCompile Include="Modules\ModuleScene.cpp" />
     <ClCompile Include="Modules\ModuleTexture.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
+    <ClCompile Include="FileSystem\UniqueID.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
@@ -317,14 +328,20 @@
     <ClInclude Include="DataModels\3DModels\Mesh.h" />
     <ClInclude Include="DataModels\3DModels\Model.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
+    <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
+    <ClInclude Include="DataModels\Components\ComponentMesh.h" />
+    <ClInclude Include="DataModels\Components\ComponentTransform.h" />
+    <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
+    <ClInclude Include="DataModels\Components\ComponentLight.h" />
+    <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
+    <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
-    <ClInclude Include="DataModels\Resources\Resource.h" />
-    <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
@@ -333,11 +350,15 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h" />
     <ClInclude Include="DataModels\Windows\Window.h" />
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="FileSystem\Data.h" />
+    <ClInclude Include="FileSystem\Importers\Importer.h" />
+    <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
@@ -351,6 +372,8 @@
     <ClInclude Include="Modules\ModuleScene.h" />
     <ClInclude Include="Modules\ModuleTexture.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
+    <ClInclude Include="FileSystem\UniqueID.h" />
+    <ClInclude Include="Quadtree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />

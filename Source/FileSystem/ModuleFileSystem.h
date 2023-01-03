@@ -7,8 +7,10 @@ public:
 	ModuleFileSystem() = default;
 	~ModuleFileSystem() = default;
 	
-	unsigned int Load(const char* file_path, char** buffer) const;
-	unsigned int Save(const char* file_path, const void* buffer, unsigned int size, bool append = false) const;
-	bool Exists(const char* file_path) const;
+	unsigned int Load(const char* filePath, char*& buffer) const;
+	unsigned int Save(const char* filePath, const void* buffer, unsigned int size, bool append = false) const;
+	bool Exists(const char* filePath) const;
+	bool IsDirectory(const char* directoryPath) const;
+	bool CreateDirectory(const char* directoryPath);
 };
 
