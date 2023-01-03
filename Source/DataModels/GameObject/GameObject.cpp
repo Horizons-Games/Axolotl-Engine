@@ -3,11 +3,13 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
+#include "../../FileSystem/UniqueID.h"
 
 #include <assert.h>
 
 GameObject::GameObject(const char* name) : name(name)
 {
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
@@ -18,6 +20,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	this->parent->children.push_back(this);
 	this->active = this->parent->GetActive();
 
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
