@@ -1,4 +1,4 @@
-#include "WindowProperties.h"
+#include "WindowInspector.h"
 
 #include "imgui.h"
 
@@ -7,20 +7,30 @@
 
 #include "3DModels/Model.h"
 
-WindowProperties::WindowProperties() : EditorWindow("Properties")
+WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
-WindowProperties::~WindowProperties()
+WindowInspector::~WindowInspector()
 {
 }
 
-void WindowProperties::DrawWindowContents()
+void WindowInspector::DrawWindowContents()
 {
 	model = App->renderer->GetModel(0);
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists
 	{
+		static bool enable = true;
+		ImGui::Checkbox("Enable", &enable);
+	
+		ImGui::SameLine();
+
+		char name[100] = "Game Object";
+		ImGui::InputText("GameObject", name, IM_ARRAYSIZE(name));
+
+		ImGui::Separator();
+
 		DrawTransformationTable();
 
 		ImGui::Separator();
@@ -30,10 +40,11 @@ void WindowProperties::DrawWindowContents()
 		ImGui::Separator();
 
 		DrawTextureTable();
+		
 	}
 }
 
-void WindowProperties::DrawTransformationTable()
+void WindowInspector::DrawTransformationTable()
 {
 	float3 translation = model.lock()->GetTranslation();
 	float3 scale = model.lock()->GetScale();
@@ -127,7 +138,7 @@ void WindowProperties::DrawTransformationTable()
 	}
 }
 
-void WindowProperties::DrawGeometryTable()
+void WindowInspector::DrawGeometryTable()
 {
 	ImGui::Text("GEOMETRY");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
@@ -146,7 +157,7 @@ void WindowProperties::DrawGeometryTable()
 	}
 }
 
-void WindowProperties::DrawTextureTable()
+void WindowInspector::DrawTextureTable()
 {
 	ImGui::Text("TEXTURE");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
