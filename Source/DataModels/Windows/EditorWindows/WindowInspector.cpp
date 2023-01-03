@@ -30,6 +30,7 @@ void WindowInspector::DrawWindowContents()
 		ImGui::Separator();
 
 		DrawTextureTable();
+		ImGui::ShowDemoWindow();
 	}
 }
 
