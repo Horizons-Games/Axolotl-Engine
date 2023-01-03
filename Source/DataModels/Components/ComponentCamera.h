@@ -3,6 +3,7 @@
 
 #include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
+#include "Geometry/OBB.h"
 
 enum ECameraFrustumMode
 {
@@ -22,6 +23,8 @@ public:
 
 	void Draw();
 	void UpdateFrustumOffset();
+	bool IsInside(const OBB& obb);
+	bool IsInsideOffset(const OBB& obb);
 
 private:
 	Frustum frustum;

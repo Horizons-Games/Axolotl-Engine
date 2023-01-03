@@ -15,18 +15,14 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	drawFrustum = true;
 	frustumMode = ECameraFrustumMode::normalFrustum;
 
-	//Frustum Init
-	int w, h;
-
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
-	float aspectRatio = float(w) / h;
+	float aspectRatio = 16.f / 9.f;
 
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	frustum.SetViewPlaneDistances(0.1f, 10.f);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	//Position PlaceHolder get position from component transform
-	float3 position = float3{ 0,0,0 };
+	float3 position = float3{ 10.f, 0.f, 0.f };
 
 	frustum.SetPos(position);
 	frustum.SetFront(-float3::unitZ);
@@ -43,8 +39,8 @@ ComponentCamera::~ComponentCamera()
 void ComponentCamera::Update()
 {
 	//Placeholder rotation to see the frustum
-	Quat pitchQuat(frustum.WorldRight(), 1.f);
-	Quat yawQuat(float3::unitY, 0.f);
+	Quat pitchQuat(frustum.WorldRight(), 0.f);
+	Quat yawQuat(float3::unitY, 0.02f);
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
@@ -76,5 +72,53 @@ void ComponentCamera::UpdateFrustumOffset()
 		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
 		offsetFrustumPlanes[itPlanes] = plane;
 	}
+}
 
+bool ComponentCamera::IsInside(const OBB& obb)
+{
+	if (frustumMode == noFrustum) return false;
+	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
+	math::vec cornerPoints[8];
+	math::Plane frustumPlanes[6];
+
+	frustum.GetPlanes(frustumPlanes);
+	obb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane) return false;
+	}
+
+	return true;
+}
+
+bool ComponentCamera::IsInsideOffset(const OBB& obb)
+{
+	math::vec cornerPoints[8];
+	obb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane) return false;
+	}
+
+	return true;
 }
