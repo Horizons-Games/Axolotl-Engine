@@ -629,7 +629,7 @@ void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
 
 void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
 {
-    //dd::frustum(frustum.GetPlanes(), dd::colors::AliceBlue, 1, true);
+    dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
 }
 
 void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)

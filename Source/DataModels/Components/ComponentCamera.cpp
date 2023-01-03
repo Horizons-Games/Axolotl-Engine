@@ -4,6 +4,9 @@
 #include "ModuleWindow.h"
 #include "ModuleDebugDraw.h"
 
+#include "Math/float3x3.h"
+#include "Math/Quat.h"
+
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner)
@@ -39,9 +42,22 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	//TODO:: Make placeholder rotation to see the frustum
+	//Placeholder rotation to see the frustum
+	Quat pitchQuat(frustum.WorldRight(), 1.f);
+	Quat yawQuat(float3::unitY, 0.f);
+
+	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
+	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
+	float3x3 rotationMatrix = rotationMatrixY * rotationMatrixX;
+
+	vec oldFront = frustum.Front().Normalized();
+	vec oldUp = frustum.Up().Normalized();
+
+	frustum.SetFront(rotationMatrix.MulDir(oldFront));
+	frustum.SetUp(rotationMatrix.MulDir(oldUp));
 
 	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
+	Draw();
 }
 
 void ComponentCamera::Draw()
