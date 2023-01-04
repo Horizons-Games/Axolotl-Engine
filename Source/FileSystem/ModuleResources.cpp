@@ -7,6 +7,9 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
 
+const std::string ModuleResources::assetsFolder = "Assets/";
+const std::string ModuleResources::libraryFolder = "Lib/";
+
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
@@ -90,46 +93,43 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	return fileExtension;
 }
 
-const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
+const std::string ModuleResources::GetFolderOfType(ResourceType type)
 {
-	// TODO: create the path
 	switch (type)
 	{
+	case ResourceType::Model:
+		return "Models/";
 	case ResourceType::Texture:
-		break;
+		return "Textures/";
 	case ResourceType::Mesh:
-		break;
+		return "Meshes/";
 	case ResourceType::Scene:
-		break;
+		return "Scenes/";
+	case ResourceType::Material:
+		return "Materials/";
 	case ResourceType::Bone:
-		break;
+		return "Bones/";
 	case ResourceType::Animation:
-		break;
+		return "Animations/";
 	default:
-		break;
+		return "";
 	}
-	return "";
+}
+
+const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
+{
+	std::string assetsPath = assetsFolder;
+	assetsPath += GetFolderOfType(type);
+	assetsPath += fileName;
+	return assetsPath;
 }
 
 const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
 {
-	// TODO: create the path
-	switch (type)
-	{
-	case ResourceType::Texture:
-		break;
-	case ResourceType::Mesh:
-		break;
-	case ResourceType::Scene:
-		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
-		break;
-	default:
-		break;
-	}
-	return "";
+	std::string libraryPath = libraryFolder;
+	libraryPath += GetFolderOfType(type);
+	libraryPath += resourceUID;
+	return libraryPath;
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& assetsPath, ResourceType type)
