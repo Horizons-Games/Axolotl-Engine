@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstring>
 #include <direct.h>
+#include <cstdio>
 
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
@@ -11,6 +12,12 @@ bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationF
     std::ofstream dst(destinationFilePath, std::ios::binary);
     dst << src.rdbuf();
     return true;
+}
+
+bool  ModuleFileSystem::Delete(const char* filePath)
+{
+    int result = remove(filePath);
+    return result == 0 ? true : false;
 }
 
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
