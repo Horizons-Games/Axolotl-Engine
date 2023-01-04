@@ -72,9 +72,9 @@ const std::string& ModuleResources::GetFileName(const std::string& path)
 	return fileName;
 }
 
-const std::string& ModuleResources::GetFileExtension(const std::string& path)
+const std::string ModuleResources::GetFileExtension(const std::string& path)
 {
-	std::string fileExtension;
+	std::string fileExtension = "";
 	bool dotNotFound = true;
 	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i) {
 		char currentChar = path[i];
