@@ -11,6 +11,8 @@ public:
 	Importer()
 	{
 	}
+	// Reads a path that indicates a file to import to engine
+	virtual void Start(const char* filePath);
 	// Reads assimp data and generates your own data
 	virtual void Import(const T* material, U* ourMaterial) = 0;
 	// Reads your own data and generates a file buffer
