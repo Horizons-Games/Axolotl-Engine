@@ -16,6 +16,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	root = new GameObject("Scene Root");
+	selectedGameObject = root;
 	return true;
 }
 

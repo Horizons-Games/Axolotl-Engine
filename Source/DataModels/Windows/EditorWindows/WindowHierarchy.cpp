@@ -41,8 +41,21 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
-    if (gameObject->GetChildren().empty()) flags |= ImGuiTreeNodeFlags_Leaf;
-    if (gameObject == App->scene->GetRoot()) flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    if (gameObject->GetChildren().empty())
+    {
+        flags |= ImGuiTreeNodeFlags_Leaf;
+    }
+
+    if (gameObject == App->scene->GetRoot())
+    {
+        flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    }
+    
+    bool isSelected = App->scene->GetSelectedGameObject() == gameObject;
+    if (isSelected)
+    {
+        flags |= ImGuiTreeNodeFlags_Selected;
+    }
 
     ImGui::PushStyleColor(0, gameObject->GetActive() ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
@@ -66,6 +79,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);
+                if (App->scene->GetSelectedGameObject() == gameObject)
+                {
+                    App->scene->SetSelectedGameObject(gameObject->GetParent());
+                }
                 delete gameObject;
             }
         }
