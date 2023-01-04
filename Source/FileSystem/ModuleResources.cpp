@@ -4,6 +4,9 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 
+#include "FileSystem/Importers/Importer.h"
+#include "FileSystem/Importers/MeshImporter.h"
+
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
 
@@ -139,12 +142,16 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 	std::shared_ptr<Resource> resource = nullptr;
 	switch (type)
 	{
+	case ResourceType::Model:
+		break;
 	case ResourceType::Texture:
 		resource = std::make_shared<ResourceTexture>(uid, assetsPath, libraryPath);
 		break;
 	case ResourceType::Mesh:
 		break;
 	case ResourceType::Scene:
+		break;
+	case ResourceType::Material:
 		break;
 	case ResourceType::Bone:
 		break;
@@ -160,15 +167,19 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 {
 }
 
-void ModuleResources::ImportResourceFromSystem(const std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type)
 {
 	switch (type)
 	{
+	case ResourceType::Model:
+		break;
 	case ResourceType::Texture:
 		break;
 	case ResourceType::Mesh:
 		break;
 	case ResourceType::Scene:
+		break;
+	case ResourceType::Material:
 		break;
 	case ResourceType::Bone:
 		break;

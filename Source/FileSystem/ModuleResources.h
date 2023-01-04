@@ -35,7 +35,7 @@ private:
 	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& assetsPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
-	void ImportResourceFromSystem(const std::shared_ptr<Resource>& resource, ResourceType type);
+	void ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
