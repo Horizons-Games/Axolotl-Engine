@@ -12,12 +12,14 @@ public:
 	{
 	}
 	// Reads a path that indicates a file to import to engine
-	virtual void Start(const char* filePath, U* ourMaterial);
+	virtual void Start(const char* filePath, U* resource);
+
 private:
 	// Reads assimp data and generates your own data
-	virtual void Import(const T* material, U* ourMaterial) = 0;
+	virtual void Import(const T* material, U* resource) = 0;
 	// Reads your own data and generates a file buffer
-	virtual uint64_t Save(const U* ourMaterial, char*& fileBuffer) = 0;
-	// Reads a file buffer and generates your own data
-	virtual void Load(const char* fileBuffer, U* ourMaterial) = 0;
+	virtual uint64_t Save(const U* resource, char*& fileBuffer) = 0;
+private:
+	// Reads assimp data and generates your own data
+	virtual void Load(const char* fileBuffer, U* resource) = 0;
 };

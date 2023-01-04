@@ -23,6 +23,9 @@ Application::Application()
 	modules.push_back(textures = std::make_shared<ModuleTexture>());
 	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
 
+	fileSystem->Copy("Assets/prueba.mat", "Library/prueba.mat");
+	fileSystem->Delete("Library/prueba.mat");
+
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
 }
