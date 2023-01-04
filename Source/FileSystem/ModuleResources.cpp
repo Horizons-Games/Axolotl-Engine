@@ -50,13 +50,13 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	return ResourceType::Unknown;
 }
 
-const std::string& ModuleResources::CopyFileInAssets(const std::string& originalPath)
+const std::string ModuleResources::CopyFileInAssets(const std::string& originalPath)
 {
 	// TODO: Insertar una instrucción "return" aquí
 	return "";
 }
 
-const std::string& ModuleResources::GetFileName(const std::string& path)
+const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
@@ -76,7 +76,8 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 {
 	std::string fileExtension = "";
 	bool dotNotFound = true;
-	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i) {
+	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
+	{
 		char currentChar = path[i];
 		fileExtension.insert(fileExtension.begin(), currentChar);
 		dotNotFound = currentChar != '.';
@@ -84,7 +85,7 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	return fileExtension;
 }
 
-const std::string& ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
+const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
 {
 	// TODO: create the path
 	switch (type)
@@ -105,7 +106,7 @@ const std::string& ModuleResources::CreateAssetsPath(const std::string& fileName
 	return "";
 }
 
-const std::string& ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
+const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
 {
 	// TODO: create the path
 	switch (type)
