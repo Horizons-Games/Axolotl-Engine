@@ -10,8 +10,6 @@ bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationF
     std::ifstream src(sourceFilePath, std::ios::binary);
     std::ofstream dst(destinationFilePath, std::ios::binary);
     dst << src.rdbuf();
-    ENGINE_LOG("SOURCE FILE PATH: %s", sourceFilePath);
-    ENGINE_LOG("DESTINATION FILE PATH: %s", destinationFilePath);
     return true;
 }
 
