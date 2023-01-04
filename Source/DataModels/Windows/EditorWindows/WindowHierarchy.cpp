@@ -51,8 +51,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
     
-    bool isSelected = App->scene->GetSelectedGameObject() == gameObject;
-    if (isSelected)
+    if (App->scene->GetSelectedGameObject() == gameObject)
     {
         flags |= ImGuiTreeNodeFlags_Selected;
     }
@@ -101,12 +100,24 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (ImGui::BeginDragDropSource())
         {
+            UID thisID = gameObject->GetUID();
+            ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+
             ImGui::EndDragDropSource();
         }
     }
 
     if (ImGui::BeginDragDropTarget())
     {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+        {
+            UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
+                                                            // of the UID of the dragged GameObject
+            GameObject* draggedGameObject = App->scene->SearchGameObjectByID(draggedGameObjectID);
+
+            draggedGameObject->SetParent(gameObject);
+        }
+
         ImGui::EndDragDropTarget();
     }
 

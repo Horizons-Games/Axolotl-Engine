@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.h"
+#include "../FileSystem/UniqueID.h"
 
 class GameObject;
 
@@ -19,8 +20,12 @@ public:
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
 
+	GameObject* SearchGameObjectByID(UID gameObjectID) const;
+
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+	GameObject* SearchGameObjectByIDRecursive(GameObject* gameObject, UID gameObjectID) const;
+	bool IsInThisBranch(GameObject* gameObject, UID gameObjectID) const;
 
 private:
 	GameObject* root = nullptr;

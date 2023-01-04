@@ -17,6 +17,7 @@ bool ModuleScene::Init()
 {
 	root = new GameObject("Scene Root");
 	selectedGameObject = root;
+
 	return true;
 }
 
@@ -46,4 +47,55 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 	{
 		UpdateGameObjectAndDescendants(child);
 	}
+}
+
+GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
+{
+	return SearchGameObjectByIDRecursive(root, gameObjectID);
+}
+
+GameObject* ModuleScene::SearchGameObjectByIDRecursive(GameObject* gameObject, UID gameObjectID) const
+{
+	if (gameObject->GetUID() == gameObjectID)
+	{
+		return gameObject;
+	}
+
+	if (gameObject->GetChildren().empty())
+	{
+		assert(false && "Wrong GameObjectID introduced, GameObject not found");
+
+		return nullptr;
+	}
+
+	for (GameObject* child : gameObject->GetChildren())
+	{
+		if (IsInThisBranch(child, gameObjectID))
+		{
+			return SearchGameObjectByIDRecursive(child, gameObjectID);
+		}
+	}
+}
+
+bool ModuleScene::IsInThisBranch(GameObject* gameObject, UID gameObjectID) const
+{
+	if (gameObject->GetUID() == gameObjectID)
+	{
+		return true;
+	}
+
+	if (gameObject->GetChildren().empty())
+	{
+		return false;
+	}
+
+	for (GameObject* child : gameObject->GetChildren())
+	{
+		if (IsInThisBranch(child, gameObjectID))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
