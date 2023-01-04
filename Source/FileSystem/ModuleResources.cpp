@@ -27,7 +27,26 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 {
 	const std::string fileExtension = GetFileExtension(path);
-	//add ifs for each extension, return corresponding type
+	
+	if (fileExtension == MODEL_EXTENSION) 
+	{
+		return ResourceType::Model;
+	}
+	else if (fileExtension == JPG_TEXTURE_EXTENSION || fileExtension == PNG_TEXTURE_EXTENSION || 
+			fileExtension == TIF_TEXTURE_EXTENSION || fileExtension == DDS_TEXTURE_EXTENSION || 
+			fileExtension == TGA_TEXTURE_EXTENSION) 
+	{
+		return ResourceType::Texture;
+	}
+	else if (fileExtension == SCENE_EXTENSION) 
+	{
+		return ResourceType::Scene;
+	}
+	else if (fileExtension == MATERIAL_EXTENSION)
+	{
+		return ResourceType::Material;
+	}
+
 	return ResourceType::Unknown;
 }
 
