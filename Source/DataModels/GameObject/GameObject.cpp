@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Components/Component.h"
+#include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
@@ -8,6 +8,7 @@
 
 GameObject::GameObject(const char* name) : name(name)
 {
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
@@ -18,6 +19,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	this->parent->children.push_back(this);
 	this->active = this->parent->GetActive();
 
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 

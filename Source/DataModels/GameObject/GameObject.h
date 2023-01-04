@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "../../FileSystem/UniqueID.h"
+
 class Component;
 enum class ComponentType;
 
@@ -17,6 +19,8 @@ public:
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
+
+	UID GetUID() const;
 
 	bool GetActive() const;
 	void Enable();
@@ -36,6 +40,8 @@ private:
 	bool IsAChild(const GameObject* child);
 
 private:
+	UID uid = 0;
+
 	bool active = true;
 	std::string name = "Empty";
 	std::vector<Component*> components = {};
@@ -43,6 +49,11 @@ private:
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children = {};
 };
+
+inline UID GameObject::GetUID() const
+{
+	return uid;
+}
 
 inline bool GameObject::GetActive() const
 {

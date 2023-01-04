@@ -36,19 +36,19 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject != nullptr);
 
-    char gameObjectId[160]; // ID created so ImGui can differentiate the GameObjects
-                            // that have the same name in the hierarchy window
-    sprintf_s(gameObjectId, "%s###%p", gameObject->GetName(), gameObject);
+    char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
+                                // that have the same name in the hierarchy window
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
     if (gameObject->GetChildren().empty()) flags |= ImGuiTreeNodeFlags_Leaf;
     if (gameObject == App->scene->GetRoot()) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
     ImGui::PushStyleColor(0, gameObject->GetActive() ? white : grey);
-    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectId, flags);
+    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    ImGui::PushID(gameObjectId);
+    ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
         if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
