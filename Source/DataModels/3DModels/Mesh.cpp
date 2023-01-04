@@ -21,6 +21,13 @@ Mesh::Mesh(const aiMesh* mesh)
 	{
 		this->vertices[i] = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 	}
+
+	glGenBuffers(1, &uboAmbient);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboAmbient, 0, sizeof(float3));
 }
 
 Mesh::~Mesh()
@@ -29,6 +36,8 @@ Mesh::~Mesh()
 
 	glDeleteBuffers(1, &this->vbo);
 	glDeleteBuffers(1, &this->ebo);
+	glDeleteBuffers(1, &this->uboAmbient);
+
 	glDeleteVertexArrays(1, &this->vao);
 
 	delete vertices;
@@ -121,5 +130,17 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	float3 ambientValue(0.091f, 0.091f, 0.091f);
+	unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
+
+	/*ENGINE_LOG("Buffer index %u: ", uboAmbient);
+	ENGINE_LOG("Bloc index %u: ", uniformBlockIxAmbient);*/
+
+	glUniformBlockBinding(program, uniformBlockIxAmbient, 0);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
 	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
 }

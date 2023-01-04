@@ -31,8 +31,8 @@ in vec2 uv0;
 
 void main()
 {	
-	//vec3 ambient = Ambient.value * vec3(texture(diffuse, uv0));
-	vec3 ambient = vec3(0.091f, 0.091f, 0.091f) * vec3(texture(diffuse, uv0));
+	vec3 ambient = Ambient.value * vec3(texture(diffuse, uv0));
+	//vec3 ambient = vec3(0.091f, 0.091f, 0.091f) * vec3(texture(diffuse, uv0));
 	
 	vec3 result = ambient;
 		
