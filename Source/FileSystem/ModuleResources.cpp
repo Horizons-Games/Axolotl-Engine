@@ -57,7 +57,8 @@ const std::string& ModuleResources::GetFileExtension(const std::string& path)
 {
 	std::string fileExtension;
 	bool dotNotFound = true;
-	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i) {
+	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
+	{
 		char currentChar = path[i];
 		fileExtension.insert(fileExtension.begin(), currentChar);
 		dotNotFound = currentChar != '.';
