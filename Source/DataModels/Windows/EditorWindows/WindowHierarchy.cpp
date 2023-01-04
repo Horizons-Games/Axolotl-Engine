@@ -41,12 +41,29 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
-    if (gameObject->GetChildren().empty()) flags |= ImGuiTreeNodeFlags_Leaf;
-    if (gameObject == App->scene->GetRoot()) flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    if (gameObject->GetChildren().empty())
+    {
+        flags |= ImGuiTreeNodeFlags_Leaf;
+    }
+
+    if (gameObject == App->scene->GetRoot())
+    {
+        flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    }
+    
+    if (App->scene->GetSelectedGameObject() == gameObject)
+    {
+        flags |= ImGuiTreeNodeFlags_Selected;
+    }
 
     ImGui::PushStyleColor(0, gameObject->GetActive() ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
+
+    if (ImGui::IsItemClicked())
+    {
+        App->scene->SetSelectedGameObject(gameObject);
+    }
 
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
@@ -61,6 +78,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);
+                if (App->scene->GetSelectedGameObject() == gameObject)
+                {
+                    App->scene->SetSelectedGameObject(gameObject->GetParent());
+                }
                 delete gameObject;
             }
         }
@@ -79,12 +100,24 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (ImGui::BeginDragDropSource())
         {
+            UID thisID = gameObject->GetUID();
+            ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+
             ImGui::EndDragDropSource();
         }
     }
 
     if (ImGui::BeginDragDropTarget())
     {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+        {
+            UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
+                                                            // of the UID of the dragged GameObject
+            GameObject* draggedGameObject = App->scene->SearchGameObjectByID(draggedGameObjectID);
+
+            draggedGameObject->SetParent(gameObject);
+        }
+
         ImGui::EndDragDropTarget();
     }
 
