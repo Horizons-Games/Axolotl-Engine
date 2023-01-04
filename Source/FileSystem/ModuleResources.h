@@ -42,6 +42,7 @@ private:
 inline bool ModuleResources::CleanUp()
 {
 	resources.clear();
+	return true;
 }
 
 inline const std::shared_ptr<Resource>& ModuleResources::RequestResource(UID uid)
