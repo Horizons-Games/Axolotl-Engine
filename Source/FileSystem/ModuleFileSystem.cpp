@@ -4,6 +4,17 @@
 #include <cstring>
 #include <direct.h>
 
+
+bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
+{
+    std::ifstream src(sourceFilePath, std::ios::binary);
+    std::ofstream dst(destinationFilePath, std::ios::binary);
+    dst << src.rdbuf();
+    ENGINE_LOG("SOURCE FILE PATH: %s", sourceFilePath);
+    ENGINE_LOG("DESTINATION FILE PATH: %s", destinationFilePath);
+    return true;
+}
+
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
     std::ifstream file(filePath, std::ios::binary | std::ios::ate);
