@@ -48,6 +48,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
+    if (ImGui::IsItemClicked())
+    {
+        App->scene->SetSelectedGameObject(gameObject);
+    }
+
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
