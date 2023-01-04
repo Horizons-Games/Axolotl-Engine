@@ -1,9 +1,8 @@
 #include "GameObject.h"
-#include "Components/Component.h"
+#include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
-#include "../../FileSystem/UniqueID.h"
 
 #include <assert.h>
 
