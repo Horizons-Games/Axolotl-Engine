@@ -1,5 +1,6 @@
 #include "ModuleResources.h"
 
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleFileSystem.h"
 
@@ -27,7 +28,26 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 {
 	const std::string fileExtension = GetFileExtension(path);
-	//add ifs for each extension, return corresponding type
+	
+	if (fileExtension == MODEL_EXTENSION) 
+	{
+		return ResourceType::Model;
+	}
+	else if (fileExtension == JPG_TEXTURE_EXTENSION || fileExtension == PNG_TEXTURE_EXTENSION || 
+			fileExtension == TIF_TEXTURE_EXTENSION || fileExtension == DDS_TEXTURE_EXTENSION || 
+			fileExtension == TGA_TEXTURE_EXTENSION) 
+	{
+		return ResourceType::Texture;
+	}
+	else if (fileExtension == SCENE_EXTENSION) 
+	{
+		return ResourceType::Scene;
+	}
+	else if (fileExtension == MATERIAL_EXTENSION)
+	{
+		return ResourceType::Material;
+	}
+
 	return ResourceType::Unknown;
 }
 
@@ -53,9 +73,9 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 	return fileName;
 }
 
-const std::string& ModuleResources::GetFileExtension(const std::string& path)
+const std::string ModuleResources::GetFileExtension(const std::string& path)
 {
-	std::string fileExtension;
+	std::string fileExtension = "";
 	bool dotNotFound = true;
 	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
 	{
