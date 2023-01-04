@@ -24,12 +24,12 @@ public:
 
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
-	GameObject* SearchGameObjectByIDRecursive(GameObject* gameObject, UID gameObjectID) const;
-	bool IsInThisBranch(GameObject* gameObject, UID gameObjectID) const;
 
 private:
 	GameObject* root = nullptr;
 	GameObject* selectedGameObject = nullptr;
+
+	std::vector<GameObject*> sceneGameObjects = {};
 };
 
 inline GameObject* ModuleScene::GetRoot() const

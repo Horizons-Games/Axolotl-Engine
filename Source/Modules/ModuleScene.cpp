@@ -11,11 +11,15 @@ ModuleScene::~ModuleScene()
 {
 	delete root;
 	root = nullptr;
+
+	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 }
 
 bool ModuleScene::Init()
 {
 	root = new GameObject("Scene Root");
+	sceneGameObjects.push_back(root);
+
 	selectedGameObject = root;
 
 	return true;
@@ -33,6 +37,7 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
+	sceneGameObjects.push_back(gameObject);
 
 	return gameObject;
 }
@@ -51,51 +56,13 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 
 GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 {
-	return SearchGameObjectByIDRecursive(root, gameObjectID);
-}
-
-GameObject* ModuleScene::SearchGameObjectByIDRecursive(GameObject* gameObject, UID gameObjectID) const
-{
-	if (gameObject->GetUID() == gameObjectID)
+	for (GameObject* gameObject : sceneGameObjects)
 	{
-		return gameObject;
-	}
-
-	if (gameObject->GetChildren().empty())
-	{
-		assert(false && "Wrong GameObjectID introduced, GameObject not found");
-
-		return nullptr;
-	}
-
-	for (GameObject* child : gameObject->GetChildren())
-	{
-		if (IsInThisBranch(child, gameObjectID))
+		if (gameObject->GetUID() == gameObjectID)
 		{
-			return SearchGameObjectByIDRecursive(child, gameObjectID);
-		}
-	}
-}
-
-bool ModuleScene::IsInThisBranch(GameObject* gameObject, UID gameObjectID) const
-{
-	if (gameObject->GetUID() == gameObjectID)
-	{
-		return true;
-	}
-
-	if (gameObject->GetChildren().empty())
-	{
-		return false;
-	}
-
-	for (GameObject* child : gameObject->GetChildren())
-	{
-		if (IsInThisBranch(child, gameObjectID))
-		{
-			return true;
+			return gameObject;
 		}
 	}
 
-	return false;
+	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 }
