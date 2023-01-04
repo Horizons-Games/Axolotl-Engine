@@ -15,7 +15,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
-		CopyFileInAssets(originalPath);
+		CopyFileInAssets(originalPath, assetsPath);
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
@@ -51,10 +51,14 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	return ResourceType::Unknown;
 }
 
-const std::string ModuleResources::CopyFileInAssets(const std::string& originalPath)
+void ModuleResources::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
 {
-	// TODO: Insertar una instrucción "return" aquí
-	return "";
+	//for more protection
+	bool exists = App->fileSystem->Exists(assetsPath.c_str());
+	if (!exists)
+	{
+		//copy, pending merge with corresponding branch
+	}
 }
 
 const std::string ModuleResources::GetFileName(const std::string& path)
