@@ -4,8 +4,10 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
 
 #include "3DModels/Model.h"
+#include "GameObject/GameObject.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
@@ -19,10 +21,12 @@ WindowInspector::~WindowInspector()
 void WindowInspector::DrawWindowContents()
 {
 	model = App->renderer->GetModel(0);
+	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists
 	{
-		static bool enable = true;
+		bool enable = currentGameObject->GetActive();
 		ImGui::Checkbox("Enable", &enable);
+		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 	
 		ImGui::SameLine();
 
@@ -35,20 +39,25 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::Separator();
 
+		/*
 		DrawGeometryTable();
 
 		ImGui::Separator();
 
 		DrawTextureTable();
-		
+		*/
 	}
 }
 
 void WindowInspector::DrawTransformationTable()
 {
-	float3 translation = model.lock()->GetTranslation();
-	float3 scale = model.lock()->GetScale();
-	float3 rotation = model.lock()->GetRotationF3();
+	//float3 translation = model.lock()->GetTranslation();
+	//float3 scale = model.lock()->GetScale();
+	//float3 rotation = model.lock()->GetRotationF3();
+
+	float3 translation = float3(0, 0, 0);
+	float3 scale = float3(0, 0, 0);
+	float3 rotation = float3(0, 0, 0);
 
 	ImGui::Text("TRANSFORMATION");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
@@ -130,9 +139,9 @@ void WindowInspector::DrawTransformationTable()
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
 		); ImGui::PopStyleVar();
 
-		model.lock()->SetTranslation(translation);
-		model.lock()->SetRotation(rotation);
-		model.lock()->SetScale(scale);
+		//model.lock()->SetTranslation(translation);
+		//model.lock()->SetRotation(rotation);
+		//model.lock()->SetScale(scale);
 
 		ImGui::EndTable();
 	}

@@ -62,21 +62,20 @@ inline bool GameObject::GetActive() const
 
 inline void GameObject::Enable()
 {
-	active = true;
-
-	for (GameObject* child : children)
-	{
-		child->Enable();
-	}
+	if (this->parent != nullptr && this->parent->active)
+		active = true;
 }
 
 inline void GameObject::Disable()
 {
-	active = false;
-
-	for (GameObject* child : children)
+	if (this->parent != nullptr)
 	{
-		child->Disable();
+		active = false;
+
+		for (GameObject* child : children)
+		{
+			child->Disable();
+		}
 	}
 }
 
