@@ -1,5 +1,6 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
+#include "Components/ComponentTransform.h"
 
 #include <assert.h>
 
@@ -21,6 +22,9 @@ bool ModuleScene::Init()
 	sceneGameObjects.push_back(root);
 
 	selectedGameObject = root;
+
+	ComponentTransform* transform = (ComponentTransform*)root->GetComponent(ComponentType::TRANSFORM);
+	transform->ResetGlobalMatrix();
 
 	return true;
 }

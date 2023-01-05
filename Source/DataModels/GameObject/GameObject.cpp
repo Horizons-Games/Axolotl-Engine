@@ -178,6 +178,22 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
+Component* GameObject::GetComponent(ComponentType type)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		Component* component = *it;
+
+		if (component->GetType() == type)
+		{
+			return *it;
+		}
+
+	}
+
+	assert(false && "Component type in GameObject not found");
+}
+
 bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);

@@ -7,4 +7,5 @@ Component::Component(const ComponentType type, const bool active, GameObject* ow
 
 Component::~Component() 
 {
+	delete owner;
 }
