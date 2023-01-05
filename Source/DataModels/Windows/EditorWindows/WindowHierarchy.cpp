@@ -70,11 +70,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
         {
-            if (ImGui::MenuItem("Rename"))
-            {
-                gameObject->SetName("Renamed GameObject");
-            }
-
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);

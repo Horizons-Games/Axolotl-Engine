@@ -38,6 +38,8 @@ public:
 
 	const std::vector<GameObject*>& GetChildren() const;
 
+	const std::vector<Component*>& GetComponents() const;
+
 	Component* CreateComponent(ComponentType type);
 
 private:
@@ -89,4 +91,9 @@ inline bool GameObject::IsActive() const
 inline const std::vector<GameObject*>& GameObject::GetChildren() const
 {
 	return children;
+}
+
+inline const std::vector<Component*>& GameObject::GetComponents() const
+{
+	return components;
 }
