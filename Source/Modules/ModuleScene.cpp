@@ -46,6 +46,9 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
 
+	if (!gameObject->IsEnabled())
+		return;
+
 	gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
@@ -65,4 +68,5 @@ GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 	}
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
+	return nullptr;
 }

@@ -5,6 +5,7 @@
 #include <memory>
 
 class Model;
+class GameObject;
 
 class WindowInspector : public EditorWindow
 {
@@ -18,7 +19,7 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawTransformationTable();
+	void DrawTransformationTable(GameObject* selected);
 	void DrawGeometryTable();
 	void DrawTextureTable();
 
