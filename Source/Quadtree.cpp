@@ -1,5 +1,7 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
+#include "Components/Component.h"
+#include "Components/ComponentMesh.h"
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
 {
@@ -12,14 +14,11 @@ Quadtree::~Quadtree()
 	delete backLeftNode;
 	delete backRightNode;
 
-	/*
-	* Pending GameObject destructor to be implemented
-	* 
 	for (std::list<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
 		delete* it;
 	}
-	*/
+	
 
 }
 
@@ -64,10 +63,18 @@ void Quadtree::Remove(GameObject* gameObject)
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
-	//Dummy implementation of the method. Pending Scene implementation
+	ComponentMesh* gameObjectMesh = nullptr;
+	for (Component* component : gameObject->GetComponents()) {
+		if (component->GetType() == ComponentType::MESH) {
+			
+			gameObjectMesh = static_cast<ComponentMesh*>(component);
+		}
+	}
+	if (gameObjectMesh == nullptr)
+		return false;
+	//return boundingBox.Intersects(gameObjectMesh->GetAABB());
+	//Dummy implementation until we can get the AABB from mesh
 	return true;
-
-	//return boundingBox.Intersects(gameObject->GetAABB());
 }
 
 void Quadtree::Subdivide(GameObject* gameObject)
