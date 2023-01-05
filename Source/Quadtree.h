@@ -18,6 +18,8 @@ public:
 	void Subdivide(GameObject* gameObject);
 	void Clear();
 
+	const std::list<GameObject*>& GetIntersectingGameObjects(const float4x4& projectionMatrix);
+	const std::list<GameObject*>& GetGameObjectsToDraw(const AABB& cameraAABB);
 private:
 
 	std::list<GameObject*> gameObjects;

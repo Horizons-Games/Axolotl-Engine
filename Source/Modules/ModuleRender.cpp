@@ -5,6 +5,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "Quadtree.h"
 
 #include "3DModels/Model.h"
 
@@ -15,6 +16,10 @@
 #include "Geometry/Frustum.h"
 #include "Math/float3x3.h"
 #include "Math/float3.h"
+
+#include "GameObject/GameObject.h"
+#include "Components/Component.h"
+#include "Components/ComponentMesh.h"
 		 
 #include "GL/glew.h"
 
@@ -189,7 +194,22 @@ update_status ModuleRender::Update()
 	{
 		model->Draw();
 	}
-
+	/* 
+	*Logic to apply when model class is deleted and GameObjects are implemented
+	*
+	const std::list<GameObject*>& gameObjectsToDraw = 
+		App->scene->GetSceneQuadTree()->GetIntersectingGameObjects(App->engineCamera->GetProjectionMatrix());
+	for (GameObject* gameObject : gameObjectsToDraw) 
+	{
+		for (Component* component : gameObject->GetComponents()) 
+		{
+			if (component->GetType() == ComponentType::MESH) 
+			{
+				//Draw gameobject
+			}
+		}
+	}
+	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 

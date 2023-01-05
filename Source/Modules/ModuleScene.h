@@ -3,6 +3,7 @@
 #include "Module.h"
 
 class GameObject;
+class Quadtree;
 
 class ModuleScene :public Module
 {
@@ -20,5 +21,6 @@ private:
 
 private:
 	GameObject* root = nullptr;
+	Quadtree* sceneQuadTree = nullptr;
 };
 

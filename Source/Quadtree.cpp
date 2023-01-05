@@ -1,7 +1,10 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentMesh.h"
+
+#include "math/float4x4.h"
+#include "geometry/OBB.h"
+#include "geometry/AABB.h"
+
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
 {
@@ -63,16 +66,7 @@ void Quadtree::Remove(GameObject* gameObject)
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
-	ComponentMesh* gameObjectMesh = nullptr;
-	for (Component* component : gameObject->GetComponents()) {
-		if (component->GetType() == ComponentType::MESH) {
-			
-			gameObjectMesh = static_cast<ComponentMesh*>(component);
-		}
-	}
-	if (gameObjectMesh == nullptr)
-		return false;
-	//return boundingBox.Intersects(gameObjectMesh->GetAABB());
+	//return boundingBox.Intersects(gameObject->GetAABB());
 	//Dummy implementation until we can get the AABB from mesh
 	return true;
 }
@@ -134,4 +128,42 @@ void Quadtree::Subdivide(GameObject* gameObject)
 void Quadtree::Clear()
 {
 	// TODO: implement tree cleaning function
+}
+
+const std::list<GameObject*>& Quadtree::GetIntersectingGameObjects(const float4x4& projectionMatrix)
+{
+	std::list<GameObject*> intersectingGameObjects;
+	AABB cameraAABB;
+	OBB cameraOBB;
+	cameraOBB.Transform(projectionMatrix);
+	cameraAABB.Enclose(cameraOBB);
+	intersectingGameObjects = this->GetGameObjectsToDraw(cameraAABB);
+	return intersectingGameObjects;
+}
+
+const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw(const AABB& cameraAABB)
+{
+	std::list<GameObject*> intersectingGameObjects;
+	std::list<GameObject*> auxGameObjects;
+	if (cameraAABB.Intersects(boundingBox))
+	{
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
+
+		auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw(cameraAABB);
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+		auxGameObjects.clear();
+
+		auxGameObjects = this->frontRightNode->GetGameObjectsToDraw(cameraAABB);
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+		auxGameObjects.clear();
+
+		auxGameObjects = this->backLeftNode->GetGameObjectsToDraw(cameraAABB);
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+		auxGameObjects.clear();
+
+		auxGameObjects = this->backRightNode->GetGameObjectsToDraw(cameraAABB);
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+		auxGameObjects.clear();
+	}
+	return intersectingGameObjects;
 }
