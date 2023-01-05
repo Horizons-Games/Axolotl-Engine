@@ -82,6 +82,68 @@ void GameObject::RemoveChild(GameObject* child)
 	}
 }
 
+void GameObject::Enable()
+{
+	if (this->parent == nullptr)
+	{
+		return;
+	}
+
+	enabled = true;
+	active = parent->IsActive();
+
+	for (GameObject* child : children)
+	{
+		child->ActivateChildren();
+	}
+}
+
+void GameObject::Disable()
+{
+	if (this->parent == nullptr)
+	{
+		return;
+	}
+
+	enabled = false;
+	active = false;
+
+	for (GameObject* child : children)
+	{
+		child->DeactivateChildren();
+	}
+}
+
+void GameObject::DeactivateChildren()
+{
+	active = false;
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->DeactivateChildren();
+	}
+}
+
+void GameObject::ActivateChildren()
+{
+	active = (this->parent->IsActive() && this->parent->IsEnabled());
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->ActivateChildren();
+	}
+}
+
 Component* GameObject::CreateComponent(ComponentType type)
 {
 	Component* newComponent = nullptr;

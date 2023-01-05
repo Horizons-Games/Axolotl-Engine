@@ -66,38 +66,6 @@ inline bool GameObject::IsEnabled() const
 	return enabled;
 }
 
-inline void GameObject::Enable()
-{
-	if (this->parent == nullptr)
-	{
-		return;
-	}
-
-	enabled = true;
-	active = parent->IsActive();
-
-	for (GameObject* child : children)
-	{
-		child->ActivateChildren();
-	}
-}
-
-inline void GameObject::Disable()
-{
-	if (this->parent == nullptr)
-	{
-		return;
-	}
-
-	enabled = false;
-	active = false;
-
-	for (GameObject* child : children)
-	{
-		child->DeactivateChildren();
-	}
-}
-
 inline const char* GameObject::GetName() const
 {
 	return name.c_str();
@@ -116,36 +84,6 @@ inline GameObject* GameObject::GetParent() const
 inline bool GameObject::IsActive() const
 {
 	return active;
-}
-
-inline void GameObject::DeactivateChildren()
-{
-	active = false;
-
-	if (children.empty())
-	{
-		return;
-	}
-
-	for (GameObject* child : children)
-	{
-		child->DeactivateChildren();
-	}
-}
-
-inline void GameObject::ActivateChildren()
-{
-	active = (this->parent->IsActive() && this->parent->IsEnabled());
-
-	if (children.empty())
-	{
-		return;
-	}
-
-	for (GameObject* child : children)
-	{
-		child->ActivateChildren();
-	}
 }
 
 inline const std::vector<GameObject*>& GameObject::GetChildren() const
