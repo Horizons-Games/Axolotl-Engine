@@ -41,6 +41,7 @@ public:
 	const std::vector<Component*>& GetComponents() const;
 
 	Component* CreateComponent(ComponentType type);
+	Component* GetComponent(ComponentType type);
 
 private:
 	bool IsAChild(const GameObject* child);
