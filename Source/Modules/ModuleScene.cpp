@@ -46,7 +46,7 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
 
-	if (!gameObject->GetActive())
+	if (!gameObject->IsEnabled())
 		return;
 
 	gameObject->Update();

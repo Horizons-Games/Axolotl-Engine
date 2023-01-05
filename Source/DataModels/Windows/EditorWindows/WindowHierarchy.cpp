@@ -56,7 +56,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Selected;
     }
 
-    ImGui::PushStyleColor(0, (gameObject->GetActive() && gameObject->GetIsParentActive()) ? white : grey);
+    ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
@@ -95,7 +95,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     ImGui::PopID();
 
-    // TODO: Drag and drop GameObjects in the hierarchy
     if (gameObject != App->scene->GetRoot()) // The root cannot be moved around
     {
         if (ImGui::BeginDragDropSource())

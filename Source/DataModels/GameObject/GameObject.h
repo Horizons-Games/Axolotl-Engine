@@ -22,7 +22,7 @@ public:
 
 	UID GetUID() const;
 
-	bool GetActive() const;
+	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
 
@@ -32,8 +32,9 @@ public:
 	GameObject* GetParent() const;
 	void SetParent(GameObject* newParent);
 
-	bool GetIsParentActive() const;
-	void SetIsParentActive(bool active);
+	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
+	void DeactivateChildren();
+	void ActivateChildren();
 
 	const std::vector<GameObject*>& GetChildren() const;
 
@@ -46,8 +47,8 @@ private:
 private:
 	UID uid = 0;
 
+	bool enabled = true;
 	bool active = true;
-	bool isParentActive = true;
 	std::string name = "Empty";
 	std::vector<Component*> components = {};
 
@@ -60,9 +61,9 @@ inline UID GameObject::GetUID() const
 	return uid;
 }
 
-inline bool GameObject::GetActive() const
+inline bool GameObject::IsEnabled() const
 {
-	return active;
+	return enabled;
 }
 
 inline void GameObject::Enable()
@@ -72,11 +73,12 @@ inline void GameObject::Enable()
 		return;
 	}
 
-	active = true;
+	enabled = true;
+	active = parent->IsActive();
 
 	for (GameObject* child : children)
 	{
-		child->SetIsParentActive(true);
+		child->ActivateChildren();
 	}
 }
 
@@ -87,11 +89,12 @@ inline void GameObject::Disable()
 		return;
 	}
 
+	enabled = false;
 	active = false;
 
 	for (GameObject* child : children)
 	{
-		child->SetIsParentActive(false);
+		child->DeactivateChildren();
 	}
 }
 
@@ -110,14 +113,14 @@ inline GameObject* GameObject::GetParent() const
 	return parent;
 }
 
-inline bool GameObject::GetIsParentActive() const
+inline bool GameObject::IsActive() const
 {
-	return isParentActive;
+	return active;
 }
 
-inline void GameObject::SetIsParentActive(bool active)
+inline void GameObject::DeactivateChildren()
 {
-	isParentActive = active;
+	active = false;
 
 	if (children.empty())
 	{
@@ -126,7 +129,22 @@ inline void GameObject::SetIsParentActive(bool active)
 
 	for (GameObject* child : children)
 	{
-		child->SetIsParentActive(active);
+		child->DeactivateChildren();
+	}
+}
+
+inline void GameObject::ActivateChildren()
+{
+	active = (this->parent->IsActive() && this->parent->IsEnabled());
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->ActivateChildren();
 	}
 }
 
