@@ -41,6 +41,7 @@ public:
 
 private:
 	bool IsAChild(const GameObject* child);
+	bool IsADescendant(const GameObject* child);
 
 private:
 	UID uid = 0;
@@ -66,20 +67,31 @@ inline bool GameObject::GetActive() const
 
 inline void GameObject::Enable()
 {
-	if (this->parent != nullptr && this->parent->active)
-		active = true;
+	if (this->parent == nullptr)
+	{
+		return;
+	}
+
+	active = true;
+
+	for (GameObject* child : children)
+	{
+		child->SetIsParentActive(true);
+	}
 }
 
 inline void GameObject::Disable()
 {
-	if (this->parent != nullptr)
+	if (this->parent == nullptr)
 	{
-		active = false;
+		return;
+	}
 
-		for (GameObject* child : children)
-		{
-			child->Disable();
-		}
+	active = false;
+
+	for (GameObject* child : children)
+	{
+		child->SetIsParentActive(false);
 	}
 }
 
@@ -106,6 +118,16 @@ inline bool GameObject::GetIsParentActive() const
 inline void GameObject::SetIsParentActive(bool active)
 {
 	isParentActive = active;
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->SetIsParentActive(active);
+	}
 }
 
 inline const std::vector<GameObject*>& GameObject::GetChildren() const

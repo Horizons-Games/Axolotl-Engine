@@ -17,7 +17,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	assert(this->parent != nullptr);
 
 	this->parent->children.push_back(this);
-	this->active = this->parent->GetActive();
+	this->isParentActive = this->parent->GetActive();
 
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
@@ -39,9 +39,14 @@ void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent != nullptr);
 
+	if (this->IsADescendant(newParent))
+		return;
+
 	parent->RemoveChild(this);
 	parent = newParent;
 	parent->AddChild(this);
+
+	//SetIsParentActive(parent->active);
 }
 
 void GameObject::AddChild(GameObject* child)
@@ -109,13 +114,24 @@ bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
-	bool isAChild = false;
-
 	for (GameObject* gameObject : children)
 	{
 		if (gameObject == child)
-			isAChild = true;
+			return true;
 	}
 
-	return isAChild;
+	return false;
+}
+
+bool GameObject::IsADescendant(const GameObject* descendant)
+{
+	assert(descendant != nullptr);
+
+	for (GameObject* child : children)
+	{
+		if (child == descendant || child->IsADescendant(descendant))
+			return true;
+	}
+
+	return false;
 }

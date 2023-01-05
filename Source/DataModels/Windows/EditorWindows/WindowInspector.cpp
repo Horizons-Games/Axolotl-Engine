@@ -26,7 +26,16 @@ void WindowInspector::DrawWindowContents()
 	{
 		bool enable = currentGameObject->GetActive();
 		ImGui::Checkbox("Enable", &enable);
-		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+
+		if (enable && !currentGameObject->GetActive())
+		{
+			currentGameObject->Enable();
+		}
+
+		else if (!enable && currentGameObject->GetActive())
+		{
+			currentGameObject->Disable();
+		}
 	
 		ImGui::SameLine();
 

@@ -56,7 +56,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Selected;
     }
 
-    ImGui::PushStyleColor(0, gameObject->GetIsParentActive() ? white : grey);
+    ImGui::PushStyleColor(0, (gameObject->GetActive() && gameObject->GetIsParentActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
