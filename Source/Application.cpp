@@ -25,6 +25,7 @@ Application::Application()
 	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
 	modules.push_back(fileSystem = std::make_shared<ModuleFileSystem>());
 
+
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
 }
