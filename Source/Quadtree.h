@@ -16,6 +16,7 @@ public:
 	void Remove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
+	void DeleteGameObject(GameObject* gameObject);
 	void Clear();
 
 	const std::list<GameObject*>& GetIntersectingGameObjects(const float4x4& projectionMatrix);

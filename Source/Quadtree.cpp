@@ -125,9 +125,29 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	}
 }
 
+
+void Quadtree::DeleteGameObject(GameObject* gameObject)
+{
+	this->gameObjects.remove(gameObject);
+	if (!IsLeaf())
+	{
+		this->frontRightNode->DeleteGameObject(gameObject);
+		this->frontRightNode->DeleteGameObject(gameObject);
+		this->frontRightNode->DeleteGameObject(gameObject);
+		this->frontRightNode->DeleteGameObject(gameObject);
+	}
+}
+
 void Quadtree::Clear()
 {
-	// TODO: implement tree cleaning function
+	this->gameObjects.clear();
+	if (!IsLeaf())
+	{
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+	}
 }
 
 const std::list<GameObject*>& Quadtree::GetIntersectingGameObjects(const float4x4& projectionMatrix)
@@ -148,22 +168,24 @@ const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw(const AABB& cameraA
 	if (cameraAABB.Intersects(boundingBox))
 	{
 		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
+		if (!IsLeaf())
+		{
+			auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw(cameraAABB);
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
 
-		auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw(cameraAABB);
-		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
-		auxGameObjects.clear();
+			auxGameObjects = this->frontRightNode->GetGameObjectsToDraw(cameraAABB);
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
 
-		auxGameObjects = this->frontRightNode->GetGameObjectsToDraw(cameraAABB);
-		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
-		auxGameObjects.clear();
+			auxGameObjects = this->backLeftNode->GetGameObjectsToDraw(cameraAABB);
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
 
-		auxGameObjects = this->backLeftNode->GetGameObjectsToDraw(cameraAABB);
-		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
-		auxGameObjects.clear();
-
-		auxGameObjects = this->backRightNode->GetGameObjectsToDraw(cameraAABB);
-		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
-		auxGameObjects.clear();
+			auxGameObjects = this->backRightNode->GetGameObjectsToDraw(cameraAABB);
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
+		}
 	}
 	return intersectingGameObjects;
 }
