@@ -18,8 +18,7 @@ public:
 	void Subdivide(GameObject* gameObject);
 	void Clear();
 
-	const std::list<GameObject*>& GetIntersectingGameObjects(const float4x4& projectionMatrix);
-	const std::list<GameObject*>& GetGameObjectsToDraw(const AABB& cameraAABB);
+	const std::list<GameObject*>& GetGameObjectsToDraw();
 
 	void SetQuadrantCapacity(int quadrantCapacity);
 	void SetMinCubeSize(float minCubeSize);

@@ -198,7 +198,7 @@ update_status ModuleRender::Update()
 	*Logic to apply when model class is deleted and GameObjects are implemented
 	*
 	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetIntersectingGameObjects(App->engineCamera->GetProjectionMatrix());
+		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
 	for (GameObject* gameObject : gameObjectsToDraw) 
 	{
 		for (Component* component : gameObject->GetComponents()) 

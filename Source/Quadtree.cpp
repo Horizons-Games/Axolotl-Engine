@@ -137,39 +137,29 @@ void Quadtree::Clear()
 	}
 }
 
-const std::list<GameObject*>& Quadtree::GetIntersectingGameObjects(const float4x4& projectionMatrix)
-{
-	std::list<GameObject*> intersectingGameObjects;
-	AABB cameraAABB;
-	OBB cameraOBB;
-	cameraOBB.Transform(projectionMatrix);
-	cameraAABB.Enclose(cameraOBB);
-	intersectingGameObjects = this->GetGameObjectsToDraw(cameraAABB);
-	return intersectingGameObjects;
-}
-
-const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw(const AABB& cameraAABB)
+const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
 {
 	std::list<GameObject*> intersectingGameObjects;
 	std::list<GameObject*> auxGameObjects;
-	if (cameraAABB.Intersects(boundingBox))
+	//TODO replace with camera component function
+	if (true)
 	{
 		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
 		if (!IsLeaf())
 		{
-			auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw(cameraAABB);
+			auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw();
 			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
 			auxGameObjects.clear();
 
-			auxGameObjects = this->frontRightNode->GetGameObjectsToDraw(cameraAABB);
+			auxGameObjects = this->frontRightNode->GetGameObjectsToDraw();
 			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
 			auxGameObjects.clear();
 
-			auxGameObjects = this->backLeftNode->GetGameObjectsToDraw(cameraAABB);
+			auxGameObjects = this->backLeftNode->GetGameObjectsToDraw();
 			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
 			auxGameObjects.clear();
 
-			auxGameObjects = this->backRightNode->GetGameObjectsToDraw(cameraAABB);
+			auxGameObjects = this->backRightNode->GetGameObjectsToDraw();
 			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
 			auxGameObjects.clear();
 		}
