@@ -36,31 +36,47 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject != nullptr);
 
-    char gameObjectId[160]; // ID created so ImGui can differentiate the GameObjects
-                            // that have the same name in the hierarchy window
-    sprintf_s(gameObjectId, "%s###%p", gameObject->GetName(), gameObject);
+    char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
+                                // that have the same name in the hierarchy window
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
-    if (gameObject->GetChildren().empty()) flags |= ImGuiTreeNodeFlags_Leaf;
-    if (gameObject == App->scene->GetRoot()) flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    if (gameObject->GetChildren().empty())
+    {
+        flags |= ImGuiTreeNodeFlags_Leaf;
+    }
 
-    ImGui::PushStyleColor(0, gameObject->GetActive() ? white : grey);
-    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectId, flags);
+    if (gameObject == App->scene->GetRoot())
+    {
+        flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    }
+    
+    if (App->scene->GetSelectedGameObject() == gameObject)
+    {
+        flags |= ImGuiTreeNodeFlags_Selected;
+    }
+
+    ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
+    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    ImGui::PushID(gameObjectId);
+    if (ImGui::IsItemClicked())
+    {
+        App->scene->SetSelectedGameObject(gameObject);
+    }
+
+    ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
         if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
         {
-            if (ImGui::MenuItem("Rename"))
-            {
-                gameObject->SetName("Renamed GameObject");
-            }
-
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);
+                if (App->scene->GetSelectedGameObject() == gameObject)
+                {
+                    App->scene->SetSelectedGameObject(gameObject->GetParent());
+                }
                 delete gameObject;
             }
         }
@@ -74,17 +90,28 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     ImGui::PopID();
 
-    // TODO: Drag and drop GameObjects in the hierarchy
     if (gameObject != App->scene->GetRoot()) // The root cannot be moved around
     {
         if (ImGui::BeginDragDropSource())
         {
+            UID thisID = gameObject->GetUID();
+            ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+
             ImGui::EndDragDropSource();
         }
     }
 
     if (ImGui::BeginDragDropTarget())
     {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+        {
+            UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
+                                                            // of the UID of the dragged GameObject
+            GameObject* draggedGameObject = App->scene->SearchGameObjectByID(draggedGameObjectID);
+
+            draggedGameObject->SetParent(gameObject);
+        }
+
         ImGui::EndDragDropTarget();
     }
 

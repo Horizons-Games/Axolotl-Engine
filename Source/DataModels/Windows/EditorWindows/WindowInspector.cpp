@@ -4,8 +4,11 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
 
 #include "3DModels/Model.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentTransform.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
@@ -19,36 +22,63 @@ WindowInspector::~WindowInspector()
 void WindowInspector::DrawWindowContents()
 {
 	model = App->renderer->GetModel(0);
+	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists
 	{
-		static bool enable = true;
+		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
-	
+
+		if (enable)
+		{
+			currentGameObject->Enable();
+		}
+
+		else
+		{
+			currentGameObject->Disable();
+		}
+
 		ImGui::SameLine();
 
-		char name[100] = "Game Object";
-		ImGui::InputText("GameObject", name, IM_ARRAYSIZE(name));
+		if (currentGameObject->GetParent() == nullptr) // Avoid renaming the scene root
+		{
+			char name[160] = "Scene Root";
+			ImGui::InputText("##GameObject", name, 24);
+		}
+
+		else // But allow renaming the rest of the GameObjects
+		{
+			char* name = (char*)currentGameObject->GetName();
+			ImGui::InputText("##GameObject", name, 24);
+		}
 
 		ImGui::Separator();
 
-		DrawTransformationTable();
+		DrawTransformationTable(currentGameObject);
 
 		ImGui::Separator();
 
+		/*
 		DrawGeometryTable();
 
 		ImGui::Separator();
 
 		DrawTextureTable();
-		
+		*/
 	}
 }
 
-void WindowInspector::DrawTransformationTable()
+void WindowInspector::DrawTransformationTable(GameObject* selected)
 {
-	float3 translation = model.lock()->GetTranslation();
-	float3 scale = model.lock()->GetScale();
-	float3 rotation = model.lock()->GetRotationF3();
+	//float3 translation = model.lock()->GetTranslation();
+	//float3 scale = model.lock()->GetScale();
+	//float3 rotation = model.lock()->GetRotationF3();
+
+	ComponentTransform* transform = (ComponentTransform*)selected->GetComponents()[0];	// The transform component
+																						// is always the first one
+	float3 translation = transform->GetPosition();
+	float3 scale = transform->GetScale();
+	float3 rotation = transform->GetRotation();
 
 	ImGui::Text("TRANSFORMATION");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
@@ -130,9 +160,13 @@ void WindowInspector::DrawTransformationTable()
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
 		); ImGui::PopStyleVar();
 
-		model.lock()->SetTranslation(translation);
-		model.lock()->SetRotation(rotation);
-		model.lock()->SetScale(scale);
+		//model.lock()->SetTranslation(translation);
+		//model.lock()->SetRotation(rotation);
+		//model.lock()->SetScale(scale);
+
+		transform->SetPosition(translation);
+		transform->SetRotation(rotation);
+		transform->SetScale(scale);
 
 		ImGui::EndTable();
 	}

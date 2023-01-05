@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "../../FileSystem/UniqueID.h"
+
 class Component;
 enum class ComponentType;
 
@@ -18,7 +20,9 @@ public:
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
 
-	bool GetActive() const;
+	UID GetUID() const;
+
+	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
 
@@ -28,14 +32,24 @@ public:
 	GameObject* GetParent() const;
 	void SetParent(GameObject* newParent);
 
+	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
+	void DeactivateChildren();
+	void ActivateChildren();
+
 	const std::vector<GameObject*>& GetChildren() const;
+
+	const std::vector<Component*>& GetComponents() const;
 
 	Component* CreateComponent(ComponentType type);
 
 private:
 	bool IsAChild(const GameObject* child);
+	bool IsADescendant(const GameObject* child);
 
 private:
+	UID uid = 0;
+
+	bool enabled = true;
 	bool active = true;
 	std::string name = "Empty";
 	std::vector<Component*> components = {};
@@ -44,29 +58,14 @@ private:
 	std::vector<GameObject*> children = {};
 };
 
-inline bool GameObject::GetActive() const
+inline UID GameObject::GetUID() const
 {
-	return active;
+	return uid;
 }
 
-inline void GameObject::Enable()
+inline bool GameObject::IsEnabled() const
 {
-	active = true;
-
-	for (GameObject* child : children)
-	{
-		child->Enable();
-	}
-}
-
-inline void GameObject::Disable()
-{
-	active = false;
-
-	for (GameObject* child : children)
-	{
-		child->Disable();
-	}
+	return enabled;
 }
 
 inline const char* GameObject::GetName() const
@@ -84,7 +83,17 @@ inline GameObject* GameObject::GetParent() const
 	return parent;
 }
 
+inline bool GameObject::IsActive() const
+{
+	return active;
+}
+
 inline const std::vector<GameObject*>& GameObject::GetChildren() const
 {
 	return children;
+}
+
+inline const std::vector<Component*>& GameObject::GetComponents() const
+{
+	return components;
 }

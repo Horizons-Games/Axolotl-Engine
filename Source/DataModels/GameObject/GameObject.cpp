@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Components/Component.h"
+#include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
@@ -8,6 +8,7 @@
 
 GameObject::GameObject(const char* name) : name(name)
 {
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
@@ -16,36 +17,39 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	assert(this->parent != nullptr);
 
 	this->parent->children.push_back(this);
-	this->active = this->parent->GetActive();
+	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
 
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
 GameObject::~GameObject()
 {
-	components.clear();
-	std::vector<Component*>().swap(components);
-
-	children.clear();
-	std::vector<GameObject*>().swap(children);
+	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
+	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
 }
 
 void GameObject::Update()
 {
-	if (active)
-	{
-		for (Component* component : components)
-			component->Update();
-	}
+	for (Component* component : components)
+		component->Update();
 }
 
 void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent != nullptr);
 
+	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
+		newParent->IsAChild(this))				// Avoid dragging direct children into thier parent GameObjects
+	{
+		return;
+	}
+
 	parent->RemoveChild(this);
 	parent = newParent;
 	parent->AddChild(this);
+
+	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }
 
 void GameObject::AddChild(GameObject* child)
@@ -53,7 +57,10 @@ void GameObject::AddChild(GameObject* child)
 	assert(child != nullptr);
 
 	if (!IsAChild(child))
+	{
 		children.push_back(child);
+		child->active = (this->IsActive() && this->IsEnabled());
+	}
 }
 
 void GameObject::RemoveChild(GameObject* child)
@@ -72,6 +79,68 @@ void GameObject::RemoveChild(GameObject* child)
 			children.erase(it);
 			return;
 		}
+	}
+}
+
+void GameObject::Enable()
+{
+	if (this->parent == nullptr)
+	{
+		return;
+	}
+
+	enabled = true;
+	active = parent->IsActive();
+
+	for (GameObject* child : children)
+	{
+		child->ActivateChildren();
+	}
+}
+
+void GameObject::Disable()
+{
+	if (this->parent == nullptr)
+	{
+		return;
+	}
+
+	enabled = false;
+	active = false;
+
+	for (GameObject* child : children)
+	{
+		child->DeactivateChildren();
+	}
+}
+
+void GameObject::DeactivateChildren()
+{
+	active = false;
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->DeactivateChildren();
+	}
+}
+
+void GameObject::ActivateChildren()
+{
+	active = (this->parent->IsActive() && this->parent->IsEnabled());
+
+	if (children.empty())
+	{
+		return;
+	}
+
+	for (GameObject* child : children)
+	{
+		child->ActivateChildren();
 	}
 }
 
@@ -113,13 +182,24 @@ bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
-	bool isAChild = false;
-
 	for (GameObject* gameObject : children)
 	{
 		if (gameObject == child)
-			isAChild = true;
+			return true;
 	}
 
-	return isAChild;
+	return false;
+}
+
+bool GameObject::IsADescendant(const GameObject* descendant)
+{
+	assert(descendant != nullptr);
+
+	for (GameObject* child : children)
+	{
+		if (child == descendant || child->IsADescendant(descendant))
+			return true;
+	}
+
+	return false;
 }
