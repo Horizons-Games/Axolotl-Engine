@@ -22,8 +22,8 @@ public:
 	const float3x3& GetLocalMatrix() const;
 	const float3x3& GetGlobalMatrix() const;
 
-	void SetLocalMatrix(float3x3 matrix);
-	void SetGlobalMatrix(float3x3 matrix);
+	void SetLocalMatrix(const float3x3& matrix);
+	void SetGlobalMatrix(const float3x3& matrix);
 
 	void CalculateLocalMatrix();
 	void CalculateGlobalMatrix();
@@ -102,12 +102,12 @@ inline const float3x3& ComponentTransform::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
-inline void ComponentTransform::SetLocalMatrix(float3x3 matrix)
+inline void ComponentTransform::SetLocalMatrix(const float3x3& matrix)
 {
 	this->localMatrix = matrix;
 }
 
-inline void ComponentTransform::SetGlobalMatrix(float3x3 matrix)
+inline void ComponentTransform::SetGlobalMatrix(const float3x3& matrix)
 {
 	this->globalMatrix = matrix;
 }

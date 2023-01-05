@@ -24,13 +24,13 @@ void ComponentTransform::CalculateLocalMatrix()
 	float3 rotation = GetRotation();
 	float3 scale = GetScale();
 
-	SetLocalMatrix(
-		{
-			position.x, position.y, position.z,
-			rotation.x, rotation.y, rotation.z,
-			scale.x, scale.y, scale.z
-		}
-	);
+	float3x3 localMatrix = {
+		position.x, position.y, position.z,
+		rotation.x, rotation.y, rotation.z,
+		scale.x, scale.y, scale.z
+	};
+
+	SetLocalMatrix(localMatrix);
 	
 }
 
@@ -39,6 +39,7 @@ void ComponentTransform::CalculateGlobalMatrix()
 	if (ownerParent != nullptr)
 	{
 		ComponentTransform* parentTransform = (ComponentTransform*)ownerParent->GetComponent(ComponentType::TRANSFORM);
-		SetGlobalMatrix(GetLocalMatrix() + parentTransform->GetGlobalMatrix());
+		float3x3 globalMatrix = GetLocalMatrix() + parentTransform->GetGlobalMatrix();
+		SetGlobalMatrix(globalMatrix);
 	}
 }
