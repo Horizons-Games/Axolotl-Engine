@@ -6,6 +6,25 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
 
+#include <thread>
+#include <future>
+
+
+UID ModuleResources::ImportThread(const std::string& originalPath)
+{
+	std::promise<UID> p;
+	std::future<UID> f = p.get_future();
+	std::thread importThread = std::thread(
+		[&]() 
+		{
+			p.set_value(ImportResource(originalPath));
+		}
+	);
+	importThread.join();
+	return f.get();
+}
+
+
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
