@@ -274,6 +274,9 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -672,6 +675,9 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -736,6 +742,9 @@
     </Filter>
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources">
+      <UniqueIdentifier>{622e24eb-afbc-4aca-9ee8-83eb0171573a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

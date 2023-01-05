@@ -236,6 +236,7 @@
     <ClCompile Include="Modules\ModuleTexture.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
@@ -370,6 +371,7 @@
     <ClInclude Include="Modules\ModuleTexture.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Skybox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
