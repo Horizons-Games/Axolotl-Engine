@@ -125,19 +125,6 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	}
 }
 
-
-void Quadtree::DeleteGameObject(GameObject* gameObject)
-{
-	this->gameObjects.remove(gameObject);
-	if (!IsLeaf())
-	{
-		this->frontRightNode->DeleteGameObject(gameObject);
-		this->frontRightNode->DeleteGameObject(gameObject);
-		this->frontRightNode->DeleteGameObject(gameObject);
-		this->frontRightNode->DeleteGameObject(gameObject);
-	}
-}
-
 void Quadtree::Clear()
 {
 	this->gameObjects.clear();

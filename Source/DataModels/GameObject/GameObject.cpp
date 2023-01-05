@@ -23,7 +23,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	//App->scene->GetSceneQuadTree()->DeleteGameObject(this);
+	//App->scene->GetSceneQuadTree()->Remove(this);
 	components.clear();
 	std::vector<Component*>().swap(components);
 
