@@ -31,11 +31,8 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	if (active)
-	{
-		for (Component* component : components)
-			component->Update();
-	}
+	for (Component* component : components)
+		component->Update();
 }
 
 void GameObject::SetParent(GameObject* newParent)

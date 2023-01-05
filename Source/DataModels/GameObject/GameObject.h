@@ -32,6 +32,9 @@ public:
 	GameObject* GetParent() const;
 	void SetParent(GameObject* newParent);
 
+	bool GetIsParentActive() const;
+	void SetIsParentActive(bool active);
+
 	const std::vector<GameObject*>& GetChildren() const;
 
 	Component* CreateComponent(ComponentType type);
@@ -43,6 +46,7 @@ private:
 	UID uid = 0;
 
 	bool active = true;
+	bool isParentActive = true;
 	std::string name = "Empty";
 	std::vector<Component*> components = {};
 
@@ -92,6 +96,16 @@ inline void GameObject::SetName(const char* newName)
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline bool GameObject::GetIsParentActive() const
+{
+	return isParentActive;
+}
+
+inline void GameObject::SetIsParentActive(bool active)
+{
+	isParentActive = active;
 }
 
 inline const std::vector<GameObject*>& GameObject::GetChildren() const

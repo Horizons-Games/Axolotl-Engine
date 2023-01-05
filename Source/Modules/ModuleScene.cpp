@@ -46,6 +46,9 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
 
+	if (!gameObject->GetActive())
+		return;
+
 	gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
