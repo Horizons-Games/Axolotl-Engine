@@ -28,16 +28,19 @@ public:
 private:
 	UID ImportResource(const std::string& originalPath);
 	ResourceType FindTypeByPath(const std::string& path);
-	const std::string CopyFileInAssets(const std::string& originalPath);
+	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	//this might not belong here
 	const std::string GetFileName(const std::string& path);
-	const std::string& GetFileExtension(const std::string& path);
+	const std::string GetFileExtension(const std::string& path);
+	const std::string GetFolderOfType(ResourceType type);
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
 	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& assetsPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
-	void ImportResourceFromSystem(const std::shared_ptr<Resource>& resource, ResourceType type);
+	void ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type);
 
+	static const std::string assetsFolder;
+	static const std::string libraryFolder;
 	std::map<UID, std::shared_ptr<Resource> > resources;
 };
 

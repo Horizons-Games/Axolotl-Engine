@@ -7,9 +7,11 @@
 enum class ResourceType
 {
 	Unknown,
+	Model,
 	Texture,
 	Mesh,
 	Scene,
+	Material,
 	Bone,
 	Animation
 };
