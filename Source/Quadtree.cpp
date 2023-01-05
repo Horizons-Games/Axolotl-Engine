@@ -189,3 +189,13 @@ const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw(const AABB& cameraA
 	}
 	return intersectingGameObjects;
 }
+
+void Quadtree::SetQuadrantCapacity(int quadrantCapacity)
+{
+	this->quadrantCapacity = quadrantCapacity;
+}
+
+void Quadtree::SetMinCubeSize(float minCubeSize)
+{
+	this->minQuadrantDiagonalSquared = 3 * minCubeSize * minCubeSize;
+}

@@ -21,6 +21,10 @@ public:
 
 	const std::list<GameObject*>& GetIntersectingGameObjects(const float4x4& projectionMatrix);
 	const std::list<GameObject*>& GetGameObjectsToDraw(const AABB& cameraAABB);
+
+	void SetQuadrantCapacity(int quadrantCapacity);
+	void SetMinCubeSize(float minCubeSize);
+
 private:
 
 	std::list<GameObject*> gameObjects;
