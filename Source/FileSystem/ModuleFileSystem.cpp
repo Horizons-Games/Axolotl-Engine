@@ -41,6 +41,7 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
 {
     std::ofstream file(filePath, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
     file.write(static_cast<const char*>(buffer), size);
+    file.close();
     return 0;
 }
 
