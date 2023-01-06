@@ -22,12 +22,7 @@ Mesh::Mesh(const aiMesh* mesh)
 		this->vertices[i] = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 	}
 
-	glGenBuffers(1, &uboAmbient);
-
-	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), NULL, GL_STATIC_DRAW);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboAmbient, 0, sizeof(float3));
+	GenerateLights();
 }
 
 Mesh::~Mesh()
@@ -36,11 +31,35 @@ Mesh::~Mesh()
 
 	glDeleteBuffers(1, &this->vbo);
 	glDeleteBuffers(1, &this->ebo);
+
 	glDeleteBuffers(1, &this->uboAmbient);
+	glDeleteBuffers(1, &this->uboDirectional);
 
 	glDeleteVertexArrays(1, &this->vao);
 
 	delete vertices;
+}
+
+void Mesh::GenerateLights()
+{
+	unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(App->program->GetProgram(), "Ambient");
+	unsigned uniformBlockIxDir = glGetUniformBlockIndex(App->program->GetProgram(), "Directional");
+	glUniformBlockBinding(App->program->GetProgram(), uniformBlockIxAmbient, 0);
+	glUniformBlockBinding(App->program->GetProgram(), uniformBlockIxDir, 1);
+
+	glGenBuffers(1, &uboAmbient);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glBindBufferRange(GL_UNIFORM_BUFFER, uniformBlockIxAmbient, uboAmbient, 0, sizeof(float3));
+
+	glGenBuffers(1, &uboDirectional);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glBindBufferRange(GL_UNIFORM_BUFFER, uniformBlockIxDir, uboDirectional, 0, 32);
 }
 
 void Mesh::LoadVBO(const aiMesh* mesh)
@@ -131,16 +150,30 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-	float3 ambientValue(0.091f, 0.091f, 0.091f);
-	unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
+	// --------------- LIGHTS --------------- //
+	RenderLights();
+	// -------------------------------------- //
 
-	/*ENGINE_LOG("Buffer index %u: ", uboAmbient);
-	ENGINE_LOG("Bloc index %u: ", uniformBlockIxAmbient);*/
+	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
+}
 
-	glUniformBlockBinding(program, uniformBlockIxAmbient, 0);
+void Mesh::RenderLights()
+{
+	// Ambient
+
+	float3 ambientValue = float3(0.2f, 0.1f, 0.3f);
+
 	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
+	// Directional
+
+	float3 directionalDir = float3(1.0f, 0.0f, 0.0f);
+	float4 directionalCol = float4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, &directionalDir);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, 16, &directionalCol);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
