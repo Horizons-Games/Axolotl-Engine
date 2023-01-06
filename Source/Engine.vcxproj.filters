@@ -274,7 +274,7 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Skybox.cpp">
+    <ClCompile Include="DataModels\Resource\Skybox.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -675,7 +675,7 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Skybox.h">
+    <ClInclude Include="DataModels\Resource\Skybox.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
