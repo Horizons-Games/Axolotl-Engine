@@ -19,6 +19,12 @@ public:
 	void Clear();
 
 	const std::list<GameObject*>& GetGameObjectsToDraw();
+	const AABB& GetBoundingBox() const;
+	const std::list<GameObject*>& GetGameObjects() const;
+	Quadtree* GetFrontRightNode() const;
+	Quadtree* GetFrontLeftNode() const;
+	Quadtree* GetBackRightNode() const;
+	Quadtree* GetBackLeftNode() const;
 
 	void SetQuadrantCapacity(int quadrantCapacity);
 	void SetMinCubeSize(float minCubeSize);
@@ -36,4 +42,34 @@ private:
 	Quadtree* backRightNode = nullptr;
 	Quadtree* backLeftNode = nullptr;
 };
+
+inline const AABB& Quadtree::GetBoundingBox() const
+{
+	return boundingBox;
+}
+
+inline const std::list<GameObject*>& Quadtree::GetGameObjects() const
+{
+	return gameObjects;
+}
+
+inline Quadtree* Quadtree::GetFrontRightNode() const
+{
+	return frontRightNode;
+}
+
+inline Quadtree* Quadtree::GetFrontLeftNode() const
+{
+	return frontLeftNode;
+}
+
+inline Quadtree* Quadtree::GetBackRightNode() const
+{
+	return backRightNode;
+}
+
+inline Quadtree* Quadtree::GetBackLeftNode() const
+{
+	return backLeftNode;
+}
 

@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "3DModels/Model.h"
-
+#include "Quadtree.h"
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
@@ -40,6 +40,8 @@ public:
 	unsigned int GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
+
+	void DrawScene(Quadtree* quadtree);
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();

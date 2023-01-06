@@ -194,9 +194,15 @@ update_status ModuleRender::Update()
 	{
 		model->Draw();
 	}
+
 	/* 
 	*Logic to apply when model class is deleted and GameObjects are implemented
 	*
+	
+	DrawScene(App->scene->GetSceneQuadTree());
+	
+	
+	
 	const std::list<GameObject*>& gameObjectsToDraw = 
 		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
 	for (GameObject* gameObject : gameObjectsToDraw) 
@@ -322,4 +328,26 @@ void ModuleRender::UpdateProgram()
 	delete fragmentSource;
 
 	App->program->CreateProgram(vertexShader, fragmentShader);
+}
+
+void ModuleRender::DrawScene(Quadtree* quadtree)
+{
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox())) 
+	{
+		auto gameObjectsToRender = quadtree->GetGameObjects();
+		if (quadtree->IsLeaf() || !gameObjectsToRender.empty()) 
+		{
+			for (GameObject* gameObject : gameObjectsToRender)
+			{
+				//gameObject->Draw;
+			}
+		}
+		else 
+		{
+			DrawScene(quadtree->GetFrontRightNode());
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
+		}
+	}
 }

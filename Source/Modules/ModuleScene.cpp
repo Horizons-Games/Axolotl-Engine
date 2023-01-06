@@ -16,13 +16,13 @@ bool ModuleScene::Init()
 {
 	root = new GameObject("Root");
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-	FillQuadtree(); //TODO: This call has to be moved AFTER the scene is loaded
+	FillQuadtree(root); //TODO: This call has to be moved AFTER the scene is loaded
 	return true;
 }
 
 void ModuleScene::FillQuadtree(GameObject* gameObject) 
 {
-	if (gameObject->GetChildren() == nullptr) sceneQuadTree->Add(child);
+	if (gameObject->GetChildren().empty()) sceneQuadTree->Add(gameObject);
 	else for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
 }
 
