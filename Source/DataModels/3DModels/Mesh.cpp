@@ -123,18 +123,15 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	mat.bind(program);
 
 	const float3 position (0.0f, 4.0f, 0.0f);
-	const float3 ambient(0.2f, 0.2f, 0.2f);
-	const float3 diffuse(0.5f, 0.5f, 0.5f);
-	const float3 specular(1.0f, 1.0f, 1.0f);
+	const float3 color(1.f, 1.f, 1.f);
 
 	glUniform3f(glGetUniformLocation(program, "light.position"), position.x, position.y, position.z);
-	glUniform3f(glGetUniformLocation(program, "light.ambient"), ambient.x, ambient.y, ambient.z);
-	glUniform3f(glGetUniformLocation(program, "light.diffuse"), diffuse.x, diffuse.y, diffuse.z);
-	glUniform3f(glGetUniformLocation(program, "light.specular"), specular.x, specular.y, specular.z);
+	glUniform3f(glGetUniformLocation(program, "light.color"), color.x, color.y, color.z);
+	float3 viewPos = App->engineCamera->GetPosition();
+	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, modelTextures[this->materialIndex]);
-	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
