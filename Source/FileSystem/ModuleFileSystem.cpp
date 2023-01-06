@@ -26,7 +26,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     std::streamsize size = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    buffer = new char[size] {'\0'};
+    buffer = new char[size];
     if (!file.read(buffer, size))
     {
         return 1;
