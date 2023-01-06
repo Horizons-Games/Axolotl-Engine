@@ -15,8 +15,15 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	root = new GameObject("Root");
-	//sceneQuadTree = new Quadtree(root->GetAABB());
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+	FillQuadtree(); //TODO: This call has to be moved AFTER the scene is loaded
 	return true;
+}
+
+void ModuleScene::FillQuadtree(GameObject* gameObject) 
+{
+	if (gameObject->GetChildren() == nullptr) sceneQuadTree->Add(child);
+	else for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
 }
 
 bool ModuleScene::IsInsideACamera(const OBB& obb)
