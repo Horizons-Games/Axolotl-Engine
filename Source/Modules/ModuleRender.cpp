@@ -162,6 +162,8 @@ bool ModuleRender::Start()
 
 	models.push_back(bakerHouse);
 
+	pointLight = new ComponentPointLight(float3(0.0f, 4.0f, 0.0f), 4.0f, float3(1.0f, 1.0f, 1.0f), 1.0f);
+
 	return true;
 }
 
@@ -189,6 +191,7 @@ update_status ModuleRender::Update()
 	{
 		model->Draw();
 	}
+	pointLight->Draw();
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
