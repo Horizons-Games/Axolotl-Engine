@@ -40,13 +40,18 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::SameLine();
 
-		if (currentGameObject->GetParent() == nullptr) // Avoid renaming the scene root
+		if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
 		{
-			char name[160] = "Scene Root";
-			ImGui::InputText("##GameObject", name, 24);
+			char* name = (char*)currentGameObject->GetName();
+			if (ImGui::InputText("##GameObject", name, 24))
+			{
+				std::string scene = " Scene";
+				std::string sceneName = name + scene;
+				currentGameObject->SetName(sceneName.c_str());
+			}
 		}
 
-		else // But allow renaming the rest of the GameObjects
+		else
 		{
 			char* name = (char*)currentGameObject->GetName();
 			ImGui::InputText("##GameObject", name, 24);
