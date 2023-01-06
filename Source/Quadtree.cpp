@@ -137,6 +137,7 @@ void Quadtree::Clear()
 	}
 }
 
+//One alternative approach for selecting the GameObjects to Draw
 const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
 {
 	std::list<GameObject*> intersectingGameObjects;

@@ -199,10 +199,11 @@ update_status ModuleRender::Update()
 	*Logic to apply when model class is deleted and GameObjects are implemented
 	*
 	
+	FIRST APPROACH
 	DrawScene(App->scene->GetSceneQuadTree());
 	
 	
-	
+	SECOND APPROACH
 	const std::list<GameObject*>& gameObjectsToDraw = 
 		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
 	for (GameObject* gameObject : gameObjectsToDraw) 
