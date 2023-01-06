@@ -20,11 +20,13 @@ public:
 
 	bool CleanUp() override;
 
-	UID ImportResource(const std::string& originalPath);
+	UID ImportThread(const std::string& originalPath);
+	
 
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
 
 private:
+	UID ImportResource(const std::string& originalPath);
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	//this might not belong here

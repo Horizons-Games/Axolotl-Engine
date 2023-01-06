@@ -9,9 +9,25 @@
 
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
+#include <thread>
+#include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
+
+UID ModuleResources::ImportThread(const std::string& originalPath)
+{
+	std::promise<UID> p;
+	std::future<UID> f = p.get_future();
+	std::thread importThread = std::thread(
+		[&]() 
+		{
+			p.set_value(ImportResource(originalPath));
+		}
+	);
+	importThread.join();
+	return f.get();
+}
 
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
