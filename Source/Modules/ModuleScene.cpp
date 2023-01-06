@@ -53,7 +53,8 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 	if (!gameObject->IsEnabled())
 		return;
 
-	gameObject->Update();
+	if (gameObject != root)
+		gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
 	{

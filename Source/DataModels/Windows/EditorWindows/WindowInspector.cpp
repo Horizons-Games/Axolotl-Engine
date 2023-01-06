@@ -56,8 +56,6 @@ void WindowInspector::DrawWindowContents()
 
 		DrawTransformationTable(currentGameObject);
 
-		ImGui::Separator();
-
 		/*
 		DrawGeometryTable();
 
@@ -74,13 +72,16 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 	//float3 scale = model.lock()->GetScale();
 	//float3 rotation = model.lock()->GetRotationF3();
 
+	if (App->scene->GetRoot() == selected) // The root must not be moved through the inspector
+		return;
+
 	ComponentTransform* transform = (ComponentTransform*)selected->GetComponent(ComponentType::TRANSFORM);
 
 	float3 translation = transform->GetPosition();
+	float3 rotation = RadToDeg(transform->GetRotation().ToEulerXYZ());
 	float3 scale = transform->GetScale();
-	float3 rotation = transform->GetRotation();
 
-	ImGui::Text("TRANSFORMATION");
+	ImGui::Text("TRANSFORM");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
 	if (ImGui::BeginTable("TransformTable", 2))
@@ -117,21 +118,21 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 		ImGui::Text("x:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##XRot", &rotation.x, 0.01f,
+		ImGui::DragFloat("##XRot", &rotation.x, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("y:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##YRot", &rotation.y, 0.01f,
+		ImGui::DragFloat("##YRot", &rotation.y, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("z:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##ZRot", &rotation.z, 0.01f,
+		ImGui::DragFloat("##ZRot", &rotation.z, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar();
 
@@ -169,6 +170,7 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 		transform->SetScale(scale);
 
 		ImGui::EndTable();
+		ImGui::Separator();
 	}
 }
 
