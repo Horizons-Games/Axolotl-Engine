@@ -125,7 +125,7 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	const float3 position (0.0f, 4.0f, 0.0f);
 	const float3 ambient(0.2f, 0.2f, 0.2f);
 	const float3 diffuse(0.5f, 0.5f, 0.5f);
-	const float3 specular(0.0f, 4.0f, 0.0f);
+	const float3 specular(1.0f, 1.0f, 1.0f);
 
 	glUniform3f(glGetUniformLocation(program, "light.position"), position.x, position.y, position.z);
 	glUniform3f(glGetUniformLocation(program, "light.ambient"), ambient.x, ambient.y, ambient.z);
