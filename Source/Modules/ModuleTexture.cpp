@@ -155,27 +155,81 @@ unsigned int & textureWidth, unsigned int & textureHeight)
 
 GLuint ModuleTexture::LoadCubeMap(std::vector<std::string> faces)
 {
-	unsigned int textureID;
+
+	ENGINE_LOG("---- Loading skybox ----");
+
+	DirectX::TexMetadata md;
+	DirectX::ScratchImage img, dcmprsdImg;
+
+	const wchar_t* path;
+	std::string narrowString;
+	std::wstring wideString;
+
+	GLuint textureID;
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-	int width, height, nrChannels;
 	for (unsigned int i = 0; i < faces.size(); i++)
 	{
-		unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-		if (data)
+		narrowString = faces[i];
+		wideString = std::wstring(narrowString.begin(), narrowString.end());
+		path = wideString.c_str();
+
+		HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
+
+		if (FAILED(result))
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
-			);
-			stbi_image_free(data);
+			result = DirectX::LoadFromTGAFile(path, &md, img);
+
+			if (FAILED(result))
+			{
+				result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
+			}
 		}
 		else
 		{
-			ENGINE_LOG("Cubemap tex failed to load at path: \s.\n", faces[i]);
-			stbi_image_free(data);
+			result = DirectX::Decompress(img.GetImages(), img.GetImageCount(),
+				md, DXGI_FORMAT_UNKNOWN, dcmprsdImg);
+
 		}
+
+		GLint internalFormat;
+		GLenum format, type;
+
+		switch (img.GetMetadata().format)
+		{
+		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+		case DXGI_FORMAT_R8G8B8A8_UNORM:
+			internalFormat = GL_RGBA8;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+		case DXGI_FORMAT_B8G8R8A8_UNORM:
+			internalFormat = GL_RGBA8;
+			format = GL_BGRA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_B5G6R5_UNORM:
+			internalFormat = GL_RGB8;
+			format = GL_BGR;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC1_UNORM:
+			internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+
+		default:
+			assert(false && "Unsupported format");
+		}
+
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internalFormat, img.GetMetadata().width,
+			img.GetMetadata().height, 0, format, type, img.GetPixels());
+
 	}
+
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -183,4 +237,5 @@ GLuint ModuleTexture::LoadCubeMap(std::vector<std::string> faces)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	return textureID;
+
 }
