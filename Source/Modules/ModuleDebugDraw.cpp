@@ -629,7 +629,8 @@ void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
 
 void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
 {
-    if (showBoundingBoxes) {
+    if (showBoundingBoxes) 
+    {
         ddVec3 points[8];
         obb.GetCornerPoints(points);
         ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
