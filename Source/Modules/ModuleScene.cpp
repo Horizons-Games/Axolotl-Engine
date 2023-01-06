@@ -13,8 +13,13 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	root = new GameObject("Root");
-
 	return true;
+}
+
+bool ModuleScene::IsInsideACamera(const OBB& obb)
+{
+	// TODO: We have to add all the cameras in the future
+	return false;
 }
 
 update_status ModuleScene::Update()
