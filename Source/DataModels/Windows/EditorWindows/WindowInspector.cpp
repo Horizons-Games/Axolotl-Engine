@@ -74,8 +74,8 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 	//float3 scale = model.lock()->GetScale();
 	//float3 rotation = model.lock()->GetRotationF3();
 
-	ComponentTransform* transform = (ComponentTransform*)selected->GetComponents()[0];	// The transform component
-																						// is always the first one
+	ComponentTransform* transform = (ComponentTransform*)selected->GetComponent(ComponentType::TRANSFORM);
+
 	float3 translation = transform->GetPosition();
 	float3 scale = transform->GetScale();
 	float3 rotation = transform->GetRotation();
