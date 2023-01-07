@@ -1,5 +1,5 @@
 #include "WindowFrustum.h"
-
+#include "Globals.h"
 #include "imgui.h"
 #include "Application.h"
 #include "Modules/ModuleDebugDraw.h"
@@ -31,6 +31,18 @@ void WindowFrustum::DrawWindowContents()
 	float vFrustum = App->engineCamera->GetFrustumOffset();
 	if (ImGui::SliderFloat("Offset", &vFrustum, MIN_FRUSTUM, MAX_FRUSTUM, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
 		App->engineCamera->SetFrustumOffset(vFrustum);
+	}
+
+	int quadrantCapacity = QUADRANT_CAPACITY;
+	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+		//App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
+		//TODO save values for future executions
+	}
+
+	float minCubeSize = MIN_CUBE_SIZE;
+	if (ImGui::SliderFloat("Minimum cube size", &minCubeSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
+		//App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
+		//TODO save values for future executions
 	}
 
 }

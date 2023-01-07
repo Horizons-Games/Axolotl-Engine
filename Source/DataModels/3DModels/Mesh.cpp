@@ -33,6 +33,7 @@ Mesh::~Mesh()
 
 	glDeleteBuffers(1, &this->vbo);
 	glDeleteBuffers(1, &this->ebo);
+
 	glDeleteVertexArrays(1, &this->vao);
 
 	delete vertices;
@@ -135,5 +136,6 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
 	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
 }

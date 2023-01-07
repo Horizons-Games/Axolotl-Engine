@@ -56,6 +56,7 @@ public:
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
+	bool IsInside(const AABB& aabb);
 	bool IsInsideOffset(const OBB& obb);
 	void RecalculateOffsetPlanes();
 

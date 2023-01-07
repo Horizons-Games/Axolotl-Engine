@@ -13,6 +13,17 @@ struct Material {
     int has_shininess_map;
 };
 
+layout(std140) uniform Ambient
+{
+	vec3 ambientValue;		//12	//0
+};
+
+layout(std140) uniform Directional
+{
+	vec3 directionalDir;  	//12	//0
+	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
+};
+
 struct Light {
     vec3 position;
     vec3 color;
