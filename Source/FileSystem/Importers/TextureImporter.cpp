@@ -46,7 +46,8 @@ void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
 
 	result = DirectX::SaveToDDSFile(img.GetImages(), img.GetImageCount(), img.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
 	
-	if (!FAILED(result)) {
+	if (!FAILED(result)) 
+	{
 		result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
 	}
 
