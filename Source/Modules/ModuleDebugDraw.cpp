@@ -6,6 +6,11 @@
 
 #include "GL/glew.h"
 
+#include "Application.h"
+#include "ModuleScene.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentTransform.h"
+
 class DDRenderInterfaceCoreGL final
     : public dd::RenderInterface
 {
@@ -605,9 +610,12 @@ bool ModuleDebugDraw::CleanUp()
     return true;
 }
 
-update_status  ModuleDebugDraw::Update()
+update_status ModuleDebugDraw::Update()
 {
-    dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
+    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->GetComponent(ComponentType::TRANSFORM);
+
+    dd::axisTriad(selectedTransform->GetLocalMatrix(), 0.1f, 1.0f);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;

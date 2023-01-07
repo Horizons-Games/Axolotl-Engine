@@ -18,13 +18,10 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	root = new GameObject("Scene Root");
+	root = new GameObject("Scene");
 	sceneGameObjects.push_back(root);
 
 	selectedGameObject = root;
-
-	ComponentTransform* transform = (ComponentTransform*)root->GetComponent(ComponentType::TRANSFORM);
-	transform->ResetGlobalMatrix();
 
 	return true;
 }
@@ -53,7 +50,8 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 	if (!gameObject->IsEnabled())
 		return;
 
-	gameObject->Update();
+	if (gameObject != root)
+		gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
 	{

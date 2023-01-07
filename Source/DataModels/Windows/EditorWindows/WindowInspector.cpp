@@ -40,13 +40,18 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::SameLine();
 
-		if (currentGameObject->GetParent() == nullptr) // Avoid renaming the scene root
+		if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
 		{
-			char name[160] = "Scene Root";
-			ImGui::InputText("##GameObject", name, 24);
+			char* name = (char*)currentGameObject->GetName();
+			if (ImGui::InputText("##GameObject", name, 24))
+			{
+				std::string scene = " Scene";
+				std::string sceneName = name + scene;
+				currentGameObject->SetName(sceneName.c_str());
+			}
 		}
 
-		else // But allow renaming the rest of the GameObjects
+		else
 		{
 			char* name = (char*)currentGameObject->GetName();
 			ImGui::InputText("##GameObject", name, 24);
@@ -55,8 +60,6 @@ void WindowInspector::DrawWindowContents()
 		ImGui::Separator();
 
 		DrawTransformationTable(currentGameObject);
-
-		ImGui::Separator();
 
 		/*
 		DrawGeometryTable();
@@ -74,13 +77,16 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 	//float3 scale = model.lock()->GetScale();
 	//float3 rotation = model.lock()->GetRotationF3();
 
-	ComponentTransform* transform = (ComponentTransform*)selected->GetComponents()[0];	// The transform component
-																						// is always the first one
-	float3 translation = transform->GetPosition();
-	float3 scale = transform->GetScale();
-	float3 rotation = transform->GetRotation();
+	if (App->scene->GetRoot() == selected) // The root must not be moved through the inspector
+		return;
 
-	ImGui::Text("TRANSFORMATION");
+	ComponentTransform* transform = (ComponentTransform*)selected->GetComponent(ComponentType::TRANSFORM);
+
+	float3 translation = transform->GetPosition();
+	float3 rotation = RadToDeg(transform->GetRotation().ToEulerXYZ());
+	float3 scale = transform->GetScale();
+
+	ImGui::Text("TRANSFORM");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
 	if (ImGui::BeginTable("TransformTable", 2))
@@ -117,21 +123,21 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 		ImGui::Text("x:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##XRot", &rotation.x, 0.01f,
+		ImGui::DragFloat("##XRot", &rotation.x, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("y:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##YRot", &rotation.y, 0.01f,
+		ImGui::DragFloat("##YRot", &rotation.y, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("z:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##ZRot", &rotation.z, 0.01f,
+		ImGui::DragFloat("##ZRot", &rotation.z, 0.05f,
 			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
 		ImGui::PopStyleVar();
 
@@ -169,6 +175,7 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 		transform->SetScale(scale);
 
 		ImGui::EndTable();
+		ImGui::Separator();
 	}
 }
 
