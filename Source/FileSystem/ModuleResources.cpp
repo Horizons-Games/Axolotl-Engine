@@ -4,8 +4,30 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 
+#include "FileSystem/Importers/Importer.h"
+#include "FileSystem/Importers/MeshImporter.h"
+
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
+#include <thread>
+#include <future>
+
+const std::string ModuleResources::assetsFolder = "Assets/";
+const std::string ModuleResources::libraryFolder = "Lib/";
+
+UID ModuleResources::ImportThread(const std::string& originalPath)
+{
+	std::promise<UID> p;
+	std::future<UID> f = p.get_future();
+	std::thread importThread = std::thread(
+		[&]() 
+		{
+			p.set_value(ImportResource(originalPath));
+		}
+	);
+	importThread.join();
+	return f.get();
+}
 
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
@@ -15,7 +37,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
-		CopyFileInAssets(originalPath);
+		CopyFileInAssets(originalPath, assetsPath);
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
@@ -51,10 +73,14 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	return ResourceType::Unknown;
 }
 
-const std::string ModuleResources::CopyFileInAssets(const std::string& originalPath)
+void ModuleResources::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
 {
-	// TODO: Insertar una instrucción "return" aquí
-	return "";
+	//for more protection
+	bool exists = App->fileSystem->Exists(assetsPath.c_str());
+	if (!exists)
+	{
+		//copy, pending merge with corresponding branch
+	}
 }
 
 const std::string ModuleResources::GetFileName(const std::string& path)
@@ -86,46 +112,43 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	return fileExtension;
 }
 
-const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
+const std::string ModuleResources::GetFolderOfType(ResourceType type)
 {
-	// TODO: create the path
 	switch (type)
 	{
+	case ResourceType::Model:
+		return "Models/";
 	case ResourceType::Texture:
-		break;
+		return "Textures/";
 	case ResourceType::Mesh:
-		break;
+		return "Meshes/";
 	case ResourceType::Scene:
-		break;
+		return "Scenes/";
+	case ResourceType::Material:
+		return "Materials/";
 	case ResourceType::Bone:
-		break;
+		return "Bones/";
 	case ResourceType::Animation:
-		break;
+		return "Animations/";
 	default:
-		break;
+		return "";
 	}
-	return "";
+}
+
+const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
+{
+	std::string assetsPath = assetsFolder;
+	assetsPath += GetFolderOfType(type);
+	assetsPath += fileName;
+	return assetsPath;
 }
 
 const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
 {
-	// TODO: create the path
-	switch (type)
-	{
-	case ResourceType::Texture:
-		break;
-	case ResourceType::Mesh:
-		break;
-	case ResourceType::Scene:
-		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
-		break;
-	default:
-		break;
-	}
-	return "";
+	std::string libraryPath = libraryFolder;
+	libraryPath += GetFolderOfType(type);
+	libraryPath += resourceUID;
+	return libraryPath;
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& assetsPath, ResourceType type)
@@ -135,12 +158,16 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 	std::shared_ptr<Resource> resource = nullptr;
 	switch (type)
 	{
+	case ResourceType::Model:
+		break;
 	case ResourceType::Texture:
 		resource = std::make_shared<ResourceTexture>(uid, assetsPath, libraryPath);
 		break;
 	case ResourceType::Mesh:
 		break;
 	case ResourceType::Scene:
+		break;
+	case ResourceType::Material:
 		break;
 	case ResourceType::Bone:
 		break;
@@ -156,15 +183,19 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 {
 }
 
-void ModuleResources::ImportResourceFromSystem(const std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type)
 {
 	switch (type)
 	{
+	case ResourceType::Model:
+		break;
 	case ResourceType::Texture:
 		break;
 	case ResourceType::Mesh:
 		break;
 	case ResourceType::Scene:
+		break;
+	case ResourceType::Material:
 		break;
 	case ResourceType::Bone:
 		break;
