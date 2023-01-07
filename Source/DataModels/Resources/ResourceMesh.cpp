@@ -4,23 +4,9 @@
 
 #include "GL/glew.h"
 #include "Math/float2.h"
-#include "Math/float3.h"
-
-//all methods in this class use placeholder values for parameters that, previously, where retrieved from an aiMesh
-//where do we get this parameters from now?
-//set as member by the importer,
-//as parameter of each method,
-//or computed from another member (such as a triangle list)?
 
 void ResourceMesh::CreateVBO()
 {
-	//PLACEHOLDER PARAMS
-	unsigned int numVertices = 0;
-	//this might not be of this type, but it's equivalent to an aiMesh's mVertices and mTextureCoords,
-	//which are an array of aiVector3D (a vector of three floats)
-	std::vector<float3> vertices;
-	std::vector<float3> textureCoords;
-
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -48,12 +34,6 @@ void ResourceMesh::CreateVBO()
 
 void ResourceMesh::CreateEBO()
 {
-	//PLACEHOLDER PARAMS
-	unsigned int numFaces = 0;
-	//this might not be of this type, but it's equivalent to an aiFace's mIndices,
-	//which is an array of unsigned ints
-	std::vector<std::vector<unsigned int> > facesIndices;
-
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
@@ -76,9 +56,6 @@ void ResourceMesh::CreateEBO()
 
 void ResourceMesh::CreateVAO()
 {
-	//PLACEHOLDER PARAMS
-	unsigned int numVertices = 0;
-
 	glGenVertexArrays(1, &vao);
 
 	glBindVertexArray(vao);
