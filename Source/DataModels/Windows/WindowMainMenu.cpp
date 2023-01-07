@@ -52,14 +52,18 @@ void WindowMainMenu::DrawWindowsMenu()
 void WindowMainMenu::DrawAbout()
 {
 	if (ImGui::MenuItem("About"))
+	{
 		showAbout = !showAbout;
+	}		
 	about->Draw(showAbout);
 }
 
 void WindowMainMenu::DrawFileDialog()
 {
 	if (ImGui::MenuItem("File dialog"))
+	{
 		showFileDialog = !showFileDialog;
+	}		
 	importer->Draw(showFileDialog);
 }
 
