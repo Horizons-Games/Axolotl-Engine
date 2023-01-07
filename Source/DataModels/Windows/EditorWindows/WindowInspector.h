@@ -5,12 +5,13 @@
 #include <memory>
 
 class Model;
+class GameObject;
 
-class WindowProperties : public EditorWindow
+class WindowInspector : public EditorWindow
 {
 public:
-	WindowProperties();
-	~WindowProperties();
+	WindowInspector();
+	~WindowInspector();
 
 protected:
 	void DrawWindowContents() override;
@@ -18,14 +19,14 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawTransformationTable();
+	void DrawTransformationTable(GameObject* selected);
 	void DrawGeometryTable();
 	void DrawTextureTable();
 
 	std::weak_ptr<Model> model;
 };
 
-inline ImVec2 WindowProperties::GetStartingSize() const
+inline ImVec2 WindowInspector::GetStartingSize() const
 {
 	return ImVec2(900, 250);
 }

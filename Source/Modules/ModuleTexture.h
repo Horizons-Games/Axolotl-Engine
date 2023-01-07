@@ -3,6 +3,8 @@
 
 #include "GL/glew.h"
 
+#include <vector>
+
 class ModuleTexture : public Module
 {
 public:
@@ -15,5 +17,6 @@ public:
 	update_status Update();
 
 	GLuint Load(const char* fileName, const char* filePath, unsigned int & textureWidth, unsigned int & textureHeight);
+	GLuint LoadCubeMap(std::vector<std::string> faces);
 };
 

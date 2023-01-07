@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+class GameObject;
+
 class WindowHierarchy : public EditorWindow
 {
 public:
@@ -18,7 +20,7 @@ protected:
 
 
 private:
-	std::vector<std::unique_ptr<SubWindow> > collapsingSubWindows;
+	void DrawRecursiveHierarchy(GameObject* gameObject);
 };
 
 inline ImVec2 WindowHierarchy::GetStartingSize() const

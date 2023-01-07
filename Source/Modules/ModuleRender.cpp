@@ -5,6 +5,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "Quadtree.h"
 
 #include "3DModels/Model.h"
 
@@ -15,6 +16,10 @@
 #include "Geometry/Frustum.h"
 #include "Math/float3x3.h"
 #include "Math/float3.h"
+
+#include "GameObject/GameObject.h"
+#include "Components/Component.h"
+#include "Components/ComponentMesh.h"
 		 
 #include "GL/glew.h"
 
@@ -190,6 +195,28 @@ update_status ModuleRender::Update()
 		model->Draw();
 	}
 
+	/* 
+	*Logic to apply when model class is deleted and GameObjects are implemented
+	*
+	
+	FIRST APPROACH
+	DrawScene(App->scene->GetSceneQuadTree());
+	
+	
+	SECOND APPROACH
+	const std::list<GameObject*>& gameObjectsToDraw = 
+		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
+	for (GameObject* gameObject : gameObjectsToDraw) 
+	{
+		for (Component* component : gameObject->GetComponents()) 
+		{
+			if (component->GetType() == ComponentType::MESH) 
+			{
+				//Draw gameobject
+			}
+		}
+	}
+	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -302,4 +329,37 @@ void ModuleRender::UpdateProgram()
 	delete fragmentSource;
 
 	App->program->CreateProgram(vertexShader, fragmentShader);
+}
+
+void ModuleRender::DrawScene(Quadtree* quadtree)
+{
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
+	{
+		auto gameObjectsToRender = quadtree->GetGameObjects();
+		if (quadtree->IsLeaf()) 
+		{
+			for (GameObject* gameObject : gameObjectsToRender)
+			{
+				//gameObject->Draw;
+			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				//gameObject->Draw;
+			}
+			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
+		}
+		else 
+		{
+			DrawScene(quadtree->GetFrontRightNode());
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
+		}
+	}
 }

@@ -26,7 +26,7 @@ private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
-	
+
 	unsigned materialIndex;
 	unsigned numVertices;
 	unsigned numIndexes;
