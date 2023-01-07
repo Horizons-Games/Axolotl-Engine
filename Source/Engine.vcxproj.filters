@@ -277,6 +277,18 @@
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\ModuleResources.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceTexture.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Json.cpp">
+      <Filter>Source\FileSystem</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Resource\Skybox.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
@@ -684,6 +696,21 @@
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\ModuleResources.h">
+      <Filter>Source\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\Resource.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceTexture.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceMesh.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Json.h">
+      <Filter>Source\FileSystem</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Resource\Skybox.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
@@ -756,7 +783,7 @@
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataModels\Resources">
-      <UniqueIdentifier>{622e24eb-afbc-4aca-9ee8-83eb0171573a}</UniqueIdentifier>
+      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
