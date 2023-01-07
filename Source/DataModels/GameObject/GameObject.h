@@ -23,6 +23,7 @@ public:
 	const char* GetName() const;
 	GameObject* GetParent() const;
 	const std::vector<GameObject*>& GetChildren() const;
+	const std::vector<Component*>& GetComponents() const;
 
 	void Enable();
 	void Disable();
@@ -59,6 +60,11 @@ inline GameObject* GameObject::GetParent() const
 inline const std::vector<GameObject*>& GameObject::GetChildren() const
 {
 	return children;
+}
+
+inline const std::vector<Component*>& GameObject::GetComponents() const
+{
+	return components;
 }
 
 inline void GameObject::Enable()

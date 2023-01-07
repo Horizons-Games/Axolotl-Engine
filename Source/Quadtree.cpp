@@ -1,6 +1,11 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 
+#include "math/float4x4.h"
+#include "geometry/OBB.h"
+#include "geometry/AABB.h"
+
+
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
 {
 }
@@ -12,14 +17,11 @@ Quadtree::~Quadtree()
 	delete backLeftNode;
 	delete backRightNode;
 
-	/*
-	* Pending GameObject destructor to be implemented
-	* 
 	for (std::list<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
 		delete* it;
 	}
-	*/
+	
 
 }
 
@@ -64,10 +66,9 @@ void Quadtree::Remove(GameObject* gameObject)
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
-	//Dummy implementation of the method. Pending Scene implementation
-	return true;
-
 	//return boundingBox.Intersects(gameObject->GetAABB());
+	//Dummy implementation until we can get the AABB from mesh
+	return true;
 }
 
 void Quadtree::Subdivide(GameObject* gameObject)
@@ -126,5 +127,53 @@ void Quadtree::Subdivide(GameObject* gameObject)
 
 void Quadtree::Clear()
 {
-	// TODO: implement tree cleaning function
+	this->gameObjects.clear();
+	if (!IsLeaf())
+	{
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+		this->frontRightNode->Clear();
+	}
+}
+
+//One alternative approach for selecting the GameObjects to Draw
+const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
+{
+	std::list<GameObject*> intersectingGameObjects;
+	std::list<GameObject*> auxGameObjects;
+	//TODO replace with camera component function
+	if (true)
+	{
+		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
+		if (!IsLeaf())
+		{
+			auxGameObjects = this->frontLeftNode->GetGameObjectsToDraw();
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
+
+			auxGameObjects = this->frontRightNode->GetGameObjectsToDraw();
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
+
+			auxGameObjects = this->backLeftNode->GetGameObjectsToDraw();
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
+
+			auxGameObjects = this->backRightNode->GetGameObjectsToDraw();
+			intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(auxGameObjects), std::end(auxGameObjects));
+			auxGameObjects.clear();
+		}
+	}
+	return intersectingGameObjects;
+}
+
+void Quadtree::SetQuadrantCapacity(int quadrantCapacity)
+{
+	this->quadrantCapacity = quadrantCapacity;
+}
+
+void Quadtree::SetMinCubeSize(float minCubeSize)
+{
+	this->minQuadrantDiagonalSquared = 3 * minCubeSize * minCubeSize;
 }
