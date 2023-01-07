@@ -17,10 +17,12 @@ Quadtree::~Quadtree()
 	delete backLeftNode;
 	delete backRightNode;
 
+	/*
 	for (std::list<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
 		delete* it;
 	}
+	*/
 	
 
 }

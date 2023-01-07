@@ -19,8 +19,6 @@ public:
 	bool GetActive();
 	ComponentType GetType();
 
-	ComponentType GetType();
-
 	GameObject* GetOwner();
 private:
 	ComponentType type;

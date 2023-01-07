@@ -31,19 +31,12 @@ public:
 	void Enable();
 	void Disable();
 
-	const char* GetName() const;
 	void SetName(const char* newName);
-
-	GameObject* GetParent() const;
 	void SetParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
-
-	const std::vector<GameObject*>& GetChildren() const;
-
-	const std::vector<Component*>& GetComponents() const;
 
 	Component* CreateComponent(ComponentType type);
 	Component* GetComponent(ComponentType type);
@@ -100,11 +93,6 @@ inline const std::vector<GameObject*>& GameObject::GetChildren() const
 }
 
 inline const std::vector<Component*>& GameObject::GetComponents() const
-{
-	return components;
-}
-
-inline void GameObject::Enable()
 {
 	return components;
 }
