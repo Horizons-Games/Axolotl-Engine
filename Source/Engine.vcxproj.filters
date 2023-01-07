@@ -286,6 +286,9 @@
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Json.cpp">
+      <Filter>Source\FileSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -698,6 +701,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMesh.h">
       <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Json.h">
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
