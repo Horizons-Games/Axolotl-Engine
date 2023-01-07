@@ -148,7 +148,7 @@ const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceTy
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += resourceUID;
+	libraryPath += std::to_string(resourceUID);
 	return libraryPath;
 }
 
