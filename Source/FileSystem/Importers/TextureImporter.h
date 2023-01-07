@@ -1,7 +1,6 @@
 #pragma once
 #include "FileSystem/Importers/Importer.h"
 #include "FileSystem/Data.h"
-#include "assimp/mesh.h"
 
 
 class TextureImporter : public Importer<void, DataTexture>
