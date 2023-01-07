@@ -1,6 +1,40 @@
 #include "ModuleScene.h"
+#include "GameObject/GameObject.h"
 
-GameObject* ModuleScene::CreateGameObject()
+ModuleScene::ModuleScene()
+{}
+
+ModuleScene::~ModuleScene()
 {
-    return nullptr;
+	delete root;
+	root = nullptr;
+}
+
+bool ModuleScene::Init()
+{
+	root = new GameObject("Root");
+
+	return true;
+}
+
+update_status ModuleScene::Update()
+{
+	UpdateGameObjectAndDescendants(root);
+
+	return UPDATE_CONTINUE;
+}
+
+GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = new GameObject(name, parent);
+
+	return gameObject;
+}
+
+void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
+{
+	gameObject->Update();
+
+	for (GameObject* child : gameObject->GetChildren())
+		UpdateGameObjectAndDescendants(child);
 }

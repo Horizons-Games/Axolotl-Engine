@@ -104,9 +104,12 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	for (int i = 0; i < meshes.size(); ++i)
+	if (App->engineCamera->IsInside(obb))
 	{
-		meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
+		for (int i = 0; i < meshes.size(); ++i)
+		{
+			meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
+		}
 	}
 }
 
@@ -172,21 +175,21 @@ const float4x4& Model::GetRotationF4x4() const
 
 void Model::SetScale(const float3& scale)
 {
+	if (scale.x == 0 || scale.y == 0 || scale.z == 0) return;
+	aabb.Scale(aabb.CenterPoint(), float3(scale.x / this->scale.x, scale.y / this->scale.y, scale.z / this->scale.z));
 	this->scale = scale;
-
-	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));
+	obb = aabb.Transform(float4x4::FromTRS(float3{ 0,0,0 }, GetRotationF4x4(), scale));
 }
 
 void Model::SetRotation(const float3 &rotation)
 {
 	this->rotation = rotation;
-
-	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));
+	obb = aabb.Transform(float4x4::FromTRS(float3{ 0,0,0 }, GetRotationF4x4(), scale));
 }
 
 void Model::SetTranslation(const float3 &translation)
 {
+	aabb.Translate(translation - this->translation);
 	this->translation = translation;
-
-	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));
+	obb = aabb.Transform(float4x4::FromTRS(float3{0,0,0}, GetRotationF4x4(), scale));
 }

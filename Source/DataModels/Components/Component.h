@@ -8,11 +8,11 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
-	~Component();
+	virtual ~Component();
 
 	virtual void Enable();
 
-	virtual void Update();
+	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Disable();
 
@@ -26,20 +26,14 @@ private:
 
 inline void Component::Enable()
 {
-	this->active = true;
-}
-
-inline void Component::Update()
-{
-	if (this->active)
-	{
-		//TODO: Update the active component
-	}
+	if (type != ComponentType::TRANSFORM)
+		active = true;
 }
 
 inline void Component::Disable()
 {
-	this->active = false;
+	if (type != ComponentType::TRANSFORM)
+		active = false;
 }
 
 inline bool Component::GetActive()

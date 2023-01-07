@@ -7,4 +7,6 @@ Component::Component(const ComponentType type, const bool active, GameObject* ow
 	this->owner = owner;
 }
 
-Component::~Component() {}
+Component::~Component() 
+{
+}
