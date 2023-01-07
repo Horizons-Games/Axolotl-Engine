@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "Json.h"
 
 #include "FileSystem/Importers/Importer.h"
 #include "FileSystem/Importers/MeshImporter.h"
@@ -147,7 +148,7 @@ const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceTy
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += resourceUID;
+	libraryPath += std::to_string(resourceUID);
 	return libraryPath;
 }
 
@@ -181,6 +182,17 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
 {
+	rapidjson::Document doc;
+	Json Json(doc, doc);
+
+	Json["UID"] = resource->GetUID();
+	rapidjson::StringBuffer buffer;
+	Json.toBuffer(buffer);
+
+	std::string path = resource->GetLibraryPath() + META_EXTENSION;
+
+	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
+
 }
 
 void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type)
