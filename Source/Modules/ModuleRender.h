@@ -14,8 +14,6 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class ComponentPointLight;
-
 class ModuleRender : public Module
 {
 public:
@@ -62,8 +60,6 @@ private:
 
 	std::string vertexShader = "default_vertex.glsl";
 	std::string fragmentShader = "default_fragment.glsl";
-
-	ComponentPointLight* pointLight;
 
 	friend class ModuleEditor;
 };

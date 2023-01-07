@@ -8,8 +8,6 @@
 
 #include "3DModels/Model.h"
 
-#include "DataModels/Components/ComponentPointLight.h"
-
 #include <iostream>
 #include <algorithm>
 
@@ -164,8 +162,6 @@ bool ModuleRender::Start()
 
 	models.push_back(bakerHouse);
 
-	pointLight = new ComponentPointLight(float3(0.0f, 4.0f, 0.0f), 4.0f, float3(1.0f, 1.0f, 1.0f), 1.0f);
-
 	return true;
 }
 
@@ -199,8 +195,6 @@ update_status ModuleRender::Update()
 
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
 	App->engineCamera->GetProjectionMatrix(), w, h);
-
-	pointLight->Draw();
 
 	return UPDATE_CONTINUE;
 }

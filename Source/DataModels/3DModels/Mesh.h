@@ -12,14 +12,11 @@ public:
 	Mesh(const aiMesh* mesh);
 	~Mesh();
 
-	void GenerateLights();
-
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
 	void CreateVAO();
 	void Draw(const std::vector<unsigned>& modelTextures, 
 		const float3 &translation, const float4x4 &rotation, const float3 &scale);
-	void RenderLights();
 
 	vec* GetVertices() const;
 	unsigned GetNumVertices() const;
@@ -29,9 +26,6 @@ private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
-	
-	unsigned uboAmbient;
-	unsigned uboDirectional;
 
 	unsigned materialIndex;
 	unsigned numVertices;
