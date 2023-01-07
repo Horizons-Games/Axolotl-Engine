@@ -5,7 +5,8 @@
 
 #include <string>
 
-class Json {
+class Json 
+{
 public:
 	Json(rapidjson::Document& document, rapidjson::Value& value);
 
