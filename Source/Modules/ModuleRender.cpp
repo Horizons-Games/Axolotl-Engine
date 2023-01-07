@@ -187,7 +187,7 @@ update_status ModuleRender::Update()
 {
 	for (std::shared_ptr<Model> model : models)
 	{
-		//model->Draw();
+		model->Draw();
 	}
 
 	int w, h;

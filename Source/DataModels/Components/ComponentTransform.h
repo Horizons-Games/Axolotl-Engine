@@ -19,6 +19,7 @@ public:
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
+	void SetRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 
 	const float4x4& GetLocalMatrix() const;
@@ -72,6 +73,11 @@ inline void ComponentTransform::SetPosition(const float3& position)
 inline void ComponentTransform::SetRotation(const float3& rotation)
 {
 	rot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+}
+
+inline void ComponentTransform::SetRotation(const Quat& rotation)
+{
+	rot = rotation;
 }
 
 inline void ComponentTransform::SetScale(const float3& scale)

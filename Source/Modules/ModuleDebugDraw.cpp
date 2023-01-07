@@ -615,7 +615,7 @@ update_status ModuleDebugDraw::Update()
     GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
     ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->GetComponent(ComponentType::TRANSFORM);
 
-    dd::axisTriad(selectedTransform->GetGlobalMatrix(), 0.1f, 1.0f);
+    dd::axisTriad(selectedTransform->GetLocalMatrix(), 0.1f, 1.0f);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;

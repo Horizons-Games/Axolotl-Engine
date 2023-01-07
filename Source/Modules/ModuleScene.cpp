@@ -23,9 +23,6 @@ bool ModuleScene::Init()
 
 	selectedGameObject = root;
 
-	ComponentTransform* transform = (ComponentTransform*)root->GetComponent(ComponentType::TRANSFORM);
-	transform->ResetGlobalMatrix();
-
 	return true;
 }
 

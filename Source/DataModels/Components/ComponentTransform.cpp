@@ -28,10 +28,9 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	if (ownerParent != nullptr)
-	{
-		ComponentTransform* parentTransform = (ComponentTransform*)ownerParent->GetComponent(ComponentType::TRANSFORM);
-		float4x4 globalMatrix = GetLocalMatrix() + parentTransform->GetGlobalMatrix();
-		SetGlobalMatrix(globalMatrix);
-	}
+	assert(ownerParent != nullptr);
+
+	ComponentTransform* parentTransform = (ComponentTransform*)ownerParent->GetComponent(ComponentType::TRANSFORM);
+	float4x4 globalMatrix = GetLocalMatrix() + parentTransform->GetGlobalMatrix();
+	SetGlobalMatrix(globalMatrix);
 }
