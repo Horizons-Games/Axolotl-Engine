@@ -27,6 +27,7 @@ public:
 	int GetNumTriangles() const;
 	unsigned GetTextureID(unsigned idx) const;
 	const float4x4& GetRotationF4x4() const;
+	const int GetMeshCount() const;
 
 	void SetTranslation(const float3 &translation);
 	void SetRotation(const float3 &roation);
@@ -53,7 +54,7 @@ private:
 	float3 translation;
 	float3 scale;
 	float3 rotation;
-	
+
 	AABB aabb;
 	OBB obb;
 };
@@ -66,6 +67,11 @@ inline const AABB& Model::GetAABB() const
 inline const OBB& Model::GetOBB() const
 {
 	return obb;
+}
+
+inline const int Model::GetMeshCount() const
+{
+	return meshes.size();
 }
 
 inline const float3& Model::GetTranslation() const
