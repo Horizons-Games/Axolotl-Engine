@@ -48,3 +48,4 @@ enum update_status
 #define TGA_TEXTURE_EXTENSION ".tga"
 #define SCENE_EXTENSION ".scene"
 #define MATERIAL_EXTENSION ".mat"
+#define META_EXTENSION ".meta"
