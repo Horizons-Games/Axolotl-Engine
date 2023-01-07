@@ -21,6 +21,11 @@ public:
 	void RemoveChild(GameObject* child);
 
 	UID GetUID() const;
+	bool GetActive() const;
+	const char* GetName() const;
+	GameObject* GetParent() const;
+	const std::vector<GameObject*>& GetChildren() const;
+	const std::vector<Component*>& GetComponents() const;
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -95,6 +100,11 @@ inline const std::vector<GameObject*>& GameObject::GetChildren() const
 }
 
 inline const std::vector<Component*>& GameObject::GetComponents() const
+{
+	return components;
+}
+
+inline void GameObject::Enable()
 {
 	return components;
 }

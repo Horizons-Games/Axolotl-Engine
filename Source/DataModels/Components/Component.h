@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT};
+enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT, CAMERA};
 
 class GameObject;
 
@@ -17,6 +17,7 @@ public:
 	virtual void Disable();
 
 	bool GetActive();
+	ComponentType GetType();
 
 	ComponentType GetType();
 

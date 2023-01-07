@@ -3,6 +3,8 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentCamera.h"
+
 
 #include <assert.h>
 
@@ -165,6 +167,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
+			break;
+		}
+		case ComponentType::CAMERA:
+		{
+			newComponent = new ComponentCamera(true, this);
 			break;
 		}
 
