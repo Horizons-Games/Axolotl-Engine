@@ -238,7 +238,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowProperties.cpp">
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
@@ -279,6 +279,12 @@
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resource\Skybox.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
+      <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -636,7 +642,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowProperties.h">
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
@@ -683,6 +689,12 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resource\Skybox.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentCamera.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -748,6 +760,9 @@
     </Filter>
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources">
+      <UniqueIdentifier>{622e24eb-afbc-4aca-9ee8-83eb0171573a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,7 @@ class ModuleEditor;
 class ModuleEngineCamera;
 class ModuleTexture;
 class ModuleFileSystem;
+class ModuleScene;
 
 class Application
 {
@@ -34,6 +35,7 @@ public:
 	float GetDeltaTime() const;
 
 public:
+	std::shared_ptr<ModuleScene> scene;
 	std::shared_ptr<ModuleFileSystem> fileSystem;
 	std::shared_ptr<ModuleRender> renderer;
 	std::shared_ptr<ModuleWindow> window;
