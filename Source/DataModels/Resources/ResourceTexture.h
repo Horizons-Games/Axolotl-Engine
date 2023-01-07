@@ -23,14 +23,25 @@ public:
 	void Load() override;
 	void Unload() override;
 
-	unsigned int GetWidth() const;
-	unsigned int GetHeight() const;
-	TextureFormat GetFormat() const;
+	unsigned int GetGlTexture() const;
+
+	void SetWidth(unsigned int width);
+	void SetHeight(unsigned int height);
+	void SetFormat(unsigned int format);
+	void SetInternalFormat(unsigned int internalFormat);
+	void SetType(unsigned int type);
+	void SetPixels(char* pixels);
 
 private:
+	void CreateTexture();
+
+	unsigned int glTexture = 0;
 	unsigned int width = 0;
 	unsigned int height = 0;
-	TextureFormat format = TextureFormat::Unknown;
+	unsigned int format = 0;
+	unsigned int internalFormat = 0;
+	unsigned int type = 0;
+	char* pixels = nullptr;
 };
 
 inline ResourceTexture::ResourceTexture(UID resourceUID,
@@ -45,17 +56,37 @@ inline ResourceType ResourceTexture::GetType() const
 	return ResourceType::Texture;
 }
 
-inline unsigned int ResourceTexture::GetWidth() const
+inline unsigned int ResourceTexture::GetGlTexture() const
 {
-	return width;
+	return glTexture;
 }
 
-inline unsigned int ResourceTexture::GetHeight() const
+inline void ResourceTexture::SetWidth(unsigned int width)
 {
-	return height;
+	this->width = width;
 }
 
-inline TextureFormat ResourceTexture::GetFormat() const
+inline void ResourceTexture::SetHeight(unsigned int height)
 {
-	return format;
+	this->height = height;
+}
+
+inline void ResourceTexture::SetFormat(unsigned int format)
+{
+	this->format = format;
+}
+
+inline void ResourceTexture::SetInternalFormat(unsigned int internalFormat)
+{
+	this->internalFormat = internalFormat;
+}
+
+inline void ResourceTexture::SetType(unsigned int type)
+{
+	this->type = type;
+}
+
+inline void ResourceTexture::SetPixels(char* pixels)
+{
+	this->pixels = pixels;
 }
