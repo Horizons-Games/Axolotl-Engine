@@ -710,6 +710,7 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Json.h">
       <Filter>Source\FileSystem</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Resource\Skybox.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
