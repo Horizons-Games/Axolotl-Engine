@@ -1,11 +1,9 @@
 #include "TextureImporter.h"
-#include "FileSystem/Data.h"
+
 #include "EngineLog.h"
+#include "FileSystem/Data.h"
 
 #include <DirectXTex/DirectXTex.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 
 void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
 {
@@ -59,15 +57,51 @@ void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
 	ourTexture->format = img.GetMetadata().format;
 	ourTexture->dataSize = img.GetPixelsSize();
 	ourTexture->imageData = img.GetPixels();
+
+	//Actualize metafile if needed
 }
 
 uint64_t TextureImporter::Save(const DataTexture* ourTexture, char*& fileBuffer)
 {
+	unsigned int header[4] = 
+	{ 
+		ourTexture->width,
+		ourTexture->height,
+		ourTexture->format,
+		ourTexture->dataSize
+	};
+
+	unsigned int size = sizeof(header) + sizeof(unsigned char) * ourTexture->dataSize;
+
+	char* cursor = new char[size];
+
+	fileBuffer = cursor;
+
+	unsigned int bytes = sizeof(header);
+	memcpy(cursor, header, bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(unsigned char) * ourTexture->dataSize;
+	memcpy(cursor, ourTexture->imageData, bytes);
+
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
 }
 
 void TextureImporter::Load(const char* fileBuffer, DataTexture* ourTexture)
 {
-	
+	unsigned int header[4];
+	memcpy(header, fileBuffer, sizeof(header));
+
+	ourTexture->width = header[0];
+	ourTexture->height = header[1];
+	ourTexture->format = header[2];
+	ourTexture->dataSize = header[3];
+
+	fileBuffer += sizeof(header);
+
+	ourTexture->imageData = new unsigned char[ourTexture->dataSize];
+
+	memcpy(ourTexture->imageData, fileBuffer, sizeof(unsigned char) * ourTexture->dataSize);
 }
