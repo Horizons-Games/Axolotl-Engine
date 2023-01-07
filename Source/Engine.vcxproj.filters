@@ -716,7 +716,6 @@
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
