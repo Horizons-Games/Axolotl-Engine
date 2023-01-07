@@ -19,6 +19,10 @@ public:
 	~ResourceTexture() override = default;
 
 	ResourceType GetType() const override;
+
+	void Load() override;
+	void Unload() override;
+
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
 	TextureFormat GetFormat() const;

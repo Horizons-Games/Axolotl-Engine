@@ -5,6 +5,23 @@
 #include "GL/glew.h"
 #include "Math/float2.h"
 
+void ResourceMesh::Load()
+{
+	this->CreateVBO();
+	this->CreateEBO();
+	this->CreateVAO();
+}
+
+void ResourceMesh::Unload()
+{
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+	glDeleteBuffers(1, &vao);
+	vbo = 0;
+	ebo = 0;
+	vao = 0;
+}
+
 void ResourceMesh::CreateVBO()
 {
 	glGenBuffers(1, &vbo);

@@ -12,6 +12,9 @@ public:
 
 	ResourceType GetType() const override;
 
+	void Load() override;
+	void Unload() override;
+
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
 	unsigned int GetVAO() const;
