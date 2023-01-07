@@ -224,6 +224,7 @@
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
@@ -358,6 +359,7 @@
     <ClInclude Include="FileSystem\Data.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
+    <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
