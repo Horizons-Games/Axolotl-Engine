@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "Components/ComponentPointLight.h"
 #include "3DModels/Model.h"
 
 #include "Math/float4x4.h"
@@ -54,7 +53,6 @@ private:
 
 	unsigned vbo;
 	std::vector<std::shared_ptr<Model> > models;
-	ComponentPointLight *pointLight;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;
