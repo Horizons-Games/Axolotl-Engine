@@ -80,7 +80,7 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	bool exists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!exists)
 	{
-		//copy, pending merge with corresponding branch
+		App->fileSystem->Copy(originalPath.c_str(), assetsPath.c_str());
 	}
 }
 
