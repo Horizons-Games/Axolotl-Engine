@@ -19,8 +19,14 @@ public:
 	unsigned int GetEBO() const;
 	unsigned int GetVAO() const;
 
-	void SetNumVertices(int numVertices);
-	void SetNumFaces(int numFaces);
+	unsigned int GetNumVertices();
+	unsigned int GetNumFaces();
+	const std::vector<float3>& GetVertices();
+	const std::vector<float3>& GetTextureCoords();
+	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
+
+	void SetNumVertices(unsigned int numVertices);
+	void SetNumFaces(unsigned int numFaces);
 	void SetVertices(const std::vector<float3>& vertices);
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
@@ -69,12 +75,37 @@ inline unsigned int ResourceMesh::GetVAO() const
 	return this->vao;
 }
 
-inline void ResourceMesh::SetNumVertices(int numVertices)
+inline unsigned int ResourceMesh::GetNumVertices()
+{
+	return numVertices;
+}
+
+inline unsigned int ResourceMesh::GetNumFaces()
+{
+	return numFaces;
+}
+
+inline const std::vector<float3>& ResourceMesh::GetVertices()
+{
+	return vertices;
+}
+
+inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
+{
+	return textureCoords;
+}
+
+inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
+{
+	return facesIndices;
+}
+
+inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 {
 	this->numVertices = numVertices;
 }
 
-inline void ResourceMesh::SetNumFaces(int numFaces)
+inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
 }
