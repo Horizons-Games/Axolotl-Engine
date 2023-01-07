@@ -333,15 +333,26 @@ void ModuleRender::UpdateProgram()
 
 void ModuleRender::DrawScene(Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox())) 
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
 	{
 		auto gameObjectsToRender = quadtree->GetGameObjects();
-		if (quadtree->IsLeaf() || !gameObjectsToRender.empty()) 
+		if (quadtree->IsLeaf()) 
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
 				//gameObject->Draw;
 			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				//gameObject->Draw;
+			}
+			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
 		}
 		else 
 		{

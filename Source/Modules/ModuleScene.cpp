@@ -22,8 +22,11 @@ bool ModuleScene::Init()
 
 void ModuleScene::FillQuadtree(GameObject* gameObject) 
 {
-	if (gameObject->GetChildren().empty()) sceneQuadTree->Add(gameObject);
-	else for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
+	sceneQuadTree->Add(gameObject);
+	if (!gameObject->GetChildren().empty())
+	{
+		for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
+	}
 }
 
 bool ModuleScene::IsInsideACamera(const OBB& obb)
