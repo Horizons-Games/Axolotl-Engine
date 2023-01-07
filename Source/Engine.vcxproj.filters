@@ -277,7 +277,9 @@
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -679,7 +681,9 @@
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
+    <ClInclude Include="FileSystem\Importers\TextureImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
