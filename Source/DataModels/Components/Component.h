@@ -17,7 +17,9 @@ public:
 	virtual void Disable();
 
 	bool GetActive();
+	ComponentType GetType();
 
+	GameObject* GetOwner();
 private:
 	ComponentType type;
 	bool active;
@@ -39,4 +41,14 @@ inline void Component::Disable()
 inline bool Component::GetActive()
 {
 	return this->active;
+}
+
+inline ComponentType Component::GetType()
+{
+	return this->type;
+}
+
+inline GameObject* Component::GetOwner()
+{
+	return this->owner;
 }

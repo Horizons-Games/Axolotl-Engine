@@ -19,5 +19,5 @@ in vec2 uv0;
 
 void main()
 {		
-	color = texture2D(texDiffuse, uv0);
+	color = texture2D(diffuse, uv0);
 }
