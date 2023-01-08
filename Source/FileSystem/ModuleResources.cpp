@@ -91,7 +91,7 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
-		separatorNotFound = currentChar != '\\';
+		separatorNotFound = currentChar != '/';
 		if (separatorNotFound)
 		{
 			fileName.insert(0, 1, currentChar);
