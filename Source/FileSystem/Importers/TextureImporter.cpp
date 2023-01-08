@@ -6,7 +6,9 @@
 #include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
 
-void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
+#define DDS_TEXTURE_EXTENSION ".dds"
+
+void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> ourTexture)
 {
 	ENGINE_LOG("Import texture from %s", filePath);
 
@@ -91,7 +93,7 @@ void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
 	//Actualize metafile if needed
 }
 
-uint64_t TextureImporter::Save(const DataTexture* ourTexture, char*& fileBuffer)
+uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> ourTexture, char*& fileBuffer)
 {
 	unsigned int header[4] = 
 	{ 
@@ -119,7 +121,7 @@ uint64_t TextureImporter::Save(const DataTexture* ourTexture, char*& fileBuffer)
 	return 0;
 }
 
-void TextureImporter::Load(const char* fileBuffer, DataTexture* ourTexture)
+void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> ourTexture)
 {
 	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));
