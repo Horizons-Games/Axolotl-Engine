@@ -8,3 +8,12 @@ struct DataMesh
 	unsigned int* indices;
 	float3* vertices;
 };
+
+struct DataTexture
+{
+	unsigned width;
+	unsigned height;
+	unsigned format;
+	unsigned dataSize;
+	unsigned char* imageData = nullptr;
+};
