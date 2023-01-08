@@ -38,6 +38,7 @@ enum update_status
 // Paths -------------------
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
+#define MESHES_PATH "Assets/Meshes/"
 
 // Resource extension ------
 #define MODEL_EXTENSION ".fbx"
@@ -48,4 +49,5 @@ enum update_status
 #define TGA_TEXTURE_EXTENSION ".tga"
 #define SCENE_EXTENSION ".scene"
 #define MATERIAL_EXTENSION ".mat"
+#define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
