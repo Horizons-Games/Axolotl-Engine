@@ -344,6 +344,7 @@
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Resources\Resource.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
+    <ClInclude Include="DataModels\Resources\ResourceModel.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Resource\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
