@@ -1,9 +1,16 @@
 #include "MeshImporter.h"
-#include "FileSystem/Data.h"
+
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include "EngineLog.h"
 
 void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> resource)
 {
+	char* buffer;
+
+	App->fileSystem->Load(filePath, buffer);
+	Load(buffer, resource);
 }
 
 uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* &fileBuffer)
