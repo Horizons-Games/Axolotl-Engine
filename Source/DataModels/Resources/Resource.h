@@ -26,6 +26,9 @@ public:
 	const std::string& GetAssetsPath() const;
 	const std::string& GetLibraryPath() const;
 
+	virtual void Load() = 0;
+	virtual void Unload() = 0;
+
 protected:
 	Resource(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath);
 
