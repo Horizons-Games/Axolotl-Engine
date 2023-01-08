@@ -1,5 +1,7 @@
 #pragma once
 #include "Math/float3.h"
+#include "FileSystem/UniqueID.h"
+#include <vector>
 
 struct DataMesh 
 {
@@ -19,4 +21,10 @@ struct DataTexture
 	unsigned int type = 0;
 	unsigned int pixelsSize;
 	unsigned char* pixels = nullptr;
+};
+
+struct DataModel
+{
+	std::vector<UID> texturesUIDs;
+	std::vector<UID> meshesUIDs;
 };

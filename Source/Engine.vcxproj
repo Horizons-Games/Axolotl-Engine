@@ -228,6 +228,7 @@
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\ModelImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
     <ClCompile Include="FileSystem\Json.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
@@ -370,6 +371,7 @@
     <ClInclude Include="FileSystem\Data.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
+    <ClInclude Include="FileSystem\Importers\ModelImporter.h" />
     <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
     <ClInclude Include="FileSystem\Json.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
