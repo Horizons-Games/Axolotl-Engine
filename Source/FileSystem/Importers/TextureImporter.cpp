@@ -120,8 +120,8 @@ uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*&
 
 	cursor += bytes;
 
-	bytes = sizeof(unsigned char) * resource->GetPixelsSize();
-	memcpy(cursor, resource->GetPixels(), bytes);
+	bytes = sizeof(uint8_t) * resource->GetPixelsSize();
+	memcpy(cursor, &resource->GetPixels()[0], bytes);
 
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
@@ -139,7 +139,8 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 
 	fileBuffer += sizeof(header);
 
-	unsigned char* pixels = new unsigned char[resource->GetPixelsSize()];
-	memcpy(pixels, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
+	uint8_t* pixelsPointer = new uint8_t[resource->GetPixelsSize()];
+	memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
+	std::vector<uint8_t> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
 	resource->SetPixels(pixels);
 } 
