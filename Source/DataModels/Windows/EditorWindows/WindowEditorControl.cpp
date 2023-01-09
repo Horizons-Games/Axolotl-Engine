@@ -31,5 +31,30 @@ void WindowEditorControl::DrawControlButtons()
 {
 
 
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    float size = ImGui::CalcTextSize("##Play").x + style.FramePadding.x * 2.0f;
+    float avail = ImGui::GetContentRegionAvail().x;
+
+    float off = (avail - size) * 0.47;
+    if (off > 0.0f)
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
+
+
+    if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
+    {  
+    
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Pause"))
+    {
+
+    }
+    ImGui::SameLine();
+    if (ImGui::ArrowButton("##Next", ImGuiDir_Right))
+    {
+
+    }
+
     
 }

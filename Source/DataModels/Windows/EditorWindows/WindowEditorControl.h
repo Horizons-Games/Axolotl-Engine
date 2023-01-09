@@ -20,7 +20,7 @@ protected:
 
 
 private:
-	void DrawRecursiveHierarchy(GameObject* gameObject);
+	void DrawControlButtons();
 };
 
 inline ImVec2 WindowEditorControl::GetStartingSize() const
