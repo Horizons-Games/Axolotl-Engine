@@ -729,6 +729,9 @@
     <ClInclude Include="FileSystem\Importers\ModelImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceModel.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

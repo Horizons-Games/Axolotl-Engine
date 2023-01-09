@@ -18,6 +18,7 @@ public:
 	ModuleResources() = default;
 	~ModuleResources() override = default;
 
+	bool Start() override;
 	bool CleanUp() override;
 
 	UID ImportThread(const std::string& originalPath);
