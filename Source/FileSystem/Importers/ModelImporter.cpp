@@ -22,6 +22,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	{
 		ImportMaterials(scene, filePath, resource);
 		ImportMeshes(scene, filePath, resource);
+		aiReleaseImport(scene);
 	}
 	else
 	{
@@ -29,13 +30,13 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 }
 
-uint64_t ModelImporter::Save(std::shared_ptr<ResourceModel> resource, char*& fileBuffer)
+uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer)
 {
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
 }
 
-void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
+void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>& resource)
 {
 }
 

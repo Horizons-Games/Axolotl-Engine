@@ -9,14 +9,14 @@ class Importer
 {
 public:
 
-	Importer()
-	{
-	}
+	Importer() = default;
 	// Reads a path that indicates a file to import to engine
 	virtual void Import(const char* filePath, std::shared_ptr<U> resource) = 0;
+
+protected:
 	// Reads your own data and generates a file buffer
-	virtual uint64_t Save(const std::shared_ptr<U> resource, char*& fileBuffer) = 0;
+	virtual uint64_t Save(const std::shared_ptr<U>& resource, char*& fileBuffer) = 0;
 	// Reads assimp data and generates your own data
-	virtual void Load(const char* fileBuffer, std::shared_ptr<U> resource) = 0;
+	virtual void Load(const char* fileBuffer, std::shared_ptr<U>& resource) = 0;
 
 };
