@@ -9,6 +9,10 @@ ComponentMaterial::~ComponentMaterial()
 {
 }
 
+void ComponentMaterial::Init()
+{
+}
+
 void ComponentMaterial::Update()
 {
 	// TODO: Perform Material updates (draw...)

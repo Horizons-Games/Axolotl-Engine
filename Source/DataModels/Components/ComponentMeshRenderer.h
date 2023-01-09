@@ -1,36 +1,59 @@
 #pragma once
 
+#include "Components/Component.h"
+#include "FileSystem/UniqueID.h"
+
 #include <memory>
 
-#include "Components/Component.h"
-
 class ResourceMesh;
-class ResourceTexture;
 
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner, ResourceMesh* mesh, ResourceTexture* texture);
+	ComponentMeshRenderer(const bool active, GameObject* owner, UID& meshUID, UID& textureUID);
 	~ComponentMeshRenderer() override;
 
+	void Init() override;
 	void Update() override;
 
 	void Draw();
 
-private:
-	void SetMesh(ResourceMesh* mesh);
-	void SetTexture(ResourceTexture* texture);
+	void SetMeshUID(UID& meshUID);
+	void SetTextureUID(UID& textureUID);
 
-	ResourceMesh* mesh = nullptr;
-	ResourceTexture* texture = nullptr;
+	const UID& GetMeshUID() const;
+	const UID& GetTextureUID() const;
+
+private:
+	bool IsMeshLoaded();
+
+	std::shared_ptr<ResourceMesh> mesh = nullptr;
+	
+	UID meshUID = 0ULL;
+	UID textureUID = 0ULL;
 };
 
-inline void ComponentMeshRenderer::SetMesh(ResourceMesh* mesh)
+inline void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
 {
-	this->mesh = mesh;
+	this->meshUID = meshUID;
 }
 
-inline void ComponentMeshRenderer::SetTexture(ResourceTexture* texture)
+inline void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
 {
-	this->texture = texture;
+	this->textureUID = textureUID;
+}
+
+inline const UID& ComponentMeshRenderer::GetMeshUID() const
+{
+	return meshUID;
+}
+
+inline const UID& ComponentMeshRenderer::GetTextureUID() const
+{
+	return textureUID;
+}
+
+inline bool ComponentMeshRenderer::IsMeshLoaded()
+{
+	return (mesh != nullptr);
 }

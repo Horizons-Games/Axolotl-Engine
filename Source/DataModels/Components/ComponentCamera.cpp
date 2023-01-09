@@ -36,6 +36,10 @@ ComponentCamera::~ComponentCamera()
 
 }
 
+void ComponentCamera::Init()
+{
+}
+
 void ComponentCamera::Update()
 {
 	//Placeholder rotation to see the frustum

@@ -11,6 +11,7 @@ public:
 	ComponentTransform(const bool active, GameObject* owner);
 	~ComponentTransform() override;
 
+	void Init() override;
 	void Update() override;
 
 	const float3& GetPosition() const;

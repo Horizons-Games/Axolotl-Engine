@@ -10,10 +10,10 @@ public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
 	virtual ~Component();
 
-	virtual void Enable();
-
+	virtual void Init() = 0;
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
+	virtual void Enable();
 	virtual void Disable();
 
 	bool GetActive();

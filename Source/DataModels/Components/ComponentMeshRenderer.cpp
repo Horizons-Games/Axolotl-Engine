@@ -6,28 +6,33 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
+#include "FileSystem/ModuleResources.h"
+
+#include "Resources/ResourceMesh.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Resources/ResourceMesh.h"
-#include "Resources/ResourceTexture.h"
+#include "Math/float3x3.h"
 
 #include "GL/glew.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, ResourceMesh* mesh, ResourceTexture* texture)
-	: Component(ComponentType::MESH, active, owner), mesh(mesh), texture(texture)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID& meshUID, UID& textureUID)
+	: Component(ComponentType::MESH, active, owner), meshUID(meshUID), textureUID(textureUID)
 {
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	mesh = nullptr;
-	texture = nullptr;
+}
+
+void ComponentMeshRenderer::Init()
+{
+	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
 }
 
 void ComponentMeshRenderer::Update()
 {
-	if (GetActive())
+	if (GetActive() && IsMeshLoaded())
 	{
 		Draw();
 	}
@@ -47,11 +52,11 @@ void ComponentMeshRenderer::Draw()
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture->GetUID());
+	glBindTexture(GL_TEXTURE_2D, textureUID);
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(mesh->GetVAO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() / 3, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 }
