@@ -1,11 +1,13 @@
 #include "TextureImporter.h"
 
 #include "EngineLog.h"
-#include "FileSystem/Data.h"
 
+#include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
 
-void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
+#define DDS_TEXTURE_EXTENSION ".dds"
+
+void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
 	ENGINE_LOG("Import texture from %s", filePath);
 
@@ -44,30 +46,70 @@ void TextureImporter::Start(const char* filePath, DataTexture* ourTexture)
 			dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 	}
 
-	result = DirectX::SaveToDDSFile(img.GetImages(), img.GetImageCount(), img.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
+	wideString = std::wstring(narrowString.begin(), narrowString.end());
+	path = wideString.c_str();
 
-	//TODO Call Resource Start or Init function with all this info
-	ourTexture->width = img.GetMetadata().width;
-	ourTexture->height = img.GetMetadata().height;
+	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
 
-	ourTexture->format = img.GetMetadata().format;
-	ourTexture->dataSize = img.GetPixelsSize();
-	ourTexture->imageData = img.GetPixels();
+	GLint internalFormat;
+	GLenum format, type;
+
+	switch (flippedImg.GetMetadata().format)
+	{
+	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+	case DXGI_FORMAT_R8G8B8A8_UNORM:
+		internalFormat = GL_RGBA8;
+		format = GL_RGBA;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+	case DXGI_FORMAT_B8G8R8A8_UNORM:
+		internalFormat = GL_RGBA8;
+		format = GL_BGRA;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	case DXGI_FORMAT_B5G6R5_UNORM:
+		internalFormat = GL_RGB8;
+		format = GL_BGR;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	case DXGI_FORMAT_BC1_UNORM:
+		internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		format = GL_RGBA;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	default:
+		assert(false && "Unsupported format");
+	}
+
+	resource->SetWidth(flippedImg.GetMetadata().width);
+	resource->SetHeight(flippedImg.GetMetadata().height);
+
+	resource->SetInternalFormat(internalFormat);
+	resource->SetFormat(format);
+	resource->SetImageType(type);
+
+	resource->SetPixelsSize(flippedImg.GetPixelsSize());
+
+	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
+
+	resource->SetPixels(pixels);
 
 	//Actualize metafile if needed
 }
 
-uint64_t TextureImporter::Save(const DataTexture* ourTexture, char*& fileBuffer)
+uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*& fileBuffer)
 {
 	unsigned int header[4] = 
 	{ 
-		ourTexture->width,
-		ourTexture->height,
-		ourTexture->format,
-		ourTexture->dataSize
+		resource->GetWidth(),
+		resource->GetHeight(),
+		resource->GetFormat(),
+		resource->GetPixelsSize()
 	};
 
-	unsigned int size = sizeof(header) + sizeof(unsigned char) * ourTexture->dataSize;
+	unsigned int size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize();
 
 	char* cursor = new char[size];
 
@@ -78,26 +120,27 @@ uint64_t TextureImporter::Save(const DataTexture* ourTexture, char*& fileBuffer)
 
 	cursor += bytes;
 
-	bytes = sizeof(unsigned char) * ourTexture->dataSize;
-	memcpy(cursor, ourTexture->imageData, bytes);
+	bytes = sizeof(uint8_t) * resource->GetPixelsSize();
+	memcpy(cursor, &resource->GetPixels()[0], bytes);
 
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
 }
 
-void TextureImporter::Load(const char* fileBuffer, DataTexture* ourTexture)
+void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
 {
 	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));
 
-	ourTexture->width = header[0];
-	ourTexture->height = header[1];
-	ourTexture->format = header[2];
-	ourTexture->dataSize = header[3];
+	resource->SetWidth(header[0]);
+	resource->SetHeight(header[1]);
+	resource->SetFormat(header[2]);
+	resource->SetPixelsSize(header[3]);
 
 	fileBuffer += sizeof(header);
 
-	ourTexture->imageData = new unsigned char[ourTexture->dataSize];
-
-	memcpy(ourTexture->imageData, fileBuffer, sizeof(unsigned char) * ourTexture->dataSize);
-}
+	uint8_t* pixelsPointer = new uint8_t[resource->GetPixelsSize()];
+	memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
+	std::vector<uint8_t> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
+	resource->SetPixels(pixels);
+} 
