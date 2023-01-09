@@ -15,10 +15,10 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 
 uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* &fileBuffer)
 {
-	unsigned int header[2] = { resource->GetNumIndexes(), resource->GetNumVertices()};
+	unsigned int header[3] = { resource->GetNumFaces(), resource->GetNumVertices(), resource->GetMaterialIndex()};
 	
-	unsigned int size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * resource->GetNumIndexes()) 
-		+ sizeof(float3) * resource->GetNumVertices() + sizeof(float3) * resource->GetNumVertices();
+	unsigned int size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3) 
+		+ sizeof(float3) * resource->GetNumVertices() * 2;
 	
 	char* cursor = new char[size];
 	
@@ -29,7 +29,7 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* 
 
 	cursor += bytes;
 
-	bytes = resource->GetNumFaces() * (sizeof(unsigned int) * resource->GetNumIndexes());
+	bytes = resource->GetNumFaces() * (sizeof(unsigned int) * 3);
 	memcpy(cursor, &resource->GetFacesIndices(), bytes);
 
 	cursor += bytes;
@@ -52,24 +52,37 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	unsigned int header[2];
 	memcpy(header, fileBuffer, sizeof(header));
 
-	resource->SetNumIndexes(header[0]);
+	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
 
 	fileBuffer += sizeof(header);
-	
-	int size = resource->GetNumIndexes() * resource->GetNumFaces();
-	unsigned int* facesPointer = new unsigned int[size];
-	memcpy(facesPointer, fileBuffer, resource->GetNumFaces() * (sizeof(unsigned int) * resource->GetNumIndexes()));
-	std::vector<std::vector<unsigned int> > faces(facesPointer, facesPointer + resource->GetNumFaces());
+
+	int size = 3 * resource->GetNumFaces();
+	unsigned int* indexesPointer = new unsigned int[size];
+	int bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
+	memcpy(indexesPointer, fileBuffer, bytes);
+	std::vector<std::vector<unsigned int>> faces;
+	for (int i = 0; i < resource->GetNumFaces(); ++i) {
+		std::vector<unsigned int > indexes(indexesPointer, indexesPointer + 3);
+		indexesPointer += (sizeof(unsigned int) * 3);
+		faces.push_back(indexes);
+	}
 	resource->SetFacesIndices(faces);
 
+	fileBuffer += bytes;
+
 	float3* vertexPointer = new float3[resource->GetNumVertices()];
-	memcpy(vertexPointer, fileBuffer, sizeof(float3) * resource->GetNumVertices());
+	bytes = sizeof(float3) * resource->GetNumVertices();
+	memcpy(vertexPointer, fileBuffer, bytes);
 	std::vector<float3> vertexs(vertexPointer, vertexPointer + resource->GetNumVertices());
 	resource->SetVertices(vertexs);
 
+	fileBuffer += bytes;
+
 	float3* textureCoordPointer = new float3[resource->GetNumVertices()];
-	memcpy(textureCoordPointer, fileBuffer, sizeof(float3) * resource->GetNumVertices());
+	bytes = sizeof(float3) * resource->GetNumVertices();
+	memcpy(textureCoordPointer, fileBuffer, bytes);
 	std::vector<float3> textureCoord(textureCoordPointer, textureCoordPointer + resource->GetNumVertices());
-	resource->SetVertices(textureCoord);
+	resource->SetTextureCoords(textureCoord);
+
 }
