@@ -21,24 +21,22 @@ public:
 	void RemoveChild(GameObject* child);
 
 	UID GetUID() const;
+	bool GetActive() const;
+	const char* GetName() const;
+	GameObject* GetParent() const;
+	const std::vector<GameObject*>& GetChildren() const;
+	const std::vector<Component*>& GetComponents() const;
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
 
-	const char* GetName() const;
 	void SetName(const char* newName);
-
-	GameObject* GetParent() const;
 	void SetParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
-
-	const std::vector<GameObject*>& GetChildren() const;
-
-	const std::vector<Component*>& GetComponents() const;
 
 	Component* CreateComponent(ComponentType type);
 	Component* GetComponent(ComponentType type);

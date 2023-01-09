@@ -2,8 +2,11 @@
 
 #include "Module.h"
 #include "../FileSystem/UniqueID.h"
+#include "Geometry/OBB.h" 
+#include "Geometry/AABB.h" 
 
 class GameObject;
+class Quadtree;
 
 class ModuleScene :public Module
 {
@@ -14,7 +17,10 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	void FillQuadtree(GameObject* gameObject);
+	bool IsInsideACamera(const OBB& obb);
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	Quadtree* GetSceneQuadTree() const;
 
 	GameObject* GetRoot() const;
 	GameObject* GetSelectedGameObject() const;
@@ -30,6 +36,8 @@ private:
 	GameObject* selectedGameObject = nullptr;
 
 	std::vector<GameObject*> sceneGameObjects = {};
+	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
+	Quadtree* sceneQuadTree = nullptr;
 };
 
 inline GameObject* ModuleScene::GetRoot() const
@@ -46,3 +54,9 @@ inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	selectedGameObject = gameObject;
 }
+
+inline Quadtree* ModuleScene::GetSceneQuadTree() const
+{
+	return sceneQuadTree;
+}
+

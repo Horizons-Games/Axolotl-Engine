@@ -277,6 +277,12 @@
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resource\Skybox.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -678,6 +684,12 @@
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resource\Skybox.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentCamera.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -742,6 +754,9 @@
     </Filter>
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources">
+      <UniqueIdentifier>{622e24eb-afbc-4aca-9ee8-83eb0171573a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
