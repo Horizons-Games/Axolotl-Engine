@@ -267,6 +267,7 @@
     </ClCompile>
     <ClCompile Include="..\External\FontIcons\CustomFont.cpp">
       <Filter>External\FontIcons</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
@@ -715,6 +716,7 @@
     </ClInclude>
     <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h">
       <Filter>External\FontIcons</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -836,6 +838,7 @@
     </Filter>
     <Filter Include="External\ImGuiFileDialog\stb">
       <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
