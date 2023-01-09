@@ -32,16 +32,12 @@ bool ModuleEngineCamera::Init()
 	moveSpeed = DEFAULT_MOVE_SPEED;
 	rotationSpeed = DEFAULT_ROTATION_SPEED;
 	mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
-	frustumMode = DEFAULT_FRUSTUM_MODE;
-	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
 
 	frustum.SetPos(position);
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
-
-	if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 
 	return true;
 }
@@ -72,7 +68,7 @@ update_status ModuleEngineCamera::Update()
 			FreeLook();
 		}
 
-		if (App->input->IsMouseWheelScrolled())
+		if (App->input->IsMouseWeelScrolled())
 		{
 			Zoom();
 		}
@@ -91,8 +87,6 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
-		SelectObjects();
-		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
@@ -174,16 +168,6 @@ void ModuleEngineCamera::KeyboardRotate()
 	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
-}
-
-void ModuleEngineCamera::SelectObjects() {
-	if (App->renderer->AnyModelLoaded()) {
-		for (int i = 0; i < App->renderer->GetModelCount(); ++i) {
-			for (int j = 0; j < App->renderer->GetModel(i)->GetMeshCount(); ++j) {
-				App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetAABB());
-			}
-		}
-	}
 }
 
 void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix) 
@@ -289,69 +273,6 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 	frustum.SetPos(position);
 }
 
-bool ModuleEngineCamera::IsInside(const OBB& obb)
-{
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
-	math::vec cornerPoints[8];
-	math::Plane frustumPlanes[6];
-	
-	frustum.GetPlanes(frustumPlanes);
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0 ; itPoints < 8; ++itPoints)
-		{
-			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-		if (!onPlane) return false;
-	}
-	
-	return true;
-}
-
-bool ModuleEngineCamera::IsInsideOffset(const OBB& obb)
-{
-	math::vec cornerPoints[8];
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; ++itPoints)
-		{
-			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-		if (!onPlane) return false;
-	}
-
-	return true;
-}
-
-void ModuleEngineCamera::RecalculateOffsetPlanes() 
-{
-	math::Plane frustumPlanes[6];
-	frustum.GetPlanes(frustumPlanes);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		math::Plane plane = frustumPlanes[itPlanes];
-		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
-		offsetFrustumPlanes[itPlanes] = plane;
-	}
-
-}
-
 void ModuleEngineCamera::SetHFOV(float fov)
 {
 	frustum.SetHorizontalFovAndAspectRatio(fov, aspectRatio);
@@ -404,17 +325,6 @@ void ModuleEngineCamera::SetRotationSpeed(float speed)
 	rotationSpeed = speed;
 }
 
-void ModuleEngineCamera::SetFrustumOffset(float offset)
-{
-	frustumOffset = offset;
-}
-
-
-void ModuleEngineCamera::SetFrustumMode(int mode)
-{
-	frustumMode = mode;
-}
-
 const float4x4& ModuleEngineCamera::GetProjectionMatrix() const
 {
 	return projectionMatrix;
@@ -458,14 +368,4 @@ float ModuleEngineCamera::GetRotationSpeed() const
 float ModuleEngineCamera::GetDistance(const float3& point) const
 {
 	return frustum.Pos().Distance(point);
-}
-
-float ModuleEngineCamera::GetFrustumOffset() const 
-{
-	return frustumOffset;
-}
-
-int ModuleEngineCamera::GetFrustumMode() const
-{
-	return frustumMode;
 }

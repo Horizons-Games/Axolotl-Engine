@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Type {MATERIAL, MESH, TRANSFORM, LIGHT};
+enum class Type {MATERIAL, MESH, TRANSFORM};
 
 class GameObject;
 
@@ -16,15 +16,13 @@ public:
 
 	virtual void Disable();
 
-	bool GetActive();
-
 private:
 	Type type;
 	bool active;
 	GameObject* owner;
 };
 
-inline void Component::Enable()
+void Component::Enable()
 {
 	this->active = true;
 }
@@ -40,9 +38,4 @@ inline void Component::Update()
 inline void Component::Disable()
 {
 	this->active = false;
-}
-
-inline bool Component::GetActive()
-{
-	return this->active;
 }
