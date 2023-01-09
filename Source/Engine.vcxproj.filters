@@ -723,6 +723,9 @@
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceModel.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
