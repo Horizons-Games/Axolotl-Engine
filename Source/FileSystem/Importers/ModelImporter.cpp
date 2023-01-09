@@ -22,6 +22,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	{
 		ImportMaterials(scene, filePath, resource);
 		ImportMeshes(scene, filePath, resource);
+		aiReleaseImport(scene);
 	}
 	else
 	{
