@@ -14,15 +14,15 @@
 
 #include "GL/glew.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESH, active, owner)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, ResourceMesh* mesh, ResourceTexture* texture)
+	: Component(ComponentType::MESH, active, owner), mesh(mesh), texture(texture)
 {
-	mesh = std::make_unique<ResourceMesh>(UniqueID::GenerateUID(), "", "");
-	texture = std::make_unique<ResourceTexture>(UniqueID::GenerateUID(), "", "");
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
+	mesh = nullptr;
+	texture = nullptr;
 }
 
 void ComponentMeshRenderer::Update()

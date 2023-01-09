@@ -10,7 +10,7 @@ class ResourceTexture;
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner);
+	ComponentMeshRenderer(const bool active, GameObject* owner, ResourceMesh* mesh, ResourceTexture* texture);
 	~ComponentMeshRenderer() override;
 
 	void Update() override;
@@ -18,6 +18,19 @@ public:
 	void Draw();
 
 private:
-	std::unique_ptr<ResourceMesh> mesh = nullptr;
-	std::unique_ptr<ResourceTexture> texture = nullptr;
+	void SetMesh(ResourceMesh* mesh);
+	void SetTexture(ResourceTexture* texture);
+
+	ResourceMesh* mesh = nullptr;
+	ResourceTexture* texture = nullptr;
 };
+
+inline void ComponentMeshRenderer::SetMesh(ResourceMesh* mesh)
+{
+	this->mesh = mesh;
+}
+
+inline void ComponentMeshRenderer::SetTexture(ResourceTexture* texture)
+{
+	this->texture = texture;
+}
