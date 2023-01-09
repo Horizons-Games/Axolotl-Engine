@@ -1,4 +1,6 @@
 #include "WindowConfiguration.h"
+#include "Application.h"
+#include "ModuleEditor.h"
 
 #include "Windows/SubWindows/WindowFPS.h"
 #include "Windows/SubWindows/WindowRenderer.h"
@@ -26,6 +28,8 @@ WindowConfiguration::~WindowConfiguration()
 
 void WindowConfiguration::DrawWindowContents()
 {
+	ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
+
 	for (int i = 0; i < collapsingSubWindows.size(); ++i)
 		collapsingSubWindows[i]->Draw();
 }

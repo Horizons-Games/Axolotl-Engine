@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "GameObject/GameObject.h"
 
 #include "3DModels/Model.h"
@@ -26,6 +27,8 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
+    ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
+
     if (App->scene->GetRoot() != nullptr)
     {
         DrawRecursiveHierarchy(App->scene->GetRoot());

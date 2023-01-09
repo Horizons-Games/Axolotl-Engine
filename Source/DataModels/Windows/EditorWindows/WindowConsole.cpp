@@ -1,4 +1,6 @@
 #include "WindowConsole.h"
+#include "Application.h"
+#include "ModuleEditor.h"
 
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
@@ -11,6 +13,7 @@ WindowConsole::~WindowConsole()
 
 void WindowConsole::DrawWindowContents()
 {
+	ImGui::SetNextWindowDockID(App->editor->dock_down_id, ImGuiCond_FirstUseEver);
 	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
 
 	std::string logInfo = "";

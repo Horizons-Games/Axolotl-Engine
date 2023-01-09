@@ -23,6 +23,12 @@ public:
 
 	bool IsSceneFocused() const;
 
+	unsigned dock_space_id = 0;
+	unsigned dock_main_id = 0;
+	unsigned dock_left_id = 0;
+	unsigned dock_right_id = 0;
+	unsigned dock_down_id = 0;
+
 private:
 	std::vector<std::string> lines;
 	std::vector<std::shared_ptr<EditorWindow> > windows;

@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 
 #include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
@@ -21,6 +22,8 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	ImGui::SetNextWindowDockID(App->editor->dock_right_id, ImGuiCond_FirstUseEver);
+
 	model = App->renderer->GetModel(0);
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists

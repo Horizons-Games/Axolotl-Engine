@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleEditor.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene")
 {
@@ -18,8 +19,9 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
+	ImGui::SetNextWindowDockID(App->editor->dock_main_id, ImGuiCond_FirstUseEver);
 	ImGui::Image((void*)App->renderer->GetRenderedTexture(), 
-		ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void WindowScene::ManageResize()

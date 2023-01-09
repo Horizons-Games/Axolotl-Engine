@@ -17,6 +17,7 @@
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
+#include <ImGui/imgui_internal.h>
 
 #include <GL/glew.h>
 
@@ -87,7 +88,18 @@ update_status ModuleEditor::Update()
 	update_status status = UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+	ImGuiID dock_space_id = ImGui::GetID("DockSpace");
+		
+	if (!ImGui::DockBuilderGetNode(dock_space_id))
+	{
+		ImGui::DockBuilderAddNode(dock_space_id);
+		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->WorkSize);
+
+		dock_main_id = dock_space_id;
+		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.25f, nullptr, &dock_main_id);
+		dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.33f, nullptr, &dock_main_id);
+		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
+	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -102,7 +114,7 @@ update_status ModuleEditor::Update()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
 	ImGui::PopStyleVar(3);
-	ImGui::DockSpace(dockSpaceId);
+	ImGui::DockSpace(dock_space_id);
 	ImGui::End();
 
 	mainMenu->Draw();
