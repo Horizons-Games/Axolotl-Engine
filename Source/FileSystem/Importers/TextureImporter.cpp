@@ -121,7 +121,7 @@ uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource,
 	cursor += bytes;
 
 	bytes = sizeof(uint8_t) * resource->GetPixelsSize();
-	memcpy(cursor, &resource->GetPixels()[0], bytes);
+	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
 
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
