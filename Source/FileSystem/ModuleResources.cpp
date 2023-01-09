@@ -84,7 +84,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	if (!resourceExists)
 		CopyFileInAssets(originalPath, assetsPath);
 
-	std::shared_ptr<Resource> importedRes = CreateNewResource(assetsPath, type);
+	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(importedRes, type);
 	UID uid = importedRes->GetUID();
@@ -188,27 +188,29 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 	return assetsPath;
 }
 
-const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
+const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += std::to_string(resourceUID);
+	libraryPath += fileName;
 	return libraryPath;
 }
 
-std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& assetsPath, ResourceType type)
+std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
-	const std::string libraryPath = CreateLibraryPath(uid, type);
+	const std::string libraryPath = CreateLibraryPath(fileName, type);
 	std::shared_ptr<Resource> resource = nullptr;
 	switch (type)
 	{
 	case ResourceType::Model:
+		resource = std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Texture:
-		resource = std::make_shared<ResourceTexture>(uid, assetsPath, libraryPath);
+		resource = std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Mesh:
+		resource = std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Scene:
 		break;

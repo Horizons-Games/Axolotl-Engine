@@ -7,7 +7,7 @@
 class ResourceMesh : public Resource
 {
 public:
-	ResourceMesh(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 	~ResourceMesh() override = default;
 
 	ResourceType GetType() const override;
@@ -55,9 +55,10 @@ private:
 };
 
 inline ResourceMesh::ResourceMesh(UID resourceUID,
+								  const std::string& fileName,
 								  const std::string& assetsPath,
 								  const std::string& libraryPath) :
-	Resource(resourceUID, assetsPath, libraryPath)
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 

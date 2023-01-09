@@ -34,8 +34,8 @@ private:
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetFolderOfType(ResourceType type);
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
-	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
-	std::shared_ptr<Resource> CreateNewResource(const std::string& assetsPath, ResourceType type);
+	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
+	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type);
 

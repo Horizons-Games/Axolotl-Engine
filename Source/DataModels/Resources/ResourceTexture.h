@@ -15,7 +15,7 @@ enum class TextureFormat
 class ResourceTexture : public Resource
 {
 public:
-	ResourceTexture(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 	~ResourceTexture() override = default;
 
 	ResourceType GetType() const override;
@@ -29,7 +29,7 @@ public:
 	unsigned int GetFormat() const;
 	unsigned int GetInternalFormat() const;
 	unsigned int GetImageType() const;
-	unsigned char* GetPixels() const;
+	std::vector<uint8_t> GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
 	void SetWidth(unsigned int width);
@@ -37,7 +37,7 @@ public:
 	void SetFormat(unsigned int format);
 	void SetInternalFormat(unsigned int internalFormat);
 	void SetImageType(unsigned int imageType);
-	void SetPixels(unsigned char* pixels);
+	void SetPixels(std::vector<uint8_t>& pixels);
 	void SetPixelsSize(unsigned int pixelsSize);
 
 private:
@@ -49,14 +49,15 @@ private:
 	unsigned int format = 0;
 	unsigned int internalFormat = 0;
 	unsigned int imageType = 0;
-	unsigned char* pixels = nullptr;
+	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize = 0;
 };
 
 inline ResourceTexture::ResourceTexture(UID resourceUID,
+										const std::string& fileName,
 										const std::string& assetsPath,
 										const std::string& libraryPath) :
-	Resource(resourceUID, assetsPath, libraryPath)
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 
@@ -95,7 +96,7 @@ inline unsigned int ResourceTexture::GetImageType() const
 	return imageType;
 }
 
-inline unsigned char* ResourceTexture::GetPixels() const
+inline std::vector<uint8_t> ResourceTexture::GetPixels() const
 {
 	return pixels;
 }
@@ -130,7 +131,7 @@ inline void ResourceTexture::SetImageType(unsigned int imageType)
 	this->imageType = imageType;
 }
 
-inline void ResourceTexture::SetPixels(unsigned char* pixels)
+inline void ResourceTexture::SetPixels(std::vector<uint8_t>& pixels)
 {
 	this->pixels = pixels;
 }
