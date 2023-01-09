@@ -34,7 +34,7 @@ void ResourceMesh::CreateVBO()
 
 	GLuint position_size = sizeof(float) * 3 * numVertices;
 
-	glBufferSubData(GL_ARRAY_BUFFER, 0, position_size, &vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, position_size, &(vertices[0]));
 
 	GLuint uv_offset = position_size;
 	GLuint uv_size = sizeof(float) * 2 * numVertices;
