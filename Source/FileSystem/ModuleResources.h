@@ -9,6 +9,9 @@
 #include "FileSystem/UniqueID.h"
 
 class Resource;
+class ModelImporter;
+class TextureImporter;
+class MeshImporter;
 
 enum class ResourceType;
 
@@ -42,6 +45,10 @@ private:
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
 	std::map<UID, std::shared_ptr<Resource> > resources;
+
+	std::shared_ptr<ModelImporter> modelImporter;
+	std::shared_ptr<TextureImporter> textureImporter;
+	std::shared_ptr<MeshImporter> meshImporter;
 };
 
 inline bool ModuleResources::CleanUp()

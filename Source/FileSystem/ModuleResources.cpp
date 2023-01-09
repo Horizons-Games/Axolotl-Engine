@@ -6,7 +6,9 @@
 #include "Json.h"
 
 #include "FileSystem/Importers/Importer.h"
+#include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
+#include "FileSystem/Importers/TextureImporter.h"
 
 #include "Resources/Resource.h"
 #include "Resources/ResourceTexture.h"
@@ -18,6 +20,10 @@ const std::string ModuleResources::libraryFolder = "Lib/";
 
 bool ModuleResources::Start()
 {
+	modelImporter = std::make_shared<ModelImporter>();
+	textureImporter = std::make_shared<TextureImporter>();
+	meshImporter = std::make_shared<MeshImporter>();
+
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
 	if (assetsFolderNotCreated)
 	{
@@ -78,15 +84,18 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
 	std::string fileName = GetFileName(originalPath);
-	std::string assetsPath = CreateAssetsPath(fileName, type);
+	std::string extension = GetFileExtension(originalPath);
+	std::string assetsPath = CreateAssetsPath(fileName + extension, type);
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
 		CopyFileInAssets(originalPath, assetsPath);
+		
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(importedRes, type);
+
 	UID uid = importedRes->GetUID();
 	resources.insert({ uid, importedRes });
 	return uid;
@@ -246,10 +255,13 @@ void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resour
 	switch (type)
 	{
 	case ResourceType::Model:
+		modelImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
 		break;
 	case ResourceType::Texture:
+		textureImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 		break;
 	case ResourceType::Mesh:
+		meshImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 		break;
 	case ResourceType::Scene:
 		break;
