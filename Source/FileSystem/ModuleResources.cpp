@@ -11,6 +11,7 @@
 #include "FileSystem/Importers/TextureImporter.h"
 
 #include "Resources/Resource.h"
+#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 #include <thread>
 #include <future>
