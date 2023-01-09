@@ -6,7 +6,7 @@
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
-#include <DataModels/Resources/ResourceModel.h>
+#include "DataModels/Resources/ResourceModel.h"
 
 class aiScene;
 class Mesh;

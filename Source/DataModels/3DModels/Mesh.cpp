@@ -98,14 +98,8 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_STATIC_DRAW);
 	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	std::vector<unsigned int> index;
-
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
-		index.push_back(mesh->mFaces[i].mIndices[0]);
-		index.push_back(mesh->mFaces[i].mIndices[1]);
-		index.push_back(mesh->mFaces[i].mIndices[2]);
-
 		assert(mesh->mFaces[i].mNumIndices == 3);
 		*(indices++) = mesh->mFaces[i].mIndices[0];
 		*(indices++) = mesh->mFaces[i].mIndices[1];

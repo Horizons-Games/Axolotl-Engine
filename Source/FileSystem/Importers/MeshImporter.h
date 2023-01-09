@@ -1,6 +1,6 @@
 #pragma once
 #include "FileSystem/Importers/Importer.h"
-#include <DataModels/Resources/ResourceMesh.h>
+#include "DataModels/Resources/ResourceMesh.h"
 
 class MeshImporter : public Importer<ResourceMesh>
 {

@@ -136,12 +136,12 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	cursor += bytes;
 
-	for (int i = 0; i < ourMesh->mNumFaces; ++i) {
+	for (int i = 0; i < ourMesh->mNumFaces; ++i) 
+	{
 		bytes = sizeof(unsigned int) * numIndexes;
 		memcpy(cursor, &(ourMesh->mFaces[i].mIndices[0]), bytes);
 
 		cursor += bytes;
-
 	}
 
 }

@@ -60,9 +60,11 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 
 	std::vector<UID> textureUIDs = resource->GetTexturesUIDs();
 
-	for (int i = 0; i < textureUIDs.size(); ++i) {
+	for (int i = 0; i < textureUIDs.size(); ++i) 
+	{
 
-		std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]));
+		std::shared_ptr<ResourceTexture> resourceTexture = 
+			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]));
 
 		resourceTexture->Load();
 		textures.push_back(resourceTexture->GetGlTexture());
@@ -72,14 +74,17 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 
 	std::vector<UID> meshesUIDs = resource->GetMeshesUIDs();
 
-	for (int i = 0; i < meshesUIDs.size(); ++i) {
+	for (int i = 0; i < meshesUIDs.size(); ++i) 
+	{
 
-		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]));
+		std::shared_ptr<ResourceMesh> resourceMesh = 
+			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]));
 
 		resourceMesh->Load();
 		Mesh* mesh = new Mesh();
 		mesh->SetFromResource(resourceMesh);
 		meshes.push_back(std::unique_ptr<Mesh>(mesh));
+
 		aabb.Enclose(mesh->GetVertices(), mesh->GetNumVertices());
 	}
 	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));

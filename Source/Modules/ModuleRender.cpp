@@ -164,18 +164,24 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-	/*std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
 
-	models.push_back(bakerHouse);*/
+	models.push_back(bakerHouse);
+	
+	/*
+	Import resource example:
+		We are using the model as a placeholder class to transfer the information of the resource
+		and display the processed import, but you can move to a gameObject or another class 
+		all the functionality used here
 	
 	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
 	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
 	resourceModel->Load();
 
-	std::shared_ptr<Model> bakerHouse2 = std::make_shared<Model>();
-	bakerHouse2->SetFromResource(resourceModel);
-	models.push_back(bakerHouse2);
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
+	bakerHouse->SetFromResource(resourceModel);
+	models.push_back(bakerHouse);*/
 
 	return true;
 }

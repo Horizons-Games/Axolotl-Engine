@@ -27,19 +27,19 @@ void ResourceMesh::CreateVBO()
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	GLuint vertex_size = (sizeof(float) * 3 + sizeof(float) * 2);
-	GLuint buffer_size = vertex_size * numVertices;
+	GLuint vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
+	GLuint bufferSize = vertexSize * numVertices;
 
-	glBufferData(GL_ARRAY_BUFFER, buffer_size, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
 
-	GLuint position_size = sizeof(float) * 3 * numVertices;
+	GLuint positionSize = sizeof(float) * 3 * numVertices;
 
-	glBufferSubData(GL_ARRAY_BUFFER, 0, position_size, &(vertices[0]));
+	glBufferSubData(GL_ARRAY_BUFFER, 0, positionSize, &(vertices[0]));
 
-	GLuint uv_offset = position_size;
-	GLuint uv_size = sizeof(float) * 2 * numVertices;
+	GLuint uvOffset = positionSize;
+	GLuint uvSize = sizeof(float) * 2 * numVertices;
 
-	float2* uvs = (float2*)(glMapBufferRange(GL_ARRAY_BUFFER, uv_offset, uv_size, GL_MAP_WRITE_BIT));
+	float2* uvs = (float2*)(glMapBufferRange(GL_ARRAY_BUFFER, uvOffset, uvSize, GL_MAP_WRITE_BIT));
 
 	for (int i = 0; i < numVertices; ++i)
 	{
@@ -54,9 +54,9 @@ void ResourceMesh::CreateEBO()
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-	GLuint index_size = sizeof(GLuint) * numFaces * 3;
+	GLuint indexSize = sizeof(GLuint) * numFaces * 3;
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_size, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_STATIC_DRAW);
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
