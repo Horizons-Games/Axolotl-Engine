@@ -38,6 +38,28 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>& resource)
 {
+	unsigned int header[2];
+	unsigned int bytes = sizeof(header);
+	memcpy(header, fileBuffer, bytes);
+
+	resource->SetNumMeshes(header[0]);
+	resource->SetNumTextures(header[1]);
+
+	fileBuffer += bytes;
+
+	UID* meshesPointer = new UID[resource->GetNumMeshes()];
+	bytes = sizeof(unsigned char) * resource->GetNumMeshes();
+	memcpy(meshesPointer, fileBuffer, bytes);
+	std::vector<UID> meshes(meshesPointer, meshesPointer + resource->GetNumMeshes());
+	resource->SetMeshesUIDs(meshes);
+
+	fileBuffer += bytes;
+
+	UID* texturesPointer = new UID[resource->GetNumTextures()];
+	bytes = sizeof(unsigned char) * resource->GetNumTextures();
+	memcpy(texturesPointer, fileBuffer, bytes);
+	std::vector<UID> textures(texturesPointer, texturesPointer + resource->GetNumTextures());
+	resource->SetTexturesUIDs(textures);
 }
 
 
