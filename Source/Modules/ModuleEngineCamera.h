@@ -84,6 +84,7 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	int	GetFrustumMode() const;
+	const float3& GetPosition() const;
 
 private:
 	Frustum frustum;
@@ -100,3 +101,7 @@ private:
 	math::Plane offsetFrustumPlanes[6];
 };
 
+inline const float3& ModuleEngineCamera::GetPosition() const
+{
+	return position;
+}

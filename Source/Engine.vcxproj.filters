@@ -274,6 +274,9 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
@@ -680,6 +683,9 @@
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>

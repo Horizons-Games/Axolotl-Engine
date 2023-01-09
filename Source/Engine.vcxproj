@@ -239,6 +239,7 @@
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="ResourceMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
@@ -376,6 +377,7 @@
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="ResourceMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />

@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
+#include "ResourceMaterial.h"
 
 #include <GL/glew.h>
 
@@ -13,6 +14,9 @@ Mesh::Mesh(const aiMesh* mesh)
 	LoadVBO(mesh);
 	LoadEBO(mesh);
 	CreateVAO();
+
+	//ResourceMaterial resmat;
+	//resmat.bind(program);
 
 	this->materialIndex = mesh->mMaterialIndex;
 	this->vertices = new vec[mesh->mNumVertices];
@@ -116,9 +120,19 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
+	ResourceMaterial mat;
+	mat.bind(program);
+
+	const float3 position (0.0f, 4.0f, 0.0f);
+	const float3 color(1.f, 1.f, 1.f);
+
+	glUniform3f(glGetUniformLocation(program, "light.position"), position.x, position.y, position.z);
+	glUniform3f(glGetUniformLocation(program, "light.color"), color.x, color.y, color.z);
+	float3 viewPos = App->engineCamera->GetPosition();
+	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, modelTextures[this->materialIndex]);
-	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
