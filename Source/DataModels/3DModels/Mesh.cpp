@@ -6,6 +6,7 @@
 #include "DataModels/Resources/ResourceMesh.h"
 
 #include <GL/glew.h>
+#include <ResourceMaterial.h>
 
 Mesh::Mesh()
 {
