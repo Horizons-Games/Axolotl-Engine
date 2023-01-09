@@ -17,13 +17,19 @@ public:
 	void Load() override {};
 	void Unload() override {};
 
+	const unsigned int GetNumMeshes() const;
+	const unsigned int GetNumTextures() const;
 	const std::vector<UID>& GetMeshesUIDs() const;
 	const std::vector<UID>& GetTexturesUIDs() const;
 
+	void SetNumMeshes(const unsigned int numMeshes);
+	void SetNumTextures(const unsigned int numTextures);
 	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
 	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
 
 private:
+	unsigned int numMeshes;
+	unsigned int numTextures;
 	std::vector<UID> meshesUIDs;
 	std::vector<UID> texturesUIDs;
 };
@@ -54,9 +60,11 @@ inline const std::vector<UID>& ResourceModel::GetTexturesUIDs() const
 inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
 {
 	this->meshesUIDs = meshesUIDs;
+	this->numMeshes = meshesUIDs.size();
 }
 
 inline void ResourceModel::SetTexturesUIDs(const std::vector<UID>& texturesUIDs)
 {
 	this->texturesUIDs = texturesUIDs;
+	this->numTextures = texturesUIDs.size();
 }
