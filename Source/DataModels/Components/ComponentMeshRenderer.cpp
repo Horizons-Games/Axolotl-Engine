@@ -17,15 +17,8 @@
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESH, active, owner)
 {
-}
-
-
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, 
-	UID meshUID, UID textureUID, const std::string& meshPath, const std::string& texturePath)
-	: Component(ComponentType::MESH, active, owner)
-{
-	//mesh = std::make_unique<ResourceMesh>(meshUID, ...);
-	//texture = std::make_unique<ResourceTexture>(textureUID, ...);
+	mesh = std::make_unique<ResourceMesh>(UniqueID::GenerateUID(), "", "");
+	texture = std::make_unique<ResourceTexture>(UniqueID::GenerateUID(), "", "");
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()

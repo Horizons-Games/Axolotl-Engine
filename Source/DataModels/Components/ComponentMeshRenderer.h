@@ -11,8 +11,6 @@ class ComponentMeshRenderer : public Component
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
-	ComponentMeshRenderer(const bool active, GameObject* owner, 
-	UID meshUID, UID textureUID, const std::string& meshPath, const std::string& texturePath);
 	~ComponentMeshRenderer() override;
 
 	void Update() override;
