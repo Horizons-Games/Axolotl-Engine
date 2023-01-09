@@ -13,7 +13,7 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	Load(buffer, resource);
 }
 
-uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* &fileBuffer)
+uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer)
 {
 	unsigned int header[3] = { resource->GetNumFaces(), resource->GetNumVertices(), resource->GetMaterialIndex()};
 	
@@ -47,7 +47,7 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* 
 	return 0;
 }
 
-void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
+void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& resource)
 {
 	unsigned int header[3];
 	memcpy(header, fileBuffer, sizeof(header));

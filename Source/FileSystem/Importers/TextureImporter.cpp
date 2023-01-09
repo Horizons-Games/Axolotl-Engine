@@ -99,7 +99,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	//Actualize metafile if needed
 }
 
-uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*& fileBuffer)
+uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer)
 {
 	unsigned int header[4] = 
 	{ 
@@ -127,7 +127,7 @@ uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*&
 	return 0;
 }
 
-void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
+void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture>& resource)
 {
 	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));
