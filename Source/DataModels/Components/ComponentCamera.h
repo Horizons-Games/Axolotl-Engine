@@ -4,6 +4,7 @@
 #include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
+#include "ComponentTransform.h"
 
 enum ECameraFrustumMode
 {
@@ -32,5 +33,6 @@ private:
 	float frustumOffset;
 	Plane offsetFrustumPlanes[6];
 	bool drawFrustum;
+	ComponentTransform* trans;
 };
 
