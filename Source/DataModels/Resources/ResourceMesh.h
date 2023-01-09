@@ -7,7 +7,7 @@
 class ResourceMesh : public Resource
 {
 public:
-	ResourceMesh(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 	~ResourceMesh() override = default;
 
 	ResourceType GetType() const override;
@@ -21,12 +21,16 @@ public:
 
 	unsigned int GetNumVertices();
 	unsigned int GetNumFaces();
+	unsigned int GetNumIndexes();
+	unsigned int GetMaterialIndex();
 	const std::vector<float3>& GetVertices();
 	const std::vector<float3>& GetTextureCoords();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
+	void SetNumIndexes(unsigned int numIndexes);
+	void SetMaterialIndex(unsigned int materialIndex);
 	void SetVertices(const std::vector<float3>& vertices);
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
@@ -43,15 +47,18 @@ private:
 	//parameters for buffer object creation
 	unsigned int numVertices = 0;
 	unsigned int numFaces = 0;
+	unsigned int numIndexes = 0;
+	unsigned int materialIndex = 0;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<std::vector<unsigned int> > facesIndices;
 };
 
 inline ResourceMesh::ResourceMesh(UID resourceUID,
+								  const std::string& fileName,
 								  const std::string& assetsPath,
 								  const std::string& libraryPath) :
-	Resource(resourceUID, assetsPath, libraryPath)
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 
@@ -85,6 +92,16 @@ inline unsigned int ResourceMesh::GetNumFaces()
 	return numFaces;
 }
 
+inline unsigned int ResourceMesh::GetNumIndexes()
+{
+	return numIndexes;
+}
+
+inline unsigned int ResourceMesh::GetMaterialIndex()
+{
+	return materialIndex;
+}
+
 inline const std::vector<float3>& ResourceMesh::GetVertices()
 {
 	return vertices;
@@ -108,6 +125,16 @@ inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
+}
+
+inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)
+{
+	this->numIndexes = numIndexes;
+}
+
+inline void ResourceMesh::SetMaterialIndex(unsigned int materialIndex)
+{
+	this->materialIndex = materialIndex;
 }
 
 inline void ResourceMesh::SetVertices(const std::vector<float3>& vertices)

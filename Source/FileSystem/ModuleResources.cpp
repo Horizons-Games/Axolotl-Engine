@@ -6,15 +6,66 @@
 #include "Json.h"
 
 #include "FileSystem/Importers/Importer.h"
+#include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
+#include "FileSystem/Importers/TextureImporter.h"
 
 #include "Resources/Resource.h"
+#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 #include <thread>
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
+
+bool ModuleResources::Start()
+{
+	modelImporter = std::make_shared<ModelImporter>();
+	textureImporter = std::make_shared<TextureImporter>();
+	meshImporter = std::make_shared<MeshImporter>();
+
+	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
+	if (assetsFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(assetsFolder.c_str());
+	}
+	bool libraryFolderNotCreated = !App->fileSystem->Exists(libraryFolder.c_str());
+	if (libraryFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
+	}
+	//seems there is no easy way to iterate over enum classes in C++ :/
+	//(actually there is a library that looks really clean but might be overkill: https://github.com/Neargye/magic_enum)
+	//ensure this vector is updated whenever a new type of resource is added
+	std::vector<ResourceType> allResourceTypes = {ResourceType::Animation,
+												  ResourceType::Bone,
+												  ResourceType::Material,
+												  ResourceType::Mesh,
+												  ResourceType::Model,
+												  ResourceType::Scene,
+												  ResourceType::Texture};
+	for (ResourceType type : allResourceTypes)
+	{
+		std::string folderOfType = GetFolderOfType(type);
+
+		std::string assetsFolderOfType = assetsFolder + folderOfType;
+		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
+		if (assetsFolderOfTypeNotCreated)
+		{
+			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
+		}
+
+		std::string libraryFolderOfType = libraryFolder + folderOfType;
+		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
+		if (libraryFolderOfTypeNotCreated)
+		{
+			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
+		}
+	}
+
+	return true;
+}
 
 UID ModuleResources::ImportThread(const std::string& originalPath)
 {
@@ -34,15 +85,24 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
 	std::string fileName = GetFileName(originalPath);
-	std::string assetsPath = CreateAssetsPath(fileName, type);
+	std::string extension = GetFileExtension(originalPath);
+	std::string assetsPath = originalPath;
 
-	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
-	if (!resourceExists)
-		CopyFileInAssets(originalPath, assetsPath);
+	if (type != ResourceType::Mesh) 
+	{
+		std::string assetsPath = CreateAssetsPath(fileName + extension, type);
 
-	std::shared_ptr<Resource> importedRes = CreateNewResource(assetsPath, type);
+		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
+		if (!resourceExists)
+			CopyFileInAssets(originalPath, assetsPath);
+	}
+
+		
+
+	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(importedRes, type);
+
 	UID uid = importedRes->GetUID();
 	resources.insert({ uid, importedRes });
 	return uid;
@@ -70,6 +130,10 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	{
 		return ResourceType::Material;
 	}
+	else if (fileExtension == MESH_EXTENSION)
+	{
+		return ResourceType::Mesh;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -88,14 +152,16 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
+	bool notExtension = false;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
-		separatorNotFound = currentChar != '\\';
-		if (separatorNotFound)
+		separatorNotFound = currentChar != '/';
+		if (separatorNotFound && notExtension)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
+		if(!notExtension) notExtension = currentChar == '.';
 	}
 	return fileName;
 }
@@ -144,27 +210,29 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 	return assetsPath;
 }
 
-const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
+const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += std::to_string(resourceUID);
+	libraryPath += fileName;
 	return libraryPath;
 }
 
-std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& assetsPath, ResourceType type)
+std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
-	const std::string libraryPath = CreateLibraryPath(uid, type);
+	const std::string libraryPath = CreateLibraryPath(fileName, type);
 	std::shared_ptr<Resource> resource = nullptr;
 	switch (type)
 	{
 	case ResourceType::Model:
+		resource = std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Texture:
-		resource = std::make_shared<ResourceTexture>(uid, assetsPath, libraryPath);
+		resource = std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Mesh:
+		resource = std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Scene:
 		break;
@@ -200,10 +268,13 @@ void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resour
 	switch (type)
 	{
 	case ResourceType::Model:
+		modelImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
 		break;
 	case ResourceType::Texture:
+		textureImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 		break;
 	case ResourceType::Mesh:
+		meshImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 		break;
 	case ResourceType::Scene:
 		break;

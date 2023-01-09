@@ -23,6 +23,7 @@ public:
 
 	virtual ResourceType GetType() const = 0;
 	UID GetUID() const;
+	const std::string& GetFileName() const;
 	const std::string& GetAssetsPath() const;
 	const std::string& GetLibraryPath() const;
 
@@ -30,16 +31,18 @@ public:
 	virtual void Unload() = 0;
 
 protected:
-	Resource(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath);
+	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 
 private:
 	UID uid;
+	const std::string fileName;
 	const std::string assetsPath;
 	const std::string libraryPath;
 };
 
-inline Resource::Resource(UID resourceUID, const std::string& assetsPath, const std::string& libraryPath):
+inline Resource::Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath):
 	uid(resourceUID),
+	fileName(fileName),
 	assetsPath(assetsPath),
 	libraryPath(libraryPath)
 {
@@ -48,6 +51,11 @@ inline Resource::Resource(UID resourceUID, const std::string& assetsPath, const 
 inline UID Resource::GetUID() const
 {
 	return uid;
+}
+
+inline const std::string& Resource::GetFileName() const
+{
+	return fileName;
 }
 
 inline const std::string& Resource::GetAssetsPath() const
