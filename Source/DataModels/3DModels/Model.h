@@ -6,6 +6,7 @@
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
+#include <DataModels/Resources/ResourceModel.h>
 
 class aiScene;
 class Mesh;
@@ -15,6 +16,8 @@ class Model
 public:
 	Model();
 	~Model();
+
+	void SetFromResource(std::shared_ptr<ResourceModel>& resource);
 
 	void Load(const char* fileName);
 	void LoadMaterials(const aiScene* scene);

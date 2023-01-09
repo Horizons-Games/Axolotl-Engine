@@ -1,5 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
+#include "FileSystem/ModuleResources.h"
+#include "DataModels/Resources/ResourceModel.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEngineCamera.h"
@@ -162,10 +164,18 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
+	/*std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
 
-	models.push_back(bakerHouse);
+	models.push_back(bakerHouse);*/
+	
+	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	resourceModel->Load();
+
+	std::shared_ptr<Model> bakerHouse2 = std::make_shared<Model>();
+	bakerHouse2->SetFromResource(resourceModel);
+	models.push_back(bakerHouse2);
 
 	return true;
 }
