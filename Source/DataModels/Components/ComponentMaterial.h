@@ -8,6 +8,7 @@ public:
 	~ComponentMaterial() override;
 
 	void Update() override;
+	void Display() override;
 
 private:
 

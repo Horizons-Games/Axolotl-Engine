@@ -8,6 +8,8 @@ public:
 	~ComponentMesh() override;
 
 	void Update() override;
+	void Draw() override;
+	void Display() override;
 
 private:
 
