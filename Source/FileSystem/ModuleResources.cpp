@@ -124,6 +124,10 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	{
 		return ResourceType::Material;
 	}
+	else if (fileExtension == MESH_EXTENSION)
+	{
+		return ResourceType::Mesh;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -142,14 +146,16 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
+	bool notExtension = false;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
 		separatorNotFound = currentChar != '/';
-		if (separatorNotFound)
+		if (separatorNotFound && notExtension)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
+		if(!notExtension) notExtension = currentChar == '.';
 	}
 	return fileName;
 }
