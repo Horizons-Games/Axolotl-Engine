@@ -68,8 +68,31 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
+        if (ImGui::MenuItem("Create child"))
         {
+            App->scene->CreateGameObject("Empty GameObject", gameObject);
+        }
+
+        if (gameObject != App->scene->GetRoot()) // The root can't be neither deleted nor moved up/down
+        {
+            if (ImGui::MenuItem("Move Up"))
+            {
+                if (!gameObject->GetParent()->GetChildren().empty()
+                    && gameObject->GetParent()->GetChildren().size() > 1)
+                {
+                    ENGINE_LOG("up");
+                }
+            }
+
+            if (ImGui::MenuItem("Move Down"))
+            {
+                if (!gameObject->GetParent()->GetChildren().empty()
+                    && gameObject->GetParent()->GetChildren().size() > 1)
+                {
+                    ENGINE_LOG("down");
+                }
+            }
+
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);
@@ -79,11 +102,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
                 delete gameObject;
             }
-        }
-
-        if (ImGui::MenuItem("Create child"))
-        {
-            App->scene->CreateGameObject("Empty GameObject", gameObject);
         }
 
         ImGui::EndPopup();
