@@ -247,7 +247,7 @@
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMesh.cpp">
+    <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
@@ -663,7 +663,7 @@
     <ClInclude Include="DataModels\Components\ComponentTransform.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMesh.h">
+    <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMaterial.h">

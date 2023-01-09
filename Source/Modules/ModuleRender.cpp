@@ -19,7 +19,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
-#include "Components/ComponentMesh.h"
+#include "Components/ComponentMeshRenderer.h"
 		 
 #include "GL/glew.h"
 
