@@ -50,12 +50,12 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
-	result = DirectX::SaveToDDSFile(img.GetImages(), img.GetImageCount(), img.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
 
 	GLint internalFormat;
 	GLenum format, type;
 
-	switch (img.GetMetadata().format)
+	switch (flippedImg.GetMetadata().format)
 	{
 	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
 	case DXGI_FORMAT_R8G8B8A8_UNORM:
@@ -83,15 +83,18 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		assert(false && "Unsupported format");
 	}
 
-	resource->SetWidth(img.GetMetadata().width);
-	resource->SetHeight(img.GetMetadata().height);
+	resource->SetWidth(flippedImg.GetMetadata().width);
+	resource->SetHeight(flippedImg.GetMetadata().height);
 
 	resource->SetInternalFormat(internalFormat);
 	resource->SetFormat(format);
 	resource->SetImageType(type);
 
-	resource->SetPixelsSize(img.GetPixelsSize());
-	resource->SetPixels(img.GetPixels());
+	resource->SetPixelsSize(flippedImg.GetPixelsSize());
+
+	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
+
+	resource->SetPixels(pixels);
 
 	//Actualize metafile if needed
 }
