@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "3DModels/Model.h"
-
+#include "Quadtree.h"
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
@@ -36,9 +36,12 @@ public:
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 	std::shared_ptr<Model> GetModel(unsigned pos) const;
+	const int GetModelCount() const;
 	unsigned int GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
+
+	void DrawScene(Quadtree* quadtree);
 	
 	bool LoadModel(const char* path);
 	bool AnyModelLoaded();
@@ -77,6 +80,11 @@ inline float4 ModuleRender::GetBackgroundColor() const
 inline std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
 {
 	return models[pos];
+}
+
+inline const int ModuleRender::GetModelCount() const
+{
+	return models.size();
 }
 
 inline unsigned int ModuleRender::GetRenderedTexture() const

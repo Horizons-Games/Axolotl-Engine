@@ -3,10 +3,27 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
 #include <GL/glew.h>
 
-Mesh::Mesh(const aiMesh* mesh)
+Mesh::Mesh()
+{
+}
+
+Mesh::~Mesh()
+{
+	ENGINE_LOG("Deleting Mesh");
+
+	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &this->ebo);
+
+	glDeleteVertexArrays(1, &this->vao);
+
+	delete vertices;
+}
+
+void Mesh::Load(const aiMesh* mesh)
 {
 	ENGINE_LOG("--- Loading mesh ---");
 
@@ -23,15 +40,26 @@ Mesh::Mesh(const aiMesh* mesh)
 	}
 }
 
-Mesh::~Mesh()
+void Mesh::SetFromResource(std::shared_ptr<ResourceMesh>& resource)
 {
-	ENGINE_LOG("Deleting Mesh");
+	materialIndex = resource->GetMaterialIndex();
+	numVertices = resource->GetNumVertices();
+	numIndexes = resource->GetNumFaces() * 3;
 
-	glDeleteBuffers(1, &this->vbo);
-	glDeleteBuffers(1, &this->ebo);
-	glDeleteVertexArrays(1, &this->vao);
+	vbo = resource->GetVBO();
+	ebo = resource->GetEBO();
+	vao = resource->GetVAO();
 
-	delete vertices;
+
+	std::vector<float3> vertexPointer = resource->GetVertices();
+
+	this->vertices = new vec[numVertices];
+
+	for (int i = 0; i < numVertices; ++i)
+	{
+		this->vertices[i] = float3(vertexPointer[i].x, vertexPointer[i].y, vertexPointer[i].z);
+	}
+
 }
 
 void Mesh::LoadVBO(const aiMesh* mesh)
@@ -121,5 +149,6 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
 	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
 }

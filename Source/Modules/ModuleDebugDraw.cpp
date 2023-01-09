@@ -6,6 +6,11 @@
 
 #include "GL/glew.h"
 
+#include "Application.h"
+#include "ModuleScene.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentTransform.h"
+
 class DDRenderInterfaceCoreGL final
     : public dd::RenderInterface
 {
@@ -595,7 +600,6 @@ bool ModuleDebugDraw::Init()
     return true;
 }
 
-
 bool ModuleDebugDraw::CleanUp()
 {
     dd::shutdown();
@@ -606,9 +610,12 @@ bool ModuleDebugDraw::CleanUp()
     return true;
 }
 
-update_status  ModuleDebugDraw::Update()
+update_status ModuleDebugDraw::Update()
 {
-    dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
+    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->GetComponent(ComponentType::TRANSFORM);
+
+    dd::axisTriad(selectedTransform->GetLocalMatrix(), 0.1f, 1.0f);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;
@@ -623,3 +630,33 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
+void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
+{
+    if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
+}
+
+void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
+{
+    if (showBoundingBoxes) 
+    {
+        ddVec3 points[8];
+        obb.GetCornerPoints(points);
+        ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
+        dd::box(orderedPoints, dd::colors::Orange);
+    }
+}
+
+void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
+{
+    dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
+}
+
+void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
+{
+    this->showBoundingBoxes = showBoundingBoxes;
+}
+
+bool ModuleDebugDraw::IsShowingBoundingBoxes() const
+{
+    return showBoundingBoxes;
+}

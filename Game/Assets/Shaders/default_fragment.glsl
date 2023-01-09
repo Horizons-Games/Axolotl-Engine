@@ -1,14 +1,23 @@
 #version 440
 
+uniform sampler2D texDiffuse;
+
+layout(std140) uniform Ambient
+{
+	vec3 ambientValue;		//12	//0
+};
+
+layout(std140) uniform Directional
+{
+	vec3 directionalDir;  	//12	//0
+	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
+};
+
 out vec4 color;
 
 in vec2 uv0;
 
-uniform sampler2D diffuse;
-layout(binding=5) uniform sampler2D mytexture;
-
 void main()
-{
-	//color = vec4(0.87, 0.98, 0.98, 1.0); 
-	color = texture2D(diffuse, uv0);
+{		
+	color = texture2D(texDiffuse, uv0);
 }

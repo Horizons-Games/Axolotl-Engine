@@ -1,10 +1,13 @@
 #include "Globals.h"
 #include "Application.h"
+#include "FileSystem/ModuleResources.h"
+#include "DataModels/Resources/ResourceModel.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "Quadtree.h"
 
 #include "3DModels/Model.h"
 
@@ -15,6 +18,10 @@
 #include "Geometry/Frustum.h"
 #include "Math/float3x3.h"
 #include "Math/float3.h"
+
+#include "GameObject/GameObject.h"
+#include "Components/Component.h"
+#include "Components/ComponentMesh.h"
 		 
 #include "GL/glew.h"
 
@@ -161,6 +168,20 @@ bool ModuleRender::Start()
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
 
 	models.push_back(bakerHouse);
+	
+	/*
+	Import resource example:
+		We are using the model as a placeholder class to transfer the information of the resource
+		and display the processed import, but you can move to a gameObject or another class 
+		all the functionality used here*/
+	
+	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	resourceModel->Load();
+
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
+	bakerHouse->SetFromResource(resourceModel);
+	models.push_back(bakerHouse);*/
 
 	return true;
 }
@@ -190,6 +211,28 @@ update_status ModuleRender::Update()
 		model->Draw();
 	}
 
+	/* 
+	*Logic to apply when model class is deleted and GameObjects are implemented
+	*
+	
+	FIRST APPROACH
+	DrawScene(App->scene->GetSceneQuadTree());
+	
+	
+	SECOND APPROACH
+	const std::list<GameObject*>& gameObjectsToDraw = 
+		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
+	for (GameObject* gameObject : gameObjectsToDraw) 
+	{
+		for (Component* component : gameObject->GetComponents()) 
+		{
+			if (component->GetType() == ComponentType::MESH) 
+			{
+				//Draw gameobject
+			}
+		}
+	}
+	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -302,4 +345,37 @@ void ModuleRender::UpdateProgram()
 	delete fragmentSource;
 
 	App->program->CreateProgram(vertexShader, fragmentShader);
+}
+
+void ModuleRender::DrawScene(Quadtree* quadtree)
+{
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
+	{
+		auto gameObjectsToRender = quadtree->GetGameObjects();
+		if (quadtree->IsLeaf()) 
+		{
+			for (GameObject* gameObject : gameObjectsToRender)
+			{
+				//gameObject->Draw;
+			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				//gameObject->Draw;
+			}
+			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
+		}
+		else 
+		{
+			DrawScene(quadtree->GetFrontRightNode());
+			DrawScene(quadtree->GetFrontLeftNode());
+			DrawScene(quadtree->GetBackRightNode());
+			DrawScene(quadtree->GetBackLeftNode());
+		}
+	}
 }

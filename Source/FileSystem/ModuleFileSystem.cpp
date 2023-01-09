@@ -3,6 +3,22 @@
 #include <vector>
 #include <cstring>
 #include <direct.h>
+#include <cstdio>
+
+
+bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
+{
+    std::ifstream src(sourceFilePath, std::ios::binary);
+    std::ofstream dst(destinationFilePath, std::ios::binary);
+    dst << src.rdbuf();
+    return true;
+}
+
+bool  ModuleFileSystem::Delete(const char* filePath)
+{
+    int result = remove(filePath);
+    return result == 0 ? true : false;
+}
 
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
@@ -24,7 +40,9 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
 {
     std::ofstream file(filePath, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
-    file.write(static_cast<const char*>(buffer), size);
+    file.write(static_cast<const char*>(buffer), size + 1);
+    file.put(EOF);
+    file.close();
     return 0;
 }
 

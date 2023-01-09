@@ -5,12 +5,17 @@
 #include "assimp/mesh.h"
 #include "Math/float3.h"
 #include "Math/float4x4.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
 class Mesh
 {
 public:
-	Mesh(const aiMesh* mesh);
+	Mesh();
 	~Mesh();
+
+	void Load(const aiMesh* mesh);
+
+	void SetFromResource(std::shared_ptr<ResourceMesh>& resource);
 
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
@@ -26,7 +31,7 @@ private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
-	
+
 	unsigned materialIndex;
 	unsigned numVertices;
 	unsigned numIndexes;
