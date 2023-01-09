@@ -75,16 +75,17 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
         if (gameObject != App->scene->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
+            std::vector<GameObject*> parentsChildren = gameObject->GetParent()->GetChildren();
+
             if (ImGui::MenuItem("Move Up"))
             {
-                if (gameObject->GetParent()->GetChildren().size() > 1
-                    && gameObject->GetParent()->GetChildren()[0] != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
-                    for (int i = 0; i < gameObject->GetParent()->GetChildren().size(); ++i)
+                    for (int i = 0; i < parentsChildren.size(); ++i)
                     {
-                        if (gameObject->GetParent()->GetChildren()[i] == gameObject)
+                        if (parentsChildren[i] == gameObject)
                         {
-                            std::iter_swap(gameObject->GetParent()->GetChildren()[i - 1], gameObject->GetParent()->GetChildren()[i]);
+                            std::iter_swap(parentsChildren[i - 1], parentsChildren[i]);
                         }
                     }
                 }
@@ -92,15 +93,13 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (gameObject->GetParent()->GetChildren().size() > 1 
-                    && gameObject->GetParent()->GetChildren()[gameObject->GetParent()->GetChildren().size() - 1]
-                    != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
-                    for (int i = 0; i < gameObject->GetParent()->GetChildren().size(); ++i)
+                    for (int i = 0; i < parentsChildren.size(); ++i)
                     {
-                        if (gameObject->GetParent()->GetChildren()[i] == gameObject)
+                        if (parentsChildren[i] == gameObject)
                         {
-                            std::iter_swap(gameObject->GetParent()->GetChildren()[i], gameObject->GetParent()->GetChildren()[i + 1]);
+                            std::iter_swap(parentsChildren[i], parentsChildren[i + 1]);
                         }
                     }
                 }
