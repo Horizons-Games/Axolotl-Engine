@@ -49,30 +49,17 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh> resource, char* 
 
 void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
 {
-	unsigned int header[2];
+	unsigned int header[3];
 	memcpy(header, fileBuffer, sizeof(header));
 
 	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
+	resource->SetMaterialIndex(header[2]);
 
 	fileBuffer += sizeof(header);
 
-	int size = 3 * resource->GetNumFaces();
-	unsigned int* indexesPointer = new unsigned int[size];
-	int bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
-	memcpy(indexesPointer, fileBuffer, bytes);
-	std::vector<std::vector<unsigned int>> faces;
-	for (int i = 0; i < resource->GetNumFaces(); ++i) {
-		std::vector<unsigned int > indexes(indexesPointer, indexesPointer + 3);
-		indexesPointer += (sizeof(unsigned int) * 3);
-		faces.push_back(indexes);
-	}
-	resource->SetFacesIndices(faces);
-
-	fileBuffer += bytes;
-
 	float3* vertexPointer = new float3[resource->GetNumVertices()];
-	bytes = sizeof(float3) * resource->GetNumVertices();
+	unsigned int bytes = sizeof(float3) * resource->GetNumVertices();
 	memcpy(vertexPointer, fileBuffer, bytes);
 	std::vector<float3> vertexs(vertexPointer, vertexPointer + resource->GetNumVertices());
 	resource->SetVertices(vertexs);
@@ -84,5 +71,19 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	memcpy(textureCoordPointer, fileBuffer, bytes);
 	std::vector<float3> textureCoord(textureCoordPointer, textureCoordPointer + resource->GetNumVertices());
 	resource->SetTextureCoords(textureCoord);
+
+	fileBuffer += bytes;
+
+	int size = 3 * resource->GetNumFaces();
+	unsigned int* indexesPointer = new unsigned int[size];
+	bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
+	memcpy(indexesPointer, fileBuffer, bytes);
+	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces());
+	std::vector<std::vector<unsigned int>> faces;
+	for (int i = 0; i < resource->GetNumFaces(); i+=3) {
+		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
+		faces.push_back(indexes);
+	}
+	resource->SetFacesIndices(faces);
 
 }

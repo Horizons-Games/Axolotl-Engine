@@ -115,6 +115,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
 		+ sizeof(float3) * ourMesh->mNumVertices * 2;
+	
 
 	char* cursor = new char[size] {};
 
@@ -125,17 +126,22 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	cursor += bytes;
 
-	bytes = ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes);
-	memcpy(cursor, &ourMesh->mFaces[0].mIndices[0], bytes);
+	bytes = sizeof(float3) * ourMesh->mNumVertices;
+	memcpy(cursor, &(ourMesh->mVertices[0]), bytes);
 
 	cursor += bytes;
 
 	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &ourMesh->mVertices, bytes);
+	memcpy(cursor, &(ourMesh->mTextureCoords[0][0]), bytes);
 
 	cursor += bytes;
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &ourMesh->mTextureCoords, bytes);
+	for (int i = 0; i < ourMesh->mNumFaces; ++i) {
+		bytes = sizeof(unsigned int) * numIndexes;
+		memcpy(cursor, &(ourMesh->mFaces[i].mIndices[0]), bytes);
+
+		cursor += bytes;
+
+	}
 
 }

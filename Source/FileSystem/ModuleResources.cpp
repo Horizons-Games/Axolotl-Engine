@@ -86,11 +86,16 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	ResourceType type = FindTypeByPath(originalPath);
 	std::string fileName = GetFileName(originalPath);
 	std::string extension = GetFileExtension(originalPath);
-	std::string assetsPath = CreateAssetsPath(fileName + extension, type);
+	std::string assetsPath = originalPath;
 
-	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
-	if (!resourceExists)
-		CopyFileInAssets(originalPath, assetsPath);
+	if (type != ResourceType::Mesh) {
+		std::string assetsPath = CreateAssetsPath(fileName + extension, type);
+
+		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
+		if (!resourceExists)
+			CopyFileInAssets(originalPath, assetsPath);
+	}
+
 		
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
