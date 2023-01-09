@@ -29,7 +29,7 @@ public:
 	unsigned int GetFormat() const;
 	unsigned int GetInternalFormat() const;
 	unsigned int GetImageType() const;
-	std::vector<uint8_t> GetPixels() const;
+	std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
 	void SetWidth(unsigned int width);
@@ -96,7 +96,7 @@ inline unsigned int ResourceTexture::GetImageType() const
 	return imageType;
 }
 
-inline std::vector<uint8_t> ResourceTexture::GetPixels() const
+inline std::vector<uint8_t>& ResourceTexture::GetPixels() const
 {
 	return pixels;
 }
