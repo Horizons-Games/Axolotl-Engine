@@ -53,7 +53,7 @@ bool ModuleScene::IsInsideACamera(const OBB& obb)
 
 bool ModuleScene::IsInsideACamera(const AABB& aabb)
 {
-	IsInsideACamera(aabb.ToOBB());
+	return IsInsideACamera(aabb.ToOBB());
 }
 
 update_status ModuleScene::Update()

@@ -37,6 +37,12 @@ void GameObject::Update()
 		component->Update();
 }
 
+void GameObject::Draw()
+{
+	//TODO: Draw the components what needs a draw
+	//for (Component* component : components) component->Draw();
+}
+
 void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent != nullptr);
