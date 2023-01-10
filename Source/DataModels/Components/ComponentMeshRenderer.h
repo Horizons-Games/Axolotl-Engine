@@ -25,6 +25,7 @@ public:
 	const UID& GetTextureUID() const;
 
 private:
+	void LoadMesh();
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh = nullptr;
@@ -32,11 +33,6 @@ private:
 	UID meshUID = 0ULL;
 	UID textureUID = 0ULL;
 };
-
-inline void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
-{
-	this->meshUID = meshUID;
-}
 
 inline void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
 {

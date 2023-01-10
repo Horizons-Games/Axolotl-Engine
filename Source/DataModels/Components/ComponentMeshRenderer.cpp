@@ -27,7 +27,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Init()
 {
-	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
+	LoadMesh();
 }
 
 void ComponentMeshRenderer::Update()
@@ -59,4 +59,16 @@ void ComponentMeshRenderer::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
 	glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+}
+
+void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
+{
+	this->meshUID = meshUID;
+
+	LoadMesh();
+}
+
+void ComponentMeshRenderer::LoadMesh()
+{
+	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
 }
