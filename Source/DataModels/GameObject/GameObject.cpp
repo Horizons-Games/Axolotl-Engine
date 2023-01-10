@@ -117,22 +117,6 @@ void GameObject::Disable()
 	}
 }
 
-template<class T>
-const std::vector<T*>& GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<T*>& components = nullptr;
-
-	for (Component* component : this->components)
-	{
-		if (component->GetType() == type)
-		{
-			components.push_back(component);
-		}
-	}
-
-	return components;
-}
-
 void GameObject::DeactivateChildren()
 {
 	active = false;
