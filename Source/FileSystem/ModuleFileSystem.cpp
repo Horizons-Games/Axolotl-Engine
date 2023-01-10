@@ -1,9 +1,18 @@
 #include "ModuleFileSystem.h"
+#include "physfs.h"
 #include <fstream>
 #include <vector>
 #include <cstring>
 #include <direct.h>
 #include <cstdio>
+
+
+bool ModuleFileSystem::Start() {
+    PHYSFS_init(nullptr);
+    PHYSFS_mount(".", nullptr, 0);
+    PHYSFS_setWriteDir(".");
+    return true;
+}
 
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
@@ -78,3 +87,9 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
         return false;
     }
 }
+
+bool ModuleFileSystem::CleanUp() {
+    PHYSFS_deinit();
+    return true;
+}
+
