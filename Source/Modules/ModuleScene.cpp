@@ -93,21 +93,21 @@ GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void ModuleScene::PlayScene(bool active)
+void ModuleScene::OnPlay()
 {
 
 
 
 }
 
-void ModuleScene::PauseScene(bool active)
+void ModuleScene::OnPause()
 {
 
 
 
 }
 
-void ModuleScene::SkipForwardScene(bool active)
+void ModuleScene::OnStop()
 {
 
 

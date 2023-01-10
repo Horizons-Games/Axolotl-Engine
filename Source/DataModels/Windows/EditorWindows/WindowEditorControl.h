@@ -22,6 +22,8 @@ protected:
 private:
 	void DrawControlButtons();
 	ModuleScene* scene;
+	bool playButtonState = false;
+	
 };
 
 inline ImVec2 WindowEditorControl::GetStartingSize() const
