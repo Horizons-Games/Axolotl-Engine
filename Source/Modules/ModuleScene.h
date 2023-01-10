@@ -30,6 +30,9 @@ public:
 
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+	void PlayScene(bool active);
+	void PauseScene(bool active);
+	void SkipForwardScene(bool active);
 
 private:
 	GameObject* root = nullptr;
