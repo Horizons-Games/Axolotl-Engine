@@ -43,20 +43,26 @@ void WindowEditorControl::DrawControlButtons()
 
     if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
     {  
-        scene->PlayScene(true);
+        if (!playButtonState)
+        {
+            scene->OnPlay();
+            playButtonState = true;
+        }
+        else if (playButtonState)
+        {
+            scene->OnStop();
+            playButtonState = false;
+        }
         
     }
     ImGui::SameLine();
     if (ImGui::Button(" || "))
     {
-        scene->PauseScene(true);
+        scene->OnPause();
         
     }
     ImGui::SameLine();
-    if (ImGui::ArrowButton("##Next", ImGuiDir_Right))
-    {
-        scene->SkipForwardScene(true);
-    }
+    
 
     
 }

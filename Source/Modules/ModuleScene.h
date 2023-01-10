@@ -28,9 +28,9 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-	void PlayScene(bool active);
-	void PauseScene(bool active);
-	void SkipForwardScene(bool active);
+	void OnPlay();
+	void OnPause();
+	void OnStop();
 
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
