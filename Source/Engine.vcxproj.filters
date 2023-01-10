@@ -283,6 +283,9 @@
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -688,6 +691,9 @@
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>

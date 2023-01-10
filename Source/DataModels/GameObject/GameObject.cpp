@@ -4,6 +4,7 @@
 #include "../Components/ComponentMesh.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentBoundingBoxes.h"
 
 
 #include <assert.h>
@@ -12,6 +13,7 @@ GameObject::GameObject(const char* name) : name(name)
 {
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -23,6 +25,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::~GameObject()
@@ -35,6 +38,12 @@ void GameObject::Update()
 {
 	for (Component* component : components)
 		component->Update();
+}
+
+void GameObject::Draw()
+{
+	//TODO: Draw the components what needs a draw
+	//for (Component* component : components) component->Draw();
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -174,6 +183,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = new ComponentCamera(true, this);
 			break;
 		}
+		case ComponentType::BOUNDINGBOX:
+		{
+			newComponent = new ComponentBoundingBoxes(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Unknown Component Type");
@@ -197,8 +211,8 @@ Component* GameObject::GetComponent(ComponentType type)
 		}
 
 	}
-
-	assert(false && "Component type in GameObject not found");
+	return nullptr;
+	//assert(false && "Component type in GameObject not found");
 }
 
 bool GameObject::IsAChild(const GameObject* child)

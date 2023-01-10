@@ -7,6 +7,7 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
 
+#include "Components/Component.h"
 #include "3DModels/Model.h"
 
 #include <string>
@@ -73,6 +74,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             if (ImGui::MenuItem("Delete"))
             {
                 gameObject->GetParent()->RemoveChild(gameObject);
+                App->scene->RemoveCamera(gameObject);
                 if (App->scene->GetSelectedGameObject() == gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent());
@@ -84,6 +86,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->CreateGameObject("Empty GameObject", gameObject);
+        }
+        if (ImGui::MenuItem("Create camera"))
+        {
+            GameObject* newCamera = App->scene->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
         ImGui::EndPopup();
