@@ -63,17 +63,7 @@ bool ModuleFileSystem::Exists(const char* filePath) const
 
 bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
 {
-    struct _stat statbuf;
-    int result = _stat(directoryPath, &statbuf);
-
-    if (result == 0 && (statbuf.st_mode & _S_IFDIR)) 
-    {
-        return true;
-    }
-    else 
-    {
-        return false;
-    }
+    return PHYSFS_isDirectory(directoryPath);
 }
 
 bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
