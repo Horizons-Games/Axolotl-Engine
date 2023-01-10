@@ -25,8 +25,13 @@ bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationF
 
 bool  ModuleFileSystem::Delete(const char* filePath)
 {
-    int result = remove(filePath);
-    return result == 0 ? true : false;
+    if (!PHYSFS_delete(filePath))
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        return false;
+    }
+    return true;
+   
 }
 
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
@@ -57,8 +62,7 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
 
 bool ModuleFileSystem::Exists(const char* filePath) const
 {
-    std::ifstream file(filePath);
-    return file.good();
+    return PHYSFS_exists(filePath);
 }
 
 bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
