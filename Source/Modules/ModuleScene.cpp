@@ -92,3 +92,24 @@ GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
 }
+
+void ModuleScene::PlayScene(bool active)
+{
+
+
+
+}
+
+void ModuleScene::PauseScene(bool active)
+{
+
+
+
+}
+
+void ModuleScene::SkipForwardScene(bool active)
+{
+
+
+
+}

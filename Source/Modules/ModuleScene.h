@@ -28,8 +28,13 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
+	void PlayScene(bool active);
+	void PauseScene(bool active);
+	void SkipForwardScene(bool active);
+
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+	
 
 private:
 	GameObject* root = nullptr;
