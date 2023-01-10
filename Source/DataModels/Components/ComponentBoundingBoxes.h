@@ -14,6 +14,8 @@ public:
 	void CalculateBoundingBoxes();
 	void Draw();
 
+	void Encapsule(vec* Vertices, unsigned numVertices);
+
 	const AABB& GetLocalABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
@@ -27,6 +29,11 @@ private:
 	OBB objectOBB;
 	bool drawBoundingBoxes;
 };
+
+inline void ComponentBoundingBoxes::Encapsule(vec* Vertices, unsigned numVertices)
+{
+	localAABB.Enclose(Vertices, numVertices);
+}
 
 inline const AABB& ComponentBoundingBoxes::GetLocalABB()
 {
