@@ -6,6 +6,10 @@
 
 #include "FileSystem/UniqueID.h"
 
+struct OptionsModel
+{
+};
+
 class ResourceModel : public Resource
 {
 public:
@@ -16,11 +20,15 @@ public:
 
 	void Load() override {};
 	void Unload() override {};
+	void SaveOptions(Json& meta) override {};
+	void LoadOptions(Json& meta) override {};
 
 	const unsigned int GetNumMeshes() const;
 	const unsigned int GetNumTextures() const;
 	const std::vector<UID>& GetMeshesUIDs() const;
 	const std::vector<UID>& GetTexturesUIDs() const;
+
+	std::shared_ptr<OptionsModel>& GetOptions();
 
 	void SetNumMeshes(const unsigned int numMeshes);
 	void SetNumTextures(const unsigned int numTextures);
@@ -32,6 +40,8 @@ private:
 	unsigned int numTextures;
 	std::vector<UID> meshesUIDs;
 	std::vector<UID> texturesUIDs;
+
+	std::shared_ptr<OptionsModel> options;
 };
 
 inline ResourceModel::ResourceModel(UID resourceUID,
@@ -40,6 +50,7 @@ inline ResourceModel::ResourceModel(UID resourceUID,
 									const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
+	options = std::make_shared<OptionsModel>();
 }
 
 inline ResourceType ResourceModel::GetType() const
@@ -65,6 +76,11 @@ inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
 inline const std::vector<UID>& ResourceModel::GetTexturesUIDs() const
 {
 	return texturesUIDs;
+}
+
+inline std::shared_ptr<OptionsModel>& ResourceModel::GetOptions()
+{
+	this->options;
 }
 
 inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)

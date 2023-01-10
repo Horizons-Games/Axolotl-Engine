@@ -254,6 +254,7 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 	Json Json(doc, doc);
 
 	Json["UID"] = resource->GetUID();
+	resource->SaveOptions(Json);
 	rapidjson::StringBuffer buffer;
 	Json.toBuffer(buffer);
 

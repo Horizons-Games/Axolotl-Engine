@@ -1,6 +1,7 @@
 #include "ResourceTexture.h"
 
 #include "GL/glew.h"
+#include "FileSystem/Json.h"
 
 void ResourceTexture::Load()
 {
@@ -11,6 +12,24 @@ void ResourceTexture::Unload()
 {
 	glDeleteTextures(1, &glTexture);
 	glTexture = 0;
+}
+
+void ResourceTexture::SaveOptions(Json& meta)
+{
+	meta["min"] = (int) options->min;
+	meta["mag"] = (int) options->mag;
+	meta["wrapS"] = (int) options->wrapS;
+	meta["wrapT"] = (int) options->wrapT;
+	meta["mipMap"] = options->mipMap;
+}
+
+void ResourceTexture::LoadOptions(Json& meta)
+{
+	options->min = (TextureMinFilter)(int) meta["min"];
+	options->mag = (TextureMagFilter)(int) meta["mag"];
+	options->wrapS = (TextureWrap)(int) meta["wrapS"];
+	options->wrapT = (TextureWrap)(int) meta["wrapT"];
+	options->mipMap = meta["mipMap"];
 }
 
 void ResourceTexture::CreateTexture()
