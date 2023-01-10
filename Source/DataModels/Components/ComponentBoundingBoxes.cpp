@@ -12,7 +12,7 @@ ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 	localAABB = { {-1, -1, -1}, {1, 1, 1} };
 	encapsuledAABB = localAABB;
 	objectOBB = { localAABB };
-	drawBoundingBoxes = true;
+	drawBoundingBoxes = false;
 }
 
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 

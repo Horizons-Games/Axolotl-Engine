@@ -21,6 +21,7 @@ protected:
 
 private:
 	void DrawTransformationTable(GameObject* selected);
+	void DrawBoundingBoxTable(GameObject* selected);
 	void DrawGeometryTable();
 	void DrawTextureTable();
 	void DrawCameraTable(ComponentCamera* camera);

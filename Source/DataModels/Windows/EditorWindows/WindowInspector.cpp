@@ -10,6 +10,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentBoundingBoxes.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
@@ -62,6 +63,7 @@ void WindowInspector::DrawWindowContents()
 
 		DrawTransformationTable(currentGameObject);
 
+		DrawBoundingBoxTable(currentGameObject);
 		/*
 		DrawGeometryTable();
 
@@ -183,6 +185,32 @@ void WindowInspector::DrawTransformationTable(GameObject* selected)
 	}
 }
 
+void WindowInspector::DrawBoundingBoxTable(GameObject* selected)
+{
+	
+	if (App->scene->GetRoot() == selected) // The root must not have BoundingBox
+		return;
+
+	ComponentBoundingBoxes* boundingBox = (ComponentBoundingBoxes*)selected->GetComponent(ComponentType::BOUNDINGBOX);
+
+	bool drawBox = boundingBox->isDrawBoundingBoxes();
+
+	ImGui::Text("BOUNDING BOXES");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("BoundingTable", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
+		if (ImGui::Checkbox("", &drawBox))
+		{
+			boundingBox->setDrawBoundingBoxes(drawBox);
+		}
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
+	
+}
+
 void WindowInspector::DrawGeometryTable()
 {
 	ImGui::Text("GEOMETRY");
@@ -244,15 +272,16 @@ void WindowInspector::DrawCameraTable(ComponentCamera* camera)
 			camera->SetDrawFrustum(draw);
 		}
 
-
 		if (ImGui::ListBox("Frustum Mode\n(single select)", &currentFrustum, listbox_items, IM_ARRAYSIZE(listbox_items), 3))
 		{
 			camera->SetFrustumMode(currentFrustum);
 		}
+
 		if (ImGui::SliderFloat("Frustum Offset", &currentOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
 			camera->SetFrustumOffset(currentOffset);
 		}
 
 		ImGui::EndTable();
+		ImGui::Separator();
 	}
 }
