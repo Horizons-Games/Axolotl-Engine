@@ -15,13 +15,9 @@ public:
 
 	void Init() override;
 	void Update() override;
-<<<<<<< HEAD
 
 	void Enable() override;
-=======
-	void Draw() override;
 	void Display() override;
->>>>>>> origin/scenemanagement
 	void Disable() override;
 
 	const float3& GetColor() const;
