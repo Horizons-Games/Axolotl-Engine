@@ -351,11 +351,11 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::DrawGameObject(std::shared_ptr<GameObject>& gameObject)
 {
-	std::vector<Component*> meshRenderers = gameObject->GetComponents();
+	const std::vector<ComponentMeshRenderer*> meshRenderers = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
 
-	for (Component* meshRenderer : meshRenderers)
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
 	{
-		((ComponentMeshRenderer*) meshRenderer)->Draw();
+		meshRenderer->Draw();
 	}
 }
 
