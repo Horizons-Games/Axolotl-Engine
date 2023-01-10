@@ -65,6 +65,10 @@ void ComponentCamera::Draw()
 	if(drawFrustum) App->debug->DrawFrustum(frustum);
 }
 
+void ComponentCamera::Display()
+{
+}
+
 void ComponentCamera::UpdateFrustumOffset()
 {
 	math::Plane frustumPlanes[6];

@@ -15,10 +15,14 @@ public:
 
 	void Init() override;
 	void Update() override;
+<<<<<<< HEAD
 
 	void Enable() override;
+=======
+	void Draw() override;
+	void Display() override;
+>>>>>>> origin/scenemanagement
 	void Disable() override;
-	virtual void Draw();
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -42,9 +46,14 @@ inline void ComponentLight::Update()
 {
 }
 
+<<<<<<< HEAD
 inline void ComponentLight::Enable()
 {
 	Component::Enable();
+=======
+inline void ComponentLight::Display()
+{
+>>>>>>> origin/scenemanagement
 }
 
 inline void ComponentLight::Disable()

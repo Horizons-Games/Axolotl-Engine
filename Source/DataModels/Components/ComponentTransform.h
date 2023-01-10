@@ -13,6 +13,7 @@ public:
 
 	void Init() override;
 	void Update() override;
+	void Display() override;
 
 	const float3& GetPosition() const;
 	const Quat& GetRotation() const;
