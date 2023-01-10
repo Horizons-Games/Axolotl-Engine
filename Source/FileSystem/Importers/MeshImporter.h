@@ -1,18 +1,16 @@
 #pragma once
 #include "FileSystem/Importers/Importer.h"
-#include "FileSystem/Data.h"
-#include "assimp/mesh.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
-
-class MeshImporter : public Importer<aiMesh, DataMesh>
+class MeshImporter : public Importer<ResourceMesh>
 {
 public:
     MeshImporter() = default;
     ~MeshImporter();
 
-    void Import(const aiMesh* mesh, DataMesh* ourMesh) override;
-    uint64_t Save(const DataMesh* ourMesh, char* &fileBuffer) override;
-    void Load(const char* fileBuffer, DataMesh* ourMesh) override;
+    void Import(const char* filePath, std::shared_ptr<ResourceMesh> resource) override;
+    uint64_t Save(const std::shared_ptr<ResourceMesh> resource, char* &fileBuffer) override;
+    void Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource) override;
 
 private:
     char* buffer;

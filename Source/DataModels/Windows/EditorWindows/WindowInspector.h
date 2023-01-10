@@ -19,7 +19,6 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawTransformationTable(GameObject* selected);
 	void DrawGeometryTable();
 	void DrawTextureTable();
 
