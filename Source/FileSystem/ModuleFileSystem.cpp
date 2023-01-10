@@ -36,27 +36,39 @@ bool  ModuleFileSystem::Delete(const char* filePath)
 
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
-    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
-    std::streamsize size = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    buffer = new char[size];
-    if (!file.read(buffer, size))
+    PHYSFS_File * file = PHYSFS_openRead(filePath);
+    if (file == NULL)
     {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        PHYSFS_close(file);
         return 1;
     }
-
-    // Close the file
-    file.close();
+    PHYSFS_sint64 size = PHYSFS_fileLength(file);
+    if (PHYSFS_readBytes(file, buffer, size) < size)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        PHYSFS_close(file);
+        return 1;
+    }
+    PHYSFS_close(file);
     return 0;
 }
 
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
 {
-    std::ofstream file(filePath, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
-    file.write(static_cast<const char*>(buffer), size + 1);
-    file.put(EOF);
-    file.close();
+    PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
+    if (file == NULL)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        PHYSFS_close(file);
+        return 1;
+    }
+    if (PHYSFS_writeBytes(file, buffer, size) < size)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        PHYSFS_close(file);
+        return 1;
+    }
     return 0;
 }
 
