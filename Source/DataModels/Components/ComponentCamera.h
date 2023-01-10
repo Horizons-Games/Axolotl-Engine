@@ -27,6 +27,15 @@ public:
 	bool IsInside(const OBB& obb);
 	bool IsInsideOffset(const OBB& obb);
 
+	void SetDrawFrustum(bool newFrustum);
+	void SetFrustumMode(int newFrustumMode);
+	void SetFrustumOffset(float newFrustumOffset);
+
+	bool IsDrawFrustum() const;
+	int GetFrustumMode() const;
+	float GetFrustumOffset() const;
+
+
 private:
 	Frustum frustum;
 	int frustumMode;
@@ -36,3 +45,32 @@ private:
 	ComponentTransform* trans;
 };
 
+inline void ComponentCamera::SetDrawFrustum(bool newFrustum)
+{
+	drawFrustum = newFrustum;
+}
+
+inline void ComponentCamera::SetFrustumMode(int newFrustumMode)
+{
+	frustumMode = newFrustumMode;
+}
+
+inline void ComponentCamera::SetFrustumOffset(float newFrustumOffset)
+{
+	frustumOffset = newFrustumOffset;
+}
+
+inline bool ComponentCamera::IsDrawFrustum() const
+{
+	return drawFrustum;
+}
+
+inline int ComponentCamera::GetFrustumMode() const
+{
+	return frustumMode;
+}
+
+inline float ComponentCamera::GetFrustumOffset() const
+{
+	return frustumOffset;
+}

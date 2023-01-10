@@ -105,7 +105,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	if (App->engineCamera->IsInside(obb) /* || App->scene->IsInsideACamera(obb) */)
+	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{
