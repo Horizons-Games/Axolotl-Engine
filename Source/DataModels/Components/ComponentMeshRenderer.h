@@ -13,9 +13,10 @@ public:
 	ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID);
 	~ComponentMeshRenderer() override;
 
-	void Init() override;
+	bool Init();
 	void Update() override;
 
+	void Display();
 	void Draw();
 
 	void SetMeshUID(UID& meshUID);

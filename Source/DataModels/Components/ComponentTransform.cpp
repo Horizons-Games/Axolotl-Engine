@@ -15,9 +15,6 @@ ComponentTransform::~ComponentTransform()
 	delete ownerParent;
 }
 
-void ComponentTransform::Init()
-{
-}
 
 void ComponentTransform::Update()
 {

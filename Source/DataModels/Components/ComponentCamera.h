@@ -18,7 +18,6 @@ public:
 	ComponentCamera(bool active, GameObject* owner);
 	~ComponentCamera() override;
 
-	void Init() override;
 	void Update() override;
 	void Draw() override;
 	void Display() override;

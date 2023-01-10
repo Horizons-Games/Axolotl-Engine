@@ -10,13 +10,15 @@ public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
 	virtual ~Component();
 
-	virtual void Init() = 0;
+	bool Init();
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
 
 	virtual void Enable();
 	virtual void Disable();
+
+	virtual void Draw();
 
 	bool GetActive();
 	ComponentType GetType();
@@ -27,6 +29,11 @@ private:
 	bool active;
 	GameObject* owner;
 };
+
+inline bool Component::Init()
+{
+	return true;
+}
 
 inline void Component::Enable()
 {

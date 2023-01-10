@@ -25,9 +25,11 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 }
 
-void ComponentMeshRenderer::Init()
+bool ComponentMeshRenderer::Init()
 {
 	LoadMesh();
+
+	return true;
 }
 
 void ComponentMeshRenderer::Update()
@@ -36,6 +38,10 @@ void ComponentMeshRenderer::Update()
 	{
 		Draw();
 	}
+}
+
+void ComponentMeshRenderer::Display()
+{
 }
 
 void ComponentMeshRenderer::Draw()
