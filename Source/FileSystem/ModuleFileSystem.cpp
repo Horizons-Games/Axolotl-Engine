@@ -22,7 +22,7 @@ bool  ModuleFileSystem::Delete(const char* filePath)
 {
     if (!PHYSFS_delete(filePath))
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         return false;
     }
     return true;
@@ -34,7 +34,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     PHYSFS_File * file = PHYSFS_openRead(filePath);
     if (file == NULL)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         PHYSFS_close(file);
         return -1;
     }
@@ -42,7 +42,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     buffer = new char[size];
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         PHYSFS_close(file);
         return -1;
     }
@@ -55,13 +55,13 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
     PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
     if (file == NULL)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         PHYSFS_close(file);
         return 1;
     }
     if (PHYSFS_writeBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         PHYSFS_close(file);
         return 1;
     }
@@ -82,7 +82,7 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
     if(!PHYSFS_mkdir(directoryPath)) 
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         return false;
     }
     return true;
