@@ -15,6 +15,7 @@ ComponentTransform::~ComponentTransform()
 	delete ownerParent;
 }
 
+
 void ComponentTransform::Update()
 {
 	CalculateLocalMatrix();

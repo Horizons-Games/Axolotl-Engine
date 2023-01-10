@@ -13,10 +13,11 @@ public:
 	ComponentLight(LightType type, const float3& color, float intensity);
 	~ComponentLight() {};
 
-	void Enable() override;
 	void Update() override;
-	void Draw() override;
+
+	void Enable() override;
 	void Display() override;
+	void Draw() override;
 	void Disable() override;
 
 	const float3& GetColor() const;
@@ -33,13 +34,14 @@ private:
 	LightType type;
 };
 
+inline void ComponentLight::Update()
+{
+}
+
+
 inline void ComponentLight::Enable()
 {
 	Component::Enable();
-}
-
-inline void ComponentLight::Update()
-{
 }
 
 inline void ComponentLight::Display()

@@ -200,7 +200,7 @@
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentMesh.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
@@ -338,7 +338,7 @@
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
     <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
-    <ClInclude Include="DataModels\Components\ComponentMesh.h" />
+    <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
     <ClInclude Include="DataModels\Components\ComponentTransform.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />

@@ -1,4 +1,4 @@
-#include "ComponentMaterial.h"
+/*#include "ComponentMaterial.h"
 #include "GameObject/GameObject.h"
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
@@ -10,11 +10,16 @@ ComponentMaterial::~ComponentMaterial()
 {
 }
 
+void ComponentMaterial::Init()
+{
+}
+
 void ComponentMaterial::Update()
 {
 	// TODO: Perform Material updates (draw...)
+
 }
 
 void ComponentMaterial::Display()
 {
-}
+}}*/
