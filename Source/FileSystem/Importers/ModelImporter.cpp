@@ -103,16 +103,17 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 	{
 		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			std::string texturePath = TEXTURES_PATH + std::string(file.data);
+			std::string texturePath = "";
 
 			struct stat buffer {};
 			// Cheking by name
 			if (stat(file.data, &buffer) != 0)
 			{
-				//Checking in the fbx folder
-				if (stat((std::string(filePath) + std::string(file.data)).c_str(), &buffer) != 0)
+				std::string path = App->resources->GetPath(filePath);
+				//Checking in the original fbx folder
+				if (stat((path + std::string(file.data)).c_str(), &buffer) != 0)
 				{
-					// Cheking in textures folder
+					// Cheking in asset textures folder
 					if (stat((TEXTURES_PATH + std::string(file.data)).c_str(), &buffer) != 0)
 					{
 						ENGINE_LOG("Texture not found!");
@@ -121,13 +122,16 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 						texturePath = TEXTURES_PATH + std::string(file.data);
 				}
 				else
-					texturePath = filePath + std::string(file.data);
+					texturePath = path + std::string(file.data);
 			}
 			else
 				texturePath = std::string(file.data);
 
-			UID resourceTexture = App->resources->ImportResource(texturePath);
-			textureUIDs.push_back(resourceTexture);
+			if(texturePath != "") 
+			{
+				UID resourceTexture = App->resources->ImportResource(texturePath);
+				textureUIDs.push_back(resourceTexture);
+			}
 		}
 	}
 
@@ -194,3 +198,4 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		cursor += bytes;
 	}
 }
+

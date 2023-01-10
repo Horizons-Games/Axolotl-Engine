@@ -101,7 +101,8 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
-	ImportResourceFromSystem(importedRes, type);
+
+	ImportResourceFromSystem(originalPath, importedRes, type);
 
 	UID uid = importedRes->GetUID();
 	resources.insert({ uid, importedRes });
@@ -148,7 +149,7 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	}
 }
 
-const std::string ModelImporter::GetPath(const std::string& path)
+const std::string ModuleResources::GetPath(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorFound = false;
@@ -168,16 +169,16 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
-	bool notExtension = false;
+	bool extension = true;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
-		separatorNotFound = currentChar != '/';
-		if (separatorNotFound && notExtension)
+		separatorNotFound = currentChar != '\\';
+		if (separatorNotFound && !extension)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
-		if(!notExtension) notExtension = currentChar == '.';
+		if(extension) extension = currentChar != '.';
 	}
 	return fileName;
 }
@@ -280,18 +281,18 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 
 }
 
-void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type)
 {
 	switch (type)
 	{
 	case ResourceType::Model:
-		modelImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
+		modelImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
 		break;
 	case ResourceType::Texture:
-		textureImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
+		textureImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 		break;
 	case ResourceType::Mesh:
-		meshImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
+		meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 		break;
 	case ResourceType::Scene:
 		break;
