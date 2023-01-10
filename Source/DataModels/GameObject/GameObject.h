@@ -16,6 +16,7 @@ public:
 	~GameObject();
 
 	void Update();
+	void Draw();
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);

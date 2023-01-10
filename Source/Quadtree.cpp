@@ -1,9 +1,13 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
+#include "Application.h"
 
 #include "math/float4x4.h"
 #include "geometry/OBB.h"
 #include "geometry/AABB.h"
+
+#include "ModuleEngineCamera.h"
+#include "ModuleScene.h"
 
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
@@ -136,6 +140,23 @@ void Quadtree::Clear()
 		this->frontRightNode->Clear();
 		this->frontRightNode->Clear();
 		this->frontRightNode->Clear();
+	}
+}
+
+// Draw recursively in the scene
+void Quadtree::Draw()
+{
+	if (App->engineCamera->IsInside(boundingBox) || App->scene->IsInsideACamera(boundingBox))
+	{
+		for (GameObject* gameObject : gameObjects) gameObject->Draw();
+		if (!IsLeaf())
+		{
+			this->frontRightNode->Draw();
+			this->frontRightNode->Draw();
+			this->frontRightNode->Draw();
+			this->frontRightNode->Draw();
+		}
+
 	}
 }
 

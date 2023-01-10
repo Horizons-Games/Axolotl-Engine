@@ -17,6 +17,7 @@ public:
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
 	void Clear();
+	void Draw();
 
 	const std::list<GameObject*>& GetGameObjectsToDraw();
 	const AABB& GetBoundingBox() const;

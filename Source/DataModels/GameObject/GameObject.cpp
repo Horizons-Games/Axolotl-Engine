@@ -40,6 +40,12 @@ void GameObject::Update()
 		component->Update();
 }
 
+void GameObject::Draw()
+{
+	//TODO: Draw the components what needs a draw
+	//for (Component* component : components) component->Draw();
+}
+
 void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent != nullptr);
@@ -205,8 +211,8 @@ Component* GameObject::GetComponent(ComponentType type)
 		}
 
 	}
-
-	assert(false && "Component type in GameObject not found");
+	return nullptr;
+	//assert(false && "Component type in GameObject not found");
 }
 
 bool GameObject::IsAChild(const GameObject* child)

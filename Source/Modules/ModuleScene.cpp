@@ -2,6 +2,7 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
 
 #include <assert.h>
 
@@ -42,7 +43,17 @@ void ModuleScene::FillQuadtree(GameObject* gameObject)
 bool ModuleScene::IsInsideACamera(const OBB& obb)
 {
 	// TODO: We have to add all the cameras in the future
+	for (GameObject* cameraGameObject : sceneCameras)
+	{
+		ComponentCamera* camera = (ComponentCamera*)cameraGameObject->GetComponent(ComponentType::CAMERA);
+		if (camera->IsInside(obb)) return true;
+	}
 	return false;
+}
+
+bool ModuleScene::IsInsideACamera(const AABB& aabb)
+{
+	return IsInsideACamera(aabb.ToOBB());
 }
 
 update_status ModuleScene::Update()
@@ -60,6 +71,15 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 	sceneGameObjects.push_back(gameObject);
 
 	//sceneQuadTree->Add(gameObject);
+	return gameObject;
+}
+
+GameObject* ModuleScene::CreateCameraGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::CAMERA);
+	sceneCameras.push_back(gameObject);
+
 	return gameObject;
 }
 
@@ -91,4 +111,18 @@ GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
+}
+
+void ModuleScene::RemoveCamera(GameObject* cameraGameObject)
+{
+
+	for (std::vector<GameObject*>::iterator it = sceneCameras.begin(); it != sceneCameras.end(); it++)
+	{
+		if (cameraGameObject == *it)
+		{
+			sceneCameras.erase(it);
+			return;
+		}
+	}
+	return;
 }

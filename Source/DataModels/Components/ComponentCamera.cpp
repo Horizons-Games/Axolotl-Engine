@@ -7,6 +7,9 @@
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
 
+#include "ComponentTransform.h"
+#include "GameObject/GameObject.h"
+
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner)
@@ -22,11 +25,13 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	//Position PlaceHolder get position from component transform
-	float3 position = float3{ 10.f, 0.f, 0.f };
+	trans = (ComponentTransform*)owner->GetComponent(ComponentType::TRANSFORM);
+	
+	frustum.SetPos(trans->GetPosition());
+	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	frustum.SetFront(rotationMatrix * float3::unitZ);
+	frustum.SetUp(rotationMatrix * float3::unitY);
 
-	frustum.SetPos(position);
-	frustum.SetFront(-float3::unitZ);
-	frustum.SetUp(float3::unitY);
 
 	UpdateFrustumOffset();
 }
@@ -38,19 +43,12 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	//Placeholder rotation to see the frustum
-	Quat pitchQuat(frustum.WorldRight(), 0.f);
-	Quat yawQuat(float3::unitY, 0.02f);
+	frustum.SetPos(trans->GetPosition());
 
-	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
-	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationMatrix = rotationMatrixY * rotationMatrixX;
+	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	frustum.SetFront(rotationMatrix * float3::unitZ);
+	frustum.SetUp(rotationMatrix * float3::unitY);
 
-	vec oldFront = frustum.Front().Normalized();
-	vec oldUp = frustum.Up().Normalized();
-
-	frustum.SetFront(rotationMatrix.MulDir(oldFront));
-	frustum.SetUp(rotationMatrix.MulDir(oldUp));
 
 	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
 	Draw();
