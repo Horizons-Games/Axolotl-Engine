@@ -15,8 +15,9 @@ public:
 
 	void Enable() override;
 	void Update() override;
+	void Draw() override;
+	void Display() override;
 	void Disable() override;
-	virtual void Draw();
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -38,6 +39,10 @@ inline void ComponentLight::Enable()
 }
 
 inline void ComponentLight::Update()
+{
+}
+
+inline void ComponentLight::Display()
 {
 }
 

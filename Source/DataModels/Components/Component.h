@@ -14,6 +14,10 @@ public:
 
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
+	virtual void Draw();
+
+	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
+
 	virtual void Disable();
 
 	bool GetActive();
@@ -36,6 +40,10 @@ inline void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
 		active = false;
+}
+
+inline void Component::Draw()
+{
 }
 
 inline bool Component::GetActive()

@@ -17,6 +17,11 @@
 #include "assimp/types.h"
 #include "assimp/material.h"
 
+#include "DataModels/Resources/ResourceTexture.h"
+#include "DataModels/Resources/ResourceMesh.h"
+#include "Application.h"
+#include "FileSystem/ModuleResources.h"
+
 
 void myCallback(const char* msg, char* userData) {
 	ENGINE_LOG("[assimp]%s", msg);
@@ -47,6 +52,44 @@ Model::~Model()
 	}
 
 	textures.clear();
+}
+
+void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal setter
+{
+	path = resource->GetAssetsPath().c_str();
+
+	std::vector<UID> textureUIDs = resource->GetTexturesUIDs();
+
+	for (int i = 0; i < textureUIDs.size(); ++i) 
+	{
+
+		std::shared_ptr<ResourceTexture> resourceTexture = 
+			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]));
+
+		resourceTexture->Load();
+		textures.push_back(resourceTexture->GetGlTexture());
+		textureHeights.push_back(resourceTexture->GetHeight());
+		textureWidths.push_back(resourceTexture->GetWidth());
+	}
+
+	std::vector<UID> meshesUIDs = resource->GetMeshesUIDs();
+
+	for (int i = 0; i < meshesUIDs.size(); ++i) 
+	{
+
+		std::shared_ptr<ResourceMesh> resourceMesh = 
+			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]));
+
+		resourceMesh->Load();
+		Mesh* mesh = new Mesh();
+		mesh->SetFromResource(resourceMesh);
+		meshes.push_back(std::unique_ptr<Mesh>(mesh));
+
+		aabb.Enclose(mesh->GetVertices(), mesh->GetNumVertices());
+	}
+	obb = aabb.Transform(float4x4::FromTRS(translation, GetRotationF4x4(), scale));
+
+	App->engineCamera->Focus(this->aabb);
 }
 
 void Model::Load(const char* fileName)
@@ -93,7 +136,8 @@ void Model::LoadMeshes(const aiScene* scene)
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		Mesh* mesh = new Mesh(scene->mMeshes[i]);
+		Mesh* mesh = new Mesh();
+		mesh->Load(scene->mMeshes[i]);
 
 		aabb.Enclose(mesh->GetVertices(), mesh->GetNumVertices());
 

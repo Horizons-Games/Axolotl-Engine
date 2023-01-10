@@ -140,6 +140,8 @@ unsigned int & textureWidth, unsigned int & textureHeight)
 		assert(false && "Unsupported format");
 	}
 
+	std::vector<uint8_t> aux(flippedImg.GetPixels(), flippedImg.GetPixels() + flippedImg.GetPixelsSize());
+
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, flippedImg.GetMetadata().width,
 		flippedImg.GetMetadata().height, 0, format, type, flippedImg.GetPixels());
 
