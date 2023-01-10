@@ -148,6 +148,22 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	}
 }
 
+const std::string ModelImporter::GetPath(const std::string& path)
+{
+	std::string fileName = "";
+	bool separatorFound = false;
+	for (int i = path.size() - 1; 0 <= i && !separatorFound; --i)
+	{
+		char currentChar = path[i];
+		separatorFound = currentChar == '\\';
+		if (separatorFound)
+		{
+			fileName = path.substr(0, i + 1);
+		}
+	}
+	return fileName;
+}
+
 const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
