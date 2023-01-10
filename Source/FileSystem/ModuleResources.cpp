@@ -90,7 +90,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	if (type != ResourceType::Mesh) 
 	{
-		std::string assetsPath = CreateAssetsPath(fileName + extension, type);
+		assetsPath = CreateAssetsPath(fileName + extension, type);
 
 		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 		if (!resourceExists)
