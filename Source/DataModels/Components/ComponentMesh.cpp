@@ -13,3 +13,11 @@ void ComponentMesh::Update()
 {
 	// TODO: Perform Mesh updates (draw...)
 }
+
+void ComponentMesh::Draw()
+{
+}
+
+void ComponentMesh::Display()
+{
+}
