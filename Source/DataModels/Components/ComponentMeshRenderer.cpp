@@ -16,8 +16,8 @@
 
 #include "GL/glew.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID& meshUID, UID& textureUID)
-	: Component(ComponentType::MESH, active, owner), meshUID(meshUID), textureUID(textureUID)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
+	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
 {
 }
 

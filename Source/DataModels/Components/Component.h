@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT, CAMERA};
+enum class ComponentType {/*MATERIAL,*/ MESHRENDERER, TRANSFORM, LIGHT, CAMERA };
 
 class GameObject;
 

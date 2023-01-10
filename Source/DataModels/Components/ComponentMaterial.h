@@ -1,3 +1,4 @@
+/*
 #pragma once
 #include "Components/Component.h"
 
@@ -12,4 +13,4 @@ public:
 
 private:
 
-};
+};*/

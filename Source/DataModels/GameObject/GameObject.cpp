@@ -5,6 +5,7 @@
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
 
+#include "FileSystem/UniqueID.h"
 
 #include <assert.h>
 
@@ -158,17 +159,17 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::MESH:
+		case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentTransform(true, this);
+			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
 			break;
 		}
 
-		case ComponentType::MATERIAL:
+		/*case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}
+		}*/
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);

@@ -10,7 +10,7 @@ class ResourceMesh;
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner, UID& meshUID, UID& textureUID);
+	ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID);
 	~ComponentMeshRenderer() override;
 
 	void Init() override;
