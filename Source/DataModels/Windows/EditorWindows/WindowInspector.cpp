@@ -26,7 +26,7 @@ void WindowInspector::DrawWindowContents()
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists
 	{
 		bool enable = currentGameObject->IsEnabled();
-		ImGui::Checkbox("Enable", &enable);
+		ImGui::Checkbox("##Enabled", &enable);
 
 		if (enable)
 		{
