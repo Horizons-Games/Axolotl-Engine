@@ -6,7 +6,7 @@ class ModuleFileSystem : public Module
 public:
 	ModuleFileSystem() = default;
 	~ModuleFileSystem() = default;
-	bool Start() override;
+	bool Init() override;
 	bool CleanUp() override;
 	unsigned int Load(const char* filePath, char*& buffer) const;
 	unsigned int Save(const char* filePath, const void* buffer, unsigned int size, bool append = false) const;

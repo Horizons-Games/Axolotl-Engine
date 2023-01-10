@@ -1,19 +1,14 @@
 #include "ModuleFileSystem.h"
 #include "physfs.h"
-#include <fstream>
-#include <vector>
-#include <cstring>
-#include <direct.h>
-#include <cstdio>
 
 
-bool ModuleFileSystem::Start() {
+bool ModuleFileSystem::Init()
+{
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
     PHYSFS_setWriteDir(".");
     return true;
 }
-
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
 {
@@ -44,14 +39,15 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
         return -1;
     }
     PHYSFS_sint64 size = PHYSFS_fileLength(file);
+    buffer = new char[size];
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
         ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
         PHYSFS_close(file);
         return -1;
     }
-    return size;
     PHYSFS_close(file);
+    return size;
 }
 
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
