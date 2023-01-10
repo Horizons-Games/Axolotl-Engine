@@ -17,9 +17,9 @@ bool ModuleFileSystem::Start() {
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
 {
-    std::ifstream src(sourceFilePath, std::ios::binary);
-    std::ofstream dst(destinationFilePath, std::ios::binary);
-    dst << src.rdbuf();
+    char* buffer = nullptr;
+    unsigned int size = Load(sourceFilePath, buffer);
+    Save(destinationFilePath, buffer, size, false);
     return true;
 }
 
@@ -41,17 +41,17 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     {
         ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
         PHYSFS_close(file);
-        return 1;
+        return -1;
     }
     PHYSFS_sint64 size = PHYSFS_fileLength(file);
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
         ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
         PHYSFS_close(file);
-        return 1;
+        return -1;
     }
+    return size;
     PHYSFS_close(file);
-    return 0;
 }
 
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
