@@ -1,7 +1,7 @@
 #pragma once
 #include "EditorWindow.h"
 #include "Windows/SubWindows/SubWindow.h"
-
+#include "ModuleScene.h"
 #include <vector>
 #include <memory>
 
@@ -21,6 +21,7 @@ protected:
 
 private:
 	void DrawControlButtons();
+	ModuleScene* scene;
 };
 
 inline ImVec2 WindowEditorControl::GetStartingSize() const
