@@ -23,6 +23,11 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		ImportMaterials(scene, filePath, resource);
 		ImportMeshes(scene, filePath, resource);
 		aiReleaseImport(scene);
+
+		char* buffer{};
+		unsigned int size;
+		Save(resource, buffer, size);
+		App->fileSystem->Save(resource->GetLibraryPath().c_str(), buffer, size);
 	}
 	else
 	{
@@ -30,12 +35,12 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 }
 
-uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer)
+uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
 
 	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumTextures() };
 
-	unsigned int size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumTextures();
+	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumTextures();
 
 	char* cursor = new char[size] {};
 
@@ -147,7 +152,7 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		UID resourceMesh = App->resources->ImportResource(meshPath);
 		meshesUIDs.push_back(resourceMesh);
 
-		App->fileSystem->Delete(meshPath.c_str());
+		//App->fileSystem->Delete(meshPath.c_str());
 	}
 	resource->SetMeshesUIDs(meshesUIDs);
 }
@@ -188,5 +193,4 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 		cursor += bytes;
 	}
-
 }
