@@ -78,14 +78,12 @@ bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
 
 bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
-    if (_mkdir(directoryPath) == 0)
+    if(!PHYSFS_mkdir(directoryPath)) 
     {
-        return true;
-    }
-    else
-    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastErrorCode());
         return false;
     }
+    return true;
 }
 
 bool ModuleFileSystem::CleanUp() {
