@@ -47,6 +47,16 @@ inline ResourceType ResourceModel::GetType() const
 	return ResourceType::Model;
 }
 
+inline const unsigned int ResourceModel::GetNumMeshes() const
+{
+	return numMeshes;
+}
+
+inline const unsigned int ResourceModel::GetNumTextures() const
+{
+	return numTextures;
+}
+
 inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
 {
 	return meshesUIDs;
@@ -55,6 +65,16 @@ inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
 inline const std::vector<UID>& ResourceModel::GetTexturesUIDs() const
 {
 	return texturesUIDs;
+}
+
+inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
+{
+	this->numMeshes = numMeshes;
+}
+
+inline void ResourceModel::SetNumTextures(const unsigned int numTextures)
+{
+	this->numTextures = numTextures;
 }
 
 inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
