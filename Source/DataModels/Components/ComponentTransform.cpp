@@ -5,8 +5,6 @@
 
 #include "imgui.h"
 
-#include "Math/float3x3.h"
-
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner), ownerParent(GetOwner()->GetParent())
 {
