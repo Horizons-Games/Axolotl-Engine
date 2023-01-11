@@ -136,6 +136,7 @@ bool ModuleResources::Start()
 		}
 	}
 	LoadResourceStored(libraryFolder.c_str());
+	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
