@@ -7,6 +7,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
 #include "Quadtree.h"
 
 #include "3DModels/Model.h"
@@ -211,6 +212,8 @@ update_status ModuleRender::Update()
 		model->Draw();
 	}
 
+	DrawScene(App->scene->GetSceneQuadTree());
+
 	/* 
 	*Logic to apply when model class is deleted and GameObjects are implemented
 	*
@@ -349,21 +352,21 @@ void ModuleRender::UpdateProgram()
 
 void ModuleRender::DrawScene(Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || App->scene->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
 		auto gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				//gameObject->Draw;
+				gameObject->Draw();
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				//gameObject->Draw;
+				gameObject->Draw();
 			}
 			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
 			DrawScene(quadtree->GetFrontLeftNode());

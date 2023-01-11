@@ -4,6 +4,8 @@
 #include "Application.h"
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleEngineCamera.h"
+#include "ModuleScene.h"
+#include "Quadtree.h"
 
 WindowFrustum::WindowFrustum() : SubWindow("Frustum")
 {
@@ -35,13 +37,13 @@ void WindowFrustum::DrawWindowContents()
 
 	int quadrantCapacity = QUADRANT_CAPACITY;
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
-		//App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
+		App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
 	float minCubeSize = MIN_CUBE_SIZE;
 	if (ImGui::SliderFloat("Minimum cube size", &minCubeSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-		//App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
+		App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
 		//TODO save values for future executions
 	}
 
