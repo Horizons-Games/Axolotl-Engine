@@ -6,6 +6,8 @@
 #include "Application.h"
 #include "ModuleDebugDraw.h"
 
+#include "imgui.h"
+
 ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner)
 {
@@ -26,4 +28,21 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 void ComponentBoundingBoxes::Draw()
 {
 	App->debug->DrawBoundingBox(GetObjectOBB());
+}
+
+
+void ComponentBoundingBoxes::Display()
+{
+	ImGui::Text("BOUNDING BOXES");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("BoundingTable", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
+		ImGui::Checkbox("", &drawBoundingBoxes);
+
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
+
 }

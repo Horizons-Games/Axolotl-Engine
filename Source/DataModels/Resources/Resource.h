@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-
 #include "FileSystem/UniqueID.h"
+
+class Json;
 
 enum class ResourceType
 {
@@ -12,8 +13,7 @@ enum class ResourceType
 	Mesh,
 	Scene,
 	Material,
-	Bone,
-	Animation
+	SkyBox,
 };
 
 class Resource
@@ -29,6 +29,8 @@ public:
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
+	virtual void SaveOptions(Json& meta) = 0;
+	virtual void LoadOptions(Json& meta) = 0;
 
 protected:
 	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

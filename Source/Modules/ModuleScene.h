@@ -17,10 +17,12 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	void DestroyGameObject(GameObject* gameObject);
+
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
 	bool IsInsideACamera(const AABB& aabb);
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	Quadtree* GetSceneQuadTree() const;
 
@@ -31,8 +33,13 @@ public:
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 	void RemoveCamera(GameObject* cameraGameObject);
 
+	void OnPlay();
+	void OnPause();
+	void OnStop();
+
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+	
 
 private:
 	GameObject* root = nullptr;
@@ -40,6 +47,7 @@ private:
 
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
+
 	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
 	Quadtree* sceneQuadTree = nullptr;
 };

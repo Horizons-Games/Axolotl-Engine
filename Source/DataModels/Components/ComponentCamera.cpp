@@ -10,6 +10,8 @@
 #include "ComponentTransform.h"
 #include "GameObject/GameObject.h"
 
+#include "imgui.h"
+
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner)
@@ -57,6 +59,29 @@ void ComponentCamera::Update()
 void ComponentCamera::Draw()
 {
 	if(drawFrustum) App->debug->DrawFrustum(frustum);
+}
+
+void ComponentCamera::Display()
+{
+
+	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
+
+
+	ImGui::Text("CAMERA");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+
+	if (ImGui::BeginTable("CameraComponentTable", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Text("Draw Frustum"); ImGui::SameLine();
+		ImGui::Checkbox("", &drawFrustum);
+
+		ImGui::ListBox("Frustum Mode\n(single select)", &frustumMode, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
+		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
 }
 
 void ComponentCamera::UpdateFrustumOffset()

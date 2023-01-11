@@ -9,10 +9,11 @@ class ComponentBoundingBoxes : public Component
 public:
 	ComponentBoundingBoxes(const bool active, GameObject* owner);
 
-	void Update();
+	void Update() override;
+	void Display() override;
 
 	void CalculateBoundingBoxes();
-	void Draw();
+	void Draw() override;
 
 	void Encapsule(vec* Vertices, unsigned numVertices);
 
