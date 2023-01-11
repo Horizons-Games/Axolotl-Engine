@@ -3,8 +3,6 @@
 #include "Resource.h"
 #include <memory>
 
-class Json;
-
 enum class TextureCompression {
 	NONE,
 	DXT1,
