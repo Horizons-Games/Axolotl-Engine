@@ -19,6 +19,28 @@
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
+void ModuleResources::LoadResourceStored(const char* filePath)
+{
+	std::vector<std::string> files = App->fileSystem->listFiles(filePath);
+	for (size_t i = 0; i < files.size(); i++)
+	{
+		std::string path (filePath);
+		path += files[i];
+		const char* file = stringPath.c_str();
+		if (App->fileSystem->IsDirectory(file))
+		{
+			LoadResourceStored(file);
+		}
+		else 
+		{
+			if (extension != ".meta")
+			{
+				ImportResource(file);
+			}
+		}
+	}
+}
+
 bool ModuleResources::Start()
 {
 	modelImporter = std::make_shared<ModelImporter>();
@@ -63,7 +85,7 @@ bool ModuleResources::Start()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-
+	LoadResourceStored(libraryFolder.c_str());
 	return true;
 }
 

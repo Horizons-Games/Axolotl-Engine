@@ -30,6 +30,7 @@ public:
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
 
 private:
+	void LoadResourceStored(const char* filePath);
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	//this might not belong here
