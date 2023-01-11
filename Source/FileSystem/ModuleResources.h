@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <thread>
 
 #include "FileSystem/UniqueID.h"
 

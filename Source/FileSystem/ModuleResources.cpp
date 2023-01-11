@@ -75,14 +75,14 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 	{
 		std::string path (filePath);
 		path += files[i];
-		const char* file = stringPath.c_str();
+		const char* file = path.c_str();
 		if (App->fileSystem->IsDirectory(file))
 		{
 			LoadResourceStored(file);
 		}
 		else 
 		{
-			if (extension != ".meta")
+			if (GetFileExtension(path) != ".meta")
 			{
 				ImportResource(file);
 			}

@@ -5,6 +5,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleWindow.h"
+#include "FileSystem/ModuleResources.h"
 
 #include "imgui_impl_sdl.h"
 
@@ -119,7 +120,7 @@ update_status ModuleInput::Update()
                 App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
             std::replace( dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            UID modelUID = App->resources->ImportThread(droppedFilePath.c_str());
+            UID modelUID = App->resources->ImportThread(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }

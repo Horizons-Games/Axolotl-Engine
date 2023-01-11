@@ -106,7 +106,7 @@ std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
     return files;
 }
 
-long long ModuleFiles::GetModificationDate(const char* filePath) const 
+long long ModuleFileSystem::GetModificationDate(const char* filePath) const
 {
 	PHYSFS_Stat fileStats;
 	PHYSFS_stat(filePath, &fileStats);
