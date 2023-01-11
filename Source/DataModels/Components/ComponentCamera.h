@@ -13,7 +13,6 @@ enum ECameraFrustumMode
 	noFrustum
 };
 
-
 class ComponentCamera : public Component
 {
 public:
@@ -21,8 +20,9 @@ public:
 	~ComponentCamera() override;
 
 	void Update() override;
+	void Draw() override;
+	void Display() override;
 
-	void Draw();
 	void UpdateFrustumOffset();
 	bool IsInside(const OBB& obb);
 	bool IsInsideOffset(const OBB& obb);

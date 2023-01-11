@@ -21,7 +21,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
-#include "Components/ComponentMesh.h"
+#include "Components/ComponentMeshRenderer.h"
 		 
 #include "GL/glew.h"
 
@@ -163,11 +163,11 @@ bool ModuleRender::Start()
 	ENGINE_LOG("--------- Render Start ----------");
 
 	UpdateProgram();
+	
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
+	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
 
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx");
-
-	models.push_back(bakerHouse);
+	models.push_back(bakerHouse); // This line should disappear
 	
 	/*
 	Import resource example:
@@ -206,12 +206,23 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	/* Uncomment the loop below when models are removed 
+	and GameObjects are used in their place */
+
+	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	{
+		DrawGameObject(gameObject);
+	}*/
+
+	// This loop should disappear
 	for (std::shared_ptr<Model> model : models)
 	{
 		model->Draw();
 	}
+	
 
-	/* 
+	/*
+	 
 	*Logic to apply when model class is deleted and GameObjects are implemented
 	*
 	
@@ -259,7 +270,9 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &this->vbo);
 
-	models.clear();
+	gameObjects.clear();
+	
+	models.clear(); // This line should disappear
 
 	return true;
 }
@@ -295,6 +308,7 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	UpdateProgram();
 }
 
+
 bool ModuleRender::LoadModel(const char* path)
 {
 	ENGINE_LOG("---- Loading Model ----");
@@ -313,10 +327,12 @@ bool ModuleRender::LoadModel(const char* path)
 	return false;
 }
 
+
 bool ModuleRender::AnyModelLoaded()
 {
 	return !models.empty();
 }
+
 
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
@@ -331,6 +347,17 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	}
 
 	return valid;
+}
+
+
+void ModuleRender::DrawGameObject(std::shared_ptr<GameObject>& gameObject)
+{
+	const std::vector<ComponentMeshRenderer*>& meshRenderers = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		meshRenderer->Draw();
+	}
 }
 
 void ModuleRender::UpdateProgram()
