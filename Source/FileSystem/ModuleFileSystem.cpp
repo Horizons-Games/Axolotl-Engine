@@ -93,3 +93,22 @@ bool ModuleFileSystem::CleanUp() {
     return true;
 }
 
+std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
+{
+    std::vector< std::string> files;
+    char **rc = PHYSFS_enumerateFiles(directoryPath);
+    char **i;
+    for (i = rc; *i != NULL; i++)
+    {
+        files.push_back(*i);
+    }
+    PHYSFS_freeList(rc);
+    return files;
+}
+
+long long ModuleFileSystem::GetModificationDate(const char* filePath) const
+{
+	PHYSFS_Stat fileStats;
+	PHYSFS_stat(filePath, &fileStats);
+	return fileStats.modtime;
+}

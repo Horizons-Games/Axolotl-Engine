@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include <vector>
 
 class ModuleFileSystem : public Module
 {
@@ -15,5 +16,7 @@ public:
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath);
+	std::vector<std::string> listFiles(const char* directoryPath);
+	long long GetModificationDate(const char* filePath) const;
 };
 

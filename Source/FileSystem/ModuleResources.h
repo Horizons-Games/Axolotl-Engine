@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <thread>
 
 #include "FileSystem/UniqueID.h"
 
@@ -31,6 +32,8 @@ public:
 	const std::string GetPath(const std::string& path);
 
 private:
+	void MonitorResources();
+	void LoadResourceStored(const char* filePath);
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	//this might not belong here
@@ -50,10 +53,15 @@ private:
 	std::shared_ptr<ModelImporter> modelImporter;
 	std::shared_ptr<TextureImporter> textureImporter;
 	std::shared_ptr<MeshImporter> meshImporter;
+	
+	std::thread monitorThread;
+	bool monitorResources;
 };
 
 inline bool ModuleResources::CleanUp()
 {
+	monitorResources = false;
+	monitorThread.join();
 	resources.clear();
 	return true;
 }
