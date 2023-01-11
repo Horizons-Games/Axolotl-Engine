@@ -56,7 +56,7 @@ void WindowEditorControl::DrawControlButtons()
         
     }
     ImGui::SameLine();
-    if (ImGui::Button(" || "))
+    if (ImGui::Button("||"))
     {
         scene->OnPause();
         

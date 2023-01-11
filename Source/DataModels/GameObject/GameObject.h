@@ -21,7 +21,6 @@ public:
 	void RemoveChild(GameObject* child);
 
 	UID GetUID() const;
-	bool GetActive() const;
 	const char* GetName() const;
 	GameObject* GetParent() const;
 	const std::vector<GameObject*>& GetChildren() const;

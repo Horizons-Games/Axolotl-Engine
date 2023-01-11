@@ -18,6 +18,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
+	ownerParent = GetOwner()->GetParent();
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
 }
@@ -94,21 +95,21 @@ void ComponentTransform::Display()
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 		ImGui::DragFloat("##XScale", &scale.x, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("y:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 		ImGui::DragFloat("##YScale", &scale.y, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar(); ImGui::SameLine();
 
 		ImGui::Text("z:"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 		ImGui::DragFloat("##ZScale", &scale.z, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar();
 
 		SetPosition(translation);
