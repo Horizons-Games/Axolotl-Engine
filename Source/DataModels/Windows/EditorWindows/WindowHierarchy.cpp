@@ -7,6 +7,7 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
 
+#include "Components/Component.h"
 #include "3DModels/Model.h"
 
 #include <string>
@@ -68,22 +69,58 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        if (gameObject != App->scene->GetRoot()) // The root can neither be renamed nor deleted
-        {
-            if (ImGui::MenuItem("Delete"))
-            {
-                gameObject->GetParent()->RemoveChild(gameObject);
-                if (App->scene->GetSelectedGameObject() == gameObject)
-                {
-                    App->scene->SetSelectedGameObject(gameObject->GetParent());
-                }
-                delete gameObject;
-            }
-        }
 
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->CreateGameObject("Empty GameObject", gameObject);
+        }
+        if (ImGui::MenuItem("Create camera"))
+        {
+            GameObject* newCamera = App->scene->CreateCameraGameObject("Basic Camera", gameObject);
+        }
+
+        if (gameObject != App->scene->GetRoot()) // The root can't be neither deleted nor moved up/down
+        {
+            std::vector<GameObject*> parentsChildren = gameObject->GetParent()->GetChildren();
+
+            if (ImGui::MenuItem("Move Up"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
+                {
+                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    {
+                        if (parentsChildren[i] == gameObject)
+                        {
+                            std::iter_swap(parentsChildren[i - 1], parentsChildren[i]);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::MenuItem("Move Down"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
+                {
+                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    {
+                        if (parentsChildren[i] == gameObject)
+                        {
+                            std::iter_swap(parentsChildren[i], parentsChildren[i + 1]);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::MenuItem("Delete"))
+            {
+                if (App->scene->GetSelectedGameObject() == gameObject)
+                {
+                    App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                                // change the focus to its parent
+                }
+
+                App->scene->DestroyGameObject(gameObject);
+            }
         }
 
         ImGui::EndPopup();

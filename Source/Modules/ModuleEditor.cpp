@@ -13,11 +13,13 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
+#include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
+#include <FontIcons/CustomFont.cpp>
 #include <GL/glew.h>
 
 #include <shellapi.h>
@@ -41,13 +43,17 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	io.Fonts->AddFontDefault();
+	static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
+	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
 	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
 	windows.push_back(std::make_shared<WindowConfiguration>());
 	windows.push_back(std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
-	
+	windows.push_back(std::make_shared<WindowEditorControl>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
