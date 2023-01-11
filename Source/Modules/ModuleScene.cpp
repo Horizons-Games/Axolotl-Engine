@@ -63,6 +63,20 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+void ModuleScene::DestroyGameObject(GameObject* gameObject)
+{
+	gameObject->GetParent()->RemoveChild(gameObject);
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	{
+		if (*it == gameObject)
+		{
+			sceneGameObjects.erase(it);
+			delete gameObject;
+			return;
+		}
+	}
+}
+
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
@@ -95,21 +109,15 @@ GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
 
 void ModuleScene::OnPlay()
 {
-
-
-
+	ENGINE_LOG("Play pressed");
 }
 
 void ModuleScene::OnPause()
 {
-
-
-
+	ENGINE_LOG("Pause pressed");
 }
 
 void ModuleScene::OnStop()
 {
-
-
-
+	ENGINE_LOG("Stop pressed");
 }

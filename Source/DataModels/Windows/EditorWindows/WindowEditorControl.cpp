@@ -12,6 +12,7 @@
 #include <string>
 #include <assert.h>
 
+static bool playButtonState = false;
 
 WindowEditorControl::WindowEditorControl() : EditorWindow("Editor Control")
 {
@@ -24,13 +25,6 @@ WindowEditorControl::~WindowEditorControl()
 
 void WindowEditorControl::DrawWindowContents()
 {
-    DrawControlButtons();
-}
-
-void WindowEditorControl::DrawControlButtons()
-{
-
-
     ImGuiStyle& style = ImGui::GetStyle();
 
     float size = ImGui::CalcTextSize("##Play").x + style.FramePadding.x * 2.0f;
@@ -40,29 +34,18 @@ void WindowEditorControl::DrawControlButtons()
     if (off > 0.0f)
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 
-
     if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
-    {  
-        if (!playButtonState)
-        {
-            scene->OnPlay();
-            playButtonState = true;
-        }
-        else if (playButtonState)
-        {
-            scene->OnStop();
-            playButtonState = false;
-        }
-        
-    }
-    ImGui::SameLine();
-    if (ImGui::Button(" || "))
     {
-        scene->OnPause();
-        
+        (playButtonState) ? App->scene->OnStop() : App->scene->OnPlay();
+
+        playButtonState = !playButtonState;
     }
     ImGui::SameLine();
-    
 
-    
+    if (ImGui::Button("||"))
+    {
+        App->scene->OnPause();
+
+    }
+    ImGui::SameLine();
 }
