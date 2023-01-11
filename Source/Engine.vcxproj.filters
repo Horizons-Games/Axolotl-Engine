@@ -325,9 +325,6 @@
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>

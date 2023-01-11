@@ -210,7 +210,6 @@
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />

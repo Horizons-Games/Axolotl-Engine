@@ -2,6 +2,16 @@
 
 #include "Resource.h"
 #include <memory>
+#include <string>
+#include "Math/float3.h"
+
+struct Texture
+{
+	unsigned id = 0;
+	std::string path;
+	unsigned width = 0;
+	unsigned height = 0;
+};
 
 struct OptionsMaterial
 {
@@ -20,13 +30,22 @@ public:
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
+	void bind(unsigned int program);
+
 	//Gets
+	unsigned GetDiffuseId();
+	unsigned GetSpecularId();
 
 	std::shared_ptr<OptionsMaterial>& GetOptions();
 
 	//Sets
 private:
 
+	Texture diffuse;
+	Texture specular;
+	float3 diffuse_color = float3(1.0);
+	float3 specular_color = float3(0.5, 0.3, 0.5);
+	float shininess;
 
 	std::shared_ptr<OptionsMaterial> options;
 };
@@ -48,4 +67,12 @@ inline ResourceType ResourceMaterial::GetType() const
 inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
 {
 	this->options;
+}
+inline unsigned ResourceMaterial::GetDiffuseId()
+{
+	return diffuse.id;
+}
+inline unsigned ResourceMaterial::GetSpecularId()
+{
+	return specular.id;
 }

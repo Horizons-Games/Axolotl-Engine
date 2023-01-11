@@ -5,8 +5,7 @@
 ResourceMaterial::ResourceMaterial()
 	: shininess(32.f)
 {
-	this->diffuse = diffuse;
-	this->specular = specular;
+
 }
 
 ResourceMaterial::~ResourceMaterial()
