@@ -26,6 +26,8 @@ public:
 	Quadtree* GetFrontLeftNode() const;
 	Quadtree* GetBackRightNode() const;
 	Quadtree* GetBackLeftNode() const;
+	int GetQuadrantCapacity() const;
+	float GetQuadrantSize() const;
 
 	void SetQuadrantCapacity(int quadrantCapacity);
 	void SetMinCubeSize(float minCubeSize);
@@ -47,6 +49,16 @@ private:
 inline const AABB& Quadtree::GetBoundingBox() const
 {
 	return boundingBox;
+}
+
+inline int Quadtree::GetQuadrantCapacity() const
+{
+	return quadrantCapacity;
+}
+
+inline float Quadtree::GetQuadrantSize() const
+{
+	return sqrt(minQuadrantDiagonalSquared/3.0f);
 }
 
 inline const std::list<GameObject*>& Quadtree::GetGameObjects() const

@@ -35,13 +35,13 @@ void WindowFrustum::DrawWindowContents()
 		App->engineCamera->SetFrustumOffset(vFrustum);
 	}
 
-	int quadrantCapacity = QUADRANT_CAPACITY;
+	int quadrantCapacity = App->scene->GetSceneQuadTree()->GetQuadrantCapacity();
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
 		App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
-	float minCubeSize = MIN_CUBE_SIZE;
+	float minCubeSize = App->scene->GetSceneQuadTree()->GetQuadrantSize();
 	if (ImGui::SliderFloat("Minimum cube size", &minCubeSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
 		App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
 		//TODO save values for future executions
