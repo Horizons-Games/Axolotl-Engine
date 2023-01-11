@@ -17,6 +17,6 @@ public:
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath);
 	std::vector<std::string> listFiles(const char* directoryPath);
-	long long GetModificationDate(const char* path) const;
+	long long GetModificationDate(const char* filePath) const;
 };
 

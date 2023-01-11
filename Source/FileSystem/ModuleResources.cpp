@@ -19,6 +19,55 @@
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
+void  ModuleResources::MonitorResources()
+{
+	while (monitorResources) 
+	{
+		std::vector<UID> toRemove;
+		std::vector<std::string> toImport;
+		std::map<UID, std::shared_ptr<Resource> >::iterator it;
+		for (it = resources.begin(); it != resources.end(); it++)
+		{
+			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			{
+				toRemove.push_back(it->first);
+			}
+			else if (App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
+			{
+				toImport.push_back(it->second->GetAssetsPath());
+			}
+			else if (App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
+			{
+				toImport.push_back(it->second->GetAssetsPath());
+			}
+			else
+			{
+				long long assetTime = App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
+				long long libTime = App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
+				if (assetTime > libTime)
+				{
+					toImport.push_back(it->second->GetAssetsPath());
+				}
+			}
+		}
+		//Remove resources
+		for (size_t i = 0; i < toRemove.size(); i++)
+		{
+			std::string libPath = resources[toRemove[i]]->GetAssetsPath();
+			std::string metaPath = resources[toRemove[i]]->GetAssetsPath() + META_EXTENSION;
+			App->fileSystem->Delete(metaPath.c_str());
+			App->fileSystem->Delete(libPath.c_str());
+			resources.erase(toRemove[i]);
+
+		}
+		//Import resources
+		for (size_t i = 0; i < toImport.size(); i++)
+		{
+			ImportResource(toImport[i]);
+		}
+	}
+}
+
 void ModuleResources::LoadResourceStored(const char* filePath)
 {
 	std::vector<std::string> files = App->fileSystem->listFiles(filePath);
@@ -43,6 +92,7 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 
 bool ModuleResources::Start()
 {
+	monitorResources = true;
 	modelImporter = std::make_shared<ModelImporter>();
 	textureImporter = std::make_shared<TextureImporter>();
 	meshImporter = std::make_shared<MeshImporter>();
