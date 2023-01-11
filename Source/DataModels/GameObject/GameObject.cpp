@@ -199,7 +199,7 @@ Component* GameObject::GetComponent(ComponentType type)
 
 	}
 
-	assert(false && "Component type in GameObject not found");
+	return nullptr;
 }
 
 bool GameObject::IsAChild(const GameObject* child)

@@ -17,9 +17,11 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	void DestroyGameObject(GameObject* gameObject);
+
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	Quadtree* GetSceneQuadTree() const;
 
 	GameObject* GetRoot() const;
@@ -41,6 +43,7 @@ private:
 	GameObject* selectedGameObject = nullptr;
 
 	std::vector<GameObject*> sceneGameObjects = {};
+
 	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
 	Quadtree* sceneQuadTree = nullptr;
 };

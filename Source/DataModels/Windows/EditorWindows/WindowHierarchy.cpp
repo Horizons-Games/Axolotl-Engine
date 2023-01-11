@@ -107,12 +107,13 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Delete"))
             {
-                gameObject->GetParent()->RemoveChild(gameObject);
                 if (App->scene->GetSelectedGameObject() == gameObject)
                 {
-                    App->scene->SetSelectedGameObject(gameObject->GetParent());
+                    App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                                // change the focus to its parent
                 }
-                delete gameObject;
+
+                App->scene->DestroyGameObject(gameObject);
             }
         }
 
