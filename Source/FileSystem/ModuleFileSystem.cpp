@@ -105,3 +105,10 @@ std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
     PHYSFS_freeList(rc);
     return files;
 }
+
+long long ModuleFiles::GetModificationDate(const char* path) const 
+{
+	PHYSFS_Stat fileStats;
+	PHYSFS_stat(path, &fileStats);
+	return fileStats.modtime;
+}
