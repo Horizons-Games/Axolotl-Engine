@@ -271,9 +271,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Quadtree.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
@@ -303,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Source\DataStructures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -699,9 +699,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
@@ -737,6 +734,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceModel.h">
       <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Source\DataStructures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -805,6 +805,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Resources">
       <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataStructures">
+      <UniqueIdentifier>{e922a592-adce-4e1a-8425-843de772e274}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
