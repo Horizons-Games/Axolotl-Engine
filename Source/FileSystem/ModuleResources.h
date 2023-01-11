@@ -54,14 +54,14 @@ private:
 	std::shared_ptr<TextureImporter> textureImporter;
 	std::shared_ptr<MeshImporter> meshImporter;
 	
-	std::thread monitorThread;
+	//std::thread monitorThread;
 	bool monitorResources;
 };
 
 inline bool ModuleResources::CleanUp()
 {
 	monitorResources = false;
-	monitorThread.join();
+	//monitorThread.join();
 	resources.clear();
 	return true;
 }

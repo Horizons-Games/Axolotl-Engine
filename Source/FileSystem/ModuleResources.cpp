@@ -74,7 +74,7 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 	for (size_t i = 0; i < files.size(); i++)
 	{
 		std::string path (filePath);
-		path += files[i];
+		path += '/' +  files[i];
 		const char* file = path.c_str();
 		if (App->fileSystem->IsDirectory(file))
 		{
@@ -134,8 +134,8 @@ bool ModuleResources::Start()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-	LoadResourceStored(libraryFolder.c_str());
-	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+	//LoadResourceStored(libraryFolder.c_str());
+	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
