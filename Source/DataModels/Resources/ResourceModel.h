@@ -2,9 +2,8 @@
 
 #include "Resource.h"
 
+#include <memory>
 #include <vector>
-
-#include "FileSystem/UniqueID.h"
 
 struct OptionsModel
 {

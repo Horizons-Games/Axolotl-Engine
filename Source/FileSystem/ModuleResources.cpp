@@ -38,13 +38,12 @@ bool ModuleResources::Start()
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill: https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = {ResourceType::Animation,
-												  ResourceType::Bone,
-												  ResourceType::Material,
+	std::vector<ResourceType> allResourceTypes = {ResourceType::Material,
 												  ResourceType::Mesh,
 												  ResourceType::Model,
 												  ResourceType::Scene,
-												  ResourceType::Texture};
+												  ResourceType::Texture,
+												  ResourceType::SkyBox};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -209,10 +208,8 @@ const std::string ModuleResources::GetFolderOfType(ResourceType type)
 		return "Scenes/";
 	case ResourceType::Material:
 		return "Materials/";
-	case ResourceType::Bone:
-		return "Bones/";
-	case ResourceType::Animation:
-		return "Animations/";
+	case ResourceType::SkyBox:
+		return "SkyBox/";
 	default:
 		return "";
 	}
@@ -254,9 +251,7 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 		break;
 	case ResourceType::Material:
 		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
+	case ResourceType::SkyBox:
 		break;
 	default:
 		break;
@@ -297,9 +292,7 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, 
 		break;
 	case ResourceType::Material:
 		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
+	case ResourceType::SkyBox:
 		break;
 	default:
 		break;

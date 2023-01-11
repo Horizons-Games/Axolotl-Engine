@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-
 #include "FileSystem/UniqueID.h"
 
 class Json;
@@ -14,8 +13,7 @@ enum class ResourceType
 	Mesh,
 	Scene,
 	Material,
-	Bone,
-	Animation
+	SkyBox,
 };
 
 class Resource
