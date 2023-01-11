@@ -97,7 +97,6 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 			CopyFileInAssets(originalPath, assetsPath);
 	}
 
-		
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
@@ -156,7 +155,7 @@ const std::string ModuleResources::GetPath(const std::string& path)
 	for (int i = path.size() - 1; 0 <= i && !separatorFound; --i)
 	{
 		char currentChar = path[i];
-		separatorFound = currentChar == '\\';
+		separatorFound = currentChar == '\\' || currentChar == '/';
 		if (separatorFound)
 		{
 			fileName = path.substr(0, i + 1);
@@ -173,7 +172,7 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
-		separatorNotFound = currentChar != '\\';
+		separatorNotFound = currentChar != '\\' && currentChar != '/';
 		if (separatorNotFound && !extension)
 		{
 			fileName.insert(0, 1, currentChar);
