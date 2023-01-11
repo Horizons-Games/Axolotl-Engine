@@ -19,7 +19,7 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
-	ImGui::SetNextWindowDockID(App->editor->dock_main_id, ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
 	ImGui::Image((void*)App->renderer->GetRenderedTexture(), 
 	ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }
