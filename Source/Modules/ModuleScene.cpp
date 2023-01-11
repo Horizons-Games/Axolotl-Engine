@@ -86,6 +86,7 @@ GameObject* ModuleScene::CreateCameraGameObject(const char* name, GameObject* pa
 void ModuleScene::DestroyGameObject(GameObject* gameObject)
 {
 	gameObject->GetParent()->RemoveChild(gameObject);
+	RemoveCamera(gameObject);
 	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
 	{
 		if (*it == gameObject)

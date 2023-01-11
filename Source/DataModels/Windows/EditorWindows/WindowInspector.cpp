@@ -68,19 +68,19 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::Separator();
 
-		DrawTransformationTable(currentGameObject);
+		/*DrawTransformationTable(currentGameObject);
 
 		DrawBoundingBoxTable(currentGameObject);
-		/*
+
 		DrawGeometryTable();
 
 		ImGui::Separator();
 
 		DrawTextureTable();
-		*/
 
 		ComponentCamera* camera = (ComponentCamera*)currentGameObject->GetComponent(ComponentType::CAMERA);
 		if (camera != nullptr) DrawCameraTable(camera);
+		*/
 	}
 
 	else

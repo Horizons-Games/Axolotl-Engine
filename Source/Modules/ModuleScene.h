@@ -23,7 +23,6 @@ public:
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
 	bool IsInsideACamera(const AABB& aabb);
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	Quadtree* GetSceneQuadTree() const;
 
