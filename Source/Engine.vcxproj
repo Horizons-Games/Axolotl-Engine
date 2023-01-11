@@ -99,13 +99,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\External\FontIcons\CustomFont.cpp" />
+    <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp" />
     <ClCompile Include="..\External\ImGui\imgui.cpp" />
     <ClCompile Include="..\External\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\External\ImGui\imgui_draw.cpp" />
@@ -208,7 +210,10 @@
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Resource\Skybox.cpp" />
     <ClCompile Include="DataModels\Timer\Timer.cpp" />
@@ -217,6 +222,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowImporter.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
@@ -229,8 +235,11 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
+    <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\SceneImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
     <ClCompile Include="FileSystem\Json.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
@@ -249,6 +258,13 @@
     <ClCompile Include="Quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\External\FontIcons\CustomFont.h" />
+    <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h" />
+    <ClInclude Include="..\External\ImGuiFileDialog\dirent\dirent.h" />
+    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h" />
+    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image.h" />
+    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h" />
     <ClInclude Include="..\External\ImGui\imconfig.h" />
     <ClInclude Include="..\External\ImGui\imgui.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_opengl3.h" />
@@ -348,8 +364,11 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Resources\Resource.h" />
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
     <ClInclude Include="DataModels\Resources\ResourceModel.h" />
+    <ClInclude Include="DataModels\Resources\ResourceScene.h" />
+    <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Resource\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
@@ -358,6 +377,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowImporter.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
@@ -375,8 +395,11 @@
     <ClInclude Include="EngineLog.h" />
     <ClInclude Include="FileSystem\Data.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
+    <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
     <ClInclude Include="FileSystem\Importers\ModelImporter.h" />
+    <ClInclude Include="FileSystem\Importers\SceneImporter.h" />
+    <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h" />
     <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
     <ClInclude Include="FileSystem\Json.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
@@ -396,6 +419,8 @@
     <ClInclude Include="Quadtree.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\External\FontIcons\CustomFont.ifs" />
+    <None Include="..\External\ImGuiFileDialog\dirent\ChangeLog" />
     <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
     <None Include="..\External\MathGeoLib\Include\Geometry\QuadTree.inl" />
     <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
@@ -403,6 +428,9 @@
     <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="..\External\MathGeoLib\Include\Math\float2.inl" />
     <None Include="..\External\MathGeoLib\Include\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\External\FontIcons\CustomFont.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

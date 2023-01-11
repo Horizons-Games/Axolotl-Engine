@@ -259,6 +259,15 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowImporter.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>External\ImGuiFileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\FontIcons\CustomFont.cpp">
+      <Filter>External\FontIcons</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
@@ -306,6 +315,24 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceScene.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\SceneImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -690,6 +717,30 @@
     <ClInclude Include="FileSystem\Data.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowImporter.h">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGuiFileDialog\dirent\dirent.h">
+      <Filter>External\ImGuiFileDialog\dirent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image.h">
+      <Filter>External\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h">
+      <Filter>External\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\FontIcons\CustomFont.h">
+      <Filter>External\FontIcons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h">
+      <Filter>External\FontIcons</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -743,6 +794,24 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceScene.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceSkyBox.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\MaterialImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\SceneImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -806,6 +875,18 @@
     <Filter Include="Source\FileSystem\Importers">
       <UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External\ImGuiFileDialog">
+      <UniqueIdentifier>{f4cda053-e527-4a31-8d11-f6489ebcb4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\FontIcons">
+      <UniqueIdentifier>{75d33d15-d2af-41b6-a7a4-c3ecb1146cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuiFileDialog\dirent">
+      <UniqueIdentifier>{a8e5ca38-c495-4ee5-bc5f-b0f9711a25af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuiFileDialog\stb">
+      <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
@@ -835,5 +916,16 @@
     <None Include="..\External\MathGeoLib\Include\Math\Matrix.inl">
       <Filter>External\MathGeoLib\Math</Filter>
     </None>
+    <None Include="..\External\ImGuiFileDialog\dirent\ChangeLog">
+      <Filter>External\ImGuiFileDialog\dirent</Filter>
+    </None>
+    <None Include="..\External\FontIcons\CustomFont.ifs">
+      <Filter>External\FontIcons</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\External\FontIcons\CustomFont.png">
+      <Filter>External\FontIcons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
