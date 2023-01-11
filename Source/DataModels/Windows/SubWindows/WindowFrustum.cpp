@@ -41,9 +41,9 @@ void WindowFrustum::DrawWindowContents()
 		//TODO save values for future executions
 	}
 
-	float minCubeSize = App->scene->GetSceneQuadTree()->GetQuadrantSize();
-	if (ImGui::SliderFloat("Minimum cube size", &minCubeSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-		App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
+	float minQuadrantSideSize = App->scene->GetSceneQuadTree()->GetMinQuadrantSideSize();
+	if (ImGui::SliderFloat("Minimum quadrant side size", &minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
+		App->scene->GetSceneQuadTree()->SetMinQuadrantSideSize(minQuadrantSideSize);
 		//TODO save values for future executions
 	}
 
