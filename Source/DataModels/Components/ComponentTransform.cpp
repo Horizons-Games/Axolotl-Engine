@@ -131,7 +131,18 @@ void ComponentTransform::CalculateGlobalMatrix()
 {
 	assert(ownerParent != nullptr);
 
+	float3 parentPos, parentSca, localPos, localSca;
+	Quat parentRot, localRot;
+
 	ComponentTransform* parentTransform = (ComponentTransform*)ownerParent->GetComponent(ComponentType::TRANSFORM);
-	float4x4 globalMatrix = GetLocalMatrix() + parentTransform->GetGlobalMatrix();
+
+	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
+	GetLocalMatrix().Decompose(localPos, localRot, localSca);
+
+	float3 position = localPos + parentPos;
+	Quat rotation = localRot * parentRot;
+	float3 scale = parentSca.Mul(localSca);
+
+	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
 	SetGlobalMatrix(globalMatrix);
 }
