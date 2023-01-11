@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Math/float3.h"
 
 struct Texture
 {
@@ -17,9 +18,8 @@ public:
 
 	ResourceMaterial();
 	~ResourceMaterial();
-	void setDiffuse(Texture diffuse);
-	void setSpecular(Texture specular);
-	void setShininess(float shininess);
+	unsigned GetDiffuseId();
+	unsigned GetSpecularId();
 
 	void bind(unsigned int program);
 
@@ -27,22 +27,16 @@ private:
 
 	Texture diffuse;
 	Texture specular;
+	float3 diffuse_color = float3(1.0);
+	float3 specular_color = float3(0.5, 0.3, 0.5);
 	float shininess;
 
 };
-
-inline void ResourceMaterial::setDiffuse(Texture diffuse)
+inline unsigned ResourceMaterial::GetDiffuseId()
 {
-	this->diffuse = diffuse;
+	return diffuse.id;
 }
-
-inline void ResourceMaterial::setSpecular(Texture specular)
+inline unsigned ResourceMaterial::GetSpecularId()
 {
-	this->specular = specular;
+	return specular.id;
 }
-
-inline void ResourceMaterial::setShininess(float shininess)
-{
-	this->shininess = shininess;
-}
-
