@@ -209,7 +209,10 @@
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Resource\Skybox.cpp" />
     <ClCompile Include="DataModels\Timer\Timer.cpp" />
@@ -230,8 +233,11 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
     <ClCompile Include="EngineLog.cpp" />
+    <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\SceneImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
     <ClCompile Include="FileSystem\Json.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
@@ -355,8 +361,11 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Resources\Resource.h" />
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
     <ClInclude Include="DataModels\Resources\ResourceModel.h" />
+    <ClInclude Include="DataModels\Resources\ResourceScene.h" />
+    <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Resource\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
@@ -382,8 +391,11 @@
     <ClInclude Include="EngineLog.h" />
     <ClInclude Include="FileSystem\Data.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
+    <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
     <ClInclude Include="FileSystem\Importers\ModelImporter.h" />
+    <ClInclude Include="FileSystem\Importers\SceneImporter.h" />
+    <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h" />
     <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
     <ClInclude Include="FileSystem\Json.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />

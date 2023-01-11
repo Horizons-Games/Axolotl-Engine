@@ -28,6 +28,7 @@ public:
 	UID ImportResource(const std::string& originalPath);
 
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
+	const std::string GetPath(const std::string& path);
 
 private:
 	ResourceType FindTypeByPath(const std::string& path);
@@ -40,7 +41,7 @@ private:
 	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
-	void ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type);
+	void ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;

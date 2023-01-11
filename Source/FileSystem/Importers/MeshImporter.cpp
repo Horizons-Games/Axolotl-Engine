@@ -13,11 +13,11 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	Load(buffer, resource);
 }
 
-uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer)
+uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
 	unsigned int header[3] = { resource->GetNumFaces(), resource->GetNumVertices(), resource->GetMaterialIndex()};
 	
-	unsigned int size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3) 
+	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3) 
 		+ sizeof(float3) * resource->GetNumVertices() * 2;
 	
 	char* cursor = new char[size];
