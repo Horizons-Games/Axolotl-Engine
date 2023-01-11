@@ -8,6 +8,9 @@
 
 #include "imgui_impl_sdl.h"
 
+#include <algorithm>
+#include <string>
+
 #include "GL/glew.h"
 
 ModuleInput::ModuleInput()
@@ -112,9 +115,11 @@ update_status ModuleInput::Update()
         case SDL_DROPFILE:
             char* droppedFilePath = sdlEvent.drop.file;
 
-            if (App->renderer->IsSupportedPath(droppedFilePath))
-                App->renderer->LoadModel(droppedFilePath);
-
+            /*if (App->renderer->IsSupportedPath(droppedFilePath))
+                App->renderer->LoadModel(droppedFilePath);*/
+            std::string dropFilePath(droppedFilePath);
+            std::replace( dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
+            UID modelUID = App->resources->ImportThread(droppedFilePath.c_str());
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }
