@@ -299,8 +299,10 @@ bool ModuleRender::LoadModel(const char* path)
 {
 	ENGINE_LOG("---- Loading Model ----");
 
+	resourceModel->Load();
+
 	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->Load(path);
+	newModel->SetFromResource(resourceModel);
 
 	if (AnyModelLoaded())
 	{
