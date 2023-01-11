@@ -4,8 +4,17 @@ uniform sampler2D texDiffuse;
 
 struct PointLight
 {
-	vec4 position; // xyz position+w radius
-	vec4 color; // rgb colour+alpha intensity
+	vec4 position;  	//16 //0	// xyz position+w radius
+	vec4 color; 		//16 //16   // rgb colour+alpha intensity
+};
+
+struct SpotLight
+{
+	vec4 position;  	//16 //0	// xyz position+w radius
+	vec4 color; 		//16 //16	// rgb colour+alpha intensity
+	vec3 aim;			//16 //0
+	float innerAngle;	//16 //0
+	float outerAngle;	//16 //0
 };
 
 layout(std140) uniform Ambient
@@ -34,7 +43,7 @@ vec3 N = vec3(0.0f, 0.0f, 1.0f);
 void main()
 {	
 	// Ambient light
-	//vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
+	vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
 	
 	// Directional light
 	//float dirIntensity = directionalColor.w;

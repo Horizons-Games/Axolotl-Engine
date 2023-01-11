@@ -6,6 +6,21 @@
 #include "Math/float3.h"
 #include "Math/float4x4.h"
 
+struct PointLight
+{
+	float4 position;
+	float4 color;
+};
+
+struct SpotLight
+{
+	float4 position;
+	float4 color;
+	float3 aim;
+	float innerAngle;
+	float outAngle;
+};
+
 class Mesh
 {
 public:
@@ -32,6 +47,11 @@ private:
 	
 	unsigned uboAmbient;
 	unsigned uboDirectional;
+	unsigned ssboPoint;
+	unsigned ssboSpot;
+
+	std::vector<PointLight*> pointLights;
+	std::vector<SpotLight*> spotLight;
 
 	unsigned materialIndex;
 	unsigned numVertices;

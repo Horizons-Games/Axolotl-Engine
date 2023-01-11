@@ -198,6 +198,7 @@
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="DataModels\3DModels\Mesh.h" />
     <ClInclude Include="DataModels\3DModels\Model.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
+    <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
