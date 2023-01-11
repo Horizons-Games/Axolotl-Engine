@@ -51,7 +51,7 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 
 private:
-	void DrawGameObject(std::shared_ptr<GameObject>& gameObject);
+	void UpdateGameObject(std::shared_ptr<GameObject>& gameObject);
 	void UpdateProgram();
 
 	void* context;

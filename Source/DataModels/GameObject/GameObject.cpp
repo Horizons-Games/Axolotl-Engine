@@ -5,8 +5,6 @@
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
 
-#include "FileSystem/UniqueID.h"
-
 #include <assert.h>
 
 GameObject::GameObject(const char* name) : name(name)
@@ -159,13 +157,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::MESHRENDERER:
+		/*case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
+			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
+		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
@@ -184,6 +182,16 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
+{
+	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
+
+	if (newComponentMeshRenderer != nullptr)
+		components.push_back(newComponentMeshRenderer);
+
+	return newComponentMeshRenderer;
 }
 
 Component* GameObject::GetComponent(ComponentType type)
