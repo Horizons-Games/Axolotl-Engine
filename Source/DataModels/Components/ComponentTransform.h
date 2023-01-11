@@ -12,6 +12,7 @@ public:
 	~ComponentTransform() override;
 
 	void Update() override;
+	void Display() override;
 
 	const float3& GetPosition() const;
 	const Quat& GetRotation() const;
@@ -36,13 +37,9 @@ public:
 private:
 	GameObject* ownerParent;
 
-	float posX = 0.0f;
-	float posY = 0.0f;
-	float posZ = 0.0f;
+	float3 pos = float3(0.0f, 0.0f, 0.0f);
 	Quat rot = Quat::identity;
-	float scaX = 1.0f;
-	float scaY = 1.0f;
-	float scaZ = 1.0f;
+	float3 sca = float3(1.0f, 1.0f, 1.0f);
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;
@@ -50,7 +47,7 @@ private:
 
 inline const float3& ComponentTransform::GetPosition() const
 {
-	return float3(posX, posY, posZ);
+	return pos;
 }
 
 inline const Quat& ComponentTransform::GetRotation() const
@@ -60,14 +57,12 @@ inline const Quat& ComponentTransform::GetRotation() const
 
 inline const float3& ComponentTransform::GetScale() const
 {
-	return float3(scaX, scaY, scaZ);
+	return sca;
 }
 
 inline void ComponentTransform::SetPosition(const float3& position)
 {
-	posX = position.x;
-	posY = position.y;
-	posZ = position.z;
+	pos = position;
 }
 
 inline void ComponentTransform::SetRotation(const float3& rotation)
@@ -82,9 +77,7 @@ inline void ComponentTransform::SetRotation(const Quat& rotation)
 
 inline void ComponentTransform::SetScale(const float3& scale)
 {
-	scaX = scale.x;
-	scaY = scale.y;
-	scaZ = scale.z;
+	sca = scale;
 }
 
 inline const float4x4& ComponentTransform::GetLocalMatrix() const

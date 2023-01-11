@@ -5,8 +5,12 @@
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleWindow.h"
+#include "FileSystem/ModuleResources.h"
 
 #include "imgui_impl_sdl.h"
+
+#include <algorithm>
+#include <string>
 
 #include "GL/glew.h"
 
@@ -112,9 +116,12 @@ update_status ModuleInput::Update()
         case SDL_DROPFILE:
             char* droppedFilePath = sdlEvent.drop.file;
 
-            if (App->renderer->IsSupportedPath(droppedFilePath))
-                App->renderer->LoadModel(droppedFilePath);
-
+            /*if (App->renderer->IsSupportedPath(droppedFilePath))
+                App->renderer->LoadModel(droppedFilePath);*/
+            std::string dropFilePath(droppedFilePath);
+            std::replace( dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
+            App->renderer->LoadModel(droppedFilePath);
+            //UID modelUID = App->resources->ImportThread(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }

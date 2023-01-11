@@ -6,6 +6,7 @@
 
 class Model;
 class GameObject;
+class ComponentCamera;
 
 class WindowInspector : public EditorWindow
 {
@@ -20,8 +21,10 @@ protected:
 
 private:
 	void DrawTransformationTable(GameObject* selected);
+	void DrawBoundingBoxTable(GameObject* selected);
 	void DrawGeometryTable();
 	void DrawTextureTable();
+	void DrawCameraTable(ComponentCamera* camera);
 
 	std::weak_ptr<Model> model;
 };

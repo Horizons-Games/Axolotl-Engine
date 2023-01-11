@@ -1,15 +1,54 @@
 #pragma once
 
 #include "Resource.h"
+#include <memory>
 
-enum class TextureFormat
+enum class TextureCompression {
+	NONE,
+	DXT1,
+	DXT3,
+	DXT5,
+	BC7
+};
+
+enum class TextureMinFilter {
+	NEAREST,
+	LINEAR,
+	NEAREST_MIPMAP_NEAREST,
+	LINEAR_MIPMAP_NEAREST,
+	NEAREST_MIPMAP_LINEAR,
+	LINEAR_MIPMAP_LINEAR
+};
+
+enum class TextureMagFilter {
+	NEAREST,
+	LINEAR
+};
+
+enum class TextureWrap {
+	REPEAT,
+	CLAMP_TO_EDGE,
+	CLAMP_TO_BORDER,
+	MIRROR_REPEAT,
+	MIRROR_CLAMP_TO_EDGE
+};
+
+
+struct OptionsTexture
 {
-	Unknown,
-	RGB,
-	RGBA,
-	BGR,
-	BGRA,
-	Luminance
+	TextureMinFilter min;
+	TextureMagFilter mag;
+	TextureWrap wrapS;
+	TextureWrap wrapT;
+	bool mipMap;
+
+	OptionsTexture() :
+		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
+		mag(TextureMagFilter::LINEAR),
+		wrapS(TextureWrap::REPEAT),
+		wrapT(TextureWrap::REPEAT),
+		mipMap(true)
+	{}
 };
 
 class ResourceTexture : public Resource
@@ -22,6 +61,9 @@ public:
 
 	void Load() override;
 	void Unload() override;
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 
 	unsigned int GetGlTexture() const;
 	unsigned int GetWidth() const;
@@ -29,8 +71,10 @@ public:
 	unsigned int GetFormat() const;
 	unsigned int GetInternalFormat() const;
 	unsigned int GetImageType() const;
-	std::vector<uint8_t> GetPixels() const;
+	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
+
+	std::shared_ptr<OptionsTexture>& GetOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -51,6 +95,8 @@ private:
 	unsigned int imageType = 0;
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize = 0;
+
+	std::shared_ptr<OptionsTexture> options;
 };
 
 inline ResourceTexture::ResourceTexture(UID resourceUID,
@@ -59,6 +105,7 @@ inline ResourceTexture::ResourceTexture(UID resourceUID,
 										const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
+	options = std::make_shared<OptionsTexture>();
 }
 
 inline ResourceType ResourceTexture::GetType() const
@@ -96,7 +143,7 @@ inline unsigned int ResourceTexture::GetImageType() const
 	return imageType;
 }
 
-inline std::vector<uint8_t> ResourceTexture::GetPixels() const
+inline const std::vector<uint8_t>& ResourceTexture::GetPixels() const
 {
 	return pixels;
 }
@@ -104,6 +151,11 @@ inline std::vector<uint8_t> ResourceTexture::GetPixels() const
 inline unsigned int ResourceTexture::GetPixelsSize() const
 {
 	return pixelsSize;
+}
+
+inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
+{
+	return this->options;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

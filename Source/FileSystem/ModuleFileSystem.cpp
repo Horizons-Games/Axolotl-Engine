@@ -1,80 +1,114 @@
 #include "ModuleFileSystem.h"
-#include <fstream>
-#include <vector>
-#include <cstring>
-#include <direct.h>
-#include <cstdio>
+#include "physfs.h"
 
+
+bool ModuleFileSystem::Init()
+{
+    PHYSFS_init(nullptr);
+    PHYSFS_mount(".", nullptr, 0);
+    PHYSFS_setWriteDir(".");
+    return true;
+}
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
 {
-    std::ifstream src(sourceFilePath, std::ios::binary);
-    std::ofstream dst(destinationFilePath, std::ios::binary);
-    dst << src.rdbuf();
+    char* buffer = nullptr;
+    unsigned int size = Load(sourceFilePath, buffer);
+    Save(destinationFilePath, buffer, size, false);
     return true;
 }
 
 bool  ModuleFileSystem::Delete(const char* filePath)
 {
-    int result = remove(filePath);
-    return result == 0 ? true : false;
+    if (!PHYSFS_delete(filePath))
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        return false;
+    }
+    return true;
+   
 }
 
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
-    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
-    std::streamsize size = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    buffer = new char[size];
-    if (!file.read(buffer, size))
+    PHYSFS_File * file = PHYSFS_openRead(filePath);
+    if (file == NULL)
     {
-        return 1;
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        PHYSFS_close(file);
+        return -1;
     }
-
-    // Close the file
-    file.close();
-    return 0;
+    PHYSFS_sint64 size = PHYSFS_fileLength(file);
+    buffer = new char[size];
+    if (PHYSFS_readBytes(file, buffer, size) < size)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        PHYSFS_close(file);
+        return -1;
+    }
+    PHYSFS_close(file);
+    return size;
 }
 
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
 {
-    std::ofstream file(filePath, append ? std::ios::app | std::ios::binary : std::ios::trunc | std::ios::binary);
-    file.write(static_cast<const char*>(buffer), size + 1);
-    file.put(EOF);
-    file.close();
+    PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
+    if (file == NULL)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        PHYSFS_close(file);
+        return 1;
+    }
+    if (PHYSFS_writeBytes(file, buffer, size) < size)
+    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        PHYSFS_close(file);
+        return 1;
+    }
     return 0;
 }
 
 bool ModuleFileSystem::Exists(const char* filePath) const
 {
-    std::ifstream file(filePath);
-    return file.good();
+    return PHYSFS_exists(filePath);
 }
 
 bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
 {
-    struct _stat statbuf;
-    int result = _stat(directoryPath, &statbuf);
-
-    if (result == 0 && (statbuf.st_mode & _S_IFDIR)) 
-    {
-        return true;
-    }
-    else 
-    {
-        return false;
-    }
+    return PHYSFS_isDirectory(directoryPath);
 }
 
 bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
-    if (_mkdir(directoryPath) == 0)
+    if(!PHYSFS_mkdir(directoryPath)) 
     {
-        return true;
-    }
-    else
-    {
+        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
         return false;
     }
+    return true;
+}
+
+bool ModuleFileSystem::CleanUp() {
+    PHYSFS_deinit();
+    return true;
+}
+
+std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
+{
+    std::vector< std::string> files;
+    char **rc = PHYSFS_enumerateFiles(directoryPath);
+    char **i;
+    for (i = rc; *i != NULL; i++)
+    {
+        files.push_back(*i);
+    }
+    PHYSFS_freeList(rc);
+    return files;
+}
+
+long long ModuleFileSystem::GetModificationDate(const char* filePath) const
+{
+	PHYSFS_Stat fileStats;
+	PHYSFS_stat(filePath, &fileStats);
+	return fileStats.modtime;
 }
