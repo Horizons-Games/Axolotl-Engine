@@ -99,7 +99,7 @@ UID ModuleResources::ImportThread(const std::string& originalPath)
 			p.set_value(ImportResource(originalPath));
 		}
 	);
-	importThread.join();
+	importThread.detach();
 	return f.get();
 }
 
