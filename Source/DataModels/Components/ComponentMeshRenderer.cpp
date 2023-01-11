@@ -9,6 +9,7 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
@@ -28,6 +29,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 bool ComponentMeshRenderer::Init()
 {
 	LoadMesh();
+	LoadTexture();
 
 	return true;
 }
@@ -58,13 +60,13 @@ void ComponentMeshRenderer::Draw()
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureUID);
+	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(mesh->GetVAO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-	glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() / 3, GL_UNSIGNED_INT, nullptr);
 }
 
 void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
@@ -74,7 +76,21 @@ void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
 	LoadMesh();
 }
 
+void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
+{
+	this->textureUID = textureUID;
+
+	LoadTexture();
+}
+
 void ComponentMeshRenderer::LoadMesh()
 {
 	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
+	mesh->Load();
+}
+
+void ComponentMeshRenderer::LoadTexture()
+{
+	texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUID));
+	texture->Load();
 }

@@ -164,12 +164,13 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 	
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
-
-	models.push_back(bakerHouse); // This line should disappear
-	
 	/*
+	std::shared_ptr<Model> bakerHouseModel = std::make_shared<Model>(); // This line should disappear
+	bakerHouseModel->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
+
+	models.push_back(bakerHouseModel); // This line should disappear
+	
+	
 	Import resource example:
 		We are using the model as a placeholder class to transfer the information of the resource
 		and display the processed import, but you can move to a gameObject or another class 
@@ -182,6 +183,20 @@ bool ModuleRender::Start()
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->SetFromResource(resourceModel);
 	models.push_back(bakerHouse);*/
+
+	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	UID textureUID = App->resources->ImportResource("Assets/Textures/Baker_house.png");
+
+	std::shared_ptr<GameObject> bakerHouse = std::make_shared<GameObject>("BakerHouse");
+
+	const std::vector<UID>& meshesUIDs = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID))->GetMeshesUIDs();
+
+	for (std::vector<UID>::const_iterator it = meshesUIDs.begin(); it != meshesUIDs.end(); ++it)
+	{
+		bakerHouse->CreateComponentMeshRenderer(*it, textureUID)->Init();
+	}
+
+	gameObjects.push_back(bakerHouse);
 
 	return true;
 }
@@ -209,16 +224,16 @@ update_status ModuleRender::Update()
 	/* Uncomment the loop below when models are removed 
 	and GameObjects are used in their place */
 
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 	{
-		DrawGameObject(gameObject);
-	}*/
+		UpdateGameObject(gameObject);
+	}
 
-	// This loop should disappear
+	/*// This loop should disappear
 	for (std::shared_ptr<Model> model : models)
 	{
 		model->Draw();
-	}
+	}*/
 	
 
 	/*
@@ -354,13 +369,13 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 }
 
 
-void ModuleRender::DrawGameObject(std::shared_ptr<GameObject>& gameObject)
+void ModuleRender::UpdateGameObject(std::shared_ptr<GameObject>& gameObject)
 {
 	const std::vector<ComponentMeshRenderer*>& meshRenderers = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
 
 	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
 	{
-		meshRenderer->Draw();
+		meshRenderer->Update();
 	}
 }
 

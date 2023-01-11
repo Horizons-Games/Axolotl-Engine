@@ -6,6 +6,7 @@
 #include "../../FileSystem/UniqueID.h"
 
 class Component;
+class ComponentMeshRenderer;
 enum class ComponentType;
 
 class GameObject
@@ -26,7 +27,7 @@ public:
 	GameObject* GetParent() const;
 	const std::vector<GameObject*>& GetChildren() const;
 	const std::vector<Component*>& GetComponents() const;
-	template<class T> const std::vector<T*>& GetComponentsByType(ComponentType type) const;
+	template<class T> const std::vector<T*> GetComponentsByType(ComponentType type) const;
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -40,6 +41,7 @@ public:
 	void ActivateChildren();
 
 	Component* CreateComponent(ComponentType type);
+	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
 	Component* GetComponent(ComponentType type);
 
 private:
@@ -99,7 +101,7 @@ inline const std::vector<Component*>& GameObject::GetComponents() const
 }
 
 template<class T>
-inline const std::vector<T*>& GameObject::GetComponentsByType(ComponentType type) const
+inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
 	std::vector<T*> components;
 
