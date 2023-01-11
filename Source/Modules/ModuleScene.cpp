@@ -1,5 +1,5 @@
 #include "ModuleScene.h"
-#include "Quadtree.h"
+#include "DataStructures/Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"

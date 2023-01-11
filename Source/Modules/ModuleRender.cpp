@@ -8,7 +8,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#include "Quadtree.h"
+#include "DataStructures/Quadtree.h"
 
 #include "3DModels/Model.h"
 

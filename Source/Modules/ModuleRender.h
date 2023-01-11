@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "3DModels/Model.h"
-#include "Quadtree.h"
+#include "DataStructures/Quadtree.h"
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
