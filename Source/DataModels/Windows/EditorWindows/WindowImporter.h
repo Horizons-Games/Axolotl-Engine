@@ -6,7 +6,7 @@ class WindowImporter: public EditorWindow
 public:
 	WindowImporter();
 	~WindowImporter() {};
-	void DrawWindowContents() override;
+	void Draw(bool& enabled) override;
 
 	ImVec2 GetStartingSize() const override;
 private:
