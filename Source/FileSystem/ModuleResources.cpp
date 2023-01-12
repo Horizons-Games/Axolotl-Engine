@@ -19,8 +19,80 @@
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
+void  ModuleResources::MonitorResources()
+{
+	while (monitorResources) 
+	{
+		std::vector<UID> toRemove;
+		std::vector<std::string> toImport;
+		std::map<UID, std::shared_ptr<Resource> >::iterator it;
+		for (it = resources.begin(); it != resources.end(); it++)
+		{
+			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			{
+				toRemove.push_back(it->first);
+			}
+			else if (App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
+			{
+				toImport.push_back(it->second->GetAssetsPath());
+			}
+			else if (App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
+			{
+				toImport.push_back(it->second->GetAssetsPath());
+			}
+			else
+			{
+				long long assetTime = App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
+				long long libTime = App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
+				if (assetTime > libTime)
+				{
+					toImport.push_back(it->second->GetAssetsPath());
+				}
+			}
+		}
+		//Remove resources
+		for (size_t i = 0; i < toRemove.size(); i++)
+		{
+			std::string libPath = resources[toRemove[i]]->GetAssetsPath();
+			std::string metaPath = resources[toRemove[i]]->GetAssetsPath() + META_EXTENSION;
+			App->fileSystem->Delete(metaPath.c_str());
+			App->fileSystem->Delete(libPath.c_str());
+			resources.erase(toRemove[i]);
+
+		}
+		//Import resources
+		for (size_t i = 0; i < toImport.size(); i++)
+		{
+			ImportResource(toImport[i]);
+		}
+	}
+}
+
+void ModuleResources::LoadResourceStored(const char* filePath)
+{
+	std::vector<std::string> files = App->fileSystem->listFiles(filePath);
+	for (size_t i = 0; i < files.size(); i++)
+	{
+		std::string path (filePath);
+		path += '/' +  files[i];
+		const char* file = path.c_str();
+		if (App->fileSystem->IsDirectory(file))
+		{
+			LoadResourceStored(file);
+		}
+		else 
+		{
+			if (GetFileExtension(path) != ".meta")
+			{
+				ImportResource(file);
+			}
+		}
+	}
+}
+
 bool ModuleResources::Start()
 {
+	monitorResources = true;
 	modelImporter = std::make_shared<ModelImporter>();
 	textureImporter = std::make_shared<TextureImporter>();
 	meshImporter = std::make_shared<MeshImporter>();
@@ -38,13 +110,12 @@ bool ModuleResources::Start()
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill: https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = {ResourceType::Animation,
-												  ResourceType::Bone,
-												  ResourceType::Material,
+	std::vector<ResourceType> allResourceTypes = {ResourceType::Material,
 												  ResourceType::Mesh,
 												  ResourceType::Model,
 												  ResourceType::Scene,
-												  ResourceType::Texture};
+												  ResourceType::Texture,
+												  ResourceType::SkyBox};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -63,7 +134,8 @@ bool ModuleResources::Start()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-
+	//LoadResourceStored(libraryFolder.c_str());
+	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
@@ -77,7 +149,7 @@ UID ModuleResources::ImportThread(const std::string& originalPath)
 			p.set_value(ImportResource(originalPath));
 		}
 	);
-	importThread.join();
+	importThread.detach();
 	return f.get();
 }
 
@@ -90,18 +162,18 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	if (type != ResourceType::Mesh) 
 	{
-		std::string assetsPath = CreateAssetsPath(fileName + extension, type);
+		assetsPath = CreateAssetsPath(fileName + extension, type);
 
 		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 		if (!resourceExists)
 			CopyFileInAssets(originalPath, assetsPath);
 	}
 
-		
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
-	ImportResourceFromSystem(importedRes, type);
+
+	ImportResourceFromSystem(originalPath, importedRes, type);
 
 	UID uid = importedRes->GetUID();
 	resources.insert({ uid, importedRes });
@@ -148,20 +220,36 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	}
 }
 
+const std::string ModuleResources::GetPath(const std::string& path)
+{
+	std::string fileName = "";
+	bool separatorFound = false;
+	for (int i = path.size() - 1; 0 <= i && !separatorFound; --i)
+	{
+		char currentChar = path[i];
+		separatorFound = currentChar == '\\' || currentChar == '/';
+		if (separatorFound)
+		{
+			fileName = path.substr(0, i + 1);
+		}
+	}
+	return fileName;
+}
+
 const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
-	bool notExtension = false;
+	bool extension = true;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
-		separatorNotFound = currentChar != '/';
-		if (separatorNotFound && notExtension)
+		separatorNotFound = currentChar != '\\' && currentChar != '/';
+		if (separatorNotFound && !extension)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
-		if(!notExtension) notExtension = currentChar == '.';
+		if(extension) extension = currentChar != '.';
 	}
 	return fileName;
 }
@@ -193,10 +281,8 @@ const std::string ModuleResources::GetFolderOfType(ResourceType type)
 		return "Scenes/";
 	case ResourceType::Material:
 		return "Materials/";
-	case ResourceType::Bone:
-		return "Bones/";
-	case ResourceType::Animation:
-		return "Animations/";
+	case ResourceType::SkyBox:
+		return "SkyBox/";
 	default:
 		return "";
 	}
@@ -238,9 +324,7 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 		break;
 	case ResourceType::Material:
 		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
+	case ResourceType::SkyBox:
 		break;
 	default:
 		break;
@@ -254,6 +338,7 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 	Json Json(doc, doc);
 
 	Json["UID"] = resource->GetUID();
+	resource->SaveOptions(Json);
 	rapidjson::StringBuffer buffer;
 	Json.toBuffer(buffer);
 
@@ -263,26 +348,24 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 
 }
 
-void ModuleResources::ImportResourceFromSystem(std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type)
 {
 	switch (type)
 	{
 	case ResourceType::Model:
-		modelImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
+		modelImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceModel>(resource));
 		break;
 	case ResourceType::Texture:
-		textureImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
+		textureImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 		break;
 	case ResourceType::Mesh:
-		meshImporter->Import(resource->GetAssetsPath().c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
+		meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 		break;
 	case ResourceType::Scene:
 		break;
 	case ResourceType::Material:
 		break;
-	case ResourceType::Bone:
-		break;
-	case ResourceType::Animation:
+	case ResourceType::SkyBox:
 		break;
 	default:
 		break;

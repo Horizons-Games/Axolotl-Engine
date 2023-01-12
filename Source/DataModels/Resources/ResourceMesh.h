@@ -4,6 +4,13 @@
 
 #include "Math/float3.h"
 
+#include <memory>
+
+
+struct OptionsMesh
+{
+};
+
 class ResourceMesh : public Resource
 {
 public:
@@ -14,6 +21,8 @@ public:
 
 	void Load() override;
 	void Unload() override;
+	void SaveOptions(Json& meta) override {};
+	void LoadOptions(Json& meta) override {};
 
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
@@ -26,6 +35,8 @@ public:
 	const std::vector<float3>& GetVertices();
 	const std::vector<float3>& GetTextureCoords();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
+
+	std::shared_ptr<OptionsMesh>& GetOptions();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
@@ -52,6 +63,8 @@ private:
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<std::vector<unsigned int> > facesIndices;
+
+	std::shared_ptr<OptionsMesh> options;
 };
 
 inline ResourceMesh::ResourceMesh(UID resourceUID,
@@ -60,6 +73,7 @@ inline ResourceMesh::ResourceMesh(UID resourceUID,
 								  const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
+	options = std::make_shared<OptionsMesh>();
 }
 
 inline ResourceType ResourceMesh::GetType() const
@@ -115,6 +129,11 @@ inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
 inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
 {
 	return facesIndices;
+}
+
+inline std::shared_ptr<OptionsMesh>& ResourceMesh::GetOptions()
+{
+	return this->options;
 }
 
 inline void ResourceMesh::SetNumVertices(unsigned int numVertices)

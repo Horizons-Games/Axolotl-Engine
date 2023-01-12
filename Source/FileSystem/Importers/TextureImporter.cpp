@@ -95,11 +95,9 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
 
 	resource->SetPixels(pixels);
-
-	//Actualize metafile if needed
 }
 
-uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*& fileBuffer)
+uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
 {
 	unsigned int header[4] = 
 	{ 
@@ -109,7 +107,7 @@ uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*&
 		resource->GetPixelsSize()
 	};
 
-	unsigned int size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize();
+	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize();
 
 	char* cursor = new char[size];
 
@@ -121,13 +119,13 @@ uint64_t TextureImporter::Save(std::shared_ptr<ResourceTexture> resource, char*&
 	cursor += bytes;
 
 	bytes = sizeof(uint8_t) * resource->GetPixelsSize();
-	memcpy(cursor, &resource->GetPixels()[0], bytes);
+	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
 
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
 }
 
-void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
+void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture>& resource)
 {
 	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));
