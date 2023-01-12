@@ -46,8 +46,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowConfiguration>());
 	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(std::make_shared<WindowInspector>());
-	windows.push_back(scene = std::make_shared<WindowScene>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
+	windows.push_back(scene = std::make_shared<WindowScene>());
 	
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
