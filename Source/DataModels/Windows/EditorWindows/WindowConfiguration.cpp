@@ -28,8 +28,8 @@ WindowConfiguration::~WindowConfiguration()
 
 void WindowConfiguration::DrawWindowContents()
 {
-	//ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
-	ImGui::SetNextWindowDockID(App->editor->dock_main_id, ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
+	
 	for (int i = 0; i < collapsingSubWindows.size(); ++i)
 		collapsingSubWindows[i]->Draw();
 }
