@@ -23,22 +23,22 @@ public:
 	void LoadOptions(Json& meta) override {};
 
 	const unsigned int GetNumMeshes() const;
-	const unsigned int GetNumTextures() const;
+	const unsigned int GetNumMaterials() const;
 	const std::vector<UID>& GetMeshesUIDs() const;
-	const std::vector<UID>& GetTexturesUIDs() const;
+	const std::vector<UID>& GetMaterialsUIDs() const;
 
 	std::shared_ptr<OptionsModel>& GetOptions();
 
 	void SetNumMeshes(const unsigned int numMeshes);
-	void SetNumTextures(const unsigned int numTextures);
+	void SetNumMaterials(const unsigned int nummaterials);
 	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
-	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
+	void SetMaterialsUIDs(const std::vector<UID>& materialsUIDs);
 
 private:
 	unsigned int numMeshes;
-	unsigned int numTextures;
+	unsigned int nummaterials;
 	std::vector<UID> meshesUIDs;
-	std::vector<UID> texturesUIDs;
+	std::vector<UID> materialsUIDs;
 
 	std::shared_ptr<OptionsModel> options;
 };
@@ -62,9 +62,9 @@ inline const unsigned int ResourceModel::GetNumMeshes() const
 	return numMeshes;
 }
 
-inline const unsigned int ResourceModel::GetNumTextures() const
+inline const unsigned int ResourceModel::GetNumMaterials() const
 {
-	return numTextures;
+	return nummaterials;
 }
 
 inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
@@ -72,9 +72,9 @@ inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
 	return meshesUIDs;
 }
 
-inline const std::vector<UID>& ResourceModel::GetTexturesUIDs() const
+inline const std::vector<UID>& ResourceModel::GetMaterialsUIDs() const
 {
-	return texturesUIDs;
+	return materialsUIDs;
 }
 
 inline std::shared_ptr<OptionsModel>& ResourceModel::GetOptions()
@@ -87,9 +87,9 @@ inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
 	this->numMeshes = numMeshes;
 }
 
-inline void ResourceModel::SetNumTextures(const unsigned int numTextures)
+inline void ResourceModel::SetNumMaterials(const unsigned int nummaterials)
 {
-	this->numTextures = numTextures;
+	this->nummaterials = nummaterials;
 }
 
 inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
@@ -98,8 +98,8 @@ inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
 	this->numMeshes = meshesUIDs.size();
 }
 
-inline void ResourceModel::SetTexturesUIDs(const std::vector<UID>& texturesUIDs)
+inline void ResourceModel::SetMaterialsUIDs(const std::vector<UID>& materialsUIDs)
 {
-	this->texturesUIDs = texturesUIDs;
-	this->numTextures = texturesUIDs.size();
+	this->materialsUIDs = materialsUIDs;
+	this->nummaterials = materialsUIDs.size();
 }
