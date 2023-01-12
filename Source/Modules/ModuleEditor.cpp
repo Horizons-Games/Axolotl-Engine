@@ -43,11 +43,11 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 
-	windows.push_back(std::make_shared<WindowConsole>());
+	//windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
-	windows.push_back(std::make_shared<WindowConfiguration>());
-	windows.push_back(std::make_shared<WindowInspector>());
-	windows.push_back(std::make_shared<WindowHierarchy>());
+	//windows.push_back(std::make_shared<WindowConfiguration>());
+	//windows.push_back(std::make_shared<WindowInspector>());
+	//windows.push_back(std::make_shared<WindowHierarchy>());
 	
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
@@ -93,7 +93,7 @@ update_status ModuleEditor::Update()
 	if (!ImGui::DockBuilderGetNode(dock_space_id))
 	{
 		ImGui::DockBuilderAddNode(dock_space_id);
-		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->Size);
+		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->WorkSize);
 
 		dock_main_id = dock_space_id;
 		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.25f, nullptr, &dock_main_id);
@@ -101,8 +101,8 @@ update_status ModuleEditor::Update()
 		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
 	}
 
-	ImGui::SetNextWindowPos(viewport->Pos);
-	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
 
 	ImGuiWindowFlags dockSpaceWindowFlags = 0;
 	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | 
