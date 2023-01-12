@@ -83,7 +83,7 @@ void ComponentMeshRenderer::Draw()
 	glBindVertexArray(mesh->GetVAO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() / 3, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 }
 
 void ComponentMeshRenderer::SetMeshUID(UID& meshUID)

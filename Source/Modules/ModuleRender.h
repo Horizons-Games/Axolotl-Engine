@@ -51,7 +51,6 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 
 private:
-	void UpdateGameObject(std::shared_ptr<GameObject>& gameObject);
 	void UpdateProgram();
 
 	void* context;
@@ -61,7 +60,6 @@ private:
 	
 	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
 
-	std::vector<std::shared_ptr<GameObject>> gameObjects;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;
