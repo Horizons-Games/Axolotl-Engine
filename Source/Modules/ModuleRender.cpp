@@ -219,8 +219,6 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &this->vbo);
 	
-	models.clear(); // This line should disappear
-
 	return true;
 }
 
@@ -254,36 +252,6 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	this->fragmentShader = fragmentShader.c_str();
 	UpdateProgram();
 }
-
-
-bool ModuleRender::LoadModel(const char* path)
-{
-	ENGINE_LOG("---- Loading Model ----");
-
-	UID modelUID = App->resources->ImportResource(path);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->SetFromResource(resourceModel);
-
-	if (AnyModelLoaded())
-	{
-		models[0] = nullptr;
-		models.clear();
-	}
-
-	models.push_back(newModel);
-
-	return false;
-}
-
-
-bool ModuleRender::AnyModelLoaded()
-{
-	return !models.empty();
-}
-
 
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {

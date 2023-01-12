@@ -51,8 +51,12 @@ bool ModuleEngineCamera::Init()
 
 bool ModuleEngineCamera::Start()
 {
-	if (App->renderer->AnyModelLoaded())
-		Focus(App->renderer->GetModel(0)->GetAABB());
+	// When the bounding boxes scale correctly with the models, uncomment this if
+	/*
+	if (!App->scene->GetRoot()->GetChildren().empty())
+		Focus(((ComponentBoundingBoxes*)App->scene->GetRoot()->GetChildren()[0]
+			->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
+	*/
 
 	return true;
 }
@@ -97,7 +101,6 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
-		SelectObjects();
 		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
@@ -180,16 +183,6 @@ void ModuleEngineCamera::KeyboardRotate()
 	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
 
 	ApplyRotation(rotationDeltaMatrix);
-}
-
-void ModuleEngineCamera::SelectObjects() {
-	if (App->renderer->AnyModelLoaded()) {
-		for (int i = 0; i < App->renderer->GetModelCount(); ++i) {
-			for (int j = 0; j < App->renderer->GetModel(i)->GetMeshCount(); ++j) {
-				App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetOBB());
-			}
-		}
-	}
 }
 
 void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix) 

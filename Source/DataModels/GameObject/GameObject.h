@@ -18,6 +18,7 @@ public:
 
 	void Update();
 	void Draw();
+	void Load();
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);

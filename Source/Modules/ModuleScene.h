@@ -17,8 +17,12 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	void Load();
+
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
+
+	void ConvertIntoGameObject(const char* model);
 
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
@@ -33,8 +37,6 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 	void RemoveCamera(GameObject* cameraGameObject);
-
-	void ConvertIntoGameObject(const char* model);
 
 	void OnPlay();
 	void OnPause();
