@@ -7,6 +7,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
 #include "Quadtree.h"
 
 #include "3DModels/Model.h"
@@ -187,7 +188,7 @@ bool ModuleRender::Start()
 	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
 	UID textureUID = App->resources->ImportResource("Assets/Textures/Baker_house.png");
 
-	std::shared_ptr<GameObject> bakerHouse = std::make_shared<GameObject>("BakerHouse");
+	std::shared_ptr<GameObject> bakerHouse = std::make_shared<GameObject>("BakerHouse", App->scene->GetRoot());
 
 	const std::vector<UID>& meshesUIDs = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID))->GetMeshesUIDs();
 
@@ -197,6 +198,7 @@ bool ModuleRender::Start()
 	}
 
 	gameObjects.push_back(bakerHouse);
+	App->scene->GetSceneGameObjects().push_back(bakerHouse.get());
 
 	return true;
 }
@@ -226,7 +228,8 @@ update_status ModuleRender::Update()
 
 	for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 	{
-		UpdateGameObject(gameObject);
+		if (gameObject->IsEnabled())
+			UpdateGameObject(gameObject);
 	}
 
 	/*// This loop should disappear

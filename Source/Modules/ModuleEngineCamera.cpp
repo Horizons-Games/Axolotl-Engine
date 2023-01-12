@@ -5,6 +5,9 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentBoundingBoxes.h"
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
@@ -77,8 +80,10 @@ update_status ModuleEngineCamera::Update()
 			Zoom();
 		}
 
-		if (App->renderer->AnyModelLoaded() && App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(App->renderer->GetModel(0)->GetOBB());
+		if (App->scene->GetSelectedGameObject() != App->scene->GetRoot() &&
+			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			Focus(((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
+				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
 
 		if (App->renderer->AnyModelLoaded() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&

@@ -8,11 +8,10 @@
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name)
+GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)

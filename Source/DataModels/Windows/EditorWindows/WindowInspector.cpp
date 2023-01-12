@@ -66,8 +66,6 @@ void WindowInspector::DrawWindowContents()
 			ImGui::InputText("##GameObject", name, 24);
 		}
 
-		ImGui::Separator();
-
 		/*DrawTransformationTable(currentGameObject);
 
 		DrawBoundingBoxTable(currentGameObject);

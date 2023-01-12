@@ -16,6 +16,7 @@
 #include "Math/float3x3.h"
 
 #include "GL/glew.h"
+#include "imgui.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
 	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
