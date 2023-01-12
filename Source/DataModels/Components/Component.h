@@ -20,6 +20,8 @@ public:
 
 	virtual void Draw();
 
+	virtual void Load();
+
 	bool GetActive();
 	ComponentType GetType();
 
@@ -58,6 +60,10 @@ inline void Component::Disable()
 }
 
 inline void Component::Draw()
+{
+}
+
+inline void Component::Load()
 {
 }
 

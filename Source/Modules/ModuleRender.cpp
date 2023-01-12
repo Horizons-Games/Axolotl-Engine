@@ -291,14 +291,14 @@ void ModuleRender::DrawScene(Quadtree* quadtree)
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				//gameObject->Draw;
+				//gameObject->Draw();
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				//gameObject->Draw;
+				//gameObject->Draw();
 			}
 			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
 			DrawScene(quadtree->GetFrontLeftNode());
