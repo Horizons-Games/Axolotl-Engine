@@ -2,6 +2,7 @@
 
 #include "Windows/EditorWindows/EditorWindow.h"
 #include <experimental/filesystem>
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
 
 class WindowFileBrowser : public EditorWindow
 {
@@ -12,6 +13,7 @@ public:
 
 	ImVec2 GetStartingSize() const override;
 private:
+	ImGuiFileDialog fileDialog;
 	std::experimental::filesystem::path m_CurrentDirectory;
 };
 
