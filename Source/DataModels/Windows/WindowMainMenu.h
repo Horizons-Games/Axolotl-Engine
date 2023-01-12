@@ -9,6 +9,7 @@
 #include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/WindowImporter.h"
+#include "EditorWindows/WindowFileBrowser.h"
 
 class WindowMainMenu : public Window
 {
@@ -27,6 +28,7 @@ private:
 	void DrawWindowsMenu();
 	void DrawAbout();
 	void DrawFileDialog();
+	void DrawFileBrowser();
 	void DrawGithubLink() const;
 	void DrawExit() const;
 
@@ -34,8 +36,10 @@ private:
 
 	std::unique_ptr<WindowAbout> about;
 	std::unique_ptr<WindowImporter> importer;
+	std::unique_ptr<WindowFileBrowser> browser;
 	bool showAbout = false;
 	bool showFileDialog = false;
+	bool showFileBrowser = false;
 
 	int nWindows;
 	std::vector<std::string> windowNames;
