@@ -85,11 +85,12 @@ update_status ModuleEngineCamera::Update()
 			Focus(((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
 				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
 
-		if (App->renderer->AnyModelLoaded() &&
+		if (App->scene->GetSelectedGameObject() != App->scene->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			const OBB& obb = App->renderer->GetModel(0)->GetOBB();
+			const OBB& obb = ((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
+				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
 			SetLookAt(obb.CenterPoint());
 			Orbit(obb);
