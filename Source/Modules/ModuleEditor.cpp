@@ -93,7 +93,7 @@ update_status ModuleEditor::Update()
 	if (!ImGui::DockBuilderGetNode(dock_space_id))
 	{
 		ImGui::DockBuilderAddNode(dock_space_id);
-		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->WorkSize);
+		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->Size);
 
 		dock_main_id = dock_space_id;
 		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.25f, nullptr, &dock_main_id);
@@ -101,8 +101,8 @@ update_status ModuleEditor::Update()
 		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
 	}
 
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
 
 	ImGuiWindowFlags dockSpaceWindowFlags = 0;
 	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | 
