@@ -1,8 +1,13 @@
 #include "ModuleScene.h"
-#include "Quadtree.h"
+#include "Application.h"
+#include "FileSystem/ModuleResources.h"
+
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Quadtree.h"
+#include "Resources/ResourceModel.h"
 
 #include <assert.h>
 
@@ -155,4 +160,18 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+}
+
+void ModuleScene::ConvertIntoGameObject(const char* model)
+{
+	UID modelUID = App->resources->ImportResource(model);
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	resourceModel->Load(); // This does nothing
+
+	GameObject* gameObjectModel = CreateGameObject("Loaded Model", GetRoot());
+
+	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
+	{
+		gameObjectModel->CreateComponentMeshRenderer(resourceModel->GetMeshesUIDs()[i], resourceModel->GetTexturesUIDs()[0])->Init();
+	}
 }

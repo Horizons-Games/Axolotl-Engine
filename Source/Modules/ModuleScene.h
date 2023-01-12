@@ -34,6 +34,8 @@ public:
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 	void RemoveCamera(GameObject* cameraGameObject);
 
+	void ConvertIntoGameObject(const char* model);
+
 	void OnPlay();
 	void OnPause();
 	void OnStop();

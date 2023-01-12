@@ -164,34 +164,11 @@ bool ModuleRender::Start()
 	ENGINE_LOG("--------- Render Start ----------");
 
 	UpdateProgram();
-	
-	/*
-	Import resource example:
-		We are using the model as a placeholder class to transfer the information of the resource
-		and display the processed import, but you can move to a gameObject or another class 
-		all the functionality used here*/
-	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
 
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
-	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
-
-	// Import model UID
-	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	GameObject* gameObjectModel = new GameObject("Loaded Model", App->scene->GetRoot());
-
-	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
-	{
-		gameObjectModel->CreateComponentMeshRenderer(resourceModel->GetMeshesUIDs()[i], resourceModel->GetTexturesUIDs()[0])->Init();
-	}
-
-	App->scene->GetSceneGameObjects().push_back(gameObjectModel);
+	// Import models into the scene
+	App->scene->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->ConvertIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->ConvertIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }
@@ -216,39 +193,6 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	/* Uncomment the loop below when models are removed 
-	and GameObjects are used in their place */
-
-	/*// This loop should disappear
-	for (std::shared_ptr<Model> model : models)
-	{
-		model->Draw();
-	}*/
-	
-
-	/*
-	 
-	*Logic to apply when model class is deleted and GameObjects are implemented
-	*
-	
-	FIRST APPROACH
-	DrawScene(App->scene->GetSceneQuadTree());
-	
-	
-	SECOND APPROACH
-	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
-	for (GameObject* gameObject : gameObjectsToDraw) 
-	{
-		for (Component* component : gameObject->GetComponents()) 
-		{
-			if (component->GetType() == ComponentType::MESH) 
-			{
-				//Draw gameobject
-			}
-		}
-	}
-	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
