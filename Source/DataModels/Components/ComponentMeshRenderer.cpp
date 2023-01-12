@@ -45,6 +45,22 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Display()
 {
+	ImGui::Text("GEOMETRY");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("##GeometryTable", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of vertices: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", mesh.get()->GetNumVertices());
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of triangles: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", mesh.get()->GetNumIndexes());
+
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
 }
 
 void ComponentMeshRenderer::Draw()

@@ -20,11 +20,7 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawTransformationTable(GameObject* selected);
-	void DrawBoundingBoxTable(GameObject* selected);
-	void DrawGeometryTable();
 	void DrawTextureTable();
-	void DrawCameraTable(ComponentCamera* camera);
 
 	std::weak_ptr<Model> model;
 };
