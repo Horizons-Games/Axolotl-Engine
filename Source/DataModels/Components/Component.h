@@ -30,6 +30,16 @@ private:
 	GameObject* owner;
 };
 
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
+	: type(type), active(active), owner(owner)
+{
+}
+
+inline Component::~Component()
+{
+	delete owner;
+}
+
 inline bool Component::Init()
 {
 	return true;
