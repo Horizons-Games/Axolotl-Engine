@@ -70,7 +70,7 @@ void  ModuleResources::MonitorResources()
 		//Import resources
 		for (std::shared_ptr<Resource> resource : toImport)
 		{
-			ReImportResource(resource);
+			AddResource(resource, resource->GetAssetsPath());
 		}
 		for (std::shared_ptr<Resource> resource : toCreateLib)
 		{
@@ -103,6 +103,16 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 			}
 		}
 	}
+}
+
+void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath)
+{
+	CreateMetaFileOfResource(resource);
+
+	ImportResourceFromSystem(originalPath, resource, resource->GetType());
+
+	UID uid = resource->GetUID();
+	resources.insert({ uid, resource });
 }
 
 bool ModuleResources::Start()
@@ -189,12 +199,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	if (!this->ExistsResourceWithAssetsPath(assetsPath, uid))
 	{
 		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
-		CreateMetaFileOfResource(importedRes);
-
-		ImportResourceFromSystem(originalPath, importedRes, type);
-
-		uid = importedRes->GetUID();
-		resources.insert({ uid, importedRes });
+		AddResource(importedRes, originalPath);
 	}
 	
 	return uid;
@@ -410,9 +415,4 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, 
 	default:
 		break;
 	}
-}
-
-void ModuleResources::ReImportResource(const std::shared_ptr<Resource>& resource)
-{
-	//TODO
 }
