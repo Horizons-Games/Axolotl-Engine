@@ -1,6 +1,7 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
+#include "ComponentBoundingBoxes.h"
 
 #include "Application.h"
 
@@ -104,6 +105,9 @@ void ComponentMeshRenderer::LoadMesh()
 {
 	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
 	mesh->Load();
+	ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+	boundingBox->Encapsule(mesh->GetVertices().data() ,mesh->GetNumVertices());
+	
 }
 
 void ComponentMeshRenderer::LoadTexture()
