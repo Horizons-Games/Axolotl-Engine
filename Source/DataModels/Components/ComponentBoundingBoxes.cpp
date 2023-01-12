@@ -27,7 +27,7 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 
 void ComponentBoundingBoxes::Draw()
 {
-	App->debug->DrawBoundingBox(GetObjectOBB());
+	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
 }
 
 
