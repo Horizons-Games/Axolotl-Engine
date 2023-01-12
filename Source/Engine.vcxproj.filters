@@ -283,9 +283,6 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
@@ -333,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -756,9 +756,6 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceMaterial.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
@@ -804,9 +801,6 @@
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
@@ -815,6 +809,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
