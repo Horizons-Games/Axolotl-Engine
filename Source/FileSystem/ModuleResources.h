@@ -13,6 +13,7 @@ class Resource;
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
+class MaterialImporter;
 
 enum class ResourceType;
 
@@ -53,7 +54,8 @@ private:
 	std::shared_ptr<ModelImporter> modelImporter;
 	std::shared_ptr<TextureImporter> textureImporter;
 	std::shared_ptr<MeshImporter> meshImporter;
-	
+	std::shared_ptr<MaterialImporter> materialImporter;
+
 	//std::thread monitorThread;
 	bool monitorResources;
 };
