@@ -36,6 +36,8 @@ private:
 	void LoadResourceStored(const char* filePath);
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
+	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
+	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 	//this might not belong here
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
@@ -45,6 +47,7 @@ private:
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type);
+	void ReImportResource(const std::shared_ptr<Resource>& resource);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;

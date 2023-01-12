@@ -24,46 +24,61 @@ void  ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		std::vector<UID> toRemove;
-		std::vector<std::string> toImport;
+		std::vector<std::shared_ptr<Resource> > toImport;
+		std::vector<std::shared_ptr<Resource> > toCreateLib;
+		std::vector<std::shared_ptr<Resource> > toCreateMeta;
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
-		for (it = resources.begin(); it != resources.end(); it++)
+		for (it = resources.begin(); it != resources.end(); ++it)
 		{
 			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
-			else if (App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
+			else 
 			{
-				toImport.push_back(it->second->GetAssetsPath());
-			}
-			else if (App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
-			{
-				toImport.push_back(it->second->GetAssetsPath());
-			}
-			else
-			{
-				long long assetTime = App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
-				long long libTime = App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
-				if (assetTime > libTime)
+				if (!App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
 				{
-					toImport.push_back(it->second->GetAssetsPath());
+					toCreateLib.push_back(it->second);
+				}
+				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
+				{
+					toCreateMeta.push_back(it->second);
+				}
+				else
+				{
+					long long assetTime =
+						App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
+					long long libTime =
+						App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
+					if (assetTime > libTime)
+					{
+						toImport.push_back(it->second);
+					}
 				}
 			}
 		}
 		//Remove resources
-		for (size_t i = 0; i < toRemove.size(); i++)
+		for (UID resUID : toRemove)
 		{
-			std::string libPath = resources[toRemove[i]]->GetAssetsPath();
-			std::string metaPath = resources[toRemove[i]]->GetAssetsPath() + META_EXTENSION;
+			std::string libPath = resources[resUID]->GetAssetsPath();
+			std::string metaPath = resources[resUID]->GetAssetsPath() + META_EXTENSION;
 			App->fileSystem->Delete(metaPath.c_str());
 			App->fileSystem->Delete(libPath.c_str());
-			resources.erase(toRemove[i]);
+			resources.erase(resUID);
 
 		}
 		//Import resources
-		for (size_t i = 0; i < toImport.size(); i++)
+		for (std::shared_ptr<Resource> resource : toImport)
 		{
-			ImportResource(toImport[i]);
+			ReImportResource(resource);
+		}
+		for (std::shared_ptr<Resource> resource : toCreateLib)
+		{
+			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+		}
+		for (std::shared_ptr<Resource> resource : toCreateMeta)
+		{
+			CreateMetaFileOfResource(resource);
 		}
 	}
 }
@@ -169,14 +184,19 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 			CopyFileInAssets(originalPath, assetsPath);
 	}
 
+	UID uid;
 
-	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
-	CreateMetaFileOfResource(importedRes);
+	if (!this->ExistsResourceWithAssetsPath(assetsPath, uid))
+	{
+		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
+		CreateMetaFileOfResource(importedRes);
 
-	ImportResourceFromSystem(originalPath, importedRes, type);
+		ImportResourceFromSystem(originalPath, importedRes, type);
 
-	UID uid = importedRes->GetUID();
-	resources.insert({ uid, importedRes });
+		uid = importedRes->GetUID();
+		resources.insert({ uid, importedRes });
+	}
+	
 	return uid;
 }
 
@@ -218,6 +238,26 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	{
 		App->fileSystem->Copy(originalPath.c_str(), assetsPath.c_str());
 	}
+}
+
+bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath)
+{
+	UID willBeIgnored;
+	return this->ExistsResourceWithAssetsPath(assetsPath, willBeIgnored);
+}
+
+bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
+{
+	std::map<UID, std::shared_ptr<Resource> >::iterator it;
+	for (it = resources.begin(); it != resources.end(); it++)
+	{
+		if (it->second->GetAssetsPath() == assetsPath)
+		{
+			resourceUID = it->second->GetUID();
+			return true;
+		}
+	}
+	return false;
 }
 
 const std::string ModuleResources::GetPath(const std::string& path)
@@ -370,4 +410,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, 
 	default:
 		break;
 	}
+}
+
+void ModuleResources::ReImportResource(const std::shared_ptr<Resource>& resource)
+{
+	//TODO
 }
