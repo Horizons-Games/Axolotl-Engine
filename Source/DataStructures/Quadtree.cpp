@@ -1,8 +1,11 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
+#include "Components/Component.h"
+#include "Components/ComponentTransform.h"
 #include "Application.h"
 
 #include "math/float4x4.h"
+#include "math/float3.h"
 #include "geometry/OBB.h"
 #include "geometry/AABB.h"
 
@@ -131,6 +134,105 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	}
 }
 
+void Quadtree::ExpandToFit(GameObject* gameObject)
+{
+	ComponentTransform* gameObjectTransform = (ComponentTransform*)gameObject->GetComponent(ComponentType::TRANSFORM);
+	float3 gameObjectPosition = gameObjectTransform->GetPosition();
+
+	float quadTreeMaxX = this->boundingBox.MaxX();
+	float quadTreeMaxY = this->boundingBox.MaxY();
+	float quadTreeMaxZ = this->boundingBox.MaxZ();
+	float quadTreeMinX = this->boundingBox.MinX();
+	float quadTreeMinY = this->boundingBox.MinY();
+	float quadTreeMinZ = this->boundingBox.MinZ();
+	float3 newMaxPoint = GetBoundingBox().maxPoint;
+	float3 newMinPoint = GetBoundingBox().minPoint;
+
+	if (gameObjectPosition.y > quadTreeMaxY || gameObjectPosition.y < quadTreeMinY)
+	{
+		if (gameObjectPosition.y < quadTreeMinY) newMinPoint.y = gameObjectPosition.y;
+		else newMaxPoint.y = gameObjectPosition.y;
+		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
+	}
+	else 
+	{
+		if (gameObjectPosition.x > quadTreeMaxX)
+		{
+			if (gameObjectPosition.z < quadTreeMinZ)
+			{
+				newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+			else
+			{
+				newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+		}
+		else if (gameObjectPosition.x < quadTreeMinX)
+		{
+			if (gameObjectPosition.z < quadTreeMinZ)
+			{
+				newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+			else 
+			{
+				newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+		}
+		else if (gameObjectPosition.z > quadTreeMaxZ)
+		{
+			if (gameObjectPosition.x < quadTreeMinX)
+			{
+				newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+			else
+			{
+				newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+		}
+		else if (gameObjectPosition.z < quadTreeMinZ)
+		{
+			if (gameObjectPosition.x < quadTreeMinX)
+			{
+				newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+			else
+			{
+				newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
+				newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			}
+		}
+		AABB newAABB = AABB(newMinPoint, newMaxPoint);
+		Quadtree* newRootQuadTree = new Quadtree(newAABB);
+		App->scene->SetSceneQuadTree(newRootQuadTree);
+		if (!newRootQuadTree->InQuadrant(gameObject)) newRootQuadTree->ExpandToFit(gameObject);
+	}
+}
+
+void Quadtree::AdjustHeightToNodes(float minY, float maxY) 
+{
+	float3 newMaxPoint = GetBoundingBox().maxPoint;
+	float3 newMinPoint = GetBoundingBox().minPoint;
+	newMinPoint.y = minY;
+	newMaxPoint.y = maxY;
+	AABB newAABB = AABB(newMinPoint, newMaxPoint);
+	SetBoundingBox(newAABB);
+	if (!IsLeaf) 
+	{
+		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
+		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
+		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
+		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
+	}
+
+}
+
 void Quadtree::Clear()
 {
 	this->gameObjects.clear();
@@ -165,8 +267,7 @@ const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
 {
 	std::list<GameObject*> intersectingGameObjects;
 	std::list<GameObject*> auxGameObjects;
-	//TODO replace with camera component function
-	if (true)
+	if (App->engineCamera->IsInside(GetBoundingBox()) || App->scene->IsInsideACamera(GetBoundingBox()))
 	{
 		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
 		if (!IsLeaf())

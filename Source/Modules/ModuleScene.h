@@ -24,11 +24,12 @@ public:
 	bool IsInsideACamera(const OBB& obb);
 	bool IsInsideACamera(const AABB& aabb);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
-	Quadtree* GetSceneQuadTree() const;
 
 	GameObject* GetRoot() const;
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
+	Quadtree* GetSceneQuadTree() const;
+	void SetSceneQuadTree(Quadtree* sceneQuadTree);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 	void RemoveCamera(GameObject* cameraGameObject);
@@ -71,4 +72,10 @@ inline Quadtree* ModuleScene::GetSceneQuadTree() const
 {
 	return sceneQuadTree;
 }
+
+inline void ModuleScene::SetSceneQuadTree(Quadtree* sceneQuadTree)
+{
+	this->sceneQuadTree = sceneQuadTree;
+}
+
 

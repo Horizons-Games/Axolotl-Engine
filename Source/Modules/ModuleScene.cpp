@@ -69,8 +69,8 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 
 	GameObject* gameObject = new GameObject(name, parent);
 	sceneGameObjects.push_back(gameObject);
-
-	//sceneQuadTree->Add(gameObject);
+	if (!sceneQuadTree->InQuadrant(gameObject)) sceneQuadTree->ExpandToFit(gameObject);
+	sceneQuadTree->Add(gameObject);
 	return gameObject;
 }
 

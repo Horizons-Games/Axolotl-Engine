@@ -16,11 +16,14 @@ public:
 	void Remove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
+	void ExpandToFit(GameObject* gameObject);
+	void AdjustHeightToNodes(float minY, float maxY);
 	void Clear();
 	void Draw();
 
 	const std::list<GameObject*>& GetGameObjectsToDraw();
 	const AABB& GetBoundingBox() const;
+	void SetBoundingBox(AABB boundingBox);
 	const std::list<GameObject*>& GetGameObjects() const;
 
 	Quadtree* GetFrontRightNode() const;
@@ -51,6 +54,11 @@ private:
 inline const AABB& Quadtree::GetBoundingBox() const
 {
 	return boundingBox;
+}
+
+inline void Quadtree::SetBoundingBox(AABB boundingBox)
+{
+	this->boundingBox = boundingBox;
 }
 
 inline int Quadtree::GetQuadrantCapacity() const
