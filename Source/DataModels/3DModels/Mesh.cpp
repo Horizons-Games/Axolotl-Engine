@@ -71,7 +71,8 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
+							//position			//uv				//normal			//tangent
+	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3 + sizeof(float) * 3);
 	unsigned bufferSize = vertexSize * mesh->mNumVertices;
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
 
@@ -89,6 +90,14 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	this->numVertices = mesh->mNumVertices;
+
+	unsigned normalsOffset = positionSize + uvSize;
+	unsigned normalsSize = sizeof(float) * 3 * mesh->mNumVertices;
+	glBufferSubData(GL_ARRAY_BUFFER, normalsOffset, normalsSize, mesh->mNormals);
+
+	unsigned tangentsOffset = positionSize + uvSize + normalsSize;
+	unsigned tangentsSize = sizeof(float) * 3 * mesh->mNumVertices;
+	glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, mesh->mTangents);
 
 	ENGINE_LOG("Generated VBO %i with %i vertices", vbo, numVertices);
 }
@@ -129,6 +138,12 @@ void Mesh::CreateVAO()
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * this->numVertices));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2) * this->numVertices));
+
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * this->numVertices));
 
 	ENGINE_LOG("Generated VAO %i", vao);
 }
@@ -192,6 +207,13 @@ void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &tran
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, material->diffuse);
+
+	if (material->haveNormal) {
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, material->normal);
+		glUniform1i(glGetUniformLocation(program, "material.normal_map"), 1);
+	}
+	glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), material->haveNormal);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

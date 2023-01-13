@@ -130,6 +130,8 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		}
 
 		material->shininess = resourceMaterial->GetShininess();
+		//TODO: create normals strength in resourceMaterial
+		//material->normalStrength = resourceMaterial->GetNormalsStrength();
 
 		materials.push_back((std::unique_ptr<Material>(material)));
 	}

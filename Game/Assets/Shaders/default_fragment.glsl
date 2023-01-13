@@ -6,11 +6,14 @@ struct Material {
     vec3 specular_color;
     sampler2D specular_map;
     float shininess;
+    sampler2D normal_map;
+    float nStrength;
     vec3 ambient;
     
     int has_diffuse_map;
     int has_specular_map;
     int has_shininess_map;
+    bool has_normal_map;
 };
 
 layout(std140) uniform Ambient
@@ -37,7 +40,7 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
 
-layout(binding = 1) uniform sampler2D normalMap;
+//layout(binding = 1) uniform sampler2D normalMap;
 
 in vec2 TexCoord;
 
@@ -64,14 +67,13 @@ void main()
 	vec3 textureMat = texture(material.diffuse_map, TexCoord).rgb;
     textureMat = pow(textureMat, vec3(2.2));
     
-    bool hasNormals = false;
-	if (hasNormals)
+
+	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
-        float nStrength = 1.0;
-        norm = texture(normalMap, TexCoord).rgb;
+        norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
-        norm.xy *= nStrength;
+        norm.xy *= material.nStrength;
         norm = normalize(norm);
         norm = space * norm;
 	}
