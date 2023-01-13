@@ -12,6 +12,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
