@@ -81,7 +81,7 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 	return 0;
 }
 
-void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial>& resource)
+void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));

@@ -231,7 +231,7 @@ bool ModuleResources::Start()
 		}
 	}
 	//remove file separator from library folder
-	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
+	//LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
 	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
@@ -474,7 +474,7 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Scene:
 	case ResourceType::Material:
-		resource = std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::SkyBox:
 	default:
