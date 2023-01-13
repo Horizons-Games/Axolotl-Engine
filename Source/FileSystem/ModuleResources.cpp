@@ -133,6 +133,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 		Json.fromBuffer(metaBuffer);
 
 		UID uid = (UID)Json["UID"];
+		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
 		char* binaryBuffer = {};
 		App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
@@ -351,23 +352,46 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 
 const std::string ModuleResources::GetFolderOfType(ResourceType type)
 {
+	return GetNameOfType(type) + "/";
+}
+
+const std::string ModuleResources::GetNameOfType(ResourceType type)
+{
 	switch (type)
 	{
 	case ResourceType::Model:
-		return "Models/";
+		return "Models";
 	case ResourceType::Texture:
-		return "Textures/";
+		return "Textures";
 	case ResourceType::Mesh:
-		return "Meshes/";
+		return "Meshes";
 	case ResourceType::Scene:
-		return "Scenes/";
+		return "Scenes";
 	case ResourceType::Material:
-		return "Materials/";
+		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox/";
+		return "SkyBox";
+	case ResourceType::Unknown:
 	default:
-		return "";
+		return "Unknown";
 	}
+}
+
+ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
+{
+	if (typeName == "Models")
+		return ResourceType::Model;
+	if (typeName == "Textures")
+		return ResourceType::Texture;
+	if (typeName == "Meshes")
+		return ResourceType::Mesh;
+	if (typeName == "Scenes")
+		return ResourceType::Scene;
+	if (typeName == "Materials")
+		return ResourceType::Material;
+	if (typeName == "SkyBox")
+		return ResourceType::SkyBox;
+	return ResourceType::Unknown;
 }
 
 const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
@@ -381,7 +405,7 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
-	libraryPath += GetFolderOfType(type);
+	libraryPath += GetFolderOfType(type) + "/";
 	libraryPath += fileName;
 	return libraryPath;
 }
@@ -420,6 +444,7 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 	Json Json(doc, doc);
 
 	Json["UID"] = resource->GetUID();
+	Json["Type"] = GetNameOfType(resource->GetType()).c_str();
 	resource->SaveOptions(Json);
 	rapidjson::StringBuffer buffer;
 	Json.toBuffer(buffer);
