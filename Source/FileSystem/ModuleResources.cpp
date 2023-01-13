@@ -112,7 +112,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 	std::string metaPath;
 	std::string fileExtension = GetFileExtension(libraryPath);
 	int posOfExtensionInPath = libraryPath.find(fileExtension);
-	if (posOfExtensionInPath != std::string::npos) //has file extension
+	if (posOfExtensionInPath != 0) //has file extension
 	{
 		std::string libraryPathCopy = std::string(libraryPath);
 		metaPath = libraryPathCopy.erase(posOfExtensionInPath, fileExtension.size());
@@ -257,7 +257,10 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	if (type != ResourceType::Mesh) 
 	{
-		assetsPath = CreateAssetsPath(fileName + extension, type);
+		//is the extension necessary?
+		//if so, we need a way to find the asset path (name + etension)
+		//given the path of its binary
+		assetsPath = CreateAssetsPath(fileName /*+ extension*/, type);
 
 		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 		if (!resourceExists)

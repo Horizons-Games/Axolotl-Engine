@@ -164,10 +164,10 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 	
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
+	//std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
+	//bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
 
-	models.push_back(bakerHouse); // This line should disappear
+	//models.push_back(bakerHouse); // This line should disappear
 	
 	/*
 	Import resource example:
@@ -175,13 +175,13 @@ bool ModuleRender::Start()
 		and display the processed import, but you can move to a gameObject or another class 
 		all the functionality used here*/
 	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
 	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
 	resourceModel->Load();
 
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
+	models.push_back(bakerHouse);
 
 	return true;
 }
