@@ -21,6 +21,7 @@ protected:
 
 private:
 	void DrawTextureTable();
+	bool WindowRightClick();
 
 	std::weak_ptr<Model> model;
 };

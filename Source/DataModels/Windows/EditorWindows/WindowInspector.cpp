@@ -9,6 +9,7 @@
 #include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentBoundingBoxes.h"
@@ -80,4 +81,9 @@ void WindowInspector::DrawTextureTable()
 	}
 
 	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
+}
+
+bool WindowInspector::WindowRightClick()
+{
+	return ImGui::GetIO().MouseClicked[1];
 }
