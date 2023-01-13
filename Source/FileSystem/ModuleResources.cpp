@@ -24,46 +24,61 @@ void  ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		std::vector<UID> toRemove;
-		std::vector<std::string> toImport;
+		std::vector<std::shared_ptr<Resource> > toImport;
+		std::vector<std::shared_ptr<Resource> > toCreateLib;
+		std::vector<std::shared_ptr<Resource> > toCreateMeta;
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
-		for (it = resources.begin(); it != resources.end(); it++)
+		for (it = resources.begin(); it != resources.end(); ++it)
 		{
 			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
-			else if (App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
+			else 
 			{
-				toImport.push_back(it->second->GetAssetsPath());
-			}
-			else if (App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
-			{
-				toImport.push_back(it->second->GetAssetsPath());
-			}
-			else
-			{
-				long long assetTime = App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
-				long long libTime = App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
-				if (assetTime > libTime)
+				if (!App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
 				{
-					toImport.push_back(it->second->GetAssetsPath());
+					toCreateLib.push_back(it->second);
+				}
+				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
+				{
+					toCreateMeta.push_back(it->second);
+				}
+				else
+				{
+					long long assetTime =
+						App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
+					long long libTime =
+						App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
+					if (assetTime > libTime)
+					{
+						toImport.push_back(it->second);
+					}
 				}
 			}
 		}
 		//Remove resources
-		for (size_t i = 0; i < toRemove.size(); i++)
+		for (UID resUID : toRemove)
 		{
-			std::string libPath = resources[toRemove[i]]->GetAssetsPath();
-			std::string metaPath = resources[toRemove[i]]->GetAssetsPath() + META_EXTENSION;
+			std::string libPath = resources[resUID]->GetAssetsPath();
+			std::string metaPath = resources[resUID]->GetAssetsPath() + META_EXTENSION;
 			App->fileSystem->Delete(metaPath.c_str());
 			App->fileSystem->Delete(libPath.c_str());
-			resources.erase(toRemove[i]);
+			resources.erase(resUID);
 
 		}
 		//Import resources
-		for (size_t i = 0; i < toImport.size(); i++)
+		for (std::shared_ptr<Resource> resource : toImport)
 		{
-			ImportResource(toImport[i]);
+			AddResource(resource, resource->GetAssetsPath());
+		}
+		for (std::shared_ptr<Resource> resource : toCreateLib)
+		{
+			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+		}
+		for (std::shared_ptr<Resource> resource : toCreateMeta)
+		{
+			CreateMetaFileOfResource(resource);
 		}
 	}
 }
@@ -84,10 +99,88 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 		{
 			if (GetFileExtension(path) != ".meta")
 			{
-				ImportResource(file);
+				ImportResourceFromLibrary(file);
 			}
 		}
 	}
+}
+
+void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
+{
+	ResourceType type = FindTypeByPath(libraryPath);
+
+	std::string metaPath;
+	std::string fileExtension = GetFileExtension(libraryPath);
+	int posOfExtensionInPath = libraryPath.find(fileExtension);
+	if (posOfExtensionInPath != 0) //has file extension
+	{
+		std::string libraryPathCopy = std::string(libraryPath);
+		metaPath = libraryPathCopy.erase(posOfExtensionInPath, fileExtension.size());
+	}
+	else
+	{
+		metaPath = libraryPath;
+	}
+	metaPath += META_EXTENSION;
+	
+	if (App->fileSystem->Exists(metaPath.c_str())){
+		char* metaBuffer = {};
+		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+
+		rapidjson::Document doc;
+		Json Json(doc, doc);
+
+		Json.fromBuffer(metaBuffer);
+
+		UID uid = (UID)Json["UID"];
+		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
+
+		if (type != ResourceType::Unknown)
+		{
+			std::string fileName = GetFileName(libraryPath);
+			std::string assetsPath = CreateAssetsPath(fileName, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
+			
+			if (resource != nullptr)
+			{
+				char* binaryBuffer = {};
+				App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
+
+				switch (type)
+				{
+				case ResourceType::Model:
+					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+					break;
+				case ResourceType::Texture:
+					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
+					break;
+				case ResourceType::Mesh:
+					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+					break;
+				case ResourceType::Scene:
+					break;
+				case ResourceType::Material:
+					break;
+				case ResourceType::SkyBox:
+					break;
+				default:
+					break;
+				}
+
+				resources.insert({ uid, resource });
+			}
+		}
+	}
+}
+
+void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath)
+{
+	CreateMetaFileOfResource(resource);
+
+	ImportResourceFromSystem(originalPath, resource, resource->GetType());
+
+	UID uid = resource->GetUID();
+	resources.insert({ uid, resource });
 }
 
 bool ModuleResources::Start()
@@ -108,7 +201,8 @@ bool ModuleResources::Start()
 		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
-	//(actually there is a library that looks really clean but might be overkill: https://github.com/Neargye/magic_enum)
+	//(actually there is a library that looks really clean but might be overkill:
+	// https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
 	std::vector<ResourceType> allResourceTypes = {ResourceType::Material,
 												  ResourceType::Mesh,
@@ -134,7 +228,8 @@ bool ModuleResources::Start()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-	//LoadResourceStored(libraryFolder.c_str());
+	//remove file separator from library folder
+	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
 	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
@@ -162,21 +257,25 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	if (type != ResourceType::Mesh) 
 	{
-		assetsPath = CreateAssetsPath(fileName + extension, type);
+		//is the extension necessary?
+		//if so, we need a way to find the asset path (name + etension)
+		//given the path of its binary
+		assetsPath = CreateAssetsPath(fileName /*+ extension*/, type);
 
 		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 		if (!resourceExists)
 			CopyFileInAssets(originalPath, assetsPath);
 	}
 
+	UID uid;
 
-	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
-	CreateMetaFileOfResource(importedRes);
-
-	ImportResourceFromSystem(originalPath, importedRes, type);
-
-	UID uid = importedRes->GetUID();
-	resources.insert({ uid, importedRes });
+	if (!this->ExistsResourceWithAssetsPath(assetsPath, uid))
+	{
+		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
+		AddResource(importedRes, originalPath);
+		uid = importedRes->GetUID();
+	}
+	
 	return uid;
 }
 
@@ -218,6 +317,26 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	{
 		App->fileSystem->Copy(originalPath.c_str(), assetsPath.c_str());
 	}
+}
+
+bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath)
+{
+	UID willBeIgnored;
+	return this->ExistsResourceWithAssetsPath(assetsPath, willBeIgnored);
+}
+
+bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
+{
+	std::map<UID, std::shared_ptr<Resource> >::iterator it;
+	for (it = resources.begin(); it != resources.end(); it++)
+	{
+		if (it->second->GetAssetsPath() == assetsPath)
+		{
+			resourceUID = it->second->GetUID();
+			return true;
+		}
+	}
+	return false;
 }
 
 const std::string ModuleResources::GetPath(const std::string& path)
@@ -269,23 +388,46 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 
 const std::string ModuleResources::GetFolderOfType(ResourceType type)
 {
+	return GetNameOfType(type) + "/";
+}
+
+const std::string ModuleResources::GetNameOfType(ResourceType type)
+{
 	switch (type)
 	{
 	case ResourceType::Model:
-		return "Models/";
+		return "Models";
 	case ResourceType::Texture:
-		return "Textures/";
+		return "Textures";
 	case ResourceType::Mesh:
-		return "Meshes/";
+		return "Meshes";
 	case ResourceType::Scene:
-		return "Scenes/";
+		return "Scenes";
 	case ResourceType::Material:
-		return "Materials/";
+		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox/";
+		return "SkyBox";
+	case ResourceType::Unknown:
 	default:
-		return "";
+		return "Unknown";
 	}
+}
+
+ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
+{
+	if (typeName == "Models")
+		return ResourceType::Model;
+	if (typeName == "Textures")
+		return ResourceType::Texture;
+	if (typeName == "Meshes")
+		return ResourceType::Mesh;
+	if (typeName == "Scenes")
+		return ResourceType::Scene;
+	if (typeName == "Materials")
+		return ResourceType::Material;
+	if (typeName == "SkyBox")
+		return ResourceType::SkyBox;
+	return ResourceType::Unknown;
 }
 
 const std::string ModuleResources::CreateAssetsPath(const std::string& fileName, ResourceType type)
@@ -304,32 +446,35 @@ const std::string ModuleResources::CreateLibraryPath(const std::string& fileName
 	return libraryPath;
 }
 
-std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type)
+std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,
+															 const std::string& assetsPath,
+															 ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(fileName, type);
-	std::shared_ptr<Resource> resource = nullptr;
+	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
+}
+
+std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
+																const std::string& fileName,
+																const std::string& assetsPath,
+																const std::string& libraryPath,
+																ResourceType type)
+{
 	switch (type)
 	{
 	case ResourceType::Model:
-		resource = std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Texture:
-		resource = std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Mesh:
-		resource = std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Scene:
-		break;
 	case ResourceType::Material:
-		break;
 	case ResourceType::SkyBox:
-		break;
 	default:
-		break;
+		return nullptr;
 	}
-	return resource;
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
@@ -338,6 +483,7 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 	Json Json(doc, doc);
 
 	Json["UID"] = resource->GetUID();
+	Json["Type"] = GetNameOfType(resource->GetType()).c_str();
 	resource->SaveOptions(Json);
 	rapidjson::StringBuffer buffer;
 	Json.toBuffer(buffer);
@@ -348,7 +494,9 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 
 }
 
-void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
+											   std::shared_ptr<Resource>& resource,
+											   ResourceType type)
 {
 	switch (type)
 	{
