@@ -27,6 +27,7 @@ bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* d
     }
     fclose(src);
     fclose(dst);
+    return true;
 }
 
 bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
