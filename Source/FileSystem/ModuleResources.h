@@ -49,6 +49,7 @@ private:
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
 	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
+	std::shared_ptr<Resource> CreateResourceOfType(UID uid, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath, ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type);
 

@@ -135,9 +135,41 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 		UID uid = (UID)Json["UID"];
 		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
-		char* binaryBuffer = {};
-		App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
-		//TODO: call Importer::Load
+		if (type != ResourceType::Unknown)
+		{
+			std::string fileName = GetFileName(libraryPath);
+			std::string assetsPath = CreateAssetsPath(fileName, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
+			
+			if (resource != nullptr)
+			{
+				char* binaryBuffer = {};
+				App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
+
+				switch (type)
+				{
+				case ResourceType::Model:
+					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+					break;
+				case ResourceType::Texture:
+					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
+					break;
+				case ResourceType::Mesh:
+					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+					break;
+				case ResourceType::Scene:
+					break;
+				case ResourceType::Material:
+					break;
+				case ResourceType::SkyBox:
+					break;
+				default:
+					break;
+				}
+
+				resources.insert({ uid, resource });
+			}
+		}
 	}
 }
 
@@ -405,7 +437,7 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
-	libraryPath += GetFolderOfType(type) + "/";
+	libraryPath += GetFolderOfType(type);
 	libraryPath += fileName;
 	return libraryPath;
 }
@@ -414,28 +446,25 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 {
 	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(fileName, type);
-	std::shared_ptr<Resource> resource = nullptr;
+	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
+}
+
+std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath, ResourceType type)
+{
 	switch (type)
 	{
 	case ResourceType::Model:
-		resource = std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Texture:
-		resource = std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Mesh:
-		resource = std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
-		break;
+		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Scene:
-		break;
 	case ResourceType::Material:
-		break;
 	case ResourceType::SkyBox:
-		break;
 	default:
-		break;
+		return nullptr;
 	}
-	return resource;
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
