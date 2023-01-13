@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ComponentType {MATERIAL, MESH, TRANSFORM, LIGHT};
+enum class ComponentType {/*MATERIAL,*/ MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
 
@@ -8,41 +8,60 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
-	~Component();
+	virtual ~Component();
+
+	bool Init();
+	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
+
+	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
 
 	virtual void Enable();
-
-	virtual void Update();
-
 	virtual void Disable();
 
-	bool GetActive();
+	virtual void Draw();
 
+	bool GetActive();
+	ComponentType GetType();
+
+	GameObject* GetOwner();
 private:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
 };
 
-inline void Component::Enable()
+inline bool Component::Init()
 {
-	this->active = true;
+	return true;
 }
 
-inline void Component::Update()
+inline void Component::Enable()
 {
-	if (this->active)
-	{
-		//TODO: Update the active component
-	}
+	if (type != ComponentType::TRANSFORM)
+		active = true;
 }
 
 inline void Component::Disable()
 {
-	this->active = false;
+	if (type != ComponentType::TRANSFORM)
+		active = false;
+}
+
+inline void Component::Draw()
+{
 }
 
 inline bool Component::GetActive()
 {
 	return this->active;
+}
+
+inline ComponentType Component::GetType()
+{
+	return this->type;
+}
+
+inline GameObject* Component::GetOwner()
+{
+	return this->owner;
 }

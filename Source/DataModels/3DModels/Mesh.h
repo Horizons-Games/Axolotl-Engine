@@ -5,6 +5,7 @@
 #include "assimp/mesh.h"
 #include "Math/float3.h"
 #include "Math/float4x4.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
 struct PointLight
 {
@@ -24,16 +25,20 @@ struct SpotLight
 class Mesh
 {
 public:
-	Mesh(const aiMesh* mesh);
+	Mesh();
 	~Mesh();
 
-	void GenerateLights();
+	void Load(const aiMesh* mesh);
+
+	void SetFromResource(std::shared_ptr<ResourceMesh>& resource);
 
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
 	void CreateVAO();
 	void Draw(const std::vector<unsigned>& modelTextures, 
 		const float3 &translation, const float4x4 &rotation, const float3 &scale);
+	
+	void GenerateLights();
 	void RenderLights();
 
 	vec* GetVertices() const;

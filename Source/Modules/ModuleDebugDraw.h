@@ -4,6 +4,9 @@
 #include "Module.h"
 
 #include "Math/float4x4.h"
+#include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
+#include "Geometry/Frustum.h"
 
 class DDRenderInterfaceCoreGL;
 class Camera;
@@ -21,8 +24,14 @@ public:
     bool            CleanUp();
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
-private:
+    void            DrawBoundingBox(const AABB& aabb);
+    void            DrawBoundingBox(const OBB& obb);
+    void            DrawFrustum(const Frustum& frustum);
+    void            ShowBoundingBoxes(bool showBoundingBoxes);
+    bool            IsShowingBoundingBoxes() const;
 
+private:
+    bool showBoundingBoxes = false;
     static DDRenderInterfaceCoreGL* implementation;
 };
 

@@ -8,6 +8,10 @@
 #include "ModuleEditor.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleTexture.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
+#include "ModuleScene.h"
+
 
 constexpr int FRAMES_BUFFER = 50;
 
@@ -17,11 +21,15 @@ Application::Application()
 	modules.push_back(window = std::make_shared<ModuleWindow>());
 	modules.push_back(editor = std::make_shared<ModuleEditor>());
 	modules.push_back(input = std::make_shared<ModuleInput>());
-	modules.push_back(program = std::make_shared<ModuleProgram>());
+	modules.push_back(program = std::make_shared<ModuleProgram>()); 
+	modules.push_back(fileSystem = std::make_shared<ModuleFileSystem>());
+	modules.push_back(resources = std::make_shared<ModuleResources>());
 	modules.push_back(renderer = std::make_shared<ModuleRender>());
 	modules.push_back(debug = std::make_shared<ModuleDebugDraw>());
 	modules.push_back(textures = std::make_shared<ModuleTexture>());
 	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
+	modules.push_back(scene = std::make_shared<ModuleScene>());
+
 
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
