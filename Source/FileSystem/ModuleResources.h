@@ -30,7 +30,10 @@ public:
 	UID ImportResource(const std::string& originalPath);
 
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
+	//this might not belong here
 	const std::string GetPath(const std::string& path);
+	const std::string GetFileName(const std::string& path);
+	const std::string GetFileExtension(const std::string& path);
 
 private:
 	void MonitorResources();
@@ -38,8 +41,6 @@ private:
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	//this might not belong here
-	const std::string GetFileName(const std::string& path);
-	const std::string GetFileExtension(const std::string& path);
 	const std::string GetFolderOfType(ResourceType type);
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
 	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
