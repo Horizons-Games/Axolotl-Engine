@@ -129,7 +129,10 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 			textureWidths.push_back(textureSpecular->GetWidth());
 		}
 
+		material->diffuseColor = resourceMaterial->GetDiffuseColor();
+		material->specularColor = resourceMaterial->GetSpecularColor();
 		material->shininess = resourceMaterial->GetShininess();
+		material->haveShininessAlpha = resourceMaterial->HaveShininessAlpha();
 
 		materials.push_back((std::unique_ptr<Material>(material)));
 	}

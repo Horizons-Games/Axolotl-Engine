@@ -12,14 +12,17 @@
 struct Material 
 {
 	unsigned int diffuse;
+	float3 diffuseColor;
 	unsigned int normal;
 	unsigned int occlusion;
 	unsigned int specular;
+	float3 specularColor;
 
 	bool haveDiffuse = false;
 	bool haveNormal = false;
 	bool haveOcclusion = false;
 	bool haveSpecular = false;
+	bool haveShininessAlpha = false;
 
 	float shininess;
 };
