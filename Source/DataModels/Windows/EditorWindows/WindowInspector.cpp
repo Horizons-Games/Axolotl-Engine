@@ -54,6 +54,26 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
+	if (WindowRightClick())
+	{
+		ImGui::OpenPopup("AddComponent");
+	}
+
+	if (ImGui::BeginPopup("AddComponent"))
+	{
+		if (ImGui::MenuItem("Mesh Renderer"))
+		{
+			AddComponentMeshRenderer();
+		}
+
+		if (ImGui::MenuItem("Light"))
+		{
+			AddComponentLight();
+		}
+
+		ImGui::EndPopup();
+	}
+
 	for (Component* component : currentGameObject->GetComponents())
 	{
 		component->Display();
