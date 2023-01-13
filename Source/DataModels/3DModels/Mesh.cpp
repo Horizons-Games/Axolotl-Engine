@@ -212,6 +212,7 @@ void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &tran
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, material->normal);
 		glUniform1i(glGetUniformLocation(program, "material.normal_map"), 1);
+		glUniform1f(glGetUniformLocation(program, "material.normal_strength"), material->normalStrength);
 	}
 	glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), material->haveNormal);
 

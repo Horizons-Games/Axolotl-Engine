@@ -7,7 +7,7 @@ struct Material {
     sampler2D specular_map;
     float shininess;
     sampler2D normal_map;
-    float nStrength;
+    float normal_strength;
     vec3 ambient;
     
     int has_diffuse_map;
@@ -73,7 +73,7 @@ void main()
         mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
         norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
-        norm.xy *= material.nStrength;
+        norm.xy *= material.normal_strength;
         norm = normalize(norm);
         norm = space * norm;
 	}
