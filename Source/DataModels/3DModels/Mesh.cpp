@@ -178,8 +178,8 @@ void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &tran
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	//TODO move this to Component (Material?) for the Draw
-	//if (material->haveDiffuse) glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), material->diffuse);
-	//if (material->haveSpecular) glUniform1i(glGetUniformLocation(program, "material.specular_map"), material->specular);
+	if (material->haveDiffuse) glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), material->diffuse);
+	if (material->haveSpecular) glUniform1i(glGetUniformLocation(program, "material.specular_map"), material->specular);
 	glUniform1f(glGetUniformLocation(program, "material.shininess"), material->shininess);
 
 	const float3 position (0.0f, 4.0f, 0.0f);
@@ -190,7 +190,7 @@ void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &tran
 	float3 viewPos = App->engineCamera->GetPosition();
 	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + material->diffuse);
 	glBindTexture(GL_TEXTURE_2D, material->diffuse);
 
 	glBindVertexArray(vao);
