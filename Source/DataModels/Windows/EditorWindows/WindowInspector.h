@@ -23,6 +23,10 @@ private:
 	void DrawTextureTable();
 	bool WindowRightClick();
 
+	void AddComponentMeshRenderer();
+	void AddComponentLight();
+
+
 	std::weak_ptr<Model> model;
 };
 
