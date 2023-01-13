@@ -23,7 +23,7 @@ void main()
     FragPos = vec3(model * vec4(vertexPosition, 1.0));
     //normals
     mat3 normalMatrix = transpose(inverse(mat3(model)));
-    Normal = normalize(normalMatrix * aNormal);
+    Normal = normalize(normalMatrix * normal);
     fragTangent = normalize(normalMatrix * aTangent);
 
     gl_Position = proj*view*model*vec4(vertexPosition, 1.0); 
