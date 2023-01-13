@@ -63,7 +63,7 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 	return 0;
 }
 
-void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>& resource)
+void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
 {
 	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
