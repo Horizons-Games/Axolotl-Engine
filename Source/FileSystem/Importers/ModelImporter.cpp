@@ -108,15 +108,18 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 			std::string diffusePath = "";
 
 			struct stat buffer {};
+			std::string name = App->resources->GetFileName(file.data);
+			name += App->resources->GetFileExtension(file.data);
+
 			// Cheking by name
-			if (stat(file.data, &buffer) != 0)
+			if (stat(name.c_str(), &buffer) != 0)
 			{
 				std::string path = App->resources->GetPath(filePath);
 				//Checking in the original fbx folder
-				if (stat((path + std::string(file.data)).c_str(), &buffer) != 0)
+				if (stat((path + name).c_str(), &buffer) != 0)
 				{
 					// Cheking in asset textures folder
-					if (stat((TEXTURES_PATH + std::string(file.data)).c_str(), &buffer) != 0)
+					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
 					{
 						ENGINE_LOG("Texture not found!");
 					}
