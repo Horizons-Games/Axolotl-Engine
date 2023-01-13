@@ -39,7 +39,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
         return -1;
     }
     PHYSFS_sint64 size = PHYSFS_fileLength(file);
-    buffer = new char[size];
+    buffer = new char[size + 1]{};
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
         ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
