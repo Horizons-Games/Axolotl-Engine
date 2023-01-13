@@ -4,8 +4,6 @@
 
 WindowFileBrowser::WindowFileBrowser() :EditorWindow("FileBrowser")
 {
-	importer = std::make_unique<WindowImporter>();
-
 	fileDialog.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
 	fileDialog.SetFileStyle(IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
 	fileDialog.SetFileStyle(IGFD_FileStyleByExtention, ".h", ImVec4(0.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
@@ -22,11 +20,30 @@ WindowFileBrowser::WindowFileBrowser() :EditorWindow("FileBrowser")
 }
 void WindowFileBrowser::DrawWindowContents()
 {
+	//WindowImporter
 	if (ImGui::Button(ICON_IGFD_FOLDER" Open File Dialog"))
 	{
-		showFileDialog = !showFileDialog;
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".cpp,.h,.hpp,.*",
+			".", 1, nullptr, ImGuiFileDialogFlags_Modal);
 	}
-	importer->Draw(showFileDialog);
+	// display
+	if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
+	{
+
+		// action if OK
+		if (ImGuiFileDialog::Instance()->IsOk())
+		{
+			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+			std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+			// TODO: action
+
+		}
+
+		// close
+		ImGuiFileDialog::Instance()->Close();
+	}
+	//End of Window importer
+	
 	fileDialog.OpenDialog("embedded", "Select File", ".*", "", -1, nullptr,
 		ImGuiFileDialogFlags_NoDialog |
 		ImGuiFileDialogFlags_DisableBookmarkMode |
@@ -44,7 +61,9 @@ void WindowFileBrowser::DrawWindowContents()
 	}
 }
 
-/*extern const std::filesystem::path g_AssetPath = "assets";
+/*File browser c++17 (not finished)
+
+extern const std::filesystem::path g_AssetPath = "assets";
 WindowFileBrowser::WindowFileBrowser()
 	: m_CurrentDirectory(g_AssetPath)
 {

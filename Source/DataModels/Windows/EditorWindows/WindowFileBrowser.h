@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Windows/EditorWindows/EditorWindow.h"
-#include "Windows/EditorWindows/WindowImporter.h"
 #include <experimental/filesystem>
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 
@@ -15,7 +14,6 @@ public:
 	ImVec2 GetStartingSize() const override;
 private:
 	ImGuiFileDialog fileDialog;
-	std::unique_ptr<WindowImporter> importer;
 	bool showFileDialog = false;
 };
 
