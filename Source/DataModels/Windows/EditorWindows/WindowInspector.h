@@ -30,3 +30,8 @@ inline ImVec2 WindowInspector::GetStartingSize() const
 {
 	return ImVec2(900, 250);
 }
+
+inline bool WindowInspector::WindowRightClick()
+{
+	return ImGui::GetIO().MouseClicked[1];
+}
