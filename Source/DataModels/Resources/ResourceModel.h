@@ -36,7 +36,7 @@ public:
 
 private:
 	unsigned int numMeshes;
-	unsigned int nummaterials;
+	unsigned int numMaterials;
 	std::vector<UID> meshesUIDs;
 	std::vector<UID> materialsUIDs;
 
