@@ -64,7 +64,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	{
 
 		std::shared_ptr<ResourceTexture> resourceTexture = 
-			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]));
+			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]).lock());
 
 		resourceTexture->Load();
 		textures.push_back(resourceTexture->GetGlTexture());
@@ -78,7 +78,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	{
 
 		std::shared_ptr<ResourceMesh> resourceMesh = 
-			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]));
+			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]).lock());
 
 		resourceMesh->Load();
 		Mesh* mesh = new Mesh();

@@ -29,7 +29,7 @@ private:
 	void LoadMesh();
 	bool IsMeshLoaded();
 
-	std::shared_ptr<ResourceMesh> mesh = nullptr;
+	std::weak_ptr<ResourceMesh> mesh;
 	
 	UID meshUID = 0ULL;
 	UID textureUID = 0ULL;
@@ -52,5 +52,5 @@ inline const UID& ComponentMeshRenderer::GetTextureUID() const
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
-	return (mesh != nullptr);
+	return !mesh.expired();
 }
