@@ -44,48 +44,79 @@ void Mesh::GenerateLights()
 {
 	const unsigned program = App->program->GetProgram();
 
-	const unsigned bindingAmbient = 0;
-	const unsigned bindingDirectional = 1;
-	const unsigned bindingPoint = 2;
-	const unsigned bindingSpot = 3;
-
-	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
-	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
+	// Ambient
 
 	glGenBuffers(1, &uboAmbient);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), NULL, GL_STATIC_DRAW);
 
-	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+	const unsigned bindingAmbient = 0;
+	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
+	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
 
-	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
-	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Directional 
 
 	glGenBuffers(1, &uboDirectional);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_STATIC_DRAW);
 
-	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, 32);
+	const unsigned bindingDirectional = 1;
+	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
+	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
 
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, 32);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Point
+
+	PointLight pl;
+	pl.position = float4(0.0f, 1.0f, 0.0f, 4.0f);
+	pl.color = float4(1.0f, 0.1f, 1.0f, 1.0f);
+
+	pointLights.push_back(pl);
+	unsigned numPoint = pointLights.size();
+
+	glGenBuffers(1, &ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight)*pointLights.size(), &pointLights[0]);
+
+	const unsigned bindingPoint = 2;
 	const unsigned storageBlckIxPoint = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "PointLights");
 	glShaderStorageBlockBinding(program, storageBlckIxPoint, bindingPoint);
 
-	/*glGenBuffers(1, &ssboPoint);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 32 * pointLights.size(), &pointLights[0], GL_DYNAMIC_DRAW);
-
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
-	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
+
+	// Spot
+
+	SpotLight sl;
+	sl.position = float4(0.0f, 1.0f, 0.0f, 4.0f);
+	sl.color = float4(1.0f, 1.0f, 0.0f, 1.0f);
+	sl.aim = float3(1.0f, 1.0f, 0.0f);
+	sl.innerAngle = 2;
+	sl.outAngle = 2.5;
+
+	spotLights.push_back(sl);
+	unsigned numSpot = spotLights.size();
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 44 * spotLight.size(), &spotLight[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);*/
+	const unsigned bindingSpot = 3;
+	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
+	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
 
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Mesh::LoadVBO(const aiMesh* mesh)

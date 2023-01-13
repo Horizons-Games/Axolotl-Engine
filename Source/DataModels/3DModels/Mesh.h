@@ -50,8 +50,8 @@ private:
 	unsigned ssboPoint;
 	unsigned ssboSpot;
 
-	std::vector<PointLight*> pointLights;
-	std::vector<SpotLight*> spotLight;
+	std::vector<PointLight> pointLights;
+	std::vector<SpotLight> spotLights;
 
 	unsigned materialIndex;
 	unsigned numVertices;
