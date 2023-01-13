@@ -1,8 +1,13 @@
 #include "ModuleScene.h"
-#include "Quadtree.h"
+#include "Application.h"
+#include "FileSystem/ModuleResources.h"
+
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Quadtree.h"
+#include "Resources/ResourceModel.h"
 
 #include <assert.h>
 
@@ -31,6 +36,18 @@ bool ModuleScene::Init()
 	return true;
 }
 
+update_status ModuleScene::Update()
+{
+	UpdateGameObjectAndDescendants(root);
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleScene::Load()
+{
+
+}
+
 void ModuleScene::FillQuadtree(GameObject* gameObject) 
 {
 	sceneQuadTree->Add(gameObject);
@@ -54,13 +71,6 @@ bool ModuleScene::IsInsideACamera(const OBB& obb)
 bool ModuleScene::IsInsideACamera(const AABB& aabb)
 {
 	return IsInsideACamera(aabb.ToOBB());
-}
-
-update_status ModuleScene::Update()
-{
-	UpdateGameObjectAndDescendants(root);
-
-	return UPDATE_CONTINUE;
 }
 
 GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
@@ -95,6 +105,20 @@ void ModuleScene::DestroyGameObject(GameObject* gameObject)
 			delete gameObject;
 			return;
 		}
+	}
+}
+
+void ModuleScene::ConvertIntoGameObject(const char* model)
+{
+	UID modelUID = App->resources->ImportResource(model);
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	resourceModel->Load();
+
+	GameObject* gameObjectModel = CreateGameObject("Loaded Model", GetRoot());
+
+	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
+	{
+		gameObjectModel->CreateComponentMeshRenderer(resourceModel->GetMeshesUIDs()[i], resourceModel->GetTexturesUIDs()[0])->Init();
 	}
 }
 

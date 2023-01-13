@@ -17,8 +17,12 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	void Load();
+
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
+
+	void ConvertIntoGameObject(const char* model);
 
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
@@ -28,8 +32,9 @@ public:
 
 	GameObject* GetRoot() const;
 	GameObject* GetSelectedGameObject() const;
-	std::vector<GameObject*> GetSceneGameObjects() const;
 	void SetSelectedGameObject(GameObject* gameObject);
+	const std::vector<GameObject*>& GetSceneGameObjects() const;
+	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 	void RemoveCamera(GameObject* cameraGameObject);
@@ -63,14 +68,19 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 	return selectedGameObject;
 }
 
-inline std::vector<GameObject*> ModuleScene::GetSceneGameObjects() const
+inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+{
+	selectedGameObject = gameObject;
+}
+
+inline const std::vector<GameObject*>& ModuleScene::GetSceneGameObjects() const
 {
 	return sceneGameObjects;
 }
 
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+inline void ModuleScene::SetSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
-	selectedGameObject = gameObject;
+	sceneGameObjects = gameObjects;
 }
 
 inline Quadtree* ModuleScene::GetSceneQuadTree() const

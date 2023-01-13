@@ -199,7 +199,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
-    <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
