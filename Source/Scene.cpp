@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include "Application.h"
+#include "Modules/ModuleScene.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceModel.h"
 #include "Quadtree.h"
@@ -10,7 +11,8 @@
 
 Scene::Scene()
 {
-	root = new GameObject("Scene");
+	uid = UniqueID::GenerateUID();
+	root = new GameObject("New Scene");
 	sceneGameObjects.push_back(root);
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
@@ -24,16 +26,6 @@ Scene::~Scene()
 
 	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
-}
-
-void Scene::Load()
-{
-
-}
-
-void Scene::Save()
-{
-
 }
 
 void Scene::FillQuadtree(GameObject* gameObject)

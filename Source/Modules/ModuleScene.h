@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Module.h"
+#include "../FileSystem/UniqueID.h"
 
 class GameObject;
 class Quadtree;
 class Scene;
 
-class ModuleScene :public Module
+class ModuleScene : public Module
 {
 public:
 	ModuleScene();
@@ -15,12 +16,17 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
+	void Load();
+	void Save();
+
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(Scene* newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
 	const std::vector<Scene*>& GetSavedScenes() const;
 	void SetSavedScenes(const std::vector<Scene*>& savedScenes);
+
+	Scene* SearchSceneByID(UID sceneUID) const;
 
 	void OnPlay();
 	void OnPause();

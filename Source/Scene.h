@@ -13,8 +13,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Load();
-	void Save();
+	UID GetUID() const;
 
 	void FillQuadtree(GameObject* gameObject);
 	bool IsInsideACamera(const OBB& obb);
@@ -49,6 +48,11 @@ private:
 	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
 	Quadtree* sceneQuadTree = nullptr;
 };
+
+inline UID Scene::GetUID() const
+{
+	return uid;
+}
 
 inline GameObject* Scene::GetRoot() const
 {
