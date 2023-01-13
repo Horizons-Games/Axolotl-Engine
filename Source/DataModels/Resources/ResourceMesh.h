@@ -62,6 +62,8 @@ private:
 	unsigned int materialIndex = 0;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
+	std::vector<float3> normals;
+	std::vector<float3> tangents;
 	std::vector<std::vector<unsigned int> > facesIndices;
 
 	std::shared_ptr<OptionsMesh> options;
