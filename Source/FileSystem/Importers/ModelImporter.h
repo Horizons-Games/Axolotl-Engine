@@ -12,7 +12,7 @@ public:
     ~ModelImporter();
 
     void Import(const char* filePath, std::shared_ptr<ResourceModel> resource) override;
-    void Load(const char* fileBuffer, std::shared_ptr<ResourceModel>& resource) override;
+    void Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource) override;
 
 protected:
     uint64_t Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size) override;
