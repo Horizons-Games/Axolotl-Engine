@@ -30,13 +30,13 @@ public:
 	std::shared_ptr<OptionsModel>& GetOptions();
 
 	void SetNumMeshes(const unsigned int numMeshes);
-	void SetNumMaterials(const unsigned int nummaterials);
+	void SetNumMaterials(const unsigned int numMaterials);
 	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
 	void SetMaterialsUIDs(const std::vector<UID>& materialsUIDs);
 
 private:
 	unsigned int numMeshes;
-	unsigned int nummaterials;
+	unsigned int numMaterials;
 	std::vector<UID> meshesUIDs;
 	std::vector<UID> materialsUIDs;
 
@@ -64,7 +64,7 @@ inline const unsigned int ResourceModel::GetNumMeshes() const
 
 inline const unsigned int ResourceModel::GetNumMaterials() const
 {
-	return nummaterials;
+	return numMaterials;
 }
 
 inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
@@ -87,9 +87,9 @@ inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
 	this->numMeshes = numMeshes;
 }
 
-inline void ResourceModel::SetNumMaterials(const unsigned int nummaterials)
+inline void ResourceModel::SetNumMaterials(const unsigned int numMaterials)
 {
-	this->nummaterials = nummaterials;
+	this->numMaterials = numMaterials;
 }
 
 inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
@@ -101,5 +101,5 @@ inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
 inline void ResourceModel::SetMaterialsUIDs(const std::vector<UID>& materialsUIDs)
 {
 	this->materialsUIDs = materialsUIDs;
-	this->nummaterials = materialsUIDs.size();
+	this->numMaterials = materialsUIDs.size();
 }
