@@ -107,34 +107,23 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		{
 			std::string diffusePath = "";
 
-			struct stat buffer {};
-			std::string name = App->resources->GetFileName(file.data);
-			name += App->resources->GetFileExtension(file.data);
-
-			// Cheking by name
-			if (stat(name.c_str(), &buffer) != 0)
-			{
-				std::string path = App->resources->GetPath(filePath);
-				//Checking in the original fbx folder
-				if (stat((path + name).c_str(), &buffer) != 0)
-				{
-					// Cheking in asset textures folder
-					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
-					{
-						ENGINE_LOG("Texture not found!");
-					}
-					else
-						diffusePath = TEXTURES_PATH + std::string(file.data);
-				}
-				else
-					diffusePath = path + std::string(file.data);
-			}
-			else
-				diffusePath = std::string(file.data);
+			CheckPathMaterial(filePath, file, diffusePath);
 
 			if (diffusePath != "")
 			{
 				pathTextures[0] = diffusePath;
+			}
+		}
+
+		if (scene->mMaterials[i]->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
+		{
+			std::string normalPath = "";
+
+			CheckPathMaterial(filePath, file, normalPath);
+
+			if (normalPath != "")
+			{
+				pathTextures[1] = normalPath;
 			}
 		}
 
@@ -172,6 +161,35 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		meshesUIDs.push_back(resourceMesh);
 	}
 	resource->SetMeshesUIDs(meshesUIDs);
+}
+
+void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
+{
+	struct stat buffer {};
+	std::string name = App->resources->GetFileName(file.data);
+	name += App->resources->GetFileExtension(file.data);
+	
+	// Cheking by name
+	if (stat(file.data, &buffer) != 0)
+	{
+		std::string path = App->resources->GetPath(filePath);
+		//Checking in the original fbx folder
+		if (stat((path + name).c_str(), &buffer) != 0)
+		{
+			// Cheking in asset textures folder
+			if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
+			{
+				ENGINE_LOG("Texture not found!");
+			}
+			else
+				dataBuffer = TEXTURES_PATH + name;
+		}
+		else
+			dataBuffer = path + name;
+	}
+	else
+		dataBuffer = std::string(file.data);
+
 }
 
 void ModelImporter::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size)
