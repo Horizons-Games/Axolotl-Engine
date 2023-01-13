@@ -27,7 +27,8 @@ void ResourceMesh::CreateVBO()
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	GLuint vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
+	//position			//uv				//normal			//tangent
+	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3 + sizeof(float) * 3);
 	GLuint bufferSize = vertexSize * numVertices;
 
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
@@ -47,6 +48,17 @@ void ResourceMesh::CreateVBO()
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
+
+	unsigned normalsOffset = positionSize + uvSize;
+	unsigned normalsSize = sizeof(float) * 3 * numVertices;
+	//TODO: add numNormals(mesh->mNumNormals) in ResourceMesh
+	//glBufferSubData(GL_ARRAY_BUFFER, normalsOffset, normalsSize, mesh->mNormals);
+
+	unsigned tangentsOffset = positionSize + uvSize + normalsSize;
+	unsigned tangentsSize = sizeof(float) * 3 * numVertices;
+	//TODO: add numTangents(mesh->mNumTangents) in ResourceMesh
+	//glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, mesh->mTangents);
+
 }
 
 void ResourceMesh::CreateEBO()
@@ -84,4 +96,11 @@ void ResourceMesh::CreateVAO()
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * numVertices));
+
+	//TODO: add when normals and tangents bufferDatas are done
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2) * this->numVertices));
+
+	//glEnableVertexAttribArray(3);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * this->numVertices));
 }
