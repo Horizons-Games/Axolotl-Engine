@@ -31,7 +31,7 @@ void  ModuleResources::MonitorResources()
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
-			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			if (it->second->GetType() != ResourceType::Mesh && !App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
@@ -81,7 +81,9 @@ void  ModuleResources::MonitorResources()
 		{
 			CreateMetaFileOfResource(resource);
 		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	}
+	
 }
 
 void ModuleResources::LoadResourceStored(const char* filePath)
@@ -231,8 +233,8 @@ bool ModuleResources::Start()
 		}
 	}
 	//remove file separator from library folder
-	//LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
+	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
@@ -361,16 +363,20 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
-	bool extension = true;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
 		separatorNotFound = currentChar != '\\' && currentChar != '/';
-		if (separatorNotFound && !extension)
+		if (separatorNotFound)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
-		if(extension) extension = currentChar != '.';
+	}
+	std::string fileExtension = GetFileExtension(fileName);
+	int posOfExtensionInPath = fileName.find(fileExtension);
+	if (posOfExtensionInPath != 0) //has file extension
+	{
+		fileName.erase(posOfExtensionInPath, fileExtension.size());
 	}
 	return fileName;
 }
