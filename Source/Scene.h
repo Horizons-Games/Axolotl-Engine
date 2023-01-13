@@ -25,7 +25,6 @@ public:
 	void ConvertIntoGameObject(const char* model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
-	void RemoveCamera(GameObject* cameraGameObject);
 
 	GameObject* GetRoot() const;
 	void SetRoot(GameObject* newRoot);
@@ -39,6 +38,8 @@ public:
 	void SetSceneQuadTree(Quadtree* quadtree);
 
 private:
+	void RemoveCamera(GameObject* cameraGameObject);
+
 	UID uid = 0;
 	GameObject* root = nullptr;
 

@@ -81,6 +81,11 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	{
 		if (*it == gameObject)
 		{
+			if ((*it)->GetComponent(ComponentType::CAMERA) != nullptr) // If the object is a camera, remove it from cameras too
+			{
+				RemoveCamera(*it);
+			}
+
 			sceneGameObjects.erase(it);
 			delete gameObject;
 			return;
@@ -118,7 +123,6 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 
 void Scene::RemoveCamera(GameObject* cameraGameObject)
 {
-
 	for (std::vector<GameObject*>::iterator it = sceneCameras.begin(); it != sceneCameras.end(); it++)
 	{
 		if (cameraGameObject == *it)
@@ -127,5 +131,4 @@ void Scene::RemoveCamera(GameObject* cameraGameObject)
 			return;
 		}
 	}
-	return;
 }
