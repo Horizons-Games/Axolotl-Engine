@@ -32,13 +32,23 @@ struct Light {
 uniform Material material;
 uniform Light light;
 
+in vec3 fragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
 
+layout(binding = 1) uniform sampler2D normalMap;
+
 in vec2 TexCoord;
 
 out vec4 outColor;
+
+mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
+{
+    vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
+    vec3 bitangent = cross(orthoTangent, normal);
+    return transpose(mat3(orthoTangent, bitangent, normal)); //TBN
+}
 
 vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
@@ -48,11 +58,24 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 void main()
 {  
 	vec3 norm = normalize(Normal);
+    vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
 	vec3 textureMat = texture(material.diffuse_map, TexCoord).rgb;
     textureMat = pow(textureMat, vec3(2.2));
     
+    bool hasNormals = false;
+	if (hasNormals)
+	{
+        mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
+        float nStrength = 1.0;
+        norm = texture(normalMap, TexCoord).rgb;
+        norm = norm * 2.0 - 1.0;
+        norm.xy *= nStrength;
+        norm = normalize(norm);
+        norm = space * norm;
+	}
+
     //fresnel
     //vec3 f0 =  vec3(texture(material.specular_map, TexCoord));
     vec3 f0 =  vec3(0.5, 0.3, 0.5);
