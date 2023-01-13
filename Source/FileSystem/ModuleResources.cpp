@@ -201,7 +201,8 @@ bool ModuleResources::Start()
 		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
-	//(actually there is a library that looks really clean but might be overkill: https://github.com/Neargye/magic_enum)
+	//(actually there is a library that looks really clean but might be overkill:
+	// https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
 	std::vector<ResourceType> allResourceTypes = {ResourceType::Material,
 												  ResourceType::Mesh,
@@ -442,14 +443,20 @@ const std::string ModuleResources::CreateLibraryPath(const std::string& fileName
 	return libraryPath;
 }
 
-std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type)
+std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,
+															 const std::string& assetsPath,
+															 ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(fileName, type);
 	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
 }
 
-std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath, ResourceType type)
+std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
+																const std::string& fileName,
+																const std::string& assetsPath,
+																const std::string& libraryPath,
+																ResourceType type)
 {
 	switch (type)
 	{
@@ -484,7 +491,9 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 
 }
 
-void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type)
+void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
+											   std::shared_ptr<Resource>& resource,
+											   ResourceType type)
 {
 	switch (type)
 	{
