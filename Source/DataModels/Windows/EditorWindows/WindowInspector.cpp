@@ -83,3 +83,13 @@ void WindowInspector::DrawTextureTable()
 
 	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
 }
+
+void WindowInspector::AddComponentMeshRenderer()
+{
+	ComponentMeshRenderer* newMeshRenderer = new ComponentMeshRenderer(true, App->scene->GetSelectedGameObject(), 0LL, 0LL);
+}
+
+void WindowInspector::AddComponentLight()
+{
+	ComponentLight* newLight = new ComponentLight(true, App->scene->GetSelectedGameObject());
+}
