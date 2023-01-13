@@ -331,6 +331,9 @@
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -809,6 +812,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
