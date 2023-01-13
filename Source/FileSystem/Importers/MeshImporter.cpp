@@ -69,7 +69,7 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& r
 	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
 	resource->SetMaterialIndex(header[2]);
-	bool hasTangents = header[4];
+	bool hasTangents = header[3];
 
 	fileBuffer += sizeof(header);
 
