@@ -21,6 +21,7 @@ private:
     void ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource);
     void ImportMeshes(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource);
 
+    void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
     void SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int& size);
 
     char* buffer;

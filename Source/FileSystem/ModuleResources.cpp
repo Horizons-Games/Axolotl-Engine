@@ -9,6 +9,7 @@
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/Importers/MaterialImporter.h"
 
 #include "Resources/Resource.h"
 #include "Resources/ResourceMesh.h"
@@ -96,6 +97,7 @@ bool ModuleResources::Start()
 	modelImporter = std::make_shared<ModelImporter>();
 	textureImporter = std::make_shared<TextureImporter>();
 	meshImporter = std::make_shared<MeshImporter>();
+	materialImporter = std::make_shared<MaterialImporter>();
 
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
 	if (assetsFolderNotCreated)
@@ -160,7 +162,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	std::string extension = GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
 
-	if (type != ResourceType::Mesh) 
+	if (type != ResourceType::Mesh && type != ResourceType::Material) 
 	{
 		assetsPath = CreateAssetsPath(fileName + extension, type);
 
@@ -261,6 +263,7 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
 	{
 		char currentChar = path[i];
+		currentChar = tolower(currentChar);
 		fileExtension.insert(fileExtension.begin(), currentChar);
 		dotNotFound = currentChar != '.';
 	}
@@ -323,6 +326,7 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 	case ResourceType::Scene:
 		break;
 	case ResourceType::Material:
+		resource = std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::SkyBox:
 		break;
@@ -364,6 +368,7 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath, 
 	case ResourceType::Scene:
 		break;
 	case ResourceType::Material:
+		materialImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMaterial>(resource));
 		break;
 	case ResourceType::SkyBox:
 		break;
