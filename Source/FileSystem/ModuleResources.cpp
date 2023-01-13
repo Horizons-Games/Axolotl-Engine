@@ -99,9 +99,44 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 		{
 			if (GetFileExtension(path) != ".meta")
 			{
-				ImportResource(file);
+				ImportResourceFromLibrary(file);
 			}
 		}
+	}
+}
+
+void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
+{
+	ResourceType type = FindTypeByPath(libraryPath);
+
+	std::string metaPath;
+	std::string fileExtension = GetFileExtension(libraryPath);
+	int posOfExtensionInPath = libraryPath.find(fileExtension);
+	if (posOfExtensionInPath != std::string::npos) //has file extension
+	{
+		std::string libraryPathCopy = std::string(libraryPath);
+		metaPath = libraryPathCopy.erase(posOfExtensionInPath, fileExtension.size());
+	}
+	else
+	{
+		metaPath = libraryPath;
+	}
+	metaPath += META_EXTENSION;
+	
+	if (App->fileSystem->Exists(metaPath.c_str())){
+		char* metaBuffer = {};
+		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+
+		rapidjson::Document doc;
+		Json Json(doc, doc);
+
+		Json.fromBuffer(metaBuffer);
+
+		UID uid = (UID)Json["UID"];
+
+		char* binaryBuffer = {};
+		App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
+		//TODO: call Importer::Load
 	}
 }
 
@@ -159,7 +194,8 @@ bool ModuleResources::Start()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-	//LoadResourceStored(libraryFolder.c_str());
+	//remove file separator from library folder
+	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
 	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
@@ -200,6 +236,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	{
 		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 		AddResource(importedRes, originalPath);
+		uid = importedRes->GetUID();
 	}
 	
 	return uid;
