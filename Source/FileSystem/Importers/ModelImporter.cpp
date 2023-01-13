@@ -17,7 +17,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 {
 	ENGINE_LOG("Import Model from %s", filePath);
 
-	const aiScene* scene = aiImportFile(filePath, aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate);
 	if (scene)
 	{
 		ImportMaterials(scene, filePath, resource);
