@@ -213,17 +213,18 @@ void ModelImporter::SaveInfoMaterial(const std::vector<std::string>& pathTexture
 	cursor += bytes;
 
 	bytes = pathTextures[1].size();
-	memcpy(cursor, &(pathTextures[1]), bytes);
+	memcpy(cursor, pathTextures[1].c_str(), bytes);
 
 	cursor += bytes;
 
 	bytes = pathTextures[2].size();
-	memcpy(cursor, &(pathTextures[2]), bytes);
+	memcpy(cursor, pathTextures[2].c_str(), bytes);
 
 	cursor += bytes;
 
 	bytes = pathTextures[3].size();
-	memcpy(cursor, &(pathTextures[3]), bytes);
+	memcpy(cursor, pathTextures[3].c_str(), bytes);
+
 }
 
 void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) {
