@@ -28,7 +28,7 @@ public:
 	UID ImportThread(const std::string& originalPath);
 	UID ImportResource(const std::string& originalPath);
 
-	const std::shared_ptr<Resource>& RequestResource(UID uid);
+	const std::weak_ptr<Resource>& RequestResource(UID uid);
 	const std::string GetPath(const std::string& path);
 
 private:
@@ -81,13 +81,13 @@ inline bool ModuleResources::CleanUp()
 	return true;
 }
 
-inline const std::shared_ptr<Resource>& ModuleResources::RequestResource(UID uid)
+inline const std::weak_ptr<Resource>& ModuleResources::RequestResource(UID uid)
 {
 	auto it = resources.find(uid);
 	if (it != resources.end())
 	{
 		return it->second;
 	}
-	//should do something different
-	return nullptr;
+	//empty weak_ptr
+	return std::weak_ptr<Resource>();
 }
