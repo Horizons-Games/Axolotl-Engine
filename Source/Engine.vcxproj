@@ -234,6 +234,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
+    <ClCompile Include="DataStructures\Quadtree.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
@@ -255,7 +256,6 @@
     <ClCompile Include="Modules\ModuleTexture.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
-    <ClCompile Include="Quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h" />
@@ -390,6 +390,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h" />
     <ClInclude Include="DataModels\Windows\Window.h" />
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
+    <ClInclude Include="DataStructures\Quadtree.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="EngineLog.h" />
@@ -416,7 +417,6 @@
     <ClInclude Include="Modules\ModuleTexture.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
-    <ClInclude Include="Quadtree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs" />
