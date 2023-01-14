@@ -181,17 +181,20 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*case ComponentType::MESHRENDERER:
+		case ComponentType::MESHRENDERER:
 		{
 			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
+		/*
 		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}*/
+		}
+		*/
+
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
@@ -204,23 +207,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
 	if (newComponent != nullptr)
 		components.push_back(newComponent);
 
 	return newComponent;
-}
-
-ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
-{
-	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
-
-	if (newComponentMeshRenderer != nullptr)
-		components.push_back(newComponentMeshRenderer);
-
-	return newComponentMeshRenderer;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

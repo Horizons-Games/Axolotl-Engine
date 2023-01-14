@@ -19,21 +19,13 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
-	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
+	: Component(ComponentType::MESHRENDERER, active, owner)
 {
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-}
-
-bool ComponentMeshRenderer::Init()
-{
-	LoadMesh();
-	LoadTexture();
-
-	return true;
 }
 
 void ComponentMeshRenderer::Update()
@@ -43,6 +35,9 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
+	if (mesh == nullptr)
+		return;
+
 	unsigned program = App->program->GetProgram();
 	const float4x4& view = App->engineCamera->GetViewMatrix();
 	const float4x4& proj = App->engineCamera->GetProjectionMatrix();
@@ -55,7 +50,10 @@ void ComponentMeshRenderer::Draw()
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+	if (texture != nullptr)
+		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+	else
+		glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(mesh->GetVAO());
@@ -73,42 +71,30 @@ void ComponentMeshRenderer::Display()
 		ImGui::TableNextColumn();
 		ImGui::Text("Number of vertices: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumVertices());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (mesh != nullptr) ? 
+																	mesh.get()->GetNumVertices() : 0);
 		ImGui::TableNextColumn();
 		ImGui::Text("Number of triangles: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumFaces()); // faces = triangles
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (mesh != nullptr) ?
+																	mesh.get()->GetNumFaces() : 0);
 
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
 }
 
-void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
+void ComponentMeshRenderer::SetMesh(ResourceMesh* newMesh)
 {
-	this->meshUID = meshUID;
-
-	LoadMesh();
-}
-
-void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
-{
-	this->textureUID = textureUID;
-
-	LoadTexture();
-}
-
-void ComponentMeshRenderer::LoadMesh()
-{
-	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
+	mesh = std::shared_ptr<ResourceMesh>(newMesh);
 	mesh->Load();
+
 	ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-	boundingBox->Encapsule(mesh->GetVertices().data() ,mesh->GetNumVertices());
-	
+	boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 }
 
-void ComponentMeshRenderer::LoadTexture()
+void ComponentMeshRenderer::SetTexture(ResourceTexture* newTexture)
 {
-	texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUID));
+	texture = std::shared_ptr<ResourceTexture>(newTexture);
 	texture->Load();
 }
