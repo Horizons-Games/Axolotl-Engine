@@ -213,6 +213,20 @@ ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID 
 	return newComponentMeshRenderer;
 }
 
+bool GameObject::RemoveComponent(UID componentUID)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if ((*it)->GetUID() == componentUID)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 Component* GameObject::GetComponent(ComponentType type)
 {
 	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)

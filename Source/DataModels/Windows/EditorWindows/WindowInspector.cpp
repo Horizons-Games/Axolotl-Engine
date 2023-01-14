@@ -80,14 +80,29 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::EndPopup();
 	}
-
+	
 	for (Component* component : currentGameObject->GetComponents())
 	{
 		component->Display();
-		DrawDeleteComponentContent();
+
+		if (component->GetType() != ComponentType::TRANSFORM)
+		{
+			DrawDeleteComponentContent(component->GetUID());
+		}
 	}
 
 	//DrawTextureTable();
+}
+
+void WindowInspector::DrawDeleteComponentContent(UID componentUID)
+{
+	if (ImGui::Button("Remove Component", ImVec2(150, 35)))
+	{
+		if (!App->scene->GetSelectedGameObject()->RemoveComponent(componentUID))
+		{
+			ENGINE_LOG("The Component could not be removed");
+		}
+	}
 }
 
 void WindowInspector::DrawTextureTable()

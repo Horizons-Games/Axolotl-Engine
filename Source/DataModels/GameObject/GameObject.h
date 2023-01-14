@@ -42,6 +42,7 @@ public:
 
 	Component* CreateComponent(ComponentType type);
 	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
+	bool RemoveComponent(UID componentUID);
 	Component* GetComponent(ComponentType type);
 
 private:

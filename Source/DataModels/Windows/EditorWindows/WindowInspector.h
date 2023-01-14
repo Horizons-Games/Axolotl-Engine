@@ -2,6 +2,8 @@
 
 #include "EditorWindow.h"
 
+#include "FileSystem/UniqueID.h"
+
 #include <memory>
 
 class Model;
@@ -20,6 +22,7 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
+	void DrawDeleteComponentContent(UID componentUID);
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
