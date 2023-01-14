@@ -170,6 +170,25 @@ bool ModuleRender::Start()
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	
+	/*std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
+	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
+
+	models.push_back(bakerHouse); // This line should disappear */
+	
+	/*
+	Import resource example:
+		We are using the model as a placeholder class to transfer the information of the resource
+		and display the processed import, but you can move to a gameObject or another class 
+		all the functionality used here*/
+	
+	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	resourceModel->Load();
+
+	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
+	bakerHouse->SetFromResource(resourceModel);
+	models.push_back(bakerHouse);*/
 
 	return true;
 }
@@ -194,6 +213,44 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	/* Uncomment the loop below when models are removed 
+	and GameObjects are used in their place */
+
+	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	{
+		DrawGameObject(gameObject);
+	}*/
+
+	// This loop should disappear
+	for (std::shared_ptr<Model> model : models)
+	{
+		model->NewDraw();
+	}
+	
+
+	/*
+	 
+	*Logic to apply when model class is deleted and GameObjects are implemented
+	*
+	
+	FIRST APPROACH
+	DrawScene(App->scene->GetSceneQuadTree());
+	
+	
+	SECOND APPROACH
+	const std::list<GameObject*>& gameObjectsToDraw = 
+		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
+	for (GameObject* gameObject : gameObjectsToDraw) 
+	{
+		for (Component* component : gameObject->GetComponents()) 
+		{
+			if (component->GetType() == ComponentType::MESH) 
+			{
+				//Draw gameobject
+			}
+		}
+	}
+	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 

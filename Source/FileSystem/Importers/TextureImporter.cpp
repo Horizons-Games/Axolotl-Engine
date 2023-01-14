@@ -1,6 +1,8 @@
 #include "TextureImporter.h"
 
 #include "EngineLog.h"
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
 
 #include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
@@ -95,6 +97,11 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
 
 	resource->SetPixels(pixels);
+
+	char* buffer{};
+	unsigned int size;
+	Save(resource, buffer, size);
+	App->fileSystem->Save(resource->GetLibraryPath().c_str(), buffer, size);
 }
 
 uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)

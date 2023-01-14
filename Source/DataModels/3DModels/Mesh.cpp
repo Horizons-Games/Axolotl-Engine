@@ -6,6 +6,7 @@
 #include "DataModels/Resources/ResourceMesh.h"
 
 #include <GL/glew.h>
+#include <DataModels/3DModels/Model.h>
 
 Mesh::Mesh()
 {
@@ -30,6 +31,9 @@ void Mesh::Load(const aiMesh* mesh)
 	LoadVBO(mesh);
 	LoadEBO(mesh);
 	CreateVAO();
+
+	//ResourceMaterial resmat;
+	//resmat.bind(program);
 
 	this->materialIndex = mesh->mMaterialIndex;
 	this->vertices = new vec[mesh->mNumVertices];
@@ -128,8 +132,7 @@ void Mesh::CreateVAO()
 	ENGINE_LOG("Generated VAO %i", vao);
 }
 
-void Mesh::Draw(const std::vector<unsigned>& modelTextures,
-	const float3 &translation, const float4x4&rotation, const float3 &scale)
+void Mesh::Draw(const std::vector<unsigned>& modelTextures, const float3& translation, const float4x4& rotation, const float3& scale)
 {
 	unsigned program = App->program->GetProgram();
 	const float4x4& view = App->engineCamera->GetViewMatrix();
@@ -142,9 +145,57 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
+	const float3 position(0.0f, 4.0f, 0.0f);
+	const float3 color(1.f, 1.f, 1.f);
+
+	glUniform3f(glGetUniformLocation(program, "light.position"), position.x, position.y, position.z);
+	glUniform3f(glGetUniformLocation(program, "light.color"), color.x, color.y, color.z);
+	float3 viewPos = App->engineCamera->GetPosition();
+	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, modelTextures[this->materialIndex]);
-	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
+
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
+
+}
+
+void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &translation, const float4x4&rotation, const float3 &scale)
+{
+	unsigned program = App->program->GetProgram();
+	const float4x4& view = App->engineCamera->GetViewMatrix();
+	const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+	const float4x4& model = float4x4::FromTRS(translation, rotation, scale);
+
+	glUseProgram(program);
+
+	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
+	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
+	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
+
+	//TODO move this to Component (Material?) for the Draw
+	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), material->diffuseColor.x, material->diffuseColor.y, material->diffuseColor.z);
+	glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), material->diffuse);
+	glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), material->haveDiffuse);
+	glUniform1i(glGetUniformLocation(program, "material.specular_map"), material->specular);
+	glUniform3f(glGetUniformLocation(program, "material.specular_color"), material->specularColor.x, material->specularColor.y, material->specularColor.z);
+	glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), material->haveSpecular);
+	glUniform1f(glGetUniformLocation(program, "material.shininess"), material->shininess);
+	glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), material->haveShininessAlpha);
+
+	const float3 position (0.0f, 4.0f, 0.0f);
+	const float3 color(1.f, 1.f, 1.f);
+
+	glUniform3f(glGetUniformLocation(program, "light.position"), position.x, position.y, position.z);
+	glUniform3f(glGetUniformLocation(program, "light.color"), color.x, color.y, color.z);
+	float3 viewPos = App->engineCamera->GetPosition();
+	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
+
+	glActiveTexture(GL_TEXTURE0 + material->diffuse);
+	glBindTexture(GL_TEXTURE_2D, material->diffuse);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
