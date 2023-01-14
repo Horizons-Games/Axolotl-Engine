@@ -230,7 +230,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	if (newComponent != nullptr)
 		components.push_back(newComponent);
 
-	return nullptr;
+	return newComponent;
 }
 
 Component* GameObject::GetComponent(ComponentType type)
