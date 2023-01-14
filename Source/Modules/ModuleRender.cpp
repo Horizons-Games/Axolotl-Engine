@@ -8,8 +8,8 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#include "DataStructures/Quadtree.h"
 #include "Scene.h"
-#include "Quadtree.h"
 
 #include "3DModels/Model.h"
 
@@ -24,6 +24,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentBoundingBoxes.h"
 		 
 #include "GL/glew.h"
 
@@ -197,6 +198,8 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
+	gameObjects.clear();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -251,6 +254,16 @@ update_status ModuleRender::Update()
 		}
 	}
 	*/
+
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+
+	AddToRenderList(App->scene->GetSelectedGameObject());
+
+	for (GameObject* gameObject : gameObjects)
+	{
+		gameObject->Draw();
+	}
+
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -340,35 +353,46 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::DrawScene(Quadtree* quadtree)
+void ModuleRender::FillRenderList(Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
+		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		auto gameObjectsToRender = quadtree->GetGameObjects();
+		std::list<GameObject*> gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				//gameObject->Draw();
+				gameObjects.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				//gameObject->Draw();
+				gameObjects.push_back(gameObject);
 			}
-			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
-			DrawScene(quadtree->GetFrontLeftNode());
-			DrawScene(quadtree->GetBackRightNode());
-			DrawScene(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
+			FillRenderList(quadtree->GetFrontLeftNode());
+			FillRenderList(quadtree->GetBackRightNode());
+			FillRenderList(quadtree->GetBackLeftNode());
 		}
 		else 
 		{
-			DrawScene(quadtree->GetFrontRightNode());
-			DrawScene(quadtree->GetFrontLeftNode());
-			DrawScene(quadtree->GetBackRightNode());
-			DrawScene(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode());
+			FillRenderList(quadtree->GetFrontLeftNode());
+			FillRenderList(quadtree->GetBackRightNode());
+			FillRenderList(quadtree->GetBackLeftNode());
 		}
 	}
 }
+
+void ModuleRender::AddToRenderList(GameObject* gameObject)
+{
+	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
+
+	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
+	
+}
+

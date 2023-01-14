@@ -31,7 +31,7 @@ public:
 
 	UID GetUID() const;
 
-	void FillQuadtree(GameObject* gameObject);
+	void FillQuadtree(std::vector<GameObject*>& gameObject);
 	bool IsInsideACamera(const OBB& obb);
 	bool IsInsideACamera(const AABB& aabb);
 
@@ -80,7 +80,8 @@ private:
 	unsigned ssboSpot = 0;
 	// -------------------------------
 
-	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
+	AABB rootQuadtreeAABB = AABB(float3(-1000, -1000, -1000), float3(1000, 1000, 1000));
+	
 	Quadtree* sceneQuadTree = nullptr;
 };
 

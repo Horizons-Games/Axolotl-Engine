@@ -56,7 +56,6 @@ inline const OBB& ComponentBoundingBoxes::GetObjectOBB()
 
 inline void ComponentBoundingBoxes::Update()
 {
-	if (drawBoundingBoxes) Draw();
 }
 
 inline const bool ComponentBoundingBoxes::isDrawBoundingBoxes()

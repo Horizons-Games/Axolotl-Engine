@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "3DModels/Model.h"
-#include "Quadtree.h"
+#include "DataStructures/Quadtree.h"
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
@@ -40,7 +40,12 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void DrawScene(Quadtree* quadtree);
+	void FillRenderList(Quadtree* quadtree);
+	void AddToRenderList(GameObject* gameObject);
+	
+	bool LoadModel(const char* path); // This method should disappear
+	bool AnyModelLoaded(); // This method should disappear
+	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
 
@@ -52,6 +57,7 @@ private:
 
 	unsigned vbo;
 
+	std::vector<GameObject*> gameObjects; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;

@@ -1,4 +1,7 @@
+#include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
+#include "DataStructures/Quadtree.h"
 
 #include "GameObject/GameObject.h"
 #include "Scene.h"

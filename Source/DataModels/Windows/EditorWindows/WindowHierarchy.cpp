@@ -64,7 +64,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (ImGui::IsItemClicked())
     {
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->Add(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->Remove(gameObject);
     }
 
     ImGui::PushID(gameObjectLabel);
@@ -118,6 +120,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->Remove(gameObject->GetParent());
                 }
 
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);

@@ -4,6 +4,9 @@
 #include "Application.h"
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleEngineCamera.h"
+#include "ModuleScene.h"
+#include "DataStructures/Quadtree.h"
+#include "Scene.h"
 
 WindowFrustum::WindowFrustum() : SubWindow("Frustum")
 {
@@ -33,15 +36,21 @@ void WindowFrustum::DrawWindowContents()
 		App->engineCamera->SetFrustumOffset(vFrustum);
 	}
 
-	int quadrantCapacity = QUADRANT_CAPACITY;
+	bool isQuadtreeFreezed = App->scene->GetLoadedScene()->GetSceneQuadTree()->IsFreezed();
+	if (ImGui::Checkbox("Freeze Quadtree", &isQuadtreeFreezed))
+	{
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetFreezedStatus(isQuadtreeFreezed);
+	}
+
+	int quadrantCapacity = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetQuadrantCapacity();
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
-		//App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
-	float minCubeSize = MIN_CUBE_SIZE;
-	if (ImGui::SliderFloat("Minimum cube size", &minCubeSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-		//App->scene->GetSceneQuadTree()->SetMinCubeSize(minCubeSize);
+	float minQuadrantSideSize = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetMinQuadrantSideSize();
+	if (ImGui::SliderFloat("Minimum quadrant side size", &minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetMinQuadrantSideSize(minQuadrantSideSize);
 		//TODO save values for future executions
 	}
 
