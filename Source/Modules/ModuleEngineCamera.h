@@ -14,6 +14,7 @@
 #define DEFAULT_SHIFT_ACCELERATION 2.f
 #define DEFAULT_FRUSTUM_MODE 0
 #define DEFAULT_FRUSTUM_OFFSET 1.f
+#define DEFAULT_FRUSTUM_DISTANCE 5000.f
 
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
@@ -71,6 +72,7 @@ public:
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
 	void SetFrustumMode(int mode);
+	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
 	const float4x4& GetViewMatrix() const;
@@ -84,6 +86,7 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	int	GetFrustumMode() const;
+	float GetViewPlaneDistance() const;
 
 private:
 	Frustum frustum;
@@ -97,6 +100,18 @@ private:
 	float mouseSpeedModifier;
 	float frustumOffset;
 	int frustumMode;
+	float viewPlaneDistance;
 	math::Plane offsetFrustumPlanes[6];
 };
 
+
+inline float ModuleEngineCamera::GetViewPlaneDistance() const
+{
+	return viewPlaneDistance;
+}
+
+inline void ModuleEngineCamera::SetViewPlaneDistance(float distance)
+{
+	viewPlaneDistance = distance;
+	frustum.SetViewPlaneDistances(0.1f, distance);
+}
