@@ -115,6 +115,10 @@ void ComponentTransform::Display()
 			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar();
 
+		if (scale.x <= 0) scale.x = 0.0001;
+		if (scale.y <= 0) scale.y = 0.0001;
+		if (scale.z <= 0) scale.z = 0.0001;
+
 		SetPosition(translation);
 		SetRotation(rotation);
 		SetScale(scale);
