@@ -24,8 +24,9 @@ bool ModuleEngineCamera::Init()
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 	aspectRatio = float(w) / h;
 
+	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	frustum.SetViewPlaneDistances(0.1f, viewPlaneDistance);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	acceleration = DEFAULT_SHIFT_ACCELERATION;
