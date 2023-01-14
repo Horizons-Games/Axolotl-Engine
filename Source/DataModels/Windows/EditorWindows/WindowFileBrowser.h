@@ -13,7 +13,8 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	ImGuiFileDialog fileDialog;
+	ImGuiFileDialog fileDialogBrowser;
+	ImGuiFileDialog fileDialogImporter;
 	bool showFileDialog = false;
 };
 
