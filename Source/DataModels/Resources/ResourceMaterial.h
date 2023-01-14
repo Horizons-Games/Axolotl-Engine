@@ -31,6 +31,7 @@ public:
 	bool haveNormal();
 	bool haveOcclusion();
 	bool haveSpecular();
+	bool HaveShininessAlpha();
 
 
 	std::shared_ptr<OptionsMaterial>& GetOptions();
@@ -59,6 +60,7 @@ private:
 	bool normal;
 	bool occlusion;
 	bool specular;
+	bool shininessAlpha;
 
 	std::shared_ptr<OptionsMaterial> options;
 };
@@ -70,13 +72,14 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsMaterial>();
-	diffuseColor = float3(1.0);
+	diffuseColor = float3(1.0, 1.0, 0.0);
 	specularColor = float3(0.5, 0.3, 0.5);
-	shininess = 32.f;
+	shininess = 512.f;
 	diffuse = false;
 	normal = false;
 	occlusion = false;
 	specular = false;
+	shininessAlpha = false;
 }
 
 inline ResourceType ResourceMaterial::GetType() const
@@ -144,6 +147,11 @@ inline bool ResourceMaterial::haveSpecular()
 	return specular;
 }
 
+inline bool ResourceMaterial::HaveShininessAlpha()
+{
+	return shininessAlpha;  
+}
+
 inline void ResourceMaterial::SetDiffuseUID(UID& diffuseUID)
 {
 	this->diffuseUID = diffuseUID;
@@ -182,3 +190,4 @@ inline void ResourceMaterial::SetShininess(float& shininess)
 {
 	this->shininess = shininess;
 }
+

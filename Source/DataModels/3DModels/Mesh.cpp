@@ -178,9 +178,14 @@ void Mesh::NewDraw(const std::unique_ptr<Material>& material, const float3 &tran
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	//TODO move this to Component (Material?) for the Draw
-	if (material->haveDiffuse) glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), material->diffuse);
-	if (material->haveSpecular) glUniform1i(glGetUniformLocation(program, "material.specular_map"), material->specular);
+	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), material->diffuseColor.x, material->diffuseColor.y, material->diffuseColor.z);
+	glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), material->diffuse);
+	glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), material->haveDiffuse);
+	glUniform1i(glGetUniformLocation(program, "material.specular_map"), material->specular);
+	glUniform3f(glGetUniformLocation(program, "material.specular_color"), material->specularColor.x, material->specularColor.y, material->specularColor.z);
+	glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), material->haveSpecular);
 	glUniform1f(glGetUniformLocation(program, "material.shininess"), material->shininess);
+	glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), material->haveShininessAlpha);
 
 	const float3 position (0.0f, 4.0f, 0.0f);
 	const float3 color(1.f, 1.f, 1.f);
