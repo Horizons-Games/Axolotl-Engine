@@ -6,13 +6,14 @@
 #include "Application.h"
 #include "ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
+#include "Scene.h"
 
 #include "imgui.h"
 
 ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner)
 {
-	localAABB = { {-1, -1, -1}, {1, 1, 1} };
+	localAABB = { {0 ,0, 0}, {0, 0, 0} };
 	encapsuledAABB = localAABB;
 	objectOBB = { localAABB };
 	drawBoundingBoxes = false;
@@ -28,13 +29,13 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 
 void ComponentBoundingBoxes::Draw()
 {
-	App->debug->DrawBoundingBox(GetObjectOBB());
+	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
 }
 
 
 void ComponentBoundingBoxes::Display()
 {
-	if (App->scene->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		return;
 
 	ImGui::Text("BOUNDING BOXES");

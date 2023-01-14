@@ -2,13 +2,12 @@
 
 #include "Module.h"
 #include "../FileSystem/UniqueID.h"
-#include "Geometry/OBB.h" 
-#include "Geometry/AABB.h" 
 
 class GameObject;
 class Quadtree;
+class Scene;
 
-class ModuleScene :public Module
+class ModuleScene : public Module
 {
 public:
 	ModuleScene();
@@ -17,45 +16,41 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
-	void DestroyGameObject(GameObject* gameObject);
+	void Load();
+	void Save();
 
-	void FillQuadtree(std::vector<GameObject*>& gameObjects);
-	bool IsInsideACamera(const OBB& obb);
-	bool IsInsideACamera(const AABB& aabb);
-	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
-
-	GameObject* GetRoot() const;
+	Scene* GetLoadedScene() const;
+	void SetLoadedScene(Scene* newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
-	Quadtree* GetSceneQuadTree() const;
-	void SetSceneQuadTree(Quadtree* sceneQuadTree);
+	const std::vector<Scene*>& GetSavedScenes() const;
+	void SetSavedScenes(const std::vector<Scene*>& savedScenes);
 
-	GameObject* SearchGameObjectByID(UID gameObjectID) const;
-	void RemoveCamera(GameObject* cameraGameObject);
+	Scene* SearchSceneByID(UID sceneUID) const;
 
 	void OnPlay();
 	void OnPause();
 	void OnStop();
 
 private:
-	void UpdateGameObjectAndDescendants(GameObject* gameObject);
+	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
+	Scene* CreateEmptyScene() const;
 	
-
 private:
-	GameObject* root = nullptr;
+	Scene* loadedScene = nullptr;
 	GameObject* selectedGameObject = nullptr;
 
-	std::vector<GameObject*> sceneGameObjects = {};
-	std::vector<GameObject*> sceneCameras = {};
-
-	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
-	Quadtree* sceneQuadTree = nullptr;
+	std::vector<Scene*> savedScenes = {};
 };
 
-inline GameObject* ModuleScene::GetRoot() const
+inline Scene* ModuleScene::GetLoadedScene() const
 {
-	return root;
+	return loadedScene;
+}
+
+inline void ModuleScene::SetLoadedScene(Scene* newScene)
+{
+	loadedScene = newScene;
 }
 
 inline GameObject* ModuleScene::GetSelectedGameObject() const
@@ -68,14 +63,12 @@ inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 	selectedGameObject = gameObject;
 }
 
-inline Quadtree* ModuleScene::GetSceneQuadTree() const
+inline const std::vector<Scene*>& ModuleScene::GetSavedScenes() const
 {
-	return sceneQuadTree;
+	return savedScenes;
 }
 
-inline void ModuleScene::SetSceneQuadTree(Quadtree* sceneQuadTree)
+inline void ModuleScene::SetSavedScenes(const std::vector<Scene*>& savedScenes)
 {
-	this->sceneQuadTree = sceneQuadTree;
+	this->savedScenes = savedScenes;
 }
-
-

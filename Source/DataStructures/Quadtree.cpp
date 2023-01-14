@@ -12,6 +12,7 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
+#include "Scene.h"
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr)
 {
@@ -36,7 +37,7 @@ void Quadtree::Add(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
 
-	if (!InQuadrant(gameObject) && !isFreezed && parent != nullptr) ExpandToFit(gameObject);
+	if (!InQuadrant(gameObject) && !isFreezed && parent == nullptr ) ExpandToFit(gameObject);
 	else if (!InQuadrant(gameObject)) return;
 	else 
 	{
@@ -218,7 +219,7 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 
 		AABB newAABB = AABB(newMinPoint, newMaxPoint);
 		Quadtree* newRootQuadTree = new Quadtree(newAABB, nullptr);
-		App->scene->SetSceneQuadTree(newRootQuadTree);
+		App->scene->GetLoadedScene()->SetSceneQuadTree(newRootQuadTree);
 		if (!newRootQuadTree->InQuadrant(gameObject)) newRootQuadTree->ExpandToFit(gameObject);
 	}
 }
@@ -264,7 +265,7 @@ void Quadtree::ResetChildren()
 // Draw recursively in the scene
 void Quadtree::Draw()
 {
-	if (App->engineCamera->IsInside(boundingBox) || App->scene->IsInsideACamera(boundingBox))
+	if (App->engineCamera->IsInside(boundingBox) || App->scene->GetLoadedScene()->IsInsideACamera(boundingBox))
 	{
 		for (GameObject* gameObject : gameObjects) gameObject->Draw();
 		if (!IsLeaf())
@@ -283,7 +284,7 @@ const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
 {
 	std::list<GameObject*> intersectingGameObjects;
 	std::list<GameObject*> auxGameObjects;
-	if (App->engineCamera->IsInside(GetBoundingBox()) || App->scene->IsInsideACamera(GetBoundingBox()))
+	if (App->engineCamera->IsInside(GetBoundingBox()) || App->scene->GetLoadedScene()->IsInsideACamera(GetBoundingBox()))
 	{
 		intersectingGameObjects.insert(std::end(intersectingGameObjects), std::begin(this->gameObjects), std::end(this->gameObjects));
 		if (!IsLeaf())
