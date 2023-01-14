@@ -9,8 +9,10 @@
 #include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
@@ -52,12 +54,83 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
-	for (Component* component : currentGameObject->GetComponents())
+	if (WindowRightClick())
 	{
-		component->Display();
+		ImGui::OpenPopup("AddComponent");
+	}
+
+	if (ImGui::BeginPopup("AddComponent"))
+	{
+		if (App->scene->GetSelectedGameObject() != nullptr)
+		{
+			if (ImGui::MenuItem("Mesh Renderer"))
+			{
+				AddComponentMeshRenderer();
+			}
+
+			if (ImGui::MenuItem("Light"))
+			{
+				AddComponentLight();
+			}
+		}
+		else
+		{
+			ENGINE_LOG("No GameObject is selected");
+		}
+
+		ImGui::EndPopup();
+	}
+	
+	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+	{
+		currentGameObject->GetComponents()[i]->Display();
+
+		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+		{
+			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+			DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]->GetUID());
+		}
 	}
 
 	//DrawTextureTable();
+}
+
+void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* component)
+{
+	if (component->GetActive())
+	{
+		char* textDisable = new char[20];
+		sprintf(textDisable, "Disable #%d", labelNum);
+
+		if (ImGui::Button(textDisable, ImVec2(150, 35)))
+		{
+			component->Disable();
+		}
+	}
+	else
+	{
+		char* textEnable = new char[20];
+		sprintf(textEnable, "Enable #%d", labelNum);
+
+		if (ImGui::Button(textEnable, ImVec2(150, 35)))
+		{
+			component->Enable();
+		}
+	}
+}
+
+void WindowInspector::DrawDeleteComponentContent(int labelNum, UID componentUID)
+{
+	char* textRemove = new char[30];
+	sprintf(textRemove, "Remove Component #%d", labelNum);
+
+	if (ImGui::Button(textRemove, ImVec2(150, 35)))
+	{
+		if (!App->scene->GetSelectedGameObject()->RemoveComponent(componentUID))
+		{
+			ENGINE_LOG("The Component could not be removed");
+		}
+	}
 }
 
 void WindowInspector::DrawTextureTable()
@@ -80,4 +153,37 @@ void WindowInspector::DrawTextureTable()
 	}
 
 	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
+}
+
+bool WindowInspector::MousePosIsInWindow()
+{
+	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x && ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
+		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y && ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
+}
+
+bool WindowInspector::WindowRightClick()
+{
+	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
+}
+
+void WindowInspector::AddComponentMeshRenderer()
+{
+	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*) App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	
+	if (newMeshRenderer != nullptr)
+	{
+		newMeshRenderer->Init();
+	}
+	else
+	{
+		ENGINE_LOG("The Component Mesh Renderer of the selected GameObject was not created correctly");
+	}
+}
+
+void WindowInspector::AddComponentLight()
+{
+	if (App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT) == nullptr)
+	{
+		ENGINE_LOG("The Component Light of the selected GameObject was not created correctly");
+	}
 }

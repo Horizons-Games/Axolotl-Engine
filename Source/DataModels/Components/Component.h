@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../FileSystem/UniqueID.h"
+
 enum class ComponentType {/*MATERIAL,*/ MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
@@ -27,14 +29,16 @@ public:
 	ComponentType GetType();
 
 	GameObject* GetOwner();
+	const UID& GetUID() const;
 private:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
+	UID componentUID;
 };
 
 inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
-	: type(type), active(active), owner(owner)
+	: type(type), active(active), owner(owner), componentUID(UniqueID::GenerateUID())
 {
 }
 
@@ -80,4 +84,9 @@ inline ComponentType Component::GetType()
 inline GameObject* Component::GetOwner()
 {
 	return this->owner;
+}
+
+inline const UID& Component::GetUID() const
+{
+	return componentUID;
 }

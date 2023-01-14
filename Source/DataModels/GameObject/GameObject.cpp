@@ -3,6 +3,7 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 
@@ -200,6 +201,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = new ComponentCamera(true, this);
 			break;
 		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
+			break;
+		}
 		case ComponentType::BOUNDINGBOX:
 		{
 			newComponent = new ComponentBoundingBoxes(true, this);
@@ -214,6 +220,20 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+bool GameObject::RemoveComponent(UID componentUID)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if ((*it)->GetUID() == componentUID)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Component* GameObject::GetComponent(ComponentType type)
