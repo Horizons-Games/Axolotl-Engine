@@ -59,7 +59,84 @@ void Mesh::SetFromResource(std::shared_ptr<ResourceMesh>& resource)
 	{
 		this->vertices[i] = float3(vertexPointer[i].x, vertexPointer[i].y, vertexPointer[i].z);
 	}
+}
 
+void Mesh::GenerateLights()
+{
+	const unsigned program = App->program->GetProgram();
+
+	// Ambient
+
+	glGenBuffers(1, &uboAmbient);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), NULL, GL_STATIC_DRAW);
+
+	const unsigned bindingAmbient = 0;
+	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
+	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Directional 
+
+	glGenBuffers(1, &uboDirectional);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_STATIC_DRAW);
+
+	const unsigned bindingDirectional = 1;
+	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
+	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, 32);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Point
+
+	PointLight pl;
+	pl.position = float4(0.0f, 1.0f, 0.0f, 4.0f);
+	pl.color = float4(1.0f, 0.1f, 1.0f, 1.0f);
+
+	pointLights.push_back(pl);
+	unsigned numPoint = pointLights.size();
+
+	glGenBuffers(1, &ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight)*pointLights.size(), &pointLights[0]);
+
+	const unsigned bindingPoint = 2;
+	const unsigned storageBlckIxPoint = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "PointLights");
+	glShaderStorageBlockBinding(program, storageBlckIxPoint, bindingPoint);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Spot
+
+	SpotLight sl;
+	sl.position = float4(0.0f, 1.0f, 0.0f, 4.0f);
+	sl.color = float4(1.0f, 1.0f, 0.0f, 1.0f);
+	sl.aim = float3(1.0f, 1.0f, 0.0f);
+	sl.innerAngle = 2;
+	sl.outAngle = 2.5;
+
+	spotLights.push_back(sl);
+	unsigned numSpot = spotLights.size();
+
+	glGenBuffers(1, &ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
+
+	const unsigned bindingSpot = 3;
+	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
+	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Mesh::LoadVBO(const aiMesh* mesh)
@@ -151,4 +228,25 @@ void Mesh::Draw(const std::vector<unsigned>& modelTextures,
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	glDrawElements(GL_TRIANGLES, this->numIndexes, GL_UNSIGNED_INT, nullptr);
+}
+
+void Mesh::RenderLights()
+{
+	// Ambient
+
+	float3 ambientValue = float3(0.2f, 0.1f, 0.3f);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Directional
+
+	float3 directionalDir = float3(1.0f, 0.0f, 0.0f);
+	float4 directionalCol = float4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, &directionalDir);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, 16, &directionalCol);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

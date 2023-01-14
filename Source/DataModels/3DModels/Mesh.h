@@ -7,6 +7,21 @@
 #include "Math/float4x4.h"
 #include "DataModels/Resources/ResourceMesh.h"
 
+struct PointLight
+{
+	float4 position;
+	float4 color;
+};
+
+struct SpotLight
+{
+	float4 position;
+	float4 color;
+	float3 aim;
+	float innerAngle;
+	float outAngle;
+};
+
 class Mesh
 {
 public:
@@ -22,6 +37,9 @@ public:
 	void CreateVAO();
 	void Draw(const std::vector<unsigned>& modelTextures, 
 		const float3 &translation, const float4x4 &rotation, const float3 &scale);
+	
+	void GenerateLights();
+	void RenderLights();
 
 	vec* GetVertices() const;
 	unsigned GetNumVertices() const;
@@ -31,6 +49,14 @@ private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
+	
+	unsigned uboAmbient;
+	unsigned uboDirectional;
+	unsigned ssboPoint;
+	unsigned ssboSpot;
+
+	std::vector<PointLight> pointLights;
+	std::vector<SpotLight> spotLights;
 
 	unsigned materialIndex;
 	unsigned numVertices;

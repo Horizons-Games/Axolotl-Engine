@@ -5,6 +5,10 @@
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
+#include "../Components/ComponentAmbient.h"
+#include "../Components/ComponentPointLight.h"
+#include "../Components/ComponentDirLight.h"
+#include "../Components/ComponentSpotLight.h"
 
 #include "FileSystem/UniqueID.h"
 
@@ -198,6 +202,35 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+Component* GameObject::CreateComponentLight(LightType lightType)
+{
+	Component* newComponent = nullptr;
+
+	switch (lightType)
+	{
+	case LightType::AMBIENT:
+		newComponent = new ComponentAmbient(float3(1.0f), this);
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = new ComponentDirLight(float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::POINT:
+		newComponent = new ComponentPointLight(0.5f, float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::SPOT:
+		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, this);
+		break;
+	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return nullptr;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

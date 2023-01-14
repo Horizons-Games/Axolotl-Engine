@@ -2,6 +2,8 @@
 
 #include "Component.h"
 
+#include "GameObject/GameObject.h"
+
 #include "Math/float3.h"
 
 enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
@@ -10,15 +12,18 @@ class ComponentLight : public Component
 {
 public:
 	ComponentLight(LightType type);
+	ComponentLight(LightType type, GameObject* gameObject);
 	ComponentLight(LightType type, const float3& color, float intensity);
+	ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject);
 	~ComponentLight() {};
 
 	void Update() override;
 
 	void Enable() override;
-	void Display() override;
-	void Draw() override;
 	void Disable() override;
+
+	virtual void Display() {};
+	virtual void Draw() {};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -36,16 +41,12 @@ private:
 
 inline void ComponentLight::Update()
 {
+	Draw();
 }
-
 
 inline void ComponentLight::Enable()
 {
 	Component::Enable();
-}
-
-inline void ComponentLight::Display()
-{
 }
 
 inline void ComponentLight::Disable()
