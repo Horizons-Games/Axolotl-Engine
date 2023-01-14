@@ -34,17 +34,32 @@ public:
 private:
 	void MonitorResources();
 	void LoadResourceStored(const char* filePath);
+	void ImportResourceFromLibrary(const std::string& libraryPath);
+	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
 	ResourceType FindTypeByPath(const std::string& path);
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
+	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
+	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 	//this might not belong here
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetFolderOfType(ResourceType type);
+	const std::string GetNameOfType(ResourceType type);
+	ResourceType GetTypeOfName(const std::string& typeName);
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
 	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
-	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
+	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName,
+												const std::string& assetsPath,
+												ResourceType type);
+	std::shared_ptr<Resource> CreateResourceOfType(UID uid,
+												   const std::string& fileName,
+												   const std::string& assetsPath,
+												   const std::string& libraryPath,
+												   ResourceType type);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
-	void ImportResourceFromSystem(const std::string& originalPath, std::shared_ptr<Resource>& resource, ResourceType type);
+	void ImportResourceFromSystem(const std::string& originalPath,
+								  std::shared_ptr<Resource>& resource,
+								  ResourceType type);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
@@ -54,14 +69,14 @@ private:
 	std::shared_ptr<TextureImporter> textureImporter;
 	std::shared_ptr<MeshImporter> meshImporter;
 	
-	//std::thread monitorThread;
+	std::thread monitorThread;
 	bool monitorResources;
 };
 
 inline bool ModuleResources::CleanUp()
 {
 	monitorResources = false;
-	//monitorThread.join();
+	monitorThread.join();
 	resources.clear();
 	return true;
 }
