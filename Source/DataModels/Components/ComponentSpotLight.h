@@ -10,7 +10,8 @@ public:
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 					   const float3& color, float intensity);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
-		const float3& color, float intensity, GameObject* parent);
+					   const float3& color, float intensity, GameObject* parent);
+
 	~ComponentSpotLight() {};
 
 	void Draw() override;
@@ -21,8 +22,8 @@ public:
 	float GetOuterAngle() const;
 
 	void SetRadius(float radius);
-	void SetInnerAngle(int angle);
-	void SetOuterAngle(int angle);
+	void SetInnerAngle(float angle);
+	void SetOuterAngle(float angle);
 
 private:
 	float radius = 1.0f;
@@ -50,12 +51,12 @@ inline void ComponentSpotLight::SetRadius(float radius)
 	this->radius = radius;
 }
 
-inline void ComponentSpotLight::SetInnerAngle(int angle)
+inline void ComponentSpotLight::SetInnerAngle(float angle)
 {
 	innerAngle = angle;
 }
 
-inline void ComponentSpotLight::SetOuterAngle(int angle)
+inline void ComponentSpotLight::SetOuterAngle(float angle)
 {
 	outerAngle = angle;
 }
