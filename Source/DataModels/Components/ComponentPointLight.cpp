@@ -41,25 +41,32 @@ void ComponentPointLight::Display()
 	const char* lightTypes[] = { "Point", "Spot" };
 
 	static const char* currentType = "Point";
+
 	ImGui::Text("POINT LIGHT");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	
 	if (ImGui::BeginTable("PointLightTable", 2))
 	{
 		ImGui::TableNextColumn();
 		ImGui::Text("Type"); ImGui::SameLine();
-		if (ImGui::BeginCombo("##combo", currentType)) {
+
+		if (ImGui::BeginCombo("##combo", currentType)) 
+		{
 			for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
 			{
 				bool isSelected = (currentType == lightTypes[i]);
+
 				if (ImGui::Selectable(lightTypes[i], isSelected))
 				{
 					//changes type of light
 					currentType = lightTypes[i];
+
 					if (lightTypes[i] == "Directional")
 					{
 						this->GetOwner()->CreateComponentLight(LightType::DIRECTIONAL);
 						//TODO: Set intensity and color
 					}
+
 					if (lightTypes[i] == "Spot")
 					{
 						this->GetOwner()->CreateComponentLight(LightType::SPOT);
@@ -69,6 +76,7 @@ void ComponentPointLight::Display()
 					//TODO: function removeComponent
 					//this->GetOwner()->RemoveComponent(this);
 				}
+
 				if (isSelected)
 				{
 					//Shows list of lights
@@ -82,9 +90,8 @@ void ComponentPointLight::Display()
 		ImGui::Text("Intensity"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-			0.0f, 1.0f
-		); ImGui::PopStyleVar();
+		ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f); 
+		ImGui::PopStyleVar();
 		SetIntensity(intensity);
 
 		static float3 color = GetColor();
@@ -96,9 +103,8 @@ void ComponentPointLight::Display()
 		ImGui::Text("Radius"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##Radius", &radius, 0.01f,
-			0.0001f, std::numeric_limits<float>::max()
-		); ImGui::PopStyleVar();
+		ImGui::DragFloat("##Radius", &radius, 0.01f, 0.0001f, std::numeric_limits<float>::max()); 
+		ImGui::PopStyleVar();
 		SetRadius(radius);
 
 		ImGui::EndTable();

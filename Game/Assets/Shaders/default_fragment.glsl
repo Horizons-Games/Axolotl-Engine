@@ -4,15 +4,15 @@ uniform sampler2D texDiffuse;
 
 struct PointLight
 {
-	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16   // rgb colour+alpha intensity
+	vec4 position;  	//16 //0		// xyz position+w radius
+	vec4 color; 			//16 //16   // rgb colour+alpha intensity
 };
 
 struct SpotLight
 {
-	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16	// rgb colour+alpha intensity
-	vec3 aim;			//16 //32
+	vec4 position;  	//16 //0		// xyz position+w radius
+	vec4 color; 			//16 //16		// rgb colour+alpha intensity
+	vec3 aim;					//16 //32
 	float innerAngle;	//4  //48
 	float outerAngle;	//4  //52
 };
@@ -30,7 +30,7 @@ layout(std140, binding=2) uniform Directional
 
 readonly layout(std430, binding=3) buffer PointLights
 {
-	uint num_point;			//4		//0
+	uint num_point;				//4		//0
 	PointLight points[]; 	//32	//16
 };
 
