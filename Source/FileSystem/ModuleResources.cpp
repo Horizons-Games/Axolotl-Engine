@@ -268,7 +268,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 		//is the extension necessary?
 		//if so, we need a way to find the asset path (name + etension)
 		//given the path of its binary
-		assetsPath = CreateAssetsPath(fileName /*+ extension*/, type);
+		assetsPath = CreateAssetsPath(fileName + extension, type);
 
 		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 		if (!resourceExists)
