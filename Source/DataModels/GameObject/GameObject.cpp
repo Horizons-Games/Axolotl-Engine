@@ -3,6 +3,7 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 
@@ -181,13 +182,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*case ComponentType::MESHRENDERER:
+		case ComponentType::MESHRENDERER:
 		{
 			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		case ComponentType::MATERIAL:
+		/*case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
@@ -195,6 +196,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
+			break;
+		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
 			break;
 		}
 		case ComponentType::BOUNDINGBOX:
@@ -221,6 +227,20 @@ ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID 
 		components.push_back(newComponentMeshRenderer);
 
 	return newComponentMeshRenderer;
+}
+
+bool GameObject::RemoveComponent(UID componentUID)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if ((*it)->GetUID() == componentUID)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

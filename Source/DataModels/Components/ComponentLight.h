@@ -9,6 +9,7 @@ enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
 class ComponentLight : public Component
 {
 public:
+	ComponentLight(const bool active, GameObject* owner);
 	ComponentLight(LightType type);
 	ComponentLight(LightType type, const float3& color, float intensity);
 	~ComponentLight() {};
@@ -42,10 +43,6 @@ inline void ComponentLight::Update()
 inline void ComponentLight::Enable()
 {
 	Component::Enable();
-}
-
-inline void ComponentLight::Display()
-{
 }
 
 inline void ComponentLight::Disable()
