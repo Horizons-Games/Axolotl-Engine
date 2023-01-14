@@ -111,6 +111,17 @@ void WindowInspector::DrawTextureTable()
 	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
 }
 
+bool WindowInspector::MousePosIsInWindow()
+{
+	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x && ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
+		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y && ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
+}
+
+bool WindowInspector::WindowRightClick()
+{
+	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
+}
+
 void WindowInspector::AddComponentMeshRenderer()
 {
 	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*) App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
