@@ -192,6 +192,8 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
+	gameObjects.clear();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -216,13 +218,12 @@ update_status ModuleRender::Update()
 
 	FillRenderList(App->scene->GetSceneQuadTree());
 
-	/* Uncomment the loop below when models are removed
-	and GameObjects are used in their place */
+	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	for (GameObject* gameObject : gameObjects)
 	{
-		DrawGameObject(gameObject);
-	}*/
+		gameObject->Draw();
+	}
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);

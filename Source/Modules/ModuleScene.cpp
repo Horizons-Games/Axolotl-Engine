@@ -74,7 +74,7 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 	{
 		if (!sceneQuadTree->IsFreezed()) 
 		{
-			sceneQuadTree->ExpandQuadtree(gameObject);
+			sceneQuadTree->ExpandToFit(gameObject);
 			FillQuadtree(sceneGameObjects);
 		}
 		else 
