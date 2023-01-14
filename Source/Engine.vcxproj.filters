@@ -166,9 +166,6 @@
     <ClCompile Include="DataModels\3DModels\Model.cpp">
       <Filter>Source\DataModels\3DModels</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\Component.cpp">
-      <Filter>Source\DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\GameObject\GameObject.cpp">
       <Filter>Source\DataModels\GameObject</Filter>
     </ClCompile>
@@ -333,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>Source\DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -812,6 +812,9 @@
     </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h">
       <Filter>Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

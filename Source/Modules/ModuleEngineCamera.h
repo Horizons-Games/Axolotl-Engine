@@ -47,7 +47,6 @@ public:
 
 	void Move();
 	void KeyboardRotate();
-	void SelectObjects();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
 	void Run();

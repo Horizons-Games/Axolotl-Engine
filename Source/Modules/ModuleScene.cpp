@@ -2,9 +2,9 @@
 #include "ModuleScene.h"
 #include "ModuleRender.h"
 #include "DataStructures/Quadtree.h"
+
 #include "GameObject/GameObject.h"
-#include "Components/ComponentTransform.h"
-#include "Components/ComponentCamera.h"
+#include "Scene.h"
 
 #include <assert.h>
 
@@ -14,114 +14,67 @@ ModuleScene::ModuleScene()
 
 ModuleScene::~ModuleScene()
 {
-	delete root;
-	delete sceneQuadTree;
-	root = nullptr;
-
-	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
+	delete loadedScene;
 }
 
 bool ModuleScene::Init()
 {
-	root = new GameObject("Scene");
-	sceneGameObjects.push_back(root);
-
-	selectedGameObject = root;
-
-	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-	FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
-	return true;
-}
-
-void ModuleScene::FillQuadtree(std::vector<GameObject*>& gameObjects)
-{
-	for (GameObject* gameObject : gameObjects) sceneQuadTree->Add(gameObject);
-}
-
-bool ModuleScene::IsInsideACamera(const OBB& obb)
-{
-	// TODO: We have to add all the cameras in the future
-	for (GameObject* cameraGameObject : sceneCameras)
+	if (loadedScene == nullptr)
 	{
-		ComponentCamera* camera = (ComponentCamera*)cameraGameObject->GetComponent(ComponentType::CAMERA);
-		if (camera->IsInside(obb)) return true;
+		loadedScene = CreateEmptyScene();
 	}
-	return false;
-}
 
-bool ModuleScene::IsInsideACamera(const AABB& aabb)
-{
-	return IsInsideACamera(aabb.ToOBB());
+	selectedGameObject = loadedScene->GetRoot();
+	return true;
 }
 
 update_status ModuleScene::Update()
 {
-	UpdateGameObjectAndDescendants(root);
+	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return UPDATE_CONTINUE;
 }
 
-GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
+void ModuleScene::Load()
 {
-	assert(name != nullptr && parent != nullptr);
+	if (savedScenes.empty())
+		loadedScene = CreateEmptyScene();
 
-	GameObject* gameObject = new GameObject(name, parent);
-	sceneGameObjects.push_back(gameObject);
+	else
+		loadedScene = savedScenes[0];
 
-
-	//Quadtree treatment
-	if (!sceneQuadTree->InQuadrant(gameObject)) 
-	{
-		if (!sceneQuadTree->IsFreezed()) 
-		{
-			sceneQuadTree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
-		}
-		else 
-		{
-			App->renderer->AddToRenderList(gameObject);
-		}
-	}
-	else 
-	{
-		sceneQuadTree->Add(gameObject);
-	}
-	return gameObject;
+	selectedGameObject = loadedScene->GetRoot();
 }
 
-GameObject* ModuleScene::CreateCameraGameObject(const char* name, GameObject* parent)
+void ModuleScene::Save()
 {
-	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(gameObject);
-
-	return gameObject;
-}
-
-void ModuleScene::DestroyGameObject(GameObject* gameObject)
-{
-	gameObject->GetParent()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	Scene* lastSavedScene = SearchSceneByID(loadedScene->GetUID()); // Check if the scene was already saved
+	if (lastSavedScene == nullptr)
 	{
-		if (*it == gameObject)
+		savedScenes.push_back(loadedScene);
+	}
+
+	else
+	{
+		for (int i = 0; i < savedScenes.size(); ++i)
 		{
-			sceneGameObjects.erase(it);
-			sceneQuadTree->Remove(*it);
-			delete gameObject;
-			return;
+			if (savedScenes[i]->GetUID() == lastSavedScene->GetUID())
+			{
+				savedScenes[i] = loadedScene;
+				break;
+			}
 		}
 	}
 }
 
-void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
+void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
 {
 	assert(gameObject != nullptr);
 
 	if (!gameObject->IsEnabled())
 		return;
 
-	if (gameObject != root)
+	if (gameObject != loadedScene->GetRoot())
 		gameObject->Update();
 
 	for (GameObject* child : gameObject->GetChildren())
@@ -130,32 +83,17 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
 	}
 }
 
-GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
+Scene* ModuleScene::SearchSceneByID(UID sceneID) const
 {
-	for (GameObject* gameObject : sceneGameObjects)
+	for (Scene* scene : savedScenes)
 	{
-		if (gameObject->GetUID() == gameObjectID)
+		if (scene->GetUID() == sceneID)
 		{
-			return gameObject;
+			return scene;
 		}
 	}
 
-	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
-}
-
-void ModuleScene::RemoveCamera(GameObject* cameraGameObject)
-{
-
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin(); it != sceneCameras.end(); it++)
-	{
-		if (cameraGameObject == *it)
-		{
-			sceneCameras.erase(it);
-			return;
-		}
-	}
-	return;
 }
 
 void ModuleScene::OnPlay()
@@ -171,4 +109,9 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+}
+
+Scene* ModuleScene::CreateEmptyScene() const
+{
+	return new Scene();
 }

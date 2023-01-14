@@ -20,6 +20,8 @@ public:
 
 	virtual void Draw();
 
+	virtual void Load();
+
 	bool GetActive();
 	ComponentType GetType();
 
@@ -29,6 +31,16 @@ private:
 	bool active;
 	GameObject* owner;
 };
+
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
+	: type(type), active(active), owner(owner)
+{
+}
+
+inline Component::~Component()
+{
+	delete owner;
+}
 
 inline bool Component::Init()
 {
@@ -48,6 +60,10 @@ inline void Component::Disable()
 }
 
 inline void Component::Draw()
+{
+}
+
+inline void Component::Load()
 {
 }
 

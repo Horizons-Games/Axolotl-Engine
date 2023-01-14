@@ -6,15 +6,12 @@
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 
-#include "FileSystem/UniqueID.h"
-
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name)
+GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -38,13 +35,29 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	for (Component* component : components)
-		component->Update();
+	{
+		if (component->GetActive())
+		{
+			component->Update();
+			component->Draw(); // Once GameObject->Draw() is called, delete this line
+		}
+	}
 }
 
 void GameObject::Draw()
 {
-	//TODO: Draw the components what needs a draw
-	//for (Component* component : components) component->Draw();
+	for (Component* component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
+}
+
+void GameObject::Load()
+{
+
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -168,13 +181,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::MESHRENDERER:
+		/*case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
+			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
+		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
@@ -198,6 +211,16 @@ Component* GameObject::CreateComponent(ComponentType type)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
+{
+	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
+
+	if (newComponentMeshRenderer != nullptr)
+		components.push_back(newComponentMeshRenderer);
+
+	return newComponentMeshRenderer;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

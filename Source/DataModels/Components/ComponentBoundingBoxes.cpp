@@ -12,7 +12,7 @@
 ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner)
 {
-	localAABB = { {-1, -1, -1}, {1, 1, 1} };
+	localAABB = { {0 ,0, 0}, {0, 0, 0} };
 	encapsuledAABB = localAABB;
 	objectOBB = { localAABB };
 	drawBoundingBoxes = false;
@@ -28,7 +28,7 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 
 void ComponentBoundingBoxes::Draw()
 {
-	App->debug->DrawBoundingBox(GetObjectOBB());
+	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
 }
 
 
