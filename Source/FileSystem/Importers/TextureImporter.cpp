@@ -101,7 +101,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save(resource->GetLibraryPath().c_str(), buffer, size);
+	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 }
 
 uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)

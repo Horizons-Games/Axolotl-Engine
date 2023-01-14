@@ -27,7 +27,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save(resource->GetLibraryPath().c_str(), buffer, size);
+		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
 	}
 	else
 	{
