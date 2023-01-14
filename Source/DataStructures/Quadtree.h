@@ -14,7 +14,8 @@ public:
 
 	bool IsLeaf() const;
 	void Add(GameObject* gameObject);
-	void Remove(GameObject* gameObject);
+	Quadtree* Remove(GameObject* gameObject);
+	void SmartRemove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
 	void ExpandToFit(GameObject* gameObject);

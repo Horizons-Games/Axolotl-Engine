@@ -34,6 +34,8 @@ Quadtree::~Quadtree()
 	}
 	*/
 	
+	Clear();
+	delete parent;
 
 }
 
@@ -62,20 +64,39 @@ void Quadtree::Add(GameObject* gameObject)
 	}
 }
 
-void Quadtree::Remove(GameObject* gameObject)
+Quadtree* Quadtree::Remove(GameObject* gameObject)
 {
-	std::list<GameObject*>::iterator it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
-	if (it != gameObjects.end()) gameObjects.erase(it);
-
-	if (!IsLeaf())
+	if ((!IsLeaf() && !gameObjects.empty()) || IsLeaf()) 
+	{
+		std::list<GameObject*>::iterator it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
+		if (it != gameObjects.end())
+		{
+			gameObjects.erase(it);
+			return parent;
+		}
+			
+	}
+	
+	else
 	{
 		frontRightNode->Remove(gameObject);
 		frontLeftNode->Remove(gameObject);
 		backRightNode->Remove(gameObject);
 		backLeftNode->Remove(gameObject);
 	}
+}
 
-
+void Quadtree::SmartRemove(GameObject* gameObject)
+{
+	Quadtree* quadrantWrapper = Remove(gameObject);
+	if (quadrantWrapper != nullptr && quadrantWrapper->GetGameObjects().empty()) 
+	{
+		quadrantWrapper->Clear();
+		delete frontRightNode;
+		delete frontLeftNode;
+		delete backRightNode;
+		delete backLeftNode;
+	}
 }
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
