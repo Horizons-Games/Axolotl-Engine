@@ -14,8 +14,8 @@ public:
 
 	bool IsLeaf() const;
 	void Add(GameObject* gameObject);
-	Quadtree* Remove(GameObject* gameObject);
-	void SmartRemove(GameObject* gameObject);
+	void Remove(GameObject* gameObject);
+	void SmartRemove();
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
 
@@ -31,6 +31,7 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 	const std::list<GameObject*>& GetGameObjects() const;
+	std::list<GameObject*>& GetFamilyObjects();
 
 	Quadtree* GetFrontRightNode() const;
 	Quadtree* GetFrontLeftNode() const;
@@ -44,6 +45,8 @@ public:
 	void SetQuadrantCapacity(int quadrantCapacity);
 	float GetMinQuadrantSideSize() const;
 	void SetMinQuadrantSideSize(float minCubeSize);
+
+	void OptimizeParentObjects();
 
 private:
 
