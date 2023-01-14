@@ -14,7 +14,9 @@ public:
 	ComponentLight(LightType type);
 	ComponentLight(LightType type, GameObject* gameObject);
 	ComponentLight(LightType type, const float3& color, float intensity);
-	ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject);
+	ComponentLight(LightType type, const float3& color, float intensity, 
+				   GameObject* gameObject);
+
 	~ComponentLight() {};
 
 	void Update() override;

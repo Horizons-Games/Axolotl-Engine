@@ -1,6 +1,7 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
+#include "ComponentBoundingBoxes.h"
 
 #include "Application.h"
 
@@ -9,12 +10,14 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Math/float3x3.h"
 
 #include "GL/glew.h"
+#include "imgui.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
 	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
@@ -28,20 +31,14 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 bool ComponentMeshRenderer::Init()
 {
 	LoadMesh();
+	LoadTexture();
 
 	return true;
 }
 
 void ComponentMeshRenderer::Update()
 {
-	if (GetActive() && IsMeshLoaded())
-	{
-		Draw();
-	}
-}
 
-void ComponentMeshRenderer::Display()
-{
 }
 
 void ComponentMeshRenderer::Draw()
@@ -58,13 +55,33 @@ void ComponentMeshRenderer::Draw()
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureUID);
+	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glBindVertexArray(mesh->GetVAO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-	glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+}
+
+void ComponentMeshRenderer::Display()
+{
+	ImGui::Text("MESH COMPONENT");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("##GeometryTable", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of vertices: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumVertices());
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of triangles: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumFaces()); // faces = triangles
+
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
 }
 
 void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
@@ -74,7 +91,24 @@ void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
 	LoadMesh();
 }
 
+void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
+{
+	this->textureUID = textureUID;
+
+	LoadTexture();
+}
+
 void ComponentMeshRenderer::LoadMesh()
 {
 	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
+	mesh->Load();
+	ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+	boundingBox->Encapsule(mesh->GetVertices().data() ,mesh->GetNumVertices());
+	
+}
+
+void ComponentMeshRenderer::LoadTexture()
+{
+	texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUID));
+	texture->Load();
 }

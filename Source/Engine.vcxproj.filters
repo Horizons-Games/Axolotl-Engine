@@ -166,9 +166,6 @@
     <ClCompile Include="DataModels\3DModels\Model.cpp">
       <Filter>Source\DataModels\3DModels</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\Component.cpp">
-      <Filter>Source\DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\GameObject\GameObject.cpp">
       <Filter>Source\DataModels\GameObject</Filter>
     </ClCompile>
@@ -336,6 +333,9 @@
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -818,6 +818,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

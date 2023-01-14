@@ -6,6 +6,7 @@
 #include <memory>
 
 class ResourceMesh;
+class ResourceTexture;
 
 class ComponentMeshRenderer : public Component
 {
@@ -16,8 +17,8 @@ public:
 	bool Init();
 	void Update() override;
 
-	void Display();
 	void Draw();
+	void Display();
 
 	void SetMeshUID(UID& meshUID);
 	void SetTextureUID(UID& textureUID);
@@ -27,18 +28,15 @@ public:
 
 private:
 	void LoadMesh();
+	void LoadTexture();
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh = nullptr;
+	std::shared_ptr<ResourceTexture> texture = nullptr;
 	
-	UID meshUID = 0ULL;
-	UID textureUID = 0ULL;
+	UID meshUID = 0;
+	UID textureUID = 0;
 };
-
-inline void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
-{
-	this->textureUID = textureUID;
-}
 
 inline const UID& ComponentMeshRenderer::GetMeshUID() const
 {

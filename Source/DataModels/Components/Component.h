@@ -15,6 +15,7 @@ public:
 
 	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
 	virtual void Draw();
+	virtual void Load();
 
 	virtual void Enable();
 	virtual void Disable();
@@ -28,6 +29,16 @@ private:
 	bool active;
 	GameObject* owner;
 };
+
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
+	: type(type), active(active), owner(owner)
+{
+}
+
+inline Component::~Component()
+{
+	delete owner;
+}
 
 inline bool Component::Init()
 {
@@ -47,6 +58,10 @@ inline void Component::Disable()
 }
 
 inline void Component::Draw()
+{
+}
+
+inline void Component::Load()
 {
 }
 

@@ -8,6 +8,7 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
+#include "Scene.h"
 
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
@@ -146,7 +147,7 @@ void Quadtree::Clear()
 // Draw recursively in the scene
 void Quadtree::Draw()
 {
-	if (App->engineCamera->IsInside(boundingBox) || App->scene->IsInsideACamera(boundingBox))
+	if (App->engineCamera->IsInside(boundingBox) || App->scene->GetLoadedScene()->IsInsideACamera(boundingBox))
 	{
 		for (GameObject* gameObject : gameObjects) gameObject->Draw();
 		if (!IsLeaf())

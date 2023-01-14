@@ -11,6 +11,6 @@ public:
 	~ComponentAmbient() {};
 
 	void Draw() override {};
-	void Display() override {};
+	void Display() override;
 };
 

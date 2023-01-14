@@ -2,6 +2,7 @@
 #include "ComponentTransform.h"
 
 #include "debugdraw.h"
+#include "imgui.h"
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL) 
 {
@@ -23,6 +24,31 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameO
 
 void ComponentDirLight::Display()
 {
+	const char* lightTypes[] = { "Point", "Spot" };
+
+	ImGui::Text("DIRECTIONAL LIGHT");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("DirLightTable", 2))
+	{
+		ImGui::TableNextColumn();
+
+		float intensity = GetIntensity();
+		ImGui::Text("Intensity"); ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+		ImGui::DragFloat("##Intensity", &intensity, 0.01f,
+			0.0f, 1.0f
+		); ImGui::PopStyleVar();
+		SetIntensity(intensity);
+
+		static float3 color = GetColor();
+		ImGui::Text("Color"); ImGui::SameLine();
+		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			SetColor(color);
+
+		ImGui::EndTable();
+		ImGui::Separator();
+	}
 }
 
 void ComponentDirLight::Draw()

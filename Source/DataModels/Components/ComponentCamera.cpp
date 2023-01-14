@@ -53,7 +53,6 @@ void ComponentCamera::Update()
 
 
 	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
-	Draw();
 }
 
 void ComponentCamera::Draw()

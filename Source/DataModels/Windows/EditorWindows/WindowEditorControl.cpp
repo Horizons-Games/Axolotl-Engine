@@ -48,4 +48,17 @@ void WindowEditorControl::DrawWindowContents()
 
     }
     ImGui::SameLine();
+
+    if (ImGui::Button("Load Scene"))
+    {
+        App->scene->Load();
+    }
+    ImGui::SameLine();
+
+    if (ImGui::Button("Save Scene"))
+    {
+        App->scene->Save();
+
+    }
+    ImGui::SameLine();
 }

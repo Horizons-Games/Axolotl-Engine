@@ -92,8 +92,6 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>&
 
 void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource)
 {
-	ENGINE_LOG("---- Loading textures ----");
-
 	aiString file;
 
 	std::vector<UID> textureUIDs;
