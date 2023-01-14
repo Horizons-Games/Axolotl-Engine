@@ -83,13 +83,13 @@ void WindowInspector::DrawWindowContents()
 	
 	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
 	{
-		currentGameObject->GetComponents()[i]->Display();
-
 		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
 			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
 			DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]->GetUID());
 		}
+
+		currentGameObject->GetComponents()[i]->Display();
 	}
 
 	//DrawTextureTable();
