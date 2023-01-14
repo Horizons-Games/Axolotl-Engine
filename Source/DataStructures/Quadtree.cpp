@@ -55,41 +55,73 @@ void Quadtree::Add(GameObject* gameObject)
 			backLeftNode->Add(gameObject);
 		}
 	}
+}
 
+std::list<GameObject*>& Quadtree::GetFamilyObjects()
+{
+	if (IsLeaf()) {
+		return gameObjects;
+	}
+	
+	std::list<GameObject*> familyGameObjects = gameObjects;
+
+	familyGameObjects.splice(familyGameObjects.end(), frontRightNode->GetFamilyObjects());  //O(1) complexity
+	familyGameObjects.splice(familyGameObjects.end(), frontLeftNode->GetFamilyObjects());
+	familyGameObjects.splice(familyGameObjects.end(), backRightNode->GetFamilyObjects());
+	familyGameObjects.splice(familyGameObjects.end(), backLeftNode->GetFamilyObjects());
 	
 }
 
-Quadtree* Quadtree::Remove(GameObject* gameObject)
+void Quadtree::Remove(GameObject* gameObject)
 {
-	if ((!IsLeaf() && !gameObjects.empty()) || IsLeaf()) 
+	if ((!IsLeaf() && !gameObjects.empty())) 
 	{
 		std::list<GameObject*>::iterator it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
 		if (it != gameObjects.end())
 		{
 			gameObjects.erase(it);
-			return parent;
+			SmartRemove();
 		}
-			
 	}
-	
+	else if (IsLeaf()) 
+	{
+		std::list<GameObject*>::iterator it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
+		if (it != gameObjects.end())
+		{
+			gameObjects.erase(it);
+			parent->SmartRemove();
+		}
+	}
 	else
 	{
 		frontRightNode->Remove(gameObject);
-		frontLeftNode->Remove(gameObject);
-		backRightNode->Remove(gameObject);
-		backLeftNode->Remove(gameObject);
+		if (!IsLeaf()) frontLeftNode->Remove(gameObject);
+		if (!IsLeaf()) backRightNode->Remove(gameObject);
+		if (!IsLeaf()) backLeftNode->Remove(gameObject);
+
+		if (IsLeaf()) 
+		{
+			if(parent != nullptr) parent->OptimizeParentObjects();
+		}
 	}
 }
 
-void Quadtree::SmartRemove(GameObject* gameObject)
+void Quadtree::OptimizeParentObjects()
 {
-	Quadtree* quadrantWrapper = Remove(gameObject);
-	int sumGameObjects = 0;
-
-	if (quadrantWrapper != nullptr && quadrantWrapper->GetGameObjects().empty()) //TODO: SUM OF ALL CHILDREN OBJECTS
+	if (GetFamilyObjects().size() <= quadrantCapacity)
 	{
-		quadrantWrapper->Clear();
-		quadrantWrapper->ResetChildren();
+		gameObjects = GetFamilyObjects();
+		ResetChildren();
+		if (parent != nullptr) parent->OptimizeParentObjects();
+	}
+}
+
+void Quadtree::SmartRemove()
+{
+	if (GetFamilyObjects().size() <= quadrantCapacity)
+	{
+		gameObjects = GetFamilyObjects();
+		ResetChildren();
 	}
 }
 
