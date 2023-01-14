@@ -17,6 +17,7 @@
 #include "assimp/types.h"
 #include "assimp/material.h"
 
+#include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "Application.h"
@@ -46,31 +47,94 @@ Model::~Model()
 
 	meshes.clear();
 
+	for (int i = 0; i < materials.size(); ++i)
+	{
+		glDeleteTextures(1, &materials[i]->diffuse);
+		glDeleteTextures(1, &materials[i]->normal);
+		glDeleteTextures(1, &materials[i]->occlusion);
+		glDeleteTextures(1, &materials[i]->specular);
+	}
+
+	materials.clear();
+
+
 	for (unsigned texture : textures)
 	{
 		glDeleteTextures(1, &texture);
 	}
 
 	textures.clear();
+
 }
 
 void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal setter
 {
 	path = resource->GetAssetsPath().c_str();
 
-	std::vector<UID> textureUIDs = resource->GetTexturesUIDs();
+	std::vector<UID> materialsUIDs = resource->GetMaterialsUIDs();
 
-	for (int i = 0; i < textureUIDs.size(); ++i) 
+	for (int i = 0; i < materialsUIDs.size(); ++i) 
 	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = 
+			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(materialsUIDs[i]));
 
-		std::shared_ptr<ResourceTexture> resourceTexture = 
-			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUIDs[i]).lock());
+		Material* material = new Material();
+		resourceMaterial->Load();
 
-		resourceTexture->Load();
-		textures.push_back(resourceTexture->GetGlTexture());
-		textureHeights.push_back(resourceTexture->GetHeight());
-		textureWidths.push_back(resourceTexture->GetWidth());
+		if (resourceMaterial->haveDiffuse())
+		{
+			std::shared_ptr<ResourceTexture> textureDiffuse =
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetDiffuseUID()));
+
+			textureDiffuse->Load();
+			material->haveDiffuse = true;
+			material->diffuse = textureDiffuse->GetGlTexture();
+			textureHeights.push_back(textureDiffuse->GetHeight());
+			textureWidths.push_back(textureDiffuse->GetWidth());
+		}
+
+		if (resourceMaterial->haveNormal())
+		{
+			std::shared_ptr<ResourceTexture> textureNormal =
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetNormalUID()));
+
+			textureNormal->Load();
+			material->normal = textureNormal->GetGlTexture();
+			material->haveNormal = true;
+			textureHeights.push_back(textureNormal->GetHeight());
+			textureWidths.push_back(textureNormal->GetWidth());
+		}
+
+		if (resourceMaterial->haveOcclusion())
+		{
+			std::shared_ptr<ResourceTexture> textureOcclusion =
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetOcclusionrUID()));
+
+			textureOcclusion->Load();
+			material->occlusion = textureOcclusion->GetGlTexture();
+			material->haveOcclusion = true;
+			textureHeights.push_back(textureOcclusion->GetHeight());
+			textureWidths.push_back(textureOcclusion->GetWidth());
+		}
+
+		if (resourceMaterial->haveSpecular())
+		{
+			std::shared_ptr<ResourceTexture> textureSpecular =
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetSpecularUID()));
+
+			textureSpecular->Load();
+			material->specular = textureSpecular->GetGlTexture();
+			material->haveOcclusion = true;
+			textureHeights.push_back(textureSpecular->GetHeight());
+			textureWidths.push_back(textureSpecular->GetWidth());
+		}
+
+		material->shininess = resourceMaterial->GetShininess();
+		material->normalStrength = resourceMaterial->GetNormalStrength();
+
+		materials.push_back((std::unique_ptr<Material>(material)));
 	}
+
 
 	std::vector<UID> meshesUIDs = resource->GetMeshesUIDs();
 
@@ -154,6 +218,18 @@ void Model::Draw()
 		for (int i = 0; i < meshes.size(); ++i)
 		{
 			meshes[i]->Draw(textures, translation, GetRotationF4x4(), scale);
+		}
+	}
+}
+
+
+void Model::NewDraw()
+{
+	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	{
+		for (int i = 0; i < meshes.size(); ++i)
+		{
+			meshes[i]->NewDraw(materials[meshes[i]->GetMaterialIndex()], translation, GetRotationF4x4(), scale);
 		}
 	}
 }

@@ -9,6 +9,7 @@
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/Importers/MaterialImporter.h"
 
 #include "Resources/Resource.h"
 #include "Resources/ResourceMesh.h"
@@ -30,7 +31,7 @@ void  ModuleResources::MonitorResources()
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
-			if (!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			if (it->second->GetType() != ResourceType::Mesh && !App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
@@ -80,7 +81,9 @@ void  ModuleResources::MonitorResources()
 		{
 			CreateMetaFileOfResource(resource);
 		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	}
+	
 }
 
 void ModuleResources::LoadResourceStored(const char* filePath)
@@ -107,8 +110,6 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 
 void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 {
-	ResourceType type = FindTypeByPath(libraryPath);
-
 	std::string metaPath;
 	std::string fileExtension = GetFileExtension(libraryPath);
 	int posOfExtensionInPath = libraryPath.find(fileExtension);
@@ -160,6 +161,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 				case ResourceType::Scene:
 					break;
 				case ResourceType::Material:
+					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
 					break;
 				case ResourceType::SkyBox:
 					break;
@@ -189,6 +191,7 @@ bool ModuleResources::Start()
 	modelImporter = std::make_shared<ModelImporter>();
 	textureImporter = std::make_shared<TextureImporter>();
 	meshImporter = std::make_shared<MeshImporter>();
+	materialImporter = std::make_shared<MaterialImporter>();
 
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
 	if (assetsFolderNotCreated)
@@ -255,7 +258,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	std::string extension = GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
 
-	if (type != ResourceType::Mesh) 
+	if (type != ResourceType::Mesh && type != ResourceType::Material) 
 	{
 		//is the extension necessary?
 		//if so, we need a way to find the asset path (name + etension)
@@ -315,7 +318,7 @@ void ModuleResources::CopyFileInAssets(const std::string& originalPath, const st
 	bool exists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!exists)
 	{
-		App->fileSystem->Copy(originalPath.c_str(), assetsPath.c_str());
+		App->fileSystem->CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
 	}
 }
 
@@ -359,16 +362,20 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 {
 	std::string fileName = "";
 	bool separatorNotFound = true;
-	bool extension = true;
 	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
 	{
 		char currentChar = path[i];
 		separatorNotFound = currentChar != '\\' && currentChar != '/';
-		if (separatorNotFound && !extension)
+		if (separatorNotFound)
 		{
 			fileName.insert(0, 1, currentChar);
 		}
-		if(extension) extension = currentChar != '.';
+	}
+	std::string fileExtension = GetFileExtension(fileName);
+	int posOfExtensionInPath = fileName.find(fileExtension);
+	if (posOfExtensionInPath != 0) //has file extension
+	{
+		fileName.erase(posOfExtensionInPath, fileExtension.size());
 	}
 	return fileName;
 }
@@ -380,6 +387,7 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
 	{
 		char currentChar = path[i];
+		currentChar = tolower(currentChar);
 		fileExtension.insert(fileExtension.begin(), currentChar);
 		dotNotFound = currentChar != '.';
 	}
@@ -471,6 +479,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Scene:
 	case ResourceType::Material:
+		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+		break;
 	case ResourceType::SkyBox:
 	default:
 		return nullptr;
@@ -512,6 +522,7 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 	case ResourceType::Scene:
 		break;
 	case ResourceType::Material:
+		materialImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMaterial>(resource));
 		break;
 	case ResourceType::SkyBox:
 		break;

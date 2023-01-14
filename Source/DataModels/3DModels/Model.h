@@ -8,6 +8,24 @@
 #include "Geometry/OBB.h"
 #include "DataModels/Resources/ResourceModel.h"
 
+//TODO Temporal Struct to charge models with materials (This is the representation of Component material on the assigment 1)
+struct Material 
+{
+	unsigned int diffuse;
+	unsigned int normal;
+	unsigned int occlusion;
+	unsigned int specular;
+
+	bool haveDiffuse = false;
+	bool haveNormal = false;
+	bool haveOcclusion = false;
+	bool haveSpecular = false;
+
+	float shininess;
+	float normalStrength;
+};
+
+
 class aiScene;
 class Mesh;
 
@@ -23,6 +41,7 @@ public:
 	void LoadMaterials(const aiScene* scene);
 	void LoadMeshes(const aiScene* scene);
 	void Draw();
+	void NewDraw();
 
 	const std::string GetDirectory() const;
 
@@ -49,9 +68,14 @@ public:
 private:
 	const char* path;
 
+	std::vector<std::unique_ptr<Material>> materials;
+
+	//This is obsolete code
 	std::vector<unsigned> textures;
 	std::vector<unsigned> textureWidths;
 	std::vector<unsigned> textureHeights;
+	
+	
 	std::vector< std::unique_ptr<Mesh> > meshes;
 
 	float3 translation;

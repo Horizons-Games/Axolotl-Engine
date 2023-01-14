@@ -1,5 +1,7 @@
 #include "ModuleFileSystem.h"
 #include "physfs.h"
+#include <iostream>
+#include <cstdio>
 
 
 bool ModuleFileSystem::Init()
@@ -7,6 +9,24 @@ bool ModuleFileSystem::Init()
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
     PHYSFS_setWriteDir(".");
+    return true;
+}
+
+bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* destinationFilePath)
+{
+    FILE* src, * dst;
+    char buffer[4096];
+    size_t n;
+
+    src = fopen(sourceFilePath, "rb");
+    dst = fopen(destinationFilePath, "wb");
+
+    while ((n = fread(buffer, 1, sizeof buffer, src)) > 0)
+    {
+        fwrite(buffer, 1, n, dst);
+    }
+    fclose(src);
+    fclose(dst);
     return true;
 }
 
