@@ -333,7 +333,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source</Filter>
-	</ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>

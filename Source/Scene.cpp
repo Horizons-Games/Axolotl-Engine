@@ -3,6 +3,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
+#include "Modules/ModuleRender.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -27,6 +28,8 @@ Scene::Scene()
 	root = new GameObject("New Scene");
 	sceneGameObjects.push_back(root);
 
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+
 	// ----------- Light ------------
 	ambientLight = CreateGameObject("AmbientLight", root);
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
@@ -45,7 +48,6 @@ Scene::Scene()
 	RenderLights();
 	// ------------------------------
 
-	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
 	FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
