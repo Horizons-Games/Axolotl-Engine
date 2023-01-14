@@ -46,11 +46,11 @@ void ComponentMeshRenderer::Display()
 
 void ComponentMeshRenderer::Draw()
 {
-	if (!mesh.expired())
-	{
-		//lock it so it does not expire during this block
-		std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	//lock it so it does not expire during this block
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
+	if (meshAsShared) //pointer not empty
+	{
 		unsigned program = App->program->GetProgram();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
