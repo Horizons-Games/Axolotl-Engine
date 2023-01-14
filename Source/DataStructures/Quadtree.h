@@ -17,7 +17,8 @@ public:
 	void Remove(GameObject* gameObject);
 	void SmartRemove();
 	bool InQuadrant(GameObject* gameObject);
-	void Subdivide(GameObject* gameObject);
+	void Subdivide();
+	void RedistributeGameObjects(GameObject* gameobject);
 
 	void ExpandQuadtree(GameObject* gameObject);
 	void ExpandToFit(GameObject* gameObject);

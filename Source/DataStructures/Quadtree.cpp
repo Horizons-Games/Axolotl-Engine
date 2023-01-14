@@ -45,7 +45,11 @@ void Quadtree::Add(GameObject* gameObject)
 		{
 			if (gameObjects.size() < quadrantCapacity) gameObjects.push_back(gameObject);
 			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared) gameObjects.push_back(gameObject);
-			else Subdivide(gameObject);
+			else
+			{
+				Subdivide();
+				RedistributeGameObjects(gameObject);
+			}
 		}
 		else
 		{
@@ -131,7 +135,7 @@ bool Quadtree::InQuadrant(GameObject* gameObject)
 	return boundingBox.Intersects(boxes->GetEncapsuledAABB());
 }
 
-void Quadtree::Subdivide(GameObject* gameObject)
+void Quadtree::Subdivide()
 {
 
 	// Subdivision part
@@ -149,18 +153,31 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	AABB quadrantBoundingBox;
 	float3 newSize(xSize * 0.5f, currentSize.y, zSize * 0.5f);
 	
-	quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontRight, newSize);
-	frontRightNode = new Quadtree(quadrantBoundingBox, this);
-	
-	quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontLeft, newSize);
-	frontLeftNode = new Quadtree(quadrantBoundingBox, this);
+	if (frontRightNode == nullptr) 
+	{
+		quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontRight, newSize);
+		frontRightNode = new Quadtree(quadrantBoundingBox, this);
 
-	quadrantBoundingBox.SetFromCenterAndSize(newCenterBackRight, newSize);
-	backRightNode = new Quadtree(quadrantBoundingBox, this);
+	}
+	if (frontLeftNode == nullptr)
+	{
+		quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontLeft, newSize);
+		frontLeftNode = new Quadtree(quadrantBoundingBox, this);
+	}
+	if (backRightNode == nullptr)
+	{
+		quadrantBoundingBox.SetFromCenterAndSize(newCenterBackRight, newSize);
+		backRightNode = new Quadtree(quadrantBoundingBox, this);
+	}
+	if (backLeftNode == nullptr)
+	{
+		quadrantBoundingBox.SetFromCenterAndSize(newCenterBackLeft, newSize);
+		backLeftNode = new Quadtree(quadrantBoundingBox, this);
+	}
+}
 
-	quadrantBoundingBox.SetFromCenterAndSize(newCenterBackLeft, newSize);
-	backLeftNode = new Quadtree(quadrantBoundingBox, this);
-
+void Quadtree::RedistributeGameObjects(GameObject* gameObject) 
+{
 	// GameObject redistribution part
 	gameObjects.push_back(gameObject);
 
@@ -218,39 +235,57 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 	
 	if (!InQuadrant(gameObject))
 	{
+		Quadtree* newRootQuadTree = nullptr;
 		if (gameObjectPosition.x > quadTreeMaxX && gameObjectPosition.z > quadTreeMaxZ)
 		{
 			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->backLeftNode = this;
 		}
 		else if (gameObjectPosition.x < quadTreeMinX && gameObjectPosition.z < quadTreeMinZ)
 		{
 			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->frontRightNode = this;
 		}
 		else if (gameObjectPosition.z > quadTreeMaxZ && gameObjectPosition.x < quadTreeMinX)
 		{
 			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->frontLeftNode = this;
 		}
 		else if (gameObjectPosition.z < quadTreeMinZ && gameObjectPosition.x > quadTreeMaxX)
 		{
 			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->backRightNode = this;
 		}
 		else if (gameObjectPosition.x > quadTreeMaxX || gameObjectPosition.z > quadTreeMaxZ)
 		{
 			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->backLeftNode = this;
 		}
 		else if (gameObjectPosition.x < quadTreeMinX || gameObjectPosition.z < quadTreeMinZ)
 		{
 			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			AABB newAABB = AABB(newMinPoint, newMaxPoint);
+			newRootQuadTree = new Quadtree(newAABB, nullptr);
+			newRootQuadTree->frontRightNode = this;
 		}
-
-		AABB newAABB = AABB(newMinPoint, newMaxPoint);
-		Quadtree* newRootQuadTree = new Quadtree(newAABB, nullptr);
+		newRootQuadTree->Subdivide();
 		App->scene->GetLoadedScene()->SetSceneQuadTree(newRootQuadTree);
 		if (!newRootQuadTree->InQuadrant(gameObject)) newRootQuadTree->ExpandToFit(gameObject);
 	}
