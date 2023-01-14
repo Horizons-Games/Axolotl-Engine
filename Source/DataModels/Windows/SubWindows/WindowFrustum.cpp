@@ -35,6 +35,12 @@ void WindowFrustum::DrawWindowContents()
 		App->engineCamera->SetFrustumOffset(vFrustum);
 	}
 
+	bool isQuadtreeFreezed = App->scene->GetSceneQuadTree()->IsFreezed();
+	if (ImGui::Checkbox("Freeze Quadtree", &isQuadtreeFreezed))
+	{
+		App->scene->GetSceneQuadTree()->SetFreezedStatus(isQuadtreeFreezed);
+	}
+
 	int quadrantCapacity = App->scene->GetSceneQuadTree()->GetQuadrantCapacity();
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
 		App->scene->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);

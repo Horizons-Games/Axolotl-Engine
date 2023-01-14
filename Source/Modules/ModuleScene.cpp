@@ -1,4 +1,6 @@
+#include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
 #include "DataStructures/Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
@@ -77,7 +79,7 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 		}
 		else 
 		{
-			//TODO: Add to renderList gameObjects
+			App->renderer->AddToRenderList(gameObject);
 		}
 	}
 	else 

@@ -43,7 +43,8 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void DrawScene(Quadtree* quadtree);
+	void FillRenderList(Quadtree* quadtree);
+	void AddToRenderList(GameObject* gameObject);
 	
 	bool LoadModel(const char* path); // This method should disappear
 	bool AnyModelLoaded(); // This method should disappear
@@ -61,7 +62,7 @@ private:
 	
 	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
 
-	std::vector<std::shared_ptr<GameObject>> gameObjects;
+	std::vector<GameObject*> gameObjects; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;

@@ -38,7 +38,7 @@ public:
 	Quadtree* GetBackLeftNode() const;
 
 	bool IsFreezed() const;
-	void ChangeFreeze();
+	void SetFreezedStatus(bool isFreezed);
 
 	int GetQuadrantCapacity() const;
 	void SetQuadrantCapacity(int quadrantCapacity);
@@ -69,9 +69,9 @@ inline bool Quadtree::IsFreezed() const
 	return isFreezed;
 }
 
-inline void Quadtree::ChangeFreeze()
+inline void Quadtree::SetFreezedStatus(bool isFreezed)
 {
-	isFreezed = !isFreezed;
+	this->isFreezed = isFreezed;
 }
  
 inline const AABB& Quadtree::GetBoundingBox() const

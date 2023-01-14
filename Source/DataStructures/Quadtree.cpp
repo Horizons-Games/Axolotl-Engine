@@ -238,7 +238,7 @@ void Quadtree::AdjustHeightToNodes(float minY, float maxY)
 	newMaxPoint.y = maxY;
 	AABB newAABB = AABB(newMinPoint, newMaxPoint);
 	SetBoundingBox(newAABB);
-	if (!IsLeaf) 
+	if (!IsLeaf()) 
 	{
 		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
 		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
