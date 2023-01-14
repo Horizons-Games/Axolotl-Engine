@@ -213,27 +213,36 @@ void ModelImporter::SaveInfoMaterial(const std::vector<std::string>& pathTexture
 	cursor += bytes;
 
 	bytes = pathTextures[1].size();
-	memcpy(cursor, &(pathTextures[1]), bytes);
+	memcpy(cursor, pathTextures[1].c_str(), bytes);
 
 	cursor += bytes;
 
 	bytes = pathTextures[2].size();
-	memcpy(cursor, &(pathTextures[2]), bytes);
+	memcpy(cursor, pathTextures[2].c_str(), bytes);
 
 	cursor += bytes;
 
 	bytes = pathTextures[3].size();
-	memcpy(cursor, &(pathTextures[3]), bytes);
+	memcpy(cursor, pathTextures[3].c_str(), bytes);
+
 }
 
 void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) {
 
 	unsigned int numIndexes = 3;
 
-	unsigned int header[3] = { ourMesh->mNumFaces, ourMesh->mNumVertices, ourMesh->mMaterialIndex };
+	unsigned int hasTangents = ourMesh->mTangents != nullptr;
+
+	unsigned int header[4] = 
+	{ 
+		ourMesh->mNumFaces, 
+		ourMesh->mNumVertices, 
+		ourMesh->mMaterialIndex,
+		hasTangents
+	};
 
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
-		+ sizeof(float3) * ourMesh->mNumVertices * 2;
+		+ sizeof(float3) * ourMesh->mNumVertices * 4;
 	
 	char* cursor = new char[size] {};
 
@@ -254,6 +263,19 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	cursor += bytes;
 
+	bytes = sizeof(float3) * ourMesh->mNumVertices;
+	memcpy(cursor, &(ourMesh->mNormals[0]), bytes);
+
+	cursor += bytes;
+
+	if (hasTangents) 
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mTangents[0]), bytes);
+
+		cursor += bytes;
+	}
+
 	for (int i = 0; i < ourMesh->mNumFaces; ++i) 
 	{
 		bytes = sizeof(unsigned int) * numIndexes;
@@ -261,5 +283,6 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 		cursor += bytes;
 	}
+
 }
 
