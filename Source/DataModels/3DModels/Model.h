@@ -22,6 +22,7 @@ struct Material
 	bool haveSpecular = false;
 
 	float shininess;
+	float normalStrength;
 };
 
 
