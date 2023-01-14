@@ -134,6 +134,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		material->specularColor = resourceMaterial->GetSpecularColor();
 		material->shininess = resourceMaterial->GetShininess();
 		material->haveShininessAlpha = resourceMaterial->HaveShininessAlpha();
+		material->normalStrength = resourceMaterial->GetNormalStrength();
 
 		materials.push_back((std::unique_ptr<Material>(material)));
 	}

@@ -6,11 +6,15 @@ struct Material {
     vec3 specular_color;
     sampler2D specular_map;
     float shininess;
+    sampler2D normal_map;
+    float normal_strength;
     vec3 ambient;
     
     int has_diffuse_map;
     int has_specular_map;
     int shininess_alpha;
+    int has_shininess_map;
+    bool has_normal_map;
 };
 
 struct PointLight
@@ -56,13 +60,23 @@ readonly layout(std430, binding=4) buffer SpotLights
 uniform Material material;
 uniform Light light;
 
+in vec3 fragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
 
+//layout(binding = 1) uniform sampler2D normalMap;
+
 in vec2 TexCoord;
 
 out vec4 outColor;
+
+mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
+{
+    vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
+    vec3 bitangent = cross(orthoTangent, normal);
+    return transpose(mat3(orthoTangent, bitangent, normal)); //TBN
+}
 
 vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
@@ -80,6 +94,7 @@ void main()
 	// -------------------------------------
 	
 	vec3 norm = normalize(Normal);
+    vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
 
@@ -89,6 +104,17 @@ void main()
         textureMat = pow(textureMat, vec3(2.2));
     }
     
+
+	if (material.has_normal_map)
+	{
+        mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
+        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = norm * 2.0 - 1.0;
+        norm.xy *= material.normal_strength;
+        norm = normalize(norm);
+        norm = space * norm;
+	}
+
     //fresnel
     vec4 specularMat =  vec4(material.specular_color, 0.0);
     if (material.has_specular_map == 1) {

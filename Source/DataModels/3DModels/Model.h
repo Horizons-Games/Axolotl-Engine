@@ -25,6 +25,7 @@ struct Material
 	bool haveShininessAlpha = false;
 
 	float shininess;
+	float normalStrength;
 };
 
 

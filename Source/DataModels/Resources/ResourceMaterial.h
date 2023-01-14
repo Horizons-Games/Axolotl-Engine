@@ -27,6 +27,7 @@ public:
 	float3& GetDiffuseColor();
 	float3& GetSpecularColor();
 	float& GetShininess();
+	float& GetNormalStrength();
 	bool haveDiffuse();
 	bool haveNormal();
 	bool haveOcclusion();
@@ -44,6 +45,7 @@ public:
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float& shininess);
+	void SetNormalStrength(float& normalStrength);
 
 private:
 
@@ -54,6 +56,7 @@ private:
 	float3 diffuseColor;
 	float3 specularColor;
 	float shininess;
+	float normalStrength;
 
 	//TODO change UID or leave this here meanwhile this is for MaterialImporter and Component Material charge
 	bool diffuse;
@@ -75,6 +78,7 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	diffuseColor = float3(1.0, 1.0, 0.0);
 	specularColor = float3(0.5, 0.3, 0.5);
 	shininess = 512.f;
+	normalStrength = 1.0f;
 	diffuse = false;
 	normal = false;
 	occlusion = false;
@@ -120,6 +124,11 @@ inline float3& ResourceMaterial::GetSpecularColor()
 inline float& ResourceMaterial::GetShininess()
 {
 	return this->shininess;
+}
+
+inline float& ResourceMaterial::GetNormalStrength()
+{
+	return this->normalStrength;
 }
 
 inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
@@ -191,3 +200,7 @@ inline void ResourceMaterial::SetShininess(float& shininess)
 	this->shininess = shininess;
 }
 
+inline void ResourceMaterial::SetNormalStrength(float& normalStrength)
+{
+	this->normalStrength = normalStrength;
+}
