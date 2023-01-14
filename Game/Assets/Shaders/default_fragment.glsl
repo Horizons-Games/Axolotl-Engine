@@ -85,9 +85,9 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
   
 void main()
 {
-	vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
+	//vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
 
-	vec3 result = ambient;
+	//vec3 result = ambient;
 	
 	//color = vec4(result, 1.0);
 
