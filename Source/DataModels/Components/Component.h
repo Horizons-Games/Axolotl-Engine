@@ -26,6 +26,7 @@ public:
 	ComponentType GetType();
 
 	GameObject* GetOwner();
+	const UID& GetUID() const;
 private:
 	ComponentType type;
 	bool active;
@@ -67,4 +68,9 @@ inline ComponentType Component::GetType()
 inline GameObject* Component::GetOwner()
 {
 	return this->owner;
+}
+
+inline const UID& Component::GetUID() const
+{
+	return componentUID;
 }
