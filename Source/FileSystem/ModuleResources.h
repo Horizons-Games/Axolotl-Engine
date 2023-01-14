@@ -13,6 +13,7 @@ class Resource;
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
+class MaterialImporter;
 
 enum class ResourceType;
 
@@ -29,7 +30,10 @@ public:
 	UID ImportResource(const std::string& originalPath);
 
 	const std::shared_ptr<Resource>& RequestResource(UID uid);
+	//this might not belong here
 	const std::string GetPath(const std::string& path);
+	const std::string GetFileName(const std::string& path);
+	const std::string GetFileExtension(const std::string& path);
 
 private:
 	void MonitorResources();
@@ -41,8 +45,6 @@ private:
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 	//this might not belong here
-	const std::string GetFileName(const std::string& path);
-	const std::string GetFileExtension(const std::string& path);
 	const std::string GetFolderOfType(ResourceType type);
 	const std::string GetNameOfType(ResourceType type);
 	ResourceType GetTypeOfName(const std::string& typeName);
@@ -68,6 +70,7 @@ private:
 	std::shared_ptr<ModelImporter> modelImporter;
 	std::shared_ptr<TextureImporter> textureImporter;
 	std::shared_ptr<MeshImporter> meshImporter;
+	std::shared_ptr<MaterialImporter> materialImporter;
 	
 	std::thread monitorThread;
 	bool monitorResources;

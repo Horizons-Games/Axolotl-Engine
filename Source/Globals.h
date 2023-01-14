@@ -40,6 +40,7 @@ enum update_status
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
 #define MESHES_LIB_PATH "Lib/Meshes/"
+#define MATERIAL_LIB_PATH "Lib/Materials/"
 
 // Resource extension ------
 #define MODEL_EXTENSION ".fbx"
