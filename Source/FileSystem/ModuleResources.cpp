@@ -284,27 +284,33 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 {
-	const std::string fileExtension = GetFileExtension(path);
-	
-	if (fileExtension == MODEL_EXTENSION) 
+	std::string fileExtension = GetFileExtension(path);
+	std::string normalizedExtension = "";
+
+	for(int i = 0; i < fileExtension.size(); ++i) 
+	{
+		normalizedExtension.push_back(tolower(fileExtension[i]));
+	}
+
+	if (normalizedExtension == MODEL_EXTENSION)
 	{
 		return ResourceType::Model;
 	}
-	else if (fileExtension == JPG_TEXTURE_EXTENSION || fileExtension == PNG_TEXTURE_EXTENSION || 
-			fileExtension == TIF_TEXTURE_EXTENSION || fileExtension == DDS_TEXTURE_EXTENSION || 
-			fileExtension == TGA_TEXTURE_EXTENSION) 
+	else if (normalizedExtension == JPG_TEXTURE_EXTENSION || normalizedExtension == PNG_TEXTURE_EXTENSION || 
+			normalizedExtension == TIF_TEXTURE_EXTENSION || normalizedExtension == DDS_TEXTURE_EXTENSION || 
+			normalizedExtension == TGA_TEXTURE_EXTENSION) 
 	{
 		return ResourceType::Texture;
 	}
-	else if (fileExtension == SCENE_EXTENSION) 
+	else if (normalizedExtension == SCENE_EXTENSION) 
 	{
 		return ResourceType::Scene;
 	}
-	else if (fileExtension == MATERIAL_EXTENSION)
+	else if (normalizedExtension == MATERIAL_EXTENSION)
 	{
 		return ResourceType::Material;
 	}
-	else if (fileExtension == MESH_EXTENSION)
+	else if (normalizedExtension == MESH_EXTENSION)
 	{
 		return ResourceType::Mesh;
 	}
