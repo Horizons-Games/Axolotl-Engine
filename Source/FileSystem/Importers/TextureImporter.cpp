@@ -106,11 +106,13 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[4] = 
-	{ 
+	unsigned int header[6] =
+	{
 		resource->GetWidth(),
 		resource->GetHeight(),
 		resource->GetFormat(),
+		resource->GetInternalFormat(),
+		resource->GetImageType(),
 		resource->GetPixelsSize()
 	};
 
@@ -134,13 +136,15 @@ uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource,
 
 void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
 {
-	unsigned int header[4];
+	unsigned int header[6];
 	memcpy(header, fileBuffer, sizeof(header));
 
 	resource->SetWidth(header[0]);
 	resource->SetHeight(header[1]);
 	resource->SetFormat(header[2]);
-	resource->SetPixelsSize(header[3]);
+	resource->SetInternalFormat(header[3]);
+	resource->SetImageType(header[4]);
+	resource->SetPixelsSize(header[5]);
 
 	fileBuffer += sizeof(header);
 
