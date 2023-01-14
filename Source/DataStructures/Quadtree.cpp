@@ -89,7 +89,7 @@ void Quadtree::Remove(GameObject* gameObject)
 		if (it != gameObjects.end())
 		{
 			gameObjects.erase(it);
-			parent->SmartRemove();
+			if (parent != nullptr) parent->SmartRemove();
 		}
 	}
 	else
