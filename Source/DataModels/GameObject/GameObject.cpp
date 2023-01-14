@@ -36,13 +36,29 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	for (Component* component : components)
-		component->Update();
+	{
+		if (component->GetActive())
+		{
+			component->Update();
+			component->Draw(); // Once GameObject->Draw() is called, delete this line
+		}
+	}
 }
 
 void GameObject::Draw()
 {
-	//TODO: Draw the components what needs a draw
-	//for (Component* component : components) component->Draw();
+	for (Component* component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
+}
+
+void GameObject::Load()
+{
+
 }
 
 void GameObject::SetParent(GameObject* newParent)

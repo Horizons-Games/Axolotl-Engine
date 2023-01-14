@@ -36,17 +36,11 @@ public:
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
-	std::shared_ptr<Model> GetModel(unsigned pos) const; // This method should disappear
-	const int GetModelCount() const; // This method should disappear
-
 	unsigned int GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
 	void DrawScene(Quadtree* quadtree);
-	
-	bool LoadModel(const char* path); // This method should disappear
-	bool AnyModelLoaded(); // This method should disappear
 
 	bool IsSupportedPath(const std::string& modelPath);
 
@@ -57,8 +51,6 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-	
-	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
 
 	const std::vector<std::string> modelTypes = { "FBX" };
 
@@ -80,16 +72,6 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 inline float4 ModuleRender::GetBackgroundColor() const
 {
 	return backgroundColor;
-}
-
-inline std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
-{
-	return models[pos];
-}
-
-inline const int ModuleRender::GetModelCount() const
-{
-	return models.size();
 }
 
 inline unsigned int ModuleRender::GetRenderedTexture() const

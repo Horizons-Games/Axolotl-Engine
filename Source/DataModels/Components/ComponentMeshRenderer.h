@@ -18,8 +18,8 @@ public:
 	bool Init();
 	void Update() override;
 
-	void Display();
 	void Draw();
+	void Display();
 
 	void SetMeshUID(UID& meshUID);
 	void SetTextureUID(UID& textureUID);
