@@ -27,17 +27,13 @@ bool ModuleScene::Init()
 	selectedGameObject = root;
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-	FillQuadtree(root); //TODO: This call has to be moved AFTER the scene is loaded
+	FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 	return true;
 }
 
-void ModuleScene::FillQuadtree(GameObject* gameObject) 
+void ModuleScene::FillQuadtree(std::vector<GameObject*>& gameObjects)
 {
-	sceneQuadTree->Add(gameObject);
-	if (!gameObject->GetChildren().empty())
-	{
-		for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
-	}
+	for (GameObject* gameObject : gameObjects) sceneQuadTree->Add(gameObject);
 }
 
 bool ModuleScene::IsInsideACamera(const OBB& obb)
@@ -69,8 +65,25 @@ GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
 
 	GameObject* gameObject = new GameObject(name, parent);
 	sceneGameObjects.push_back(gameObject);
-	if (!sceneQuadTree->InQuadrant(gameObject)) sceneQuadTree->ExpandToFit(gameObject);
-	sceneQuadTree->Add(gameObject);
+
+
+	//Quadtree treatment
+	if (!sceneQuadTree->InQuadrant(gameObject)) 
+	{
+		if (!sceneQuadTree->IsFreezed()) 
+		{
+			sceneQuadTree->ExpandQuadtree(gameObject);
+			FillQuadtree(sceneGameObjects);
+		}
+		else 
+		{
+			//TODO: Add to renderList gameObjects
+		}
+	}
+	else 
+	{
+		sceneQuadTree->Add(gameObject);
+	}
 	return gameObject;
 }
 
@@ -92,6 +105,7 @@ void ModuleScene::DestroyGameObject(GameObject* gameObject)
 		if (*it == gameObject)
 		{
 			sceneGameObjects.erase(it);
+			sceneQuadTree->Remove(*it);
 			delete gameObject;
 			return;
 		}

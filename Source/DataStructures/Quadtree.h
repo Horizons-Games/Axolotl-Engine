@@ -18,9 +18,13 @@ public:
 	void SmartRemove(GameObject* gameObject);
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide(GameObject* gameObject);
+
+	void ExpandQuadtree(GameObject* gameObject);
 	void ExpandToFit(GameObject* gameObject);
 	void AdjustHeightToNodes(float minY, float maxY);
+
 	void Clear();
+	void ResetChildren();
 	void Draw();
 
 	const std::list<GameObject*>& GetGameObjectsToDraw();
@@ -32,6 +36,9 @@ public:
 	Quadtree* GetFrontLeftNode() const;
 	Quadtree* GetBackRightNode() const;
 	Quadtree* GetBackLeftNode() const;
+
+	bool IsFreezed() const;
+	void ChangeFreeze();
 
 	int GetQuadrantCapacity() const;
 	void SetQuadrantCapacity(int quadrantCapacity);
@@ -53,8 +60,20 @@ private:
 	Quadtree* frontLeftNode = nullptr;
 	Quadtree* backRightNode = nullptr;
 	Quadtree* backLeftNode = nullptr;
+
+	bool isFreezed = false;
 };
 
+inline bool Quadtree::IsFreezed() const
+{
+	return isFreezed;
+}
+
+inline void Quadtree::ChangeFreeze()
+{
+	isFreezed = !isFreezed;
+}
+ 
 inline const AABB& Quadtree::GetBoundingBox() const
 {
 	return boundingBox;

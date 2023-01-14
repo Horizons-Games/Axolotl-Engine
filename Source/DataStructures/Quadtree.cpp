@@ -2,6 +2,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentBoundingBoxes.h"
 #include "Application.h"
 
 #include "math/float4x4.h"
@@ -22,10 +23,7 @@ Quadtree::Quadtree(const AABB& boundingBox, Quadtree* parent) : boundingBox(boun
 
 Quadtree::~Quadtree()
 {
-	delete frontLeftNode;
-	delete frontRightNode;
-	delete backLeftNode;
-	delete backRightNode;
+	ResetChildren();
 
 	/*
 	for (std::list<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
@@ -47,21 +45,27 @@ bool Quadtree::IsLeaf() const
 void Quadtree::Add(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
-	assert(InQuadrant(gameObject));
 
-	if (IsLeaf()) 
-	{
-		if (gameObjects.size() < quadrantCapacity) gameObjects.push_back(gameObject);
-		else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared) gameObjects.push_back(gameObject);
-		else Subdivide(gameObject);
-	}
+	if (!InQuadrant(gameObject) && !isFreezed && parent != nullptr) ExpandQuadtree(gameObject);
+	else if (!InQuadrant(gameObject)) return;
 	else 
 	{
-		frontRightNode->Add(gameObject);
-		frontLeftNode->Add(gameObject);
-		backRightNode->Add(gameObject);
-		backLeftNode->Add(gameObject);
+		if (IsLeaf())
+		{
+			if (gameObjects.size() < quadrantCapacity) gameObjects.push_back(gameObject);
+			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared) gameObjects.push_back(gameObject);
+			else Subdivide(gameObject);
+		}
+		else
+		{
+			frontRightNode->Add(gameObject);
+			frontLeftNode->Add(gameObject);
+			backRightNode->Add(gameObject);
+			backLeftNode->Add(gameObject);
+		}
 	}
+
+	
 }
 
 Quadtree* Quadtree::Remove(GameObject* gameObject)
@@ -92,18 +96,14 @@ void Quadtree::SmartRemove(GameObject* gameObject)
 	if (quadrantWrapper != nullptr && quadrantWrapper->GetGameObjects().empty()) 
 	{
 		quadrantWrapper->Clear();
-		delete frontRightNode;
-		delete frontLeftNode;
-		delete backRightNode;
-		delete backLeftNode;
+		quadrantWrapper->ResetChildren();
 	}
 }
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
-	//return boundingBox.Intersects(gameObject->GetAABB());
-	//Dummy implementation until we can get the AABB from mesh
-	return true;
+	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
+	return boundingBox.Intersects(boxes->GetEncapsuledAABB());
 }
 
 void Quadtree::Subdivide(GameObject* gameObject)
@@ -158,6 +158,16 @@ void Quadtree::Subdivide(GameObject* gameObject)
 			if (inBackLeft) backLeftNode->Add(go);
 		}
 	}
+}
+
+void Quadtree::ExpandQuadtree(GameObject* gameObject)
+{
+
+	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
+	boundingBox.Enclose(boxes->GetEncapsuledAABB());
+
+	Clear();
+	ResetChildren();
 }
 
 void Quadtree::ExpandToFit(GameObject* gameObject)
@@ -248,6 +258,14 @@ void Quadtree::Clear()
 		this->frontRightNode->Clear();
 		this->frontRightNode->Clear();
 	}
+}
+
+void Quadtree::ResetChildren()
+{
+	delete frontLeftNode;
+	delete frontRightNode;
+	delete backLeftNode;
+	delete backRightNode;
 }
 
 // Draw recursively in the scene

@@ -20,7 +20,7 @@ public:
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
 
-	void FillQuadtree(GameObject* gameObject);
+	void FillQuadtree(std::vector<GameObject*>& gameObjects);
 	bool IsInsideACamera(const OBB& obb);
 	bool IsInsideACamera(const AABB& aabb);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
