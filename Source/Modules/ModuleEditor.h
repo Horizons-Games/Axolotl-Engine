@@ -29,6 +29,10 @@ public:
 	unsigned dock_right_id = 0;
 	unsigned dock_down_id = 0;
 
+	unsigned dock_spaceLeft_id = 0;
+	unsigned dock_spaceRight_id = 0;
+	unsigned dock_spaceDown_id = 0;
+
 private:
 	std::vector<std::string> lines;
 	std::vector<std::shared_ptr<EditorWindow> > windows;
