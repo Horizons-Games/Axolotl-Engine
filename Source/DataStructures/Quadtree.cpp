@@ -48,7 +48,7 @@ void Quadtree::Add(GameObject* gameObject)
 			else
 			{
 				Subdivide();
-				RedistributeGameObjects(gameObject)
+				RedistributeGameObjects(gameObject);
 			}
 		}
 		else
