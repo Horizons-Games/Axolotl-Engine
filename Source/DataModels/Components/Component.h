@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../FileSystem/UniqueID.h"
+
 enum class ComponentType {/*MATERIAL,*/ MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
@@ -28,6 +30,7 @@ private:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
+	UID componentUID;
 };
 
 inline bool Component::Init()

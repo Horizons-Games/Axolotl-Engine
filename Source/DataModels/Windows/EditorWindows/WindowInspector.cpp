@@ -84,6 +84,7 @@ void WindowInspector::DrawWindowContents()
 	for (Component* component : currentGameObject->GetComponents())
 	{
 		component->Display();
+		DrawDeleteComponentContent();
 	}
 
 	//DrawTextureTable();
