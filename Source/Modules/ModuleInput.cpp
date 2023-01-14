@@ -121,8 +121,8 @@ update_status ModuleInput::Update()
             /*if (App->renderer->IsSupportedPath(droppedFilePath))
                 App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
-            std::replace( dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            App->scene->GetLoadedScene()->ConvertIntoGameObject(droppedFilePath);
+            std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
+            App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
             //UID modelUID = App->resources->ImportThread(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;

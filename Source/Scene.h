@@ -22,7 +22,7 @@ public:
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
-	void ConvertIntoGameObject(const char* model);
+	void ConvertModelIntoGameObject(const char* model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 

@@ -93,7 +93,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	}
 }
 
-void Scene::ConvertIntoGameObject(const char* model)
+void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	UID modelUID = App->resources->ImportResource(model);
 	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>
@@ -109,8 +109,8 @@ void Scene::ConvertIntoGameObject(const char* model)
 
 		ResourceMesh* mesh = (ResourceMesh*)App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).get();
 		ResourceTexture* texture = (ResourceTexture*)App->resources->RequestResource(resourceModel->GetTexturesUIDs()[0]).get();
-		//meshRenderer->SetMesh(mesh);
-		//meshRenderer->SetTexture(texture);
+		meshRenderer->SetMesh(mesh);
+		meshRenderer->SetTexture(texture);
 	}
 }
 
