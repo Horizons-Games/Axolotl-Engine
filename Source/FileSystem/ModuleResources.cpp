@@ -254,6 +254,11 @@ UID ModuleResources::ImportThread(const std::string& originalPath)
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
+	if (type == ResourceType::Unknown)
+	{
+		ENGINE_LOG("Extension not supported");
+		return 0;
+	}
 	std::string fileName = GetFileName(originalPath);
 	std::string extension = GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
@@ -379,7 +384,7 @@ const std::string ModuleResources::GetFileName(const std::string& path)
 	}
 	std::string fileExtension = GetFileExtension(fileName);
 	int posOfExtensionInPath = fileName.find(fileExtension);
-	if (posOfExtensionInPath != 0) //has file extension
+	if (posOfExtensionInPath > 0) //has file extension
 	{
 		fileName.erase(posOfExtensionInPath, fileExtension.size());
 	}
@@ -393,7 +398,6 @@ const std::string ModuleResources::GetFileExtension(const std::string& path)
 	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
 	{
 		char currentChar = path[i];
-		currentChar = tolower(currentChar);
 		fileExtension.insert(fileExtension.begin(), currentChar);
 		dotNotFound = currentChar != '.';
 	}

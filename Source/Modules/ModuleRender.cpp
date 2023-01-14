@@ -314,19 +314,23 @@ bool ModuleRender::LoadModel(const char* path)
 	ENGINE_LOG("---- Loading Model ----");
 
 	UID modelUID = App->resources->ImportResource(path);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
-	resourceModel->Load();
-
-	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->SetFromResource(resourceModel);
-
-	if (AnyModelLoaded())
+	if(modelUID != 0)
 	{
-		models[0] = nullptr;
-		models.clear();
-	}
+		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+		resourceModel->Load();
 
-	models.push_back(newModel);
+		std::shared_ptr<Model> newModel = std::make_shared<Model>();
+		newModel->SetFromResource(resourceModel);
+
+		if (AnyModelLoaded())
+		{
+			models[0] = nullptr;
+			models.clear();
+		}
+
+		models.push_back(newModel);
+	}
+	
 
 	return false;
 }
