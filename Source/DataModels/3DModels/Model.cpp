@@ -142,7 +142,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	{
 
 		std::shared_ptr<ResourceMesh> resourceMesh = 
-			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]));
+			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]).lock());
 
 		resourceMesh->Load();
 		Mesh* mesh = new Mesh();
