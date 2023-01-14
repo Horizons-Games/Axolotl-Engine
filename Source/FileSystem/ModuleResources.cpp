@@ -233,7 +233,7 @@ bool ModuleResources::Start()
 	}
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
