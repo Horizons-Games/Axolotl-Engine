@@ -8,6 +8,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#include "Scene.h"
 #include "Quadtree.h"
 
 #include "3DModels/Model.h"
@@ -166,9 +167,9 @@ bool ModuleRender::Start()
 	UpdateProgram();
 
 	// Import models into the scene
-	App->scene->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
-	App->scene->ConvertIntoGameObject("Assets/Models/shiba.fbx");
-	App->scene->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }

@@ -255,6 +255,7 @@
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h" />
@@ -416,6 +417,7 @@
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs" />
