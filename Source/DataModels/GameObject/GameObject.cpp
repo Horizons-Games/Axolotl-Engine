@@ -3,6 +3,7 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 
@@ -179,6 +180,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
+			break;
+		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
 			break;
 		}
 		case ComponentType::BOUNDINGBOX:

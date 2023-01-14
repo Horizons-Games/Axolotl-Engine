@@ -61,14 +61,21 @@ void WindowInspector::DrawWindowContents()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		if (ImGui::MenuItem("Mesh Renderer"))
+		if (App->scene->GetSelectedGameObject() != nullptr)
 		{
-			AddComponentMeshRenderer();
-		}
+			if (ImGui::MenuItem("Mesh Renderer"))
+			{
+				AddComponentMeshRenderer();
+			}
 
-		if (ImGui::MenuItem("Light"))
+			if (ImGui::MenuItem("Light"))
+			{
+				AddComponentLight();
+			}
+		}
+		else
 		{
-			AddComponentLight();
+			ENGINE_LOG("No GameObject is selected");
 		}
 
 		ImGui::EndPopup();
@@ -106,10 +113,16 @@ void WindowInspector::DrawTextureTable()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	ComponentMeshRenderer* newMeshRenderer = new ComponentMeshRenderer(true, App->scene->GetSelectedGameObject(), 0LL, 0LL);
+	if (App->scene->GetSelectedGameObject()->CreateComponentMeshRenderer(0LL, 0LL) == nullptr)
+	{
+		ENGINE_LOG("The Component Mesh Renderer of the selected GameObject was not created correctly");
+	}
 }
 
 void WindowInspector::AddComponentLight()
 {
-	ComponentLight* newLight = new ComponentLight(true, App->scene->GetSelectedGameObject());
+	if (App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT) == nullptr)
+	{
+		ENGINE_LOG("The Component Light of the selected GameObject was not created correctly");
+	}
 }
