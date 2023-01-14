@@ -45,14 +45,9 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	// Get global position instead of local to set the camera frustum
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	trans->GetGlobalMatrix().Decompose(globalPos, globalRot, globalSca);
+	frustum.SetPos((float3)trans->GetGlobalPosition());
 
-	frustum.SetPos(globalPos);
-
-	float3x3 rotationMatrix = float3x3::FromQuat(globalRot);
+	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
