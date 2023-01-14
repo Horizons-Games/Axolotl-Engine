@@ -3,8 +3,9 @@
 #include "Application.h"
 #include "Modules/ModuleScene.h"
 #include "FileSystem/ModuleResources.h"
+#include "Modules/ModuleRender.h"
 #include "Resources/ResourceModel.h"
-#include "Quadtree.h"
+#include "DataStructures/Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
@@ -16,7 +17,7 @@ Scene::Scene()
 	sceneGameObjects.push_back(root);
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-	FillQuadtree(root); //TODO: This call has to be moved AFTER the scene is loaded
+	FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
 Scene::~Scene()
@@ -28,13 +29,9 @@ Scene::~Scene()
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
 }
 
-void Scene::FillQuadtree(GameObject* gameObject)
+void Scene::FillQuadtree(std::vector<GameObject*>& gameObjects)
 {
-	sceneQuadTree->Add(gameObject);
-	if (!gameObject->GetChildren().empty())
-	{
-		for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
-	}
+	for (GameObject* gameObject : gameObjects) sceneQuadTree->Add(gameObject);
 }
 
 bool Scene::IsInsideACamera(const OBB& obb)
@@ -60,7 +57,24 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	GameObject* gameObject = new GameObject(name, parent);
 	sceneGameObjects.push_back(gameObject);
 
-	//sceneQuadTree->Add(gameObject);
+	//Quadtree treatment
+	if (!sceneQuadTree->InQuadrant(gameObject))
+	{
+		if (!sceneQuadTree->IsFreezed())
+		{
+			sceneQuadTree->ExpandToFit(gameObject);
+			FillQuadtree(sceneGameObjects);
+		}
+		else
+		{
+			App->renderer->AddToRenderList(gameObject);
+		}
+	}
+	else
+	{
+		sceneQuadTree->Add(gameObject);
+	}
+
 	return gameObject;
 }
 

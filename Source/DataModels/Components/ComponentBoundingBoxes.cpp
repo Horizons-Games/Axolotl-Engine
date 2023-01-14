@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
+#include "Scene.h"
 
 #include "imgui.h"
 
@@ -34,7 +35,7 @@ void ComponentBoundingBoxes::Draw()
 
 void ComponentBoundingBoxes::Display()
 {
-	if (App->scene->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		return;
 
 	ImGui::Text("BOUNDING BOXES");

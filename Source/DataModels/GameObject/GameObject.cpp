@@ -12,6 +12,7 @@ GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -39,7 +40,6 @@ void GameObject::Update()
 		if (component->GetActive())
 		{
 			component->Update();
-			component->Draw(); // Once GameObject->Draw() is called, delete this line
 		}
 	}
 }

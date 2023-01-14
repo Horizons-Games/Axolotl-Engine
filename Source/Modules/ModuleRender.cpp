@@ -197,13 +197,8 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	// This loop should disappear
-	for (std::shared_ptr<Model> model : models)
-	{
-		model->Draw();
-	}
 
-	FillRenderList(App->scene->GetSceneQuadTree());
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
@@ -304,7 +299,7 @@ void ModuleRender::UpdateProgram()
 void ModuleRender::FillRenderList(Quadtree* quadtree)
 {
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
-		App->scene->IsInsideACamera(quadtree->GetBoundingBox()))
+		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
 		std::list<GameObject*> gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -340,7 +335,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
 	
 }
 
