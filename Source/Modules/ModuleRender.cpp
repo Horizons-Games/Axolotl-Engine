@@ -7,6 +7,8 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "Scene.h"
 #include "Quadtree.h"
 
 #include "3DModels/Model.h"
@@ -163,25 +165,11 @@ bool ModuleRender::Start()
 	ENGINE_LOG("--------- Render Start ----------");
 
 	UpdateProgram();
-	
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
 
-	models.push_back(bakerHouse); // This line should disappear
-	
-	/*
-	Import resource example:
-		We are using the model as a placeholder class to transfer the information of the resource
-		and display the processed import, but you can move to a gameObject or another class 
-		all the functionality used here*/
-	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
-	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
+	// Import models into the scene
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }
@@ -206,44 +194,6 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	/* Uncomment the loop below when models are removed 
-	and GameObjects are used in their place */
-
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
-	{
-		DrawGameObject(gameObject);
-	}*/
-
-	// This loop should disappear
-	for (std::shared_ptr<Model> model : models)
-	{
-		model->Draw();
-	}
-	
-
-	/*
-	 
-	*Logic to apply when model class is deleted and GameObjects are implemented
-	*
-	
-	FIRST APPROACH
-	DrawScene(App->scene->GetSceneQuadTree());
-	
-	
-	SECOND APPROACH
-	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
-	for (GameObject* gameObject : gameObjectsToDraw) 
-	{
-		for (Component* component : gameObject->GetComponents()) 
-		{
-			if (component->GetType() == ComponentType::MESH) 
-			{
-				//Draw gameobject
-			}
-		}
-	}
-	*/
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -269,11 +219,7 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(this->context);
 
 	glDeleteBuffers(1, &this->vbo);
-
-	gameObjects.clear();
 	
-	models.clear(); // This line should disappear
-
 	return true;
 }
 
@@ -308,36 +254,6 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	UpdateProgram();
 }
 
-
-bool ModuleRender::LoadModel(const char* path)
-{
-	ENGINE_LOG("---- Loading Model ----");
-
-	UID modelUID = App->resources->ImportResource(path);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->SetFromResource(resourceModel);
-
-	if (AnyModelLoaded())
-	{
-		models[0] = nullptr;
-		models.clear();
-	}
-
-	models.push_back(newModel);
-
-	return false;
-}
-
-
-bool ModuleRender::AnyModelLoaded()
-{
-	return !models.empty();
-}
-
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -351,17 +267,6 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	}
 
 	return valid;
-}
-
-
-void ModuleRender::DrawGameObject(std::shared_ptr<GameObject>& gameObject)
-{
-	const std::vector<ComponentMeshRenderer*>& meshRenderers = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-
-	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
-	{
-		meshRenderer->Draw();
-	}
 }
 
 void ModuleRender::UpdateProgram()
@@ -387,14 +292,14 @@ void ModuleRender::DrawScene(Quadtree* quadtree)
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				//gameObject->Draw;
+				//gameObject->Draw();
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				//gameObject->Draw;
+				//gameObject->Draw();
 			}
 			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
 			DrawScene(quadtree->GetFrontLeftNode());

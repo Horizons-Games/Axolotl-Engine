@@ -5,6 +5,7 @@
 
 #include "ModuleTexture.h"
 #include "ModuleEngineCamera.h"
+#include "Scene.h"
 #include "ModuleScene.h"
 
 #include "Mesh.h"
@@ -149,7 +150,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb) || App->scene->GetLoadedScene()->IsInsideACamera(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{

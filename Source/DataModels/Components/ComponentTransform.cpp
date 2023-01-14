@@ -1,7 +1,9 @@
 #include "ComponentTransform.h"
-#include "GameObject/GameObject.h"
+
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "GameObject/GameObject.h"
+#include "Scene.h"
 
 #include "imgui.h"
 
@@ -25,7 +27,7 @@ void ComponentTransform::Update()
 
 void ComponentTransform::Display()
 {
-	if (App->scene->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		return;
 
 	float3 translation = GetPosition();

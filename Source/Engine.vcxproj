@@ -199,7 +199,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
-    <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
@@ -257,6 +256,7 @@
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h" />
@@ -419,6 +419,7 @@
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs" />
