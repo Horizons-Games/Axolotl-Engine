@@ -19,6 +19,12 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
+	: Component(ComponentType::MESHRENDERER, active, owner)
+{
+}
+
+// This Constructor will disappear
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
 	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
 {
@@ -38,7 +44,7 @@ bool ComponentMeshRenderer::Init()
 
 void ComponentMeshRenderer::Update()
 {
-	if (GetActive() && IsMeshLoaded())
+	if (GetActive() && meshUID != 0LL && textureUID != 0LL)
 	{
 		Draw();
 	}
@@ -46,18 +52,18 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Display()
 {
-	ImGui::Text("MESH COMPONENT");
+	ImGui::Text("MESH RENDERER COMPONENT");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
 	if (ImGui::BeginTable("##GeometryTable", 2))
 	{
 		ImGui::TableNextColumn();
 		ImGui::Text("Number of vertices: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumVertices());
+		//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumVertices());
 		ImGui::TableNextColumn();
 		ImGui::Text("Number of triangles: ");
 		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumFaces()); // faces = triangles
+		//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", mesh.get()->GetNumFaces()); // faces = triangles
 
 		ImGui::EndTable();
 		ImGui::Separator();
@@ -103,15 +109,20 @@ void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
 
 void ComponentMeshRenderer::LoadMesh()
 {
-	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
-	mesh->Load();
-	ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-	boundingBox->Encapsule(mesh->GetVertices().data() ,mesh->GetNumVertices());
-	
+	if (meshUID != 0LL)
+	{
+		mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID));
+		ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		mesh->Load();
+		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+	}
 }
 
 void ComponentMeshRenderer::LoadTexture()
-{
-	texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUID));
-	texture->Load();
+{	
+	if (textureUID != 0LL)
+	{
+		texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(textureUID));
+		texture->Load();
+	}
 }

@@ -45,10 +45,6 @@ inline void ComponentLight::Enable()
 	Component::Enable();
 }
 
-inline void ComponentLight::Display()
-{
-}
-
 inline void ComponentLight::Disable()
 {
 	Component::Disable();

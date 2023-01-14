@@ -166,13 +166,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*case ComponentType::MESHRENDERER:
+		case ComponentType::MESHRENDERER:
 		{
 			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		case ComponentType::MATERIAL:
+		/*case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;

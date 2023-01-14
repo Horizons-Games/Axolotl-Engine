@@ -113,7 +113,13 @@ void WindowInspector::DrawTextureTable()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	if (App->scene->GetSelectedGameObject()->CreateComponentMeshRenderer(0LL, 0LL) == nullptr)
+	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*) App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	
+	if (newMeshRenderer != nullptr)
+	{
+		newMeshRenderer->Init();
+	}
+	else
 	{
 		ENGINE_LOG("The Component Mesh Renderer of the selected GameObject was not created correctly");
 	}
