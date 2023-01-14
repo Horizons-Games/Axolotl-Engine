@@ -228,7 +228,7 @@ void Model::Draw()
 
 void Model::NewDraw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{

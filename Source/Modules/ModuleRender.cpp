@@ -222,10 +222,10 @@ update_status ModuleRender::Update()
 	}*/
 
 	// This loop should disappear
-	for (std::shared_ptr<Model> model : models)
+	/*for (std::shared_ptr<Model> model : models)
 	{
 		model->NewDraw();
-	}
+	}*/
 	
 
 	/*

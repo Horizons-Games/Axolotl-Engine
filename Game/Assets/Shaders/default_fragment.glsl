@@ -51,7 +51,7 @@ readonly layout(std430, binding=4) buffer SpotLights
 	SpotLight spots[];
 };
 
-out vec4 color;
+//out vec4 color;
 
 uniform Material material;
 uniform Light light;
@@ -75,7 +75,7 @@ void main()
 
 	vec3 result = ambient;
 	
-	color = vec4(result, 1.0);
+	//color = vec4(result, 1.0);
 
 	// -------------------------------------
 	

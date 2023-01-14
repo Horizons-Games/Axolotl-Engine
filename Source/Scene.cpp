@@ -137,7 +137,7 @@ void Scene::ConvertIntoGameObject(const char* model)
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		gameObjectModel->CreateComponentMeshRenderer(resourceModel->GetMeshesUIDs()[i], resourceModel->GetTexturesUIDs()[0])->Init();
+		gameObjectModel->CreateComponentMeshRenderer(resourceModel->GetMeshesUIDs()[i], resourceModel->GetMaterialsUIDs()[0])->Init();
 	}
 }
 
