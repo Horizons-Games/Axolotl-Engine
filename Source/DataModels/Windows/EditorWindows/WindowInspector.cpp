@@ -81,22 +81,50 @@ void WindowInspector::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 	
-	for (Component* component : currentGameObject->GetComponents())
+	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
 	{
-		component->Display();
+		currentGameObject->GetComponents()[i]->Display();
 
-		if (component->GetType() != ComponentType::TRANSFORM)
+		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			DrawDeleteComponentContent(component->GetUID());
+			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+			DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]->GetUID());
 		}
 	}
 
 	//DrawTextureTable();
 }
 
-void WindowInspector::DrawDeleteComponentContent(UID componentUID)
+void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* component)
 {
-	if (ImGui::Button("Remove Component", ImVec2(150, 35)))
+	if (component->GetActive())
+	{
+		char* textDisable = new char[20];
+		sprintf(textDisable, "Disable #%d", labelNum);
+
+		if (ImGui::Button(textDisable, ImVec2(150, 35)))
+		{
+			component->Disable();
+		}
+	}
+	else
+	{
+		char* textEnable = new char[20];
+		sprintf(textEnable, "Enable #%d", labelNum);
+
+		if (ImGui::Button(textEnable, ImVec2(150, 35)))
+		{
+			component->Enable();
+		}
+	}
+}
+
+void WindowInspector::DrawDeleteComponentContent(int labelNum, UID componentUID)
+{
+	char* textRemove = new char[30];
+	sprintf(textRemove, "Remove Component #%d", labelNum);
+
+	if (ImGui::Button(textRemove, ImVec2(150, 35)))
 	{
 		if (!App->scene->GetSelectedGameObject()->RemoveComponent(componentUID))
 		{
