@@ -5,6 +5,12 @@ ComponentLight::ComponentLight(LightType type) : Component(ComponentType::LIGHT,
 	this->type = type;
 };
 
+ComponentLight::ComponentLight(LightType type, GameObject* gameObject) : 
+	Component(ComponentType::LIGHT, true, gameObject)
+{
+	this->type = type;
+}
+
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity) :
 	Component(ComponentType::LIGHT, true, nullptr)
 {
@@ -13,7 +19,10 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 	this->intensity = intensity;
 }
 
-void ComponentLight::Draw() 
+ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject) :
+	Component(ComponentType::LIGHT, true, gameObject)
 {
-	
+	this->type = type;
+	this->color = color;
+	this->intensity = intensity;
 }

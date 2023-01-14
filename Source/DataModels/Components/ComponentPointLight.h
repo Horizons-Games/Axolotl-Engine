@@ -6,19 +6,20 @@ class ComponentPointLight : public ComponentLight
 {
 public:
 	ComponentPointLight();
-	ComponentPointLight(const float3& position, float radius, const float3& color, float intensity);
+	ComponentPointLight(GameObject* parent);
+	ComponentPointLight(float radius, const float3& color, float intensity);
+	ComponentPointLight(float radius, const float3& color, float intensity, GameObject* parent);
 	~ComponentPointLight() {};
 
 	void Draw() override;
+	void Display() override;
 
 	float GetRadius() const;
 
 	void SetRadius(float radius);
 
 private:
-	float3 position = float3(0.0f, 0.0f, 0.0f);
 	float radius = 1.0f;
-
 };
 
 inline float ComponentPointLight::GetRadius() const

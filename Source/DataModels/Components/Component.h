@@ -14,11 +14,10 @@ public:
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
+	virtual void Draw();
 
 	virtual void Enable();
 	virtual void Disable();
-
-	virtual void Draw();
 
 	bool GetActive();
 	ComponentType GetType();
