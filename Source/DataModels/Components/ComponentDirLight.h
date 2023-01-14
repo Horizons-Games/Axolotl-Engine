@@ -13,6 +13,4 @@ public:
 
 	void Draw() override;
 	void Display() override;
-
-private:
 };
