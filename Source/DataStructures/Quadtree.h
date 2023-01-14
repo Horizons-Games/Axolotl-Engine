@@ -9,6 +9,7 @@ class Quadtree
 {
 public:
 	Quadtree(const AABB& boundingBox);
+	Quadtree(const AABB& boundingBox, Quadtree* root);
 	~Quadtree();
 
 	bool IsLeaf() const;
@@ -44,6 +45,8 @@ private:
 	int quadrantCapacity = QUADRANT_CAPACITY;
 	float minQuadrantSideSize = MIN_CUBE_SIZE;
 	float minQuadrantDiagonalSquared = 3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE; // D^2 = 3C^2
+
+	Quadtree* parent;
 
 	Quadtree* frontRightNode = nullptr;
 	Quadtree* frontLeftNode = nullptr;

@@ -12,8 +12,11 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
 
+Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr)
+{
+}
 
-Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox)
+Quadtree::Quadtree(const AABB& boundingBox, Quadtree* parent) : boundingBox(boundingBox), parent(parent)
 {
 }
 
@@ -71,6 +74,8 @@ void Quadtree::Remove(GameObject* gameObject)
 		backRightNode->Remove(gameObject);
 		backLeftNode->Remove(gameObject);
 	}
+
+
 }
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
@@ -99,16 +104,16 @@ void Quadtree::Subdivide(GameObject* gameObject)
 	float3 newSize(xSize * 0.5f, currentSize.y, zSize * 0.5f);
 	
 	quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontRight, newSize);
-	frontRightNode = new Quadtree(quadrantBoundingBox);
+	frontRightNode = new Quadtree(quadrantBoundingBox, this);
 	
 	quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontLeft, newSize);
-	frontLeftNode = new Quadtree(quadrantBoundingBox);
+	frontLeftNode = new Quadtree(quadrantBoundingBox, this);
 
 	quadrantBoundingBox.SetFromCenterAndSize(newCenterBackRight, newSize);
-	backRightNode = new Quadtree(quadrantBoundingBox);
+	backRightNode = new Quadtree(quadrantBoundingBox, this);
 
 	quadrantBoundingBox.SetFromCenterAndSize(newCenterBackLeft, newSize);
-	backLeftNode = new Quadtree(quadrantBoundingBox);
+	backLeftNode = new Quadtree(quadrantBoundingBox, this);
 
 	// GameObject redistribution part
 	gameObjects.push_back(gameObject);
@@ -209,7 +214,7 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 			}
 		}
 		AABB newAABB = AABB(newMinPoint, newMaxPoint);
-		Quadtree* newRootQuadTree = new Quadtree(newAABB);
+		Quadtree* newRootQuadTree = new Quadtree(newAABB, nullptr);
 		App->scene->SetSceneQuadTree(newRootQuadTree);
 		if (!newRootQuadTree->InQuadrant(gameObject)) newRootQuadTree->ExpandToFit(gameObject);
 	}
