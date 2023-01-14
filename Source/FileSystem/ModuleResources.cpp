@@ -110,8 +110,6 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 
 void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 {
-	ResourceType type = FindTypeByPath(libraryPath);
-
 	std::string metaPath;
 	std::string fileExtension = GetFileExtension(libraryPath);
 	int posOfExtensionInPath = libraryPath.find(fileExtension);
@@ -163,6 +161,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 				case ResourceType::Scene:
 					break;
 				case ResourceType::Material:
+					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
 					break;
 				case ResourceType::SkyBox:
 					break;
@@ -234,7 +233,7 @@ bool ModuleResources::Start()
 	}
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 

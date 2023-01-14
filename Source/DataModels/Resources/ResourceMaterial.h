@@ -72,6 +72,10 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
+	diffuseUID = 0;
+	normalUID = 0;
+	occlusionUID = 0;
+	specularUID = 0;
 	options = std::make_shared<OptionsMaterial>();
 	diffuseColor = float3(1.0);
 	specularColor = float3(0.5, 0.3, 0.5);
