@@ -176,7 +176,7 @@ bool ModuleRender::Start()
 		all the functionality used here*/
 	
 	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
 	resourceModel->Load();
 
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();

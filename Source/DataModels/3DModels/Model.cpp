@@ -76,7 +76,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	for (int i = 0; i < materialsUIDs.size(); ++i) 
 	{
 		std::shared_ptr<ResourceMaterial> resourceMaterial = 
-			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(materialsUIDs[i]));
+			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(materialsUIDs[i]).lock());
 
 		Material* material = new Material();
 		resourceMaterial->Load();
@@ -84,7 +84,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveDiffuse())
 		{
 			std::shared_ptr<ResourceTexture> textureDiffuse =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetDiffuseUID()));
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetDiffuseUID()).lock());
 
 			textureDiffuse->Load();
 			material->haveDiffuse = true;
@@ -96,7 +96,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveNormal())
 		{
 			std::shared_ptr<ResourceTexture> textureNormal =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetNormalUID()));
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetNormalUID()).lock());
 
 			textureNormal->Load();
 			material->normal = textureNormal->GetGlTexture();
@@ -108,7 +108,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveOcclusion())
 		{
 			std::shared_ptr<ResourceTexture> textureOcclusion =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetOcclusionrUID()));
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetOcclusionrUID()).lock());
 
 			textureOcclusion->Load();
 			material->occlusion = textureOcclusion->GetGlTexture();
@@ -120,7 +120,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveSpecular())
 		{
 			std::shared_ptr<ResourceTexture> textureSpecular =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetSpecularUID()));
+				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetSpecularUID()).lock());
 
 			textureSpecular->Load();
 			material->specular = textureSpecular->GetGlTexture();
