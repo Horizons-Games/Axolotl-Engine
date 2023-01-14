@@ -11,7 +11,7 @@ ComponentSpotLight::ComponentSpotLight(GameObject* parent) : ComponentLight(Ligh
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAntgle, 
+ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity) :
 	ComponentLight(LightType::SPOT, color, intensity)
 {
@@ -20,7 +20,7 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 	this->outerAngle = outerAngle;
 }
 
-ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAntgle, 
+ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::SPOT, color, intensity, parent)
 {
@@ -40,7 +40,7 @@ void ComponentSpotLight::Draw()
 		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
 
 		float3 position = transform->GetPosition();
-		float3 forward = transform->GetGlobalForward();
+		float3 forward = transform->GetGlobalForward().Normalized();
 
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle, 0.0f);
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle, 0.0f);

@@ -7,6 +7,7 @@
 
 class Component;
 enum class ComponentType;
+enum class LightType;
 
 class GameObject
 {
@@ -40,6 +41,7 @@ public:
 	void ActivateChildren();
 
 	Component* CreateComponent(ComponentType type);
+	Component* CreateComponentLight(LightType lightType);
 	Component* GetComponent(ComponentType type);
 
 private:
