@@ -1,8 +1,24 @@
 #pragma once
 
 #include "../FileSystem/UniqueID.h"
+
 #include "Geometry/OBB.h"
 #include "Geometry/AABB.h"
+
+struct PointLight
+{
+	float4 position;
+	float4 color;
+};
+
+struct SpotLight
+{
+	float4 position;
+	float4 color;
+	float3 aim;
+	float innerAngle;
+	float outAngle;
+};
 
 class GameObject;
 class Quadtree;
@@ -26,16 +42,21 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
+	// --------- LIGHTS -----------
+	void GenerateLights();
+	void RenderLights();
+	void UpdateSceneLights();
+	// ----------------------------
+
 	GameObject* GetRoot() const;
-	void SetRoot(GameObject* newRoot);
-
-	const std::vector<GameObject*>& GetSceneGameObjects() const;
-	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
-	const std::vector<GameObject*>& GetSceneCameras() const;
-	void SetSceneCameras(const std::vector<GameObject*>& cameras);
-
 	Quadtree* GetSceneQuadTree() const;
+	const std::vector<GameObject*>& GetSceneGameObjects() const;
+	const std::vector<GameObject*>& GetSceneCameras() const;
+
+	void SetRoot(GameObject* newRoot);
 	void SetSceneQuadTree(Quadtree* quadtree);
+	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
+	void SetSceneCameras(const std::vector<GameObject*>& cameras);
 
 private:
 	void RemoveCamera(GameObject* cameraGameObject);
@@ -45,6 +66,19 @@ private:
 
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
+
+	// --------- LIGHTS -------------
+	GameObject* ambientLight = nullptr;
+	GameObject* directionalLight = nullptr;
+
+	std::vector<PointLight> pointLights;
+	std::vector<SpotLight> spotLights;
+
+	unsigned uboAmbient = 0;
+	unsigned uboDirectional = 0;
+	unsigned ssboPoint = 0;
+	unsigned ssboSpot = 0;
+	// -------------------------------
 
 	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
 	Quadtree* sceneQuadTree = nullptr;

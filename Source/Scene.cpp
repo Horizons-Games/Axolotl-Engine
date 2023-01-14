@@ -1,19 +1,48 @@
 #include "Scene.h"
-
-#include "Application.h"
-#include "Modules/ModuleScene.h"
-#include "FileSystem/ModuleResources.h"
-#include "Resources/ResourceModel.h"
 #include "Quadtree.h"
+#include "Application.h"
+
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleProgram.h"
+
+#include "FileSystem/ModuleResources.h"
+
+#include "Resources/ResourceModel.h"
+
 #include "GameObject/GameObject.h"
+
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentPointLight.h"
+#include "Components/ComponentSpotLight.h"
+#include "Components/ComponentTransform.h"
+
+#include <GL/glew.h>
 
 Scene::Scene()
 {
 	uid = UniqueID::GenerateUID();
 	root = new GameObject("New Scene");
 	sceneGameObjects.push_back(root);
+
+	// ----------- Light ------------
+	ambientLight = CreateGameObject("AmbientLight", root);
+	ambientLight->CreateComponentLight(LightType::AMBIENT);
+
+	directionalLight = CreateGameObject("DirectionalLight", root);
+	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	GameObject* pointLight = CreateGameObject("PointLight", root);
+	pointLight->CreateComponentLight(LightType::POINT);
+
+	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
+	spotLight1->CreateComponentLight(LightType::SPOT);
+
+	GenerateLights();
+	UpdateSceneLights();
+	RenderLights();
+	// ------------------------------
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
 	FillQuadtree(root); //TODO: This call has to be moved AFTER the scene is loaded
@@ -26,6 +55,11 @@ Scene::~Scene()
 
 	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
+
+	// ----------- Light ------------
+	delete ambientLight;
+	delete directionalLight;
+	// ------------------------------
 }
 
 void Scene::FillQuadtree(GameObject* gameObject)
@@ -132,3 +166,165 @@ void Scene::RemoveCamera(GameObject* cameraGameObject)
 		}
 	}
 }
+
+// --------------------------- LIGHTS -------------------------------
+
+void Scene::GenerateLights()
+{
+	const unsigned program = App->program->GetProgram();
+
+	// Ambient
+
+	glGenBuffers(1, &uboAmbient);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
+
+	const unsigned bindingAmbient = 1;
+	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
+	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Directional 
+
+	glGenBuffers(1, &uboDirectional);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
+
+	const unsigned bindingDirectional = 2;
+	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
+	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Point
+
+	unsigned numPoint = pointLights.size();
+
+	glGenBuffers(1, &ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingPoint = 3;
+	const unsigned storageBlckIxPoint = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "PointLights");
+	glShaderStorageBlockBinding(program, storageBlckIxPoint, bindingPoint);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Spot
+
+	unsigned numSpot = spotLights.size();
+
+	glGenBuffers(1, &ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingSpot = 4;
+	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
+	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderLights()
+{
+	// Ambient
+
+	ComponentLight* ambientComp = (ComponentLight*)ambientLight->GetComponent(ComponentType::LIGHT);
+	float3 ambientValue = ambientComp->GetColor();
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Directional
+
+	ComponentTransform* dirTransform = (ComponentTransform*)directionalLight->GetComponent(ComponentType::TRANSFORM);
+	ComponentLight* dirComp = (ComponentLight*)directionalLight->GetComponent(ComponentType::LIGHT);
+
+	float3 directionalDir = dirTransform->GetGlobalForward();
+	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// Point
+
+	unsigned numPoint = pointLights.size();
+
+	if (numPoint > 0)
+	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(),
+			nullptr, GL_DYNAMIC_DRAW);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(),  &pointLights[0]);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
+
+	// Spot
+
+	unsigned numSpot = spotLights.size();
+
+	if (numSpot > 0)
+	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * spotLights.size(),
+			nullptr, GL_DYNAMIC_DRAW);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * spotLights.size(), &spotLights[0]);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
+}
+
+void Scene::UpdateSceneLights()
+{
+	pointLights.clear();
+	spotLights.clear();
+
+	std::vector<GameObject*> children = GetSceneGameObjects();
+
+	for (GameObject* child : children)
+	{
+		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		if (!components.empty())
+		{
+			if (components[0]->GetType() == LightType::POINT)
+			{
+				ComponentPointLight* pointLightComp = (ComponentPointLight*)components[0];
+				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
+					GetComponent(ComponentType::TRANSFORM);
+
+				PointLight pl;
+				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+
+				pointLights.push_back(pl);
+			}
+
+			else if (components[0]->GetType() == LightType::SPOT)
+			{
+				ComponentSpotLight* spotLightComp = (ComponentSpotLight*)components[0];
+				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
+					GetComponent(ComponentType::TRANSFORM);
+
+				SpotLight sl;
+				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
+				sl.aim = transform->GetGlobalForward().Normalized();
+				sl.innerAngle = spotLightComp->GetInnerAngle();
+				sl.outAngle = spotLightComp->GetOuterAngle();
+
+				spotLights.push_back(sl);
+			}
+		}
+	}
+}
+
+// -------------------------------------------------------------------

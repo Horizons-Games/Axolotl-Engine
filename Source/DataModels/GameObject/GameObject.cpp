@@ -224,7 +224,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	switch (lightType)
 	{
 	case LightType::AMBIENT:
-		newComponent = new ComponentAmbient(float3(1.0f), this);
+		newComponent = new ComponentAmbient(float3(0.05f), this);
 		break;
 
 	case LightType::DIRECTIONAL:
