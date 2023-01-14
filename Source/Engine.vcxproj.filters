@@ -259,6 +259,9 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowImporter.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClCompile>
@@ -319,9 +322,6 @@
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
@@ -331,8 +331,8 @@
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -717,6 +717,9 @@
     <ClInclude Include="FileSystem\Data.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowImporter.h">
+      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClInclude>
@@ -798,9 +801,6 @@
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h">
       <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
@@ -810,8 +810,8 @@
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

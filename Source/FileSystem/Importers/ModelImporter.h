@@ -4,6 +4,7 @@
 
 class aiScene;
 class aiMesh;
+class aiString;
 
 class ModelImporter : public Importer<ResourceModel>
 {
@@ -21,6 +22,9 @@ private:
     void ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource);
     void ImportMeshes(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource);
 
+    void CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer);
+
+    void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
     void SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int& size);
 
     char* buffer;
