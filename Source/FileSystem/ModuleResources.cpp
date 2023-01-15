@@ -10,10 +10,12 @@
 #include "FileSystem/Importers/MeshImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
+#include "FileSystem/Importers/SkyBoxImporter.h"
 
 #include "Resources/Resource.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceSkyBox.h"
 #include <thread>
 #include <future>
 
@@ -192,6 +194,7 @@ bool ModuleResources::Start()
 	textureImporter = std::make_shared<TextureImporter>();
 	meshImporter = std::make_shared<MeshImporter>();
 	materialImporter = std::make_shared<MaterialImporter>();
+	skyboxImporter = std::make_shared<SkyBoxImporter>();
 
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
 	if (assetsFolderNotCreated)
@@ -306,6 +309,10 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 			normalizedExtension == TGA_TEXTURE_EXTENSION) 
 	{
 		return ResourceType::Texture;
+	}
+	else if(normalizedExtension == SKYBOX_EXTENSION)
+	{
+		return ResourceType::SkyBox;
 	}
 	else if (normalizedExtension == SCENE_EXTENSION) 
 	{
@@ -483,15 +490,20 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	{
 	case ResourceType::Model:
 		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+		break;
 	case ResourceType::Texture:
 		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+		break;
 	case ResourceType::Mesh:
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+		break;
 	case ResourceType::Scene:
 	case ResourceType::Material:
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::SkyBox:
+		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+		break;
 	default:
 		return nullptr;
 	}
@@ -535,6 +547,8 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		materialImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMaterial>(resource));
 		break;
 	case ResourceType::SkyBox:
+		skyboxImporter->Import(originalPath.c_str(),
+			std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 		break;
 	default:
 		break;
