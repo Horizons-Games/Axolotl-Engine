@@ -17,7 +17,12 @@ public:
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath);
-	std::vector<std::string> listFiles(const char* directoryPath);
+	std::vector<std::string> ListFiles(const char* directoryPath);
 	long long GetModificationDate(const char* filePath) const;
+	const std::string GetPathWithoutFile(const std::string& pathWithFile);
+	const std::string GetPathWithoutExtension(const std::string& pathWithExtension);
+	const std::string GetFileName(const std::string& path);
+	const std::string GetFileExtension(const std::string& path);
+	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
 };
 
