@@ -14,7 +14,8 @@ void ResourceSkyBox::Load()
 	for (int i = 0; i < texturesUIDs.size(); ++i)
 	{
 		std::shared_ptr<ResourceTexture> textI =
-			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(texturesUIDs[i]));
+			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(texturesUIDs[i]).lock());
+
 
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
 			textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(textI->GetPixels()));
@@ -31,7 +32,8 @@ void ResourceSkyBox::Unload()
 {
 	for (UID uid : texturesUIDs)
 	{
-		App->resources->RequestResource(uid)->Unload();
+		std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(uid).lock());
+		texture->Unload();
 	}
 	//this will keep the capacity to 6
 	texturesUIDs.clear();
