@@ -3,6 +3,7 @@
 enum class ComponentType {MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
+class Json;
 
 class Component
 {
@@ -12,11 +13,13 @@ public:
 
 	virtual void Init(); // In case any component needs an init to do something once created
 
-	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
+	virtual void Update() = 0; // Abstract because each component will perform its own Update
 
-	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
+	virtual void Display() = 0; // Abstract because each component will draw itself in the Inspector Window
 	virtual void Draw();
-	virtual void Load();
+
+	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 
 	virtual void Enable();
 	virtual void Disable();

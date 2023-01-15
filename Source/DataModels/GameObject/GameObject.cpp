@@ -11,11 +11,13 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 
+#include "FileSystem/Json.h"
+
 #include <assert.h>
 
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
-	uid = UniqueID::GenerateUID();  // TODO: Generate new uid everytime a GameObject is loaded with the json
+	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
 	CreateComponent(ComponentType::BOUNDINGBOX);
 }
@@ -60,9 +62,27 @@ void GameObject::Draw()
 	}
 }
 
-void GameObject::Load()
+void GameObject::LoadOptions(Json& meta)
 {
+	uid = UniqueID::GenerateUID();
+	meta["enabled"] = (bool) enabled;
+	meta["active"] = (bool) active;
+	meta["name"] = (const char*) name.c_str();
 
+	//meta["components"] = (std::vector<Component*>) components;
+	meta["parent"] = (GameObject*)parent;
+	//meta["children"] = (std::vector<GameObject*>) children;
+}
+
+void GameObject::SaveOptions(Json& meta)
+{
+	enabled = (bool) meta["enabled"];
+	active = (bool) meta["active"];
+	//name = (const char*) meta["name"];
+
+	components = (std::vector<Component*>) meta["components"];
+	//parent = (GameObject*) meta["parent"];
+	children = (std::vector<GameObject*>) meta["children"];
 }
 
 void GameObject::SetParent(GameObject* newParent)

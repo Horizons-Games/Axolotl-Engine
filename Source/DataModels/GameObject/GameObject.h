@@ -7,6 +7,8 @@
 
 class Component;
 class ComponentMeshRenderer;
+class Json;
+
 enum class ComponentType;
 enum class LightType;
 
@@ -17,9 +19,11 @@ public:
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
+	void LoadOptions(Json& json);
+	void SaveOptions(Json& json);
+
 	void Update();
 	void Draw();
-	void Load();
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
