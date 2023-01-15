@@ -151,7 +151,11 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
 	resourceModel->Load();
 
-	GameObject* gameObjectModel = CreateGameObject("Loaded Model", GetRoot());
+	std::string modelName = model;
+	size_t last_slash = modelName.find_last_of('/');
+	modelName = modelName.substr(last_slash + 1, modelName.size());
+
+	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
 	//Cargas ResourceMesh
 	//Miras el MaterialIndex y cargas el ResourceMaterial del vector de Model con indice materialIndex
@@ -160,13 +164,17 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		GameObject* gameObjectModelMesh = CreateGameObject("Mesh", gameObjectModel);
-
 		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
 		std::shared_ptr<ResourceMaterial> material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(resourceModel->GetMaterialsUIDs()[materialIndex]).lock());
+
+		std::string meshName = mesh->GetFileName();
+		size_t new_last_slash = meshName.find_last_of('/');
+		meshName = meshName.substr(new_last_slash + 1, meshName.size());
+
+		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
 
 		ComponentMaterial* materialRenderer = (ComponentMaterial*)gameObjectModelMesh
 			->CreateComponent(ComponentType::MATERIAL);
