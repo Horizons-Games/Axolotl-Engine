@@ -48,20 +48,13 @@ void ComponentSpotLight::Display()
 				if (ImGui::Selectable(lightTypes[i], isSelected))
 				{
 					//changes type of light
-					currentType = lightTypes[i];
 					if (lightTypes[i] == "Point")
 					{
+						this->GetOwner()->RemoveComponent(*this);
 						this->GetOwner()->CreateComponentLight(LightType::POINT);
 						//TODO: Set intensity and color
 					}
-					if (lightTypes[i] == "Directional")
-					{
-						this->GetOwner()->CreateComponentLight(LightType::DIRECTIONAL);
-						//TODO: Set intensity and color
-					}
 
-					//TODO: function removeComponent
-					//this->GetOwner()->RemoveComponent(this);
 				}
 				if (isSelected)
 				{

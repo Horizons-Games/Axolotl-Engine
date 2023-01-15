@@ -217,6 +217,15 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
+void GameObject::RemoveComponent(Component &compToDelete)
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i] == &compToDelete)
+			components.erase(next(components.begin(), i));
+	}
+}
+
 Component* GameObject::CreateComponentLight(LightType lightType)
 {
 	Component* newComponent = nullptr;
