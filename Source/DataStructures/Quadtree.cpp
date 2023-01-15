@@ -108,6 +108,7 @@ void Quadtree::Remove(GameObject* gameObject)
 			if(parent != nullptr) parent->OptimizeParentObjects();
 		}
 	}
+
 }
 
 void Quadtree::OptimizeParentObjects()
@@ -374,4 +375,33 @@ const std::list<GameObject*>& Quadtree::GetGameObjectsToDraw()
 		}
 	}
 	return intersectingGameObjects;
+}
+
+void Quadtree::AddGameObjectAndChildren(GameObject* gameObject)
+{
+	if (gameObject->GetParent() == nullptr) return;
+	Add(gameObject);
+
+	if (!gameObject->GetChildren().empty())
+	{
+		for (GameObject* children : gameObject->GetChildren())
+		{
+			AddGameObjectAndChildren(children);
+		}
+	}
+}
+
+
+void Quadtree::RemoveGameObjectAndChildren(GameObject* gameObject)
+{
+	if (gameObject->GetParent() == nullptr) return;
+	Remove(gameObject);
+
+	if (!gameObject->GetChildren().empty())
+	{
+		for (GameObject* children : gameObject->GetChildren())
+		{
+			RemoveGameObjectAndChildren(children);
+		}
+	}
 }
