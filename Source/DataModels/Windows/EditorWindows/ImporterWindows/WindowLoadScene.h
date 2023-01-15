@@ -1,11 +1,9 @@
 #pragma once
-#include "Windows/EditorWindows/ImporterWindows/WindowImporter.h"
+#include "Windows/EditorWindows/WindowFileBrowser.h"
 
-class WindowLoadScene : public WindowImporter
+class WindowLoadScene : public WindowFileBrowser
 {
 public:
 	WindowLoadScene();
 	~WindowLoadScene();
 };
-
-

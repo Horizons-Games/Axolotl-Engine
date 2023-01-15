@@ -1,9 +1,8 @@
 #pragma once
-#include "Windows/EditorWindows/ImporterWindows/WindowImporter.h"
-class WindowSaveScene: public WindowImporter
+#include "Windows/EditorWindows/WindowFileBrowser.h"
+class WindowSaveScene : public WindowFileBrowser
 {
 public:
 	WindowSaveScene();
 	~WindowSaveScene();
 };
-

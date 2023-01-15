@@ -331,13 +331,22 @@
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImporter.cpp">
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowSaveScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
   </ItemGroup>
@@ -816,13 +825,22 @@
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImporter.h">
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSaveScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>

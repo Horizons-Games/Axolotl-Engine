@@ -4,7 +4,7 @@
 #include "ModuleScene.h"
 // TODO: REMOVE
 #include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
-#include "Windows/EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "ImporterWindows/WindowSaveScene.h"
 // --
 #include <vector>
 #include <memory>
@@ -21,6 +21,7 @@ protected:
 	void DrawWindowContents() override;
 
 	ImVec2 GetStartingSize() const override;
+
 private:
 	// TODO: REMOVE
 	bool showSaveScene = true;

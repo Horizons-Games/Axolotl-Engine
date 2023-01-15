@@ -1,10 +1,10 @@
-#include "Windows/EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "WindowSaveScene.h"
 #include "FontIcons/CustomFont.cpp"
 
 
-WindowSaveScene::WindowSaveScene():WindowImporter()
+WindowSaveScene::WindowSaveScene() :WindowFileBrowser()
 {
-	isLoad = true;
+	isSave = true;
 	dialogName = " Save Scene File";
 	title = ICON_IGFD_SAVE" Save Scene File";
 	filters = ".scene";

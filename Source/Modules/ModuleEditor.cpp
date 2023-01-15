@@ -13,6 +13,7 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
+#include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include <ImGui/imgui.h>
@@ -54,6 +55,7 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowEditorControl>());
+	windows.push_back(std::make_shared<WindowFileBrowser>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;

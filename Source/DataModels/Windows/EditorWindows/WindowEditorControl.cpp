@@ -54,6 +54,7 @@ void WindowEditorControl::DrawWindowContents()
     }
     ImGui::SameLine();
 }
+
 // TODO: REMOVE
 void WindowEditorControl::DrawButtomsSaveAndLoad()
 {
