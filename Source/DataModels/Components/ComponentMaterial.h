@@ -18,8 +18,11 @@ public:
 	~ComponentMaterial() override;
 
 	void Update() override;
+
+	void Draw() override;
 	void Display() override;
 
+	void SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);
 	void SetOcclusionUID(UID& occlusionUID);

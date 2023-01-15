@@ -7,6 +7,7 @@
 
 #include "GameObject/GameObject.h"
 
+#include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 
 #include <GL/glew.h>
@@ -22,6 +23,11 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::Update()
 {
+	
+}
+
+void ComponentMaterial::Draw()
+{
 	unsigned int program = App->program->GetProgram();
 	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
 	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
@@ -32,7 +38,7 @@ void ComponentMaterial::Update()
 		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
 		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	}
-	else 
+	else
 	{
 		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 	}
