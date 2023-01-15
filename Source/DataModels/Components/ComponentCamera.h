@@ -7,7 +7,6 @@
 #include "ComponentTransform.h"
 
 #define COMPONENT_CAMERA "Camera"
-
 enum ECameraFrustumMode
 {
 	normalFrustum,
@@ -37,8 +36,6 @@ public:
 	void SetDrawFrustum(bool newFrustum);
 	void SetFrustumMode(int newFrustumMode);
 	void SetFrustumOffset(float newFrustumOffset);
-
-	std::string GetTypeName() override;
 
 	bool IsDrawFrustum() const;
 	int GetFrustumMode() const;
@@ -72,11 +69,6 @@ inline void ComponentCamera::SetFrustumOffset(float newFrustumOffset)
 inline bool ComponentCamera::IsDrawFrustum() const
 {
 	return drawFrustum;
-}
-
-inline std::string ComponentCamera::GetTypeName()
-{
-	return COMPONENT_CAMERA;
 }
 
 inline int ComponentCamera::GetFrustumMode() const

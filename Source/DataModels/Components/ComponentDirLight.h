@@ -20,11 +20,4 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
-
-	std::string GetTypeName() override;
 };
-
-inline std::string ComponentDirLight::GetTypeName()
-{
-	return COMPONENT_DIRLIGHT;
-}

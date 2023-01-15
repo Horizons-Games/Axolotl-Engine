@@ -21,8 +21,6 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	std::string GetTypeName() override;
-
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
 	const Quat& GetRotation() const;
@@ -58,11 +56,6 @@ private:
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;
 };
-
-inline std::string ComponentTransform::GetTypeName()
-{
-	return COMPONENT_TRANSFORM;
-}
 
 inline const float3& ComponentTransform::GetPosition() const
 {

@@ -45,9 +45,6 @@ public:
 	void SetHasSpecular(bool hasSpecular);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
-	std::string GetTypeName() override;
-
-
 	std::weak_ptr<ResourceMaterial> GetMaterial() const;
 	const UID& GetDiffuseUID() const;
 	const UID& GetNormalUID() const;
@@ -96,11 +93,6 @@ private:
 	bool hasShininessAlpha = false;
 
 };
-
-inline std::string ComponentMaterial::GetTypeName()
-{
-	return COMPONENT_MATERIAL;
-}
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
 {

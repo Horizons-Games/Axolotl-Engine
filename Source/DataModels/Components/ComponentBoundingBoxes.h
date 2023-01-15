@@ -24,8 +24,6 @@ public:
 
 	void Encapsule(const vec* Vertices, unsigned numVertices);
 
-	std::string GetTypeName() override;
-
 	const AABB& GetLocalABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
@@ -43,11 +41,6 @@ private:
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB.Enclose(Vertices, numVertices);
-}
-
-inline std::string ComponentBoundingBoxes::GetTypeName()
-{
-	return COMPONENT_BOUNDING;
 }
 
 inline const AABB& ComponentBoundingBoxes::GetLocalABB()

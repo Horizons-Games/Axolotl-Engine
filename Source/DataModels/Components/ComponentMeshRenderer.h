@@ -27,8 +27,6 @@ public:
 
 	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 
-	std::string GetTypeName() override;
-
 	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
@@ -36,11 +34,6 @@ private:
 
 	std::weak_ptr<ResourceMesh> mesh;
 };
-
-inline std::string ComponentMeshRenderer::GetTypeName()
-{
-	return COMPONENT_MESHRENDERED;
-}
 
 inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {

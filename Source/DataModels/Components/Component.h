@@ -26,7 +26,6 @@ public:
 
 	bool GetActive();
 	ComponentType GetType();
-	virtual std::string GetTypeName() = 0;
 
 	GameObject* GetOwner();
 	bool GetCanBeRemoved();
