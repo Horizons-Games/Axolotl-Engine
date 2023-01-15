@@ -63,7 +63,7 @@ void ComponentMeshRenderer::Draw()
 		glUseProgram(program);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, textureAsShared->GetGlTexture());
 		glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 		glBindVertexArray(meshAsShared->GetVAO());
