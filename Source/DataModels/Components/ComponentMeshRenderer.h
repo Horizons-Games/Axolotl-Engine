@@ -7,8 +7,6 @@
 #include <DataModels/Resources/ResourceMaterial.h>
 
 class ResourceMesh;
-class ResourceTexture;
-class ComponentMaterial;
 class Json;
 
 class ComponentMeshRenderer : public Component

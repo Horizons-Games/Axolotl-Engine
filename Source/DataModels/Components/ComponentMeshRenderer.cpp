@@ -60,6 +60,11 @@ void ComponentMeshRenderer::Draw()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
 
 		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 	}
 }
 

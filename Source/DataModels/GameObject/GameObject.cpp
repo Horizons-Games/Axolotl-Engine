@@ -212,13 +212,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*
+		
 		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
 		}
-		*/
+		
 
 		case ComponentType::CAMERA:
 		{
