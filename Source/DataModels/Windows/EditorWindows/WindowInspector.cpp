@@ -94,7 +94,8 @@ void WindowInspector::DrawWindowContents()
 		{
 			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
 			ImGui::SameLine();
-			DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]);
+			if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+				break;
 		}
 
 		currentGameObject->GetComponents()[i]->Display();
@@ -114,7 +115,7 @@ void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* 
 	(enable) ? component->Enable() : component->Disable();
 }
 
-void WindowInspector::DrawDeleteComponentContent(int labelNum, Component* component)
+bool WindowInspector::DrawDeleteComponentContent(int labelNum, Component* component)
 {
 	char* textRemove = new char[30];
 	sprintf(textRemove, "Remove #%d", labelNum);
@@ -125,7 +126,11 @@ void WindowInspector::DrawDeleteComponentContent(int labelNum, Component* compon
 		{
 			assert(false && "Trying to delete a non-existing component");
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
 bool WindowInspector::MousePosIsInWindow()

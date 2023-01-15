@@ -24,7 +24,7 @@ protected:
 
 private:
 	void DrawChangeActiveComponentContent(int labelNum, Component* component);
-	void DrawDeleteComponentContent(int labelNum, Component* component);
+	bool DrawDeleteComponentContent(int labelNum, Component* component);
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();

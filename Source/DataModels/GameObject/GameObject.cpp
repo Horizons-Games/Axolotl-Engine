@@ -229,7 +229,6 @@ bool GameObject::RemoveComponent(Component* component)
 		if (*it == component)
 		{
 			components.erase(it);
-			delete *it;
 			return true;
 		}
 	}
