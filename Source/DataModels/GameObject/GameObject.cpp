@@ -11,7 +11,7 @@
 
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
-	uid = UniqueID::GenerateUID();
+	uid = UniqueID::GenerateUID();  // TODO: Generate new uid everytime a GameObject is loaded with the json
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
