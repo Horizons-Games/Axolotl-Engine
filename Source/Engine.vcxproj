@@ -97,9 +97,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,10 +131,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -222,7 +224,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowImporter.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
@@ -256,6 +257,7 @@
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h" />
@@ -377,7 +379,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowImporter.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
@@ -417,6 +418,7 @@
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs" />
