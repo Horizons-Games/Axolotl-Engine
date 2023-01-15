@@ -87,23 +87,27 @@ void ComponentCamera::Display()
 void ComponentCamera::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = (int) type;
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
-
+	meta["frustumOfset"] = (float)frustumOffset;
+	meta["drawFrustum"] = (bool)drawFrustum;
+	meta["frustumMode"] = (int)frustumMode;
 }
 
 void ComponentCamera::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	//type = (ComponentType) meta["type"];
+	type = (int) meta["type"];
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
-
+	frustumOffset = (float)meta["frustumOfset"];
+	drawFrustum = (bool)meta["drawFrustum"];
+	frustumMode = (int)meta["frustumMode"];
 }
 
 void ComponentCamera::UpdateFrustumOffset()

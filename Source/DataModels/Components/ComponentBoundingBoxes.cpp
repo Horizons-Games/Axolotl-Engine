@@ -53,21 +53,28 @@ void ComponentBoundingBoxes::Display()
 void ComponentBoundingBoxes::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = (int) type;
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
+	meta["AABBMin_X"] = (float)localAABB.minPoint.x;
+	meta["AABBMin_Y"] = (float)localAABB.minPoint.y;
+	meta["AABBMin_Z"] = (float)localAABB.minPoint.z;
+
+	meta["AABBMax_X"] = (float)localAABB.maxPoint.x;
+	meta["AABBMax_Y"] = (float)localAABB.maxPoint.y;
+	meta["AABBMax_Z"] = (float)localAABB.maxPoint.z;
 	
 }
 
 void ComponentBoundingBoxes::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	//type = (ComponentType) meta["type"];
+	type = (ComponentType)(int) meta["type"];
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
-	
+	localAABB = { { (float)meta["AABBMin_X"], (float)meta["AABBMin_Y"], (float)meta["AABBMin_Z"] }, { (float)meta["AABBMax_X"], (float)meta["AABBMax_Y"], (float)meta["AABBMax_Z"] } };
 }
