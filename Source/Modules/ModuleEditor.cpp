@@ -57,7 +57,6 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowFileBrowser>());
 	windows.push_back(std::make_shared<WindowEditorControl>());
-	windows.push_back(std::make_shared<WindowFileBrowser>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
