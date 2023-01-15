@@ -7,10 +7,14 @@
 
 void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> resource)
 {
-	char* buffer;
+	char* loadBuffer{};
+	App->fileSystem->Load(filePath, loadBuffer);
+	Load(loadBuffer, resource);
 
-	App->fileSystem->Load(filePath, buffer);
-	Load(buffer, resource);
+	char* saveBuffer{};
+	unsigned int size;
+	Save(resource, saveBuffer, size);
+	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 }
 
 uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)

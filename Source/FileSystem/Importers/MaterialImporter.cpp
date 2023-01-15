@@ -43,7 +43,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save(filePath, buffer, size);
+	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 }
 
 uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
