@@ -34,22 +34,22 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*
 	cursor += bytes;
 
 	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetVertices(), bytes);
+	memcpy(cursor, &(resource->GetVertices()[0]), bytes);
 
 	cursor += bytes;
 
 	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetTextureCoords(), bytes);
+	memcpy(cursor, &(resource->GetTextureCoords()[0]), bytes);
 
 	cursor += bytes;
 
 	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetNormals(), bytes);
+	memcpy(cursor, &(resource->GetNormals()[0]), bytes);
 
 	cursor += bytes;
 
 	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetTangents(), bytes);
+	memcpy(cursor, &(resource->GetTangents()[0]), bytes);
 
 	cursor += bytes;
 
