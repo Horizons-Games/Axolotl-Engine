@@ -44,8 +44,7 @@ public:
 	void ActivateChildren();
 
 	Component* CreateComponent(ComponentType type);
-	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
-	bool RemoveComponent(UID componentUID);
+	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
 
 private:

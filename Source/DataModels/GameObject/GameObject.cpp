@@ -11,7 +11,7 @@
 
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
-	uid = UniqueID::GenerateUID();
+	uid = UniqueID::GenerateUID();  // TODO: Generate new uid everytime a GameObject is loaded with the json
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
@@ -188,11 +188,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
+		/*
+		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}*/
+		}
+		*/
+
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
@@ -210,7 +213,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
 	if (newComponent != nullptr)
@@ -219,21 +222,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
-ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
-{
-	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
-
-	if (newComponentMeshRenderer != nullptr)
-		components.push_back(newComponentMeshRenderer);
-
-	return newComponentMeshRenderer;
-}
-
-bool GameObject::RemoveComponent(UID componentUID)
+bool GameObject::RemoveComponent(Component* component)
 {
 	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
-		if ((*it)->GetUID() == componentUID)
+		if (*it == component)
 		{
 			components.erase(it);
 			return true;

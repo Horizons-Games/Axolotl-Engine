@@ -12,7 +12,8 @@ public:
 	Component(const ComponentType type, const bool active, GameObject* owner);
 	virtual ~Component();
 
-	bool Init();
+	virtual void Init(); // In case any component needs an init to do something once created
+
 	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
 
 	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
@@ -28,16 +29,15 @@ public:
 	ComponentType GetType();
 
 	GameObject* GetOwner();
-	const UID& GetUID() const;
+
 private:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
-	UID componentUID;
 };
 
 inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
-	: type(type), active(active), owner(owner), componentUID(UniqueID::GenerateUID())
+	: type(type), active(active), owner(owner)
 {
 }
 
@@ -46,9 +46,8 @@ inline Component::~Component()
 	delete owner;
 }
 
-inline bool Component::Init()
+inline void Component::Init()
 {
-	return true;
 }
 
 inline void Component::Enable()
@@ -84,9 +83,4 @@ inline ComponentType Component::GetType()
 inline GameObject* Component::GetOwner()
 {
 	return this->owner;
-}
-
-inline const UID& Component::GetUID() const
-{
-	return componentUID;
 }
