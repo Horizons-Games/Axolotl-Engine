@@ -47,9 +47,7 @@ void ComponentMeshRenderer::Draw()
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 	std::shared_ptr<ResourceMaterial> materialAsShared = texture.lock();
 
-	std::weak_ptr<ResourceTexture> auxiliar = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(materialAsShared->GetDiffuseUID()).lock());
-
-	std::shared_ptr<ResourceTexture> textureAsShared = auxiliar.lock();
+	std::shared_ptr<ResourceTexture> textureAsShared = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(materialAsShared->GetDiffuseUID()).lock());
 
 	textureAsShared->Load();
 
@@ -61,6 +59,10 @@ void ComponentMeshRenderer::Draw()
 		const float4x4& model = ((ComponentTransform*)GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		glUseProgram(program);
+
+		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureAsShared->GetGlTexture());
