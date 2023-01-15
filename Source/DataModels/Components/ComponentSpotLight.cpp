@@ -1,4 +1,5 @@
 #include "ComponentSpotLight.h"
+#include "ComponentPointLight.h"
 #include "ComponentTransform.h"
 
 #include "debugdraw.h"
@@ -37,6 +38,7 @@ void ComponentSpotLight::Display()
 	const char* currentType = "Spot";
 	float intensity = GetIntensity();
 	float3 color = GetColor();
+	float radius = GetRadius();
 
 	ImGui::Text("SPOT LIGHT");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
@@ -54,8 +56,14 @@ void ComponentSpotLight::Display()
 					//changes type of light
 					if (lightTypes[i] == "Point")
 					{
-						this->GetOwner()->CreateComponentLight(LightType::POINT, color, intensity);
 						this->GetOwner()->RemoveComponent(this);
+						this->GetOwner()->CreateComponentLight(LightType::POINT);
+						std::vector<ComponentPointLight*> lights = this->GetOwner()->GetComponentsByType<ComponentPointLight>(ComponentType::LIGHT);
+						for (int i = 0; i < lights.size(); i++) {
+							lights[i]->SetIntensity(intensity);
+							lights[i]->SetColor(color);
+							lights[i]->SetRadius(radius);
+						}
 					}
 
 				}
@@ -80,7 +88,6 @@ void ComponentSpotLight::Display()
 		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			SetColor(color);
 
-		float radius = GetRadius();
 		ImGui::Text("Radius"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));

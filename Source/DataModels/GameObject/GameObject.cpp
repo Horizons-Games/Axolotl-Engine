@@ -219,6 +219,8 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 void GameObject::RemoveComponent(Component* compToDelete)
 {
+	assert(compToDelete != nullptr);
+
 	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
 		if (*it == compToDelete)
