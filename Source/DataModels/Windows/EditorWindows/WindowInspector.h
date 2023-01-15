@@ -2,10 +2,13 @@
 
 #include "EditorWindow.h"
 
+#include "FileSystem/UniqueID.h"
+
 #include <memory>
 
 class Model;
 class GameObject;
+class Component;
 class ComponentCamera;
 
 class WindowInspector : public EditorWindow
@@ -20,11 +23,16 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawTransformationTable(GameObject* selected);
-	void DrawBoundingBoxTable(GameObject* selected);
-	void DrawGeometryTable();
+	void DrawChangeActiveComponentContent(int labelNum, Component* component);
+	bool DrawDeleteComponentContent(int labelNum, Component* component);
 	void DrawTextureTable();
-	void DrawCameraTable(ComponentCamera* camera);
+	bool MousePosIsInWindow();
+	bool WindowRightClick();
+
+	void AddComponentMeshRenderer();
+	void AddComponentMaterial();
+	void AddComponentLight();
+
 
 	std::weak_ptr<Model> model;
 };

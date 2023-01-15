@@ -585,7 +585,7 @@ const char* DDRenderInterfaceCoreGL::textFragShaderSrc = "\n"
 
 DDRenderInterfaceCoreGL* ModuleDebugDraw::implementation = 0;
 
-ModuleDebugDraw::ModuleDebugDraw()
+ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(true)
 {
 }
 
@@ -613,9 +613,10 @@ bool ModuleDebugDraw::CleanUp()
 update_status ModuleDebugDraw::Update()
 {
     GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
-    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->GetComponent(ComponentType::TRANSFORM);
+    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->
+                                                        GetComponent(ComponentType::TRANSFORM);
 
-    dd::axisTriad(selectedTransform->GetGlobalMatrix(), 0.1f, 1.0f);
+    DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;
@@ -628,6 +629,14 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     implementation->mvpMatrix = proj * view;
 
     dd::flush();
+}
+
+void ModuleDebugDraw::DrawTransform(ComponentTransform* transform)
+{
+    float4x4 transformDrawPosition = float4x4::FromTRS((float3)transform->GetGlobalPosition(), 
+                                                            Quat::identity, float3(0.5f, 0.5f, 0.5f));
+
+    dd::axisTriad(transformDrawPosition, 0.1f, 1.0f);
 }
 
 void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)

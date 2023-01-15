@@ -1,12 +1,17 @@
 #include "ComponentTransform.h"
-#include "GameObject/GameObject.h"
+
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "ModuleDebugDraw.h"
+
+#include "GameObject/GameObject.h"
+#include "Scene.h"
+#include "FileSystem/Json.h"
 
 #include "imgui.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner), ownerParent(GetOwner()->GetParent())
+	: Component(ComponentType::TRANSFORM, active, owner, false), ownerParent(GetOwner()->GetParent())
 {
 }
 
@@ -14,7 +19,6 @@ ComponentTransform::~ComponentTransform()
 {
 	delete ownerParent;
 }
-
 
 void ComponentTransform::Update()
 {
@@ -25,7 +29,7 @@ void ComponentTransform::Update()
 
 void ComponentTransform::Display()
 {
-	if (App->scene->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		return;
 
 	float3 translation = GetPosition();
@@ -112,6 +116,10 @@ void ComponentTransform::Display()
 			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar();
 
+		if (scale.x <= 0) scale.x = 0.0001;
+		if (scale.y <= 0) scale.y = 0.0001;
+		if (scale.z <= 0) scale.z = 0.0001;
+
 		SetPosition(translation);
 		SetRotation(rotation);
 		SetScale(scale);
@@ -119,6 +127,51 @@ void ComponentTransform::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentTransform::SaveOptions(Json& meta)
+{
+	meta["type"] = (int) meta["type"];
+	meta["active"] = (bool) active;
+	meta["owner"] = (GameObject*) owner;
+	meta["removed"] = (bool) canBeRemoved;
+
+	meta["localPos_X"] = (float)pos.x;
+	meta["localPos_Y"] = (float)pos.y;
+	meta["localPos_Z"] = (float)pos.z;
+
+	meta["localRot_X"] = (float)rot.x;
+	meta["localRot_Y"] = (float)rot.y;
+	meta["localRot_Z"] = (float)rot.z;
+
+	meta["localSca_X"] = (float)sca.x;
+	meta["localSca_Y"] = (float)sca.y;
+	meta["localSca_Z"] = (float)sca.z;
+}
+
+void ComponentTransform::LoadOptions(Json& meta)
+{
+	type = (ComponentType)(int) meta["type"];
+	active = (bool) meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool) meta["removed"];
+
+	ownerParent = GetOwner()->GetParent();
+
+	pos.x = (float) meta["localPos_X"];
+	pos.y = (float) meta["localPos_Y"];
+	pos.z = (float) meta["localPos_Z"];
+				    
+	rot.x = (float) meta["localRot_X"];
+	rot.y = (float) meta["localRot_Y"];
+	rot.z = (float) meta["localRot_Z"];
+				    
+	sca.x = (float) meta["localSca_X"];
+	sca.y = (float) meta["localSca_Y"];
+	sca.z = (float) meta["localSca_Z"];
+
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
 }
 
 void ComponentTransform::CalculateLocalMatrix()
@@ -146,4 +199,31 @@ void ComponentTransform::CalculateGlobalMatrix()
 
 	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
 	SetGlobalMatrix(globalMatrix);
+}
+
+const float3& ComponentTransform::GetGlobalPosition() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalPos;
+}
+
+const Quat& ComponentTransform::GetGlobalRotation() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalRot;
+}
+
+const float3& ComponentTransform::GetGlobalScale() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalSca;
 }

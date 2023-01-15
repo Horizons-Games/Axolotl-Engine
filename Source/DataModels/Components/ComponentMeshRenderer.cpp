@@ -1,23 +1,27 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
+#include "ComponentBoundingBoxes.h"
 
 #include "Application.h"
 
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Math/float3x3.h"
 
 #include "GL/glew.h"
+#include "imgui.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
-	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
+	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
@@ -25,23 +29,9 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 }
 
-bool ComponentMeshRenderer::Init()
-{
-	LoadMesh();
-
-	return true;
-}
-
 void ComponentMeshRenderer::Update()
 {
-	if (GetActive() && IsMeshLoaded())
-	{
-		Draw();
-	}
-}
 
-void ComponentMeshRenderer::Display()
-{
 }
 
 void ComponentMeshRenderer::Draw()
@@ -62,29 +52,75 @@ void ComponentMeshRenderer::Draw()
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, textureUID);
-		glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		//glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 		glBindVertexArray(meshAsShared->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 	}
-	else
+}
+
+void ComponentMeshRenderer::Display()
+{
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	ImGui::Text("MESH COMPONENT");
+	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::BeginTable("##GeometryTable", 2))
 	{
-		LoadMesh();
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of vertices: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+													meshAsShared.get()->GetNumVertices() : 0);
+		ImGui::TableNextColumn();
+		ImGui::Text("Number of triangles: ");
+		ImGui::TableNextColumn();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+													meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+
+		ImGui::EndTable();
+		ImGui::Separator();
 	}
 }
 
-void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
+void ComponentMeshRenderer::SaveOptions(Json& meta)
 {
-	this->meshUID = meshUID;
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
 
-	LoadMesh();
+	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
-void ComponentMeshRenderer::LoadMesh()
+void ComponentMeshRenderer::LoadOptions(Json& meta)
 {
-	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID).lock());
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	//SetMesh((std::weak_ptr<ResourceMesh>) meta["mesh"]);
+}
+
+void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
+{
+	mesh = newMesh;
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if (meshAsShared)
+	{
+		meshAsShared->Load();
+		ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
+	}
 }

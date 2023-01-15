@@ -5,6 +5,7 @@
 
 #include "ModuleTexture.h"
 #include "ModuleEngineCamera.h"
+#include "Scene.h"
 #include "ModuleScene.h"
 
 #include "Mesh.h"
@@ -129,7 +130,10 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 			textureWidths.push_back(textureSpecular->GetWidth());
 		}
 
+		material->diffuseColor = resourceMaterial->GetDiffuseColor();
+		material->specularColor = resourceMaterial->GetSpecularColor();
 		material->shininess = resourceMaterial->GetShininess();
+		material->haveShininessAlpha = resourceMaterial->HaveShininessAlpha();
 		material->normalStrength = resourceMaterial->GetNormalStrength();
 
 		materials.push_back((std::unique_ptr<Material>(material)));
@@ -213,7 +217,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb) || App->scene->GetLoadedScene()->IsInsideACamera(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{
@@ -225,7 +229,7 @@ void Model::Draw()
 
 void Model::NewDraw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{

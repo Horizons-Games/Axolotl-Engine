@@ -12,25 +12,55 @@ struct Material {
     
     int has_diffuse_map;
     int has_specular_map;
+    int shininess_alpha;
     int has_shininess_map;
     bool has_normal_map;
 };
 
-layout(std140) uniform Ambient
+struct PointLight
+{
+	vec4 position;  	//16 //0	// xyz position+w radius
+	vec4 color; 		//16 //16   // rgb colour+alpha intensity
+};
+
+struct SpotLight
+{
+	vec4 position;  	//16 //0	// xyz position+w radius
+	vec4 color; 		//16 //16	// rgb colour+alpha intensity
+	vec3 aim;			//16 //32
+	float innerAngle;	//4  //48
+	float outerAngle;	//4  //52
+};
+
+layout(std140, binding=1) uniform Ambient
 {
 	vec3 ambientValue;		//12	//0
 };
 
-layout(std140) uniform Directional
+layout(std140, binding=2) uniform Directional
 {
 	vec3 directionalDir;  	//12	//0
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
+};
+
+readonly layout(std430, binding=3) buffer PointLights
+{
+	uint num_point;			//4		//0
+	PointLight points[]; 	//32	//16
+};
+
+readonly layout(std430, binding=4) buffer SpotLights
+{
+	uint num_spot;
+	SpotLight spots[];
 };
 
 struct Light {
     vec3 position;
     vec3 color;
 };
+
+//out vec4 color;
 
 uniform Material material;
 uniform Light light;
@@ -59,13 +89,25 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 }
   
 void main()
-{  
+{
+	//vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
+
+	//vec3 result = ambient;
+	
+	//color = vec4(result, 1.0);
+
+	// -------------------------------------
+	
 	vec3 norm = normalize(Normal);
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
-	vec3 textureMat = texture(material.diffuse_map, TexCoord).rgb;
-    textureMat = pow(textureMat, vec3(2.2));
+
+	vec3 textureMat = material.diffuse_color;
+    if (material.has_diffuse_map == 1) {
+        textureMat = texture(material.diffuse_map, TexCoord).rgb; 
+        textureMat = pow(textureMat, vec3(2.2));
+    }
     
 
 	if (material.has_normal_map)
@@ -79,17 +121,30 @@ void main()
 	}
 
     //fresnel
-    //vec3 f0 =  vec3(texture(material.specular_map, TexCoord));
-    vec3 f0 =  vec3(0.5, 0.3, 0.5);
+    vec4 specularMat =  vec4(material.specular_color, 0.0);
+    if (material.has_specular_map == 1) {
+        specularMat = vec4(texture(material.specular_map, TexCoord));
+        specularMat = pow(specularMat, vec4(2.2));
+    }
+
+    vec3 f0 =  specularMat.rgb;
+
+    // shininess
+    float shininess = material.shininess;
+    if (material.shininess_alpha == 1) {
+	    shininess = exp2(specularMat.a * 7 + 1);
+    }
+
     float NdotL = max(dot(norm, lightDir), 0.0);
 	vec3 fresnel  = fresnelSchlick(NdotL, f0);
 	
 	//specular
 	vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0001), material.shininess);
-    vec3 numerator = (material.shininess + 2) * fresnel * spec;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0001), shininess);
+    vec3 numerator = (shininess + 2) * fresnel * spec;
 	vec3 specular = numerator / 2;
-  	
+
+
   	vec3 kS = f0;
 	vec3 kD = vec3(1.0) - kS;
   	

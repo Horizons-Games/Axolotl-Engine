@@ -5,49 +5,39 @@
 
 #include <memory>
 
+#define COMPONENT_MESHRENDERED "MeshRendered"
+
+class ResourceMaterial;
 class ResourceMesh;
+class Json;
 
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID);
+	ComponentMeshRenderer(const bool active, GameObject* owner);
 	~ComponentMeshRenderer() override;
 
-	bool Init();
 	void Update() override;
 
-	void Display();
-	void Draw();
+	void Draw() override;
+	void Display() override;
 
-	void SetMeshUID(UID& meshUID);
-	void SetTextureUID(UID& textureUID);
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
-	const UID& GetMeshUID() const;
-	const UID& GetTextureUID() const;
+	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
+
+	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
-	void LoadMesh();
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
-	
-	UID meshUID = 0ULL;
-	UID textureUID = 0ULL;
 };
 
-inline void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
+inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
-	this->textureUID = textureUID;
-}
-
-inline const UID& ComponentMeshRenderer::GetMeshUID() const
-{
-	return meshUID;
-}
-
-inline const UID& ComponentMeshRenderer::GetTextureUID() const
-{
-	return textureUID;
+	return mesh;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()

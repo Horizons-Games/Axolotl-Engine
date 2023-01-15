@@ -1,38 +1,54 @@
 #pragma once
 
-enum class ComponentType {/*MATERIAL,*/ MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
+enum class ComponentType {MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
+class Json;
 
 class Component
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner);
+	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
 	virtual ~Component();
 
-	bool Init();
-	virtual void Update() = 0; // Pure Virtual because each component will perform its own Update
+	virtual void Init(); // In case any component needs an init to do something once created
 
-	virtual void Display() = 0; // Pure Virtual because each component will draw itself in the Inspector Window
+	virtual void Update() = 0; // Abstract because each component will perform its own Update
+
+	virtual void Display() = 0; // Abstract because each component will draw itself in the Inspector Window
+	virtual void Draw();
+
+	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
+	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
 
 	virtual void Enable();
 	virtual void Disable();
-
-	virtual void Draw();
 
 	bool GetActive();
 	ComponentType GetType();
 
 	GameObject* GetOwner();
-private:
+	bool GetCanBeRemoved();
+
+protected:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
+	bool canBeRemoved;
 };
 
-inline bool Component::Init()
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved)
+	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
 {
-	return true;
+}
+
+inline Component::~Component()
+{
+	delete owner;
+}
+
+inline void Component::Init()
+{
 }
 
 inline void Component::Enable()
@@ -64,4 +80,9 @@ inline ComponentType Component::GetType()
 inline GameObject* Component::GetOwner()
 {
 	return this->owner;
+}
+
+inline bool Component::GetCanBeRemoved()
+{
+	return canBeRemoved;
 }

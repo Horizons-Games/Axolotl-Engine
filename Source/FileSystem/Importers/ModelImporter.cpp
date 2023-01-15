@@ -101,9 +101,11 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 	{
 		aiString file;
 
+		aiMaterial* material = scene->mMaterials[i];
+
 		std::vector<std::string> pathTextures(4);
 
-		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
+		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
 			std::string diffusePath = "";
 
@@ -112,6 +114,40 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 			if (diffusePath != "")
 			{
 				pathTextures[0] = diffusePath;
+			}
+		}
+		//Getting the specular texture
+		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+		{
+			std::string specularPath = "";
+
+			struct stat buffer {};
+			std::string name = App->fileSystem->GetFileName(file.data);
+			name += App->fileSystem->GetFileExtension(file.data);
+
+			if (stat(name.c_str(), &buffer) != 0)
+			{
+				std::string path = App->fileSystem->GetPathWithoutFile(filePath);
+
+				if (stat((path + name).c_str(), &buffer) != 0)
+				{
+
+					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
+					{
+						ENGINE_LOG("Texture not found!");
+					}
+					else
+						specularPath = TEXTURES_PATH + std::string(file.data);
+				}
+				else
+					specularPath = path + std::string(file.data);
+			}
+			else
+				specularPath = std::string(file.data);
+
+			if (specularPath != "")
+			{
+				pathTextures[1] = specularPath;
 			}
 		}
 

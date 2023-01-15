@@ -22,7 +22,7 @@ enum update_status
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
-#define QUADRANT_CAPACITY 10
+#define QUADRANT_CAPACITY 50
 #define MIN_CUBE_SIZE 100.0f
  
 // Window ------------------
