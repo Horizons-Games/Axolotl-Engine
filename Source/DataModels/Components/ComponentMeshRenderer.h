@@ -33,7 +33,8 @@ private:
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
-	std::weak_ptr<ResourceMaterial> texture;
+	std::weak_ptr<ResourceMaterial> material;
+	std::weak_ptr<ResourceTexture> texture;
 	
 	UID meshUID = 0;
 	UID textureUID = 0;

@@ -45,11 +45,8 @@ void ComponentMeshRenderer::Draw()
 {
 	//lock it so it does not expire during this block
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-	std::shared_ptr<ResourceMaterial> materialAsShared = texture.lock();
-
-	std::shared_ptr<ResourceTexture> textureAsShared = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(materialAsShared->GetDiffuseUID()).lock());
-
-	textureAsShared->Load();
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+	std::shared_ptr<ResourceTexture> textureAsShared = texture.lock();
 
 	if (meshAsShared && materialAsShared && textureAsShared) //pointer not empty
 	{
@@ -78,9 +75,9 @@ void ComponentMeshRenderer::Draw()
 void ComponentMeshRenderer::Display()
 {
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-	std::shared_ptr<ResourceMaterial> textureAsShared = texture.lock();
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
-	if (meshAsShared && textureAsShared) //pointer not empty
+	if (meshAsShared && materialAsShared) //pointer not empty
 	{
 
 		ImGui::Text("MESH COMPONENT");
@@ -132,12 +129,23 @@ void ComponentMeshRenderer::LoadMesh()
 
 void ComponentMeshRenderer::LoadTexture()
 {
-	texture = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(textureUID).lock());
+	material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(textureUID).lock());
 
-	std::shared_ptr<ResourceMaterial> textureAsShared = texture.lock();
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
-	if(textureAsShared)
+	if(materialAsShared)
 	{
-		textureAsShared->Load();
+		materialAsShared->Load();
+
+		texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(materialAsShared->GetDiffuseUID()).lock());
+
+		std::shared_ptr<ResourceTexture> textureAsShared = texture.lock();
+
+		if(textureAsShared) 
+		{
+			textureAsShared->Load();
+		}
+
 	}
+
 }
