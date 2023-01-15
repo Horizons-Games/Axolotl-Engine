@@ -8,6 +8,7 @@
 
 class ResourceMesh;
 class ResourceTexture;
+class ComponentMaterial;
 
 class ComponentMeshRenderer : public Component
 {
@@ -20,29 +21,19 @@ public:
 	void Draw();
 	void Display();
 
-	void SetMesh(ResourceMesh* meshUID);
+	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 
-	ResourceMesh* GetMesh() const;
-	ResourceTexture* GetTexture() const; // To Material Component
-
-	void SetMaterialComponent(ComponentMaterial* newMaterial);
+	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
-	
-	ComponentMaterial* material;
 };
 
-inline ResourceMesh* ComponentMeshRenderer::GetMesh() const
+inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
-	return mesh.get();
-}
-
-inline ResourceTexture* ComponentMeshRenderer::GetTexture() const
-{
-	return texture.get();
+	return mesh;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()

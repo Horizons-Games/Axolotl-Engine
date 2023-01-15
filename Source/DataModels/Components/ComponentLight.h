@@ -25,7 +25,7 @@ public:
 	void Enable() override;
 	void Disable() override;
 
-	virtual void Display() {};
+	virtual void Display();
 	virtual void Draw() {};
 
 	const float3& GetColor() const;

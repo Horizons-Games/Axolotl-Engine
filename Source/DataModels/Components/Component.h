@@ -7,7 +7,7 @@ class GameObject;
 class Component
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner);
+	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
 	virtual ~Component();
 
 	virtual void Init(); // In case any component needs an init to do something once created
@@ -25,15 +25,17 @@ public:
 	ComponentType GetType();
 
 	GameObject* GetOwner();
+	bool GetCanBeRemoved();
 
 private:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
+	bool canBeRemoved;
 };
 
-inline Component::Component(const ComponentType type, const bool active, GameObject* owner)
-	: type(type), active(active), owner(owner)
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved)
+	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
 {
 }
 
@@ -79,4 +81,9 @@ inline ComponentType Component::GetType()
 inline GameObject* Component::GetOwner()
 {
 	return this->owner;
+}
+
+inline bool Component::GetCanBeRemoved()
+{
+	return canBeRemoved;
 }

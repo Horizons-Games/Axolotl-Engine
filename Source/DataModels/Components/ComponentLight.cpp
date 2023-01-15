@@ -3,23 +3,23 @@
 #include "imgui.h"
 
 ComponentLight::ComponentLight(const bool active, GameObject* owner)
-	: Component(ComponentType::LIGHT, active, owner)
+	: Component(ComponentType::LIGHT, active, owner, true)
 {
 }
 
-ComponentLight::ComponentLight(LightType type) : Component(ComponentType::LIGHT, true, nullptr)
+ComponentLight::ComponentLight(LightType type) : Component(ComponentType::LIGHT, true, nullptr, true)
 {
 	this->type = type;
 };
 
 ComponentLight::ComponentLight(LightType type, GameObject* gameObject) : 
-	Component(ComponentType::LIGHT, true, gameObject)
+	Component(ComponentType::LIGHT, true, gameObject, true)
 {
 	this->type = type;
 }
 
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity) :
-	Component(ComponentType::LIGHT, true, nullptr)
+	Component(ComponentType::LIGHT, true, nullptr, true)
 {
 	this->type = type;
 	this->color = color;
@@ -27,7 +27,7 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 }
 
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject) :
-	Component(ComponentType::LIGHT, true, gameObject)
+	Component(ComponentType::LIGHT, true, gameObject, true)
 {
 	this->type = type;
 	this->color = color;

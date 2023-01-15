@@ -156,11 +156,6 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	{
 		ComponentMeshRenderer* meshRenderer = (ComponentMeshRenderer*)gameObjectModel
 															->CreateComponent(ComponentType::MESHRENDERER);
-
-		ResourceMesh* mesh = (ResourceMesh*)App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).get();
-		ResourceTexture* texture = (ResourceTexture*)App->resources->RequestResource(resourceModel->GetTexturesUIDs()[0]).get();
-		meshRenderer->SetMesh(mesh);
-		meshRenderer->SetTexture(texture);
 	}
 }
 

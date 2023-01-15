@@ -242,7 +242,8 @@ update_status ModuleRender::Update()
 
 	for (GameObject* gameObject : gameObjects)
 	{
-		gameObject->Draw();
+		if (gameObject->IsActive())
+			gameObject->Draw();
 	}
 
 	int w, h;

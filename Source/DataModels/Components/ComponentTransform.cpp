@@ -10,7 +10,7 @@
 #include "imgui.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner), ownerParent(GetOwner()->GetParent())
+	: Component(ComponentType::TRANSFORM, active, owner, false), ownerParent(GetOwner()->GetParent())
 {
 }
 

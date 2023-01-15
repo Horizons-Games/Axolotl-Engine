@@ -11,7 +11,7 @@
 #include "imgui.h"
 
 ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
-	: Component(ComponentType::BOUNDINGBOX, active, owner)
+	: Component(ComponentType::BOUNDINGBOX, active, owner, false)
 {
 	localAABB = { {0 ,0, 0}, {0, 0, 0} };
 	encapsuledAABB = localAABB;
@@ -35,9 +35,6 @@ void ComponentBoundingBoxes::Draw()
 
 void ComponentBoundingBoxes::Display()
 {
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
-		return;
-
 	ImGui::Text("BOUNDING BOXES");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
 	if (ImGui::BeginTable("BoundingTable", 2))

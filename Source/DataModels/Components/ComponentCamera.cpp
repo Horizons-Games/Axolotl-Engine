@@ -14,7 +14,7 @@
 
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner)
+	: Component(ComponentType::CAMERA, active, owner, false)
 {
 	frustumOffset = 1;
 	drawFrustum = true;
