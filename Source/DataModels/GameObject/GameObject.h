@@ -48,7 +48,7 @@ public:
 	Component* CreateComponentLight(LightType lightType);
 	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
 	Component* GetComponent(ComponentType type);
-	void RemoveComponent(Component& compToDelete);
+	void RemoveComponent(Component* compToDelete);
 
 private:
 	bool IsAChild(const GameObject* child);

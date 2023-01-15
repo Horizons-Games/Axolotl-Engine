@@ -56,8 +56,8 @@ void ComponentPointLight::Display()
 					//changes type of light
 					if (lightTypes[i] == "Spot")
 					{
-						this->GetOwner()->RemoveComponent(*this);
 						this->GetOwner()->CreateComponentLight(LightType::SPOT);
+						this->GetOwner()->RemoveComponent(this);
 						//TODO: Set intensity and color
 					}
 

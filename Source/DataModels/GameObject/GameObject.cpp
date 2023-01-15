@@ -217,12 +217,15 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
-void GameObject::RemoveComponent(Component &compToDelete)
+void GameObject::RemoveComponent(Component* compToDelete)
 {
-	for (int i = 0; i < components.size(); i++)
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
-		if (components[i] == &compToDelete)
-			components.erase(next(components.begin(), i));
+		if (*it == compToDelete)
+		{
+			components.erase(it);
+			return;
+		}
 	}
 }
 
