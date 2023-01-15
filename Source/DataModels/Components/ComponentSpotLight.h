@@ -2,6 +2,8 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_SPOTLIGHT "SpotLight"
+
 class Json;
 
 class ComponentSpotLight : public ComponentLight
@@ -22,6 +24,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	std::string GetTypeName() override;
+
 	float GetRadius() const;
 	float GetInnerAngle() const;
 	float GetOuterAngle() const;
@@ -35,6 +39,11 @@ private:
 	float innerAngle = 2.0f;
 	float outerAngle = 2.5f;
 };
+
+inline std::string ComponentSpotLight::GetTypeName()
+{
+	return COMPONENT_SPOTLIGHT;
+}
 
 inline float ComponentSpotLight::GetRadius() const
 {
