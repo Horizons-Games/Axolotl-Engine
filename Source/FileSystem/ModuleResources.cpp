@@ -260,15 +260,11 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	std::string extension = App->fileSystem->GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
 
-	//is the extension necessary?
-	//if so, we need a way to find the asset path (name + etension)
-	//given the path of its binary
 	assetsPath = CreateAssetsPath(fileName + extension, type);
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
 		CopyFileInAssets(originalPath, assetsPath);
-	
 
 	UID uid;
 
