@@ -136,6 +136,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 		{
 			std::string fileName = App->fileSystem->GetFileName(libraryPathWithoutExtension);
 			std::string assetsPath = CreateAssetsPath(fileName, type);
+			assetsPath = App->fileSystem->GetPathWithExtension(assetsPath);
 			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPathWithoutExtension, type);
 			
 			if (resource != nullptr)
