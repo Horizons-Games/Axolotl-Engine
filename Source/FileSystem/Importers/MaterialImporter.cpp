@@ -62,7 +62,7 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 		resource->GetSpecularColor()
 	};
 
-	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float);
+	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float) * 2;
 
 	char* cursor = new char[size];
 
@@ -115,7 +115,6 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	resource->SetShininess(*shininess);
 
 	fileBuffer += sizeof(float);
-
 
 	float* normalStrenght = new float;
 	memcpy(normalStrenght, fileBuffer, sizeof(float));
