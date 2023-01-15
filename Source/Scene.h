@@ -46,7 +46,7 @@ private:
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
 
-	AABB rootQuadtreeAABB = AABB(float3(-1000, -1000, -1000), float3(1000, 1000, 1000));
+	AABB rootQuadtreeAABB = AABB(float3(-40, -1000, -40), float3(40, 1000, 40));
 	Quadtree* sceneQuadTree = nullptr;
 };
 

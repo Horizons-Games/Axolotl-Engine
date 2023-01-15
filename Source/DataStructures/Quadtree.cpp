@@ -61,21 +61,23 @@ void Quadtree::Add(GameObject* gameObject)
 	}
 }
 
-std::list<GameObject*>& Quadtree::GetFamilyObjects()
+void Quadtree::GetFamilyObjects(std::list<GameObject*>& familyGameObjects)
 {
-	if (IsLeaf()) {
-		return gameObjects;
-	}
-	else
+	familyGameObjects.splice(familyGameObjects.end(), gameObjects);
+
+	if (!IsLeaf()) 
 	{
-		std::list<GameObject*> familyGameObjects = gameObjects;
+		frontRightNode->GetFamilyObjects(familyGameObjects);
+		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);  //O(1) complexity
 
-		familyGameObjects.splice(familyGameObjects.end(), frontRightNode->GetFamilyObjects());  //O(1) complexity
-		familyGameObjects.splice(familyGameObjects.end(), frontLeftNode->GetFamilyObjects());
-		familyGameObjects.splice(familyGameObjects.end(), backRightNode->GetFamilyObjects());
-		familyGameObjects.splice(familyGameObjects.end(), backLeftNode->GetFamilyObjects());
+		frontLeftNode->GetFamilyObjects(familyGameObjects);
+		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
-		return familyGameObjects;
+		backRightNode->GetFamilyObjects(familyGameObjects);
+		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
+
+		backLeftNode->GetFamilyObjects(familyGameObjects);
+		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 	}
 }
 
@@ -115,9 +117,12 @@ void Quadtree::Remove(GameObject* gameObject)
 
 void Quadtree::OptimizeParentObjects()
 {
-	if (GetFamilyObjects().size() <= quadrantCapacity)
+	std::list<GameObject*> familyObjects = {};
+	GetFamilyObjects(familyObjects);
+	if (familyObjects.size() <= quadrantCapacity)
 	{
-		gameObjects = GetFamilyObjects();
+		gameObjects.clear();
+		gameObjects.splice(gameObjects.end(), familyObjects);
 		ResetChildren();
 		if (parent != nullptr) parent->OptimizeParentObjects();
 	}
@@ -125,10 +130,12 @@ void Quadtree::OptimizeParentObjects()
 
 void Quadtree::SmartRemove()
 {
-	auto familyObjects = GetFamilyObjects();
+	std::list<GameObject*> familyObjects = {};
+	GetFamilyObjects(familyObjects);
 	if (familyObjects.size() <= quadrantCapacity)
 	{
-		gameObjects = familyObjects;
+		gameObjects.clear();
+		gameObjects.splice(gameObjects.end(),familyObjects);
 		ResetChildren();
 	}
 }

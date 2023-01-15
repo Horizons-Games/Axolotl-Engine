@@ -29,7 +29,7 @@ public:
 	void ResetChildren();
 
 	const std::list<GameObject*>& GetGameObjects() const;
-	std::list<GameObject*>& GetFamilyObjects();
+	void GetFamilyObjects(std::list<GameObject*>& familyGameObjects);
 
 	Quadtree* GetFrontRightNode() const;
 	Quadtree* GetFrontLeftNode() const;
