@@ -241,8 +241,14 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		hasTangents
 	};
 
+	unsigned int sizeOfVectors = sizeof(float3) * ourMesh->mNumVertices;
+	unsigned int numOfVectors = 3;
+	if (hasTangents)
+	{
+		numOfVectors = 4;
+	}
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
-		+ sizeof(float3) * ourMesh->mNumVertices * 4;
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
 	
 	char* cursor = new char[size] {};
 
@@ -253,20 +259,29 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	cursor += bytes;
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mVertices[0]), bytes);
+	if (ourMesh->mVertices != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mVertices[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mTextureCoords[0][0]), bytes);
+	if (ourMesh->mTextureCoords != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mTextureCoords[0][0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mNormals[0]), bytes);
+	if (ourMesh->mNormals != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mNormals[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
 	if (hasTangents) 
 	{
