@@ -64,12 +64,16 @@ void ComponentPointLight::Display()
 					{
 						this->GetOwner()->RemoveComponent(this);
 						this->GetOwner()->CreateComponentLight(LightType::SPOT);
-						std::vector<ComponentSpotLight*> lights = this->GetOwner()->GetComponentsByType<ComponentSpotLight>(ComponentType::LIGHT);
-						for (int i = 0; i < lights.size(); i++) {
-							lights[i]->SetIntensity(intensity);
-							lights[i]->SetColor(color);
-							lights[i]->SetRadius(radius);
-						}
+
+						std::vector<ComponentSpotLight*> lights = 
+							this->GetOwner()->GetComponentsByType<ComponentSpotLight>(ComponentType::LIGHT);
+
+						// There shouldn't be more than one light components on the same object (and at least one)
+						assert(lights.size() == 1); 
+						
+						lights[0]->SetIntensity(intensity);
+						lights[0]->SetColor(color);
+						lights[0]->SetRadius(radius);
 					}
 				}
 				if (isSelected)

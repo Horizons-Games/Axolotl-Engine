@@ -221,14 +221,7 @@ void GameObject::RemoveComponent(Component* compToDelete)
 {
 	assert(compToDelete != nullptr);
 
-	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
-	{
-		if (*it == compToDelete)
-		{
-			components.erase(it);
-			return;
-		}
-	}
+	components.erase(std::remove(components.begin(), components.end(), compToDelete), components.end());
 }
 
 Component* GameObject::CreateComponentLight(LightType lightType)
@@ -251,35 +244,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	case LightType::SPOT:
 		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, this);
-		break;
-	}
-
-	if (newComponent != nullptr)
-		components.push_back(newComponent);
-
-	return newComponent;
-}
-
-Component* GameObject::CreateComponentLight(LightType lightType, const float3& color, float intensity)
-{
-	Component* newComponent = nullptr;
-
-	switch (lightType)
-	{
-	case LightType::AMBIENT:
-		newComponent = new ComponentAmbient(color, this);
-		break;
-
-	case LightType::DIRECTIONAL:
-		newComponent = new ComponentDirLight(color, intensity, this);
-		break;
-
-	case LightType::POINT:
-		newComponent = new ComponentPointLight(0.5f, color, intensity, this);
-		break;
-
-	case LightType::SPOT:
-		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, color, intensity, this);
 		break;
 	}
 
