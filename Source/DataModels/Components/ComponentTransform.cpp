@@ -131,27 +131,44 @@ void ComponentTransform::Display()
 
 void ComponentTransform::SaveOptions(Json& meta)
 {
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = (int) meta["type"];
 	meta["active"] = (bool) active;
 	meta["owner"] = (GameObject*) owner;
 	meta["removed"] = (bool) canBeRemoved;
 
-	//meta["localPos"] = (float3) pos;
-	//meta["localRot"] = (Quat) rot;
-	//meta["localSca"] = (float3) sca;
+	meta["localPos_X"] = (float)pos.x;
+	meta["localPos_Y"] = (float)pos.y;
+	meta["localPos_Z"] = (float)pos.z;
+
+	meta["localRot_X"] = (float)rot.x;
+	meta["localRot_Y"] = (float)rot.y;
+	meta["localRot_Z"] = (float)rot.z;
+
+	meta["localSca_X"] = (float)sca.x;
+	meta["localSca_Y"] = (float)sca.y;
+	meta["localSca_Z"] = (float)sca.z;
 }
 
 void ComponentTransform::LoadOptions(Json& meta)
 {
-	//type = (ComponentType) meta["type"];
+	type = (ComponentType)(int) meta["type"];
 	active = (bool) meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
 	ownerParent = GetOwner()->GetParent();
-	pos = (float3) meta["localPos"];
-	//rot = (Quat) meta["localRot"];
-	sca = (float3) meta["localSca"];
+
+	pos.x = (float) meta["localPos_X"];
+	pos.y = (float) meta["localPos_Y"];
+	pos.z = (float) meta["localPos_Z"];
+				    
+	rot.x = (float) meta["localRot_X"];
+	rot.y = (float) meta["localRot_Y"];
+	rot.z = (float) meta["localRot_Z"];
+				    
+	sca.x = (float) meta["localSca_X"];
+	sca.y = (float) meta["localSca_Y"];
+	sca.z = (float) meta["localSca_Z"];
 
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();

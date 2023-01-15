@@ -100,7 +100,7 @@ void ComponentCamera::SaveOptions(Json& meta)
 void ComponentCamera::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	type = (int) meta["type"];
+	//type = (int) meta["type"];
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];

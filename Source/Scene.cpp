@@ -11,6 +11,7 @@
 
 #include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceMaterial.h"
 
 #include "GameObject/GameObject.h"
 
