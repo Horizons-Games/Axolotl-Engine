@@ -160,17 +160,19 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
+		GameObject* gameObjectModelMesh = CreateGameObject("Mesh", gameObjectModel);
+
 		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
 		std::shared_ptr<ResourceMaterial> material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(resourceModel->GetMaterialsUIDs()[materialIndex]).lock());
 
-		ComponentMaterial* materialRenderer = (ComponentMaterial*)gameObjectModel
+		ComponentMaterial* materialRenderer = (ComponentMaterial*)gameObjectModelMesh
 			->CreateComponent(ComponentType::MATERIAL);
 		materialRenderer->SetMaterial(material);
 
-		ComponentMeshRenderer* meshRenderer = (ComponentMeshRenderer*)gameObjectModel
+		ComponentMeshRenderer* meshRenderer = (ComponentMeshRenderer*)gameObjectModelMesh
 			->CreateComponent(ComponentType::MESHRENDERER);
 		meshRenderer->SetMesh(mesh);
 	}
