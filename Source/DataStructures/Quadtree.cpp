@@ -13,6 +13,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
 #include "Scene.h"
+#include <list>
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr)
 {
@@ -53,31 +54,69 @@ void Quadtree::Add(GameObject* gameObject)
 		}
 		else
 		{
-			frontRightNode->Add(gameObject);
-			frontLeftNode->Add(gameObject);
-			backRightNode->Add(gameObject);
-			backLeftNode->Add(gameObject);
+
+			bool inFrontRight = frontRightNode->InQuadrant(gameObject);
+			bool inFrontLeft = frontLeftNode->InQuadrant(gameObject);
+			bool inBackRight = backRightNode->InQuadrant(gameObject);
+			bool inBackLeft = backLeftNode->InQuadrant(gameObject);
+
+			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft) gameObjects.push_back(gameObject);
+			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft) gameObjects.push_back(gameObject);
+			else
+			{
+				frontRightNode->Add(gameObject);
+				frontLeftNode->Add(gameObject);
+				backRightNode->Add(gameObject);
+				backLeftNode->Add(gameObject);
+			}
 		}
 	}
 }
 
 void Quadtree::GetFamilyObjects(std::list<GameObject*>& familyGameObjects)
 {
-	familyGameObjects.splice(familyGameObjects.end(), gameObjects);
+	//familyGameObjects.splice(familyGameObjects.end(), gameObjects);
+	for (GameObject* gameObject : gameObjects)
+	{
+		familyGameObjects.push_back(gameObject);
+	}
 
 	if (!IsLeaf()) 
 	{
-		frontRightNode->GetFamilyObjects(familyGameObjects);
-		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);  //O(1) complexity
+		std::list<GameObject*> familyGameObjectsChildFR;
+		frontRightNode->GetFamilyObjects(familyGameObjectsChildFR);
+		for (GameObject* gameObject : familyGameObjectsChildFR)
+		{
+			familyGameObjects.push_back(gameObject);
+		}
+		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);  //O(1) complexity
 
-		frontLeftNode->GetFamilyObjects(familyGameObjects);
-		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
+		std::list<GameObject*> familyGameObjectsChildFL;
+		frontLeftNode->GetFamilyObjects(familyGameObjectsChildFL);
+		for (GameObject* gameObject : familyGameObjectsChildFL)
+		{
+			familyGameObjects.push_back(gameObject);
+		}
+		//frontLeftNode->GetFamilyObjects(familyGameObjects);
+		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
-		backRightNode->GetFamilyObjects(familyGameObjects);
-		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
+		std::list<GameObject*> familyGameObjectsChildBR;
+		backRightNode->GetFamilyObjects(familyGameObjectsChildBR);
+		for (GameObject* gameObject : familyGameObjectsChildBR)
+		{
+			familyGameObjects.push_back(gameObject);
+		}
+		//backRightNode->GetFamilyObjects(familyGameObjects);
+		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
-		backLeftNode->GetFamilyObjects(familyGameObjects);
-		familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
+		std::list<GameObject*> familyGameObjectsChildBL;
+		backLeftNode->GetFamilyObjects(familyGameObjectsChildBL);
+		for (GameObject* gameObject : familyGameObjectsChildBL)
+		{
+			familyGameObjects.push_back(gameObject);
+		}
+		//backLeftNode->GetFamilyObjects(familyGameObjects);
+		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 	}
 }
 
@@ -203,6 +242,7 @@ void Quadtree::RedistributeGameObjects(GameObject* gameObject)
 		bool inBackLeft = backLeftNode->InQuadrant(go);
 
 		if (inFrontRight && inFrontLeft && inBackRight && inBackLeft) ++it;
+		else if(!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft) ++it;
 		else
 		{
 			it = gameObjects.erase(it);
