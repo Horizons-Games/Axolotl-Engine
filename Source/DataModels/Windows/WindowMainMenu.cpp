@@ -58,7 +58,6 @@ void WindowMainMenu::DrawAbout()
 	about->Draw(showAbout);
 }
 
-
 void WindowMainMenu::DrawGithubLink() const
 {
 	if (ImGui::MenuItem("GitHub Link"))

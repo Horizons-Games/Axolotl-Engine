@@ -164,10 +164,10 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 	
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
+	/*std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
 	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
 
-	models.push_back(bakerHouse); // This line should disappear
+	models.push_back(bakerHouse); // This line should disappear */
 	
 	/*
 	Import resource example:
@@ -175,13 +175,13 @@ bool ModuleRender::Start()
 		and display the processed import, but you can move to a gameObject or another class 
 		all the functionality used here*/
 	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
 	resourceModel->Load();
 
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
 	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
+	models.push_back(bakerHouse);
 
 	return true;
 }
@@ -217,7 +217,7 @@ update_status ModuleRender::Update()
 	// This loop should disappear
 	for (std::shared_ptr<Model> model : models)
 	{
-		model->Draw();
+		model->NewDraw();
 	}
 	
 
@@ -314,19 +314,23 @@ bool ModuleRender::LoadModel(const char* path)
 	ENGINE_LOG("---- Loading Model ----");
 
 	UID modelUID = App->resources->ImportResource(path);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->SetFromResource(resourceModel);
-
-	if (AnyModelLoaded())
+	if(modelUID != 0)
 	{
-		models[0] = nullptr;
-		models.clear();
-	}
+		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+		resourceModel->Load();
 
-	models.push_back(newModel);
+		std::shared_ptr<Model> newModel = std::make_shared<Model>();
+		newModel->SetFromResource(resourceModel);
+
+		if (AnyModelLoaded())
+		{
+			models[0] = nullptr;
+			models.clear();
+		}
+
+		models.push_back(newModel);
+	}
+	
 
 	return false;
 }
