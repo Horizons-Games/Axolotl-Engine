@@ -5,5 +5,14 @@ class WindowLoadScene : public WindowFileBrowser
 {
 public:
 	WindowLoadScene();
-	~WindowLoadScene();
+	~WindowLoadScene() = default;
+	void DoThisIfOk(std::string fileNamePath) override;
 };
+
+inline WindowLoadScene::WindowLoadScene() :WindowFileBrowser()
+{
+	dialogName = " Load Scene File";
+	title = ICON_IGFD_FOLDER" Load Scene File";
+	filters = ".scene";
+	startPath = "./Assets/Scenes";
+}

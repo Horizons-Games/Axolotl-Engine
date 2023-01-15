@@ -2,12 +2,7 @@
 
 #include "FontIcons/CustomFont.cpp"
 
-WindowLoadScene::WindowLoadScene() :WindowFileBrowser()
+void WindowLoadScene::DoThisIfOk(std::string fileNamePath)
 {
-	dialogName = " Load Scene File";
-	title = ICON_IGFD_FOLDER" Load Scene File";
-	filters = ".scene";
-	startPath = "./Assets/Scenes";
+	// TODO :: Do this after the OK, if is load scene
 }
-WindowLoadScene::~WindowLoadScene()
-{}
