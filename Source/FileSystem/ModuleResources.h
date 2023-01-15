@@ -31,11 +31,9 @@ public:
 	UID ImportResource(const std::string& originalPath);
 
 	const std::weak_ptr<Resource>& RequestResource(UID uid);
-	const std::string GetPath(const std::string& path);
-	const std::string GetFileName(const std::string& path);
-	const std::string GetFileExtension(const std::string& path);
 
 private:
+	void CreateAssetAndLibFolders();
 	void MonitorResources();
 	void LoadResourceStored(const char* filePath);
 	void ImportResourceFromLibrary(const std::string& libraryPath);
@@ -44,7 +42,6 @@ private:
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
-	//this might not belong here
 	const std::string GetFolderOfType(ResourceType type);
 	const std::string GetNameOfType(ResourceType type);
 	ResourceType GetTypeOfName(const std::string& typeName);
@@ -72,15 +69,15 @@ private:
 	std::shared_ptr<MeshImporter> meshImporter;
 	std::shared_ptr<MaterialImporter> materialImporter;
 	std::shared_ptr<SkyBoxImporter> skyboxImporter;
-
-	//std::thread monitorThread;
+	
+	std::thread monitorThread;
 	bool monitorResources;
 };
 
 inline bool ModuleResources::CleanUp()
 {
 	monitorResources = false;
-	//monitorThread.join();
+	monitorThread.join();
 	resources.clear();
 	return true;
 }

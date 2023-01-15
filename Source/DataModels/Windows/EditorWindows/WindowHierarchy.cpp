@@ -18,7 +18,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	flags |= ImGuiWindowFlags_AlwaysAutoResize;    
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -35,7 +35,7 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject != nullptr);
+    assert(gameObject != nullptr);   
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
