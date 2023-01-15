@@ -17,6 +17,8 @@ static bool playButtonState = false;
 WindowEditorControl::WindowEditorControl() : EditorWindow("Editor Control")
 {
     flags |= ImGuiWindowFlags_AlwaysAutoResize;
+    loadScene = std::make_unique<WindowLoadScene>();
+    saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowEditorControl::~WindowEditorControl()
@@ -25,6 +27,9 @@ WindowEditorControl::~WindowEditorControl()
 
 void WindowEditorControl::DrawWindowContents()
 {
+    //TODO: REMOVE AFTER, HERE WE GO
+    DrawButtomsSaveAndLoad();
+    //
     ImGuiStyle& style = ImGui::GetStyle();
 
     float size = ImGui::CalcTextSize("##Play").x + style.FramePadding.x * 2.0f;
@@ -49,3 +54,11 @@ void WindowEditorControl::DrawWindowContents()
     }
     ImGui::SameLine();
 }
+// TODO: REMOVE
+void WindowEditorControl::DrawButtomsSaveAndLoad()
+{
+    loadScene->DrawWindowContents();
+    ImGui::SameLine();
+    saveScene->DrawWindowContents();
+}
+// --

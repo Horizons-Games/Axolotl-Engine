@@ -9,7 +9,8 @@ bool WindowMainMenu::defaultEnabled = true;
 WindowMainMenu::WindowMainMenu(const std::vector< std::shared_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
 {
 	about = std::make_unique<WindowAbout>();
-	importer = std::make_unique<WindowImporter>();
+	importer = std::make_unique<WindowImporter>();	
+	
 	nWindows = editorWindows.size();
 	for (std::shared_ptr<EditorWindow> window : editorWindows)
 	{
@@ -31,6 +32,7 @@ void WindowMainMenu::Draw(bool& enabled)
 		DrawFileDialog();
 		DrawGithubLink();
 		DrawExit();
+		
 	}
 	ImGui::EndMainMenuBar();
 }
@@ -66,6 +68,8 @@ void WindowMainMenu::DrawFileDialog()
 	}		
 	importer->Draw(showFileDialog);
 }
+
+
 
 void WindowMainMenu::DrawGithubLink() const
 {
