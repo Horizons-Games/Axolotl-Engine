@@ -10,6 +10,7 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "Resources/ResourceModel.h"
+#include "Resources/ResourceMesh.h"
 
 #include "GameObject/GameObject.h"
 
@@ -156,6 +157,10 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	{
 		ComponentMeshRenderer* meshRenderer = (ComponentMeshRenderer*)gameObjectModel
 															->CreateComponent(ComponentType::MESHRENDERER);
+
+		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
+
+		meshRenderer->SetMesh(mesh);
 	}
 }
 
