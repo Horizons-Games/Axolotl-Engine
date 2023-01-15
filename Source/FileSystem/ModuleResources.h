@@ -32,6 +32,7 @@ public:
 	const std::weak_ptr<Resource>& RequestResource(UID uid);
 
 private:
+	void CreateAssetAndLibFolders();
 	void MonitorResources();
 	void LoadResourceStored(const char* filePath);
 	void ImportResourceFromLibrary(const std::string& libraryPath);

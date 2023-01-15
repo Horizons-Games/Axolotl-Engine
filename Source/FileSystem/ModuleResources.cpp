@@ -20,10 +20,53 @@
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
+void ModuleResources::CreateAssetAndLibFolders()
+{
+	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
+	if (assetsFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(assetsFolder.c_str());
+	}
+	bool libraryFolderNotCreated = !App->fileSystem->Exists(libraryFolder.c_str());
+	if (libraryFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
+	}
+	//seems there is no easy way to iterate over enum classes in C++ :/
+	//(actually there is a library that looks really clean but might be overkill:
+	// https://github.com/Neargye/magic_enum)
+	//ensure this vector is updated whenever a new type of resource is added
+	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,
+												  ResourceType::Mesh,
+												  ResourceType::Model,
+												  ResourceType::Scene,
+												  ResourceType::Texture,
+												  ResourceType::SkyBox };
+	for (ResourceType type : allResourceTypes)
+	{
+		std::string folderOfType = GetFolderOfType(type);
+
+		std::string assetsFolderOfType = assetsFolder + folderOfType;
+		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
+		if (assetsFolderOfTypeNotCreated)
+		{
+			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
+		}
+
+		std::string libraryFolderOfType = libraryFolder + folderOfType;
+		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
+		if (libraryFolderOfTypeNotCreated)
+		{
+			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
+		}
+	}
+}
+
 void  ModuleResources::MonitorResources()
 {
 	while (monitorResources) 
 	{
+		CreateAssetAndLibFolders();
 		std::vector<UID> toRemove;
 		std::vector<std::shared_ptr<Resource> > toImport;
 		std::vector<std::shared_ptr<Resource> > toCreateLib;
@@ -190,44 +233,8 @@ bool ModuleResources::Start()
 	meshImporter = std::make_shared<MeshImporter>();
 	materialImporter = std::make_shared<MaterialImporter>();
 
-	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
-	if (assetsFolderNotCreated)
-	{
-		App->fileSystem->CreateDirectoryA(assetsFolder.c_str());
-	}
-	bool libraryFolderNotCreated = !App->fileSystem->Exists(libraryFolder.c_str());
-	if (libraryFolderNotCreated)
-	{
-		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
-	}
-	//seems there is no easy way to iterate over enum classes in C++ :/
-	//(actually there is a library that looks really clean but might be overkill:
-	// https://github.com/Neargye/magic_enum)
-	//ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = {ResourceType::Material,
-												  ResourceType::Mesh,
-												  ResourceType::Model,
-												  ResourceType::Scene,
-												  ResourceType::Texture,
-												  ResourceType::SkyBox};
-	for (ResourceType type : allResourceTypes)
-	{
-		std::string folderOfType = GetFolderOfType(type);
+	CreateAssetAndLibFolders();
 
-		std::string assetsFolderOfType = assetsFolder + folderOfType;
-		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
-		if (assetsFolderOfTypeNotCreated)
-		{
-			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
-		}
-
-		std::string libraryFolderOfType = libraryFolder + folderOfType;
-		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
-		if (libraryFolderOfTypeNotCreated)
-		{
-			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
-		}
-	}
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
