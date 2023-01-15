@@ -40,14 +40,18 @@ void ComponentPointLight::Display()
 {
 	const char* lightTypes[] = { "Point", "Spot" };
 
-	static const char* currentType = "Point";
+	const char* currentType = "Point";
+	float intensity = GetIntensity();
+	float3 color = GetColor();
+
 	ImGui::Text("POINT LIGHT");
 	ImGui::Dummy(ImVec2(0.0f, 2.5f));
 	if (ImGui::BeginTable("PointLightTable", 2))
 	{
 		ImGui::TableNextColumn();
 		ImGui::Text("Type"); ImGui::SameLine();
-		if (ImGui::BeginCombo("##combo", currentType)) {
+		if (ImGui::BeginCombo("##combo", currentType)) 
+		{
 			for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
 			{
 				bool isSelected = (currentType == lightTypes[i]);
@@ -56,11 +60,9 @@ void ComponentPointLight::Display()
 					//changes type of light
 					if (lightTypes[i] == "Spot")
 					{
-						this->GetOwner()->CreateComponentLight(LightType::SPOT);
+						this->GetOwner()->CreateComponentLight(LightType::SPOT, color, intensity);
 						this->GetOwner()->RemoveComponent(this);
-						//TODO: Set intensity and color
 					}
-
 				}
 				if (isSelected)
 				{
@@ -71,7 +73,6 @@ void ComponentPointLight::Display()
 			ImGui::EndCombo();
 		}
 
-		float intensity = GetIntensity();
 		ImGui::Text("Intensity"); ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
@@ -80,7 +81,6 @@ void ComponentPointLight::Display()
 		); ImGui::PopStyleVar();
 		SetIntensity(intensity);
 
-		static float3 color = GetColor();
 		ImGui::Text("Color"); ImGui::SameLine();
 		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			SetColor(color);

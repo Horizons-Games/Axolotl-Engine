@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "Math/float3.h"
+
 #include "../../FileSystem/UniqueID.h"
 
 class Component;
@@ -46,6 +48,7 @@ public:
 
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
+	Component* CreateComponentLight(LightType lightType, const float3& color, float intensity);
 	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
 	Component* GetComponent(ComponentType type);
 	void RemoveComponent(Component* compToDelete);

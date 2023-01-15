@@ -258,6 +258,35 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	return newComponent;
 }
 
+Component* GameObject::CreateComponentLight(LightType lightType, const float3& color, float intensity)
+{
+	Component* newComponent = nullptr;
+
+	switch (lightType)
+	{
+	case LightType::AMBIENT:
+		newComponent = new ComponentAmbient(color, this);
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = new ComponentDirLight(color, intensity, this);
+		break;
+
+	case LightType::POINT:
+		newComponent = new ComponentPointLight(0.5f, color, intensity, this);
+		break;
+
+	case LightType::SPOT:
+		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, color, intensity, this);
+		break;
+	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return newComponent;
+}
+
 ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
 {
 	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
