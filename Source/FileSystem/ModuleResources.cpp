@@ -31,13 +31,18 @@ void  ModuleResources::MonitorResources()
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
-			if (it->second->GetType() != ResourceType::Mesh && !App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			if (it->second->GetType() != ResourceType::Mesh &&
+				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
 			else 
 			{
-				if (!App->fileSystem->Exists(it->second->GetLibraryPath().c_str()))
+				std::string libraryPathWithExtension =
+					App->fileSystem->GetPathWithExtension(it->second->GetLibraryPath());
+
+				if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+					!App->fileSystem->Exists(libraryPathWithExtension.c_str()))
 				{
 					toCreateLib.push_back(it->second);
 				}
@@ -45,7 +50,9 @@ void  ModuleResources::MonitorResources()
 				{
 					toCreateMeta.push_back(it->second);
 				}
-				else
+						 //these type's assets are binary files changed in runtime
+				else if (it->second->GetType() != ResourceType::Mesh &&
+						 it->second->GetType() != ResourceType::Material)
 				{
 					long long assetTime =
 						App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
@@ -88,7 +95,7 @@ void  ModuleResources::MonitorResources()
 
 void ModuleResources::LoadResourceStored(const char* filePath)
 {
-	std::vector<std::string> files = App->fileSystem->listFiles(filePath);
+	std::vector<std::string> files = App->fileSystem->ListFiles(filePath);
 	for (size_t i = 0; i < files.size(); i++)
 	{
 		std::string path (filePath);
@@ -100,7 +107,7 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 		}
 		else 
 		{
-			if (GetFileExtension(path) != ".meta")
+			if (App->fileSystem->GetFileExtension(path) != ".meta")
 			{
 				ImportResourceFromLibrary(file);
 			}
@@ -110,19 +117,8 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 
 void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 {
-	std::string metaPath;
-	std::string fileExtension = GetFileExtension(libraryPath);
-	int posOfExtensionInPath = libraryPath.find(fileExtension);
-	if (posOfExtensionInPath != 0) //has file extension
-	{
-		std::string libraryPathCopy = std::string(libraryPath);
-		metaPath = libraryPathCopy.erase(posOfExtensionInPath, fileExtension.size());
-	}
-	else
-	{
-		metaPath = libraryPath;
-	}
-	metaPath += META_EXTENSION;
+	std::string libraryPathWithoutExtension = App->fileSystem->GetPathWithoutExtension(libraryPath);
+	std::string metaPath = libraryPathWithoutExtension + META_EXTENSION;
 	
 	if (App->fileSystem->Exists(metaPath.c_str())){
 		char* metaBuffer = {};
@@ -138,9 +134,9 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 
 		if (type != ResourceType::Unknown)
 		{
-			std::string fileName = GetFileName(libraryPath);
+			std::string fileName = App->fileSystem->GetFileName(libraryPathWithoutExtension);
 			std::string assetsPath = CreateAssetsPath(fileName, type);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPathWithoutExtension, type);
 			
 			if (resource != nullptr)
 			{
@@ -233,7 +229,7 @@ bool ModuleResources::Start()
 	}
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-	//monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 	return true;
 }
 
@@ -259,21 +255,19 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 		ENGINE_LOG("Extension not supported");
 		return 0;
 	}
-	std::string fileName = GetFileName(originalPath);
-	std::string extension = GetFileExtension(originalPath);
+	std::string fileName = App->fileSystem->GetFileName(originalPath);
+	std::string extension = App->fileSystem->GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
 
-	if (type != ResourceType::Mesh && type != ResourceType::Material) 
-	{
-		//is the extension necessary?
-		//if so, we need a way to find the asset path (name + etension)
-		//given the path of its binary
-		assetsPath = CreateAssetsPath(fileName + extension, type);
+	//is the extension necessary?
+	//if so, we need a way to find the asset path (name + etension)
+	//given the path of its binary
+	assetsPath = CreateAssetsPath(fileName + extension, type);
 
-		bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
-		if (!resourceExists)
-			CopyFileInAssets(originalPath, assetsPath);
-	}
+	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
+	if (!resourceExists)
+		CopyFileInAssets(originalPath, assetsPath);
+	
 
 	UID uid;
 
@@ -289,7 +283,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 {
-	std::string fileExtension = GetFileExtension(path);
+	std::string fileExtension = App->fileSystem->GetFileExtension(path);
 	std::string normalizedExtension = "";
 
 	for(int i = 0; i < fileExtension.size(); ++i) 
@@ -351,57 +345,6 @@ bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath
 		}
 	}
 	return false;
-}
-
-const std::string ModuleResources::GetPath(const std::string& path)
-{
-	std::string fileName = "";
-	bool separatorFound = false;
-	for (int i = path.size() - 1; 0 <= i && !separatorFound; --i)
-	{
-		char currentChar = path[i];
-		separatorFound = currentChar == '\\' || currentChar == '/';
-		if (separatorFound)
-		{
-			fileName = path.substr(0, i + 1);
-		}
-	}
-	return fileName;
-}
-
-const std::string ModuleResources::GetFileName(const std::string& path)
-{
-	std::string fileName = "";
-	bool separatorNotFound = true;
-	for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
-	{
-		char currentChar = path[i];
-		separatorNotFound = currentChar != '\\' && currentChar != '/';
-		if (separatorNotFound)
-		{
-			fileName.insert(0, 1, currentChar);
-		}
-	}
-	std::string fileExtension = GetFileExtension(fileName);
-	int posOfExtensionInPath = fileName.find(fileExtension);
-	if (posOfExtensionInPath > 0) //has file extension
-	{
-		fileName.erase(posOfExtensionInPath, fileExtension.size());
-	}
-	return fileName;
-}
-
-const std::string ModuleResources::GetFileExtension(const std::string& path)
-{
-	std::string fileExtension = "";
-	bool dotNotFound = true;
-	for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
-	{
-		char currentChar = path[i];
-		fileExtension.insert(fileExtension.begin(), currentChar);
-		dotNotFound = currentChar != '.';
-	}
-	return fileExtension;
 }
 
 const std::string ModuleResources::GetFolderOfType(ResourceType type)
