@@ -16,8 +16,8 @@ public:
 
 	void Update() override;
 
-	void Draw();
-	void Display();
+	void Draw() override;
+	void Display() override;
 
 	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 
