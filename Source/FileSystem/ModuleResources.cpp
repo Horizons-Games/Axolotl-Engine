@@ -166,6 +166,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
 					break;
 				case ResourceType::SkyBox:
+					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 					break;
 				default:
 					break;
