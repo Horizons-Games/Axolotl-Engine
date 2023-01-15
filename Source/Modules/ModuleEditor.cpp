@@ -89,9 +89,9 @@ update_status ModuleEditor::Update()
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dock_space_id = ImGui::GetID("DockSpace");
-	ImGuiID dock_spaceLeft_id = ImGui::GetID("DockSpaceLeft");
+	/*ImGuiID dock_spaceLeft_id = ImGui::GetID("DockSpaceLeft");
 	ImGuiID dock_spaceRight_id = ImGui::GetID("DockSpaceRight");
-	ImGuiID dock_spaceDown_id = ImGui::GetID("DockSpaceDown");
+	ImGuiID dock_spaceDown_id = ImGui::GetID("DockSpaceDown");*/
 
 		
 	if (!ImGui::DockBuilderGetNode(dock_space_id))
@@ -100,24 +100,24 @@ update_status ModuleEditor::Update()
 		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->WorkSize);
 
 
-		ImGui::DockBuilderAddNode(dock_spaceLeft_id);
+		/*ImGui::DockBuilderAddNode(dock_spaceLeft_id);
 		ImGui::DockBuilderSetNodeSize(dock_spaceLeft_id, viewport->WorkSize);
 
 		ImGui::DockBuilderAddNode(dock_spaceRight_id);
 		ImGui::DockBuilderSetNodeSize(dock_spaceRight_id, viewport->WorkSize);
 
 		ImGui::DockBuilderAddNode(dock_spaceDown_id);
-		ImGui::DockBuilderSetNodeSize(dock_spaceDown_id, viewport->WorkSize);
+		ImGui::DockBuilderSetNodeSize(dock_spaceDown_id, viewport->WorkSize);*/
 
 		dock_main_id = dock_space_id;
-		dock_left_id = ImGui::DockBuilderSplitNode(dock_spaceLeft_id, ImGuiDir_Down, 0.25f, nullptr, &dock_spaceLeft_id);
+		/*dock_left_id = ImGui::DockBuilderSplitNode(dock_spaceLeft_id, ImGuiDir_Down, 0.25f, nullptr, &dock_spaceLeft_id);
 		dock_right_id = ImGui::DockBuilderSplitNode(dock_spaceRight_id, ImGuiDir_Right, 0.33f, nullptr, &dock_spaceRight_id);
-		dock_down_id = ImGui::DockBuilderSplitNode(dock_spaceDown_id, ImGuiDir_Down, 0.3f, nullptr, &dock_spaceDown_id);
+		dock_down_id = ImGui::DockBuilderSplitNode(dock_spaceDown_id, ImGuiDir_Down, 0.3f, nullptr, &dock_spaceDown_id);*/
 
-		/*dock_main_id = dock_space_id;
+		dock_main_id = dock_space_id;
 		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.25f, nullptr, &dock_main_id);
 		dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.33f, nullptr, &dock_main_id);
-		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);*/
+		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -137,9 +137,9 @@ update_status ModuleEditor::Update()
 	ImGui::Begin("DockSpaceDown", nullptr, dockSpaceWindowFlags);*/
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dock_space_id);
-	ImGui::DockSpace(dock_spaceLeft_id);
+	/*ImGui::DockSpace(dock_spaceLeft_id);
 	ImGui::DockSpace(dock_spaceRight_id);
-	ImGui::DockSpace(dock_spaceDown_id);
+	ImGui::DockSpace(dock_spaceDown_id);*/
 	ImGui::End();
 
 	mainMenu->Draw();
