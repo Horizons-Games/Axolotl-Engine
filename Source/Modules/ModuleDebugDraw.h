@@ -10,6 +10,7 @@
 
 class DDRenderInterfaceCoreGL;
 class Camera;
+class ComponentTransform;
 
 class ModuleDebugDraw : public Module
 {
@@ -24,6 +25,7 @@ public:
     bool            CleanUp();
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
+    void            DrawTransform(ComponentTransform* transform);
     void            DrawBoundingBox(const AABB& aabb);
     void            DrawBoundingBox(const OBB& obb);
     void            DrawFrustum(const Frustum& frustum);

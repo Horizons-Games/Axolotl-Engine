@@ -2,6 +2,8 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "ModuleDebugDraw.h"
+
 #include "GameObject/GameObject.h"
 #include "Scene.h"
 
@@ -16,7 +18,6 @@ ComponentTransform::~ComponentTransform()
 {
 	delete ownerParent;
 }
-
 
 void ComponentTransform::Update()
 {
@@ -114,6 +115,10 @@ void ComponentTransform::Display()
 			0.0001f, std::numeric_limits<float>::max()
 		); ImGui::PopStyleVar();
 
+		if (scale.x <= 0) scale.x = 0.0001;
+		if (scale.y <= 0) scale.y = 0.0001;
+		if (scale.z <= 0) scale.z = 0.0001;
+
 		SetPosition(translation);
 		SetRotation(rotation);
 		SetScale(scale);
@@ -148,4 +153,31 @@ void ComponentTransform::CalculateGlobalMatrix()
 
 	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
 	SetGlobalMatrix(globalMatrix);
+}
+
+const float3& ComponentTransform::GetGlobalPosition() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalPos;
+}
+
+const Quat& ComponentTransform::GetGlobalRotation() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalRot;
+}
+
+const float3& ComponentTransform::GetGlobalScale() const
+{
+	float3 globalPos, globalSca;
+	Quat globalRot;
+	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+
+	return globalSca;
 }

@@ -11,6 +11,7 @@ enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
 class ComponentLight : public Component
 {
 public:
+	ComponentLight(const bool active, GameObject* owner);
 	ComponentLight(LightType type);
 	ComponentLight(LightType type, GameObject* gameObject);
 	ComponentLight(LightType type, const float3& color, float intensity);

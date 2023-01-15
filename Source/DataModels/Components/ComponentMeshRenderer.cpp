@@ -19,21 +19,13 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID)
-	: Component(ComponentType::MESHRENDERER, active, owner), meshUID(meshUID), textureUID(textureUID)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
+	: Component(ComponentType::MESHRENDERER, active, owner)
 {
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-}
-
-bool ComponentMeshRenderer::Init()
-{
-	LoadMesh();
-	LoadTexture();
-
-	return true;
 }
 
 void ComponentMeshRenderer::Update()
@@ -99,24 +91,9 @@ void ComponentMeshRenderer::Display()
 	}
 }
 
-void ComponentMeshRenderer::SetMeshUID(UID& meshUID)
+void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
-	this->meshUID = meshUID;
-
-	LoadMesh();
-}
-
-void ComponentMeshRenderer::SetTextureUID(UID& textureUID)
-{
-	this->textureUID = textureUID;
-
-	LoadTexture();
-}
-
-void ComponentMeshRenderer::LoadMesh()
-{
-	mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshUID).lock());
-
+	mesh = newMesh;
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
 	if (meshAsShared)
@@ -127,25 +104,7 @@ void ComponentMeshRenderer::LoadMesh()
 	}
 }
 
-void ComponentMeshRenderer::LoadTexture()
+void ComponentMeshRenderer::SetMaterialComponent(ComponentMaterial* newMaterial)
 {
-	material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(textureUID).lock());
-
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
-
-	if(materialAsShared)
-	{
-		materialAsShared->Load();
-
-		texture = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(materialAsShared->GetDiffuseUID()).lock());
-
-		std::shared_ptr<ResourceTexture> textureAsShared = texture.lock();
-
-		if(textureAsShared) 
-		{
-			textureAsShared->Load();
-		}
-
-	}
-
+	
 }
