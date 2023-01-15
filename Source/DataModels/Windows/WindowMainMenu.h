@@ -25,14 +25,16 @@ public:
 private:
 	void DrawWindowsMenu();
 	void DrawAbout();
+	
 	void DrawGithubLink() const;
 	void DrawExit() const;
 
 	static bool defaultEnabled;
 
 	std::unique_ptr<WindowAbout> about;
+	
 	bool showAbout = false;
-
+	
 	int nWindows;
 	std::vector<std::string> windowNames;
 	std::vector<bool> windowsEnabled;

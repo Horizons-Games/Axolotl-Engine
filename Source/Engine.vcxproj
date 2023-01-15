@@ -258,6 +258,8 @@
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h" />
@@ -419,6 +421,8 @@
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs" />

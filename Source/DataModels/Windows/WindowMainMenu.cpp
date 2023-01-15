@@ -9,6 +9,7 @@ bool WindowMainMenu::defaultEnabled = true;
 WindowMainMenu::WindowMainMenu(const std::vector< std::shared_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
 {
 	about = std::make_unique<WindowAbout>();
+	
 	nWindows = editorWindows.size();
 	for (std::shared_ptr<EditorWindow> window : editorWindows)
 	{
@@ -29,6 +30,7 @@ void WindowMainMenu::Draw(bool& enabled)
 		DrawAbout();
 		DrawGithubLink();
 		DrawExit();
+		
 	}
 	ImGui::EndMainMenuBar();
 }
