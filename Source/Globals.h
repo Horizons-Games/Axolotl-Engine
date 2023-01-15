@@ -39,6 +39,7 @@ enum update_status
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
+#define MATERIAL_PATH "Assets/Materials/"
 #define MESHES_LIB_PATH "Lib/Meshes/"
 #define MATERIAL_LIB_PATH "Lib/Materials/"
 
