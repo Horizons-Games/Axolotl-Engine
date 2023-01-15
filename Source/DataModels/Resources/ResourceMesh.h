@@ -34,6 +34,8 @@ public:
 	unsigned int GetMaterialIndex();
 	const std::vector<float3>& GetVertices();
 	const std::vector<float3>& GetTextureCoords();
+	const std::vector<float3>& GetNormals();
+	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
 	std::shared_ptr<OptionsMesh>& GetOptions();
@@ -44,6 +46,8 @@ public:
 	void SetMaterialIndex(unsigned int materialIndex);
 	void SetVertices(const std::vector<float3>& vertices);
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
+	void SetNormals(const std::vector<float3>& normals);
+	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
 
 private:
@@ -62,6 +66,8 @@ private:
 	unsigned int materialIndex = 0;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
+	std::vector<float3> normals;
+	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
 
 	std::shared_ptr<OptionsMesh> options;
@@ -126,6 +132,16 @@ inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
 	return textureCoords;
 }
 
+inline const std::vector<float3>& ResourceMesh::GetNormals()
+{
+	return normals;
+}
+
+inline const std::vector<float3>& ResourceMesh::GetTangents()
+{
+	return tangents;
+}
+
 inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
 {
 	return facesIndices;
@@ -165,6 +181,16 @@ inline void ResourceMesh::SetVertices(const std::vector<float3>& vertices)
 inline void ResourceMesh::SetTextureCoords(const std::vector<float3>& textureCoords)
 {
 	this->textureCoords = textureCoords;
+}
+
+inline void ResourceMesh::SetNormals(const std::vector<float3>& normals)
+{
+	this->normals = normals;
+}
+
+inline void ResourceMesh::SetTangents(const std::vector<float3>& tangents)
+{
+	this->tangents = tangents;
 }
 
 inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices)
