@@ -202,7 +202,7 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
         if (GetPathWithoutExtension(currentFile) == fileName)
         {
             std::string path(filePath);
-            path += '/' + currentFile;
+            path += currentFile;
             if (GetFileExtension(path) != ".meta")
             {
                 return path;
