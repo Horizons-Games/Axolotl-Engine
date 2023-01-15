@@ -139,7 +139,6 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 			}
 
 			sceneGameObjects.erase(it);
-			delete gameObject;
 			return;
 		}
 	}
