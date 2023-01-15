@@ -43,23 +43,25 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	unsigned program = App->program->GetProgram();
-	const float4x4& view = App->engineCamera->GetViewMatrix();
-	const float4x4& proj = App->engineCamera->GetProjectionMatrix();
-	const float4x4& model = ((ComponentTransform*) GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+	//lock it so it does not expire during this block
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-	glUseProgram(program);
+	if (meshAsShared) //pointer not empty
+	{
+		unsigned program = App->program->GetProgram();
+		const float4x4& view = App->engineCamera->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& model = ((ComponentTransform*)GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
+		glUseProgram(program);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
-	glBindVertexArray(mesh->GetVAO());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureUID);
+		glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 }

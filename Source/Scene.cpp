@@ -48,7 +48,7 @@ Scene::Scene()
 	RenderLights();
 	// ------------------------------
 
-	FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
+	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
 Scene::~Scene()
@@ -150,6 +150,7 @@ void Scene::ConvertIntoGameObject(const char* model)
 	resourceModel->Load();
 
 	GameObject* gameObjectModel = CreateGameObject("Loaded Model", GetRoot());
+	
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{

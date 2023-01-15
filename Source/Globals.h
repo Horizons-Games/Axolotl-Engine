@@ -53,3 +53,4 @@ enum update_status
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
+#define GENERAL_BINARY_EXTENSION ".bin"

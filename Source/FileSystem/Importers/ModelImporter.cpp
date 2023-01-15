@@ -27,7 +27,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save(resource->GetLibraryPath().c_str(), buffer, size);
+		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
 	}
 	else
 	{
@@ -42,7 +42,7 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 
 	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumMaterials();
 
-	char* cursor = new char[size] {};
+	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
@@ -63,7 +63,7 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 	return 0;
 }
 
-void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>& resource)
+void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
 {
 	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
@@ -75,7 +75,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>&
 	fileBuffer += bytes;
 
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
-	bytes = sizeof(unsigned char) * resource->GetNumMeshes();
+	bytes = sizeof(UID) * resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
 	std::vector<UID> meshes(meshesPointer, meshesPointer + resource->GetNumMeshes());
 	resource->SetMeshesUIDs(meshes);
@@ -83,7 +83,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel>&
 	fileBuffer += bytes;
 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
-	bytes = sizeof(unsigned char) * resource->GetNumMaterials();
+	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	resource->SetMaterialsUIDs(materials);

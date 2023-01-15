@@ -6,21 +6,21 @@
 
 void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
-	char* buffer;
+	char* bufferPaths;
 
-	App->fileSystem->Load(filePath, buffer);
+	App->fileSystem->Load(filePath, bufferPaths);
 
 	unsigned int header[4];
-	memcpy(header, buffer, sizeof(header));
+	memcpy(header, bufferPaths, sizeof(header));
 
-	buffer += sizeof(header);
+	bufferPaths += sizeof(header);
 
 	std::vector<UID> resourceTexture;
 
 	for (int i = 0; i < 4; ++i)
 	{
 		char* pathPointer = new char[header[i]];
-		memcpy(pathPointer, buffer, header[i]);
+		memcpy(pathPointer, bufferPaths, header[i]);
 		std::string path(pathPointer, pathPointer + header[i]);
 
 		if (!path.empty()) 
@@ -32,7 +32,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 			resourceTexture.push_back(0);
 		}
 
-		buffer += header[i];
+		bufferPaths += header[i];
 	}
 
 	if(resourceTexture[0] != 0) resource->SetDiffuseUID(resourceTexture[0]);
@@ -40,6 +40,10 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	if(resourceTexture[2] != 0) resource->SetOcclusionUID(resourceTexture[2]);
 	if(resourceTexture[3] != 0) resource->SetSpecularUID(resourceTexture[3]);
 
+	char* buffer{};
+	unsigned int size;
+	Save(resource, buffer, size);
+	App->fileSystem->Save(filePath, buffer, size);
 }
 
 uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
@@ -77,19 +81,24 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetShininess(), bytes);
 
+	cursor += bytes;
+
+	bytes = sizeof(float);
+	memcpy(cursor, &resource->GetNormalStrength(), bytes);
+
 	// Provisional return, here we have to return serialize UID for the object
 	return 0;
 }
 
-void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial>& resource)
+void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
-	resource->SetDiffuseUID(texturesUIDs[0]);
-	resource->SetNormalUID(texturesUIDs[1]);
-	resource->SetOcclusionUID(texturesUIDs[2]);
-	resource->SetSpecularUID(texturesUIDs[3]);
+	if(texturesUIDs[0] != 0) resource->SetDiffuseUID(texturesUIDs[0]);
+	if(texturesUIDs[1] != 0) resource->SetNormalUID(texturesUIDs[1]);
+	if(texturesUIDs[2] != 0) resource->SetOcclusionUID(texturesUIDs[2]);
+	if(texturesUIDs[3] != 0) resource->SetSpecularUID(texturesUIDs[3]);
 
 	fileBuffer += sizeof(texturesUIDs);
 
@@ -104,4 +113,11 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	float* shininess = new float;
 	memcpy(shininess, fileBuffer, sizeof(float));
 	resource->SetShininess(*shininess);
+
+	fileBuffer += sizeof(float);
+
+
+	float* normalStrenght = new float;
+	memcpy(normalStrenght, fileBuffer, sizeof(float));
+	resource->SetNormalStrength(*normalStrenght);
 }

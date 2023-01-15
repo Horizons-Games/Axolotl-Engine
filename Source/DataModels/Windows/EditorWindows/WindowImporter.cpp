@@ -2,6 +2,9 @@
 #include "FontIcons/CustomFont.cpp"
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleResources.h"
+
 WindowImporter::WindowImporter() :EditorWindow("Importer")
 {}
 void WindowImporter::DrawWindowContents()
@@ -33,9 +36,8 @@ void WindowImporter::DrawWindowContents()
 			if (ImGuiFileDialog::Instance()->IsOk())
 			{
 				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
-				std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-				// TODO: action
-
+				// action
+				App->resources->ImportResource(filePathName);
 			}
 
 		// close

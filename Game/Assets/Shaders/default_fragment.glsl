@@ -55,6 +55,11 @@ readonly layout(std430, binding=4) buffer SpotLights
 	SpotLight spots[];
 };
 
+struct Light {
+    vec3 position;
+    vec3 color;
+};
+
 //out vec4 color;
 
 uniform Material material;
