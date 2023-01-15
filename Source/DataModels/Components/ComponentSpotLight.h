@@ -2,6 +2,8 @@
 
 #include "ComponentLight.h"
 
+class Json;
+
 class ComponentSpotLight : public ComponentLight
 {
 public:
