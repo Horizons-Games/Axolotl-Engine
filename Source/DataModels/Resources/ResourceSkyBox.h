@@ -21,6 +21,7 @@ public:
 	void LoadOptions(Json& meta) override {};
 
 	unsigned int GetGlTexture() const;
+	const std::vector<UID>& GetTexturesUIDs() const;
 	std::shared_ptr<OptionsSkyBox>& GetOptions();
 
 	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
@@ -49,6 +50,11 @@ inline ResourceType ResourceSkyBox::GetType() const
 inline unsigned int ResourceSkyBox::GetGlTexture() const
 {
 	return this->glTexture;
+}
+
+inline const std::vector<UID>& ResourceSkyBox::GetTexturesUIDs() const
+{
+	return texturesUIDs;
 }
 
 inline std::shared_ptr<OptionsSkyBox>& ResourceSkyBox::GetOptions()
