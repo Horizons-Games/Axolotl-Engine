@@ -184,27 +184,6 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			->CreateComponent(ComponentType::MESHRENDERER);
 		meshRenderer->SetMesh(mesh);
 	}
-
-
-	/*for (int i = 0; i < resourceModel->GetNumMaterials(); ++i)
-	{
-		ComponentMaterial* materialRenderer = (ComponentMaterial*)gameObjectModel
-			->CreateComponent(ComponentType::MATERIAL);
-
-		std::shared_ptr<ResourceMaterial> material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(resourceModel->GetMaterialsUIDs()[i]).lock());
-
-		materialRenderer->SetMaterial(material);
-	}
-
-	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
-	{
-		ComponentMeshRenderer* meshRenderer = (ComponentMeshRenderer*)gameObjectModel
-															->CreateComponent(ComponentType::MESHRENDERER);
-
-		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
-
-		meshRenderer->SetMesh(mesh);
-	}*/
 }
 
 GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
