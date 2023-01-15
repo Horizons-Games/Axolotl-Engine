@@ -4,6 +4,7 @@
 #include "FileSystem/UniqueID.h"
 
 #include <memory>
+#include <DataModels/Resources/ResourceMaterial.h>
 
 class ResourceMesh;
 class ResourceTexture;
@@ -32,7 +33,7 @@ private:
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
-	std::weak_ptr<ResourceTexture> texture;
+	std::weak_ptr<ResourceMaterial> texture;
 	
 	UID meshUID = 0;
 	UID textureUID = 0;

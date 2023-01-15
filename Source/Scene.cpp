@@ -146,7 +146,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertIntoGameObject(const char* model)
 {
 	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
 	resourceModel->Load();
 
 	GameObject* gameObjectModel = CreateGameObject("Loaded Model", GetRoot());
