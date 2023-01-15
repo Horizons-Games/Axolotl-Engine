@@ -171,6 +171,10 @@ bool ModuleRender::Start()
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
 	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }
