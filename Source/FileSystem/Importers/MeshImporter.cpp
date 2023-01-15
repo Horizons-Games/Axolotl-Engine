@@ -61,7 +61,7 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*
 	return 0;
 }
 
-void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& resource)
+void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
 {
 	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));

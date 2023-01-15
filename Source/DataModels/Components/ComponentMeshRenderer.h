@@ -4,6 +4,7 @@
 #include "FileSystem/UniqueID.h"
 
 #include <memory>
+#include <DataModels/Resources/ResourceMaterial.h>
 
 class ResourceMesh;
 class ResourceTexture;
@@ -31,8 +32,8 @@ private:
 	void LoadTexture();
 	bool IsMeshLoaded();
 
-	std::shared_ptr<ResourceMesh> mesh = nullptr;
-	std::shared_ptr<ResourceTexture> texture = nullptr;
+	std::weak_ptr<ResourceMesh> mesh;
+	std::weak_ptr<ResourceMaterial> texture;
 	
 	UID meshUID = 0;
 	UID textureUID = 0;
@@ -50,5 +51,5 @@ inline const UID& ComponentMeshRenderer::GetTextureUID() const
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
-	return (mesh != nullptr);
+	return !mesh.expired();
 }

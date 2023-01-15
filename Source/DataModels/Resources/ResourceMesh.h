@@ -160,6 +160,7 @@ inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
+	this->numIndexes = numFaces * 3;
 }
 
 inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)

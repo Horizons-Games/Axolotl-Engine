@@ -9,10 +9,10 @@ public:
     ~TextureImporter();
 
     void Import(const char* filePath, std::shared_ptr<ResourceTexture> resource) override;
+    void Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource) override;
 
 protected:
     uint64_t Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size) override;
-    void Load(const char* fileBuffer, std::shared_ptr<ResourceTexture>& resource) override;
 
 private:
     char* buffer;

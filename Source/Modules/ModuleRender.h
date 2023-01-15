@@ -57,6 +57,8 @@ private:
 
 	unsigned vbo;
 
+	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
+
 	std::vector<GameObject*> gameObjects; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 

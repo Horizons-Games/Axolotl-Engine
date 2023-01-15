@@ -182,9 +182,11 @@ bool ModuleRender::Start()
 		We are using the model as a placeholder class to transfer the information of the resource
 		and display the processed import, but you can move to a gameObject or another class 
 		all the functionality used here*/
+	/*
+	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
 	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
+	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+
 	resourceModel->Load();
 
 	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
@@ -323,6 +325,40 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	this->fragmentShader = fragmentShader.c_str();
 	UpdateProgram();
 }
+
+
+bool ModuleRender::LoadModel(const char* path)
+{
+	ENGINE_LOG("---- Loading Model ----");
+
+	UID modelUID = App->resources->ImportResource(path);
+	if(modelUID != 0)
+	{
+		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+		resourceModel->Load();
+
+		std::shared_ptr<Model> newModel = std::make_shared<Model>();
+		newModel->SetFromResource(resourceModel);
+
+		if (AnyModelLoaded())
+		{
+			models[0] = nullptr;
+			models.clear();
+		}
+
+		models.push_back(newModel);
+	}
+	
+
+	return false;
+}
+
+
+bool ModuleRender::AnyModelLoaded()
+{
+	return !models.empty();
+}
+
 
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
