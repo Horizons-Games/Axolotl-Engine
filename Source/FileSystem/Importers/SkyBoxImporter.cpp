@@ -45,9 +45,10 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 uint64_t SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*& fileBuffer, unsigned int& size)
 {
+	size = sizeof(UID) * 6;
 	char* cursor = new char[size] {};
 	fileBuffer = cursor;
-	unsigned int bytes = sizeof(UID) * 6;
+	unsigned int bytes = size;
 	memcpy(cursor, &(resource->GetTexturesUIDs()[0]), bytes);
 
 	return 0;
