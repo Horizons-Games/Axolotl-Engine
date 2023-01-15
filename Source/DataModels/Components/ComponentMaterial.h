@@ -7,6 +7,7 @@
 
 #include <memory>
 
+class ResourceMaterial;
 class ResourceTexture;
 
 enum class TextureType { DIFFUSE, NORMAL, OCCLUSION, SPECULAR };
@@ -37,6 +38,7 @@ public:
 	void SetHasSpecular(bool hasSpecular);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
+	std::weak_ptr<ResourceMaterial> GetMaterial() const;
 	const UID& GetDiffuseUID() const;
 	const UID& GetNormalUID() const;
 	const UID& GetOcclusionUID() const;
@@ -54,6 +56,8 @@ public:
 private:
 
 	void LoadTexture(TextureType textureType);
+
+	std::weak_ptr<ResourceMaterial> material;
 
 	std::weak_ptr<ResourceTexture> textureDiffuse;
 	std::weak_ptr<ResourceTexture> textureNormal;
@@ -125,6 +129,11 @@ inline void ComponentMaterial::SetHasSpecular(bool hasSpecular)
 inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 {
 	this->hasShininessAlpha = hasShininessAlpha;
+}
+
+inline std::weak_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
+{
+	return material;
 }
 
 inline const UID& ComponentMaterial::GetDiffuseUID() const {

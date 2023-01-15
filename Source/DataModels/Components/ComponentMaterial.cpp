@@ -134,3 +134,14 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		break;
 	}
 }
+
+void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial)
+{
+	material = newMaterial;
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if (materialAsShared)
+	{
+		materialAsShared->Load();
+	}
+}
