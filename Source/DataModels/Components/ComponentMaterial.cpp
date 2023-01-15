@@ -29,6 +29,8 @@ void ComponentMaterial::Update()
 	{
 		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
 		glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
+		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	}
 	else 
 	{
@@ -39,6 +41,8 @@ void ComponentMaterial::Update()
 	{
 		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
 		glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
+		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 	}
 	else
 	{
