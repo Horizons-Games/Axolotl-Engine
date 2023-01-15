@@ -3,6 +3,7 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
@@ -14,7 +15,7 @@
 
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
-	uid = UniqueID::GenerateUID();
+	uid = UniqueID::GenerateUID();  // TODO: Generate new uid everytime a GameObject is loaded with the json
 	CreateComponent(ComponentType::TRANSFORM);
 	CreateComponent(ComponentType::BOUNDINGBOX);
 }
@@ -185,20 +186,28 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		/*case ComponentType::MESHRENDERER:
+		case ComponentType::MESHRENDERER:
 		{
 			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
+		/*
 		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}*/
+		}
+		*/
+
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
+			break;
+		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
 			break;
 		}
 		case ComponentType::BOUNDINGBOX:
@@ -208,7 +217,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
 	if (newComponent != nullptr)
@@ -246,14 +255,18 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	return newComponent;
 }
 
-ComponentMeshRenderer* GameObject::CreateComponentMeshRenderer(UID meshUID, UID textureUID)
+bool GameObject::RemoveComponent(Component* component)
 {
-	ComponentMeshRenderer* newComponentMeshRenderer = new ComponentMeshRenderer(true, this, meshUID, textureUID);
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if (*it == component)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
 
-	if (newComponentMeshRenderer != nullptr)
-		components.push_back(newComponentMeshRenderer);
-
-	return newComponentMeshRenderer;
+	return false;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

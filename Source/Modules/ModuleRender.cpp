@@ -168,30 +168,9 @@ bool ModuleRender::Start()
 	UpdateProgram();
 
 	// Import models into the scene
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
-	
-	/*std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
-
-	models.push_back(bakerHouse); // This line should disappear */
-	
-	/*
-	Import resource example:
-		We are using the model as a placeholder class to transfer the information of the resource
-		and display the processed import, but you can move to a gameObject or another class 
-		all the functionality used here*/
-	/*
-	UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
-
-	resourceModel->Load();
-
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
-	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }
@@ -263,7 +242,8 @@ update_status ModuleRender::Update()
 
 	for (GameObject* gameObject : gameObjects)
 	{
-		gameObject->Draw();
+		if (gameObject->IsActive())
+			gameObject->Draw();
 	}
 
 	int w, h;

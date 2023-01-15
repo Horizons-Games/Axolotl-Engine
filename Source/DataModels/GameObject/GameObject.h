@@ -46,7 +46,7 @@ public:
 
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
-	ComponentMeshRenderer* CreateComponentMeshRenderer(UID meshUID, UID textureUID); // This method will be deleted in the future
+	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
 
 private:

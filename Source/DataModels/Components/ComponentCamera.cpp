@@ -14,7 +14,7 @@
 
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner)
+	: Component(ComponentType::CAMERA, active, owner, false)
 {
 	frustumOffset = 1;
 	drawFrustum = true;
@@ -45,9 +45,9 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	frustum.SetPos(trans->GetPosition());
+	frustum.SetPos((float3)trans->GetGlobalPosition());
 
-	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 

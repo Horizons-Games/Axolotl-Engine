@@ -8,46 +8,32 @@
 
 class ResourceMesh;
 class ResourceTexture;
+class ComponentMaterial;
 
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner, UID meshUID, UID textureUID);
+	ComponentMeshRenderer(const bool active, GameObject* owner);
 	~ComponentMeshRenderer() override;
 
-	bool Init();
 	void Update() override;
 
 	void Draw();
 	void Display();
 
-	void SetMeshUID(UID& meshUID);
-	void SetTextureUID(UID& textureUID);
+	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 
-	const UID& GetMeshUID() const;
-	const UID& GetTextureUID() const;
+	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
-	void LoadMesh();
-	void LoadTexture();
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
-	std::weak_ptr<ResourceMaterial> material;
-	std::weak_ptr<ResourceTexture> texture;
-	
-	UID meshUID = 0;
-	UID textureUID = 0;
 };
 
-inline const UID& ComponentMeshRenderer::GetMeshUID() const
+inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
-	return meshUID;
-}
-
-inline const UID& ComponentMeshRenderer::GetTextureUID() const
-{
-	return textureUID;
+	return mesh;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()

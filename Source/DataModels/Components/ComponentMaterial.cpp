@@ -12,7 +12,7 @@
 #include <GL/glew.h>
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner)
+	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
 

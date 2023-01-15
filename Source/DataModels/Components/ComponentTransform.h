@@ -15,10 +15,13 @@ public:
 	void Display() override;
 
 	const float3& GetPosition() const;
+	const float3& GetGlobalPosition() const;
 	const Quat& GetRotation() const;
+	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
+	const float3& GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);

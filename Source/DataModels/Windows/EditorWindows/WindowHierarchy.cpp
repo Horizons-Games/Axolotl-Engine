@@ -72,7 +72,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
@@ -95,6 +94,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                         if (parentsChildren[i] == gameObject)
                         {
                             std::iter_swap(parentsChildren[i - 1], parentsChildren[i]);
+                            App->scene->SetSelectedGameObject(parentsChildren[i - 1]);
+                            break;
                         }
                     }
                 }
@@ -109,6 +110,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                         if (parentsChildren[i] == gameObject)
                         {
                             std::iter_swap(parentsChildren[i], parentsChildren[i + 1]);
+                            App->scene->SetSelectedGameObject(parentsChildren[i + 1]);
+                            break;
                         }
                     }
                 }
