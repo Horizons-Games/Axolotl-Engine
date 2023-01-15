@@ -91,6 +91,43 @@ void ComponentMaterial::SetSpecularUID(UID& specularUID)
 	LoadTexture(TextureType::SPECULAR);
 }
 
+void ComponentMaterial::LoadTexture()
+{
+	std::shared_ptr<ResourceTexture> texture;
+	//Load Diffuse
+	textureDiffuse = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(diffuseUID).lock());
+	texture = textureDiffuse.lock();
+	if (texture)
+	{
+		texture->Load();
+		hasDiffuse = true;
+	}
+	//Load Normal
+	textureNormal = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(normalUID).lock());
+	texture = textureNormal.lock();
+	if (texture)
+	{
+		texture->Load();
+		hasNormal = true;
+	}
+	//Load Occlusion
+	textureOcclusion = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(occlusionUID).lock());
+	texture = textureOcclusion.lock();
+	if (texture)
+	{
+		texture->Load();
+		hasOcclusion = true;
+	}
+	//Load Specular
+	textureSpecular = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(specularUID).lock());
+	texture = textureSpecular.lock();
+	if (texture)
+	{
+		texture->Load();
+		hasSpecular = true;
+	}
+}
+
 void ComponentMaterial::LoadTexture(TextureType textureType)
 {
 	std::shared_ptr<ResourceTexture> texture;
@@ -143,5 +180,10 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 	if (materialAsShared)
 	{
 		materialAsShared->Load();
+		diffuseUID = materialAsShared->GetDiffuseUID();
+		normalUID = materialAsShared->GetNormalUID();
+		occlusionUID = materialAsShared->GetOcclusionrUID();
+		specularUID = materialAsShared->GetSpecularUID();
+		LoadTexture();
 	}
 }
