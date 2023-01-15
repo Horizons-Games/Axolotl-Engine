@@ -2,6 +2,8 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_DIRLIGHT "DirLight"
+
 class Json;
 
 class ComponentDirLight : public ComponentLight
@@ -18,4 +20,11 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
+
+	std::string GetTypeName() override;
 };
+
+inline std::string ComponentDirLight::GetTypeName()
+{
+	return COMPONENT_DIRLIGHT;
+}

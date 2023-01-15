@@ -2,6 +2,8 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_POINTLIGHT "PointLight"
+
 class Json;
 
 class ComponentPointLight : public ComponentLight
@@ -21,6 +23,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	std::string GetTypeName() override;
+
 	float GetRadius() const;
 
 	void SetRadius(float radius);
@@ -28,6 +32,11 @@ public:
 private:
 	float radius = 1.0f;
 };
+
+inline std::string ComponentPointLight::GetTypeName()
+{
+	return COMPONENT_POINTLIGHT;
+}
 
 inline float ComponentPointLight::GetRadius() const
 {

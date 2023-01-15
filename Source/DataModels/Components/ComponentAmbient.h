@@ -1,6 +1,8 @@
 #pragma once
 #include "ComponentLight.h"
 
+#define COMPONENT_AMBIENT "Ambient"
+
 class Json;
 
 class ComponentAmbient : public ComponentLight
@@ -17,5 +19,11 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
+
+	std::string GetTypeName() override;
 };
 
+inline std::string ComponentAmbient::GetTypeName()
+{
+	return COMPONENT_AMBIENT;
+}

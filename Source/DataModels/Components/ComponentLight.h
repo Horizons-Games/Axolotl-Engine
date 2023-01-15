@@ -6,6 +6,8 @@
 
 #include "Math/float3.h"
 
+#define COMPONENT_LIGHT "Light"
+
 enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
 
 class Json;
@@ -32,6 +34,8 @@ public:
 
 	virtual void SaveOptions(Json& meta) override {};
 	virtual void LoadOptions(Json& meta) override {};
+
+	std::string GetTypeName() override;
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -60,6 +64,11 @@ inline void ComponentLight::Enable()
 inline void ComponentLight::Disable()
 {
 	Component::Disable();
+}
+
+inline std::string ComponentLight::GetTypeName()
+{
+	return COMPONENT_LIGHT;
 }
 
 inline const float3& ComponentLight::GetColor() const
