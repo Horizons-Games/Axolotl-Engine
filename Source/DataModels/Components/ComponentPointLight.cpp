@@ -1,6 +1,8 @@
 #include "ComponentPointLight.h"
 #include "ComponentTransform.h"
 
+#include "FileSystem/Json.h"
+
 #include "debugdraw.h"
 #include "imgui.h"
 
@@ -104,4 +106,26 @@ void ComponentPointLight::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentPointLight::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+	
+}
+
+void ComponentPointLight::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	
 }

@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/Json.h"
 
 #include "GameObject/GameObject.h"
 
@@ -59,6 +60,28 @@ void ComponentMaterial::Update()
 
 void ComponentMaterial::Display()
 {
+}
+
+void ComponentMaterial::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+
+}
+
+void ComponentMaterial::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+
 }
 
 void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)

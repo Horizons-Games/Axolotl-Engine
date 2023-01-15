@@ -6,6 +6,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Scene.h"
+#include "FileSystem/Json.h"
 
 #include "imgui.h"
 
@@ -126,6 +127,34 @@ void ComponentTransform::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentTransform::SaveOptions(Json& meta)
+{
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool) active;
+	meta["owner"] = (GameObject*) owner;
+	meta["removed"] = (bool) canBeRemoved;
+
+	//meta["localPos"] = (float3) pos;
+	//meta["localRot"] = (Quat) rot;
+	//meta["localSca"] = (float3) sca;
+}
+
+void ComponentTransform::LoadOptions(Json& meta)
+{
+	//type = (ComponentType) meta["type"];
+	active = (bool) meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool) meta["removed"];
+
+	ownerParent = GetOwner()->GetParent();
+	pos = (float3) meta["localPos"];
+	//rot = (Quat) meta["localRot"];
+	sca = (float3) meta["localSca"];
+
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
 }
 
 void ComponentTransform::CalculateLocalMatrix()

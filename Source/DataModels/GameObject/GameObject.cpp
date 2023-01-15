@@ -62,9 +62,8 @@ void GameObject::Draw()
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::SaveOptions(Json& meta)
 {
-	uid = UniqueID::GenerateUID();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 	meta["name"] = (const char*) name.c_str();
@@ -74,8 +73,9 @@ void GameObject::LoadOptions(Json& meta)
 	//meta["children"] = (std::vector<GameObject*>) children;
 }
 
-void GameObject::SaveOptions(Json& meta)
+void GameObject::LoadOptions(Json& meta)
 {
+	uid = UniqueID::GenerateUID();
 	enabled = (bool) meta["enabled"];
 	active = (bool) meta["active"];
 	//name = (const char*) meta["name"];

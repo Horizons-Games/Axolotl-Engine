@@ -19,8 +19,8 @@ public:
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
-	void LoadOptions(Json& json);
 	void SaveOptions(Json& json);
+	void LoadOptions(Json& json);
 
 	void Update();
 	void Draw();

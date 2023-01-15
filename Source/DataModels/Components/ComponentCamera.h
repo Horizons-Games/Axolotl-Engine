@@ -13,6 +13,8 @@ enum ECameraFrustumMode
 	noFrustum
 };
 
+class Json;
+
 class ComponentCamera : public Component
 {
 public:
@@ -22,6 +24,9 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void UpdateFrustumOffset();
 	bool IsInside(const OBB& obb);

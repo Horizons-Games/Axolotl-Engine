@@ -8,6 +8,7 @@
 #include <memory>
 
 class ResourceTexture;
+class Json;
 
 enum class TextureType { DIFFUSE, NORMAL, OCCLUSION, SPECULAR };
 
@@ -19,6 +20,9 @@ public:
 
 	void Update() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);

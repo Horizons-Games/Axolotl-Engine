@@ -8,6 +8,7 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
@@ -84,6 +85,26 @@ void ComponentMeshRenderer::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentMeshRenderer::SaveOptions(Json& meta)
+{
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
+}
+
+void ComponentMeshRenderer::LoadOptions(Json& meta)
+{
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	//SetMesh((std::weak_ptr<ResourceMesh>) meta["mesh"]);
 }
 
 void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)

@@ -9,6 +9,7 @@
 class ResourceMesh;
 class ResourceTexture;
 class ComponentMaterial;
+class Json;
 
 class ComponentMeshRenderer : public Component
 {
@@ -20,6 +21,9 @@ public:
 
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 

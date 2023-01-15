@@ -18,8 +18,8 @@ public:
 	virtual void Display() = 0; // Abstract because each component will draw itself in the Inspector Window
 	virtual void Draw();
 
-	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
+	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
 
 	virtual void Enable();
 	virtual void Disable();
@@ -30,7 +30,7 @@ public:
 	GameObject* GetOwner();
 	bool GetCanBeRemoved();
 
-private:
+protected:
 	ComponentType type;
 	bool active;
 	GameObject* owner;
@@ -64,10 +64,6 @@ inline void Component::Disable()
 }
 
 inline void Component::Draw()
-{
-}
-
-inline void Component::Load()
 {
 }
 
