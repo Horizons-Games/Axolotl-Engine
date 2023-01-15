@@ -8,6 +8,8 @@
 
 enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
 
+class Json;
+
 class ComponentLight : public Component
 {
 public:
@@ -25,8 +27,11 @@ public:
 	void Enable() override;
 	void Disable() override;
 
-	virtual void Display();
-	virtual void Draw() {};
+	virtual void Display() override;
+	virtual void Draw() override {};
+
+	virtual void SaveOptions(Json& meta) override {};
+	virtual void LoadOptions(Json& meta) override {};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;

@@ -1,5 +1,7 @@
 #include "ComponentAmbient.h"
 
+#include "FileSystem/Json.h"
+
 #include "imgui.h"
 
 ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT)
@@ -44,4 +46,26 @@ void ComponentAmbient::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentAmbient::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+	
+}
+
+void ComponentAmbient::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	
 }

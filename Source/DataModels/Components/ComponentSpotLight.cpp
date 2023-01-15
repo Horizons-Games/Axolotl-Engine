@@ -1,6 +1,8 @@
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
 
+#include "FileSystem/Json.h"
+
 #include "debugdraw.h"
 #include "imgui.h"
 
@@ -135,4 +137,26 @@ void ComponentSpotLight::Draw()
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle, 0.0f);
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle, 0.0f);
 	}
+}
+
+void ComponentSpotLight::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	//meta["type"] = (ComponentType) type;
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+	
+}
+
+void ComponentSpotLight::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	//type = (ComponentType) meta["type"];
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	
 }

@@ -4,6 +4,8 @@
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
 
+class Json;
+
 class ComponentBoundingBoxes : public Component
 {
 public:
@@ -14,6 +16,9 @@ public:
 
 	void CalculateBoundingBoxes();
 	void Draw() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void Encapsule(const vec* Vertices, unsigned numVertices);
 

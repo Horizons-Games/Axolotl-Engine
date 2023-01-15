@@ -5,6 +5,8 @@
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
+class Json;
+
 class ComponentTransform : public Component
 {
 public:
@@ -13,6 +15,9 @@ public:
 
 	void Update() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
