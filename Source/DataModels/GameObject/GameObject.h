@@ -44,7 +44,7 @@ public:
 	void ActivateChildren();
 
 	Component* CreateComponent(ComponentType type);
-	bool RemoveComponent(UID componentUID);
+	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
 
 private:

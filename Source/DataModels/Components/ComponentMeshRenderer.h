@@ -26,8 +26,6 @@ public:
 	ResourceTexture* GetTexture() const; // To Material Component
 
 private:
-	void LoadMesh();
-	void LoadTexture(); // To Material Component
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh = nullptr;

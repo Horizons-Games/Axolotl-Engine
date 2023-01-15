@@ -222,13 +222,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return newComponent;
 }
 
-bool GameObject::RemoveComponent(UID componentUID)
+bool GameObject::RemoveComponent(Component* component)
 {
 	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
-		if ((*it)->GetUID() == componentUID)
+		if (*it == component)
 		{
 			components.erase(it);
+			delete *it;
 			return true;
 		}
 	}

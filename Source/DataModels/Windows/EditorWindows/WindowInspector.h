@@ -24,12 +24,13 @@ protected:
 
 private:
 	void DrawChangeActiveComponentContent(int labelNum, Component* component);
-	void DrawDeleteComponentContent(int labelNum, UID componentUID);
+	void DrawDeleteComponentContent(int labelNum, Component* component);
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
+	void AddComponentMaterial();
 	void AddComponentLight();
 
 
