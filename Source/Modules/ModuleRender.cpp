@@ -168,13 +168,9 @@ bool ModuleRender::Start()
 	UpdateProgram();
 
 	// Import models into the scene
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/BakerHouse.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/shiba.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
-	App->scene->GetLoadedScene()->ConvertIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
 
 	return true;
 }
