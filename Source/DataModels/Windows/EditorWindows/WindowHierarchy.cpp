@@ -125,7 +125,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                                                                                 // change the focus to its parent
                     App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }
