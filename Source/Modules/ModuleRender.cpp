@@ -410,5 +410,13 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
 	
+
+	if (!gameObject->GetChildren().empty())
+	{
+		for (GameObject* children : gameObject->GetChildren())
+		{
+			AddToRenderList(children);
+		}
+	}
 }
 

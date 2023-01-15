@@ -14,7 +14,9 @@ public:
 
 	bool IsLeaf() const;
 	void Add(GameObject* gameObject);
+	void AddGameObjectAndChildren(GameObject* gameObject);
 	void Remove(GameObject* gameObject);
+	void RemoveGameObjectAndChildren(GameObject* gameObject);
 	void SmartRemove();
 	bool InQuadrant(GameObject* gameObject);
 	void Subdivide();
