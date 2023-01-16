@@ -22,8 +22,10 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Resource/Skybox.h"
 		 
 #include "GL/glew.h"
+#include <DataModels/Resources/ResourceSkyBox.h>
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -183,6 +185,12 @@ bool ModuleRender::Start()
 	bakerHouse->SetFromResource(resourceModel);
 	models.push_back(bakerHouse);
 
+	//Skybox
+	UID skyboxUID = App->resources->ImportResource("/Assets/Skybox/skybox.sky");
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+
+	this->skybox = std::make_shared<Skybox>(resourceSkybox);
+
 	return true;
 }
 
@@ -206,6 +214,9 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+
+	this->skybox->Draw();
+
 	/* Uncomment the loop below when models are removed 
 	and GameObjects are used in their place */
 

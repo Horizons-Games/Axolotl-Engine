@@ -14,6 +14,8 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
+class Skybox;
+
 class ModuleRender : public Module
 {
 public:
@@ -60,6 +62,8 @@ private:
 	unsigned vbo;
 	
 	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
+
+	std::shared_ptr<Skybox> skybox;
 
 	std::vector<std::shared_ptr<GameObject>> gameObjects;
 	const std::vector<std::string> modelTypes = { "FBX" };
