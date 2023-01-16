@@ -64,7 +64,6 @@ void ComponentMeshRenderer::Draw()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 	}
 }
 
@@ -94,22 +93,35 @@ void ComponentMeshRenderer::Display()
 
 void ComponentMeshRenderer::SaveOptions(Json& meta)
 {
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
+
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	UID uidMesh = 0;
+
+	if(meshAsShared)
+	{
+		uidMesh = meshAsShared->GetUID();
+	}
+
+	meta["meshUID"] = (UID)uidMesh;
 
 	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
 {
-	//type = (ComponentType) meta["type"];
+	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
-	//SetMesh((std::weak_ptr<ResourceMesh>) meta["mesh"]);
+	UID uidMesh = meta["meshUID"];
+
+	SetMesh(std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(uidMesh).lock()));
 }
 
 void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)

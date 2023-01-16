@@ -8,7 +8,7 @@
 
 #define COMPONENT_LIGHT "Light"
 
-enum class LightType { DIRECTIONAL, POINT, SPOT, AMBIENT };
+enum class LightType { UNKNOW, DIRECTIONAL, POINT, SPOT, AMBIENT };
 
 class Json;
 
@@ -35,18 +35,21 @@ public:
 	virtual void SaveOptions(Json& meta) override {};
 	virtual void LoadOptions(Json& meta) override {};
 
+	const std::string GetNameByLightType(LightType type) const;
+	LightType GetLightTypeByName(const std::string& name) const;
+
 	const float3& GetColor() const;
 	float GetIntensity() const;
-	LightType GetType() const;
+	LightType GetLightType() const;
 
 	void SetColor(const float3& color);
 	void SetIntensity(float intensity);
 
-private:
+protected:
 	float3 color = float3(1.0f, 1.0f, 1.0f);
 	float intensity = 1.f;
 
-	LightType type;
+	LightType lightType;
 };
 
 inline void ComponentLight::Update()
@@ -64,6 +67,38 @@ inline void ComponentLight::Disable()
 	Component::Disable();
 }
 
+inline const std::string ComponentLight::GetNameByLightType(LightType type) const
+{
+	switch (type)
+	{
+	case LightType::DIRECTIONAL:
+		return "LightType_Directional";
+		break;
+	case LightType::POINT:
+		return "LightType_Point";
+		break;
+	case LightType::SPOT:
+		return "LightType_Spot";
+		break;
+	case LightType::AMBIENT:
+		return "LightType_Ambient";
+		break;
+	}
+}
+
+inline LightType ComponentLight::GetLightTypeByName(const std::string& typeName) const
+{
+	if (typeName == "LightType_Directional")
+		return LightType::DIRECTIONAL;
+	if (typeName == "LightType_Point")
+		return LightType::POINT;
+	if (typeName == "LightType_Spot")
+		return LightType::SPOT;
+	if (typeName == "LightType_Ambient")
+		return LightType::AMBIENT;
+	return LightType::UNKNOW;
+}
+
 inline const float3& ComponentLight::GetColor() const
 {
 	return color;
@@ -74,9 +109,9 @@ inline float ComponentLight::GetIntensity() const
 	return intensity;
 }
 
-inline LightType ComponentLight::GetType() const
+inline LightType ComponentLight::GetLightType() const
 {
-	return type;
+	return lightType;
 }
 
 inline void ComponentLight::SetColor(const float3& color)

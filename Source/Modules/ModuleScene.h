@@ -35,6 +35,8 @@ public:
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
+
+	void SaveSceneToJson(Scene* scene);
 	
 private:
 	Scene* loadedScene = nullptr;

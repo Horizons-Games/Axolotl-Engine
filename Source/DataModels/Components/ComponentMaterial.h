@@ -28,6 +28,7 @@ public:
 	void Display() override;
 
 	void SaveOptions(Json& meta) override;
+	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);
 	void LoadOptions(Json& meta) override;
 
 	void SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial);
@@ -39,10 +40,6 @@ public:
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
-	void SetHasDisffuse(bool hasDiffuse);
-	void SetHasNormal(bool hasNormal);
-	void SetHasOcclusion(bool hasOcclusion);
-	void SetHasSpecular(bool hasSpecular);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
 	std::weak_ptr<ResourceMaterial> GetMaterial() const;
@@ -54,10 +51,6 @@ public:
 	const float3 GetSpecularColor() const;
 	const float GetShininess() const;
 	const float GetNormalStrenght() const;
-	const bool HasDisffuse() const;
-	const bool HasNormal() const;
-	const bool HasOcclusion() const;
-	const bool HasSpecular() const;
 	const bool HasShininessAlpha() const;
 
 private:
@@ -72,26 +65,18 @@ private:
 	std::weak_ptr<ResourceTexture> textureOcclusion;
 	std::weak_ptr<ResourceTexture> textureSpecular;
 
-	// I don't see utility
-	//std::vector<unsigned> textureWidths;
-	//std::vector<unsigned> textureHeights;
-
-	UID diffuseUID = 0;
-	UID normalUID = 0;
-	UID occlusionUID = 0;
-	UID specularUID = 0;
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);
 	float shininess = 512.f;
 	float normalStrength = 1.0;
 
-	//TODO change UID or leave this here meanwhile this is for MaterialImporter and Component Material charge
-	bool hasDiffuse = false;
-	bool hasNormal = false;
-	bool hasOcclusion = false;
-	bool hasSpecular = false;
 	bool hasShininessAlpha = false;
 
+	//Auxiliar UIDs
+	UID diffuseUID = 0;
+	UID normalUID = 0;
+	UID occlusionUID = 0;
+	UID specularUID = 0;
 };
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
@@ -112,26 +97,6 @@ inline void ComponentMaterial::SetShininess(float shininess)
 inline void ComponentMaterial::SetNormalStrenght(float normalStrength)
 {
 	this->normalStrength = normalStrength;
-}
-
-inline void ComponentMaterial::SetHasDisffuse(bool hasDiffuse)
-{
-	this->hasDiffuse = hasDiffuse;
-}
-
-inline void ComponentMaterial::SetHasNormal(bool hasNormal)
-{
-	this->hasNormal = hasNormal;
-}
-
-inline void ComponentMaterial::SetHasOcclusion(bool hasOcclusion)
-{
-	this->hasOcclusion = hasOcclusion;
-}
-
-inline void ComponentMaterial::SetHasSpecular(bool hasSpecular)
-{
-	this->hasSpecular = hasSpecular;
 }
 
 inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
@@ -174,22 +139,6 @@ inline const float ComponentMaterial::GetShininess() const {
 
 inline const float ComponentMaterial::GetNormalStrenght() const {
 	return normalStrength;
-}
-
-inline const bool ComponentMaterial::HasDisffuse() const {
-	return hasDiffuse;
-}
-
-inline const bool ComponentMaterial::HasNormal() const {
-	return hasNormal;
-}
-
-inline const bool ComponentMaterial::HasOcclusion() const {
-	return hasOcclusion;
-}
-
-inline const bool ComponentMaterial::HasSpecular() const {
-	return hasSpecular;
 }
 
 inline const bool ComponentMaterial::HasShininessAlpha() const {

@@ -111,21 +111,36 @@ void ComponentPointLight::Display()
 void ComponentPointLight::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
+	meta["color_light_X"] = (float)color.x;
+	meta["color_light_Y"] = (float)color.y;
+	meta["color_light_Z"] = (float)color.z;
+
+	meta["intensity"] = (float)intensity;
+
+	meta["lightType"] = GetNameByLightType(lightType).c_str();
+	meta["radius"] = (float)radius;
 	
 }
 
 void ComponentPointLight::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	//type = (ComponentType) meta["type"];
+	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
-	
+	color.x = (float)meta["color_light_X"];
+	color.y = (float)meta["color_light_Y"];
+	color.z = (float)meta["color_light_Z"];
+
+	intensity = (float)meta["intensity"];
+
+	lightType = GetLightTypeByName(meta["type"]);
+	radius = meta["radius"];
 }

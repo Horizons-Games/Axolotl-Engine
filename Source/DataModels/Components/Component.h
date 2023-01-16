@@ -1,6 +1,8 @@
 #pragma once
 
-enum class ComponentType {MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
+#include <string>
+
+enum class ComponentType { UNKNOW, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
 class GameObject;
 class Json;
@@ -23,6 +25,9 @@ public:
 
 	virtual void Enable();
 	virtual void Disable();
+
+	const std::string GetNameByType(ComponentType type) const;
+	ComponentType GetTypeByName(const std::string& name) const;
 
 	bool GetActive();
 	ComponentType GetType();
@@ -61,6 +66,48 @@ inline void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
 		active = false;
+}
+
+inline const std::string Component::GetNameByType(ComponentType type) const
+{
+	switch (type) 
+	{
+	case ComponentType::MATERIAL:
+		return "Component_Material";
+		break;
+	case ComponentType::MESHRENDERER:
+		return "Component_MeshRenderer";
+		break;
+	case ComponentType::TRANSFORM:
+		return "Component_Transform";
+		break;
+	case ComponentType::LIGHT:
+		return "Component_Light";
+		break;
+	case ComponentType::CAMERA:
+		return "Component_Camera";
+		break;
+	case ComponentType::BOUNDINGBOX:
+		return "Component_Bounding";
+		break;
+	}
+}
+
+inline ComponentType Component::GetTypeByName(const std::string& typeName) const
+{
+	if (typeName == "Component_Material")
+		return ComponentType::MATERIAL;
+	if (typeName == "Component_MeshRenderer")
+		return ComponentType::MESHRENDERER;
+	if (typeName == "Component_Transform")
+		return ComponentType::TRANSFORM;
+	if (typeName == "Component_Light")
+		return ComponentType::LIGHT;
+	if (typeName == "Component_Camera")
+		return ComponentType::CAMERA;
+	if (typeName == "Component_Bounding")
+		return ComponentType::BOUNDINGBOX;
+	return ComponentType::UNKNOW;
 }
 
 inline void Component::Draw()
