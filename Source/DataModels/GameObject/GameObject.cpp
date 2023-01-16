@@ -45,10 +45,14 @@ GameObject::~GameObject()
 		delete comp;
 	}
 
+	components.clear();
+
 	for (GameObject* child : children)
 	{
 		delete child;
 	}
+
+	children.clear();
 }
 
 void GameObject::Update()
