@@ -30,6 +30,9 @@ void ComponentMaterial::Update()
 void ComponentMaterial::Draw()
 {
 	unsigned int program = App->program->GetProgram();
+
+	glUseProgram(program);
+
 	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
 	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
 	if (texture)

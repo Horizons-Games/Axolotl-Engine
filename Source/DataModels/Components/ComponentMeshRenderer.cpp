@@ -46,7 +46,7 @@ void ComponentMeshRenderer::Draw()
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 		const float4x4& model = ((ComponentTransform*)GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-		glUseProgram(program);
+		//glUseProgram(program);
 
 		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
