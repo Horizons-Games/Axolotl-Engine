@@ -22,14 +22,20 @@
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
+//creator and destructor can't be inlined
+//because we are using unique pointers with forward declarations
+ModuleResources::ModuleResources() = default;
+
+ModuleResources::~ModuleResources() = default;
+
 bool ModuleResources::Start()
 {
 	monitorResources = true;
-	modelImporter = std::make_shared<ModelImporter>();
-	textureImporter = std::make_shared<TextureImporter>();
-	meshImporter = std::make_shared<MeshImporter>();
-	materialImporter = std::make_shared<MaterialImporter>();
-	skyboxImporter = std::make_shared<SkyBoxImporter>();
+	modelImporter = std::make_unique<ModelImporter>();
+	textureImporter = std::make_unique<TextureImporter>();
+	meshImporter = std::make_unique<MeshImporter>();
+	materialImporter = std::make_unique<MaterialImporter>();
+	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
 	CreateAssetAndLibFolders();
 

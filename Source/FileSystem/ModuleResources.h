@@ -21,8 +21,8 @@ enum class ResourceType;
 class ModuleResources : public Module
 {
 public:
-	ModuleResources() = default;
-	~ModuleResources() override = default;
+	ModuleResources();
+	~ModuleResources() override;
 
 	//inherited methods from Module
 	bool Start() override;
@@ -78,11 +78,11 @@ private:
 	static const std::string libraryFolder;
 	std::map<UID, std::shared_ptr<Resource> > resources;
 
-	std::shared_ptr<ModelImporter> modelImporter;
-	std::shared_ptr<TextureImporter> textureImporter;
-	std::shared_ptr<MeshImporter> meshImporter;
-	std::shared_ptr<MaterialImporter> materialImporter;
-	std::shared_ptr<SkyBoxImporter> skyboxImporter;
+	std::unique_ptr<ModelImporter> modelImporter;
+	std::unique_ptr<TextureImporter> textureImporter;
+	std::unique_ptr<MeshImporter> meshImporter;
+	std::unique_ptr<MaterialImporter> materialImporter;
+	std::unique_ptr<SkyBoxImporter> skyboxImporter;
 	
 	std::thread monitorThread;
 	bool monitorResources = false;
