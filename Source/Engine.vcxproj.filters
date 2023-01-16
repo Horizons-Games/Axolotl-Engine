@@ -346,6 +346,7 @@
     <ClCompile Include="DataModels\Resource\Skybox.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Program.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -837,6 +838,7 @@
     <ClInclude Include="DataModels\Resource\Skybox.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Program.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

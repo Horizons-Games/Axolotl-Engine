@@ -9,9 +9,9 @@
 #include "FileSystem/ModuleResources.h"
 #include <DataModels/Resources/ResourceSkyBox.h>
 
-//#include "ModuleProgram.h"
-//#include "ModuleEngineCamera.h"
-//#include "Program.h"
+#include "ModuleProgram.h"
+#include "ModuleEngineCamera.h"
+#include "Program.h"
 
 
 Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
@@ -23,35 +23,28 @@ Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
 
 void Skybox::Draw()
 {
-    /*glDepthMask(GL_FALSE);
+    glDepthMask(GL_FALSE);
 
-    Program* program = App->program->GetSkyboxProgram();
+    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
 
     program->Activate();
     program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
     program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
 
+    std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
 
-    glBindVertexArray(vao);
+    glBindVertexArray(skyboxAsShared->GetVAO());
     glActiveTexture(GL_TEXTURE0);
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, this->skyboxRes.lock()->GetGlTexture());
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     glBindVertexArray(0);
     program->Deactivate();
-    glDepthMask(GL_TRUE);*/
+    glDepthMask(GL_TRUE);
 }
 
-//void Skybox::LoadOptions(Json& meta)
-//{
-//    
-//    
-//    //owner = (GameObject*) meta["owner"];
-//
-//    //UID uidMesh = meta["meshUID"];
-//
-//    //SetMesh(std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(uidMesh).lock()));
-//}
+
+
 
