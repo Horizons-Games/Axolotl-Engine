@@ -53,7 +53,7 @@ void ComponentBoundingBoxes::Display()
 void ComponentBoundingBoxes::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	meta["type"] = "Bounding";
+	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
@@ -71,7 +71,7 @@ void ComponentBoundingBoxes::SaveOptions(Json& meta)
 void ComponentBoundingBoxes::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	type = (ComponentType)(int) meta["type"];
+	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
