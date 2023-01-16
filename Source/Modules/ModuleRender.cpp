@@ -9,7 +9,7 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "DataStructures/Quadtree.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 #include "3DModels/Model.h"
 

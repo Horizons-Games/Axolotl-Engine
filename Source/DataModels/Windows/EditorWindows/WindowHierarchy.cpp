@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/Component.h"

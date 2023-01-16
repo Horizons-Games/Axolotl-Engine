@@ -4,7 +4,7 @@
 #include "DataStructures/Quadtree.h"
 
 #include "GameObject/GameObject.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 #include <assert.h>
 

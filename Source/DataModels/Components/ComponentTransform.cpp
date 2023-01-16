@@ -5,7 +5,7 @@
 #include "ModuleDebugDraw.h"
 
 #include "GameObject/GameObject.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
 #include "imgui.h"

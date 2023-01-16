@@ -6,7 +6,7 @@
 #include "Application.h"
 #include "ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
 #include "imgui.h"
