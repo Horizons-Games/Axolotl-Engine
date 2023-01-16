@@ -29,104 +29,106 @@ void ComponentTransform::Update()
 
 void ComponentTransform::Display()
 {
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
-		return;
-
 	float3 translation = GetPosition();
 	float3 rotation = RadToDeg(GetRotation().ToEulerXYZ());
 	float3 scale = GetScale();
 
-	ImGui::Text("TRANSFORM");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	float dragSpeed = 0.025f;
 
-	if (ImGui::BeginTable("TransformTable", 2))
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+		dragSpeed = 0.0f;
+
+	if (ImGui::CollapsingHeader("TRANSFORM", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Translation"); ImGui::SameLine();
+		if (ImGui::BeginTable("TransformTable", 2))
+		{
+			ImGui::TableNextColumn();
+			ImGui::Text("Translation"); ImGui::SameLine();
 
-		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##XTrans", &translation.x, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-		); ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::TableNextColumn();
+			ImGui::Text("x:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##XTrans", &translation.x, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			); ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("y:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##YTrans", &translation.y, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-		); ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##YTrans", &translation.y, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			); ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("z:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##ZTrans", &translation.z, 0.01f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-		); ImGui::PopStyleVar();
+			ImGui::Text("z:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##ZTrans", &translation.z, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
+			); ImGui::PopStyleVar();
 
-		ImGui::TableNextColumn();
-		ImGui::Text("Rotation"); ImGui::SameLine();
+			ImGui::TableNextColumn();
+			ImGui::Text("Rotation"); ImGui::SameLine();
 
-		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##XRot", &rotation.x, 0.05f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
-		ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::TableNextColumn();
+			ImGui::Text("x:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##XRot", &rotation.x, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("y:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##YRot", &rotation.y, 0.05f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
-		ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##YRot", &rotation.y, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("z:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##ZRot", &rotation.z, 0.05f,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
-		ImGui::PopStyleVar();
+			ImGui::Text("z:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##ZRot", &rotation.z, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			ImGui::PopStyleVar();
 
-		ImGui::TableNextColumn();
-		ImGui::Text("Scale"); ImGui::SameLine();
+			ImGui::TableNextColumn();
+			ImGui::Text("Scale"); ImGui::SameLine();
 
-		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##XScale", &scale.x, 0.01f,
-			0.0001f, std::numeric_limits<float>::max()
-		); ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::TableNextColumn();
+			ImGui::Text("x:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()
+			); ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("y:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##YScale", &scale.y, 0.01f,
-			0.0001f, std::numeric_limits<float>::max()
-		); ImGui::PopStyleVar(); ImGui::SameLine();
+			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()
+			); ImGui::PopStyleVar(); ImGui::SameLine();
 
-		ImGui::Text("z:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##ZScale", &scale.z, 0.01f,
-			0.0001f, std::numeric_limits<float>::max()
-		); ImGui::PopStyleVar();
+			ImGui::Text("z:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()
+			); ImGui::PopStyleVar();
 
-		if (scale.x <= 0) scale.x = 0.0001;
-		if (scale.y <= 0) scale.y = 0.0001;
-		if (scale.z <= 0) scale.z = 0.0001;
-
-		SetPosition(translation);
-		SetRotation(rotation);
-		SetScale(scale);
-
-		ImGui::EndTable();
-		ImGui::Separator();
+			ImGui::EndTable();
+		}
 	}
+	ImGui::Separator();
+
+	if (scale.x <= 0) scale.x = 0.0001;
+	if (scale.y <= 0) scale.y = 0.0001;
+	if (scale.z <= 0) scale.z = 0.0001;
+
+	SetPosition(translation);
+	SetRotation(rotation);
+	SetScale(scale);
 }
 
 void ComponentTransform::SaveOptions(Json& meta)
