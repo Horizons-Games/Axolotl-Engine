@@ -126,6 +126,17 @@ void ComponentMaterial::Display()
 	}
 
 	ImGui::Separator();
+
+	ImGui::Text("Normal Texture");
+	if (ImGui::Button("Load a normal texture")) {
+		ImGui::OpenPopup("Choose a texture");
+	}
+
+	ImGui::Checkbox("Normal slider", &hasNormal);
+	ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::Separator();
+	
+	ImGui::Separator();
 	ImGui::Text("");
 
 }
