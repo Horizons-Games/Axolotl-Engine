@@ -11,6 +11,10 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include <assert.h>
@@ -347,4 +351,20 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	}
 
 	return false;
+}
+
+const std::list<GameObject*>& GameObject::GetGameObjectsInside()
+{
+	std::list<GameObject*> insideGameObjects;
+	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
+
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	{
+		if (this->IsADescendant(*it))
+		{
+			insideGameObjects.push_back(*it);
+		}
+	}
+
+	return insideGameObjects;
 }

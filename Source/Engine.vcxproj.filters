@@ -256,9 +256,6 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowImporter.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
     <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClCompile>
@@ -328,6 +325,21 @@
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>Source\DataStructures</Filter>
     </ClCompile>
@@ -336,6 +348,12 @@
     </ClCompile>
     <ClCompile Include="DataModels\Scene\Scene.cpp">
       <Filter>Source\DataModels\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -720,9 +738,6 @@
     <ClInclude Include="FileSystem\Data.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowImporter.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
     <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClInclude>
@@ -813,6 +828,21 @@
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h">
       <Filter>Source\DataStructures</Filter>
     </ClInclude>
@@ -901,6 +931,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Resources">
       <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
+      <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
