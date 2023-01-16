@@ -214,6 +214,7 @@
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceModel.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />

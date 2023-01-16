@@ -349,6 +349,9 @@
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
