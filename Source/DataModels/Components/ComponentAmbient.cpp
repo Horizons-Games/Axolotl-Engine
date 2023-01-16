@@ -4,20 +4,20 @@
 
 #include "imgui.h"
 
-ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT)
+ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(GameObject* parent) : ComponentLight(LightType::AMBIENT, parent)
+ComponentAmbient::ComponentAmbient(GameObject* parent) : ComponentLight(LightType::AMBIENT, parent, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightType::AMBIENT, color, 1.0f)
+ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightType::AMBIENT, color, 1.0f, false)
 {
 }
 
 ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) : 
-	ComponentLight(LightType::AMBIENT, color, 1.0f, parent)
+	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
 {
 }
 

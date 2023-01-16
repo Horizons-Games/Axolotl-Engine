@@ -6,21 +6,21 @@
 #include "debugdraw.h"
 #include "imgui.h"
 
-ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL) 
+ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false) 
 {
 }
 
-ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent)
+ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
-	ComponentLight(LightType::DIRECTIONAL, color, intensity)
+	ComponentLight(LightType::DIRECTIONAL, color, intensity, false)
 {
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
-	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent)
+	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
 }
 

@@ -6,17 +6,17 @@
 #include "debugdraw.h"
 #include "imgui.h"
 
-ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT)
+ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(GameObject* parent) : ComponentLight(LightType::SPOT, parent)
+ComponentSpotLight::ComponentSpotLight(GameObject* parent) : ComponentLight(LightType::SPOT, parent, true)
 {
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity) :
-	ComponentLight(LightType::SPOT, color, intensity)
+	ComponentLight(LightType::SPOT, color, intensity, true)
 {
 	this->radius = radius;
 	this->innerAngle = innerAngle;
@@ -25,7 +25,7 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity, GameObject* parent) :
-	ComponentLight(LightType::SPOT, color, intensity, parent)
+	ComponentLight(LightType::SPOT, color, intensity, parent, true)
 {
 	this->radius = radius;
 	this->innerAngle = innerAngle;

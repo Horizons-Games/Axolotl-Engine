@@ -116,7 +116,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                     }
                 }
             }
+        }
 
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+        {
             if (ImGui::MenuItem("Delete"))
             {
                 if (App->scene->GetSelectedGameObject() == gameObject)
