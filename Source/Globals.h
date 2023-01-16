@@ -39,6 +39,7 @@ enum update_status
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
+#define MATERIAL_PATH "Assets/Materials/"
 #define MESHES_LIB_PATH "Lib/Meshes/"
 #define MATERIAL_LIB_PATH "Lib/Materials/"
 
@@ -50,6 +51,7 @@ enum update_status
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
 #define SCENE_EXTENSION ".scene"
+#define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
