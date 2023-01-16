@@ -24,31 +24,21 @@ public:
 	ModuleResources() = default;
 	~ModuleResources() override = default;
 
+	//inherited methods from Module
 	bool Start() override;
 	bool CleanUp() override;
 
-	UID ImportThread(const std::string& originalPath);
+	//import resource from path
 	UID ImportResource(const std::string& originalPath);
+	UID ImportThread(const std::string& originalPath);
 
+	//request resoruce
 	const std::weak_ptr<Resource>& RequestResource(UID uid);
 	template<class R>
 	const std::weak_ptr<R>& RequestResource(UID uid);
 
 private:
-	void CreateAssetAndLibFolders();
-	void MonitorResources();
-	void LoadResourceStored(const char* filePath);
-	void ImportResourceFromLibrary(const std::string& libraryPath);
-	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
-	ResourceType FindTypeByPath(const std::string& path);
-	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
-	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
-	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
-	const std::string GetFolderOfType(ResourceType type);
-	const std::string GetNameOfType(ResourceType type);
-	ResourceType GetTypeOfName(const std::string& typeName);
-	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
-	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
+	//resource creation and deletition
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName,
 												const std::string& assetsPath,
 												ResourceType type);
@@ -57,11 +47,32 @@ private:
 												   const std::string& assetsPath,
 												   const std::string& libraryPath,
 												   ResourceType type);
+	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
 	void DeleteResource(UID uidToDelete);
+
+	//create resources from binaries
+	void LoadResourceStored(const char* filePath);
+	void ImportResourceFromLibrary(const std::string& libraryPath);
+
+	//importing: creation of binary and meta
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath,
 								  std::shared_ptr<Resource>& resource,
 								  ResourceType type);
+
+	//folder and file management
+	void CreateAssetAndLibFolders();
+	void MonitorResources();
+	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
+	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
+
+	//utility methods
+	ResourceType FindTypeByPath(const std::string& path);
+	const std::string GetNameOfType(ResourceType type);
+	ResourceType GetTypeOfName(const std::string& typeName);
+	const std::string GetFolderOfType(ResourceType type);
+	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
+	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
@@ -74,7 +85,7 @@ private:
 	std::shared_ptr<SkyBoxImporter> skyboxImporter;
 	
 	std::thread monitorThread;
-	bool monitorResources;
+	bool monitorResources = false;
 };
 
 inline bool ModuleResources::CleanUp()
