@@ -26,6 +26,9 @@ public:
 
 	Scene* SearchSceneByID(UID sceneUID) const;
 
+	void SaveSceneToJson(const std::string& name);
+	void LoadSceneFromJson(const std::string& name);
+
 	void OnPlay();
 	void OnPause();
 	void OnStop();
@@ -33,8 +36,6 @@ public:
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
-
-	void SaveSceneToJson(const std::string& name);
 
 private:
 	Scene* loadedScene = nullptr;
