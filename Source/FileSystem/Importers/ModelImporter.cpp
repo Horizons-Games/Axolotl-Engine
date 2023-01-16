@@ -37,7 +37,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 }
 
-uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
+void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
 	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumMaterials() };
 
@@ -59,9 +59,6 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)

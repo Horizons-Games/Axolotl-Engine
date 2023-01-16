@@ -50,7 +50,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	delete buffer;
 }
 
-uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
+void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
 {
     UID texturesUIDs[4] = 
 	{ 
@@ -89,9 +89,6 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetNormalStrength(), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)

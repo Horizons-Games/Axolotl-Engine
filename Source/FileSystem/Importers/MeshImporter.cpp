@@ -20,7 +20,7 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	delete saveBuffer;
 }
 
-uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
+void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
 	unsigned int hasTangents = !resource->GetTangents().empty();
 	unsigned int header[4] =
@@ -88,9 +88,6 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*
 
 		cursor += bytes;
 	}
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
