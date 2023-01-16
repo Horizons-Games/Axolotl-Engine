@@ -314,7 +314,7 @@ bool ModuleRender::LoadModel(const char* path)
 	UID modelUID = App->resources->ImportResource(path);
 	if(modelUID != 0)
 	{
-		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+		std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
 		resourceModel->Load();
 
 		std::shared_ptr<Model> newModel = std::make_shared<Model>();

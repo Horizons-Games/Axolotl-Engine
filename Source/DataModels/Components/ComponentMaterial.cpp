@@ -144,7 +144,7 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	SetMaterial(std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(uidMaterial).lock()));
+	SetMaterial(App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock());
 
 	diffuseColor.x = (float)meta["diffuseColor_X"];
 	diffuseColor.y = (float)meta["diffuseColor_Y"];
@@ -191,28 +191,28 @@ void ComponentMaterial::LoadTexture()
 
 	std::shared_ptr<ResourceTexture> texture;
 	//Load Diffuse
-	textureDiffuse = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(diffuseUID).lock());
+	textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
 	texture = textureDiffuse.lock();
 	if (texture)
 	{
 		texture->Load();
 	}
 	//Load Normal
-	textureNormal = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(normalUID).lock());
+	textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
 	texture = textureNormal.lock();
 	if (texture)
 	{
 		texture->Load();
 	}
 	//Load Occlusion
-	textureOcclusion = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(occlusionUID).lock());
+	textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
 	texture = textureOcclusion.lock();
 	if (texture)
 	{
 		texture->Load();
 	}
 	//Load Specular
-	textureSpecular = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(specularUID).lock());
+	textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
 	texture = textureSpecular.lock();
 	if (texture)
 	{
@@ -229,7 +229,7 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 	switch (textureType)
 	{
 	case TextureType::DIFFUSE:
-		textureDiffuse = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(diffuseUID).lock());
+		textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
 		texture = textureDiffuse.lock();
 		if (texture)
 		{
@@ -237,7 +237,7 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		}
 		break;
 	case TextureType::NORMAL:
-		textureNormal = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(normalUID).lock());
+		textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
 		texture = textureNormal.lock();
 		if (texture)
 		{
@@ -245,7 +245,7 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		}
 		break;
 	case TextureType::OCCLUSION:
-		textureOcclusion = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(occlusionUID).lock());
+		textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
 		texture = textureOcclusion.lock();
 		if (texture)
 		{
@@ -253,7 +253,7 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		}
 		break;
 	case TextureType::SPECULAR:
-		textureSpecular = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(specularUID).lock());
+		textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
 		texture = textureSpecular.lock();
 		if (texture)
 		{

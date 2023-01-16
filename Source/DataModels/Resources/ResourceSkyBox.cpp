@@ -14,7 +14,7 @@ void ResourceSkyBox::InternalLoad()
 	for (int i = 0; i < texturesUIDs.size(); ++i)
 	{
 		std::shared_ptr<ResourceTexture> textI =
-			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(texturesUIDs[i]).lock());
+			App->resources->RequestResource<ResourceTexture>(texturesUIDs[i]).lock();
 
 		if (textI)
 		{

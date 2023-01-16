@@ -121,7 +121,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	UID uidMesh = meta["meshUID"];
 
-	SetMesh(std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(uidMesh).lock()));
+	SetMesh(App->resources->RequestResource<ResourceMesh>(uidMesh).lock());
 }
 
 void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
