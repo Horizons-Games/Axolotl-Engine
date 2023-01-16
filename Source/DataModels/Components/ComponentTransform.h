@@ -46,9 +46,9 @@ public:
 	void ResetGlobalMatrix();
 
 private:
-	float3 pos = float3(0.0f, 0.0f, 0.0f);
+	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
-	float3 sca = float3(1.0f, 1.0f, 1.0f);
+	float3 sca = float3::one;
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;

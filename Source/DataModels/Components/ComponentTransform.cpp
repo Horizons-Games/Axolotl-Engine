@@ -81,21 +81,21 @@ void ComponentTransform::Display()
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			ImGui::DragFloat("##XRot", &rotation.x, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			ImGui::DragFloat("##YRot", &rotation.y, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			ImGui::DragFloat("##ZRot", &rotation.z, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 			ImGui::PopStyleVar();
 
 			ImGui::TableNextColumn();
@@ -127,6 +127,14 @@ void ComponentTransform::Display()
 		}
 	}
 	ImGui::Separator();
+
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner())
+	{
+		SetPosition(float3::zero);
+		SetRotation(Quat::identity);
+		SetScale(float3::one);
+		return;
+	}
 
 	if (scale.x <= 0) scale.x = 0.0001;
 	if (scale.y <= 0) scale.y = 0.0001;
