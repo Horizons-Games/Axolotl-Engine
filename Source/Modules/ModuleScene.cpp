@@ -106,3 +106,24 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }
+
+void ModuleScene::LoadSceneFromJson(const std::string& name)
+{
+	char* buffer{};
+	App->fileSystem->Load(name.c_str(), buffer);
+
+	rapidjson::Document doc;
+	Json Json(doc, doc);
+
+	Json.fromBuffer(buffer);
+
+	Scene* sceneToLoad = new Scene();
+	GameObject* newRoot = new GameObject(App->fileSystem->GetFileName(name).c_str());
+	newRoot->LoadOptions(Json);
+
+	sceneToLoad->SetRoot(newRoot);
+
+	this->loadedScene = sceneToLoad;
+
+	delete buffer;
+}
