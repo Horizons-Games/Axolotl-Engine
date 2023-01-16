@@ -34,6 +34,8 @@ enum EFrustumMode
 	noFrustum
 };
 
+class GameObject;
+
 class ModuleEngineCamera : public Module
 {
 public:
@@ -53,6 +55,7 @@ public:
 	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
+	void Focus(GameObject* gameObject);
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);

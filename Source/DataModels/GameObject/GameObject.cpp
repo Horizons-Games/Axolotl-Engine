@@ -383,18 +383,15 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-const std::list<GameObject*>& GameObject::GetGameObjectsInside()
+std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
-	std::list<GameObject*> insideGameObjects;
-	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
 
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(this);
+	for (GameObject* children : this->GetChildren())
 	{
-		if (this->IsADescendant(*it))
-		{
-			insideGameObjects.push_back(*it);
-		}
+		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside() ;
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
-
-	return insideGameObjects;
+	return familyObjects;
 }
