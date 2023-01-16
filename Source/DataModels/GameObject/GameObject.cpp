@@ -64,12 +64,30 @@ void GameObject::Draw()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	meta["name"] = (const char*)name.c_str();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
-	meta["name"] = (const char*) name.c_str();
+
+	Json jsonComponents = meta["Components"];
+
+	for (int i = 0; i < components.size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+
+		components[i]->SaveOptions(jsonComponent);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+
+		children[i]->SaveOptions(jsonGameObject);
+	}
 
 	//meta["components"] = (std::vector<Component*>) components;
-	meta["parent"] = (GameObject*)parent;
+	//meta["parent"] = (GameObject*)parent;
 	//meta["children"] = (std::vector<GameObject*>) children;
 }
 
