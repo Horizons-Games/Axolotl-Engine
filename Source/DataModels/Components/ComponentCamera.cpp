@@ -63,23 +63,16 @@ void ComponentCamera::Draw()
 
 void ComponentCamera::Display()
 {
-
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
-
-	ImGui::Text("CAMERA");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-	if (ImGui::BeginTable("CameraComponentTable", 2))
+	if (ImGui::CollapsingHeader("CAMERA", ImGuiTreeNodeFlags_DefaultOpen)) 
 	{
-		ImGui::TableNextColumn();
 		ImGui::Text("Draw Frustum"); ImGui::SameLine();
-		ImGui::Checkbox("", &drawFrustum);
+		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
 
 		ImGui::ListBox("Frustum Mode\n(single select)", &frustumMode, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
-		ImGui::EndTable();
 		ImGui::Separator();
 	}
 }
