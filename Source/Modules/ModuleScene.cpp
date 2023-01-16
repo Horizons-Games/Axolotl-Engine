@@ -36,7 +36,7 @@ update_status ModuleScene::Update()
 {
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
-	SaveSceneToJson("AuxScene");
+	//SaveSceneToJson("AuxScene");
 
 	return UPDATE_CONTINUE;
 }
