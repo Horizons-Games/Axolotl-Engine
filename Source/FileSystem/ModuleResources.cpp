@@ -113,11 +113,7 @@ void  ModuleResources::MonitorResources()
 		//Remove resources
 		for (UID resUID : toRemove)
 		{
-			std::string libPath = resources[resUID]->GetLibraryPath();
-			std::string metaPath = resources[resUID]->GetLibraryPath() + META_EXTENSION;
-			App->fileSystem->Delete(metaPath.c_str());
-			App->fileSystem->Delete(libPath.c_str());
-			resources.erase(resUID);
+			DeleteResource(resUID);
 
 		}
 		//Import resources
@@ -455,6 +451,33 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	default:
 		return nullptr;
 	}
+}
+
+void ModuleResources::DeleteResource(UID uidToDelete)
+{
+	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
+	App->fileSystem->Delete(metaPath.c_str());
+	App->fileSystem->Delete(libPath.c_str());
+
+	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
+	if (resToDelete)
+	{
+		if (resToDelete->GetType() == ResourceType::Model)
+		{
+			std::shared_ptr<ResourceModel> modelToDelete = std::static_pointer_cast<ResourceModel>(resToDelete);
+			for (UID meshUID : modelToDelete->GetMeshesUIDs())
+			{
+				DeleteResource(meshUID);
+			}
+		}
+		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
+		{
+			App->fileSystem->Delete(resToDelete->GetAssetsPath().c_str());
+		}
+	}
+
+	resources.erase(uidToDelete);
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
