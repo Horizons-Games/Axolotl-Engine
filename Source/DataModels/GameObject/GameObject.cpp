@@ -40,8 +40,19 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
-	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
+	for (Component* comp : components)
+	{
+		delete comp;
+	}
+
+	components.clear();
+
+	for (GameObject* child : children)
+	{
+		delete child;
+	}
+
+	children.clear();
 }
 
 void GameObject::Update()
@@ -372,18 +383,15 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-const std::list<GameObject*>& GameObject::GetGameObjectsInside()
+std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
-	std::list<GameObject*> insideGameObjects;
-	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
 
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(this);
+	for (GameObject* children : this->GetChildren())
 	{
-		if (this->IsADescendant(*it))
-		{
-			insideGameObjects.push_back(*it);
-		}
+		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside() ;
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
-
-	return insideGameObjects;
+	return familyObjects;
 }

@@ -13,7 +13,6 @@ class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
-	~ComponentTransform() override;
 
 	void Update() override;
 	void Display() override;
@@ -47,8 +46,6 @@ public:
 	void ResetGlobalMatrix();
 
 private:
-	GameObject* ownerParent;
-
 	float3 pos = float3(0.0f, 0.0f, 0.0f);
 	Quat rot = Quat::identity;
 	float3 sca = float3(1.0f, 1.0f, 1.0f);

@@ -54,7 +54,7 @@ public:
 	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
 
-	const std::list<GameObject*>& GetGameObjectsInside();
+	std::list<GameObject*> GetGameObjectsInside();
 
 private:
 	bool IsAChild(const GameObject* child);

@@ -25,10 +25,6 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
-ComponentMeshRenderer::~ComponentMeshRenderer()
-{
-}
-
 void ComponentMeshRenderer::Update()
 {
 
