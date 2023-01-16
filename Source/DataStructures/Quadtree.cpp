@@ -385,14 +385,12 @@ void Quadtree::ResetChildren()
 void Quadtree::AddGameObjectAndChildren(GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr) return;
-	Add(gameObject);
-
-	if (!gameObject->GetChildren().empty())
+	std::list<GameObject*> familyObjects = {};
+	std::list<GameObject*> objects = GetAllGameObjects(gameObject);
+	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());
+	for (GameObject* children : familyObjects)
 	{
-		for (GameObject* children : gameObject->GetChildren())
-		{
-			AddGameObjectAndChildren(children);
-		}
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->Add(children);
 	}
 }
 
@@ -409,4 +407,16 @@ void Quadtree::RemoveGameObjectAndChildren(GameObject* gameObject)
 			RemoveGameObjectAndChildren(children);
 		}
 	}
+}
+
+std::list<GameObject*> Quadtree::GetAllGameObjects(GameObject* gameObject)
+{
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(gameObject);
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		std::list<GameObject*> objectsChildren = GetAllGameObjects(children);
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
+	}
+	return familyObjects;
 }

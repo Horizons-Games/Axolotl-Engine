@@ -50,6 +50,8 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 
+	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
+
 private:
 
 	std::list<GameObject*> gameObjects;
