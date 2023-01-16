@@ -82,8 +82,6 @@ void GameObject::SaveOptions(Json& meta)
 	meta["name"] = name.c_str();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
-	meta["numComponents"] = components.size();
-	meta["numChildrens"] = children.size();
 
 	Json jsonComponents = meta["Components"];
 
