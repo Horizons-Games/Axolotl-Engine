@@ -15,8 +15,6 @@ public:
 
 	ResourceType GetType() const override;
 
-	void Load() override {};
-	void Unload() override {};
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -46,6 +44,10 @@ public:
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float& shininess);
 	void SetNormalStrength(float& normalStrength);
+
+protected:
+	void InternalLoad() override {};
+	void InternalUnload() override {};
 
 private:
 

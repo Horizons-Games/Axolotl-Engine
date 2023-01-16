@@ -73,10 +73,10 @@
 //#define buttonEditPathString "Edit path\nYou can also right click on path buttons"
 //#define buttonResetPathString "Reset to current directory"
 //#define buttonCreateDirString "Create Directory"
-//#define OverWriteDialogTitleString "The file Already Exist !"
-//#define OverWriteDialogMessageString "Would you like to OverWrite it ?"
-//#define OverWriteDialogConfirmButtonString "Confirm"
-//#define OverWriteDialogCancelButtonString "Cancel"
+#define OverWriteDialogTitleString "The file Already Exist !"
+#define OverWriteDialogMessageString "Would you like to OverWrite it ?"
+#define OverWriteDialogConfirmButtonString "Confirm"
+#define OverWriteDialogCancelButtonString "Cancel"
 
 //Validation buttons
 //#define okButtonString " OK"

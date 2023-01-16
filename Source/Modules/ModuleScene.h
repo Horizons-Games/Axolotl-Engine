@@ -6,6 +6,7 @@
 class GameObject;
 class Quadtree;
 class Scene;
+class Json;
 
 class ModuleScene : public Module
 {
@@ -33,8 +34,8 @@ private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
 
-	void SaveSceneToJson(Scene* scene);
-	
+	void SaveSceneToJson(const std::string& name);
+
 private:
 	Scene* loadedScene = nullptr;
 	GameObject* selectedGameObject = nullptr;

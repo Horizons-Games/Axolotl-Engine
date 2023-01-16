@@ -36,6 +36,8 @@ update_status ModuleScene::Update()
 {
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
+	SaveSceneToJson("AuxScene");
+
 	return UPDATE_CONTINUE;
 }
 
@@ -88,35 +90,19 @@ Scene* ModuleScene::CreateEmptyScene() const
 	return new Scene();
 }
 
-void ModuleScene::SaveSceneToJson(Scene* scene)
+void ModuleScene::SaveSceneToJson(const std::string& name)
 {
 	rapidjson::Document doc;
 	Json jsonScene(doc, doc);
 
-	Json jsonGameObjects = jsonScene["GameObjects"];
-
-	std::vector<GameObject*> listGameObjects = scene->GetSceneGameObjects();
-
-	for(int i = 0; i < listGameObjects.size(); ++i)
-	{
-		jsonGameObjects[i]["GameObject_Name"] = listGameObjects[i]->GetName();
-
-		Json jsonComponents = jsonGameObjects[i]["Components"];
-
-		std::vector<Component*> listComponents = listGameObjects[i]->GetComponents();
-
-		for(int j = 0; j < listComponents.size(); ++j)
-		{
-			Json jsonComponent = jsonComponents[j]["Component"];
-
-			listComponents[j]->SaveOptions(jsonComponent);
-		}
-	}
+	GameObject* root = loadedScene->GetRoot();
+	root->SetName(name.c_str());
+	root->SaveOptions(jsonScene);
 
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
-	std::string path = "Lib/scene.axolotl";
+	std::string path = SCENE_PATH + name + SCENE_EXTENSION;
 
 	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }

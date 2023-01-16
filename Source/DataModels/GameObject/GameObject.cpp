@@ -11,6 +11,10 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include <assert.h>
@@ -64,12 +68,30 @@ void GameObject::Draw()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	meta["name"] = (const char*)name.c_str();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
-	meta["name"] = (const char*) name.c_str();
+
+	Json jsonComponents = meta["Components"];
+
+	for (int i = 0; i < components.size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+
+		components[i]->SaveOptions(jsonComponent);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+
+		children[i]->SaveOptions(jsonGameObject);
+	}
 
 	//meta["components"] = (std::vector<Component*>) components;
-	meta["parent"] = (GameObject*)parent;
+	//meta["parent"] = (GameObject*)parent;
 	//meta["children"] = (std::vector<GameObject*>) children;
 }
 
@@ -329,4 +351,20 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	}
 
 	return false;
+}
+
+const std::list<GameObject*>& GameObject::GetGameObjectsInside()
+{
+	std::list<GameObject*> insideGameObjects;
+	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
+
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	{
+		if (this->IsADescendant(*it))
+		{
+			insideGameObjects.push_back(*it);
+		}
+	}
+
+	return insideGameObjects;
 }
