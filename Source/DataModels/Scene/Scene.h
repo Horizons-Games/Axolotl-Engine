@@ -42,11 +42,16 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-	// --------- LIGHTS -----------
 	void GenerateLights();
-	void RenderLights();
+
+	void RenderAmbientLight() const;
+	void RenderDirectionalLight() const;
+	void RenderPointLights() const;
+	void RenderSpotLights() const;
+
 	void UpdateSceneLights();
-	// ----------------------------
+	void UpdateScenePointLights();
+	void UpdateSceneSpotLights();
 
 	GameObject* GetRoot() const;
 	GameObject* GetAmbientLight() const;
@@ -69,7 +74,6 @@ private:
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
 
-	// --------- LIGHTS -------------
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -80,7 +84,6 @@ private:
 	unsigned uboDirectional = 0;
 	unsigned ssboPoint = 0;
 	unsigned ssboSpot = 0;
-	// -------------------------------
 	
 	AABB rootQuadtreeAABB = AABB(float3(-50, -1000, -50), float3(50, 1000, 50));
 	Quadtree* sceneQuadTree = nullptr;

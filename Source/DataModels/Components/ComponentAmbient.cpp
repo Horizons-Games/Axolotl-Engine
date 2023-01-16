@@ -42,9 +42,8 @@ void ComponentAmbient::Display()
 
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
-				App->scene->GetLoadedScene()->RenderLights();
+				App->scene->GetLoadedScene()->RenderAmbientLight();
 			}
-
 			ImGui::EndTable();
 		}
 	}

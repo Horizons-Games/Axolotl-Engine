@@ -73,6 +73,8 @@ void ComponentSpotLight::Display()
 
 						this->GetOwner()->RemoveComponent(this);
 
+						App->scene->GetLoadedScene()->UpdateScenePointLights();
+
 						modified = true;
 					}
 
@@ -141,7 +143,7 @@ void ComponentSpotLight::Display()
 
 			if (modified)
 			{
-				App->scene->GetLoadedScene()->RenderLights();
+				App->scene->GetLoadedScene()->RenderSpotLights();
 			}
 
 			ImGui::EndTable();

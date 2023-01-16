@@ -1,4 +1,5 @@
 #include "ComponentTransform.h"
+#include "ComponentLight.h"
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
@@ -25,6 +26,17 @@ void ComponentTransform::Update()
 	ownerParent = GetOwner()->GetParent();
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
+
+	Component* comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
+
+	if (comp != nullptr)
+	{
+		ComponentLight* lightComp = (ComponentLight*)comp;
+		if (lightComp->GetLightType() == LightType::DIRECTIONAL)
+		{
+			App->scene->GetLoadedScene()->RenderDirectionalLight();
+		}
+	}
 }
 
 void ComponentTransform::Display()

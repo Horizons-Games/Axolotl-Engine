@@ -12,6 +12,8 @@
 #include "debugdraw.h"
 #include "imgui.h"
 
+#include "GL/glew.h"
+
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false) 
 {
 }
@@ -61,7 +63,7 @@ void ComponentDirLight::Display()
 
 			if (modified)
 			{
-				App->scene->GetLoadedScene()->RenderLights();
+				App->scene->GetLoadedScene()->RenderDirectionalLight();
 			}
 
 			ImGui::EndTable();
