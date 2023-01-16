@@ -51,6 +51,7 @@ enum update_status
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
 #define SCENE_EXTENSION ".scene"
+#define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
