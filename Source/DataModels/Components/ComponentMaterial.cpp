@@ -58,6 +58,20 @@ void ComponentMaterial::Draw()
 	{
 		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
 	}
+	texture = textureNormal.lock();
+	if (texture)
+	{
+		glActiveTexture(GL_TEXTURE1 + texture->GetGlTexture());
+		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		glUniform1i(glGetUniformLocation(program, "material.normal_map"), 1);
+		glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
+
+		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+	}
+	else
+	{
+		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
+	}
 	glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
 	glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
 	glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
