@@ -36,18 +36,13 @@ void ComponentBoundingBoxes::Draw()
 
 void ComponentBoundingBoxes::Display()
 {
-	ImGui::Text("BOUNDING BOXES");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("BoundingTable", 2))
+	if (ImGui::CollapsingHeader("BOUNDING BOX", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
 		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("", &drawBoundingBoxes);
-
-		ImGui::EndTable();
-		ImGui::Separator();
+		ImGui::Checkbox("##Draw Bounding Box", &drawBoundingBoxes);
 	}
 
+	ImGui::Separator();
 }
 
 void ComponentBoundingBoxes::SaveOptions(Json& meta)

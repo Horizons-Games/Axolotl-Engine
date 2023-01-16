@@ -71,24 +71,26 @@ void ComponentMeshRenderer::Display()
 {
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-	ImGui::Text("MESH COMPONENT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("##GeometryTable", 2))
+	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Number of vertices: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-													meshAsShared.get()->GetNumVertices() : 0);
-		ImGui::TableNextColumn();
-		ImGui::Text("Number of triangles: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-													meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+		if (ImGui::BeginTable("##GeometryTable", 2))
+		{
+			ImGui::TableNextColumn();
+			ImGui::Text("Number of vertices: ");
+			ImGui::TableNextColumn();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+				meshAsShared.get()->GetNumVertices() : 0);
+			ImGui::TableNextColumn();
+			ImGui::Text("Number of triangles: ");
+			ImGui::TableNextColumn();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
 
-		ImGui::EndTable();
-		ImGui::Separator();
+			ImGui::EndTable();
+		}
 	}
+
+	ImGui::Separator();
 }
 
 void ComponentMeshRenderer::SaveOptions(Json& meta)

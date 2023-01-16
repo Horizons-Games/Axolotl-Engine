@@ -36,35 +36,40 @@ void ComponentDirLight::Display()
 
 	bool modified = false;
 
-	ImGui::Text("DIRECTIONAL LIGHT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-	if (ImGui::BeginTable("DirLightTable", 2))
+	if (ImGui::CollapsingHeader("DIRECTIONAL LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
+		ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
-		ImGui::Text("Intensity"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
+		if (ImGui::BeginTable("DirLightTable", 2))
 		{
-			modified = true;
-		}
-		ImGui::PopStyleVar();
+			if (ImGui::BeginTable("DirLightTable", 2))
+			{
+				ImGui::TableNextColumn();
 
-		ImGui::Text("Color"); ImGui::SameLine();
-		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-		{
-			modified = true;
-		}
+			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
+			{
+				modified = true;
+			}
+			ImGui::PopStyleVar();
 
-		if (modified)
-		{
-			App->scene->GetLoadedScene()->RenderLights();
-		}
+			ImGui::Text("Color"); ImGui::SameLine();
+			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			{
+				modified = true;
+			}
 
-		ImGui::EndTable();
-		ImGui::Separator();
+			if (modified)
+			{
+				App->scene->GetLoadedScene()->RenderLights();
+			}
+
+				ImGui::EndTable();
+				ImGui::Separator();
+			}
+		}
 	}
 }
 

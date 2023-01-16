@@ -29,26 +29,31 @@ ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) :
 
 void ComponentAmbient::Display()
 {
-	ImGui::Text("AMBIENT LIGHT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-	if (ImGui::BeginTable("AmbientLightTable", 2))
+	if (ImGui::CollapsingHeader("AMBIENT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
-		
-		//float3 color = GetColor();
-		
-		ImGui::Text("Color"); 
-		ImGui::SameLine();
+		ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
-		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+		if (ImGui::BeginTable("AmbientLightTable", 2))
 		{
-			App->scene->GetLoadedScene()->RenderLights();
-		}
+			ImGui::TableNextColumn();
+						
+			ImGui::Text("Color"); 
+			ImGui::SameLine();
 
-		ImGui::EndTable();
-		ImGui::Separator();
+			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			{
+				App->scene->GetLoadedScene()->RenderLights();
+			}
+
+			static float3 color = GetColor();
+			ImGui::Text("Color"); ImGui::SameLine();
+			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+				SetColor(color);
+
+			ImGui::EndTable();
+		}
 	}
+	ImGui::Separator();
 }
 
 void ComponentAmbient::SaveOptions(Json& meta)
