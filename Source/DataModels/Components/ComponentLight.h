@@ -22,7 +22,7 @@ public:
 	ComponentLight(LightType type, const float3& color, float intensity, 
 				   GameObject* gameObject, bool canBeRemoved);
 
-	~ComponentLight() {};
+	virtual ~ComponentLight() {};
 
 	void Update() override;
 

@@ -12,18 +12,12 @@
 #include "imgui.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner, false), ownerParent(GetOwner()->GetParent())
+	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
-}
-
-ComponentTransform::~ComponentTransform()
-{
-	delete ownerParent;
 }
 
 void ComponentTransform::Update()
 {
-	ownerParent = GetOwner()->GetParent();
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
 
@@ -170,8 +164,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
-	ownerParent = GetOwner()->GetParent();
-
 	pos.x = (float) meta["localPos_X"];
 	pos.y = (float) meta["localPos_Y"];
 	pos.z = (float) meta["localPos_Z"];
@@ -197,12 +189,13 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	assert(ownerParent != nullptr);
+	assert(GetOwner()->GetParent() != nullptr);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform = (ComponentTransform*)ownerParent->GetComponent(ComponentType::TRANSFORM);
+	ComponentTransform* parentTransform = (ComponentTransform*)GetOwner()->GetParent()
+															->GetComponent(ComponentType::TRANSFORM);
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

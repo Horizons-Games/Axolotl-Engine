@@ -49,7 +49,6 @@ inline Component::Component(const ComponentType type, const bool active, GameObj
 
 inline Component::~Component()
 {
-	delete owner;
 }
 
 inline void Component::Init()

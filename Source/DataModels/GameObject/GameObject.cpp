@@ -40,8 +40,15 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
-	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
+	for (Component* comp : components)
+	{
+		delete comp;
+	}
+
+	for (GameObject* child : children)
+	{
+		delete child;
+	}
 }
 
 void GameObject::Update()

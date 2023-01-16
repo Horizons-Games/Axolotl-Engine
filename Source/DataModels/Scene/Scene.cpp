@@ -136,11 +136,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	{
 		if (*it == gameObject)
 		{
-			if ((*it)->GetComponent(ComponentType::CAMERA) != nullptr) // If the object is a camera, remove it from cameras too
-			{
-				RemoveCamera(*it);
-			}
-
+			delete *it;
 			sceneGameObjects.erase(it);
 			return;
 		}
