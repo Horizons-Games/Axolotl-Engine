@@ -62,4 +62,5 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	std::vector<UID> textures(texturesPointer, texturesPointer + 6);
 	resource->SetTexturesUIDs(textures);
 
+	delete[] texturesPointer;
 }

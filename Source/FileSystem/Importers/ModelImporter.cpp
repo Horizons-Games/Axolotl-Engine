@@ -28,6 +28,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		unsigned int size;
 		Save(resource, buffer, size);
 		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+
+		delete buffer;
 	}
 	else
 	{
@@ -37,7 +39,6 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-
 	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumMaterials() };
 
 	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumMaterials();
@@ -82,11 +83,15 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	fileBuffer += bytes;
 
+	delete[] meshesPointer;
+
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	resource->SetMaterialsUIDs(materials);
+
+	delete[] materialsPointer;
 }
 
 
@@ -131,19 +136,24 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 
 				if (stat((path + name).c_str(), &buffer) != 0)
 				{
-
 					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
 					{
 						ENGINE_LOG("Texture not found!");
 					}
 					else
+					{
 						specularPath = TEXTURES_PATH + std::string(file.data);
+					}
 				}
 				else
+				{
 					specularPath = path + std::string(file.data);
+				}
 			}
 			else
+			{
 				specularPath = std::string(file.data);
+			}
 
 			if (specularPath != "")
 			{
@@ -173,6 +183,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		UID resourceMaterial = App->resources->ImportResource(materialPath);
 		materialsUIDs.push_back(resourceMaterial);
 
+		delete fileBuffer;
 	}
 
 	resource->SetMaterialsUIDs(materialsUIDs);
