@@ -24,9 +24,6 @@ void WindowFileBrowser::DrawWindowContents()
 		// action if OK
 		if (fileDialogImporter.IsOk())
 		{
-			std::string filePathName = fileDialogImporter.GetFilePathName();
-			std::string filePathName2 = fileDialogImporter.GetCurrentFileName();
-			filePathName += filePathName2;
 			DoThisIfOk();
 		}
 
