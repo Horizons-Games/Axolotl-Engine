@@ -331,11 +331,11 @@
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>Source\DataStructures</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source</Filter>
-	</ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Scene\Scene.cpp">
+      <Filter>Source\DataModels\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -816,11 +816,11 @@
     <ClInclude Include="DataStructures\Quadtree.h">
       <Filter>Source\DataStructures</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
       <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Scene\Scene.h">
+      <Filter>Source\DataModels\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -904,6 +904,9 @@
     </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Scene">
+      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
