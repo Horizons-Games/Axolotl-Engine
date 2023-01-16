@@ -70,8 +70,6 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
 
-//layout(binding = 1) uniform sampler2D normalMap;
-
 in vec2 TexCoord;
 
 out vec4 outColor;
