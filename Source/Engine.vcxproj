@@ -261,7 +261,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="DataModels\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -427,7 +426,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="DataModels\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>
