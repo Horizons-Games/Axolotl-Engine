@@ -98,13 +98,34 @@ void GameObject::SaveOptions(Json& meta)
 void GameObject::LoadOptions(Json& meta)
 {
 	uid = UniqueID::GenerateUID();
+	name = meta["name"];
 	enabled = (bool) meta["enabled"];
 	active = (bool) meta["active"];
-	//name = (const char*) meta["name"];
+	
+	Json jsonComponents = meta["Components"];
 
-	components = (std::vector<Component*>) meta["components"];
-	//parent = (GameObject*) meta["parent"];
-	children = (std::vector<GameObject*>) meta["children"];
+	for (int i = 0; i < jsonComponents.Size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
+
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
+		Component* component = CreateComponent(type);
+		component->LoadOptions(jsonComponent);
+		components.push_back(component);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < jsonChildrens.Size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+		std::string name = jsonGameObject["name"];
+
+		GameObject* gameObject = new GameObject(name.c_str(), this);
+		gameObject->LoadOptions(jsonGameObject);
+		children.push_back(gameObject);
+	}
 }
 
 void GameObject::SetParent(GameObject* newParent)
