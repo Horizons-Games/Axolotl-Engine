@@ -37,6 +37,10 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 
 void ComponentLight::Display()
 {
-	ImGui::Text("LIGHT COMPONENT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::CollapsingHeader("BASIC LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+
+	}
+
+	ImGui::Separator();
 }

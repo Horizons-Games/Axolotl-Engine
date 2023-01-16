@@ -43,69 +43,71 @@ void ComponentPointLight::Display()
 	const char* lightTypes[] = { "Point", "Spot" };
 
 	static const char* currentType = "Point";
-	ImGui::Text("POINT LIGHT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("PointLightTable", 2))
+	if (ImGui::CollapsingHeader("POINT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Type"); ImGui::SameLine();
-		if (ImGui::BeginCombo("##combo", currentType)) {
-			for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
-			{
-				bool isSelected = (currentType == lightTypes[i]);
-				if (ImGui::Selectable(lightTypes[i], isSelected))
+		if (ImGui::BeginTable("PointLightTable", 2))
+		{
+			ImGui::TableNextColumn();
+			ImGui::Text("Type"); ImGui::SameLine();
+			if (ImGui::BeginCombo("##combo", currentType)) {
+				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
 				{
-					//changes type of light
-					currentType = lightTypes[i];
-					if (lightTypes[i] == "Directional")
+					bool isSelected = (currentType == lightTypes[i]);
+					if (ImGui::Selectable(lightTypes[i], isSelected))
 					{
-						this->GetOwner()->CreateComponentLight(LightType::DIRECTIONAL);
-						//TODO: Set intensity and color
-					}
-					if (lightTypes[i] == "Spot")
-					{
-						this->GetOwner()->CreateComponentLight(LightType::SPOT);
-						//TODO: Set intensity and color
-					}
+						//changes type of light
+						currentType = lightTypes[i];
+						if (lightTypes[i] == "Directional")
+						{
+							this->GetOwner()->CreateComponentLight(LightType::DIRECTIONAL);
+							//TODO: Set intensity and color
+						}
+						if (lightTypes[i] == "Spot")
+						{
+							this->GetOwner()->CreateComponentLight(LightType::SPOT);
+							//TODO: Set intensity and color
+						}
 
-					//TODO: function removeComponent
-					//this->GetOwner()->RemoveComponent(this);
+						//TODO: function removeComponent
+						//this->GetOwner()->RemoveComponent(this);
+					}
+					if (isSelected)
+					{
+						//Shows list of lights
+						ImGui::SetItemDefaultFocus();
+					}
 				}
-				if (isSelected)
-				{
-					//Shows list of lights
-					ImGui::SetItemDefaultFocus();
-				}
+				ImGui::EndCombo();
 			}
-			ImGui::EndCombo();
+
+			float intensity = GetIntensity();
+			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##Intensity", &intensity, 0.01f,
+				0.0f, 1.0f
+			); ImGui::PopStyleVar();
+			SetIntensity(intensity);
+
+			static float3 color = GetColor();
+			ImGui::Text("Color"); ImGui::SameLine();
+			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+				SetColor(color);
+
+			float radius = GetRadius();
+			ImGui::Text("Radius"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##Radius", &radius, 0.01f,
+				0.0001f, std::numeric_limits<float>::max()
+			); ImGui::PopStyleVar();
+			SetRadius(radius);
+
+			ImGui::EndTable();
 		}
-
-		float intensity = GetIntensity();
-		ImGui::Text("Intensity"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-			0.0f, 1.0f
-		); ImGui::PopStyleVar();
-		SetIntensity(intensity);
-
-		static float3 color = GetColor();
-		ImGui::Text("Color"); ImGui::SameLine();
-		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-			SetColor(color);
-
-		float radius = GetRadius();
-		ImGui::Text("Radius"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##Radius", &radius, 0.01f,
-			0.0001f, std::numeric_limits<float>::max()
-		); ImGui::PopStyleVar();
-		SetRadius(radius);
-
-		ImGui::EndTable();
-		ImGui::Separator();
 	}
+
+	ImGui::Separator();
 }
 
 void ComponentPointLight::SaveOptions(Json& meta)
