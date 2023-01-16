@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 #include "../../FileSystem/UniqueID.h"
 
@@ -52,6 +53,8 @@ public:
 	Component* CreateComponentLight(LightType lightType);
 	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
+
+	std::list<GameObject*> GetGameObjectsInside();
 
 private:
 	bool IsAChild(const GameObject* child);
