@@ -18,7 +18,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	//flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -27,8 +27,13 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
-    
+    if (!firstDeployed)
+    {
+        ImGui::DockBuilderDockWindow("Hierarchy", App->editor->dock_left_id);
+        //ImGuiCond_FirstUseEver
+        firstDeployed = true;
+    }
+
     if (App->scene->GetRoot() != nullptr)
     {
         DrawRecursiveHierarchy(App->scene->GetRoot());

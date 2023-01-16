@@ -43,11 +43,15 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 
+	//ImGuiID dock_space_id = ImGui::GetID("DockSpace");
+
+
 	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
 	windows.push_back(std::make_shared<WindowConfiguration>());
-	windows.push_back(std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
+	windows.push_back(std::make_shared<WindowInspector>());
+	
 	
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
@@ -58,6 +62,7 @@ bool ModuleEditor::Start()
 {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
+
 
 	return true;
 }
@@ -89,39 +94,37 @@ update_status ModuleEditor::Update()
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dock_space_id = ImGui::GetID("DockSpace");
-	/*ImGuiID dock_spaceLeft_id = ImGui::GetID("DockSpaceLeft");
-	ImGuiID dock_spaceRight_id = ImGui::GetID("DockSpaceRight");
-	ImGuiID dock_spaceDown_id = ImGui::GetID("DockSpaceDown");*/
 
+	
+	
 		
 	if (!ImGui::DockBuilderGetNode(dock_space_id))
 	{
+	
+
+		//ImGui::DockBuilderRemoveNode(dock_space_id);
+		
 		ImGui::DockBuilderAddNode(dock_space_id);
-		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->WorkSize);
+		
+		//ImGui::DockBuilderSetNodeSize(dock_space_id, ImVec2(200, 200));
+		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->Size);
 
-
-		/*ImGui::DockBuilderAddNode(dock_spaceLeft_id);
-		ImGui::DockBuilderSetNodeSize(dock_spaceLeft_id, viewport->WorkSize);
-
-		ImGui::DockBuilderAddNode(dock_spaceRight_id);
-		ImGui::DockBuilderSetNodeSize(dock_spaceRight_id, viewport->WorkSize);
-
-		ImGui::DockBuilderAddNode(dock_spaceDown_id);
-		ImGui::DockBuilderSetNodeSize(dock_spaceDown_id, viewport->WorkSize);*/
+	
 
 		dock_main_id = dock_space_id;
-		/*dock_left_id = ImGui::DockBuilderSplitNode(dock_spaceLeft_id, ImGuiDir_Down, 0.25f, nullptr, &dock_spaceLeft_id);
-		dock_right_id = ImGui::DockBuilderSplitNode(dock_spaceRight_id, ImGuiDir_Right, 0.33f, nullptr, &dock_spaceRight_id);
-		dock_down_id = ImGui::DockBuilderSplitNode(dock_spaceDown_id, ImGuiDir_Down, 0.3f, nullptr, &dock_spaceDown_id);*/
-
-		dock_main_id = dock_space_id;
-		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.25f, nullptr, &dock_main_id);
-		dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.33f, nullptr, &dock_main_id);
-		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
+		dock_left_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.5f, nullptr, &dock_main_id);
+		dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.5f, nullptr, &dock_main_id);
+		dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.5f, nullptr, &dock_main_id);
+		dock_center_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.5f, nullptr, &dock_main_id);
 	}
 
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
+	/*ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);*/
+
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+
+	
 
 	ImGuiWindowFlags dockSpaceWindowFlags = 0;
 	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | 
@@ -132,14 +135,8 @@ update_status ModuleEditor::Update()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
-	/*ImGui::Begin("DockSpaceLeft", nullptr, dockSpaceWindowFlags);
-	ImGui::Begin("DockSpaceRight", nullptr, dockSpaceWindowFlags);
-	ImGui::Begin("DockSpaceDown", nullptr, dockSpaceWindowFlags);*/
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dock_space_id);
-	/*ImGui::DockSpace(dock_spaceLeft_id);
-	ImGui::DockSpace(dock_spaceRight_id);
-	ImGui::DockSpace(dock_spaceDown_id);*/
 	ImGui::End();
 
 	mainMenu->Draw();

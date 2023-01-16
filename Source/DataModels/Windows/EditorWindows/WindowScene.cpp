@@ -9,7 +9,7 @@
 
 WindowScene::WindowScene() : EditorWindow("Scene")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs;
+	//flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs;
 }
 
 WindowScene::~WindowScene()
@@ -19,7 +19,13 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
-	ImGui::SetNextWindowDockID(App->editor->dock_main_id, ImGuiCond_FirstUseEver);
+	if (!firstDeployed)
+	{
+		ImGui::DockBuilderDockWindow("Scene", App->editor->dock_center_id);
+		//ImGui::SetNextWindowDockID(App->editor->dock_main_id, ImGuiCond_FirstUseEver);
+		firstDeployed = true;
+	}
+
 	ImGui::Image((void*)App->renderer->GetRenderedTexture(), 
 	ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }

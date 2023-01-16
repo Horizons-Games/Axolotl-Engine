@@ -4,7 +4,7 @@
 
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	//flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowConsole::~WindowConsole()
@@ -13,7 +13,13 @@ WindowConsole::~WindowConsole()
 
 void WindowConsole::DrawWindowContents()
 {
-	ImGui::SetNextWindowDockID(App->editor->dock_down_id, ImGuiCond_FirstUseEver);
+	if (!firstDeployed)
+	{
+		ImGui::DockBuilderDockWindow("Console", App->editor->dock_down_id);
+		//ImGui::SetNextWindowDockID(App->editor->dock_down_id, ImGuiCond_FirstUseEver);
+		firstDeployed = true;
+	}
+
 	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
 
 	std::string logInfo = "";

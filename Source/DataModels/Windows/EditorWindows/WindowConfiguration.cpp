@@ -11,7 +11,7 @@
 
 WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	//flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
 	collapsingSubWindows.push_back(std::make_unique<WindowFPS>());
 	collapsingSubWindows.push_back(std::make_unique<WindowRenderer>());
@@ -28,8 +28,16 @@ WindowConfiguration::~WindowConfiguration()
 
 void WindowConfiguration::DrawWindowContents()
 {
-	ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
+	if (!firstDeployed) 
+	{
+		ImGui::DockBuilderDockWindow("Config", App->editor->dock_left_id);
+		//ImGui::SetNextWindowDockID(App->editor->dock_left_id, ImGuiCond_FirstUseEver);
+		firstDeployed = true;
+	}
+
 	
 	for (int i = 0; i < collapsingSubWindows.size(); ++i)
 		collapsingSubWindows[i]->Draw();
+
+	
 }

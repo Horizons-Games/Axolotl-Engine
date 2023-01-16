@@ -14,6 +14,7 @@ protected:
 	void DrawWindowContents() override;
 
 	ImVec2 GetStartingSize() const override;
+	bool firstDeployed = false;
 
 private:
 	void ManageResize();

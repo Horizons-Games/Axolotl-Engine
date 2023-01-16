@@ -13,7 +13,7 @@
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	//flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowInspector::~WindowInspector()
@@ -22,8 +22,13 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	ImGui::SetNextWindowDockID(App->editor->dock_right_id, ImGuiCond_FirstUseEver);
-	
+	if (!firstDeployed)
+	{
+		ImGui::DockBuilderDockWindow("Inspector", App->editor->dock_right_id);
+		//ImGui::SetNextWindowDockID(App->editor->dock_right_id, ImGuiCond_FirstUseEver);
+		firstDeployed = true;
+	}
+
 	model = App->renderer->GetModel(0);
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 	if (App->renderer->AnyModelLoaded() && model.lock()) //checks the model exists

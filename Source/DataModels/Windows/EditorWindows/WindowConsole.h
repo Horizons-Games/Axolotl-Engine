@@ -12,6 +12,7 @@ protected:
 	void DrawWindowContents() override;
 
 	ImVec2 GetStartingSize() const override;
+	bool firstDeployed = false;
 
 private:
 	std::vector<std::string> consoleContents;
