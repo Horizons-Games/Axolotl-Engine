@@ -335,7 +335,7 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-std::list<GameObject*> GameObject::GetGameObjectsInside()
+const std::list<GameObject*>& GameObject::GetGameObjectsInside()
 {
 	std::list<GameObject*> insideGameObjects;
 	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
