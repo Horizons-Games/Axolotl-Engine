@@ -8,8 +8,8 @@
 #include <thread>
 
 #include "FileSystem/UniqueID.h"
+#include "DataModels/Resources/Resource.h"
 
-class Resource;
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
@@ -31,6 +31,8 @@ public:
 	UID ImportResource(const std::string& originalPath);
 
 	const std::weak_ptr<Resource>& RequestResource(UID uid);
+	template<class R>
+	const std::weak_ptr<R>& RequestResource(UID uid);
 
 private:
 	void CreateAssetAndLibFolders();
@@ -85,11 +87,17 @@ inline bool ModuleResources::CleanUp()
 
 inline const std::weak_ptr<Resource>& ModuleResources::RequestResource(UID uid)
 {
+	return RequestResource<Resource>(uid);
+}
+
+template<class R>
+inline const std::weak_ptr<R>& ModuleResources::RequestResource(UID uid)
+{
 	auto it = resources.find(uid);
 	if (it != resources.end())
 	{
-		return it->second;
+		return std::dynamic_pointer_cast<R>(it->second);
 	}
 	//empty weak_ptr
-	return std::weak_ptr<Resource>();
+	return std::weak_ptr<R>();
 }
