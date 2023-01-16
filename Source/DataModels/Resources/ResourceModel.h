@@ -17,8 +17,6 @@ public:
 
 	ResourceType GetType() const override;
 
-	void Load() override {};
-	void Unload() override {};
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -33,6 +31,10 @@ public:
 	void SetNumMaterials(const unsigned int numMaterials);
 	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
 	void SetMaterialsUIDs(const std::vector<UID>& materialsUIDs);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	unsigned int numMeshes;
