@@ -1,4 +1,11 @@
 #pragma once
+
+#include "FileSystem/UniqueID.h"
+
+#include <memory>
+
+class ResourceSkyBox;
+
 class Skybox
 {
 
@@ -7,9 +14,8 @@ public:
 	void Draw();
 
 private:
-	unsigned vbo;
-	unsigned vao;
-	unsigned texture;
+	std::weak_ptr<ResourceSkyBox> skyboxRes;
 
+	UID skyboxUID = 0ULL;
 };
 
