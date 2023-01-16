@@ -131,7 +131,7 @@ void ComponentTransform::Display()
 
 void ComponentTransform::SaveOptions(Json& meta)
 {
-	meta["type"] = (int) meta["type"];
+	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool) active;
 	meta["owner"] = (GameObject*) owner;
 	meta["removed"] = (bool) canBeRemoved;
@@ -151,7 +151,7 @@ void ComponentTransform::SaveOptions(Json& meta)
 
 void ComponentTransform::LoadOptions(Json& meta)
 {
-	type = (ComponentType)(int) meta["type"];
+	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
