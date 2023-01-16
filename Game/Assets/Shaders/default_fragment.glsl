@@ -90,12 +90,13 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
-
     float dotNL = max(dot(N,L), 0.0);
-    
-    vec3 R = reflect(L, N);
 
     vec3 fresnel  = fresnelSchlick(dotNL, f0);
+    
+    vec3 Li = directionalColor.rgb * directionalColor.a;
+
+    vec3 R = reflect(L, N);
 
     float dotVR = max(dot(V,R), 0.0001);
     float spec = pow(dotVR,shininess);
@@ -105,15 +106,52 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
     vec3 kD = vec3(1.0) - specular;
     vec3 diffuse = kD * texDiffuse;
 
-    vec3 Li = directionalColor.rgb * directionalColor.a;
     vec3 Lo = (diffuse + specular) * Li * dotNL;
+
+    return Lo;
+}
+
+vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_point; ++i)
+    {
+        vec3 pos = points[i].position.xyz;
+        vec3 color = points[i].color.rgb;
+        float radius = points[i].position.w;
+        float intensity = points[i].color.a;
+        
+        vec3 L = normalize(FragPos - pos);
+        float dotNL = max(dot(N,-L), 0.0);
+
+        vec3 fresnel  = fresnelSchlick(dotNL, f0);
+
+        // Attenuation
+        float distance = length(FragPos - pos);
+        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+    
+        vec3 Li = color * intensity * attenuation;
+
+        vec3 R = reflect(L, N);
+
+        float dotVR = max(dot(V,R), 0.0001);
+        float spec = pow(dotVR,shininess);
+
+        vec3 numerator = (shininess + 2) * fresnel * spec;
+        vec3 specular = numerator / 2;
+        vec3 kD = vec3(1.0) - specular;
+        vec3 diffuse = kD * texDiffuse;
+
+        Lo += (diffuse + specular) * Li * dotNL;
+    }
 
     return Lo;
 }
   
 void main()
 {
-	
 	vec3 norm = normalize(Normal);
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -174,6 +212,11 @@ void main()
     vec3 ambient = ambientValue * textureMat;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
+
+    if (num_point > 0)
+    {
+        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat);
+    }
 
     vec3 color = ambient + Lo;
     

@@ -26,9 +26,16 @@ void ComponentTransform::Update()
 	if (comp != nullptr)
 	{
 		ComponentLight* lightComp = (ComponentLight*)comp;
-		if (lightComp->GetLightType() == LightType::DIRECTIONAL)
+		switch (lightComp->GetLightType())
 		{
+		case LightType::DIRECTIONAL:
 			App->scene->GetLoadedScene()->RenderDirectionalLight();
+			break;
+
+		case LightType::POINT:
+			App->scene->GetLoadedScene()->UpdateScenePointLights();
+			App->scene->GetLoadedScene()->RenderPointLights();
+			break;
 		}
 	}
 }
