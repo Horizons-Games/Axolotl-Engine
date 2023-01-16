@@ -270,8 +270,8 @@ void ModuleEngineCamera::Focus(GameObject* gameObject)
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), outputArray.size());
 	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
 
+	if (minSphere.r == 0) minSphere.r = 1.f;
 	float3 point = minSphere.Centroid();
-
 	position = point - frustum.Front().Normalized() * minSphere.Diameter();
 
 	SetLookAt(point);
