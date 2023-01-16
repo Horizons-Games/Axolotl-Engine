@@ -340,7 +340,7 @@ void Scene::UpdateSceneLights()
 		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		if (!components.empty())
 		{
-			if (components[0]->GetType() == LightType::POINT)
+			if (components[0]->GetLightType() == LightType::POINT)
 			{
 				ComponentPointLight* pointLightComp = (ComponentPointLight*)components[0];
 				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
@@ -353,7 +353,7 @@ void Scene::UpdateSceneLights()
 				pointLights.push_back(pl);
 			}
 
-			else if (components[0]->GetType() == LightType::SPOT)
+			else if (components[0]->GetLightType() == LightType::SPOT)
 			{
 				ComponentSpotLight* spotLightComp = (ComponentSpotLight*)components[0];
 				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
