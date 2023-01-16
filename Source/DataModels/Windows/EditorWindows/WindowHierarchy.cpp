@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "Scene.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/Component.h"
@@ -27,9 +28,9 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    if (App->scene->GetRoot() != nullptr)
+    if (App->scene->GetLoadedScene()->GetRoot() != nullptr)
     {
-        DrawRecursiveHierarchy(App->scene->GetRoot());
+        DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot());
     }
 }
 
@@ -47,7 +48,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Leaf;
     }
 
-    if (gameObject == App->scene->GetRoot())
+    if (gameObject == App->scene->GetLoadedScene()->GetRoot())
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
@@ -63,23 +64,24 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (ImGui::IsItemClicked())
     {
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-
         if (ImGui::MenuItem("Create child"))
         {
-            App->scene->CreateGameObject("Empty GameObject", gameObject);
+            App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
         if (ImGui::MenuItem("Create camera"))
         {
-            GameObject* newCamera = App->scene->CreateCameraGameObject("Basic Camera", gameObject);
+            GameObject* newCamera = App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
-        if (gameObject != App->scene->GetRoot()) // The root can't be neither deleted nor moved up/down
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
             std::vector<GameObject*> parentsChildren = gameObject->GetParent()->GetChildren();
 
@@ -92,6 +94,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                         if (parentsChildren[i] == gameObject)
                         {
                             std::iter_swap(parentsChildren[i - 1], parentsChildren[i]);
+                            App->scene->SetSelectedGameObject(parentsChildren[i - 1]);
+                            break;
                         }
                     }
                 }
@@ -106,6 +110,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                         if (parentsChildren[i] == gameObject)
                         {
                             std::iter_swap(parentsChildren[i], parentsChildren[i + 1]);
+                            App->scene->SetSelectedGameObject(parentsChildren[i + 1]);
+                            break;
                         }
                     }
                 }
@@ -117,9 +123,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-
-                App->scene->DestroyGameObject(gameObject);
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }
 
@@ -127,7 +134,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     ImGui::PopID();
 
-    if (gameObject != App->scene->GetRoot()) // The root cannot be moved around
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
     {
         if (ImGui::BeginDragDropSource())
         {
@@ -144,7 +151,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
                                                             // of the UID of the dragged GameObject
-            GameObject* draggedGameObject = App->scene->SearchGameObjectByID(draggedGameObjectID);
+            GameObject* draggedGameObject = App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
             draggedGameObject->SetParent(gameObject);
         }

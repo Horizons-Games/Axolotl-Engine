@@ -27,16 +27,20 @@ public:
 	const std::string& GetAssetsPath() const;
 	const std::string& GetLibraryPath() const;
 
-	virtual void Load() = 0;
-	virtual void Unload() = 0;
+	void Load();
+	void Unload();
 	virtual void SaveOptions(Json& meta) = 0;
 	virtual void LoadOptions(Json& meta) = 0;
 
 protected:
 	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 
+	virtual void InternalLoad() = 0;
+	virtual void InternalUnload() = 0;
+
 private:
 	UID uid;
+	bool loaded = false;
 	const std::string fileName;
 	const std::string assetsPath;
 	const std::string libraryPath;
@@ -68,4 +72,22 @@ inline const std::string& Resource::GetAssetsPath() const
 inline const std::string& Resource::GetLibraryPath() const
 {
 	return libraryPath;
+}
+
+inline void Resource::Load()
+{
+	if (!loaded)
+	{
+		this->InternalLoad();
+		loaded = true;
+	}
+}
+
+inline void Resource::Unload()
+{
+	if (loaded)
+	{
+		this->InternalUnload();
+		loaded = false;
+	}
 }

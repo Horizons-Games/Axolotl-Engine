@@ -2,45 +2,41 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_SPOTLIGHT "SpotLight"
+
+class Json;
+
 class ComponentSpotLight : public ComponentLight
 {
 public:
 	ComponentSpotLight();
-	ComponentSpotLight(const float3 &position, const float3& aim, float radius, 
-					   float innerAngle, float outerAntgle, const float3& color, float intensity);
+	ComponentSpotLight(GameObject* parent);
+	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
+					   const float3& color, float intensity);
+	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
+					   const float3& color, float intensity, GameObject* parent);
+
 	~ComponentSpotLight() {};
 
 	void Draw() override;
+	void Display() override;
 
-	const float3& GetPosition() const;
-	const float3& GetAim() const;
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 	float GetRadius() const;
 	float GetInnerAngle() const;
 	float GetOuterAngle() const;
 
-	void SetPosition(const float3& position);
-	void SetAim(const float3& aim);
 	void SetRadius(float radius);
-	void SetInnerAngle(int angle);
-	void SetOuterAngle(int angle);
+	void SetInnerAngle(float angle);
+	void SetOuterAngle(float angle);
 
 private:
-	float3 position = float3(0.0f, 0.0f, 0.0f);
-	float3 aim = float3(0.0f, 0.0f, 0.0f);
 	float radius = 1.0f;
 	float innerAngle = 2.0f;
 	float outerAngle = 2.5f;
 };
-
-inline const float3& ComponentSpotLight::GetPosition() const
-{
-	return position;
-}
-
-inline const float3& ComponentSpotLight::GetAim() const
-{
-	return aim;
-}
 
 inline float ComponentSpotLight::GetRadius() const
 {
@@ -57,27 +53,17 @@ inline float ComponentSpotLight::GetOuterAngle() const
 	return outerAngle;
 }
 
-inline void ComponentSpotLight::SetPosition(const float3& position)
-{
-	this->position = position;
-}
-
-inline void ComponentSpotLight::SetAim(const float3& aim)
-{
-	this->aim = aim;
-}
-
 inline void ComponentSpotLight::SetRadius(float radius)
 {
 	this->radius = radius;
 }
 
-inline void ComponentSpotLight::SetInnerAngle(int angle)
+inline void ComponentSpotLight::SetInnerAngle(float angle)
 {
 	innerAngle = angle;
 }
 
-inline void ComponentSpotLight::SetOuterAngle(int angle)
+inline void ComponentSpotLight::SetOuterAngle(float angle)
 {
 	outerAngle = angle;
 }

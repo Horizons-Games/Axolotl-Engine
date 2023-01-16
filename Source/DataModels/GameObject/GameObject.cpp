@@ -3,14 +3,19 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
+#include "../Components/ComponentAmbient.h"
+#include "../Components/ComponentPointLight.h"
+#include "../Components/ComponentDirLight.h"
+#include "../Components/ComponentSpotLight.h"
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/Json.h"
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name)
+GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
 	CreateComponent(ComponentType::TRANSFORM);
@@ -38,13 +43,46 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	for (Component* component : components)
-		component->Update();
+	{
+		if (component->GetActive())
+		{
+			component->Update();
+		}
+	}
 }
 
 void GameObject::Draw()
 {
-	//TODO: Draw the components what needs a draw
-	//for (Component* component : components) component->Draw();
+	for (Component* component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
+}
+
+void GameObject::SaveOptions(Json& meta)
+{
+	meta["enabled"] = (bool) enabled;
+	meta["active"] = (bool) active;
+	meta["name"] = (const char*) name.c_str();
+
+	//meta["components"] = (std::vector<Component*>) components;
+	meta["parent"] = (GameObject*)parent;
+	//meta["children"] = (std::vector<GameObject*>) children;
+}
+
+void GameObject::LoadOptions(Json& meta)
+{
+	uid = UniqueID::GenerateUID();
+	enabled = (bool) meta["enabled"];
+	active = (bool) meta["active"];
+	//name = (const char*) meta["name"];
+
+	components = (std::vector<Component*>) meta["components"];
+	//parent = (GameObject*) meta["parent"];
+	children = (std::vector<GameObject*>) meta["children"];
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -170,18 +208,26 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 		case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
+			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
+		
+		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}*/
+		}
+		
+
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
+			break;
+		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
 			break;
 		}
 		case ComponentType::BOUNDINGBOX:
@@ -191,13 +237,56 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
 	if (newComponent != nullptr)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+Component* GameObject::CreateComponentLight(LightType lightType)
+{
+	Component* newComponent = nullptr;
+
+	switch (lightType)
+	{
+	case LightType::AMBIENT:
+		newComponent = new ComponentAmbient(float3(0.05f), this);
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = new ComponentDirLight(float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::POINT:
+		newComponent = new ComponentPointLight(0.5f, float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::SPOT:
+		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, this);
+		break;
+	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return newComponent;
+}
+
+bool GameObject::RemoveComponent(Component* component)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if (*it == component)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Component* GameObject::GetComponent(ComponentType type)

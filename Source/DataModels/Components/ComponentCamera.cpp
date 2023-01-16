@@ -9,12 +9,13 @@
 
 #include "ComponentTransform.h"
 #include "GameObject/GameObject.h"
+#include "FileSystem/Json.h"
 
 #include "imgui.h"
 
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner)
+	: Component(ComponentType::CAMERA, active, owner, false)
 {
 	frustumOffset = 1;
 	drawFrustum = true;
@@ -45,15 +46,14 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	frustum.SetPos(trans->GetPosition());
+	frustum.SetPos((float3)trans->GetGlobalPosition());
 
-	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
 
 	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
-	Draw();
 }
 
 void ComponentCamera::Draw()
@@ -82,6 +82,32 @@ void ComponentCamera::Display()
 		ImGui::EndTable();
 		ImGui::Separator();
 	}
+}
+
+void ComponentCamera::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = (bool)active;
+	meta["owner"] = (GameObject*)owner;
+	meta["removed"] = (bool)canBeRemoved;
+
+	meta["frustumOfset"] = (float)frustumOffset;
+	meta["drawFrustum"] = (bool)drawFrustum;
+	meta["frustumMode"] = (int)frustumMode;
+}
+
+void ComponentCamera::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	//owner = (GameObject*) meta["owner"];
+	canBeRemoved = (bool)meta["removed"];
+
+	frustumOffset = (float)meta["frustumOfset"];
+	drawFrustum = (bool)meta["drawFrustum"];
+	frustumMode = (int)meta["frustumMode"];
 }
 
 void ComponentCamera::UpdateFrustumOffset()

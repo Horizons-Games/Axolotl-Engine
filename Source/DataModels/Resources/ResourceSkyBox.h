@@ -15,8 +15,6 @@ public:
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -25,6 +23,10 @@ public:
 	std::shared_ptr<OptionsSkyBox>& GetOptions();
 
 	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	unsigned int glTexture = 0;

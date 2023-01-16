@@ -19,8 +19,6 @@ public:
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -49,6 +47,10 @@ public:
 	void SetNormals(const std::vector<float3>& normals);
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	void CreateVBO();
