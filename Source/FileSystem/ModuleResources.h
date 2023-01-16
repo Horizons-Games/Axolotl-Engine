@@ -55,6 +55,7 @@ private:
 												   const std::string& assetsPath,
 												   const std::string& libraryPath,
 												   ResourceType type);
+	void DeleteResource(UID uidToDelete);
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath,
 								  std::shared_ptr<Resource>& resource,
