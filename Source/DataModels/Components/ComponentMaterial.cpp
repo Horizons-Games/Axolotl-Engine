@@ -74,23 +74,76 @@ void ComponentMaterial::Display()
 void ComponentMaterial::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	//meta["type"] = (ComponentType) type;
+	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+	UID uidMaterial = 0;
+
+	if (materialAsShared)
+	{
+		uidMaterial = materialAsShared->GetUID();
+	}
+	meta["materialUID"] = (UID)uidMaterial;
+
+	SaveUIDOfResourceToMeta(meta, "textureDiffuseUID", textureDiffuse.lock());
+	SaveUIDOfResourceToMeta(meta, "textureNormalUID", textureNormal.lock());
+	SaveUIDOfResourceToMeta(meta, "textureOcclusionUID", textureOcclusion.lock());
+	SaveUIDOfResourceToMeta(meta, "textureSpecularUID", textureSpecular.lock());
+
+	meta["diffuseColor_X"] = (float)diffuseColor.x;
+	meta["diffuseColor_Y"] = (float)diffuseColor.y;
+	meta["diffuseColor_Z"] = (float)diffuseColor.z;
+
+	meta["specularColor_X"] = (float)specularColor.x;
+	meta["specularColor_Y"] = (float)specularColor.y;
+	meta["specularColor_Z"] = (float)specularColor.z;
+
+	meta["shininess"] = (float)shininess;
+	meta["normalStrenght"] = (float)normalStrength;
+
+	meta["hasShininessAlpha"] = (bool)hasShininessAlpha;
+}
+
+void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr)
+{
+	std::shared_ptr<ResourceTexture> textureAsShared = texturePtr.lock();
+	UID uidTexture = 0;
+
+	if (textureAsShared)
+	{
+		uidTexture = textureAsShared->GetUID();
+	}
+	meta[field] = (UID)uidTexture;
 
 }
 
 void ComponentMaterial::LoadOptions(Json& meta)
 {
 	// Do not delete these
-	//type = (ComponentType) meta["type"];
+	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
+	UID uidMaterial = meta["materialUID"];
 
+	SetMaterial(std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(uidMaterial).lock()));
+
+	diffuseColor.x = (float)meta["diffuseColor_X"];
+	diffuseColor.y = (float)meta["diffuseColor_Y"];
+	diffuseColor.z = (float)meta["diffuseColor_Z"];
+
+	specularColor.x = (float)meta["specularColor_X"];
+	specularColor.y = (float)meta["specularColor_Y"];
+	specularColor.z = (float)meta["specularColor_Z"];
+
+	shininess = (float)meta["shininess"];
+	normalStrength = (float)meta["normalStrenght"];
+
+	hasShininessAlpha = (bool)meta["hasShininessAlpha"];
 }
 
 void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)
@@ -119,6 +172,9 @@ void ComponentMaterial::SetSpecularUID(UID& specularUID)
 
 void ComponentMaterial::LoadTexture()
 {
+	//TODO User can change the Texture UID on the JSON
+	//This destroys the changes of the user
+
 	std::shared_ptr<ResourceTexture> texture;
 	//Load Diffuse
 	textureDiffuse = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(diffuseUID).lock());
@@ -126,7 +182,6 @@ void ComponentMaterial::LoadTexture()
 	if (texture)
 	{
 		texture->Load();
-		hasDiffuse = true;
 	}
 	//Load Normal
 	textureNormal = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(normalUID).lock());
@@ -134,7 +189,6 @@ void ComponentMaterial::LoadTexture()
 	if (texture)
 	{
 		texture->Load();
-		hasNormal = true;
 	}
 	//Load Occlusion
 	textureOcclusion = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(occlusionUID).lock());
@@ -142,7 +196,6 @@ void ComponentMaterial::LoadTexture()
 	if (texture)
 	{
 		texture->Load();
-		hasOcclusion = true;
 	}
 	//Load Specular
 	textureSpecular = std::static_pointer_cast<ResourceTexture>(App->resources->RequestResource(specularUID).lock());
@@ -150,12 +203,14 @@ void ComponentMaterial::LoadTexture()
 	if (texture)
 	{
 		texture->Load();
-		hasSpecular = true;
 	}
 }
 
 void ComponentMaterial::LoadTexture(TextureType textureType)
 {
+	//TODO User can change the Texture UID on the JSON
+	//This destroys the changes of the user
+
 	std::shared_ptr<ResourceTexture> texture;
 	switch (textureType)
 	{
@@ -165,7 +220,6 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		if (texture)
 		{
 			texture->Load();
-			hasDiffuse = true;
 		}
 		break;
 	case TextureType::NORMAL:
@@ -174,7 +228,6 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		if (texture)
 		{
 			texture->Load();
-			hasNormal = true;
 		}
 		break;
 	case TextureType::OCCLUSION:
@@ -183,7 +236,6 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		if (texture)
 		{
 			texture->Load();
-			hasOcclusion = true;
 		}
 		break;
 	case TextureType::SPECULAR:
@@ -192,7 +244,6 @@ void ComponentMaterial::LoadTexture(TextureType textureType)
 		if (texture)
 		{
 			texture->Load();
-			hasSpecular = true;
 		}
 		break;
 	}
