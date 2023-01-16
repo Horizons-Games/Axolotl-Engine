@@ -45,11 +45,6 @@ void ComponentAmbient::Display()
 				App->scene->GetLoadedScene()->RenderLights();
 			}
 
-			static float3 color = GetColor();
-			ImGui::Text("Color"); ImGui::SameLine();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-				SetColor(color);
-
 			ImGui::EndTable();
 		}
 	}

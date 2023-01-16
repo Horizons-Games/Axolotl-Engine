@@ -49,7 +49,7 @@ void ComponentPointLight::Display()
 {
 	const char* lightTypes[] = { "Point", "Spot" };
 
-  const char* currentType = "Point";
+	const char* currentType = "Point";
 
 	bool modified = false;
 
@@ -67,6 +67,7 @@ void ComponentPointLight::Display()
 				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
 				{
 					bool isSelected = (currentType == lightTypes[i]);
+
 					if (ImGui::Selectable(lightTypes[i], isSelected))
 					{
 						if (lightTypes[i] == "Spot")
@@ -89,33 +90,9 @@ void ComponentPointLight::Display()
 						//Shows list of lights
 						ImGui::SetItemDefaultFocus();
 					}
-					ImGui::EndCombo();
 				}
 
-				float intensity = GetIntensity();
-				ImGui::Text("Intensity"); ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-				ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-					0.0f, 1.0f
-				); ImGui::PopStyleVar();
-				SetIntensity(intensity);
-
-				static float3 color = GetColor();
-				ImGui::Text("Color"); ImGui::SameLine();
-				if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-					SetColor(color);
-
-				float radius = GetRadius();
-				ImGui::Text("Radius"); ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-				ImGui::DragFloat("##Radius", &radius, 0.01f,
-					0.0001f, std::numeric_limits<float>::max()
-				); ImGui::PopStyleVar();
-				SetRadius(radius);
-
-				ImGui::EndTable();
+				ImGui::EndCombo();
 			}
 
 			ImGui::Text("Intensity"); ImGui::SameLine();
@@ -140,14 +117,15 @@ void ComponentPointLight::Display()
 			{
 				modified = true;
 			}
+
 			ImGui::PopStyleVar();
-			ImGui::EndTable();
-			ImGui::Separator();
 
 			if (modified)
 			{
 				App->scene->GetLoadedScene()->RenderLights();
 			}
+
+			ImGui::EndTable();
 		}
 	}
 

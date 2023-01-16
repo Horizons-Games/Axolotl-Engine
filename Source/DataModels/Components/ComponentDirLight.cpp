@@ -42,9 +42,7 @@ void ComponentDirLight::Display()
 
 		if (ImGui::BeginTable("DirLightTable", 2))
 		{
-			if (ImGui::BeginTable("DirLightTable", 2))
-			{
-				ImGui::TableNextColumn();
+			ImGui::TableNextColumn();
 
 			ImGui::Text("Intensity"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
@@ -66,10 +64,10 @@ void ComponentDirLight::Display()
 				App->scene->GetLoadedScene()->RenderLights();
 			}
 
-				ImGui::EndTable();
-				ImGui::Separator();
-			}
+			ImGui::EndTable();
 		}
+
+		ImGui::Separator();
 	}
 }
 
