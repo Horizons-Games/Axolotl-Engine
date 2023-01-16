@@ -4,48 +4,50 @@
 
 #include "imgui.h"
 
-ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT)
+ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(GameObject* parent) : ComponentLight(LightType::AMBIENT, parent)
+ComponentAmbient::ComponentAmbient(GameObject* parent) : ComponentLight(LightType::AMBIENT, parent, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightType::AMBIENT, color, 1.0f)
+ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightType::AMBIENT, color, 1.0f, false)
 {
 }
 
 ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) : 
-	ComponentLight(LightType::AMBIENT, color, 1.0f, parent)
+	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
 {
 }
 
 void ComponentAmbient::Display()
 {
-	ImGui::Text("AMBIENT LIGHT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("AmbientLightTable", 2))
+	if (ImGui::CollapsingHeader("AMBIENT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::TableNextColumn();
-		
-		float intensity = GetIntensity();
-		ImGui::Text("Intensity"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-			0.0f, 1.0f
-		); ImGui::PopStyleVar();
-		SetIntensity(intensity);
+		if (ImGui::BeginTable("AmbientLightTable", 2))
+		{
+			ImGui::TableNextColumn();
 
-		static float3 color = GetColor();
-		ImGui::Text("Color"); ImGui::SameLine();
-		if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-			SetColor(color);
+			float intensity = GetIntensity();
+			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##Intensity", &intensity, 0.01f,
+				0.0f, 1.0f
+			); ImGui::PopStyleVar();
+			SetIntensity(intensity);
 
-		ImGui::EndTable();
-		ImGui::Separator();
+			static float3 color = GetColor();
+			ImGui::Text("Color"); ImGui::SameLine();
+			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+				SetColor(color);
+
+			ImGui::EndTable();
+		}
 	}
+
+	ImGui::Separator();
 }
 
 void ComponentAmbient::SaveOptions(Json& meta)

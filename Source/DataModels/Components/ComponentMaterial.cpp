@@ -12,6 +12,7 @@
 #include "Resources/ResourceTexture.h"
 
 #include <GL/glew.h>
+#include "imgui.h"
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
@@ -83,6 +84,15 @@ void ComponentMaterial::Draw()
 
 void ComponentMaterial::Display()
 {
+	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::BeginTable("##MaterialTable", 2))
+		{
+			ImGui::EndTable();
+		}
+	}
+
+	ImGui::Separator();
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)

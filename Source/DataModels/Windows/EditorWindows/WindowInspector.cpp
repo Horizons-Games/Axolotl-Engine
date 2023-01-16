@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 #include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
@@ -123,9 +123,9 @@ void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* 
 bool WindowInspector::DrawDeleteComponentContent(int labelNum, Component* component)
 {
 	char* textRemove = new char[30];
-	sprintf(textRemove, "Remove #%d", labelNum);
+	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
 
-	if (ImGui::Button(textRemove, ImVec2(70, 20)))
+	if (ImGui::Button(textRemove, ImVec2(90, 20)))
 	{
 		if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
 		{

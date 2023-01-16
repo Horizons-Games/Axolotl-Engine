@@ -16,11 +16,11 @@ class ComponentLight : public Component
 {
 public:
 	ComponentLight(const bool active, GameObject* owner);
-	ComponentLight(LightType type);
-	ComponentLight(LightType type, GameObject* gameObject);
-	ComponentLight(LightType type, const float3& color, float intensity);
+	ComponentLight(LightType type, bool canBeRemoved);
+	ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved);
+	ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, 
-				   GameObject* gameObject);
+				   GameObject* gameObject, bool canBeRemoved);
 
 	~ComponentLight() {};
 

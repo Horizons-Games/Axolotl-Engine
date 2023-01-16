@@ -6,7 +6,7 @@
 #include "Modules/ModuleEngineCamera.h"
 #include "ModuleScene.h"
 #include "DataStructures/Quadtree.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 WindowFrustum::WindowFrustum() : SubWindow("Frustum")
 {

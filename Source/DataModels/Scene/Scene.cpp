@@ -34,10 +34,10 @@ Scene::Scene()
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
 
 	// ----------- Light ------------
-	ambientLight = CreateGameObject("AmbientLight", root);
+	ambientLight = CreateGameObject("Ambient_Light", root);
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
 
-	directionalLight = CreateGameObject("DirectionalLight", root);
+	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
 	GameObject* pointLight = CreateGameObject("PointLight", root);

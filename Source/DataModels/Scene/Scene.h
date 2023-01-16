@@ -49,6 +49,8 @@ public:
 	// ----------------------------
 
 	GameObject* GetRoot() const;
+	GameObject* GetAmbientLight() const;
+	GameObject* GetDirectionalLight() const;
 	Quadtree* GetSceneQuadTree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
@@ -92,6 +94,16 @@ inline UID Scene::GetUID() const
 inline GameObject* Scene::GetRoot() const
 {
 	return root;
+}
+
+inline GameObject* Scene::GetAmbientLight() const
+{
+	return ambientLight;
+}
+
+inline GameObject* Scene::GetDirectionalLight() const
+{
+	return directionalLight;
 }
 
 inline void Scene::SetRoot(GameObject* newRoot)

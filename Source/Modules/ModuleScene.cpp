@@ -4,7 +4,7 @@
 #include "DataStructures/Quadtree.h"
 
 #include "GameObject/GameObject.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 #include <assert.h>
 
@@ -37,38 +37,6 @@ update_status ModuleScene::Update()
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return UPDATE_CONTINUE;
-}
-
-void ModuleScene::Load()
-{
-	if (savedScenes.empty())
-		loadedScene = CreateEmptyScene();
-
-	else
-		loadedScene = savedScenes[0];
-
-	selectedGameObject = loadedScene->GetRoot();
-}
-
-void ModuleScene::Save()
-{
-	Scene* lastSavedScene = SearchSceneByID(loadedScene->GetUID()); // Check if the scene was already saved
-	if (lastSavedScene == nullptr)
-	{
-		savedScenes.push_back(loadedScene);
-	}
-
-	else
-	{
-		for (int i = 0; i < savedScenes.size(); ++i)
-		{
-			if (savedScenes[i]->GetUID() == lastSavedScene->GetUID())
-			{
-				savedScenes[i] = loadedScene;
-				break;
-			}
-		}
-	}
 }
 
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const

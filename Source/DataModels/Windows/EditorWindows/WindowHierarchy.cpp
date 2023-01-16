@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/Component.h"
@@ -116,7 +116,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                     }
                 }
             }
+        }
 
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+        {
             if (ImGui::MenuItem("Delete"))
             {
                 if (App->scene->GetSelectedGameObject() == gameObject)

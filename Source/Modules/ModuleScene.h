@@ -16,9 +16,6 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
-	void Load();
-	void Save();
-
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(Scene* newScene);
 	GameObject* GetSelectedGameObject() const;

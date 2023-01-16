@@ -5,7 +5,7 @@
 
 #include "ModuleTexture.h"
 #include "ModuleEngineCamera.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "ModuleScene.h"
 
 #include "Mesh.h"
