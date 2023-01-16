@@ -153,7 +153,7 @@ void main()
     vec3 Lo = (diffuse + specular) * light.color * NdotL;
     
     // ambient
-    vec3 ambient = vec3(0.01) * textureMat;
+    vec3 ambient = ambientValue * textureMat;
     vec3 color = ambient + Lo;
     
 	//hdr rendering
