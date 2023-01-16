@@ -217,6 +217,8 @@ void Scene::RemoveCamera(GameObject* cameraGameObject)
 void Scene::GenerateLights()
 {
 	const unsigned program = App->program->GetProgram();
+	
+	glUseProgram(program);
 
 	// Ambient
 
@@ -277,6 +279,10 @@ void Scene::GenerateLights()
 
 void Scene::RenderLights()
 {
+	const unsigned program = App->program->GetProgram();
+
+	glUseProgram(program);
+
 	// Ambient
 
 	ComponentLight* ambientComp = (ComponentLight*)ambientLight->GetComponent(ComponentType::LIGHT);
