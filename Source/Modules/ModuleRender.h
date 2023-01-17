@@ -54,8 +54,8 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-
-	std::vector<GameObject*> gameObjects; //This vector should convert to shared_ptr when Scene does
+	
+	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;

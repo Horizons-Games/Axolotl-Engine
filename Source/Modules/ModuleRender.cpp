@@ -179,7 +179,7 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	gameObjects.clear();
+	gameObjectsToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -306,14 +306,14 @@ void ModuleRender::FillRenderList(Quadtree* quadtree)
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				gameObjects.push_back(gameObject);
+				gameObjectsToDraw.push_back(gameObject);
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -335,7 +335,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
 	
 
 	if (!gameObject->GetChildren().empty())
