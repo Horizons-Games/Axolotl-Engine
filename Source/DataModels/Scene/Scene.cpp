@@ -64,6 +64,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
+	gameObject->InitNewEmptyGameObject();
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
@@ -379,7 +380,10 @@ void Scene::GenerateNewQuadtree()
 void Scene::InitNewEmptyScene()
 {
 	uid = UniqueID::GenerateUID();
+
 	root = new GameObject("New Scene");
+	root->InitNewEmptyGameObject();
+
 	sceneGameObjects.push_back(root);
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
