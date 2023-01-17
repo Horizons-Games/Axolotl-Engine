@@ -1,4 +1,5 @@
 #include "GameObject.h"
+
 #include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
@@ -12,7 +13,9 @@
 #include "../Components/ComponentSpotLight.h"
 
 #include "Application.h"
+
 #include "Modules/ModuleScene.h"
+
 #include "Scene/Scene.h"
 
 #include "FileSystem/Json.h"
@@ -278,7 +281,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
-
 		
 		case ComponentType::MATERIAL:
 		{
@@ -286,17 +288,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 		
-
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
 			break;
 		}
+
 		case ComponentType::LIGHT:
 		{
 			newComponent = new ComponentLight(true, this);
 			break;
 		}
+
 		case ComponentType::BOUNDINGBOX:
 		{
 			newComponent = new ComponentBoundingBoxes(true, this);
