@@ -19,7 +19,7 @@ enum class ResourceType
 class Resource
 {
 public:
-	virtual ~Resource();
+	virtual ~Resource() = default;
 
 	virtual ResourceType GetType() const = 0;
 	UID GetUID() const;
@@ -62,11 +62,6 @@ inline Resource::Resource(UID resourceUID, const std::string& fileName, const st
 	assetsPath(assetsPath),
 	libraryPath(libraryPath)
 {
-}
-
-inline Resource::~Resource()
-{
-	this->InternalUnload();
 }
 
 inline UID Resource::GetUID() const
