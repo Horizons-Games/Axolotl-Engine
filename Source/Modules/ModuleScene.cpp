@@ -24,15 +24,21 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
+	return true;
+}
+
+bool ModuleScene::Start()
+{
 #if !defined(GAME)
 	if (loadedScene == nullptr)
 	{
-		loadedScene = CreateEmptyScene();
+		//loadedScene = CreateEmptyScene();
+		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
 	}
 #else
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/alaprimera.axolotl");
+		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
