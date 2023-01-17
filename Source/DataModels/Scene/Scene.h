@@ -69,6 +69,8 @@ public:
 	void GenerateNewQuadtree();
 	void InitNewEmptyScene();
 
+	void InitLights();
+
 private:
 	void RemoveCamera(GameObject* cameraGameObject);
 
