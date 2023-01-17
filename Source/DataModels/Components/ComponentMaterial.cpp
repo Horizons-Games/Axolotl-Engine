@@ -169,7 +169,7 @@ void ComponentMaterial::Display()
 	char* removeButtonLabel = new char[30];
 
 	ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
-	ImGui::SliderFloat("Shininess", &shininess, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderFloat("Shininess", &shininess, 0.1f, 1024.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::Separator();
 
 	ImGui::Text("Diffuse Texture");
