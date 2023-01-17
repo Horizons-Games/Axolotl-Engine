@@ -201,7 +201,7 @@ void ComponentSpotLight::LoadOptions(Json& meta)
 
 	intensity = (float)meta["intensity"];
 
-	lightType = GetLightTypeByName(meta["type"]);
+	lightType = GetLightTypeByName(meta["lightType"]);
 
 	radius = (float)meta["radius"];
 	innerAngle = (float)meta["innerAngle"];

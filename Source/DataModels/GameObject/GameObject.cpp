@@ -102,8 +102,10 @@ void GameObject::SaveOptions(Json& meta)
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
 {
+	loadedObjects.push_back(this);
+
 	uid = UniqueID::GenerateUID();
 	name = meta["name"];
 	enabled = (bool) meta["enabled"];
@@ -154,7 +156,7 @@ void GameObject::LoadOptions(Json& meta)
 			std::string name = jsonGameObject["name"];
 
 			GameObject* gameObject = new GameObject(name.c_str(), this);
-			gameObject->LoadOptions(jsonGameObject);
+			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}
 }

@@ -135,5 +135,5 @@ void ComponentDirLight::LoadOptions(Json& meta)
 
 	intensity = (float)meta["intensity"];
 
-	lightType = GetLightTypeByName(meta["type"]);
+	lightType = GetLightTypeByName(meta["lightType"]);
 }

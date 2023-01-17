@@ -11,6 +11,8 @@
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Components/Component.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 
 ModuleScene::ModuleScene()
 {
@@ -126,9 +128,56 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 	Scene* sceneToLoad = new Scene();
 	GameObject* newRoot = new GameObject(fileName.c_str());
-	newRoot->LoadOptions(Json);
+	std::vector<GameObject*> loadedObjects{};
+	newRoot->LoadOptions(Json, loadedObjects);
+
+	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
+	std::vector<GameObject*> loadedCameras{};
+	GameObject* ambientLight = nullptr;
+	GameObject* directionalLight = nullptr;
+
+	for (GameObject* obj : loadedObjects)
+	{
+		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
+		if (!camerasOfObj.empty())
+		{
+			loadedCameras.push_back(obj);
+		}
+
+		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		for (ComponentLight* light : lightsOfObj)
+		{
+			if (light->GetLightType() == LightType::AMBIENT)
+			{
+				ambientLight = obj;
+			}
+			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			{
+				directionalLight = obj;
+			}
+		}
+		//Quadtree treatment
+		if (!sceneQuadtree->InQuadrant(obj))
+		{
+			if (!sceneQuadtree->IsFreezed())
+			{
+				sceneQuadtree->ExpandToFit(obj);
+				sceneToLoad->FillQuadtree(loadedObjects);
+			}
+		}
+		else
+		{
+			sceneQuadtree->Add(obj);
+		}
+	}
+	App->renderer->FillRenderList(sceneQuadtree);
 
 	sceneToLoad->SetRoot(newRoot);
+	sceneToLoad->SetSceneGameObjects(loadedObjects);
+	sceneToLoad->SetSceneCameras(loadedCameras);
+	sceneToLoad->SetAmbientLight(ambientLight);
+	sceneToLoad->SetDirectionalLight(directionalLight);
+	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	this->loadedScene = sceneToLoad;
 

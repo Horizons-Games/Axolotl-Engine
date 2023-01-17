@@ -166,6 +166,6 @@ void ComponentPointLight::LoadOptions(Json& meta)
 
 	intensity = (float)meta["intensity"];
 
-	lightType = GetLightTypeByName(meta["type"]);
+	lightType = GetLightTypeByName(meta["lightType"]);
 	radius = meta["radius"];
 }
