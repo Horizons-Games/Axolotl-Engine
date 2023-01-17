@@ -348,7 +348,37 @@ bool GameObject::RemoveComponent(Component* component)
 	{
 		if (*it == component)
 		{
-			components.erase(it);
+			if ((*it)->GetType() == ComponentType::LIGHT)
+			{
+				ComponentLight* light = (ComponentLight*)(*it);
+
+				LightType type = light->GetLightType();
+
+				delete* it;
+				components.erase(it);
+
+				switch (type)
+				{
+				case LightType::POINT:
+					App->scene->GetLoadedScene()->UpdateScenePointLights();
+					App->scene->GetLoadedScene()->RenderPointLights();
+
+					break;
+
+				case LightType::SPOT:
+					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+					App->scene->GetLoadedScene()->RenderSpotLights();
+
+					break;
+				}
+			}
+
+			else
+			{
+				delete* it;
+				components.erase(it);
+			}
+
 			return true;
 		}
 	}
