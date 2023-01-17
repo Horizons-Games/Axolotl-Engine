@@ -183,7 +183,14 @@ void Quadtree::SmartRemove()
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
 	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
-	return boundingBox.Intersects(boxes->GetEncapsuledAABB());
+	AABB objectAABB = boxes->GetEncapsuledAABB();
+	//return boundingBox.Intersects(boxes->GetEncapsuledAABB());
+	return boundingBox.minPoint.x <= objectAABB.maxPoint.x&&
+		boundingBox.minPoint.y <= objectAABB.maxPoint.y&&
+		boundingBox.minPoint.z <= objectAABB.maxPoint.z&&
+		objectAABB.minPoint.x <= boundingBox.maxPoint.x&&
+		objectAABB.minPoint.y <= boundingBox.maxPoint.y&&
+		objectAABB.minPoint.z <= boundingBox.maxPoint.z;
 }
 
 void Quadtree::Subdivide()
@@ -257,7 +264,9 @@ void Quadtree::RedistributeGameObjects(GameObject* gameObject)
 void Quadtree::ExpandToFit(GameObject* gameObject)
 {
 	ComponentTransform* gameObjectTransform = (ComponentTransform*)gameObject->GetComponent(ComponentType::TRANSFORM);
-	float3 gameObjectPosition = gameObjectTransform->GetPosition();
+	//float3 gameObjectPosition = gameObjectTransform->GetGlobalPosition();
+	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
+	float3 gameObjectPosition = boxes->GetEncapsuledAABB().CenterPoint();
 
 	float quadTreeMaxX = this->boundingBox.MaxX();
 	float quadTreeMaxY = this->boundingBox.MaxY();
@@ -270,8 +279,8 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 
 	if (gameObjectPosition.y > quadTreeMaxY || gameObjectPosition.y < quadTreeMinY)
 	{
-		if (gameObjectPosition.y < quadTreeMinY) newMinPoint.y = gameObjectPosition.y;
-		else newMaxPoint.y = gameObjectPosition.y;
+		if (gameObjectPosition.y < quadTreeMinY) newMinPoint.y = gameObjectPosition.y - boxes->GetEncapsuledAABB().Size().y;
+		else newMaxPoint.y = gameObjectPosition.y + boxes->GetEncapsuledAABB().Size().y;
 		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
 	}
 	
