@@ -68,7 +68,7 @@ private:
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);
 	float shininess = 512.f;
-	float normalStrength = 1.0;
+	float normalStrength = 1.0f;
 
 	bool hasShininessAlpha = false;
 
