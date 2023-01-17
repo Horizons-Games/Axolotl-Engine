@@ -35,6 +35,10 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 	this->radius = radius;
 }
 
+ComponentPointLight::~ComponentPointLight()
+{
+}
+
 void ComponentPointLight::Draw()
 {
 	if (this->GetActive())

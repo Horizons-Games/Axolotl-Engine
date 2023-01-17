@@ -10,6 +10,7 @@ class Model;
 class GameObject;
 class Component;
 class ComponentCamera;
+enum class LightType;
 
 class WindowInspector : public EditorWindow
 {
@@ -31,7 +32,7 @@ private:
 
 	void AddComponentMeshRenderer();
 	void AddComponentMaterial();
-	void AddComponentLight();
+	void AddComponentLight(LightType type);
 
 
 	std::weak_ptr<Model> model;

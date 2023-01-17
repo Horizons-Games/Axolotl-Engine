@@ -7,6 +7,8 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/Json.h"
 
@@ -77,6 +79,37 @@ void ComponentMeshRenderer::Display()
 
 	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		static char* meshPath = (char*)("unknown");
+
+		if (meshAsShared)
+			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
+		else
+			meshPath = (char*)("unknown");
+
+		ImGui::InputText("##Mesh path", meshPath, 128);
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
+			{
+				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
+
+				std::shared_ptr<ResourceMesh> newMesh =
+					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
+
+				if (newMesh)
+					SetMesh(newMesh);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("Remove Current Mesh"))
+		{
+			mesh = std::weak_ptr<ResourceMesh>();
+		}
+
 		if (ImGui::BeginTable("##GeometryTable", 2))
 		{
 			ImGui::TableNextColumn();

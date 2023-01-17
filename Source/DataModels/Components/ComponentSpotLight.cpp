@@ -66,20 +66,23 @@ void ComponentSpotLight::Display()
 
 					if (ImGui::Selectable(lightTypes[i], isSelected))
 					{
-						std::shared_ptr<ComponentPointLight> newPoint =
-							std::static_pointer_cast<ComponentPointLight>(this->GetOwner()
-								->CreateComponentLight(LightType::POINT));
+						if (lightTypes[i] == "Point")
+						{
+							std::shared_ptr<ComponentPointLight> newPoint =
+								std::static_pointer_cast<ComponentPointLight>(this->GetOwner()
+									->CreateComponentLight(LightType::POINT));
 
-						newPoint->SetColor(this->color);
-						newPoint->SetIntensity(this->intensity);
-						newPoint->SetRadius(this->radius);
+							newPoint->SetColor(this->color);
+							newPoint->SetIntensity(this->intensity);
+							newPoint->SetRadius(this->radius);
 
-						this->GetOwner()->RemoveComponent(shared_from_this());
+							this->GetOwner()->RemoveComponent(shared_from_this());
 
-						App->scene->GetLoadedScene()->UpdateScenePointLights();
-						App->scene->GetLoadedScene()->RenderPointLights();
+							App->scene->GetLoadedScene()->UpdateScenePointLights();
+							App->scene->GetLoadedScene()->RenderPointLights();
 
-						modified = true;
+							modified = true;
+						}
 					}
 
 					if (isSelected)

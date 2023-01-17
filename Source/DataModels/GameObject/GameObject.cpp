@@ -329,7 +329,7 @@ std::shared_ptr<Component> GameObject::CreateComponentLight(LightType lightType)
 		break;
 
 	case LightType::SPOT:
-		newComponent = std::make_shared<ComponentSpotLight>(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, shared_from_this());
+		newComponent = std::make_shared<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, shared_from_this());
 		break;
 	}
 
@@ -345,7 +345,35 @@ bool GameObject::RemoveComponent(const std::shared_ptr<Component>& component)
 	{
 		if (*it == component)
 		{
-			components.erase(it);
+			if ((*it)->GetType() == ComponentType::LIGHT)
+			{
+				std::shared_ptr<ComponentLight> light = std::static_pointer_cast<ComponentLight>(*it);
+
+				LightType type = light->GetLightType();
+
+				components.erase(it);
+
+				switch (type)
+				{
+				case LightType::POINT:
+					App->scene->GetLoadedScene()->UpdateScenePointLights();
+					App->scene->GetLoadedScene()->RenderPointLights();
+
+					break;
+
+				case LightType::SPOT:
+					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+					App->scene->GetLoadedScene()->RenderSpotLights();
+
+					break;
+				}
+			}
+
+			else
+			{
+				components.erase(it);
+			}
+
 			return true;
 		}
 	}

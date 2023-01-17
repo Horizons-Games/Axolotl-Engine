@@ -11,6 +11,8 @@
 
 #include "imgui.h"
 
+#include "Math/float3x3.h"
+
 ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
@@ -25,13 +27,14 @@ void ComponentTransform::Update()
 void ComponentTransform::Display()
 {
 	float3 translation = GetPosition();
-	float3 rotation = RadToDeg(GetRotation().ToEulerXYZ());
-	float3 scale = GetScale();
+	float3 rotation = GetRotationXYZ();
+  	float3 scale = GetScale();
 
 	float dragSpeed = 0.025f;
 
 	bool translationModified = false;
 	bool rotationModified = false;
+	bool scaleModified = false;
 
 	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		dragSpeed = 0.0f;
@@ -115,23 +118,32 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if (ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if(ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar();
+			if(ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar();
 
 			ImGui::EndTable();
 		}
@@ -146,13 +158,24 @@ void ComponentTransform::Display()
 		return;
 	}
 
-	if (scale.x <= 0) scale.x = 0.0001;
-	if (scale.y <= 0) scale.y = 0.0001;
-	if (scale.z <= 0) scale.z = 0.0001;
+	if (translationModified)
+	{
+		SetPosition(translation);
+	}
+	
+	if (rotationModified)
+	{
+		SetRotation(rotation);
+	}
+	
+	if (scaleModified)
+	{
+		if (scale.x <= 0) scale.x = 0.0001;
+		if (scale.y <= 0) scale.y = 0.0001;
+		if (scale.z <= 0) scale.z = 0.0001;
 
-	SetPosition(translation);
-	SetRotation(rotation);
-	SetScale(scale);
+		SetScale(scale);
+	}
 
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 

@@ -83,9 +83,14 @@ void WindowInspector::DrawWindowContents()
 				AddComponentMaterial();
 			}
 
-			if (ImGui::MenuItem("Create Light Component"))
+			if (ImGui::MenuItem("Create Spot Light Component"))
 			{
-				AddComponentLight();
+				AddComponentLight(LightType::SPOT);
+			}
+
+			if (ImGui::MenuItem("Create Point Light Component"))
+			{
+				AddComponentLight(LightType::POINT);
 			}
 		}
 
@@ -101,11 +106,10 @@ void WindowInspector::DrawWindowContents()
 	{
 		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-			ImGui::SameLine();
-
 			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
 			{
+				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				ImGui::SameLine();
 				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
 					break;
 				ImGui::SameLine();
@@ -170,9 +174,9 @@ void WindowInspector::AddComponentMaterial()
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
-void WindowInspector::AddComponentLight()
+void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT);
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 void WindowInspector::DrawTextureTable()

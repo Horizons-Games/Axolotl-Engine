@@ -10,6 +10,7 @@ public:
 	~WindowFileBrowser() = default;
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
+	virtual void Browser();
 	
 protected:
 	ImVec2 GetStartingSize() const override;
@@ -19,6 +20,7 @@ protected:
 	const char* title;
 	const char* filters;
 	const char* startPath;
+	std::string browserPath;
 
 	ImGuiFileDialog fileDialogBrowser;
 	ImGuiFileDialog fileDialogImporter;
@@ -35,6 +37,7 @@ inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser")
 	dialogName = "Choose File";
 	filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},.md,.*";
 	startPath = ".";
+	browserPath = fileDialogBrowser.GetCurrentPath() + "Assets";
 
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);

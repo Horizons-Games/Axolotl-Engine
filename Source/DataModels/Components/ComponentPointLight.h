@@ -15,7 +15,7 @@ public:
 	ComponentPointLight(float radius, const float3& color, float intensity,
 						const std::shared_ptr<GameObject>& parent);
 
-	~ComponentPointLight() {};
+	~ComponentPointLight();
 
 	void Draw() override;
 	void Display() override;
