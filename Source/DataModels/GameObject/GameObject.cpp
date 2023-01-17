@@ -207,10 +207,7 @@ void GameObject::RemoveChild(GameObject* child)
 
 void GameObject::Enable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -223,10 +220,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = false;
 	active = false;

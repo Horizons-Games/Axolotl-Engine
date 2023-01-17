@@ -29,10 +29,16 @@ void WindowInspector::DrawWindowContents()
 {
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 
+
 	bool enable = currentGameObject->IsEnabled();
 	ImGui::Checkbox("Enable", &enable);
 
-	(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+	if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	{
+		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+	}
 
 	ImGui::SameLine();
 
@@ -55,7 +61,10 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && currentGameObject != App->scene->GetLoadedScene()->GetRoot())
+	if (WindowRightClick() && 
+		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -155,19 +164,18 @@ void WindowInspector::AddComponentMeshRenderer()
 {
 	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
 																->CreateComponent(ComponentType::MESHRENDERER);
-	
-	assert(newMeshRenderer != nullptr &&
-		"The Component Mesh Renderer of the selected GameObject was not created correctly");
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-
+	ComponentMeshRenderer* newMaterial = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
+		->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight()
 {
-
+	ComponentMeshRenderer* newLight = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
+		->CreateComponent(ComponentType::LIGHT);
 }
 
 void WindowInspector::DrawTextureTable()
