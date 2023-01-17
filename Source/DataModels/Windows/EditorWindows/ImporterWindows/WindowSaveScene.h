@@ -14,5 +14,5 @@ inline WindowSaveScene::WindowSaveScene() :WindowFileBrowser()
 	dialogName = " Save Scene File";
 	title = ICON_IGFD_SAVE" Save Scene File";
 	filters = SCENE_EXTENSION;
-	startPath = "./Assets/Scenes";
+	startPath = "Assets/Scenes";
 }
