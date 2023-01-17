@@ -6,11 +6,11 @@
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
-void ResourceSkyBox::Load()
+void ResourceSkyBox::InternalLoad()
 {
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, glTexture);
-
+  
     for (int i = texturesUIDs.size() - 1; i >= 0; --i)
     {
         std::shared_ptr<ResourceTexture> textI =
@@ -44,12 +44,15 @@ void ResourceSkyBox::Load()
     }
 }
 
-void ResourceSkyBox::Unload()
+void ResourceSkyBox::InternalUnload()
 {
 	for (UID uid : texturesUIDs)
 	{
-		std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(uid).lock());
-		texture->Unload();
+		std::shared_ptr<Resource> texture =App->resources->RequestResource(uid).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
 	}
 	//this will keep the capacity to 6
 	texturesUIDs.clear();

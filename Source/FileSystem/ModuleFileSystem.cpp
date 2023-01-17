@@ -12,6 +12,16 @@ bool ModuleFileSystem::Init()
     return true;
 }
 
+void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
+{
+    //for more protection
+    bool exists = Exists(assetsPath.c_str());
+    if (!exists)
+    {
+        CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+    }
+}
+
 bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* destinationFilePath)
 {
     FILE* src, * dst;

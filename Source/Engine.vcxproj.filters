@@ -166,9 +166,6 @@
     <ClCompile Include="DataModels\3DModels\Model.cpp">
       <Filter>Source\DataModels\3DModels</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\Component.cpp">
-      <Filter>Source\DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\GameObject\GameObject.cpp">
       <Filter>Source\DataModels\GameObject</Filter>
     </ClCompile>
@@ -277,8 +274,8 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Quadtree.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
+      <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>Source\FileSystem</Filter>
@@ -347,6 +344,23 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp" />
+    </ClCompile>
+
+    <ClCompile Include="DataStructures\Quadtree.cpp">
+      <Filter>Source\DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Scene\Scene.cpp">
+      <Filter>Source\DataModels\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -763,8 +777,8 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Source</Filter>
+    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>Source\FileSystem</Filter>
@@ -839,6 +853,16 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Program.h" />
+    </ClInclude>
+    <ClInclude Include="DataStructures\Quadtree.h">
+      <Filter>Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Scene\Scene.h">
+      <Filter>Source\DataModels\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -921,6 +945,12 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
       <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataStructures">
+      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Scene">
+      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

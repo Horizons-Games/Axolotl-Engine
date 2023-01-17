@@ -201,7 +201,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\3DModels\Mesh.cpp" />
     <ClCompile Include="DataModels\3DModels\Model.cpp" />
-    <ClCompile Include="DataModels\Components\Component.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
@@ -214,6 +214,7 @@
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceModel.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
+    <ClCompile Include="DataStructures\Quadtree.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
@@ -258,6 +260,7 @@
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="DataModels\Scene\Scene.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
@@ -358,6 +361,7 @@
     <ClInclude Include="DataModels\3DModels\Mesh.h" />
     <ClInclude Include="DataModels\3DModels\Model.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
+    <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
     <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
@@ -394,6 +398,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h" />
     <ClInclude Include="DataModels\Windows\Window.h" />
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
+    <ClInclude Include="DataStructures\Quadtree.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="EngineLog.h" />
@@ -422,6 +427,7 @@
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="DataModels\Scene\Scene.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />

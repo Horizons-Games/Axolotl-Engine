@@ -22,7 +22,7 @@ enum update_status
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
-#define QUADRANT_CAPACITY 10
+#define QUADRANT_CAPACITY 50
 #define MIN_CUBE_SIZE 100.0f
  
 // Window ------------------
@@ -39,9 +39,10 @@ enum update_status
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
-#define MATERIAL_PATH "Assets/Materials/"
 #define MESHES_LIB_PATH "Lib/Meshes/"
+#define MATERIAL_PATH "Assets/Materials/"
 #define MATERIAL_LIB_PATH "Lib/Materials/"
+#define SCENE_PATH "Assets/Scenes/"
 
 // Resource extension ------
 #define MODEL_EXTENSION ".fbx"
@@ -50,7 +51,7 @@ enum update_status
 #define TIF_TEXTURE_EXTENSION ".tif"
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
-#define SCENE_EXTENSION ".scene"
+#define SCENE_EXTENSION ".axolotl"
 #define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"

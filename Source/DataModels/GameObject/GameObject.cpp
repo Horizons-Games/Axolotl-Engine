@@ -3,18 +3,25 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
+#include "../Components/ComponentAmbient.h"
+#include "../Components/ComponentPointLight.h"
+#include "../Components/ComponentDirLight.h"
+#include "../Components/ComponentSpotLight.h"
 
-#include "FileSystem/UniqueID.h"
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
+#include "FileSystem/Json.h"
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name)
+GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -25,26 +32,130 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
 
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::~GameObject()
 {
-	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
-	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
+	for (Component* comp : components)
+	{
+		delete comp;
+	}
+
+	components.clear();
+
+	for (GameObject* child : children)
+	{
+		delete child;
+	}
+
+	children.clear();
 }
 
 void GameObject::Update()
 {
 	for (Component* component : components)
-		component->Update();
+	{
+		if (component->GetActive())
+		{
+			component->Update();
+		}
+	}
 }
 
 void GameObject::Draw()
 {
-	//TODO: Draw the components what needs a draw
-	//for (Component* component : components) component->Draw();
+	for (Component* component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
+}
+
+void GameObject::SaveOptions(Json& meta)
+{
+	meta["name"] = name.c_str();
+	meta["enabled"] = (bool) enabled;
+	meta["active"] = (bool) active;
+
+	Json jsonComponents = meta["Components"];
+
+	for (int i = 0; i < components.size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+
+		components[i]->SaveOptions(jsonComponent);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+
+		children[i]->SaveOptions(jsonGameObject);
+	}
+}
+
+void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
+{
+	loadedObjects.push_back(this);
+
+	uid = UniqueID::GenerateUID();
+	name = meta["name"];
+	enabled = (bool) meta["enabled"];
+	active = (bool) meta["active"];
+	
+	Json jsonComponents = meta["Components"];
+
+	if(jsonComponents.Size() != 0)
+	{
+		for (int i = 0; i < jsonComponents.Size(); ++i)
+		{
+			Json jsonComponent = jsonComponents[i]["Component"];
+			std::string typeName = jsonComponent["type"];
+
+			ComponentType type = GetTypeByName(jsonComponent["type"]);
+			
+			if (type == ComponentType::UNKNOWN) return;
+
+			Component* component;
+			if (type == ComponentType::LIGHT)
+			{
+				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+				component = CreateComponentLight(lightType);
+			}
+			else
+			{
+				component = CreateComponent(type);
+			}
+
+			component->LoadOptions(jsonComponent);
+		}
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	int size = jsonChildrens.Size();
+
+	if (jsonChildrens.Size() != 0) 
+	{
+		for (int i = 0; i < jsonChildrens.Size(); ++i)
+		{
+			Json jsonGameObject = jsonChildrens[i]["GameObject"];
+			std::string name = jsonGameObject["name"];
+
+			GameObject* gameObject = new GameObject(name.c_str(), this);
+			gameObject->LoadOptions(jsonGameObject, loadedObjects);
+		}
+	}
+}
+
+void GameObject::InitNewEmptyGameObject()
+{
+	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -96,10 +207,7 @@ void GameObject::RemoveChild(GameObject* child)
 
 void GameObject::Enable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -112,10 +220,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = false;
 	active = false;
@@ -170,18 +275,26 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 		case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
+			newComponent = new ComponentMeshRenderer(true, this);
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
+		
+		case ComponentType::MATERIAL:
 		{
 			newComponent = new ComponentMaterial(true, this);
 			break;
-		}*/
+		}
+		
+
 		case ComponentType::CAMERA:
 		{
 			newComponent = new ComponentCamera(true, this);
+			break;
+		}
+		case ComponentType::LIGHT:
+		{
+			newComponent = new ComponentLight(true, this);
 			break;
 		}
 		case ComponentType::BOUNDINGBOX:
@@ -191,13 +304,56 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
 	if (newComponent != nullptr)
 		components.push_back(newComponent);
 
 	return newComponent;
+}
+
+Component* GameObject::CreateComponentLight(LightType lightType)
+{
+	Component* newComponent = nullptr;
+
+	switch (lightType)
+	{
+	case LightType::AMBIENT:
+		newComponent = new ComponentAmbient(float3(0.05f), this);
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = new ComponentDirLight(float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::POINT:
+		newComponent = new ComponentPointLight(0.5f, float3(1.0f), 1.0f, this);
+		break;
+
+	case LightType::SPOT:
+		newComponent = new ComponentSpotLight(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
+		break;
+	}
+
+	if (newComponent != nullptr)
+		components.push_back(newComponent);
+
+	return newComponent;
+}
+
+bool GameObject::RemoveComponent(Component* component)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if (*it == component)
+		{
+			components.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Component* GameObject::GetComponent(ComponentType type)
@@ -240,4 +396,17 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	}
 
 	return false;
+}
+
+std::list<GameObject*> GameObject::GetGameObjectsInside()
+{
+
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(this);
+	for (GameObject* children : this->GetChildren())
+	{
+		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside() ;
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
+	}
+	return familyObjects;
 }

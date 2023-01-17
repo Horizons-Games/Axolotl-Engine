@@ -15,9 +15,12 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	unsigned int size;
 	Save(resource, saveBuffer, size);
 	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+
+	delete loadBuffer;
+	delete saveBuffer;
 }
 
-uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
+void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
 	unsigned int hasTangents = !resource->GetTangents().empty();
 	unsigned int header[4] =
@@ -85,9 +88,6 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*
 
 		cursor += bytes;
 	}
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
@@ -110,6 +110,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	fileBuffer += bytes;
 
+	delete[] vertexPointer;
+
 	float3* textureCoordPointer = new float3[resource->GetNumVertices()];
 	bytes = sizeof(float3) * resource->GetNumVertices();
 	memcpy(textureCoordPointer, fileBuffer, bytes);
@@ -118,6 +120,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	fileBuffer += bytes;
 
+	delete[] textureCoordPointer;
+
 	float3* normalPointer = new float3[resource->GetNumVertices()];
 	bytes = sizeof(float3) * resource->GetNumVertices();
 	memcpy(normalPointer, fileBuffer, bytes);
@@ -125,6 +129,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	resource->SetNormals(normals);
 
 	fileBuffer += bytes;
+
+	delete[] normalPointer;
 
 	if(hasTangents)
 	{
@@ -135,6 +141,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 		resource->SetTangents(tangents);
 
 		fileBuffer += bytes;
+
+		delete[] tangentPointer;
 	}
 
 	int size = 3 * resource->GetNumFaces();
@@ -150,4 +158,5 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	}
 	resource->SetFacesIndices(faces);
 
+	delete[] indexesPointer;
 }

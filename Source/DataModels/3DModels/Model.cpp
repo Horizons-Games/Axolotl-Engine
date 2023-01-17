@@ -5,6 +5,7 @@
 
 #include "ModuleTexture.h"
 #include "ModuleEngineCamera.h"
+#include "Scene/Scene.h"
 #include "ModuleScene.h"
 
 #include "Mesh.h"
@@ -76,7 +77,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	for (int i = 0; i < materialsUIDs.size(); ++i) 
 	{
 		std::shared_ptr<ResourceMaterial> resourceMaterial = 
-			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(materialsUIDs[i]).lock());
+			App->resources->RequestResource<ResourceMaterial>(materialsUIDs[i]).lock();
 
 		Material* material = new Material();
 		resourceMaterial->Load();
@@ -84,7 +85,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveDiffuse())
 		{
 			std::shared_ptr<ResourceTexture> textureDiffuse =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetDiffuseUID()).lock());
+				App->resources->RequestResource<ResourceTexture>(resourceMaterial->GetDiffuseUID()).lock();
 
 			textureDiffuse->Load();
 			material->haveDiffuse = true;
@@ -96,7 +97,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveNormal())
 		{
 			std::shared_ptr<ResourceTexture> textureNormal =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetNormalUID()).lock());
+				App->resources->RequestResource<ResourceTexture>(resourceMaterial->GetNormalUID()).lock();
 
 			textureNormal->Load();
 			material->normal = textureNormal->GetGlTexture();
@@ -108,7 +109,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveOcclusion())
 		{
 			std::shared_ptr<ResourceTexture> textureOcclusion =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetOcclusionrUID()).lock());
+				App->resources->RequestResource<ResourceTexture>(resourceMaterial->GetOcclusionrUID()).lock();
 
 			textureOcclusion->Load();
 			material->occlusion = textureOcclusion->GetGlTexture();
@@ -120,7 +121,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 		if (resourceMaterial->haveSpecular())
 		{
 			std::shared_ptr<ResourceTexture> textureSpecular =
-				std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(resourceMaterial->GetSpecularUID()).lock());
+				App->resources->RequestResource<ResourceTexture>(resourceMaterial->GetSpecularUID()).lock();
 
 			textureSpecular->Load();
 			material->specular = textureSpecular->GetGlTexture();
@@ -129,7 +130,10 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 			textureWidths.push_back(textureSpecular->GetWidth());
 		}
 
+		material->diffuseColor = resourceMaterial->GetDiffuseColor();
+		material->specularColor = resourceMaterial->GetSpecularColor();
 		material->shininess = resourceMaterial->GetShininess();
+		material->haveShininessAlpha = resourceMaterial->HaveShininessAlpha();
 		material->normalStrength = resourceMaterial->GetNormalStrength();
 
 		materials.push_back((std::unique_ptr<Material>(material)));
@@ -142,7 +146,7 @@ void Model::SetFromResource(std::shared_ptr<ResourceModel>& resource) //Temporal
 	{
 
 		std::shared_ptr<ResourceMesh> resourceMesh = 
-			std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(meshesUIDs[i]).lock());
+			App->resources->RequestResource<ResourceMesh>(meshesUIDs[i]).lock();
 
 		resourceMesh->Load();
 		Mesh* mesh = new Mesh();
@@ -213,7 +217,7 @@ void Model::LoadMeshes(const aiScene* scene)
 
 void Model::Draw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb) || App->scene->GetLoadedScene()->IsInsideACamera(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{
@@ -225,7 +229,7 @@ void Model::Draw()
 
 void Model::NewDraw()
 {
-	if (App->engineCamera->IsInside(obb) || App->scene->IsInsideACamera(obb))
+	if (App->engineCamera->IsInside(obb))
 	{
 		for (int i = 0; i < meshes.size(); ++i)
 		{

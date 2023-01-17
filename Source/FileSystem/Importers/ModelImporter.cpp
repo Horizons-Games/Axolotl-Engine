@@ -28,6 +28,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		unsigned int size;
 		Save(resource, buffer, size);
 		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+
+		delete buffer;
 	}
 	else
 	{
@@ -35,9 +37,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 }
 
-uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
+void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-
 	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumMaterials() };
 
 	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumMaterials();
@@ -58,9 +59,6 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
@@ -82,11 +80,15 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	fileBuffer += bytes;
 
+	delete[] meshesPointer;
+
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	resource->SetMaterialsUIDs(materials);
+
+	delete[] materialsPointer;
 }
 
 
@@ -101,9 +103,11 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 	{
 		aiString file;
 
+		aiMaterial* material = scene->mMaterials[i];
+
 		std::vector<std::string> pathTextures(4);
 
-		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
+		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
 			std::string diffusePath = "";
 
@@ -112,6 +116,45 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 			if (diffusePath != "")
 			{
 				pathTextures[0] = diffusePath;
+			}
+		}
+		//Getting the specular texture
+		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+		{
+			std::string specularPath = "";
+
+			struct stat buffer {};
+			std::string name = App->fileSystem->GetFileName(file.data);
+			name += App->fileSystem->GetFileExtension(file.data);
+
+			if (stat(name.c_str(), &buffer) != 0)
+			{
+				std::string path = App->fileSystem->GetPathWithoutFile(filePath);
+
+				if (stat((path + name).c_str(), &buffer) != 0)
+				{
+					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
+					{
+						ENGINE_LOG("Texture not found!");
+					}
+					else
+					{
+						specularPath = TEXTURES_PATH + std::string(file.data);
+					}
+				}
+				else
+				{
+					specularPath = path + std::string(file.data);
+				}
+			}
+			else
+			{
+				specularPath = std::string(file.data);
+			}
+
+			if (specularPath != "")
+			{
+				pathTextures[1] = specularPath;
 			}
 		}
 
@@ -137,6 +180,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		UID resourceMaterial = App->resources->ImportResource(materialPath);
 		materialsUIDs.push_back(resourceMaterial);
 
+		delete fileBuffer;
 	}
 
 	resource->SetMaterialsUIDs(materialsUIDs);

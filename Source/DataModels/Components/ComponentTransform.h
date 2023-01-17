@@ -5,18 +5,30 @@
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
+#define COMPONENT_TRANSFORM "Transform"
+
+class Json;
+class ComponentLight;
+
 class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
-	~ComponentTransform() override;
 
 	void Update() override;
 	void Display() override;
 
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 	const float3& GetPosition() const;
+	const float3& GetGlobalPosition() const;
 	const Quat& GetRotation() const;
+	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
+	const float3& GetLocalForward() const;
+	const float3& GetGlobalForward() const;
+	const float3& GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
@@ -35,11 +47,11 @@ public:
 	void ResetGlobalMatrix();
 
 private:
-	GameObject* ownerParent;
-
-	float3 pos = float3(0.0f, 0.0f, 0.0f);
+	void CalculateLightTransformed(const ComponentLight* lightComponent, bool translationModified, bool rotationModified);
+	
+	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
-	float3 sca = float3(1.0f, 1.0f, 1.0f);
+	float3 sca = float3::one;
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;
@@ -58,6 +70,16 @@ inline const Quat& ComponentTransform::GetRotation() const
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
+}
+
+inline const float3& ComponentTransform::GetLocalForward() const
+{
+	return localMatrix.WorldZ();
+}
+
+inline const float3& ComponentTransform::GetGlobalForward() const
+{
+	return globalMatrix.WorldZ();
 }
 
 inline void ComponentTransform::SetPosition(const float3& position)

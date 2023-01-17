@@ -11,12 +11,10 @@ class ResourceSkyBox : public Resource
 {
 public:
 	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceSkyBox() override = default;
+	~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -31,8 +29,11 @@ public:
 	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
 
 	unsigned int GetVBO() const;
-
 	unsigned int GetVAO() const;
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	unsigned int glTexture = 0;
@@ -51,6 +52,11 @@ inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 	texturesUIDs(6),
 	options(std::make_shared<OptionsSkyBox>())
 {
+}
+
+inline ResourceSkyBox::~ResourceSkyBox()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceSkyBox::GetType() const

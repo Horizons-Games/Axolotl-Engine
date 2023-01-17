@@ -10,6 +10,8 @@ class Json
 public:
 	Json(rapidjson::Document& document, rapidjson::Value& value);
 
+	unsigned int Size() const;
+
 	bool fromBuffer(char*& buffer);
 	void toBuffer(rapidjson::StringBuffer& buffer);
 

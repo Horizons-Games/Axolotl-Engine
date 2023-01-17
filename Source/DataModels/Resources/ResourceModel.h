@@ -13,12 +13,10 @@ class ResourceModel : public Resource
 {
 public:
 	ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceModel() override = default;
+	~ResourceModel() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override {};
-	void Unload() override {};
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -33,6 +31,10 @@ public:
 	void SetNumMaterials(const unsigned int numMaterials);
 	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
 	void SetMaterialsUIDs(const std::vector<UID>& materialsUIDs);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	unsigned int numMeshes;
@@ -50,6 +52,11 @@ inline ResourceModel::ResourceModel(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsModel>();
+}
+
+inline ResourceModel::~ResourceModel()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceModel::GetType() const

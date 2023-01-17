@@ -44,15 +44,13 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	delete buffer;
 }
 
-uint64_t SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*& fileBuffer, unsigned int& size)
+void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*& fileBuffer, unsigned int& size)
 {
 	size = sizeof(UID) * 6;
 	char* cursor = new char[size] {};
 	fileBuffer = cursor;
 	unsigned int bytes = size;
 	memcpy(cursor, &(resource->GetTexturesUIDs()[0]), bytes);
-
-	return 0;
 }
 
 void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox> resource)
@@ -63,4 +61,5 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	std::vector<UID> textures(texturesPointer, texturesPointer + 6);
 	resource->SetTexturesUIDs(textures);
 
+	delete[] texturesPointer;
 }

@@ -15,7 +15,7 @@ void WindowFileBrowser::DrawWindowContents()
 			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
 		}
 		fileDialogImporter.OpenDialog("ChooseFileDlgKey", dialogName, filters, startPath,
-			".", 1, nullptr, flags);
+			"", 1, nullptr, flags);
 	}
 	// display
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
@@ -24,9 +24,7 @@ void WindowFileBrowser::DrawWindowContents()
 		// action if OK
 		if (fileDialogImporter.IsOk())
 		{
-			std::string filePathName = fileDialogImporter.GetFilePathName();
-			App->resources->ImportResource(filePathName);
-			DoThisIfOk(filePathName);
+			DoThisIfOk();
 		}
 
 		// close
@@ -46,7 +44,8 @@ void WindowFileBrowser::DrawWindowContents()
 	}
 }
 
-void WindowFileBrowser::DoThisIfOk(std::string fileNamePath)
+void WindowFileBrowser::DoThisIfOk()
 {
-	// TODO :: Do this after the OK
+	std::string filePathName = fileDialogImporter.GetFilePathName();
+	App->resources->ImportResource(filePathName);
 }
