@@ -46,7 +46,6 @@ void WindowFileBrowser::Browser()
 		ImGuiFileDialogFlags_DisableCreateDirectoryButton);
 		//ImGuiFileDialogFlags_ReadOnlyFileNameField
 	fileDialogBrowser.Display("embedded", ImGuiWindowFlags_NoCollapse, ImVec2(0, 0), ImVec2(0, 350));
-	std::string browserPath2 = fileDialogBrowser.GetCurrentPath();
 		
 	if (std::string::npos == fileDialogBrowser.GetCurrentPath().find("Assets"))
 	{
