@@ -64,19 +64,22 @@ void ComponentSpotLight::Display()
 
 					if (ImGui::Selectable(lightTypes[i], isSelected))
 					{
-						ComponentPointLight* newPoint = (ComponentPointLight*)this->GetOwner()->
-							CreateComponentLight(LightType::POINT);
+						if (lightTypes[i] == "Point")
+						{
+							ComponentPointLight* newPoint = (ComponentPointLight*)this->GetOwner()->
+								CreateComponentLight(LightType::POINT);
 
-						newPoint->SetColor(this->color);
-						newPoint->SetIntensity(this->intensity);
-						newPoint->SetRadius(this->radius);
+							newPoint->SetColor(this->color);
+							newPoint->SetIntensity(this->intensity);
+							newPoint->SetRadius(this->radius);
 
-						this->GetOwner()->RemoveComponent(this);
+							this->GetOwner()->RemoveComponent(this);
 
-						App->scene->GetLoadedScene()->UpdateScenePointLights();
-						App->scene->GetLoadedScene()->RenderPointLights();
+							App->scene->GetLoadedScene()->UpdateScenePointLights();
+							App->scene->GetLoadedScene()->RenderPointLights();
 
-						modified = true;
+							modified = true;
+						}
 					}
 
 					if (isSelected)
