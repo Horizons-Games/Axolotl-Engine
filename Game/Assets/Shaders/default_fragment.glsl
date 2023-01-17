@@ -19,7 +19,7 @@ struct Material {
 
 struct PointLight
 {
-	vec4 position;  	//16 //0	// xyz position+w radius
+	vec4 position;  	//16 //16	// xyz position+w radius
 	vec4 color; 		//16 //16   // rgb colour+alpha intensity
 };
 
@@ -27,9 +27,9 @@ struct SpotLight
 {
 	vec4 position;  	//16 //0	// xyz position+w radius
 	vec4 color; 		//16 //16	// rgb colour+alpha intensity
-	vec3 aim;			//16 //32
-	float innerAngle;	//4  //48
-	float outerAngle;	//4  //52
+	vec3 aim;			//12 //32
+	float innerAngle;	//4  //44
+	float outerAngle;	//4  //48   --> 52 
 };
 
 layout(std140, binding=1) uniform Ambient
@@ -163,6 +163,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
         float intensity = spots[i].color.a;
         float innerAngle = spots[i].innerAngle;
         float outerAngle = spots[i].outerAngle;
+
         float cosInner = cos(innerAngle);
         float cosOuter = cos(outerAngle);
 
@@ -270,5 +271,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 1.0);
+    outColor = vec4(color, 2.0);
 }

@@ -1,4 +1,5 @@
 #include "GameObject.h"
+
 #include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
@@ -12,7 +13,9 @@
 #include "../Components/ComponentSpotLight.h"
 
 #include "Application.h"
+
 #include "Modules/ModuleScene.h"
+
 #include "Scene/Scene.h"
 
 #include "FileSystem/Json.h"
@@ -284,16 +287,19 @@ std::shared_ptr<Component> GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		
 		case ComponentType::CAMERA:
 		{
 			newComponent = std::make_shared<ComponentCamera>(true, shared_from_this());
 			break;
 		}
+
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_shared<ComponentLight>(true, shared_from_this());
 			break;
 		}
+
 		case ComponentType::BOUNDINGBOX:
 		{
 			newComponent = std::make_shared<ComponentBoundingBoxes>(true, shared_from_this());

@@ -240,7 +240,7 @@ void Scene::GenerateLights()
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingSpot = 4;
 	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
@@ -312,22 +312,20 @@ void Scene::RenderPointLights() const
 void Scene::RenderSpotLights() const
 {
 	const unsigned program = App->program->GetProgram();
-
-	glUseProgram(program);
-
 	unsigned numSpot = spotLights.size();
 
+	glUseProgram(program);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
 
 	if (numSpot > 0)
 	{
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
-	}
-	else
-	{
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), nullptr);
+		for (int i = 0; i < numSpot; ++i)
+		{
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
+		}
 	}
 	
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -423,6 +421,9 @@ void Scene::InitNewEmptyScene()
 
 	std::shared_ptr<GameObject> spotLight1 = CreateGameObject("SpotLight", root);
 	spotLight1->CreateComponentLight(LightType::SPOT);
+
+	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
+	spotLight2->CreateComponentLight(LightType::SPOT);
 
 	GenerateLights();
 
