@@ -58,19 +58,6 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
 	}
 }
 
-Scene* ModuleScene::SearchSceneByID(UID sceneID) const
-{
-	for (Scene* scene : savedScenes)
-	{
-		if (scene->GetUID() == sceneID)
-		{
-			return scene;
-		}
-	}
-
-	return nullptr;
-}
-
 void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");

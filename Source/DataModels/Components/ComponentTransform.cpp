@@ -138,6 +138,14 @@ void ComponentTransform::Display()
 	}
 	ImGui::Separator();
 
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner())
+	{
+		SetPosition(float3::zero);
+		SetRotation(Quat::identity);
+		SetScale(float3::one);
+		return;
+	}
+
 	if (scale.x <= 0) scale.x = 0.0001;
 	if (scale.y <= 0) scale.y = 0.0001;
 	if (scale.z <= 0) scale.z = 0.0001;
