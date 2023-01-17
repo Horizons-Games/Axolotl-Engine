@@ -159,7 +159,9 @@ void ComponentTransform::Display()
 	}
 }
 
-void ComponentTransform::CalculateLightTransformed(ComponentLight* lightComponent, bool translationModified, bool rotationModified)
+void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent, 
+												   bool translationModified, 
+												   bool rotationModified)
 {
 	switch (lightComponent->GetLightType())
 	{
@@ -179,8 +181,8 @@ void ComponentTransform::CalculateLightTransformed(ComponentLight* lightComponen
 	case LightType::SPOT:
 		if (translationModified || rotationModified)
 		{
-			App->scene->GetLoadedScene()->UpdateScenePointLights();
-			App->scene->GetLoadedScene()->RenderPointLights();
+			App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+			App->scene->GetLoadedScene()->RenderSpotLights();
 		}
 		break;
 	}

@@ -49,7 +49,6 @@ public:
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 
-	void UpdateSceneLights();
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 

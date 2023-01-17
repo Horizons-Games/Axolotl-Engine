@@ -39,15 +39,11 @@ Scene::Scene()
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	GameObject* pointLight1 = CreateGameObject("PointLight", root);
-	pointLight1->CreateComponentLight(LightType::POINT);
-	GameObject* pointLight2 = CreateGameObject("PointLight", root);
-	pointLight2->CreateComponentLight(LightType::POINT);
-	GameObject* pointLight3 = CreateGameObject("PointLight", root);
-	pointLight3->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight = CreateGameObject("PointLight", root);
+	pointLight->CreateComponentLight(LightType::POINT);
 
-	/*GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);*/
+	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
+	spotLight1->CreateComponentLight(LightType::SPOT);
 
 	GenerateLights();
 
@@ -338,55 +334,11 @@ void Scene::RenderSpotLights() const
 	if (numSpot > 0)
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * spotLights.size(),
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(),
 			nullptr, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * spotLights.size(), &spotLights[0]);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	}
-}
-
-void Scene::UpdateSceneLights()
-{
-	pointLights.clear();
-	spotLights.clear();
-
-	std::vector<GameObject*> children = GetSceneGameObjects();
-
-	for (GameObject* child : children)
-	{
-		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-		if (!components.empty())
-		{
-			if (components[0]->GetLightType() == LightType::POINT)
-			{
-				ComponentPointLight* pointLightComp = (ComponentPointLight*)components[0];
-				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
-					GetComponent(ComponentType::TRANSFORM);
-
-				PointLight pl;
-				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
-				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-
-				pointLights.push_back(pl);
-			}
-
-			else if (components[0]->GetLightType() == LightType::SPOT)
-			{
-				ComponentSpotLight* spotLightComp = (ComponentSpotLight*)components[0];
-				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
-					GetComponent(ComponentType::TRANSFORM);
-
-				SpotLight sl;
-				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
-				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
-				sl.aim = transform->GetGlobalForward().Normalized();
-				sl.innerAngle = spotLightComp->GetInnerAngle();
-				sl.outAngle = spotLightComp->GetOuterAngle();
-
-				spotLights.push_back(sl);
-			}
-		}
 	}
 }
 

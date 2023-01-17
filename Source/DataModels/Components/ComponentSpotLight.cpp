@@ -74,6 +74,7 @@ void ComponentSpotLight::Display()
 						this->GetOwner()->RemoveComponent(this);
 
 						App->scene->GetLoadedScene()->UpdateScenePointLights();
+						App->scene->GetLoadedScene()->RenderPointLights();
 
 						modified = true;
 					}
@@ -143,6 +144,7 @@ void ComponentSpotLight::Display()
 
 			if (modified)
 			{
+				App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 				App->scene->GetLoadedScene()->RenderSpotLights();
 			}
 
