@@ -8,7 +8,6 @@
 
 #include <assert.h>
 
-#include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
@@ -75,6 +74,14 @@ Scene* ModuleScene::SearchSceneByID(UID sceneID) const
 void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");
+
+	Json jsonScene(tmpDoc, tmpDoc);
+
+	GameObject* root = loadedScene->GetRoot();
+	root->SaveOptions(jsonScene);
+
+	rapidjson::StringBuffer buffer;
+	jsonScene.toBuffer(buffer);
 }
 
 void ModuleScene::OnPause()
@@ -85,6 +92,13 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+	
+	Json Json(tmpDoc, tmpDoc);
+
+	SetSceneFromJson(Json);
+
+	//clear the document
+	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
 
 Scene* ModuleScene::CreateEmptyScene() const
@@ -126,8 +140,15 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 	Json.fromBuffer(buffer);
 
+	SetSceneFromJson(Json);
+
+	delete buffer;
+}
+
+void ModuleScene::SetSceneFromJson(Json& Json)
+{
 	Scene* sceneToLoad = new Scene();
-	GameObject* newRoot = new GameObject(fileName.c_str());
+	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
@@ -180,6 +201,4 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	this->loadedScene = sceneToLoad;
-
-	delete buffer;
 }

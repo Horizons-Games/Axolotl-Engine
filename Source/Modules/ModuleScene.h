@@ -2,11 +2,11 @@
 
 #include "Module.h"
 #include "../FileSystem/UniqueID.h"
+#include "FileSystem/Json.h"
 
 class GameObject;
 class Quadtree;
 class Scene;
-class Json;
 
 class ModuleScene : public Module
 {
@@ -37,11 +37,16 @@ private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
 
+	void SetSceneFromJson(Json& Json);
+
 private:
 	Scene* loadedScene = nullptr;
 	GameObject* selectedGameObject = nullptr;
 
 	std::vector<Scene*> savedScenes = {};
+
+	//to store the tmp serialization of the Scene
+	rapidjson::Document tmpDoc;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
