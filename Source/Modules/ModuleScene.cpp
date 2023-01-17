@@ -32,8 +32,7 @@ bool ModuleScene::Start()
 #if !defined(GAME)
 	if (loadedScene == nullptr)
 	{
-		//loadedScene = CreateEmptyScene();
-		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
+		loadedScene = CreateEmptyScene();
 	}
 #else
 	if (loadedScene == nullptr)
