@@ -82,6 +82,8 @@ void ComponentMeshRenderer::Display()
 
 		if (meshAsShared)
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
+		else
+			meshPath = (char*)("unknown");
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
 
