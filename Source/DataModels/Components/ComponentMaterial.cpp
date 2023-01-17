@@ -32,12 +32,23 @@ void ComponentMaterial::Draw()
 {
 	unsigned int program = App->program->GetProgram();
 
-	glUseProgram(program);
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
 
 	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
 	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
 	if (texture)
 	{
+		if (!texture->IsLoaded())
+		{
+			texture->Load();
+		}
+
 		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
 		glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
 		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
@@ -50,6 +61,11 @@ void ComponentMaterial::Draw()
 	texture = textureSpecular.lock();
 	if (texture)
 	{
+		if (!texture->IsLoaded())
+		{
+			texture->Load();
+		}
+
 		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
 		glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
 		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
@@ -62,6 +78,11 @@ void ComponentMaterial::Draw()
 	texture = textureNormal.lock();
 	if (texture)
 	{
+		if (!texture->IsLoaded())
+		{
+			texture->Load();
+		}
+
 		glActiveTexture(GL_TEXTURE1 + texture->GetGlTexture());
 		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		glUniform1i(glGetUniformLocation(program, "material.normal_map"), 1);
