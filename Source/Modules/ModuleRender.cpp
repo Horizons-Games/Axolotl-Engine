@@ -207,6 +207,8 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 	}
 
+	DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -345,5 +347,17 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 			AddToRenderList(children);
 		}
 	}
+}
+
+void ModuleRender::DrawQuadtree(Quadtree* quadtree) 
+{
+	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	else {
+		DrawQuadtree(quadtree->GetBackLeftNode());
+		DrawQuadtree(quadtree->GetBackRightNode());
+		DrawQuadtree(quadtree->GetFrontLeftNode());
+		DrawQuadtree(quadtree->GetFrontRightNode());
+	}
+	
 }
 
