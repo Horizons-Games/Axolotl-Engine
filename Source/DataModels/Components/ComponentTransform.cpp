@@ -32,6 +32,7 @@ void ComponentTransform::Display()
 
 	bool translationModified = false;
 	bool rotationModified = false;
+	bool scaleModified = false;
 
 	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		dragSpeed = 0.0f;
@@ -115,23 +116,32 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if (ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if(ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()
-			); ImGui::PopStyleVar();
+			if(ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
+				0.0001f, std::numeric_limits<float>::max()))
+			{
+				scaleModified = true;
+			}
+			ImGui::PopStyleVar();
 
 			ImGui::EndTable();
 		}
@@ -146,10 +156,6 @@ void ComponentTransform::Display()
 		return;
 	}
 
-	if (scale.x <= 0) scale.x = 0.0001;
-	if (scale.y <= 0) scale.y = 0.0001;
-	if (scale.z <= 0) scale.z = 0.0001;
-
 	if (translationModified)
 	{
 		SetPosition(translation);
@@ -160,7 +166,14 @@ void ComponentTransform::Display()
 		SetRotation(rotation);
 	}
 	
-	SetScale(scale);
+	if (scaleModified)
+	{
+		if (scale.x <= 0) scale.x = 0.0001;
+		if (scale.y <= 0) scale.y = 0.0001;
+		if (scale.z <= 0) scale.z = 0.0001;
+
+		SetScale(scale);
+	}
 
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
