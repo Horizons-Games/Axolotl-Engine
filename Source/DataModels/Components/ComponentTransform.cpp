@@ -150,8 +150,16 @@ void ComponentTransform::Display()
 	if (scale.y <= 0) scale.y = 0.0001;
 	if (scale.z <= 0) scale.z = 0.0001;
 
-	SetPosition(translation);
-	SetRotation(rotation);
+	if (translationModified)
+	{
+		SetPosition(translation);
+	}
+	
+	if (rotationModified)
+	{
+		SetRotation(rotation);
+	}
+	
 	SetScale(scale);
 
 	//Rendering lights if modified
