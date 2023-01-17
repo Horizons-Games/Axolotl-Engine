@@ -14,8 +14,6 @@ public:
 	Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes);
 	void Draw();
 
-	void LoadOptions(Json& meta);
-
 private:
 	std::weak_ptr<ResourceSkyBox> skyboxRes;
 

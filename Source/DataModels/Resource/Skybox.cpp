@@ -28,6 +28,7 @@ void Skybox::Draw()
     std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
 
     program->Activate();
+
     program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
     program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
 
