@@ -15,12 +15,10 @@ class ResourceMesh : public Resource
 {
 public:
 	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceMesh() override = default;
+	~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -49,6 +47,10 @@ public:
 	void SetNormals(const std::vector<float3>& normals);
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	void CreateVBO();
@@ -80,6 +82,11 @@ inline ResourceMesh::ResourceMesh(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsMesh>();
+}
+
+inline ResourceMesh::~ResourceMesh()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceMesh::GetType() const

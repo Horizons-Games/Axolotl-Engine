@@ -4,20 +4,25 @@
 #include "FileSystem/UniqueID.h"
 
 #include <memory>
-#include <DataModels/Resources/ResourceMaterial.h>
 
+#define COMPONENT_MESHRENDERED "MeshRendered"
+
+class ResourceMaterial;
 class ResourceMesh;
+class Json;
 
 class ComponentMeshRenderer : public Component
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
-	~ComponentMeshRenderer() override;
 
 	void Update() override;
 
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
 

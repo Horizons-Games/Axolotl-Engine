@@ -28,6 +28,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		unsigned int size;
 		Save(resource, buffer, size);
 		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+
+		delete buffer;
 	}
 	else
 	{
@@ -35,9 +37,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 }
 
-uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
+void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-
 	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumMaterials() };
 
 	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumMaterials();
@@ -58,9 +59,6 @@ uint64_t ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, cha
 
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
@@ -82,11 +80,15 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	fileBuffer += bytes;
 
+	delete[] meshesPointer;
+
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	resource->SetMaterialsUIDs(materials);
+
+	delete[] materialsPointer;
 }
 
 
@@ -122,28 +124,33 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 			std::string specularPath = "";
 
 			struct stat buffer {};
-			std::string name = App->resources->GetFileName(file.data);
-			name += App->resources->GetFileExtension(file.data);
+			std::string name = App->fileSystem->GetFileName(file.data);
+			name += App->fileSystem->GetFileExtension(file.data);
 
 			if (stat(name.c_str(), &buffer) != 0)
 			{
-				std::string path = App->resources->GetPath(filePath);
+				std::string path = App->fileSystem->GetPathWithoutFile(filePath);
 
 				if (stat((path + name).c_str(), &buffer) != 0)
 				{
-
 					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
 					{
 						ENGINE_LOG("Texture not found!");
 					}
 					else
+					{
 						specularPath = TEXTURES_PATH + std::string(file.data);
+					}
 				}
 				else
+				{
 					specularPath = path + std::string(file.data);
+				}
 			}
 			else
+			{
 				specularPath = std::string(file.data);
+			}
 
 			if (specularPath != "")
 			{
@@ -167,12 +174,13 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		unsigned int size = 0;
 
 		SaveInfoMaterial(pathTextures, fileBuffer, size);
-		std::string materialPath = MATERIAL_LIB_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
+		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 		UID resourceMaterial = App->resources->ImportResource(materialPath);
 		materialsUIDs.push_back(resourceMaterial);
 
+		delete fileBuffer;
 	}
 
 	resource->SetMaterialsUIDs(materialsUIDs);
@@ -190,7 +198,7 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		unsigned int size = 0;
 
 		SaveInfoMesh(ourMesh, fileBuffer, size);
-		std::string meshPath = MESHES_LIB_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
+		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
 		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
 		UID resourceMesh = App->resources->ImportResource(meshPath);
@@ -202,13 +210,13 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
 {
 	struct stat buffer {};
-	std::string name = App->resources->GetFileName(file.data);
-	name += App->resources->GetFileExtension(file.data);
+	std::string name = App->fileSystem->GetFileName(file.data);
+	name += App->fileSystem->GetFileExtension(file.data);
 	
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
-		std::string path = App->resources->GetPath(filePath);
+		std::string path = App->fileSystem->GetPathWithoutFile(filePath);
 		//Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{
@@ -277,8 +285,14 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		hasTangents
 	};
 
+	unsigned int sizeOfVectors = sizeof(float3) * ourMesh->mNumVertices;
+	unsigned int numOfVectors = 3;
+	if (hasTangents)
+	{
+		numOfVectors = 4;
+	}
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
-		+ sizeof(float3) * ourMesh->mNumVertices * 4;
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
 	
 	char* cursor = new char[size] {};
 
@@ -289,20 +303,29 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	cursor += bytes;
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mVertices[0]), bytes);
+	if (ourMesh->mVertices != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mVertices[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mTextureCoords[0][0]), bytes);
+	if (ourMesh->mTextureCoords != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mTextureCoords[0][0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * ourMesh->mNumVertices;
-	memcpy(cursor, &(ourMesh->mNormals[0]), bytes);
+	if (ourMesh->mNormals != nullptr)
+	{
+		bytes = sizeof(float3) * ourMesh->mNumVertices;
+		memcpy(cursor, &(ourMesh->mNormals[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
 	if (hasTangents) 
 	{

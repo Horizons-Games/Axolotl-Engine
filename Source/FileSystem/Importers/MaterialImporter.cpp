@@ -33,6 +33,8 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 		}
 
 		bufferPaths += header[i];
+
+		delete[] pathPointer;
 	}
 
 	if(resourceTexture[0] != 0) resource->SetDiffuseUID(resourceTexture[0]);
@@ -43,10 +45,12 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save(filePath, buffer, size);
+	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+
+	delete buffer;
 }
 
-uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
+void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
 {
     UID texturesUIDs[4] = 
 	{ 
@@ -62,7 +66,7 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 		resource->GetSpecularColor()
 	};
 
-	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float);
+	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float) * 2;
 
 	char* cursor = new char[size];
 
@@ -85,9 +89,6 @@ uint64_t MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resourc
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetNormalStrength(), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
@@ -116,8 +117,10 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	fileBuffer += sizeof(float);
 
-
 	float* normalStrenght = new float;
 	memcpy(normalStrenght, fileBuffer, sizeof(float));
 	resource->SetNormalStrength(*normalStrenght);
+
+	delete shininess;
+	delete normalStrenght;
 }

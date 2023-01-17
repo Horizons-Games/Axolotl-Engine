@@ -6,12 +6,15 @@
 #include "Geometry/OBB.h"
 #include "ComponentTransform.h"
 
+#define COMPONENT_CAMERA "Camera"
 enum ECameraFrustumMode
 {
 	normalFrustum,
 	offsetFrustum,
 	noFrustum
 };
+
+class Json;
 
 class ComponentCamera : public Component
 {
@@ -22,6 +25,9 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void UpdateFrustumOffset();
 	bool IsInside(const OBB& obb);

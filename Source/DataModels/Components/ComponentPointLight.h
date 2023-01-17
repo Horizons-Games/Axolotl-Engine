@@ -2,6 +2,10 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_POINTLIGHT "PointLight"
+
+class Json;
+
 class ComponentPointLight : public ComponentLight
 {
 public:
@@ -15,6 +19,9 @@ public:
 
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	float GetRadius() const;
 

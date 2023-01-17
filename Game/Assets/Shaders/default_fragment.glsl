@@ -70,14 +70,13 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
 
-//layout(binding = 1) uniform sampler2D normalMap;
-
 in vec2 TexCoord;
 
 out vec4 outColor;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
+    
     vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
     vec3 bitangent = cross(orthoTangent, normal);
     return transpose(mat3(orthoTangent, bitangent, normal)); //TBN
@@ -87,17 +86,133 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
+
+vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+{
+    vec3 L = normalize(-directionalDir);
+    float dotNL = max(dot(N,L), 0.0);
+
+    vec3 fresnel  = fresnelSchlick(dotNL, f0);
+    
+    vec3 Li = directionalColor.rgb * directionalColor.a;
+
+    vec3 R = reflect(L, N);
+
+    float dotVR = max(dot(V,R), 0.0001);
+    float spec = pow(dotVR,shininess);
+
+    vec3 numerator = (shininess + 2) * fresnel * spec;
+    vec3 specular = numerator / 2;
+    vec3 kD = vec3(1.0) - specular;
+    vec3 diffuse = kD * texDiffuse;
+
+    vec3 Lo = (diffuse + specular) * Li * dotNL;
+
+    return Lo;
+}
+
+vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_point; ++i)
+    {
+        vec3 pos = points[i].position.xyz;
+        vec3 color = points[i].color.rgb;
+        float radius = points[i].position.w;
+        float intensity = points[i].color.a;
+        
+        vec3 L = normalize(FragPos - pos);
+        float dotNL = max(dot(N,-L), 0.0);
+
+        vec3 fresnel  = fresnelSchlick(dotNL, f0);
+
+        // Attenuation
+        float distance = length(FragPos - pos);
+        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+    
+        vec3 Li = color * intensity * attenuation;
+
+        vec3 R = reflect(L, N);
+
+        float dotVR = max(dot(V,R), 0.0001);
+        float spec = pow(dotVR,shininess);
+
+        vec3 numerator = (shininess + 2) * fresnel * spec;
+        vec3 specular = numerator / 2;
+        vec3 kD = vec3(1.0) - specular;
+        vec3 diffuse = kD * texDiffuse;
+
+        Lo += (diffuse + specular) * Li * dotNL;
+    }
+
+    return Lo;
+}
+
+vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_spot; ++i)
+    {
+        vec3 pos = spots[i].position.xyz;
+        vec3 aim = spots[i].aim;
+        vec3 color = spots[i].color.rgb;
+        float radius = spots[i].position.w;
+        float intensity = spots[i].color.a;
+        float innerAngle = spots[i].innerAngle;
+        float outerAngle = spots[i].outerAngle;
+        float cosInner = cos(innerAngle);
+        float cosOuter = cos(outerAngle);
+
+        vec3 L = normalize(FragPos - pos);
+
+        float theta = dot(L, normalize(-aim));
+
+        //if(theta > cosOuter) 
+        //{ 
+        float dotNL = max(dot(N, -L), 0.0);
+
+        vec3 fresnel  = fresnelSchlick(dotNL, f0);
+
+        // Attenuation
+        float distance = dot(FragPos - pos, aim);
+        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+
+        float C = dot(L, aim);
+        float Catt = 0;
+
+        if (C > cosInner)
+        {
+            Catt = 1;
+        }
+        else if (cosInner > C && C > cosOuter)
+        {
+            Catt = (C - cosOuter)/(cosInner - cosOuter);
+        }
+    
+        vec3 Li = color * intensity * attenuation * Catt;
+
+        vec3 R = reflect(L, N);
+
+        float dotVR = max(dot(V,R), 0.0001);
+        float spec = pow(dotVR,shininess);
+
+        vec3 numerator = (shininess + 2) * fresnel * spec;
+        vec3 specular = numerator / 2;
+        vec3 kD = vec3(1.0) - specular;
+        vec3 diffuse = kD * texDiffuse;
+            
+        Lo += (diffuse + specular) * Li * dotNL;
+    }
+
+    return Lo;
+}
   
 void main()
 {
-	//vec3 ambient = ambientValue * vec3(texture(texDiffuse, uv0));
-
-	//vec3 result = ambient;
-	
-	//color = vec4(result, 1.0);
-
-	// -------------------------------------
-	
 	vec3 norm = normalize(Normal);
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -109,7 +224,6 @@ void main()
         textureMat = pow(textureMat, vec3(2.2));
     }
     
-
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
@@ -134,28 +248,22 @@ void main()
     if (material.shininess_alpha == 1) {
 	    shininess = exp2(specularMat.a * 7 + 1);
     }
-
-    float NdotL = max(dot(norm, lightDir), 0.0);
-	vec3 fresnel  = fresnelSchlick(NdotL, f0);
-	
-	//specular
-	vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0001), shininess);
-    vec3 numerator = (shininess + 2) * fresnel * spec;
-	vec3 specular = numerator / 2;
-
-
-  	vec3 kS = f0;
-	vec3 kD = vec3(1.0) - kS;
-  	
-    // diffuse 
-    vec3 diffuse = kD * textureMat;
-    
-    //Lo
-    vec3 Lo = (diffuse + specular) * light.color * NdotL;
     
     // ambient
-    vec3 ambient = vec3(0.01) * textureMat;
+    vec3 ambient = ambientValue * textureMat;
+
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
+
+    if (num_point > 0)
+    {
+        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat);
+    }
+
+    if (num_spot > 0)
+    {
+        Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat);
+    }
+
     vec3 color = ambient + Lo;
     
 	//hdr rendering

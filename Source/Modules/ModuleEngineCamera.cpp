@@ -6,7 +6,7 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentBoundingBoxes.h"
 
@@ -88,8 +88,7 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
-				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
+			Focus(App->scene->GetSelectedGameObject());
 
 		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
@@ -256,6 +255,30 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 
 	frustum.SetPos(position);
 }
+
+void ModuleEngineCamera::Focus(GameObject* gameObject)
+{
+	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+	AABB minimalAABB;
+	std::vector<math::vec> outputArray{};
+	for (GameObject* object: insideGameObjects)
+	{
+		ComponentBoundingBoxes* boundingBox = (ComponentBoundingBoxes*)object->GetComponent(ComponentType::BOUNDINGBOX);
+		outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
+		outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
+	}
+	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), outputArray.size());
+	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
+
+	if (minSphere.r == 0) minSphere.r = 1.f;
+	float3 point = minSphere.Centroid();
+	position = point - frustum.Front().Normalized() * minSphere.Diameter();
+
+	SetLookAt(point);
+
+	frustum.SetPos(position);
+}
+
 
 void ModuleEngineCamera::Orbit(const OBB& obb)
 {

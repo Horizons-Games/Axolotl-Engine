@@ -2,11 +2,14 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 #include "../../FileSystem/UniqueID.h"
 
 class Component;
 class ComponentMeshRenderer;
+class Json;
+
 enum class ComponentType;
 enum class LightType;
 
@@ -17,9 +20,13 @@ public:
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
+	void SaveOptions(Json& json);
+	void LoadOptions(Json& json, std::vector<GameObject*>& loadedObjects);
+
 	void Update();
 	void Draw();
-	void Load();
+
+	void InitNewEmptyGameObject();
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
@@ -48,6 +55,8 @@ public:
 	Component* CreateComponentLight(LightType lightType);
 	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
+
+	std::list<GameObject*> GetGameObjectsInside();
 
 private:
 	bool IsAChild(const GameObject* child);

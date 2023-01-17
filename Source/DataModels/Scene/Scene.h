@@ -42,13 +42,19 @@ public:
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-	// --------- LIGHTS -----------
 	void GenerateLights();
-	void RenderLights();
-	void UpdateSceneLights();
-	// ----------------------------
+
+	void RenderAmbientLight() const;
+	void RenderDirectionalLight() const;
+	void RenderPointLights() const;
+	void RenderSpotLights() const;
+
+	void UpdateScenePointLights();
+	void UpdateSceneSpotLights();
 
 	GameObject* GetRoot() const;
+	GameObject* GetAmbientLight() const;
+	GameObject* GetDirectionalLight() const;
 	Quadtree* GetSceneQuadTree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
@@ -57,6 +63,11 @@ public:
 	void SetSceneQuadTree(Quadtree* quadtree);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetAmbientLight(GameObject* ambientLight);
+	void SetDirectionalLight(GameObject* directionalLight);
+
+	void GenerateNewQuadtree();
+	void InitNewEmptyScene();
 
 private:
 	void RemoveCamera(GameObject* cameraGameObject);
@@ -67,7 +78,6 @@ private:
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
 
-	// --------- LIGHTS -------------
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -78,10 +88,8 @@ private:
 	unsigned uboDirectional = 0;
 	unsigned ssboPoint = 0;
 	unsigned ssboSpot = 0;
-	// -------------------------------
-
-	AABB rootQuadtreeAABB = AABB(float3(-1000, -1000, -1000), float3(1000, 1000, 1000));
 	
+	AABB rootQuadtreeAABB = AABB(float3(-50, -1000, -50), float3(50, 1000, 50));
 	Quadtree* sceneQuadTree = nullptr;
 };
 
@@ -93,6 +101,16 @@ inline UID Scene::GetUID() const
 inline GameObject* Scene::GetRoot() const
 {
 	return root;
+}
+
+inline GameObject* Scene::GetAmbientLight() const
+{
+	return ambientLight;
+}
+
+inline GameObject* Scene::GetDirectionalLight() const
+{
+	return directionalLight;
 }
 
 inline void Scene::SetRoot(GameObject* newRoot)
@@ -118,6 +136,16 @@ inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
+}
+
+inline void Scene::SetAmbientLight(GameObject* ambientLight)
+{
+	this->ambientLight = ambientLight;
+}
+
+inline void Scene::SetDirectionalLight(GameObject* directionalLight)
+{
+	this->directionalLight = directionalLight;
 }
 
 inline Quadtree* Scene::GetSceneQuadTree() const

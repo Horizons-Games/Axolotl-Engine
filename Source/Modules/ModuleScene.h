@@ -2,6 +2,7 @@
 
 #include "Module.h"
 #include "../FileSystem/UniqueID.h"
+#include "FileSystem/Json.h"
 
 class GameObject;
 class Quadtree;
@@ -16,17 +17,13 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
-	void Load();
-	void Save();
-
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(Scene* newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
-	const std::vector<Scene*>& GetSavedScenes() const;
-	void SetSavedScenes(const std::vector<Scene*>& savedScenes);
 
-	Scene* SearchSceneByID(UID sceneUID) const;
+	void SaveSceneToJson(const std::string& name);
+	void LoadSceneFromJson(const std::string& name);
 
 	void OnPlay();
 	void OnPause();
@@ -35,12 +32,15 @@ public:
 private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
-	
+
+	void SetSceneFromJson(Json& Json);
+
 private:
 	Scene* loadedScene = nullptr;
 	GameObject* selectedGameObject = nullptr;
 
-	std::vector<Scene*> savedScenes = {};
+	//to store the tmp serialization of the Scene
+	rapidjson::Document tmpDoc;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
@@ -61,14 +61,4 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	selectedGameObject = gameObject;
-}
-
-inline const std::vector<Scene*>& ModuleScene::GetSavedScenes() const
-{
-	return savedScenes;
-}
-
-inline void ModuleScene::SetSavedScenes(const std::vector<Scene*>& savedScenes)
-{
-	this->savedScenes = savedScenes;
 }

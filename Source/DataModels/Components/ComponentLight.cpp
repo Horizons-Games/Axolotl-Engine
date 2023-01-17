@@ -7,29 +7,29 @@ ComponentLight::ComponentLight(const bool active, GameObject* owner)
 {
 }
 
-ComponentLight::ComponentLight(LightType type) : Component(ComponentType::LIGHT, true, nullptr, true)
+ComponentLight::ComponentLight(LightType type, bool canBeRemoved) : Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
 {
-	this->type = type;
+	this->lightType = type;
 };
 
-ComponentLight::ComponentLight(LightType type, GameObject* gameObject) : 
-	Component(ComponentType::LIGHT, true, gameObject, true)
+ComponentLight::ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved) : 
+	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
 {
-	this->type = type;
+	this->lightType = type;
 }
 
-ComponentLight::ComponentLight(LightType type, const float3& color, float intensity) :
-	Component(ComponentType::LIGHT, true, nullptr, true)
+ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved) :
+	Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
 {
-	this->type = type;
+	this->lightType = type;
 	this->color = color;
 	this->intensity = intensity;
 }
 
-ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject) :
-	Component(ComponentType::LIGHT, true, gameObject, true)
+ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject, bool canBeRemoved) :
+	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
 {
-	this->type = type;
+	this->lightType = type;
 	this->color = color;
 	this->intensity = intensity;
 	
@@ -37,6 +37,10 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 
 void ComponentLight::Display()
 {
-	ImGui::Text("LIGHT COMPONENT");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
+	if (ImGui::CollapsingHeader("BASIC LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("This is a basic light");
+	}
+
+	ImGui::Separator();
 }

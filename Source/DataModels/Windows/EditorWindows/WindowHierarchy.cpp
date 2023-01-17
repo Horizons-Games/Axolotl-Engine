@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/Component.h"
@@ -19,7 +19,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	flags |= ImGuiWindowFlags_AlwaysAutoResize;    
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -36,7 +36,7 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject != nullptr);
+    assert(gameObject != nullptr);   
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
@@ -64,9 +64,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (ImGui::IsItemClicked())
     {
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->Add(App->scene->GetSelectedGameObject());
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->Remove(gameObject);
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
     ImGui::PushID(gameObjectLabel);
@@ -116,16 +116,21 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                     }
                 }
             }
+        }
 
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+        {
             if (ImGui::MenuItem("Delete"))
             {
                 if (App->scene->GetSelectedGameObject() == gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->Remove(gameObject->GetParent());
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }

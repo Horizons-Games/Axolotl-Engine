@@ -12,6 +12,16 @@ bool ModuleFileSystem::Init()
     return true;
 }
 
+void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
+{
+    //for more protection
+    bool exists = Exists(assetsPath.c_str());
+    if (!exists)
+    {
+        CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+    }
+}
+
 bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* destinationFilePath)
 {
     FILE* src, * dst;
@@ -85,6 +95,7 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
         PHYSFS_close(file);
         return 1;
     }
+    PHYSFS_close(file);
     return 0;
 }
 
@@ -113,7 +124,7 @@ bool ModuleFileSystem::CleanUp() {
     return true;
 }
 
-std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
+std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath)
 {
     std::vector< std::string> files;
     char **rc = PHYSFS_enumerateFiles(directoryPath);
@@ -131,4 +142,82 @@ long long ModuleFileSystem::GetModificationDate(const char* filePath) const
 	PHYSFS_Stat fileStats;
 	PHYSFS_stat(filePath, &fileStats);
 	return fileStats.modtime;
+}
+
+const std::string ModuleFileSystem::GetPathWithoutFile(const std::string& pathWithFile)
+{
+    std::string fileName = "";
+    bool separatorFound = false;
+    for (int i = pathWithFile.size() - 1; 0 <= i && !separatorFound; --i)
+    {
+        char currentChar = pathWithFile[i];
+        separatorFound = currentChar == '\\' || currentChar == '/';
+        if (separatorFound)
+        {
+            fileName = pathWithFile.substr(0, i + 1);
+        }
+    }
+    return fileName;
+}
+
+const std::string ModuleFileSystem::GetPathWithoutExtension(const std::string& pathWithExtension)
+{
+    std::string pathWithoutExtension = std::string(pathWithExtension);
+    std::string fileExtension = GetFileExtension(pathWithExtension);
+    int posOfExtensionInPath = pathWithExtension.find(fileExtension);
+    if (0 < posOfExtensionInPath) //has file extension
+    {
+        pathWithoutExtension.erase(posOfExtensionInPath, fileExtension.size());
+    }
+    return pathWithoutExtension;
+}
+
+const std::string ModuleFileSystem::GetFileName(const std::string& path)
+{
+    std::string fileName = "";
+    bool separatorNotFound = true;
+    for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
+    {
+        char currentChar = path[i];
+        separatorNotFound = currentChar != '\\' && currentChar != '/';
+        if (separatorNotFound)
+        {
+            fileName.insert(0, 1, currentChar);
+        }
+    }
+    return GetPathWithoutExtension(fileName);
+}
+
+const std::string ModuleFileSystem::GetFileExtension(const std::string& path)
+{
+    std::string fileExtension = "";
+    bool dotNotFound = true;
+    for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
+    {
+        char currentChar = path[i];
+        fileExtension.insert(fileExtension.begin(), currentChar);
+        dotNotFound = currentChar != '.';
+    }
+    return fileExtension;
+}
+
+const std::string ModuleFileSystem::GetPathWithExtension(const std::string& pathWithoutExtension)
+{
+    std::string filePath = GetPathWithoutFile(pathWithoutExtension);
+    std::string fileName = GetFileName(pathWithoutExtension);
+    std::vector<std::string> files = ListFiles(filePath.c_str());
+    for (size_t i = 0; i < files.size(); i++)
+    {
+        std::string currentFile = files[i];
+        if (GetPathWithoutExtension(currentFile) == fileName)
+        {
+            std::string path(filePath);
+            path += currentFile;
+            if (GetFileExtension(path) != ".meta")
+            {
+                return path;
+            }
+        }
+    }
+    return "";
 }

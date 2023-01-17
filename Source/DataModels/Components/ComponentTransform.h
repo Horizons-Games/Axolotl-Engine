@@ -5,14 +5,21 @@
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
+#define COMPONENT_TRANSFORM "Transform"
+
+class Json;
+class ComponentLight;
+
 class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
-	~ComponentTransform() override;
 
 	void Update() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
@@ -40,11 +47,11 @@ public:
 	void ResetGlobalMatrix();
 
 private:
-	GameObject* ownerParent;
-
-	float3 pos = float3(0.0f, 0.0f, 0.0f);
+	void CalculateLightTransformed(const ComponentLight* lightComponent, bool translationModified, bool rotationModified);
+	
+	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
-	float3 sca = float3(1.0f, 1.0f, 1.0f);
+	float3 sca = float3::one;
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;

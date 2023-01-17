@@ -4,6 +4,10 @@
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
 
+#define COMPONENT_BOUNDING "Bounding"
+
+class Json;
+
 class ComponentBoundingBoxes : public Component
 {
 public:
@@ -14,6 +18,9 @@ public:
 
 	void CalculateBoundingBoxes();
 	void Draw() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void Encapsule(const vec* Vertices, unsigned numVertices);
 
@@ -33,7 +40,8 @@ private:
 
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
 {
-	localAABB.Enclose(Vertices, numVertices);
+	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
+	//localAABB.Enclose(Vertices, numVertices);
 }
 
 inline const AABB& ComponentBoundingBoxes::GetLocalABB()
