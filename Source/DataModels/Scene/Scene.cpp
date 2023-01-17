@@ -284,15 +284,20 @@ void Scene::RenderPointLights() const
 
 	unsigned numPoint = pointLights.size();
 
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
+
 	if (numPoint > 0)
 	{
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(),
-			nullptr, GL_DYNAMIC_DRAW);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
+	else
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
+	}
+	
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderSpotLights() const
@@ -303,15 +308,20 @@ void Scene::RenderSpotLights() const
 
 	unsigned numSpot = spotLights.size();
 
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
+
 	if (numSpot > 0)
 	{
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(),
-			nullptr, GL_DYNAMIC_DRAW);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
+	else
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), nullptr);
+	}
+	
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::UpdateScenePointLights()
