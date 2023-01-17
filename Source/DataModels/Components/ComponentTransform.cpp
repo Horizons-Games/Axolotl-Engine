@@ -27,7 +27,7 @@ void ComponentTransform::Update()
 void ComponentTransform::Display()
 {
 	float3 translation = GetPosition();
-	float3 rotation = GetRotationAngles();
+	float3 rotation = GetRotationXYZ();
   	float3 scale = GetScale();
 
 	float dragSpeed = 0.025f;
