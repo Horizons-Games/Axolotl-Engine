@@ -11,6 +11,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentMaterial.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
@@ -27,8 +28,7 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
-
+	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject();
 
 	bool enable = currentGameObject->IsEnabled();
 	ImGui::Checkbox("Enable", &enable);
@@ -118,7 +118,7 @@ void WindowInspector::DrawWindowContents()
 	//DrawTextureTable();
 }
 
-void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* component)
+void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
 {
 	char* textActive = new char[30];
 	sprintf(textActive, "##Enabled #%d", labelNum);
@@ -129,7 +129,7 @@ void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* 
 	(enable) ? component->Enable() : component->Disable();
 }
 
-bool WindowInspector::DrawDeleteComponentContent(int labelNum, Component* component)
+bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
 {
 	char* textRemove = new char[30];
 	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
@@ -162,20 +162,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-																->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	ComponentMeshRenderer* newMaterial = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-		->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight()
 {
-	ComponentMeshRenderer* newLight = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-		->CreateComponent(ComponentType::LIGHT);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT);
 }
 
 void WindowInspector::DrawTextureTable()

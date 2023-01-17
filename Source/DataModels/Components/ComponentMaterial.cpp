@@ -14,7 +14,7 @@
 #include <GL/glew.h>
 #include "imgui.h"
 
-ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
+ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
@@ -121,7 +121,6 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
@@ -170,7 +169,6 @@ void ComponentMaterial::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMaterial = meta["materialUID"];

@@ -14,7 +14,7 @@
 #include "imgui.h"
 
 
-ComponentCamera::ComponentCamera(bool active, GameObject* owner)
+ComponentCamera::ComponentCamera(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::CAMERA, active, owner, false)
 {
 	frustumOffset = 1;
@@ -28,7 +28,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	//Position PlaceHolder get position from component transform
-	trans = (ComponentTransform*)owner->GetComponent(ComponentType::TRANSFORM);
+	trans = std::static_pointer_cast<ComponentTransform>(owner->GetComponent(ComponentType::TRANSFORM));
 	
 	frustum.SetPos(trans->GetPosition());
 	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
@@ -82,7 +82,6 @@ void ComponentCamera::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["frustumOfset"] = (float)frustumOffset;
@@ -95,7 +94,6 @@ void ComponentCamera::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	frustumOffset = (float)meta["frustumOfset"];

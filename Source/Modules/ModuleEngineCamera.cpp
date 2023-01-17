@@ -94,7 +94,7 @@ update_status ModuleEngineCamera::Update()
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			const OBB& obb = ((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
+			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(App->scene->GetSelectedGameObject()
 				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
 			SetLookAt(obb.CenterPoint());
@@ -256,14 +256,15 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	frustum.SetPos(position);
 }
 
-void ModuleEngineCamera::Focus(GameObject* gameObject)
+void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 {
-	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+	std::list<std::shared_ptr<GameObject> > insideGameObjects = gameObject->GetGameObjectsInside();
 	AABB minimalAABB;
 	std::vector<math::vec> outputArray{};
-	for (GameObject* object: insideGameObjects)
+	for (std::shared_ptr<GameObject> object: insideGameObjects)
 	{
-		ComponentBoundingBoxes* boundingBox = (ComponentBoundingBoxes*)object->GetComponent(ComponentType::BOUNDINGBOX);
+		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
+			std::static_pointer_cast<ComponentBoundingBoxes>(object->GetComponent(ComponentType::BOUNDINGBOX));
 		outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
 		outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
 	}

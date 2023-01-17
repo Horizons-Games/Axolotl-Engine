@@ -34,7 +34,7 @@ void WindowHierarchy::DrawWindowContents()
     }
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& gameObject)
 {
     assert(gameObject != nullptr);   
 
@@ -78,12 +78,14 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         }
         if (ImGui::MenuItem("Create camera"))
         {
-            GameObject* newCamera = App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+            std::shared_ptr<GameObject> newCamera =
+                App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
+        // The root can't be neither deleted nor moved up/down
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot())
         {
-            std::vector<GameObject*> parentsChildren = gameObject->GetParent()->GetChildren();
+            std::vector<std::shared_ptr<GameObject> > parentsChildren = gameObject->GetParent()->GetChildren();
 
             if (ImGui::MenuItem("Move Up"))
             {
@@ -156,7 +158,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
                                                             // of the UID of the dragged GameObject
-            GameObject* draggedGameObject = App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+            std::shared_ptr<GameObject> draggedGameObject =
+                App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
             draggedGameObject->SetParent(gameObject);
         }

@@ -11,7 +11,7 @@ class Json;
 class ComponentBoundingBoxes : public Component
 {
 public:
-	ComponentBoundingBoxes(const bool active, GameObject* owner);
+	ComponentBoundingBoxes(const bool active, const std::shared_ptr<GameObject>& owner);
 
 	void Update() override;
 	void Display() override;

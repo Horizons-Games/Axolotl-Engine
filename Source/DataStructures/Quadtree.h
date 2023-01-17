@@ -1,42 +1,43 @@
 #pragma once
 #include <list>
+#include <memory>
 #include <MathGeoLib/Include/Geometry/AABB.h>
 #include "Globals.h"
 
 class GameObject;
 
-class Quadtree
+class Quadtree : public std::enable_shared_from_this<Quadtree>
 {
 public:
 	Quadtree(const AABB& boundingBox);
-	Quadtree(const AABB& boundingBox, Quadtree* root);
+	Quadtree(const AABB& boundingBox, const std::shared_ptr<Quadtree>& root);
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool InQuadrant(GameObject* gameObject);
+	bool InQuadrant(const std::shared_ptr<GameObject>& gameObject);
 
-	void Add(GameObject* gameObject);
-	void AddGameObjectAndChildren(GameObject* gameObject);
-	void Remove(GameObject* gameObject);
-	void RemoveGameObjectAndChildren(GameObject* gameObject);
+	void Add(const std::shared_ptr<GameObject>& gameObject);
+	void AddGameObjectAndChildren(const std::shared_ptr<GameObject>& gameObject);
+	void Remove(const std::shared_ptr<GameObject>& gameObject);
+	void RemoveGameObjectAndChildren(const std::shared_ptr<GameObject>& gameObject);
 	void SmartRemove();
 	void OptimizeParentObjects();
 	
 	void Subdivide();
-	void RedistributeGameObjects(GameObject* gameobject);
+	void RedistributeGameObjects(const std::shared_ptr<GameObject>& gameobject);
 
-	void ExpandToFit(GameObject* gameObject);
+	void ExpandToFit(const std::shared_ptr<GameObject>& gameObject);
 	void AdjustHeightToNodes(float minY, float maxY);
 
 	void ResetChildren();
 
-	const std::list<GameObject*>& GetGameObjects() const;
-	void GetFamilyObjects(std::list<GameObject*>& familyGameObjects);
+	const std::list<std::shared_ptr<GameObject> >& GetGameObjects() const;
+	void GetFamilyObjects(std::list<std::shared_ptr<GameObject> >& familyGameObjects);
 
-	Quadtree* GetFrontRightNode() const;
-	Quadtree* GetFrontLeftNode() const;
-	Quadtree* GetBackRightNode() const;
-	Quadtree* GetBackLeftNode() const;
+	const std::shared_ptr<Quadtree>& GetFrontRightNode() const;
+	const std::shared_ptr<Quadtree>& GetFrontLeftNode() const;
+	const std::shared_ptr<Quadtree>& GetBackRightNode() const;
+	const std::shared_ptr<Quadtree>& GetBackLeftNode() const;
 
 	bool IsFreezed() const;
 	void SetFreezedStatus(bool isFreezed);
@@ -50,23 +51,23 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 
-	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
+	std::list<std::shared_ptr<GameObject> > GetAllGameObjects(const std::shared_ptr<GameObject>& gameObject);
 
 private:
 
-	std::list<GameObject*> gameObjects;
+	std::list<std::shared_ptr<GameObject> > gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity = QUADRANT_CAPACITY;
 	float minQuadrantSideSize = MIN_CUBE_SIZE;
 	float minQuadrantDiagonalSquared = 3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE; // D^2 = 3C^2
 
-	Quadtree* parent;
+	std::shared_ptr<Quadtree> parent;
 
-	Quadtree* frontRightNode = nullptr;
-	Quadtree* frontLeftNode = nullptr;
-	Quadtree* backRightNode = nullptr;
-	Quadtree* backLeftNode = nullptr;
+	std::shared_ptr<Quadtree> frontRightNode = nullptr;
+	std::shared_ptr<Quadtree> frontLeftNode = nullptr;
+	std::shared_ptr<Quadtree> backRightNode = nullptr;
+	std::shared_ptr<Quadtree> backLeftNode = nullptr;
 
 	bool isFreezed = false;
 };
@@ -101,27 +102,27 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::list<GameObject*>& Quadtree::GetGameObjects() const
+inline const std::list<std::shared_ptr<GameObject> >& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }
 
-inline Quadtree* Quadtree::GetFrontRightNode() const
+inline const std::shared_ptr<Quadtree>& Quadtree::GetFrontRightNode() const
 {
 	return frontRightNode;
 }
 
-inline Quadtree* Quadtree::GetFrontLeftNode() const
+inline const std::shared_ptr<Quadtree>& Quadtree::GetFrontLeftNode() const
 {
 	return frontLeftNode;
 }
 
-inline Quadtree* Quadtree::GetBackRightNode() const
+inline const std::shared_ptr<Quadtree>& Quadtree::GetBackRightNode() const
 {
 	return backRightNode;
 }
 
-inline Quadtree* Quadtree::GetBackLeftNode() const
+inline const std::shared_ptr<Quadtree>& Quadtree::GetBackLeftNode() const
 {
 	return backLeftNode;
 }

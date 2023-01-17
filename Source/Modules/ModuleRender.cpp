@@ -201,7 +201,7 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	for (GameObject* gameObject : gameObjectsToDraw)
+	for (std::shared_ptr<GameObject> gameObject : gameObjectsToDraw)
 	{
 		if (gameObject->IsActive())
 			gameObject->Draw();
@@ -296,22 +296,22 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::FillRenderList(Quadtree* quadtree)
+void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
 {
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		std::list<GameObject*> gameObjectsToRender = quadtree->GetGameObjects();
+		std::list<std::shared_ptr<GameObject>> gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
-			for (GameObject* gameObject : gameObjectsToRender)
+			for (std::shared_ptr<GameObject> gameObject : gameObjectsToRender)
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (std::shared_ptr<GameObject> gameObject : gameObjectsToRender)  //We draw all these objects
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
@@ -330,9 +330,10 @@ void ModuleRender::FillRenderList(Quadtree* quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(GameObject* gameObject)
+void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject)
 {
-	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
+	std::shared_ptr<ComponentBoundingBoxes> boxes =
+		std::static_pointer_cast<ComponentBoundingBoxes>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
@@ -340,7 +341,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 
 	if (!gameObject->GetChildren().empty())
 	{
-		for (GameObject* children : gameObject->GetChildren())
+		for (std::shared_ptr<GameObject> children : gameObject->GetChildren())
 		{
 			AddToRenderList(children);
 		}

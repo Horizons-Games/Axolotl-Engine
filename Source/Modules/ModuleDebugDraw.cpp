@@ -612,9 +612,9 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
-    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->
-                                                        GetComponent(ComponentType::TRANSFORM);
+    std::shared_ptr<GameObject> selectedGameObject = App->scene->GetSelectedGameObject();
+    std::shared_ptr<ComponentTransform> selectedTransform =
+        std::static_pointer_cast<ComponentTransform>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
     DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
@@ -631,7 +631,7 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
-void ModuleDebugDraw::DrawTransform(ComponentTransform* transform)
+void ModuleDebugDraw::DrawTransform(const std::shared_ptr<ComponentTransform>& transform)
 {
     float4x4 transformDrawPosition = float4x4::FromTRS((float3)transform->GetGlobalPosition(), 
                                                             Quat::identity, float3(0.5f, 0.5f, 0.5f));

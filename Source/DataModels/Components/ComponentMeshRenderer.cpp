@@ -20,7 +20,7 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
@@ -45,7 +45,8 @@ void ComponentMeshRenderer::Draw()
 		unsigned program = App->program->GetProgram();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
-		const float4x4& model = ((ComponentTransform*)GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		const float4x4& model =
+			std::static_pointer_cast<ComponentTransform>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		GLint programInUse;
 		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
@@ -100,7 +101,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
@@ -121,7 +121,6 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
@@ -137,7 +136,8 @@ void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 	if (meshAsShared)
 	{
 		meshAsShared->Load();
-		ComponentBoundingBoxes* boundingBox = ((ComponentBoundingBoxes*)GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
+			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
 		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
 	}
 }

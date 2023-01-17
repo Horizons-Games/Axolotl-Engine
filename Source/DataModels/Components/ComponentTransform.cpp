@@ -11,7 +11,7 @@
 
 #include "imgui.h"
 
-ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
+ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
 }
@@ -157,17 +157,17 @@ void ComponentTransform::Display()
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
 	{
-		Component* comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
+		std::shared_ptr<Component> comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
+		std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
 
-		if (comp != nullptr)
+		if (lightComp)
 		{
-			ComponentLight* lightComp = (ComponentLight*)comp;
 			CalculateLightTransformed(lightComp, translationModified, rotationModified);
 		}
 	}
 }
 
-void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent, 
+void ComponentTransform::CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
 												   bool translationModified, 
 												   bool rotationModified)
 {
@@ -200,7 +200,6 @@ void ComponentTransform::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool) active;
-	meta["owner"] = (GameObject*) owner;
 	meta["removed"] = (bool) canBeRemoved;
 
 	meta["localPos_X"] = (float)pos.x;
@@ -254,8 +253,8 @@ void ComponentTransform::CalculateGlobalMatrix()
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform = (ComponentTransform*)GetOwner()->GetParent()
-															->GetComponent(ComponentType::TRANSFORM);
+	std::shared_ptr<ComponentTransform> parentTransform =
+		std::static_pointer_cast<ComponentTransform>(GetOwner()->GetParent()->GetComponent(ComponentType::TRANSFORM));
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

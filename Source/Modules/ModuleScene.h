@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Module.h"
+
+#include <memory>
+
 #include "../FileSystem/UniqueID.h"
 #include "FileSystem/Json.h"
 
@@ -17,10 +20,10 @@ public:
 	bool Init() override;
 	update_status Update() override;
 
-	Scene* GetLoadedScene() const;
-	void SetLoadedScene(Scene* newScene);
-	GameObject* GetSelectedGameObject() const;
-	void SetSelectedGameObject(GameObject* gameObject);
+	const std::shared_ptr<Scene>& GetLoadedScene() const;
+	void SetLoadedScene(const std::shared_ptr<Scene>& newScene);
+	const std::shared_ptr<GameObject>& GetSelectedGameObject() const;
+	void SetSelectedGameObject(const std::shared_ptr<GameObject>& gameObject);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -30,35 +33,35 @@ public:
 	void OnStop();
 
 private:
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
-	Scene* CreateEmptyScene() const;
+	void UpdateGameObjectAndDescendants(const std::shared_ptr<GameObject>& gameObject) const;
+	std::shared_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& Json);
 
 private:
-	Scene* loadedScene = nullptr;
-	GameObject* selectedGameObject = nullptr;
+	std::shared_ptr<Scene> loadedScene = nullptr;
+	std::shared_ptr<GameObject> selectedGameObject = nullptr;
 
 	//to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 };
 
-inline Scene* ModuleScene::GetLoadedScene() const
+inline const std::shared_ptr<Scene>& ModuleScene::GetLoadedScene() const
 {
 	return loadedScene;
 }
 
-inline void ModuleScene::SetLoadedScene(Scene* newScene)
+inline void ModuleScene::SetLoadedScene(const std::shared_ptr<Scene>& newScene)
 {
 	loadedScene = newScene;
 }
 
-inline GameObject* ModuleScene::GetSelectedGameObject() const
+inline const std::shared_ptr<GameObject>& ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
 }
 
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+inline void ModuleScene::SetSelectedGameObject(const std::shared_ptr<GameObject>& gameObject)
 {
 	selectedGameObject = gameObject;
 }

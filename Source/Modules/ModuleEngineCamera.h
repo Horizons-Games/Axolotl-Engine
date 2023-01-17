@@ -3,6 +3,8 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
+#include <memory>
+
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Geometry/Plane.h"
@@ -55,7 +57,7 @@ public:
 	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
-	void Focus(GameObject* gameObject);
+	void Focus(const std::shared_ptr<GameObject>& gameObject);
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);

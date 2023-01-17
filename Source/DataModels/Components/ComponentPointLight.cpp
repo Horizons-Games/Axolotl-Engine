@@ -17,7 +17,8 @@ ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, tr
 {
 }
 
-ComponentPointLight::ComponentPointLight(GameObject* parent) : ComponentLight(LightType::SPOT, parent, true)
+ComponentPointLight::ComponentPointLight(const std::shared_ptr<GameObject>& parent) :
+	ComponentLight(LightType::SPOT, parent, true)
 {
 }
 
@@ -27,7 +28,8 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 	this->radius = radius;
 }
 
-ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity, GameObject* parent) :
+ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity,
+										 const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::POINT, color, intensity, parent, true)
 {
 	this->radius = radius;
@@ -37,7 +39,8 @@ void ComponentPointLight::Draw()
 {
 	if (this->GetActive())
 	{
-		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
+		std::shared_ptr<ComponentTransform> transform =
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetPosition();
 
@@ -72,14 +75,15 @@ void ComponentPointLight::Display()
 					{
 						if (lightTypes[i] == "Spot")
 						{
-							ComponentSpotLight* newSpot = (ComponentSpotLight*)this->GetOwner()->
-								CreateComponentLight(LightType::SPOT);
+							std::shared_ptr<ComponentSpotLight> newSpot =
+								std::static_pointer_cast<ComponentSpotLight>(this->GetOwner()
+									->CreateComponentLight(LightType::SPOT));
 							
 							newSpot->SetColor(color);
 							newSpot->SetIntensity(intensity);
 							newSpot->SetRadius(radius);
 
-							this->GetOwner()->RemoveComponent(this);
+							this->GetOwner()->RemoveComponent(shared_from_this());
 
 							App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 							App->scene->GetLoadedScene()->RenderPointLights();
@@ -141,7 +145,6 @@ void ComponentPointLight::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["color_light_X"] = (float)color.x;
@@ -160,7 +163,6 @@ void ComponentPointLight::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	color.x = (float)meta["color_light_X"];

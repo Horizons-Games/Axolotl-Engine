@@ -40,8 +40,8 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
+	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
 
 	//void DrawScene(Quadtree* quadtree);
 
@@ -55,7 +55,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
+	std::vector<std::shared_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;
