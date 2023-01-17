@@ -201,7 +201,7 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	for (GameObject* gameObject : gameObjects)
+	for (GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject->IsActive())
 			gameObject->Draw();
