@@ -39,8 +39,12 @@ Scene::Scene()
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight1 = CreateGameObject("PointLight", root);
+	pointLight1->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight2 = CreateGameObject("PointLight", root);
+	pointLight2->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight3 = CreateGameObject("PointLight", root);
+	pointLight3->CreateComponentLight(LightType::POINT);
 
 	/*GameObject* spotLight1 = CreateGameObject("SpotLight", root);
 	spotLight1->CreateComponentLight(LightType::SPOT);*/
@@ -307,7 +311,6 @@ void Scene::RenderPointLights() const
 	const unsigned program = App->program->GetProgram();
 
 	glUseProgram(program);
-
 
 	unsigned numPoint = pointLights.size();
 
