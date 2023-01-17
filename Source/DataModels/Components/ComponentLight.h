@@ -8,7 +8,7 @@
 
 #define COMPONENT_LIGHT "Light"
 
-enum class LightType { UNKNOW, DIRECTIONAL, POINT, SPOT, AMBIENT };
+enum class LightType { UNKNOWN, DIRECTIONAL, POINT, SPOT, AMBIENT };
 
 class Json;
 
@@ -22,7 +22,7 @@ public:
 	ComponentLight(LightType type, const float3& color, float intensity, 
 				   GameObject* gameObject, bool canBeRemoved);
 
-	~ComponentLight() {};
+	virtual ~ComponentLight() {};
 
 	void Update() override;
 
@@ -96,7 +96,7 @@ inline LightType ComponentLight::GetLightTypeByName(const std::string& typeName)
 		return LightType::SPOT;
 	if (typeName == "LightType_Ambient")
 		return LightType::AMBIENT;
-	return LightType::UNKNOW;
+	return LightType::UNKNOWN;
 }
 
 inline const float3& ComponentLight::GetColor() const

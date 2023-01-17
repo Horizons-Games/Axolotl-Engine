@@ -1,10 +1,18 @@
 #include "ComponentDirLight.h"
 #include "ComponentTransform.h"
 
+#include "Application.h"
+
+#include "../Modules/ModuleScene.h"
+
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
 #include "imgui.h"
+
+#include "GL/glew.h"
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false) 
 {
@@ -28,29 +36,40 @@ void ComponentDirLight::Display()
 {
 	const char* lightTypes[] = { "Point", "Spot" };
 
+	bool modified = false;
+
 	if (ImGui::CollapsingHeader("DIRECTIONAL LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		ImGui::Dummy(ImVec2(0.0f, 2.5f));
+
 		if (ImGui::BeginTable("DirLightTable", 2))
 		{
 			ImGui::TableNextColumn();
 
-			float intensity = GetIntensity();
 			ImGui::Text("Intensity"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-				0.0f, 1.0f
-			); ImGui::PopStyleVar();
-			SetIntensity(intensity);
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
+			{
+				modified = true;
+			}
+			ImGui::PopStyleVar();
 
-			static float3 color = GetColor();
 			ImGui::Text("Color"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-				SetColor(color);
+			{
+				modified = true;
+			}
+
+			if (modified)
+			{
+				App->scene->GetLoadedScene()->RenderDirectionalLight();
+			}
 
 			ImGui::EndTable();
-			ImGui::Separator();
 		}
+
+		ImGui::Separator();
 	}
 }
 

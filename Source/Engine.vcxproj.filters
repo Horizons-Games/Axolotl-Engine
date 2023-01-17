@@ -343,20 +343,17 @@
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>Source\DataStructures</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Scene\Scene.cpp">
+      <Filter>Source\DataModels\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
       <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Scene\Scene.cpp">
-      <Filter>Source\DataModels\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

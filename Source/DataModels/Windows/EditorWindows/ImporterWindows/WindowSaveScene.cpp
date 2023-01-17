@@ -1,8 +1,10 @@
 #include "WindowSaveScene.h"
-#include "FontIcons/CustomFont.cpp"
 
+#include "Application.h"
+#include "ModuleScene.h"
 
-void WindowSaveScene::DoThisIfOk(std::string fileNamePath)
+void WindowSaveScene::DoThisIfOk()
 {
-	// TODO :: Do this after the OK, if is save scene
+	std::string filePathName = fileDialogImporter.GetCurrentFileName();
+	App->scene->SaveSceneToJson(filePathName);
 }

@@ -11,6 +11,10 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include <assert.h>
@@ -36,8 +40,19 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
-	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
+	for (Component* comp : components)
+	{
+		delete comp;
+	}
+
+	components.clear();
+
+	for (GameObject* child : children)
+	{
+		delete child;
+	}
+
+	children.clear();
 }
 
 void GameObject::Update()
@@ -64,25 +79,60 @@ void GameObject::Draw()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	meta["name"] = name.c_str();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
-	meta["name"] = (const char*) name.c_str();
 
-	//meta["components"] = (std::vector<Component*>) components;
-	meta["parent"] = (GameObject*)parent;
-	//meta["children"] = (std::vector<GameObject*>) children;
+	Json jsonComponents = meta["Components"];
+
+	for (int i = 0; i < components.size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+
+		components[i]->SaveOptions(jsonComponent);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+
+		children[i]->SaveOptions(jsonGameObject);
+	}
 }
 
 void GameObject::LoadOptions(Json& meta)
 {
 	uid = UniqueID::GenerateUID();
+	name = meta["name"];
 	enabled = (bool) meta["enabled"];
 	active = (bool) meta["active"];
-	//name = (const char*) meta["name"];
+	
+	Json jsonComponents = meta["Components"];
 
-	components = (std::vector<Component*>) meta["components"];
-	//parent = (GameObject*) meta["parent"];
-	children = (std::vector<GameObject*>) meta["children"];
+	for (int i = 0; i < jsonComponents.Size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
+
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
+		Component* component = CreateComponent(type);
+		component->LoadOptions(jsonComponent);
+		components.push_back(component);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < jsonChildrens.Size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+		std::string name = jsonGameObject["name"];
+
+		GameObject* gameObject = new GameObject(name.c_str(), this);
+		gameObject->LoadOptions(jsonGameObject);
+		children.push_back(gameObject);
+	}
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -329,4 +379,17 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	}
 
 	return false;
+}
+
+std::list<GameObject*> GameObject::GetGameObjectsInside()
+{
+
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(this);
+	for (GameObject* children : this->GetChildren())
+	{
+		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside() ;
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
+	}
+	return familyObjects;
 }

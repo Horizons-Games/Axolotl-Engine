@@ -1,0 +1,761 @@
+{
+    "name": "alaprimera",
+    "enabled": true,
+    "active": true,
+    "Components": [
+        {
+            "Component": {
+                "type": "Component_Transform",
+                "active": true,
+                "owner": true,
+                "removed": false,
+                "localPos_X": 0.0,
+                "localPos_Y": 0.0,
+                "localPos_Z": 0.0,
+                "localRot_X": 0.0,
+                "localRot_Y": 0.0,
+                "localRot_Z": 0.0,
+                "localSca_X": 1.0,
+                "localSca_Y": 1.0,
+                "localSca_Z": 1.0
+            }
+        },
+        {
+            "Component": {
+                "type": "Component_Bounding",
+                "active": true,
+                "owner": true,
+                "removed": false,
+                "AABBMin_X": 0.0,
+                "AABBMin_Y": 0.0,
+                "AABBMin_Z": 0.0,
+                "AABBMax_X": 0.0,
+                "AABBMax_Y": 0.0,
+                "AABBMax_Z": 0.0
+            }
+        }
+    ],
+    "Childrens": [
+        {
+            "GameObject": {
+                "name": "Ambient_Light",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "color_light_X": 0.05000000074505806,
+                            "color_light_Y": 0.05000000074505806,
+                            "color_light_Z": 0.05000000074505806,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
+                        }
+                    }
+                ],
+                "Childrens": null
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ],
+                "Childrens": null
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PointLight",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "owner": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Point",
+                            "radius": 0.5
+                        }
+                    }
+                ],
+                "Childrens": null
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BakerHouse.fbx",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": -3.450000047683716,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    }
+                ],
+                "Childrens": [
+                    {
+                        "GameObject": {
+                            "name": "BakerHouse_0",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": 1.5711853504180909,
+                                        "AABBMin_Y": 0.012897491455078125,
+                                        "AABBMin_Z": -0.03543161228299141,
+                                        "AABBMax_X": 2.2668659687042238,
+                                        "AABBMax_Y": 2.394075632095337,
+                                        "AABBMax_Z": 0.964568555355072
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 16215523830871666493,
+                                        "textureDiffuseUID": 14223978578815384522,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 12634352016078790888
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "BakerHouse_1",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": -1.5340535640716553,
+                                        "AABBMin_Y": 0.012897372245788575,
+                                        "AABBMin_Z": -2.060347080230713,
+                                        "AABBMax_X": 1.6797043085098267,
+                                        "AABBMax_Y": 3.555873394012451,
+                                        "AABBMax_Z": 1.906912922859192
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 16215523830871666493,
+                                        "textureDiffuseUID": 14223978578815384522,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 9757179474032434665
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "shiba.fbx",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 2.575000047683716,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    }
+                ],
+                "Childrens": [
+                    {
+                        "GameObject": {
+                            "name": "shiba_0",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": -0.8517309427261353,
+                                        "AABBMin_Y": 1.207944631576538,
+                                        "AABBMin_Z": -0.3143142759799957,
+                                        "AABBMax_X": 0.8517309427261353,
+                                        "AABBMax_Y": 2.3540384769439699,
+                                        "AABBMax_Z": 1.1221026182174683
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 6721635654830798396,
+                                        "textureDiffuseUID": 10358305354341987558,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 1845658512020304267
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "shiba_1",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": -1.235846757888794,
+                                        "AABBMin_Y": -0.12775246798992158,
+                                        "AABBMin_Z": -2.82057523727417,
+                                        "AABBMax_X": 1.235846757888794,
+                                        "AABBMax_Y": 3.5789716243743898,
+                                        "AABBMax_Z": 1.9429244995117188
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 6609047743938167028,
+                                        "textureDiffuseUID": 10358305354341987558,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 12800449045183428066
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "shiba_2",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": -0.5259895324707031,
+                                        "AABBMin_Y": 2.2934229373931886,
+                                        "AABBMin_Z": 1.3123340606689454,
+                                        "AABBMax_X": 0.5259895324707031,
+                                        "AABBMax_Y": 2.7130184173583986,
+                                        "AABBMax_Z": 1.5221319198608399
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 18265000964817180599,
+                                        "textureDiffuseUID": 10358305354341987558,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 12508268488833082061
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "fox.fbx",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    }
+                ],
+                "Childrens": [
+                    {
+                        "GameObject": {
+                            "name": "fox_0",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": 0.0,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Bounding",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": false,
+                                        "AABBMin_X": -0.19671620428562165,
+                                        "AABBMin_Y": -0.0019018485909327865,
+                                        "AABBMin_Z": -1.3761695623397828,
+                                        "AABBMax_X": 0.19671620428562165,
+                                        "AABBMax_Y": 1.2326427698135377,
+                                        "AABBMax_Z": 1.0407752990722657
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Material",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "materialUID": 16833336563048708976,
+                                        "textureDiffuseUID": 9991961399109140892,
+                                        "textureNormalUID": 0,
+                                        "textureOcclusionUID": 0,
+                                        "textureSpecularUID": 0,
+                                        "diffuseColor_X": 1.0,
+                                        "diffuseColor_Y": 1.0,
+                                        "diffuseColor_Z": 0.0,
+                                        "specularColor_X": 0.5,
+                                        "specularColor_Y": 0.5,
+                                        "specularColor_Z": 0.5,
+                                        "shininess": 512.0,
+                                        "normalStrenght": 1.0,
+                                        "hasShininessAlpha": false
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_MeshRenderer",
+                                        "active": true,
+                                        "owner": true,
+                                        "removed": true,
+                                        "meshUID": 10293362931947728306
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

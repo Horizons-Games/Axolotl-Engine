@@ -6,6 +6,7 @@
 class GameObject;
 class Quadtree;
 class Scene;
+class Json;
 
 class ModuleScene : public Module
 {
@@ -25,6 +26,9 @@ public:
 
 	Scene* SearchSceneByID(UID sceneUID) const;
 
+	void SaveSceneToJson(const std::string& name);
+	void LoadSceneFromJson(const std::string& name);
+
 	void OnPlay();
 	void OnPause();
 	void OnStop();
@@ -33,8 +37,6 @@ private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	Scene* CreateEmptyScene() const;
 
-	void SaveSceneToJson(Scene* scene);
-	
 private:
 	Scene* loadedScene = nullptr;
 	GameObject* selectedGameObject = nullptr;

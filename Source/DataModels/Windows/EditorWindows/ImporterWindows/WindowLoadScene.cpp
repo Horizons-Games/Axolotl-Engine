@@ -1,8 +1,10 @@
 #include "WindowLoadScene.h"
 
-#include "FontIcons/CustomFont.cpp"
+#include "Application.h"
+#include "ModuleScene.h"
 
-void WindowLoadScene::DoThisIfOk(std::string fileNamePath)
+void WindowLoadScene::DoThisIfOk()
 {
-	// TODO :: Do this after the OK, if is load scene
+	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+	App->scene->LoadSceneFromJson(filePath);
 }

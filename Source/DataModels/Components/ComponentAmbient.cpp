@@ -1,5 +1,11 @@
 #include "ComponentAmbient.h"
 
+#include "Application.h"
+
+#include "Scene/Scene.h"
+
+#include "../Modules/ModuleScene.h"
+
 #include "FileSystem/Json.h"
 
 #include "imgui.h"
@@ -25,28 +31,22 @@ void ComponentAmbient::Display()
 {
 	if (ImGui::CollapsingHeader("AMBIENT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		ImGui::Dummy(ImVec2(0.0f, 2.5f));
+
 		if (ImGui::BeginTable("AmbientLightTable", 2))
 		{
 			ImGui::TableNextColumn();
+						
+			ImGui::Text("Color"); 
+			ImGui::SameLine();
 
-			float intensity = GetIntensity();
-			ImGui::Text("Intensity"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##Intensity", &intensity, 0.01f,
-				0.0f, 1.0f
-			); ImGui::PopStyleVar();
-			SetIntensity(intensity);
-
-			static float3 color = GetColor();
-			ImGui::Text("Color"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-				SetColor(color);
-
+			{
+				App->scene->GetLoadedScene()->RenderAmbientLight();
+			}
 			ImGui::EndTable();
 		}
 	}
-
 	ImGui::Separator();
 }
 

@@ -33,39 +33,42 @@ Scene::Scene()
 
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
 
-	// ----------- Light ------------
 	ambientLight = CreateGameObject("Ambient_Light", root);
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
 
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight1 = CreateGameObject("PointLight", root);
+	pointLight1->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight2 = CreateGameObject("PointLight", root);
+	pointLight2->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight3 = CreateGameObject("PointLight", root);
+	pointLight3->CreateComponentLight(LightType::POINT);
 
-	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);
+	/*GameObject* spotLight1 = CreateGameObject("SpotLight", root);
+	spotLight1->CreateComponentLight(LightType::SPOT);*/
 
 	GenerateLights();
-	UpdateSceneLights();
-	RenderLights();
-	// ------------------------------
+
+	UpdateScenePointLights();
+	UpdateSceneSpotLights();
+
+	RenderAmbientLight();
+	RenderDirectionalLight();
+	RenderPointLights();
+	RenderSpotLights();
 
 	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
 Scene::~Scene()
 {
-	delete root;
+	delete root; // When the root is deleted, the ambient and point lights are also deleted
 	delete sceneQuadTree;
 
 	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
-
-	// ----------- Light ------------
-	delete ambientLight;
-	delete directionalLight;
-	// ------------------------------
 }
 
 void Scene::FillQuadtree(std::vector<GameObject*>& gameObjects)
@@ -134,11 +137,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	{
 		if (*it == gameObject)
 		{
-			if ((*it)->GetComponent(ComponentType::CAMERA) != nullptr) // If the object is a camera, remove it from cameras too
-			{
-				RemoveCamera(*it);
-			}
-
+			delete *it;
 			sceneGameObjects.erase(it);
 			return;
 		}
@@ -214,11 +213,11 @@ void Scene::RemoveCamera(GameObject* cameraGameObject)
 	}
 }
 
-// --------------------------- LIGHTS -------------------------------
-
 void Scene::GenerateLights()
 {
 	const unsigned program = App->program->GetProgram();
+	
+	glUseProgram(program);
 
 	// Ambient
 
@@ -277,9 +276,11 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderLights()
+void Scene::RenderAmbientLight() const
 {
-	// Ambient
+	const unsigned program = App->program->GetProgram();
+
+	glUseProgram(program);
 
 	ComponentLight* ambientComp = (ComponentLight*)ambientLight->GetComponent(ComponentType::LIGHT);
 	float3 ambientValue = ambientComp->GetColor();
@@ -287,8 +288,13 @@ void Scene::RenderLights()
 	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
 
-	// Directional
+void Scene::RenderDirectionalLight() const
+{
+	const unsigned program = App->program->GetProgram();
+
+	glUseProgram(program);
 
 	ComponentTransform* dirTransform = (ComponentTransform*)directionalLight->GetComponent(ComponentType::TRANSFORM);
 	ComponentLight* dirComp = (ComponentLight*)directionalLight->GetComponent(ComponentType::LIGHT);
@@ -300,8 +306,13 @@ void Scene::RenderLights()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
 	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
 
-	// Point
+void Scene::RenderPointLights() const
+{
+	const unsigned program = App->program->GetProgram();
+
+	glUseProgram(program);
 
 	unsigned numPoint = pointLights.size();
 
@@ -311,11 +322,16 @@ void Scene::RenderLights()
 		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(),
 			nullptr, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(),  &pointLights[0]);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
+}
 
-	// Spot
+void Scene::RenderSpotLights() const
+{
+	const unsigned program = App->program->GetProgram();
+
+	glUseProgram(program);
 
 	unsigned numSpot = spotLights.size();
 
@@ -374,4 +390,59 @@ void Scene::UpdateSceneLights()
 	}
 }
 
-// -------------------------------------------------------------------
+void Scene::UpdateScenePointLights()
+{
+	pointLights.clear();
+
+	std::vector<GameObject*> children = GetSceneGameObjects();
+
+	for (GameObject* child : children)
+	{
+		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		if (!components.empty())
+		{
+			if (components[0]->GetLightType() == LightType::POINT)
+			{
+				ComponentPointLight* pointLightComp = (ComponentPointLight*)components[0];
+				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
+					GetComponent(ComponentType::TRANSFORM);
+
+				PointLight pl;
+				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+
+				pointLights.push_back(pl);
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneSpotLights()
+{
+	spotLights.clear();
+
+	std::vector<GameObject*> children = GetSceneGameObjects();
+
+	for (GameObject* child : children)
+	{
+		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		if (!components.empty())
+		{
+			if (components[0]->GetLightType() == LightType::SPOT)
+			{
+				ComponentSpotLight* spotLightComp = (ComponentSpotLight*)components[0];
+				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
+					GetComponent(ComponentType::TRANSFORM);
+
+				SpotLight sl;
+				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
+				sl.aim = transform->GetGlobalForward().Normalized();
+				sl.innerAngle = spotLightComp->GetInnerAngle();
+				sl.outAngle = spotLightComp->GetOuterAngle();
+
+				spotLights.push_back(sl);
+			}
+		}
+	}
+}

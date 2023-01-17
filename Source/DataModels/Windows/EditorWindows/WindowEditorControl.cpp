@@ -27,9 +27,6 @@ WindowEditorControl::~WindowEditorControl()
 
 void WindowEditorControl::DrawWindowContents()
 {
-    //TODO: REMOVE AFTER, HERE WE GO
-    DrawButtomsSaveAndLoad();
-    //
     ImGuiStyle& style = ImGui::GetStyle();
 
     float size = ImGui::CalcTextSize("##Play").x + style.FramePadding.x * 2.0f;
@@ -53,6 +50,10 @@ void WindowEditorControl::DrawWindowContents()
 
     }
     ImGui::SameLine();
+
+    //TODO: REMOVE AFTER, HERE WE GO
+    DrawButtomsSaveAndLoad();
+    //
 }
 
 // TODO: REMOVE
