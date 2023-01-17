@@ -87,14 +87,15 @@ void ComponentMeshRenderer::Display()
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL_DRAG_AND_DROP"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
 				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
 
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
 
-				SetMesh(newMesh);
+				if (newMesh)
+					SetMesh(newMesh);
 			}
 
 			ImGui::EndDragDropTarget();
