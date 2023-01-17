@@ -64,19 +64,6 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
 	}
 }
 
-Scene* ModuleScene::SearchSceneByID(UID sceneID) const
-{
-	for (Scene* scene : savedScenes)
-	{
-		if (scene->GetUID() == sceneID)
-		{
-			return scene;
-		}
-	}
-
-	return nullptr;
-}
-
 void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");
@@ -98,18 +85,18 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
-	
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
-
 	//clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
 
 Scene* ModuleScene::CreateEmptyScene() const
 {
-	return new Scene();
+	Scene* newScene = new Scene();
+	newScene->InitNewEmptyScene();
+	return newScene;
 }
 
 void ModuleScene::SaveSceneToJson(const std::string& name)
@@ -157,9 +144,12 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 {
 	Scene* sceneToLoad = new Scene();
 	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
+
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
+
+	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-50, -1000, -50), float3(50, 1000, 50))));
 	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -202,11 +192,14 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	App->renderer->FillRenderList(sceneQuadtree);
 
 	sceneToLoad->SetRoot(newRoot);
+	selectedGameObject = newRoot;
+
 	sceneToLoad->SetSceneGameObjects(loadedObjects);
 	sceneToLoad->SetSceneCameras(loadedCameras);
 	sceneToLoad->SetAmbientLight(ambientLight);
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
-	this->loadedScene = sceneToLoad;
+	delete loadedScene;
+	loadedScene = sceneToLoad;
 }

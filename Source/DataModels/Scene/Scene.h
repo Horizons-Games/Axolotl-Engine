@@ -49,7 +49,6 @@ public:
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 
-	void UpdateSceneLights();
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 
@@ -66,6 +65,9 @@ public:
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
+
+	void GenerateNewQuadtree();
+	void InitNewEmptyScene();
 
 private:
 	void RemoveCamera(GameObject* cameraGameObject);

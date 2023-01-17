@@ -42,9 +42,7 @@ public:
 
 	void FillRenderList(Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
-	
-	bool LoadModel(const char* path); // This method should disappear
-	bool AnyModelLoaded(); // This method should disappear
+
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
@@ -56,10 +54,8 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-
-	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
-
-	std::vector<GameObject*> gameObjects; //This vector should convert to shared_ptr when Scene does
+	
+	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;

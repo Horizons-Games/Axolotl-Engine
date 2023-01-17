@@ -26,6 +26,8 @@ public:
 	void Update();
 	void Draw();
 
+	void InitNewEmptyGameObject();
+
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);
 

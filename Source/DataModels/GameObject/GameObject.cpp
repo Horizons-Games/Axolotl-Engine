@@ -22,8 +22,6 @@
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -34,8 +32,6 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
 
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::~GameObject()
@@ -115,11 +111,6 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 
 	if(jsonComponents.Size() != 0)
 	{
-		//TODO sceneManagement la constructora de GameObject no deberia meter componentes
-		//Porque entonces cuando los cargo he de sobrescribirlos en vez de crearlos pero 
-		//solo los de transform y bounding y es un pistofio
-		components.clear();
-		//Cuando hagais eso podeis quitar este clear
 		for (int i = 0; i < jsonComponents.Size(); ++i)
 		{
 			Json jsonComponent = jsonComponents[i]["Component"];
@@ -159,6 +150,12 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}
+}
+
+void GameObject::InitNewEmptyGameObject()
+{
+	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -210,10 +207,7 @@ void GameObject::RemoveChild(GameObject* child)
 
 void GameObject::Enable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -226,10 +220,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = false;
 	active = false;
@@ -341,7 +332,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 		break;
 
 	case LightType::SPOT:
-		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, this);
+		newComponent = new ComponentSpotLight(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
 		break;
 	}
 

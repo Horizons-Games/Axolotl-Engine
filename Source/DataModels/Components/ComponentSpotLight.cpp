@@ -74,6 +74,7 @@ void ComponentSpotLight::Display()
 						this->GetOwner()->RemoveComponent(this);
 
 						App->scene->GetLoadedScene()->UpdateScenePointLights();
+						App->scene->GetLoadedScene()->RenderPointLights();
 
 						modified = true;
 					}
@@ -143,6 +144,7 @@ void ComponentSpotLight::Display()
 
 			if (modified)
 			{
+				App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 				App->scene->GetLoadedScene()->RenderSpotLights();
 			}
 
@@ -162,8 +164,8 @@ void ComponentSpotLight::Draw()
 		float3 position = transform->GetPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
 
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle, 0.0f);
+		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
+		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
 }
 

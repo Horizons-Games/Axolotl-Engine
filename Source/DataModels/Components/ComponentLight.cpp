@@ -39,7 +39,7 @@ void ComponentLight::Display()
 {
 	if (ImGui::CollapsingHeader("BASIC LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-
+		ImGui::Text("This is a basic light");
 	}
 
 	ImGui::Separator();

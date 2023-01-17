@@ -83,9 +83,9 @@ void ComponentMaterial::Draw()
 			texture->Load();
 		}
 
-		glActiveTexture(GL_TEXTURE1 + texture->GetGlTexture());
+		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
 		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-		glUniform1i(glGetUniformLocation(program, "material.normal_map"), 1);
+		glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
 		glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
 
 		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
