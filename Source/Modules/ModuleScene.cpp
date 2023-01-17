@@ -79,8 +79,6 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
-	//delete App->scene->loadedScene->GetRoot();
-	//loadedScene->GenerateNewQuadtree();
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
@@ -138,10 +136,12 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 {
 	Scene* sceneToLoad = new Scene();
 	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
-	selectedGameObject = newRoot;
+
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
+
+	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-50, -1000, -50), float3(50, 1000, 50))));
 	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -184,12 +184,14 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	App->renderer->FillRenderList(sceneQuadtree);
 
 	sceneToLoad->SetRoot(newRoot);
+	selectedGameObject = newRoot;
+
 	sceneToLoad->SetSceneGameObjects(loadedObjects);
 	sceneToLoad->SetSceneCameras(loadedCameras);
 	sceneToLoad->SetAmbientLight(ambientLight);
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
-	delete this->loadedScene;
-	this->loadedScene = sceneToLoad;
+	delete loadedScene;
+	loadedScene = sceneToLoad;
 }
