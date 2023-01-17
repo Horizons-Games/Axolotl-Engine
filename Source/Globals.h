@@ -17,6 +17,7 @@ enum update_status
 // Application -------------
 #define TITLE "Pre Super Awesome Engine"
 #define VERSION "1.0.0"
+#define GAME
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 

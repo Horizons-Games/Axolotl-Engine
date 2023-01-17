@@ -10,6 +10,16 @@ bool ModuleFileSystem::Init()
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
     PHYSFS_setWriteDir(".");
+#if defined(GAME)
+    if (!Exists("Assets.zip"))
+    {
+        struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
+        ZipFolder(zip, "Lib");
+        zip_close(zip);
+    }
+    PHYSFS_unmount(".");
+    PHYSFS_mount("Assets.zip", nullptr, 0);
+#endif // GAME
     return true;
 }
 
@@ -223,22 +233,9 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
     return "";
 }
 
-std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
-{
-    std::vector< std::string> files;
-    char** rc = PHYSFS_enumerateFiles(directoryPath);
-    char** i;
-    for (i = rc; *i != NULL; i++)
-    {
-        files.push_back(*i);
-    }
-    PHYSFS_freeList(rc);
-    return files;
-}
-
 void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
 {
-    std::vector<std::string> files = listFiles(path);
+    std::vector<std::string> files = ListFiles(path);
     for (int i = 0; i < files.size(); ++i)
     {
         std::string newPath(path);
