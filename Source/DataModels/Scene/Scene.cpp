@@ -420,6 +420,4 @@ void Scene::InitNewEmptyScene()
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
-
-	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }

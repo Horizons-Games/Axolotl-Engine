@@ -2,6 +2,7 @@
 #include "physfs.h"
 #include <iostream>
 #include <cstdio>
+#include "zip.h"
 
 
 bool ModuleFileSystem::Init()
@@ -9,6 +10,16 @@ bool ModuleFileSystem::Init()
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
     PHYSFS_setWriteDir(".");
+#if defined(GAME)
+    if (!Exists("Assets.zip"))
+    {
+        struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
+        ZipFolder(zip, "Lib");
+        zip_close(zip);
+    }
+    PHYSFS_unmount(".");
+    PHYSFS_mount("Assets.zip", nullptr, 0);
+#endif // GAME
     return true;
 }
 
@@ -52,7 +63,7 @@ bool  ModuleFileSystem::Delete(const char* filePath)
 {
     if (!PHYSFS_delete(filePath))
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to delete %s", PHYSFS_getLastError(), filePath);
         return false;
     }
     return true;
@@ -64,7 +75,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     PHYSFS_File * file = PHYSFS_openRead(filePath);
     if (file == NULL)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), filePath);
         PHYSFS_close(file);
         return -1;
     }
@@ -72,7 +83,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     buffer = new char[size + 1]{};
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), file);
         PHYSFS_close(file);
         return -1;
     }
@@ -85,13 +96,13 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
     PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
     if (file == NULL)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
         PHYSFS_close(file);
         return 1;
     }
     if (PHYSFS_writeBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
         PHYSFS_close(file);
         return 1;
     }
@@ -113,7 +124,7 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
     if(!PHYSFS_mkdir(directoryPath)) 
     {
-        ENGINE_LOG("Physfs fails with error: %s", PHYSFS_getLastError());
+        ENGINE_LOG("Physfs has error : %s when try to create %s", PHYSFS_getLastError(), directoryPath);
         return false;
     }
     return true;
@@ -220,4 +231,27 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
         }
     }
     return "";
+}
+
+void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
+{
+    std::vector<std::string> files = ListFiles(path);
+    for (int i = 0; i < files.size(); ++i)
+    {
+        std::string newPath(path);
+        newPath += '/' + files[i];
+        if (IsDirectory(newPath.c_str())) ZipFolder(zip, newPath.c_str());
+        else
+        {
+            zip_entry_open(zip, newPath.c_str());
+            {
+                char* buf = nullptr;
+                PHYSFS_File* file = PHYSFS_openRead(newPath.c_str());
+                PHYSFS_sint64 size = PHYSFS_fileLength(file);
+                Load(newPath.c_str(), buf);
+                zip_entry_write(zip, buf, size);
+            }
+            zip_entry_close(zip);
+        }
+    }
 }

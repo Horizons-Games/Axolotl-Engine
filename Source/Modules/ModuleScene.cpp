@@ -24,11 +24,22 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
+	return true;
+}
+
+bool ModuleScene::Start()
+{
+#if !defined(GAME)
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
 	}
-
+#else
+	if (loadedScene == nullptr)
+	{
+		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
+	}
+#endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
@@ -113,15 +124,17 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	char* buffer{};
+#if !defined(GAME)
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
 	if (!resourceExists)
 		App->fileSystem->CopyFileInAssets(filePath, assetPath);
-
-	char* buffer{};
 	App->fileSystem->Load(assetPath.c_str(), buffer);
-
+#else
+	App->fileSystem->Load(filePath.c_str(), buffer);
+#endif
 	rapidjson::Document doc;
 	Json Json(doc, doc);
 
@@ -191,6 +204,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetAmbientLight(ambientLight);
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
+
+	sceneToLoad->InitLights();
 
 	delete loadedScene;
 	loadedScene = sceneToLoad;
