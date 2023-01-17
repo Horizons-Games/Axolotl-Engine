@@ -28,7 +28,7 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    if (App->scene->GetLoadedScene()->GetRoot() != nullptr)
+    if (App->scene->GetLoadedScene()->GetRoot())
     {
         DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot());
     }
@@ -40,7 +40,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
-    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject.get());
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
     if (gameObject->GetChildren().empty())
