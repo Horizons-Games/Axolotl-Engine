@@ -422,7 +422,7 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<GameObject> spotLight1 = CreateGameObject("SpotLight", root);
 	spotLight1->CreateComponentLight(LightType::SPOT);
 
-	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
+	std::shared_ptr<GameObject> spotLight2 = CreateGameObject("SpotLight", root);
 	spotLight2->CreateComponentLight(LightType::SPOT);
 
 	GenerateLights();
