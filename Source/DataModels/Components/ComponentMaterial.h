@@ -6,6 +6,8 @@
 #include "FileSystem/UniqueID.h"
 
 #include <memory>
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
+#include "FileSystem/Importers/TextureImporter.h"
 
 #define COMPONENT_MATERIAL "Material"
 
@@ -70,7 +72,16 @@ private:
 	float shininess = 512.f;
 	float normalStrength = 1.0;
 
-	bool hasShininessAlpha = false;
+	bool hasShininessAlpha = true;
+	//bool hasNormal = false;
+
+	const char* dialogName;
+	const char* title;
+	const char* filters;
+	const char* startPath;
+	std::shared_ptr<TextureImporter> textureImporter;
+
+	ImGuiFileDialog fileDialogImporter;
 
 	//Auxiliar UIDs
 	UID diffuseUID = 0;

@@ -44,7 +44,7 @@ void ComponentMaterial::Draw()
 
 	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
 	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
-	if (texture && hasDiffuse)
+	if (texture)
 	{
 		if (!texture->IsLoaded())
 		{
@@ -62,7 +62,7 @@ void ComponentMaterial::Draw()
 		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 	}
 	texture = textureSpecular.lock();
-	if (texture && hasSpecular)
+	if (texture)
 	{
 		if (!texture->IsLoaded())
 		{
@@ -111,16 +111,46 @@ void ComponentMaterial::Display()
 	ImGui::Text("");
 	ImGui::Text("MATERIAL");
 	ImGui::Text("");
+	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
 
-	if (ImGui::Button("Load a new texture"))
+	title = "Select Texture";
+	dialogName = "Choose File";
+	filters = "Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg,.dds}*";
+	startPath = "./Assets/Textures";
+
+	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-
+			//WindowImporter
+	if (ImGui::Button(title))
+	{
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey", dialogName, filters, startPath,
+			"", 1, nullptr);
 	}
+	// display
+	if (fileDialogImporter.Display("ChooseFileDlgKey"))
+	{
+		// action if OK
+		if (fileDialogImporter.IsOk())
+		{
+			std::string filePathName = fileDialogImporter.GetFilePathName();
+			//textureImporter->Load(filePathName.c_str(), texture2);
+			//texture = new ResourceTexture(1, filePathName, filePathName, filePathName);
+			texture->SetGlTexture(4);
+		}
 
-	char name[20] = "Texture";
-	ImGui::InputText("Texture Name", name, 20);
+		// close
+		fileDialogImporter.Close();
+	}
+	//End of Window importer
+
+	char* name = new char[256];
+	std::string fileName = texture->GetFileName();
+	std::strncpy(name, fileName.c_str(), 256);
+	ImGui::InputText("Texture Name", name, 256);
 
 	ImGui::Text("");
+	if (texture)
+		ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
 
 	static float3 colorDiffuse = GetDiffuseColor();
 	ImGui::Text("Diffuse Color:"); ImGui::SameLine();
@@ -137,16 +167,6 @@ void ComponentMaterial::Display()
 	//remove actual texture
 	static UID thisUID = UniqueID::GenerateUID();
 	char* removeButtonLabel = new char[30];
-	sprintf(removeButtonLabel, "Remove Texture %d", thisUID);   // mirar
-
-	if (ImGui::Button(removeButtonLabel))
-	{
-		hasDiffuse = !hasDiffuse;
-		hasNormal = !hasNormal;
-		hasOcclusion = !hasOcclusion;
-		hasSpecular = !hasSpecular;
-		hasShininessAlpha = !hasShininessAlpha;
-	}
 
 	ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
 	ImGui::SliderFloat("Shininess", &shininess, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
@@ -170,16 +190,16 @@ void ComponentMaterial::Display()
 	if (ImGui::Button("Load a normal texture")) {
 		ImGui::OpenPopup("Choose a texture");
 	}
-
-	ImGui::Checkbox("Normal slider", &hasNormal);
+	/*texture = textureNormal.lock();
+	if (texture)
+		hasNormal = true;
+	ImGui::Checkbox("Normal slider", &hasNormal);*/
 	ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::Separator();
 	
 	ImGui::Separator();
 	ImGui::Text("");
 
-	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
-	{
 		if (ImGui::BeginTable("##MaterialTable", 2))
 		{
 			ImGui::EndTable();

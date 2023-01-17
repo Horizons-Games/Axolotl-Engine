@@ -73,6 +73,7 @@ public:
 
 	std::shared_ptr<OptionsTexture>& GetOptions();
 
+	void SetGlTexture(unsigned int glTexture);
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
 	void SetFormat(unsigned int format);
@@ -161,6 +162,11 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
 {
 	return this->options;
+}
+
+inline void ResourceTexture::SetGlTexture(unsigned int glTexture)
+{
+	this->glTexture = glTexture;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)
