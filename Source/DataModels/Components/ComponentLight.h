@@ -10,6 +10,9 @@
 
 enum class LightType { UNKNOWN, DIRECTIONAL, POINT, SPOT, AMBIENT };
 
+const static std::string GetNameByLightType(LightType type);
+const static LightType GetLightTypeByName(const std::string& name);
+
 class Json;
 
 class ComponentLight : public Component
@@ -34,9 +37,6 @@ public:
 
 	virtual void SaveOptions(Json& meta) override {};
 	virtual void LoadOptions(Json& meta) override {};
-
-	const std::string GetNameByLightType(LightType type) const;
-	LightType GetLightTypeByName(const std::string& name) const;
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -67,7 +67,7 @@ inline void ComponentLight::Disable()
 	Component::Disable();
 }
 
-inline const std::string ComponentLight::GetNameByLightType(LightType type) const
+const std::string GetNameByLightType(LightType type)
 {
 	switch (type)
 	{
@@ -86,7 +86,7 @@ inline const std::string ComponentLight::GetNameByLightType(LightType type) cons
 	}
 }
 
-inline LightType ComponentLight::GetLightTypeByName(const std::string& typeName) const
+const LightType GetLightTypeByName(const std::string& typeName)
 {
 	if (typeName == "LightType_Directional")
 		return LightType::DIRECTIONAL;

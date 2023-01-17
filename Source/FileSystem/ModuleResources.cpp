@@ -61,7 +61,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
-		CopyFileInAssets(originalPath, assetsPath);
+		App->fileSystem->CopyFileInAssets(originalPath, assetsPath);
 
 	UID uid;
 
@@ -400,16 +400,6 @@ void ModuleResources::MonitorResources()
 		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	}
 	
-}
-
-void ModuleResources::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
-{
-	//for more protection
-	bool exists = App->fileSystem->Exists(assetsPath.c_str());
-	if (!exists)
-	{
-		App->fileSystem->CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
-	}
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)

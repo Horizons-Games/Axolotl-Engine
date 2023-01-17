@@ -63,7 +63,6 @@ private:
 	//folder and file management
 	void CreateAssetAndLibFolders();
 	void MonitorResources();
-	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	//utility methods

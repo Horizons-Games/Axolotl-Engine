@@ -107,10 +107,17 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }
 
-void ModuleScene::LoadSceneFromJson(const std::string& name)
+void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
+	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
+
+	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	if (!resourceExists)
+		App->fileSystem->CopyFileInAssets(filePath, assetPath);
+
 	char* buffer{};
-	App->fileSystem->Load(name.c_str(), buffer);
+	App->fileSystem->Load(assetPath.c_str(), buffer);
 
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -118,7 +125,7 @@ void ModuleScene::LoadSceneFromJson(const std::string& name)
 	Json.fromBuffer(buffer);
 
 	Scene* sceneToLoad = new Scene();
-	GameObject* newRoot = new GameObject(App->fileSystem->GetFileName(name).c_str());
+	GameObject* newRoot = new GameObject(fileName.c_str());
 	newRoot->LoadOptions(Json);
 
 	sceneToLoad->SetRoot(newRoot);
