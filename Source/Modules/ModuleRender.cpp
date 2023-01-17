@@ -207,7 +207,7 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 	}
 
-	DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
