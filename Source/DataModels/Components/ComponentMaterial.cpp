@@ -40,67 +40,76 @@ void ComponentMaterial::Draw()
 		glUseProgram(program);
 	}
 
-	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
-	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
-	if (texture)
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if(materialAsShared) 
 	{
-		if (!texture->IsLoaded())
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+
+		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
+			glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 		}
 
-		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
-		glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
-	}
-	texture = textureSpecular.lock();
-	if (texture)
-	{
-		if (!texture->IsLoaded())
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
+			glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
 		}
 
-		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
-		glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
-	}
-	texture = textureNormal.lock();
-	if (texture)
-	{
-		if (!texture->IsLoaded())
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
+			glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
+
+			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
 		}
 
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-		glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
-		glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
+		glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
+		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
+		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
 
-		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+		//move to main component(?)
+		float3 viewPos = App->engineCamera->GetPosition();
+		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
-	}
-	glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
-	glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-	glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
-
-	//move to main component(?)
-	float3 viewPos = App->engineCamera->GetPosition();
-	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 }
 
 void ComponentMaterial::Display()
@@ -129,7 +138,6 @@ void ComponentMaterial::Display()
 
 		ImGui::Text("");
 
-		//remove actual texture
 		static UID thisUID = UniqueID::GenerateUID();
 
 		std::string removeButtonLabel = "No Texture";

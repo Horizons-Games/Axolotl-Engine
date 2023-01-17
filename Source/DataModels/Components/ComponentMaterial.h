@@ -60,11 +60,6 @@ private:
 
 	std::weak_ptr<ResourceMaterial> material;
 
-	std::weak_ptr<ResourceTexture> textureDiffuse;
-	std::weak_ptr<ResourceTexture> textureNormal;
-	std::weak_ptr<ResourceTexture> textureOcclusion;
-	std::weak_ptr<ResourceTexture> textureSpecular;
-
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);
 	float shininess = 512.f;
@@ -72,11 +67,18 @@ private:
 
 	bool hasShininessAlpha = false;
 
+	//This has to be erased
+	std::weak_ptr<ResourceTexture> textureDiffuse;
+	std::weak_ptr<ResourceTexture> textureNormal;
+	std::weak_ptr<ResourceTexture> textureOcclusion;
+	std::weak_ptr<ResourceTexture> textureSpecular;
+
 	//Auxiliar UIDs
 	UID diffuseUID = 0;
 	UID normalUID = 0;
 	UID occlusionUID = 0;
 	UID specularUID = 0;
+	//All this
 };
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
