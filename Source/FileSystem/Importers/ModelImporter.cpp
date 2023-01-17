@@ -123,34 +123,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		{
 			std::string specularPath = "";
 
-			struct stat buffer {};
-			std::string name = App->fileSystem->GetFileName(file.data);
-			name += App->fileSystem->GetFileExtension(file.data);
-
-			if (stat(name.c_str(), &buffer) != 0)
-			{
-				std::string path = App->fileSystem->GetPathWithoutFile(filePath);
-
-				if (stat((path + name).c_str(), &buffer) != 0)
-				{
-					if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
-					{
-						ENGINE_LOG("Texture not found!");
-					}
-					else
-					{
-						specularPath = TEXTURES_PATH + std::string(file.data);
-					}
-				}
-				else
-				{
-					specularPath = path + std::string(file.data);
-				}
-			}
-			else
-			{
-				specularPath = std::string(file.data);
-			}
+			CheckPathMaterial(filePath, file, specularPath);
 
 			if (specularPath != "")
 			{
