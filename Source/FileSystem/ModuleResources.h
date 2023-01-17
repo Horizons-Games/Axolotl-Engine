@@ -39,7 +39,6 @@ private:
 	void ImportResourceFromLibrary(const std::string& libraryPath);
 	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
 	ResourceType FindTypeByPath(const std::string& path);
-	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 	const std::string GetFolderOfType(ResourceType type);

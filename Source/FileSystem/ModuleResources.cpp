@@ -16,6 +16,7 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceScene.h"
 #include <thread>
 #include <future>
 
@@ -271,7 +272,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists)
-		CopyFileInAssets(originalPath, assetsPath);
+		App->fileSystem->CopyFileInAssets(originalPath, assetsPath);
 
 	UID uid;
 
@@ -323,16 +324,6 @@ ResourceType ModuleResources::FindTypeByPath(const std::string& path)
 	}
 
 	return ResourceType::Unknown;
-}
-
-void ModuleResources::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
-{
-	//for more protection
-	bool exists = App->fileSystem->Exists(assetsPath.c_str());
-	if (!exists)
-	{
-		App->fileSystem->CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
-	}
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath)
@@ -442,6 +433,7 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
 		break;
 	case ResourceType::Scene:
+		break;
 	case ResourceType::Material:
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 		break;
