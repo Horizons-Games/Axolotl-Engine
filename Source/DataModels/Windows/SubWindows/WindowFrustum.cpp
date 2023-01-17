@@ -18,10 +18,10 @@ WindowFrustum::~WindowFrustum()
 
 void WindowFrustum::DrawWindowContents()
 {
-	bool showAABBs = App->debug->IsShowingBoundingBoxes();
-	if (ImGui::Checkbox("Show bounding boxes", &showAABBs))
+	bool showQuadtree = App->debug->IsShowingQuadtree();
+	if (ImGui::Checkbox("Show Quadtree", &showQuadtree))
 	{
-		App->debug->ShowBoundingBoxes(showAABBs);
+		App->debug->ShowQuadtree(showQuadtree);
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum"};
 

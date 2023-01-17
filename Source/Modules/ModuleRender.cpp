@@ -424,6 +424,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(Quadtree* quadtree) 
 {
+	if (!App->debug->IsShowingQuadtree()) return;
 	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
 	else {
 		DrawQuadtree(quadtree->GetBackLeftNode());

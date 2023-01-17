@@ -29,11 +29,11 @@ public:
     void            DrawBoundingBox(const AABB& aabb);
     void            DrawBoundingBox(const OBB& obb);
     void            DrawFrustum(const Frustum& frustum);
-    void            ShowBoundingBoxes(bool showBoundingBoxes);
-    bool            IsShowingBoundingBoxes() const;
+    void            ShowQuadtree(bool showQuadtree);
+    bool            IsShowingQuadtree() const;
 
 private:
-    bool showBoundingBoxes;
+    bool showQuadtree;
     static DDRenderInterfaceCoreGL* implementation;
 };
 

@@ -585,7 +585,7 @@ const char* DDRenderInterfaceCoreGL::textFragShaderSrc = "\n"
 
 DDRenderInterfaceCoreGL* ModuleDebugDraw::implementation = 0;
 
-ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(true)
+ModuleDebugDraw::ModuleDebugDraw() : showQuadtree(true)
 {
 }
 
@@ -641,18 +641,15 @@ void ModuleDebugDraw::DrawTransform(ComponentTransform* transform)
 
 void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
 {
-    if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
+    dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
 }
 
 void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
 {
-    if (showBoundingBoxes) 
-    {
-        ddVec3 points[8];
-        obb.GetCornerPoints(points);
-        ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
-        dd::box(orderedPoints, dd::colors::Orange);
-    }
+    ddVec3 points[8];
+    obb.GetCornerPoints(points);
+    ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
+    dd::box(orderedPoints, dd::colors::Orange);
 }
 
 void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
@@ -660,12 +657,12 @@ void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
     dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
 }
 
-void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
+void ModuleDebugDraw::ShowQuadtree(bool showQuadtree)
 {
-    this->showBoundingBoxes = showBoundingBoxes;
+    this->showQuadtree = showQuadtree;
 }
 
-bool ModuleDebugDraw::IsShowingBoundingBoxes() const
+bool ModuleDebugDraw::IsShowingQuadtree() const
 {
-    return showBoundingBoxes;
+    return showQuadtree;
 }
