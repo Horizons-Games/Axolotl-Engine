@@ -22,8 +22,6 @@
 GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
@@ -34,8 +32,6 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
 
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 GameObject::~GameObject()
@@ -102,8 +98,10 @@ void GameObject::SaveOptions(Json& meta)
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
 {
+	loadedObjects.push_back(this);
+
 	uid = UniqueID::GenerateUID();
 	name = meta["name"];
 	enabled = (bool) meta["enabled"];
@@ -111,28 +109,53 @@ void GameObject::LoadOptions(Json& meta)
 	
 	Json jsonComponents = meta["Components"];
 
-	for (int i = 0; i < jsonComponents.Size(); ++i)
+	if(jsonComponents.Size() != 0)
 	{
-		Json jsonComponent = jsonComponents[i]["Component"];
-		std::string typeName = jsonComponent["type"];
+		for (int i = 0; i < jsonComponents.Size(); ++i)
+		{
+			Json jsonComponent = jsonComponents[i]["Component"];
+			std::string typeName = jsonComponent["type"];
 
-		ComponentType type = GetTypeByName(jsonComponent["type"]);
-		Component* component = CreateComponent(type);
-		component->LoadOptions(jsonComponent);
-		components.push_back(component);
+			ComponentType type = GetTypeByName(jsonComponent["type"]);
+			
+			if (type == ComponentType::UNKNOWN) return;
+
+			Component* component;
+			if (type == ComponentType::LIGHT)
+			{
+				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+				component = CreateComponentLight(lightType);
+			}
+			else
+			{
+				component = CreateComponent(type);
+			}
+
+			component->LoadOptions(jsonComponent);
+		}
 	}
 
 	Json jsonChildrens = meta["Childrens"];
 
-	for (int i = 0; i < jsonChildrens.Size(); ++i)
-	{
-		Json jsonGameObject = jsonChildrens[i]["GameObject"];
-		std::string name = jsonGameObject["name"];
+	int size = jsonChildrens.Size();
 
-		GameObject* gameObject = new GameObject(name.c_str(), this);
-		gameObject->LoadOptions(jsonGameObject);
-		children.push_back(gameObject);
+	if (jsonChildrens.Size() != 0) 
+	{
+		for (int i = 0; i < jsonChildrens.Size(); ++i)
+		{
+			Json jsonGameObject = jsonChildrens[i]["GameObject"];
+			std::string name = jsonGameObject["name"];
+
+			GameObject* gameObject = new GameObject(name.c_str(), this);
+			gameObject->LoadOptions(jsonGameObject, loadedObjects);
+		}
 	}
+}
+
+void GameObject::InitNewEmptyGameObject()
+{
+	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -184,10 +207,7 @@ void GameObject::RemoveChild(GameObject* child)
 
 void GameObject::Enable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -200,10 +220,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = false;
 	active = false;
@@ -315,7 +332,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 		break;
 
 	case LightType::SPOT:
-		newComponent = new ComponentSpotLight(5.0f, 1.25f, 1.5f, float3(1.0f), 1.0f, this);
+		newComponent = new ComponentSpotLight(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
 		break;
 	}
 

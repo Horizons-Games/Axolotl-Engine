@@ -179,7 +179,7 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	gameObjects.clear();
+	gameObjectsToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -197,50 +197,11 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	/* Uncomment the loop below when models are removed 
-	and GameObjects are used in their place */
-
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
-	{
-		DrawGameObject(gameObject);
-	}*/
-
-	// This loop should disappear
-	/*for (std::shared_ptr<Model> model : models)
-	{
-		model->NewDraw();
-	}*/
-	
-
-	/*
-	 
-	*Logic to apply when model class is deleted and GameObjects are implemented
-	*
-	
-	FIRST APPROACH
-	DrawScene(App->scene->GetSceneQuadTree());
-	
-	
-	SECOND APPROACH
-	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
-	for (GameObject* gameObject : gameObjectsToDraw) 
-	{
-		for (Component* component : gameObject->GetComponents()) 
-		{
-			if (component->GetType() == ComponentType::MESH) 
-			{
-				//Draw gameobject
-			}
-		}
-	}
-	*/
-
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	for (GameObject* gameObject : gameObjects)
+	for (GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject->IsActive())
 			gameObject->Draw();
@@ -306,40 +267,6 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	UpdateProgram();
 }
 
-
-bool ModuleRender::LoadModel(const char* path)
-{
-	ENGINE_LOG("---- Loading Model ----");
-
-	UID modelUID = App->resources->ImportResource(path);
-	if(modelUID != 0)
-	{
-		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
-		resourceModel->Load();
-
-		std::shared_ptr<Model> newModel = std::make_shared<Model>();
-		newModel->SetFromResource(resourceModel);
-
-		if (AnyModelLoaded())
-		{
-			models[0] = nullptr;
-			models.clear();
-		}
-
-		models.push_back(newModel);
-	}
-	
-
-	return false;
-}
-
-
-bool ModuleRender::AnyModelLoaded()
-{
-	return !models.empty();
-}
-
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -379,14 +306,14 @@ void ModuleRender::FillRenderList(Quadtree* quadtree)
 		{
 			for (GameObject* gameObject : gameObjectsToRender)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				gameObjects.push_back(gameObject);
+				gameObjectsToDraw.push_back(gameObject);
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -408,7 +335,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	ComponentBoundingBoxes* boxes = (ComponentBoundingBoxes*)gameObject->GetComponent(ComponentType::BOUNDINGBOX);
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjects.push_back(gameObject);
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
 	
 
 	if (!gameObject->GetChildren().empty())

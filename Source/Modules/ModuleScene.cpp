@@ -8,9 +8,10 @@
 
 #include <assert.h>
 
-#include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Components/Component.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 
 ModuleScene::ModuleScene()
 {
@@ -57,22 +58,17 @@ void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
 	}
 }
 
-Scene* ModuleScene::SearchSceneByID(UID sceneID) const
-{
-	for (Scene* scene : savedScenes)
-	{
-		if (scene->GetUID() == sceneID)
-		{
-			return scene;
-		}
-	}
-
-	return nullptr;
-}
-
 void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");
+
+	Json jsonScene(tmpDoc, tmpDoc);
+
+	GameObject* root = loadedScene->GetRoot();
+	root->SaveOptions(jsonScene);
+
+	rapidjson::StringBuffer buffer;
+	jsonScene.toBuffer(buffer);
 }
 
 void ModuleScene::OnPause()
@@ -83,11 +79,18 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+	Json Json(tmpDoc, tmpDoc);
+
+	SetSceneFromJson(Json);
+	//clear the document
+	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
 
 Scene* ModuleScene::CreateEmptyScene() const
 {
-	return new Scene();
+	Scene* newScene = new Scene();
+	newScene->InitNewEmptyScene();
+	return newScene;
 }
 
 void ModuleScene::SaveSceneToJson(const std::string& name)
@@ -107,23 +110,88 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }
 
-void ModuleScene::LoadSceneFromJson(const std::string& name)
+void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
+	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
+
+	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	if (!resourceExists)
+		App->fileSystem->CopyFileInAssets(filePath, assetPath);
+
 	char* buffer{};
-	App->fileSystem->Load(name.c_str(), buffer);
+	App->fileSystem->Load(assetPath.c_str(), buffer);
 
 	rapidjson::Document doc;
 	Json Json(doc, doc);
 
 	Json.fromBuffer(buffer);
 
-	Scene* sceneToLoad = new Scene();
-	GameObject* newRoot = new GameObject(App->fileSystem->GetFileName(name).c_str());
-	newRoot->LoadOptions(Json);
-
-	sceneToLoad->SetRoot(newRoot);
-
-	this->loadedScene = sceneToLoad;
+	SetSceneFromJson(Json);
 
 	delete buffer;
+}
+
+void ModuleScene::SetSceneFromJson(Json& Json)
+{
+	Scene* sceneToLoad = new Scene();
+	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
+
+	std::vector<GameObject*> loadedObjects{};
+	newRoot->LoadOptions(Json, loadedObjects);
+
+
+	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-50, -1000, -50), float3(50, 1000, 50))));
+	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
+	std::vector<GameObject*> loadedCameras{};
+	GameObject* ambientLight = nullptr;
+	GameObject* directionalLight = nullptr;
+
+	for (GameObject* obj : loadedObjects)
+	{
+		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
+		if (!camerasOfObj.empty())
+		{
+			loadedCameras.push_back(obj);
+		}
+
+		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		for (ComponentLight* light : lightsOfObj)
+		{
+			if (light->GetLightType() == LightType::AMBIENT)
+			{
+				ambientLight = obj;
+			}
+			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			{
+				directionalLight = obj;
+			}
+		}
+		//Quadtree treatment
+		if (!sceneQuadtree->InQuadrant(obj))
+		{
+			if (!sceneQuadtree->IsFreezed())
+			{
+				sceneQuadtree->ExpandToFit(obj);
+				sceneToLoad->FillQuadtree(loadedObjects);
+			}
+		}
+		else
+		{
+			sceneQuadtree->Add(obj);
+		}
+	}
+	App->renderer->FillRenderList(sceneQuadtree);
+
+	sceneToLoad->SetRoot(newRoot);
+	selectedGameObject = newRoot;
+
+	sceneToLoad->SetSceneGameObjects(loadedObjects);
+	sceneToLoad->SetSceneCameras(loadedCameras);
+	sceneToLoad->SetAmbientLight(ambientLight);
+	sceneToLoad->SetDirectionalLight(directionalLight);
+	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
+
+	delete loadedScene;
+	loadedScene = sceneToLoad;
 }

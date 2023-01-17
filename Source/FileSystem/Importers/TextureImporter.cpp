@@ -102,9 +102,11 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	unsigned int size;
 	Save(resource, buffer, size);
 	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+
+	delete buffer;
 }
 
-uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
+void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
 {
 	unsigned int header[6] =
 	{
@@ -129,9 +131,6 @@ uint64_t TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource,
 
 	bytes = sizeof(uint8_t) * resource->GetPixelsSize();
 	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
-
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
 }
 
 void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
@@ -152,4 +151,6 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 	memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
 	std::vector<uint8_t> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
 	resource->SetPixels(pixels);
+
+	delete[] pixelsPointer;
 } 

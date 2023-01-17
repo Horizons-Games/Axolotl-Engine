@@ -49,7 +49,6 @@ public:
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 
-	void UpdateSceneLights();
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 
@@ -64,6 +63,11 @@ public:
 	void SetSceneQuadTree(Quadtree* quadtree);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetAmbientLight(GameObject* ambientLight);
+	void SetDirectionalLight(GameObject* directionalLight);
+
+	void GenerateNewQuadtree();
+	void InitNewEmptyScene();
 
 private:
 	void RemoveCamera(GameObject* cameraGameObject);
@@ -132,6 +136,16 @@ inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
+}
+
+inline void Scene::SetAmbientLight(GameObject* ambientLight)
+{
+	this->ambientLight = ambientLight;
+}
+
+inline void Scene::SetDirectionalLight(GameObject* directionalLight)
+{
+	this->directionalLight = directionalLight;
 }
 
 inline Quadtree* Scene::GetSceneQuadTree() const

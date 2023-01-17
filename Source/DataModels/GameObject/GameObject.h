@@ -21,10 +21,12 @@ public:
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& json);
+	void LoadOptions(Json& json, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
 	void Draw();
+
+	void InitNewEmptyGameObject();
 
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child);

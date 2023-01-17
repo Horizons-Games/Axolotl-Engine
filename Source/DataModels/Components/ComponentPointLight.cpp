@@ -81,7 +81,8 @@ void ComponentPointLight::Display()
 
 							this->GetOwner()->RemoveComponent(this);
 
-							App->scene->GetLoadedScene()->UpdateScenePointLights();
+							App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+							App->scene->GetLoadedScene()->RenderPointLights();
 
 							modified = true;
 						}
@@ -124,6 +125,7 @@ void ComponentPointLight::Display()
 
 			if (modified)
 			{
+				App->scene->GetLoadedScene()->UpdateScenePointLights();
 				App->scene->GetLoadedScene()->RenderPointLights();
 			}
 
@@ -167,6 +169,6 @@ void ComponentPointLight::LoadOptions(Json& meta)
 
 	intensity = (float)meta["intensity"];
 
-	lightType = GetLightTypeByName(meta["type"]);
+	lightType = GetLightTypeByName(meta["lightType"]);
 	radius = meta["radius"];
 }

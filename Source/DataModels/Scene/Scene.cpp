@@ -27,35 +27,6 @@
 
 Scene::Scene()
 {
-	uid = UniqueID::GenerateUID();
-	root = new GameObject("New Scene");
-	sceneGameObjects.push_back(root);
-
-	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-
-	ambientLight = CreateGameObject("Ambient_Light", root);
-	ambientLight->CreateComponentLight(LightType::AMBIENT);
-
-	directionalLight = CreateGameObject("Directional_Light", root);
-	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
-
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
-
-	/*GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);*/
-
-	GenerateLights();
-
-	UpdateScenePointLights();
-	UpdateSceneSpotLights();
-
-	RenderAmbientLight();
-	RenderDirectionalLight();
-	RenderPointLights();
-	RenderSpotLights();
-
-	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
 Scene::~Scene()
@@ -93,6 +64,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
+	gameObject->InitNewEmptyGameObject();
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
@@ -143,7 +115,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
 	resourceModel->Load();
 
 	std::string modelName = model;
@@ -159,11 +131,13 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
+		std::shared_ptr<ResourceMesh> mesh =
+			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(resourceModel->GetMaterialsUIDs()[materialIndex]).lock());
+		std::shared_ptr<ResourceMaterial> material = 
+			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
@@ -308,7 +282,6 @@ void Scene::RenderPointLights() const
 
 	glUseProgram(program);
 
-
 	unsigned numPoint = pointLights.size();
 
 	if (numPoint > 0)
@@ -333,55 +306,11 @@ void Scene::RenderSpotLights() const
 	if (numSpot > 0)
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * spotLights.size(),
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(),
 			nullptr, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * spotLights.size(), &spotLights[0]);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	}
-}
-
-void Scene::UpdateSceneLights()
-{
-	pointLights.clear();
-	spotLights.clear();
-
-	std::vector<GameObject*> children = GetSceneGameObjects();
-
-	for (GameObject* child : children)
-	{
-		std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-		if (!components.empty())
-		{
-			if (components[0]->GetLightType() == LightType::POINT)
-			{
-				ComponentPointLight* pointLightComp = (ComponentPointLight*)components[0];
-				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
-					GetComponent(ComponentType::TRANSFORM);
-
-				PointLight pl;
-				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
-				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-
-				pointLights.push_back(pl);
-			}
-
-			else if (components[0]->GetLightType() == LightType::SPOT)
-			{
-				ComponentSpotLight* spotLightComp = (ComponentSpotLight*)components[0];
-				ComponentTransform* transform = (ComponentTransform*)components[0]->GetOwner()->
-					GetComponent(ComponentType::TRANSFORM);
-
-				SpotLight sl;
-				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
-				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
-				sl.aim = transform->GetGlobalForward().Normalized();
-				sl.innerAngle = spotLightComp->GetInnerAngle();
-				sl.outAngle = spotLightComp->GetOuterAngle();
-
-				spotLights.push_back(sl);
-			}
-		}
 	}
 }
 
@@ -440,4 +369,46 @@ void Scene::UpdateSceneSpotLights()
 			}
 		}
 	}
+}
+
+void Scene::GenerateNewQuadtree()
+{
+	delete sceneQuadTree;
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+}
+
+void Scene::InitNewEmptyScene()
+{
+	uid = UniqueID::GenerateUID();
+
+	root = new GameObject("New Scene");
+	root->InitNewEmptyGameObject();
+
+	sceneGameObjects.push_back(root);
+
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+
+	ambientLight = CreateGameObject("Ambient_Light", root);
+	ambientLight->CreateComponentLight(LightType::AMBIENT);
+
+	directionalLight = CreateGameObject("Directional_Light", root);
+	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	GameObject* pointLight = CreateGameObject("PointLight", root);
+	pointLight->CreateComponentLight(LightType::POINT);
+
+	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
+	spotLight1->CreateComponentLight(LightType::SPOT);
+
+	GenerateLights();
+
+	UpdateScenePointLights();
+	UpdateSceneSpotLights();
+
+	RenderAmbientLight();
+	RenderDirectionalLight();
+	RenderPointLights();
+	RenderSpotLights();
+
+	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }

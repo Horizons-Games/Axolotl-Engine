@@ -29,10 +29,16 @@ void WindowInspector::DrawWindowContents()
 {
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 
+
 	bool enable = currentGameObject->IsEnabled();
 	ImGui::Checkbox("Enable", &enable);
 
-	(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+	if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	{
+		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+	}
 
 	ImGui::SameLine();
 
@@ -55,7 +61,10 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && currentGameObject != App->scene->GetLoadedScene()->GetRoot())
+	if (WindowRightClick() && 
+		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -74,9 +83,14 @@ void WindowInspector::DrawWindowContents()
 				AddComponentMaterial();
 			}
 
-			if (ImGui::MenuItem("Create Light Component"))
+			if (ImGui::MenuItem("Create Spot Light Component"))
 			{
-				AddComponentLight();
+				AddComponentLight(LightType::SPOT);
+			}
+
+			if (ImGui::MenuItem("Create Point Light Component"))
+			{
+				AddComponentLight(LightType::POINT);
 			}
 		}
 
@@ -92,11 +106,10 @@ void WindowInspector::DrawWindowContents()
 	{
 		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-			ImGui::SameLine();
-
 			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
 			{
+				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				ImGui::SameLine();
 				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
 					break;
 				ImGui::SameLine();
@@ -155,19 +168,17 @@ void WindowInspector::AddComponentMeshRenderer()
 {
 	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
 																->CreateComponent(ComponentType::MESHRENDERER);
-	
-	assert(newMeshRenderer != nullptr &&
-		"The Component Mesh Renderer of the selected GameObject was not created correctly");
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-
+	ComponentMeshRenderer* newMaterial = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
+		->CreateComponent(ComponentType::MATERIAL);
 }
 
-void WindowInspector::AddComponentLight()
+void WindowInspector::AddComponentLight(LightType type)
 {
-
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 void WindowInspector::DrawTextureTable()

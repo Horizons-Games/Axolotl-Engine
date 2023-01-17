@@ -64,18 +64,22 @@ void ComponentSpotLight::Display()
 
 					if (ImGui::Selectable(lightTypes[i], isSelected))
 					{
-						ComponentPointLight* newPoint = (ComponentPointLight*)this->GetOwner()->
-							CreateComponentLight(LightType::POINT);
+						if (lightTypes[i] == "Point")
+						{
+							ComponentPointLight* newPoint = (ComponentPointLight*)this->GetOwner()->
+								CreateComponentLight(LightType::POINT);
 
-						newPoint->SetColor(this->color);
-						newPoint->SetIntensity(this->intensity);
-						newPoint->SetRadius(this->radius);
+							newPoint->SetColor(this->color);
+							newPoint->SetIntensity(this->intensity);
+							newPoint->SetRadius(this->radius);
 
-						this->GetOwner()->RemoveComponent(this);
+							this->GetOwner()->RemoveComponent(this);
 
-						App->scene->GetLoadedScene()->UpdateScenePointLights();
+							App->scene->GetLoadedScene()->UpdateScenePointLights();
+							App->scene->GetLoadedScene()->RenderPointLights();
 
-						modified = true;
+							modified = true;
+						}
 					}
 
 					if (isSelected)
@@ -143,6 +147,7 @@ void ComponentSpotLight::Display()
 
 			if (modified)
 			{
+				App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 				App->scene->GetLoadedScene()->RenderSpotLights();
 			}
 
@@ -162,8 +167,8 @@ void ComponentSpotLight::Draw()
 		float3 position = transform->GetPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
 
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle, 0.0f);
+		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
+		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
 }
 
@@ -201,7 +206,7 @@ void ComponentSpotLight::LoadOptions(Json& meta)
 
 	intensity = (float)meta["intensity"];
 
-	lightType = GetLightTypeByName(meta["type"]);
+	lightType = GetLightTypeByName(meta["lightType"]);
 
 	radius = (float)meta["radius"];
 	innerAngle = (float)meta["innerAngle"];

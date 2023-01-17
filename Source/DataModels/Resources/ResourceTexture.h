@@ -55,7 +55,7 @@ class ResourceTexture : public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceTexture() override = default;
+	~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 
@@ -106,6 +106,11 @@ inline ResourceTexture::ResourceTexture(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsTexture>();
+}
+
+inline ResourceTexture::~ResourceTexture()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceTexture::GetType() const

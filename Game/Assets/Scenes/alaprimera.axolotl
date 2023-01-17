@@ -201,6 +201,116 @@
         },
         {
             "GameObject": {
+                "name": "PointLight",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "owner": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Point",
+                            "radius": 0.5
+                        }
+                    }
+                ],
+                "Childrens": null
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PointLight",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "owner": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Point",
+                            "radius": 0.5
+                        }
+                    }
+                ],
+                "Childrens": null
+            }
+        },
+        {
+            "GameObject": {
                 "name": "BakerHouse.fbx",
                 "enabled": true,
                 "active": true,
@@ -211,7 +321,7 @@
                             "active": true,
                             "owner": true,
                             "removed": false,
-                            "localPos_X": -3.450000047683716,
+                            "localPos_X": -2.799999952316284,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -281,8 +391,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 16215523830871666493,
-                                        "textureDiffuseUID": 14223978578815384522,
+                                        "materialUID": 13498098730603377761,
+                                        "textureDiffuseUID": 15203420723576117037,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -303,7 +413,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 12634352016078790888
+                                        "meshUID": 10330418686118044192
                                     }
                                 }
                             ],
@@ -353,8 +463,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 16215523830871666493,
-                                        "textureDiffuseUID": 14223978578815384522,
+                                        "materialUID": 13498098730603377761,
+                                        "textureDiffuseUID": 15203420723576117037,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -375,7 +485,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 9757179474032434665
+                                        "meshUID": 17347689662781129158
                                     }
                                 }
                             ],
@@ -397,7 +507,7 @@
                             "active": true,
                             "owner": true,
                             "removed": false,
-                            "localPos_X": 2.575000047683716,
+                            "localPos_X": 3.075000047683716,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -467,8 +577,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 6721635654830798396,
-                                        "textureDiffuseUID": 10358305354341987558,
+                                        "materialUID": 8478631047903161281,
+                                        "textureDiffuseUID": 12635803115855493497,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -489,7 +599,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 1845658512020304267
+                                        "meshUID": 11032539951629933814
                                     }
                                 }
                             ],
@@ -539,8 +649,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 6609047743938167028,
-                                        "textureDiffuseUID": 10358305354341987558,
+                                        "materialUID": 5266807175495387370,
+                                        "textureDiffuseUID": 12635803115855493497,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -561,7 +671,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 12800449045183428066
+                                        "meshUID": 11430209673222508810
                                     }
                                 }
                             ],
@@ -611,8 +721,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 18265000964817180599,
-                                        "textureDiffuseUID": 10358305354341987558,
+                                        "materialUID": 12093324994199304747,
+                                        "textureDiffuseUID": 12635803115855493497,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -633,7 +743,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 12508268488833082061
+                                        "meshUID": 18216709069791401115
                                     }
                                 }
                             ],
@@ -725,8 +835,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 16833336563048708976,
-                                        "textureDiffuseUID": 9991961399109140892,
+                                        "materialUID": 1850458845606540584,
+                                        "textureDiffuseUID": 1296268677637240994,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -747,7 +857,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 10293362931947728306
+                                        "meshUID": 1550463165293659871
                                     }
                                 }
                             ],
@@ -755,6 +865,58 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "localPos_X": -0.25,
+                            "localPos_Y": 1.7999999523162842,
+                            "localPos_Z": 2.8499999046325685,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Bounding",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "AABBMin_X": 0.0,
+                            "AABBMin_Y": 0.0,
+                            "AABBMin_Z": 0.0,
+                            "AABBMax_X": 0.0,
+                            "AABBMax_Y": 0.0,
+                            "AABBMax_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "owner": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true,
+                            "frustumMode": 0
+                        }
+                    }
+                ],
+                "Childrens": null
             }
         }
     ]

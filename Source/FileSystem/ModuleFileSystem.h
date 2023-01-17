@@ -8,6 +8,7 @@ public:
 	ModuleFileSystem() = default;
 	~ModuleFileSystem() = default;
 	bool Init() override;
+	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	bool CleanUp() override;
 	unsigned int Load(const char* filePath, char*& buffer) const;
 	unsigned int Save(const char* filePath, const void* buffer, unsigned int size, bool append = false) const;
