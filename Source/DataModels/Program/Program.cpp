@@ -5,22 +5,22 @@
 
 Program::Program(unsigned vertexShader, unsigned fragmentShader)
 {
-	this->id = glCreateProgram();
-	glAttachShader(this->id, vertexShader);
-	glAttachShader(this->id, fragmentShader);
-	glLinkProgram(this->id);
+	id = glCreateProgram();
+	glAttachShader(id, vertexShader);
+	glAttachShader(id, fragmentShader);
+	glLinkProgram(id);
 
 	int res;
-	glGetProgramiv(this->id, GL_LINK_STATUS, &res);
+	glGetProgramiv(id, GL_LINK_STATUS, &res);
 	if (res == GL_FALSE)
 	{
 		int len = 0;
-		glGetProgramiv(this->id, GL_INFO_LOG_LENGTH, &len);
+		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &len);
 		if (len > 0)
 		{
 			int written = 0;
 			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(this->id, len, &written, info);
+			glGetProgramInfoLog(id, len, &written, info);
 			ENGINE_LOG("Program Log Info: %s", info);
 			free(info);
 		}

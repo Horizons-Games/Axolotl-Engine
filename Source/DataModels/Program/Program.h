@@ -19,5 +19,5 @@ private:
 
 inline const unsigned& Program::GetId() const
 {
-	return this->id;
+	return id;
 }

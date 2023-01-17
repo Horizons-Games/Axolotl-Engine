@@ -21,7 +21,6 @@ public:
 	void LoadVBO();
 	void CreateVAO();
 
-
 	unsigned int GetGlTexture() const;
 	const std::vector<UID>& GetTexturesUIDs() const;
 	std::shared_ptr<OptionsSkyBox>& GetOptions();
@@ -56,7 +55,7 @@ inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 
 inline ResourceSkyBox::~ResourceSkyBox()
 {
-	this->Unload();
+	Unload();
 }
 
 inline ResourceType ResourceSkyBox::GetType() const
@@ -66,7 +65,7 @@ inline ResourceType ResourceSkyBox::GetType() const
 
 inline unsigned int ResourceSkyBox::GetGlTexture() const
 {
-	return this->glTexture;
+	return glTexture;
 }
 
 inline const std::vector<UID>& ResourceSkyBox::GetTexturesUIDs() const
@@ -76,7 +75,7 @@ inline const std::vector<UID>& ResourceSkyBox::GetTexturesUIDs() const
 
 inline std::shared_ptr<OptionsSkyBox>& ResourceSkyBox::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline void ResourceSkyBox::SetTexturesUIDs(const std::vector<UID>& texturesUIDs)
@@ -86,10 +85,10 @@ inline void ResourceSkyBox::SetTexturesUIDs(const std::vector<UID>& texturesUIDs
 
 inline unsigned int ResourceSkyBox::GetVBO() const
 {
-	return this->vbo;
+	return vbo;
 }
 
 inline unsigned int ResourceSkyBox::GetVAO() const
 {
-	return this->vao;
+	return vao;
 }

@@ -22,8 +22,8 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	facesPaths[1] = Json["left"];
 	facesPaths[2] = Json["top"];
 	facesPaths[3] = Json["bottom"];
-	facesPaths[4] = Json["front"];
-	facesPaths[5] = Json["back"];
+	facesPaths[4] = Json["back"];
+	facesPaths[5] = Json["front"];
 
 	std::vector<UID> faces(6);
 

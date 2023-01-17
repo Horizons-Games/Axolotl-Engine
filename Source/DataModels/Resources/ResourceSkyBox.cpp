@@ -11,7 +11,7 @@ void ResourceSkyBox::InternalLoad()
     glGenTextures(1, &glTexture);
     glBindTexture(GL_TEXTURE_CUBE_MAP, glTexture);
 
-    for (int i = texturesUIDs.size() - 1; i >= 0; --i)
+    for (int i = 0; i < texturesUIDs.size(); ++i)
     {
         std::shared_ptr<ResourceTexture> textI =
             std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(texturesUIDs[i]).lock());
