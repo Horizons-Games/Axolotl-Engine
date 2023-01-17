@@ -25,5 +25,7 @@ public:
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
+	std::vector<std::string> listFiles(const char* directoryPath);
+	void ZipFolder(struct zip_t* zip, const char* path);
 };
 

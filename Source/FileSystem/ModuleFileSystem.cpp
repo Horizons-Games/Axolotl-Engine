@@ -2,6 +2,7 @@
 #include "physfs.h"
 #include <iostream>
 #include <cstdio>
+#include "zip.h"
 
 
 bool ModuleFileSystem::Init()
@@ -220,4 +221,40 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
         }
     }
     return "";
+}
+
+std::vector<std::string> ModuleFileSystem::listFiles(const char* directoryPath)
+{
+    std::vector< std::string> files;
+    char** rc = PHYSFS_enumerateFiles(directoryPath);
+    char** i;
+    for (i = rc; *i != NULL; i++)
+    {
+        files.push_back(*i);
+    }
+    PHYSFS_freeList(rc);
+    return files;
+}
+
+void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
+{
+    std::vector<std::string> files = listFiles(path);
+    for (int i = 0; i < files.size(); ++i)
+    {
+        std::string newPath(path);
+        newPath += '/' + files[i];
+        if (IsDirectory(newPath.c_str())) ZipFolder(zip, newPath.c_str());
+        else
+        {
+            zip_entry_open(zip, newPath.c_str());
+            {
+                char* buf = nullptr;
+                PHYSFS_File* file = PHYSFS_openRead(newPath.c_str());
+                PHYSFS_sint64 size = PHYSFS_fileLength(file);
+                Load(newPath.c_str(), buf);
+                zip_entry_write(zip, buf, size);
+            }
+            zip_entry_close(zip);
+        }
+    }
 }
