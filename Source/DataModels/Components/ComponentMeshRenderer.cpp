@@ -29,7 +29,10 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	//mesh.lock()->Unload();
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if (meshAsShared)
+		mesh.lock()->Unload();
 }
 
 void ComponentMeshRenderer::Update()
@@ -103,7 +106,7 @@ void ComponentMeshRenderer::Display()
 
 				if (newMesh)
 				{
-					//meshAsShared->Unload();
+					meshAsShared->Unload();
 					SetMesh(newMesh);
 				}
 			}
@@ -114,7 +117,7 @@ void ComponentMeshRenderer::Display()
 
 		if (ImGui::Button("Remove Current Mesh"))
 		{
-			//meshAsShared->Unload();
+			meshAsShared->Unload();
 			mesh = std::weak_ptr<ResourceMesh>();
 		}
 
