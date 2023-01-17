@@ -8,6 +8,7 @@
 #define COMPONENT_TRANSFORM "Transform"
 
 class Json;
+class ComponentLight;
 
 class ComponentTransform : public Component
 {
@@ -46,6 +47,8 @@ public:
 	void ResetGlobalMatrix();
 
 private:
+	void CalculateLightTransformed(ComponentLight* lightComponent, bool translationModified, bool rotationModified);
+
 	float3 pos = float3(0.0f, 0.0f, 0.0f);
 	Quat rot = Quat::identity;
 	float3 sca = float3(1.0f, 1.0f, 1.0f);

@@ -20,24 +20,6 @@ void ComponentTransform::Update()
 {
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
-
-	Component* comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
-
-	if (comp != nullptr)
-	{
-		ComponentLight* lightComp = (ComponentLight*)comp;
-		switch (lightComp->GetLightType())
-		{
-		case LightType::DIRECTIONAL:
-			App->scene->GetLoadedScene()->RenderDirectionalLight();
-			break;
-
-		case LightType::POINT:
-			App->scene->GetLoadedScene()->UpdateScenePointLights();
-			App->scene->GetLoadedScene()->RenderPointLights();
-			break;
-		}
-	}
 }
 
 void ComponentTransform::Display()
@@ -47,6 +29,9 @@ void ComponentTransform::Display()
 	float3 scale = GetScale();
 
 	float dragSpeed = 0.025f;
+
+	bool translationModified = false;
+	bool rotationModified = false;
 
 	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
 		dragSpeed = 0.0f;
@@ -62,23 +47,32 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##XTrans", &translation.x, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if (ImGui::DragFloat("##XTrans", &translation.x, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+			{
+				translationModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##YTrans", &translation.y, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-			); ImGui::PopStyleVar(); ImGui::SameLine();
+			if (ImGui::DragFloat("##YTrans", &translation.y, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+			{
+				translationModified = true;
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##ZTrans", &translation.z, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()
-			); ImGui::PopStyleVar();
+			if (ImGui::DragFloat("##ZTrans", &translation.z, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+			{
+				translationModified = true;
+			}
+			ImGui::PopStyleVar();
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Rotation"); ImGui::SameLine();
@@ -87,22 +81,31 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##XRot", &rotation.x, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			if (ImGui::DragFloat("##XRot", &rotation.x, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+			{
+				rotationModified = true;
+			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##YRot", &rotation.y, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			if (ImGui::DragFloat("##YRot", &rotation.y, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+			{
+				rotationModified = true;
+			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##ZRot", &rotation.z, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f");
+			if (ImGui::DragFloat("##ZRot", &rotation.z, dragSpeed,
+				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+			{
+				rotationModified = true;
+			}
 			ImGui::PopStyleVar();
 
 			ImGui::TableNextColumn();
@@ -142,6 +145,45 @@ void ComponentTransform::Display()
 	SetPosition(translation);
 	SetRotation(rotation);
 	SetScale(scale);
+
+	//Rendering lights if modified
+	if (translationModified || rotationModified) 
+	{
+		Component* comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
+
+		if (comp != nullptr)
+		{
+			ComponentLight* lightComp = (ComponentLight*)comp;
+			CalculateLightTransformed(lightComp, translationModified, rotationModified);
+		}
+	}
+}
+
+void ComponentTransform::CalculateLightTransformed(ComponentLight* lightComponent, bool translationModified, bool rotationModified)
+{
+	switch (lightComponent->GetLightType())
+	{
+	case LightType::DIRECTIONAL:
+		if (rotationModified)
+			App->scene->GetLoadedScene()->RenderDirectionalLight();
+		break;
+
+	case LightType::POINT:
+		if (translationModified)
+		{
+			App->scene->GetLoadedScene()->UpdateScenePointLights();
+			App->scene->GetLoadedScene()->RenderPointLights();
+		}
+		break;
+
+	case LightType::SPOT:
+		if (translationModified || rotationModified)
+		{
+			App->scene->GetLoadedScene()->UpdateScenePointLights();
+			App->scene->GetLoadedScene()->RenderPointLights();
+		}
+		break;
+	}
 }
 
 void ComponentTransform::SaveOptions(Json& meta)
