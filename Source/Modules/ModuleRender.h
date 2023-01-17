@@ -14,8 +14,6 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
-
 class ModuleRender : public Module
 {
 public:
@@ -57,8 +55,6 @@ private:
 
 	unsigned vbo;
 	
-	std::shared_ptr<Skybox> skybox;
-
 	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
 
