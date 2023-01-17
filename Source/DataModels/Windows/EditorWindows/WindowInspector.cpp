@@ -101,11 +101,10 @@ void WindowInspector::DrawWindowContents()
 	{
 		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-			ImGui::SameLine();
-
 			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
 			{
+				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				ImGui::SameLine();
 				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
 					break;
 				ImGui::SameLine();
