@@ -206,6 +206,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
+	sceneToLoad->InitLights();
+
 	delete loadedScene;
 	loadedScene = sceneToLoad;
 }
