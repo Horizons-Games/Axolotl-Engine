@@ -83,9 +83,14 @@ void WindowInspector::DrawWindowContents()
 				AddComponentMaterial();
 			}
 
-			if (ImGui::MenuItem("Create Light Component"))
+			if (ImGui::MenuItem("Create Spot Light Component"))
 			{
-				AddComponentLight();
+				AddComponentLight(LightType::SPOT);
+			}
+
+			if (ImGui::MenuItem("Create Point Light Component"))
+			{
+				AddComponentLight(LightType::POINT);
 			}
 		}
 
@@ -171,10 +176,9 @@ void WindowInspector::AddComponentMaterial()
 		->CreateComponent(ComponentType::MATERIAL);
 }
 
-void WindowInspector::AddComponentLight()
+void WindowInspector::AddComponentLight(LightType type)
 {
-	ComponentMeshRenderer* newLight = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-		->CreateComponent(ComponentType::LIGHT);
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 void WindowInspector::DrawTextureTable()
