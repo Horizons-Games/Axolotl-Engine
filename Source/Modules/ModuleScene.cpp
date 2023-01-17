@@ -90,7 +90,9 @@ void ModuleScene::OnStop()
 
 Scene* ModuleScene::CreateEmptyScene() const
 {
-	return new Scene();
+	Scene* newScene = new Scene();
+	newScene->InitNewEmptyScene();
+	return newScene;
 }
 
 void ModuleScene::SaveSceneToJson(const std::string& name)

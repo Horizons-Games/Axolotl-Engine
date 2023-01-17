@@ -27,35 +27,6 @@
 
 Scene::Scene()
 {
-	uid = UniqueID::GenerateUID();
-	root = new GameObject("New Scene");
-	sceneGameObjects.push_back(root);
-
-	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-
-	ambientLight = CreateGameObject("Ambient_Light", root);
-	ambientLight->CreateComponentLight(LightType::AMBIENT);
-
-	directionalLight = CreateGameObject("Directional_Light", root);
-	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
-
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
-
-	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);
-
-	GenerateLights();
-
-	UpdateScenePointLights();
-	UpdateSceneSpotLights();
-
-	RenderAmbientLight();
-	RenderDirectionalLight();
-	RenderPointLights();
-	RenderSpotLights();
-
-	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
 
 Scene::~Scene()
@@ -403,4 +374,37 @@ void Scene::GenerateNewQuadtree()
 {
 	delete sceneQuadTree;
 	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+}
+
+void Scene::InitNewEmptyScene()
+{
+	uid = UniqueID::GenerateUID();
+	root = new GameObject("New Scene");
+	sceneGameObjects.push_back(root);
+
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+
+	ambientLight = CreateGameObject("Ambient_Light", root);
+	ambientLight->CreateComponentLight(LightType::AMBIENT);
+
+	directionalLight = CreateGameObject("Directional_Light", root);
+	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	GameObject* pointLight = CreateGameObject("PointLight", root);
+	pointLight->CreateComponentLight(LightType::POINT);
+
+	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
+	spotLight1->CreateComponentLight(LightType::SPOT);
+
+	GenerateLights();
+
+	UpdateScenePointLights();
+	UpdateSceneSpotLights();
+
+	RenderAmbientLight();
+	RenderDirectionalLight();
+	RenderPointLights();
+	RenderSpotLights();
+
+	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
