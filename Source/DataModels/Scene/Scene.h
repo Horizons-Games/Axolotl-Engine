@@ -66,6 +66,7 @@ public:
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
+	void GenerateNewQuadtree();
 
 private:
 	void RemoveCamera(GameObject* cameraGameObject);

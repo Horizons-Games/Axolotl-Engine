@@ -92,11 +92,11 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
-	
+	//delete App->scene->loadedScene->GetRoot();
+	//loadedScene->GenerateNewQuadtree();
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
-
 	//clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
@@ -149,6 +149,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 {
 	Scene* sceneToLoad = new Scene();
 	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
+	selectedGameObject = newRoot;
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
@@ -200,5 +201,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
+	delete this->loadedScene;
 	this->loadedScene = sceneToLoad;
 }

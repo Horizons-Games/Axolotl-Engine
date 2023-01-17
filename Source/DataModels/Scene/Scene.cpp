@@ -446,3 +446,9 @@ void Scene::UpdateSceneSpotLights()
 		}
 	}
 }
+
+void Scene::GenerateNewQuadtree()
+{
+	delete sceneQuadTree;
+	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
+}
