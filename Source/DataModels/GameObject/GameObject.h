@@ -63,8 +63,6 @@ public:
 private:
 	bool IsAChild(const std::shared_ptr<GameObject>& child);
 	bool IsADescendant(const std::shared_ptr<GameObject>& child);
-	//needed to be used in the constructor
-	void AddChild(GameObject* child);
 
 private:
 	UID uid = 0;

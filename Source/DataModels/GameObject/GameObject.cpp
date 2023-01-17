@@ -181,11 +181,6 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	}
 }
 
-void GameObject::AddChild(GameObject* child)
-{
-	this->AddChild(std::shared_ptr<GameObject>(child));
-}
-
 void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
 {
 	assert(child != nullptr);

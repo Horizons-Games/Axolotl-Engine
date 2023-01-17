@@ -33,7 +33,7 @@ public:
 	bool GetActive();
 	ComponentType GetType();
 
-	std::shared_ptr<GameObject>& GetOwner();
+	std::shared_ptr<GameObject> GetOwner();
 	bool GetCanBeRemoved();
 
 protected:
@@ -85,7 +85,7 @@ inline ComponentType Component::GetType()
 	return this->type;
 }
 
-inline std::shared_ptr<GameObject>& Component::GetOwner()
+inline std::shared_ptr<GameObject> Component::GetOwner()
 {
 	return this->owner;
 }
