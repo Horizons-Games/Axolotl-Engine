@@ -295,9 +295,6 @@
     <ClCompile Include="FileSystem\Json.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resource\Skybox.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
@@ -340,6 +337,15 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resource\Skybox.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp" />
+    </ClCompile>
+
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>Source\DataStructures</Filter>
     </ClCompile>
@@ -795,9 +801,6 @@
     <ClInclude Include="FileSystem\Json.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resource\Skybox.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -842,6 +845,14 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resource\Skybox.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h" />
     </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h">
       <Filter>Source\DataStructures</Filter>
