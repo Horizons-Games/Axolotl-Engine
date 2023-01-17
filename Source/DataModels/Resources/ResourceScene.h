@@ -11,7 +11,7 @@ class ResourceScene : public Resource
 {
 public:
 	ResourceScene(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceScene() override = default;
+	~ResourceScene() override;
 
 	ResourceType GetType() const override;
 
@@ -40,6 +40,11 @@ inline ResourceScene::ResourceScene(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsScene>();
+}
+
+inline ResourceScene::~ResourceScene()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceScene::GetType() const

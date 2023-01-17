@@ -13,7 +13,7 @@ class ResourceModel : public Resource
 {
 public:
 	ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceModel() override = default;
+	~ResourceModel() override;
 
 	ResourceType GetType() const override;
 
@@ -52,6 +52,11 @@ inline ResourceModel::ResourceModel(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsModel>();
+}
+
+inline ResourceModel::~ResourceModel()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceModel::GetType() const

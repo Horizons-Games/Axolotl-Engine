@@ -11,7 +11,7 @@ class ResourceSkyBox : public Resource
 {
 public:
 	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceSkyBox() override = default;
+	~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
 
@@ -42,6 +42,11 @@ inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 	texturesUIDs(6),
 	options(std::make_shared<OptionsSkyBox>())
 {
+}
+
+inline ResourceSkyBox::~ResourceSkyBox()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceSkyBox::GetType() const

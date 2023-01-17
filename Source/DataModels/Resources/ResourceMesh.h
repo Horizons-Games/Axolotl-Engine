@@ -15,7 +15,7 @@ class ResourceMesh : public Resource
 {
 public:
 	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceMesh() override = default;
+	~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
@@ -82,6 +82,11 @@ inline ResourceMesh::ResourceMesh(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsMesh>();
+}
+
+inline ResourceMesh::~ResourceMesh()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceMesh::GetType() const
