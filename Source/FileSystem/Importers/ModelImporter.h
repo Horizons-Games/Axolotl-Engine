@@ -10,13 +10,13 @@ class ModelImporter : public Importer<ResourceModel>
 {
 public:
     ModelImporter() = default;
-    ~ModelImporter();
+    ~ModelImporter() = default;
 
     void Import(const char* filePath, std::shared_ptr<ResourceModel> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource) override;
 
 protected:
-    uint64_t Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size) override;
+    void Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size) override;
 
 private:
     void ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource);
@@ -26,12 +26,4 @@ private:
 
     void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
     void SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int& size);
-
-    char* buffer;
 };
-
-inline ModelImporter::~ModelImporter()
-{
-    delete[] buffer;
-}
-

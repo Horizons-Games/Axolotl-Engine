@@ -240,6 +240,10 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
+	//this line fixes the bug, but I guess the gameObjects list is supposed to only contain visible objets,
+	//so it's more efficient
+	//if I'm wrong and we can just use all the gameObjects in the scene, then just do that
+	//for (GameObject* gameObject : App->scene->GetLoadedScene()->GetSceneGameObjects())
 	for (GameObject* gameObject : gameObjects)
 	{
 		if (gameObject->IsActive())
@@ -314,7 +318,7 @@ bool ModuleRender::LoadModel(const char* path)
 	UID modelUID = App->resources->ImportResource(path);
 	if(modelUID != 0)
 	{
-		std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+		std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
 		resourceModel->Load();
 
 		std::shared_ptr<Model> newModel = std::make_shared<Model>();

@@ -39,8 +39,12 @@ Scene::Scene()
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight1 = CreateGameObject("PointLight", root);
+	pointLight1->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight2 = CreateGameObject("PointLight", root);
+	pointLight2->CreateComponentLight(LightType::POINT);
+	GameObject* pointLight3 = CreateGameObject("PointLight", root);
+	pointLight3->CreateComponentLight(LightType::POINT);
 
 	/*GameObject* spotLight1 = CreateGameObject("SpotLight", root);
 	spotLight1->CreateComponentLight(LightType::SPOT);*/
@@ -143,7 +147,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID).lock());
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
 	resourceModel->Load();
 
 	std::string modelName = model;
@@ -159,11 +163,13 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh = std::static_pointer_cast<ResourceMesh>(App->resources->RequestResource(resourceModel->GetMeshesUIDs()[i]).lock());
+		std::shared_ptr<ResourceMesh> mesh =
+			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = std::static_pointer_cast<ResourceMaterial>(App->resources->RequestResource(resourceModel->GetMaterialsUIDs()[materialIndex]).lock());
+		std::shared_ptr<ResourceMaterial> material = 
+			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
@@ -307,7 +313,6 @@ void Scene::RenderPointLights() const
 	const unsigned program = App->program->GetProgram();
 
 	glUseProgram(program);
-
 
 	unsigned numPoint = pointLights.size();
 

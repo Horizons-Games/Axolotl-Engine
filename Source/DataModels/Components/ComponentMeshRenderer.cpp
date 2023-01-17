@@ -37,20 +37,27 @@ void ComponentMeshRenderer::Draw()
 
 	if (meshAsShared) //pointer not empty
 	{
+		if (!meshAsShared->IsLoaded())
+		{
+			meshAsShared->Load();
+		}
+
 		unsigned program = App->program->GetProgram();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 		const float4x4& model = ((ComponentTransform*)GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-		//glUseProgram(program);
+		GLint programInUse;
+		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+		if (program != programInUse)
+		{
+			glUseProgram(program);
+		}
 
 		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
-
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, 0);
-		//glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
 
 		glBindVertexArray(meshAsShared->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
@@ -119,7 +126,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	UID uidMesh = meta["meshUID"];
 
-	SetMesh(std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(uidMesh).lock()));
+	SetMesh(App->resources->RequestResource<ResourceMesh>(uidMesh).lock());
 }
 
 void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)

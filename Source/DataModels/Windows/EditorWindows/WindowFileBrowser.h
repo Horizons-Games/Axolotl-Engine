@@ -9,7 +9,7 @@ public:
 	WindowFileBrowser();
 	~WindowFileBrowser() = default;
 	void DrawWindowContents() override;
-	virtual void DoThisIfOk(std::string fileNamePath);
+	virtual void DoThisIfOk();
 	
 protected:
 	ImVec2 GetStartingSize() const override;
@@ -20,7 +20,6 @@ protected:
 	const char* filters;
 	const char* startPath;
 
-private:
 	ImGuiFileDialog fileDialogBrowser;
 	ImGuiFileDialog fileDialogImporter;
 	bool showFileDialog = false;

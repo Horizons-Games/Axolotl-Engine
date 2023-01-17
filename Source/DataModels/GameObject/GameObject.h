@@ -21,7 +21,7 @@ public:
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& json);
+	void LoadOptions(Json& json, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
 	void Draw();
@@ -54,7 +54,7 @@ public:
 	bool RemoveComponent(Component* component);
 	Component* GetComponent(ComponentType type);
 
-	const std::list<GameObject*>& GetGameObjectsInside();
+	std::list<GameObject*> GetGameObjectsInside();
 
 private:
 	bool IsAChild(const GameObject* child);

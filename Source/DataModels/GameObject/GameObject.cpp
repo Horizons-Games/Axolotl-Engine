@@ -82,8 +82,6 @@ void GameObject::SaveOptions(Json& meta)
 	meta["name"] = name.c_str();
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
-	meta["numComponents"] = components.size();
-	meta["numChildrens"] = children.size();
 
 	Json jsonComponents = meta["Components"];
 
@@ -104,8 +102,10 @@ void GameObject::SaveOptions(Json& meta)
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
 {
+	loadedObjects.push_back(this);
+
 	uid = UniqueID::GenerateUID();
 	name = meta["name"];
 	enabled = (bool) meta["enabled"];
@@ -113,27 +113,51 @@ void GameObject::LoadOptions(Json& meta)
 	
 	Json jsonComponents = meta["Components"];
 
-	for (int i = 0; i < jsonComponents.Size(); ++i)
+	if(jsonComponents.Size() != 0)
 	{
-		Json jsonComponent = jsonComponents[i]["Component"];
-		std::string typeName = jsonComponent["type"];
+		//TODO sceneManagement la constructora de GameObject no deberia meter componentes
+		//Porque entonces cuando los cargo he de sobrescribirlos en vez de crearlos pero 
+		//solo los de transform y bounding y es un pistofio
+		components.clear();
+		//Cuando hagais eso podeis quitar este clear
+		for (int i = 0; i < jsonComponents.Size(); ++i)
+		{
+			Json jsonComponent = jsonComponents[i]["Component"];
+			std::string typeName = jsonComponent["type"];
 
-		ComponentType type = GetTypeByName(jsonComponent["type"]);
-		Component* component = CreateComponent(type);
-		component->LoadOptions(jsonComponent);
-		components.push_back(component);
+			ComponentType type = GetTypeByName(jsonComponent["type"]);
+			
+			if (type == ComponentType::UNKNOWN) return;
+
+			Component* component;
+			if (type == ComponentType::LIGHT)
+			{
+				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+				component = CreateComponentLight(lightType);
+			}
+			else
+			{
+				component = CreateComponent(type);
+			}
+
+			component->LoadOptions(jsonComponent);
+		}
 	}
 
 	Json jsonChildrens = meta["Childrens"];
 
-	for (int i = 0; i < jsonChildrens.Size(); ++i)
-	{
-		Json jsonGameObject = jsonChildrens[i]["GameObject"];
-		std::string name = jsonGameObject["name"];
+	int size = jsonChildrens.Size();
 
-		GameObject* gameObject = new GameObject(name.c_str(), this);
-		gameObject->LoadOptions(jsonGameObject);
-		children.push_back(gameObject);
+	if (jsonChildrens.Size() != 0) 
+	{
+		for (int i = 0; i < jsonChildrens.Size(); ++i)
+		{
+			Json jsonGameObject = jsonChildrens[i]["GameObject"];
+			std::string name = jsonGameObject["name"];
+
+			GameObject* gameObject = new GameObject(name.c_str(), this);
+			gameObject->LoadOptions(jsonGameObject, loadedObjects);
+		}
 	}
 }
 
@@ -383,18 +407,15 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-const std::list<GameObject*>& GameObject::GetGameObjectsInside()
+std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
-	std::list<GameObject*> insideGameObjects;
-	std::vector<GameObject*> sceneGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
 
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
+	std::list<GameObject*> familyObjects = {};
+	familyObjects.push_back(this);
+	for (GameObject* children : this->GetChildren())
 	{
-		if (this->IsADescendant(*it))
-		{
-			insideGameObjects.push_back(*it);
-		}
+		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside() ;
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
-
-	return insideGameObjects;
+	return familyObjects;
 }

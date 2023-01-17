@@ -11,7 +11,7 @@ class ResourceMaterial : public Resource
 {
 public:
 	ResourceMaterial(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceMaterial() override = default;
+	~ResourceMaterial() override;
 
 	ResourceType GetType() const override;
 
@@ -90,6 +90,11 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	hasOcclusion = false;
 	hasSpecular = false;
 	shininessAlpha = false;
+}
+
+inline ResourceMaterial::~ResourceMaterial()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceMaterial::GetType() const
