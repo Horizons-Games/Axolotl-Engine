@@ -197,53 +197,10 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	/* Uncomment the loop below when models are removed 
-	and GameObjects are used in their place */
-
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
-	{
-		DrawGameObject(gameObject);
-	}*/
-
-	// This loop should disappear
-	/*for (std::shared_ptr<Model> model : models)
-	{
-		model->NewDraw();
-	}*/
-	
-
-	/*
-	 
-	*Logic to apply when model class is deleted and GameObjects are implemented
-	*
-	
-	FIRST APPROACH
-	DrawScene(App->scene->GetSceneQuadTree());
-	
-	
-	SECOND APPROACH
-	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
-	for (GameObject* gameObject : gameObjectsToDraw) 
-	{
-		for (Component* component : gameObject->GetComponents()) 
-		{
-			if (component->GetType() == ComponentType::MESH) 
-			{
-				//Draw gameobject
-			}
-		}
-	}
-	*/
-
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	//this line fixes the bug, but I guess the gameObjects list is supposed to only contain visible objets,
-	//so it's more efficient
-	//if I'm wrong and we can just use all the gameObjects in the scene, then just do that
-	//for (GameObject* gameObject : App->scene->GetLoadedScene()->GetSceneGameObjects())
 	for (GameObject* gameObject : gameObjects)
 	{
 		if (gameObject->IsActive())
@@ -309,40 +266,6 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	this->fragmentShader = fragmentShader.c_str();
 	UpdateProgram();
 }
-
-
-bool ModuleRender::LoadModel(const char* path)
-{
-	ENGINE_LOG("---- Loading Model ----");
-
-	UID modelUID = App->resources->ImportResource(path);
-	if(modelUID != 0)
-	{
-		std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
-		resourceModel->Load();
-
-		std::shared_ptr<Model> newModel = std::make_shared<Model>();
-		newModel->SetFromResource(resourceModel);
-
-		if (AnyModelLoaded())
-		{
-			models[0] = nullptr;
-			models.clear();
-		}
-
-		models.push_back(newModel);
-	}
-	
-
-	return false;
-}
-
-
-bool ModuleRender::AnyModelLoaded()
-{
-	return !models.empty();
-}
-
 
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
