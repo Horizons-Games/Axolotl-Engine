@@ -39,7 +39,7 @@ private:
 	std::vector<std::shared_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::shared_ptr<WindowScene> scene = nullptr;
-	//ImGuiID dock_space_id;
+	bool firstDeployed = false;
 
 	bool windowResized = false;
 };

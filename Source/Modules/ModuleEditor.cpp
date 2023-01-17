@@ -43,17 +43,19 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 
-	//ImGuiID dock_space_id = ImGui::GetID("DockSpace");
+	
 
 
 	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
-	windows.push_back(std::make_shared<WindowConfiguration>());
+	
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowInspector>());
 	
-	
+	windows.push_back(std::make_shared<WindowConfiguration>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
+
+	
 
 	return true;
 }
@@ -102,11 +104,11 @@ update_status ModuleEditor::Update()
 	{
 	
 
-		//ImGui::DockBuilderRemoveNode(dock_space_id);
+		
 		
 		ImGui::DockBuilderAddNode(dock_space_id);
 		
-		//ImGui::DockBuilderSetNodeSize(dock_space_id, ImVec2(200, 200));
+		
 		ImGui::DockBuilderSetNodeSize(dock_space_id, viewport->Size);
 
 	
@@ -118,8 +120,7 @@ update_status ModuleEditor::Update()
 		dock_center_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.5f, nullptr, &dock_main_id);
 	}
 
-	/*ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);*/
+	
 
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
@@ -141,9 +142,21 @@ update_status ModuleEditor::Update()
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
+		
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
+		
+		 if (i == 4)
+		{
+			if (!firstDeployed)
+			{
+
+				mainMenu->SetWindowEnabled(4, false);
+				firstDeployed = true;
+			}
+
+		}
 	}
 
 	return status;

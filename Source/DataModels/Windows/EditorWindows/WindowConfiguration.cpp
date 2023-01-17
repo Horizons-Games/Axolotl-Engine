@@ -11,7 +11,7 @@
 
 WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {
-	//flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
 	collapsingSubWindows.push_back(std::make_unique<WindowFPS>());
 	collapsingSubWindows.push_back(std::make_unique<WindowRenderer>());
