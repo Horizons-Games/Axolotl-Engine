@@ -11,6 +11,8 @@
 
 #include "imgui.h"
 
+#include "Math/float3x3.h"
+
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
@@ -25,8 +27,8 @@ void ComponentTransform::Update()
 void ComponentTransform::Display()
 {
 	float3 translation = GetPosition();
-	float3 rotation = RadToDeg(GetRotation().ToEulerXYZ());
-	float3 scale = GetScale();
+	float3 rotation = GetRotationAngles();
+  	float3 scale = GetScale();
 
 	float dragSpeed = 0.025f;
 

@@ -24,6 +24,7 @@ public:
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
 	const Quat& GetRotation() const;
+	const float3& GetRotationXYZ() const;
 	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
@@ -51,6 +52,7 @@ private:
 	
 	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
+	float3 rotXYZ = float3::zero;
 	float3 sca = float3::one;
 
 	float4x4 localMatrix = float4x4::identity;
@@ -65,6 +67,11 @@ inline const float3& ComponentTransform::GetPosition() const
 inline const Quat& ComponentTransform::GetRotation() const
 {
 	return rot;
+}
+
+inline const float3& ComponentTransform::GetRotationXYZ() const
+{
+	return rotXYZ;
 }
 
 inline const float3& ComponentTransform::GetScale() const
@@ -89,12 +96,14 @@ inline void ComponentTransform::SetPosition(const float3& position)
 
 inline void ComponentTransform::SetRotation(const float3& rotation)
 {
+	rotXYZ = rotation;
 	rot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
 }
 
 inline void ComponentTransform::SetRotation(const Quat& rotation)
 {
 	rot = rotation;
+	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
 }
 
 inline void ComponentTransform::SetScale(const float3& scale)
