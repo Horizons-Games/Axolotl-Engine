@@ -31,10 +31,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	delete root; // When the root is deleted, the ambient and point lights are also deleted
 	delete sceneQuadTree;
 
-	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
+	
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
 }
 
@@ -340,7 +341,7 @@ void Scene::UpdateScenePointLights()
 					GetComponent(ComponentType::TRANSFORM);
 
 				PointLight pl;
-				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
 				pointLights.push_back(pl);
@@ -367,7 +368,7 @@ void Scene::UpdateSceneSpotLights()
 					GetComponent(ComponentType::TRANSFORM);
 
 				SpotLight sl;
-				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+				sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
 				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
 				sl.aim = transform->GetGlobalForward().Normalized();
 				sl.innerAngle = spotLightComp->GetInnerAngle();
@@ -401,15 +402,6 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
-
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
-
-	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);
-
-	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
-	spotLight2->CreateComponentLight(LightType::SPOT);
 
 	InitLights();
 }

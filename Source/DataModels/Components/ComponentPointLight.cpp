@@ -43,7 +43,7 @@ void ComponentPointLight::Draw()
 	{
 		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
 
-		float3 position = transform->GetPosition();
+		float3 position = transform->GetGlobalPosition();
 
 		dd::sphere(position, dd::colors::White, radius);
 	}

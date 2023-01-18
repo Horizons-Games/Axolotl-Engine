@@ -111,7 +111,6 @@ StyleCopReport.xml
 *_p.c
 *_h.h
 *.ilk
-*.meta
 *.iobj
 *.pdb
 *.ipdb
@@ -439,4 +438,3 @@ FodyWeavers.xsd
 !**/lib/**
 imgui.ini
 
-Game/Lib/
