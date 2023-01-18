@@ -32,7 +32,7 @@ public:
 private:
 	unsigned program;
 	std::vector<std::shared_ptr<Program> > Programs;
-	std::string RootPath = "Assets/Shaders/";
+	std::string RootPath = "Lib/Shaders/";
 };
 
 inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const

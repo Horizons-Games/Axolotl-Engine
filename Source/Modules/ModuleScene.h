@@ -18,6 +18,7 @@ public:
 	~ModuleScene();
 
 	bool Init() override;
+	bool Start() override;
 	update_status Update() override;
 
 	const std::shared_ptr<Scene>& GetLoadedScene() const;

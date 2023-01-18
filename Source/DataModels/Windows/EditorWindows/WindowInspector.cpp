@@ -20,6 +20,8 @@
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	loadScene = std::make_unique<WindowLoadScene>();
+	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -28,10 +30,16 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	//TODO: REMOVE AFTER, HERE WE GO
+	DrawButtomsSaveAndLoad();
+	ImGui::Separator();
+	//
+
 	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
 
 	if (currentGameObject)
 	{
+
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 
@@ -39,90 +47,96 @@ void WindowInspector::DrawWindowContents()
 			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
 			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 		{
-			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
-		}
+			bool enable = currentGameObject->IsEnabled();
+			ImGui::Checkbox("Enable", &enable);
 
-		ImGui::SameLine();
-
-		if (!currentGameObject->GetParent().expired()) // Keep the word Scene in the root
-		{
-			char* name = (char*)currentGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
+			if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+				currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+				currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 			{
-				std::string scene = " Scene";
-				std::string sceneName = name + scene;
-				currentGameObject->SetName(sceneName.c_str());
+				(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 			}
-		}
 
-		else
-		{
-			char* name = (char*)currentGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
-		}
+			ImGui::SameLine();
 
-		ImGui::Separator();
-
-		if (WindowRightClick() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
-		{
-			ImGui::OpenPopup("AddComponent");
-		}
-
-		if (ImGui::BeginPopup("AddComponent"))
-		{
-			if (!App->scene->GetSelectedGameObject().expired())
+			if (!currentGameObject->GetParent().expired()) // Keep the word Scene in the root
 			{
-				if (ImGui::MenuItem("Create Mesh Renderer Component"))
+				char* name = (char*)currentGameObject->GetName();
+				if (ImGui::InputText("##GameObject", name, 24))
 				{
-					AddComponentMeshRenderer();
-				}
-
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
-
-				if (ImGui::MenuItem("Create Spot Light Component"))
-				{
-					AddComponentLight(LightType::SPOT);
-				}
-
-				if (ImGui::MenuItem("Create Point Light Component"))
-				{
-					AddComponentLight(LightType::POINT);
+					std::string scene = " Scene";
+					std::string sceneName = name + scene;
+					currentGameObject->SetName(sceneName.c_str());
 				}
 			}
 
 			else
 			{
-				ENGINE_LOG("No GameObject is selected");
+				char* name = (char*)currentGameObject->GetName();
+				ImGui::InputText("##GameObject", name, 24);
 			}
 
-			ImGui::EndPopup();
-		}
+			ImGui::Separator();
 
-		for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
-		{
-			if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+			if (WindowRightClick() &&
+				currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+				currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+				currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 			{
-				if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
-				{
-					DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-					ImGui::SameLine();
-					if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
-						break;
-					ImGui::SameLine();
-				}
+				ImGui::OpenPopup("AddComponent");
 			}
 
-			currentGameObject->GetComponents()[i]->Display();
+			if (ImGui::BeginPopup("AddComponent"))
+			{
+				if (!App->scene->GetSelectedGameObject().expired())
+				{
+					if (ImGui::MenuItem("Create Mesh Renderer Component"))
+					{
+						AddComponentMeshRenderer();
+					}
+
+					if (ImGui::MenuItem("Create Material Component"))
+					{
+						AddComponentMaterial();
+					}
+
+					if (ImGui::MenuItem("Create Spot Light Component"))
+					{
+						AddComponentLight(LightType::SPOT);
+					}
+
+					if (ImGui::MenuItem("Create Point Light Component"))
+					{
+						AddComponentLight(LightType::POINT);
+					}
+				}
+
+				else
+				{
+					ENGINE_LOG("No GameObject is selected");
+				}
+
+				ImGui::EndPopup();
+			}
+
+			for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+			{
+				if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+				{
+					if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+					{
+						DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+						ImGui::SameLine();
+						if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+							break;
+						ImGui::SameLine();
+					}
+				}
+
+				currentGameObject->GetComponents()[i]->Display();
+			}
 		}
 	}
-
-	//DrawTextureTable();
 }
 
 void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
@@ -182,24 +196,10 @@ void WindowInspector::AddComponentLight(LightType type)
 	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
 }
 
-void WindowInspector::DrawTextureTable()
+// TODO: REMOVE
+void WindowInspector::DrawButtomsSaveAndLoad()
 {
-	ImGui::Text("TEXTURE");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("TextureTable1", 2))
-	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Height: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureHeight(0));
-		ImGui::TableNextColumn();
-		ImGui::Text("Width: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureWidth(0));
-
-		ImGui::EndTable();
-		ImGui::Separator();
-	}
-
-	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
+	loadScene->DrawWindowContents();
+	ImGui::SameLine();
+	saveScene->DrawWindowContents();
 }

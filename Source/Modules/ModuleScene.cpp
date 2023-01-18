@@ -23,11 +23,22 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
+	return true;
+}
+
+bool ModuleScene::Start()
+{
+#if !defined(GAME)
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
 	}
-
+#else
+	if (loadedScene == nullptr)
+	{
+		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
+	}
+#endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
@@ -112,15 +123,17 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	char* buffer{};
+#if !defined(GAME)
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
 	if (!resourceExists)
 		App->fileSystem->CopyFileInAssets(filePath, assetPath);
-
-	char* buffer{};
 	App->fileSystem->Load(assetPath.c_str(), buffer);
-
+#else
+	App->fileSystem->Load(filePath.c_str(), buffer);
+#endif
 	rapidjson::Document doc;
 	Json Json(doc, doc);
 
@@ -136,11 +149,12 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::shared_ptr<Scene> sceneToLoad = std::make_shared<Scene>();
 	std::shared_ptr<GameObject> newRoot = std::make_shared<GameObject>(std::string(Json["name"]).c_str());
 
+	loadedScene = sceneToLoad;
+
 	std::vector<std::shared_ptr<GameObject> > loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-
-	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-50, -1000, -50), float3(50, 1000, 50))));
+	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-20, -20, -20), float3(20, 20, 20))));
 	std::shared_ptr<Quadtree> sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<std::shared_ptr<GameObject> > loadedCameras{};
 	std::shared_ptr<GameObject> ambientLight = nullptr;
@@ -149,6 +163,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<std::weak_ptr<GameObject> > vecOfWeak(loadedObjects.begin(), loadedObjects.end());
 	for (std::shared_ptr<GameObject> obj : loadedObjects)
 	{
+		sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 		std::vector<std::shared_ptr<ComponentCamera> > camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
 		if (!camerasOfObj.empty())
 		{
@@ -173,7 +188,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				sceneToLoad->FillQuadtree(vecOfWeak);
+				//sceneToLoad->FillQuadtree(loadedObjects);
 			}
 		}
 		else
@@ -181,6 +196,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			sceneQuadtree->Add(obj);
 		}
 	}
+
 	App->renderer->FillRenderList(sceneQuadtree);
 
 	sceneToLoad->SetRoot(newRoot);
@@ -192,5 +208,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
-	loadedScene = sceneToLoad;
+	sceneToLoad->InitLights();
+
 }

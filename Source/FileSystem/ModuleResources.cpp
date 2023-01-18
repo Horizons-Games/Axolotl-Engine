@@ -16,6 +16,7 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceMaterial.h"
 #include <thread>
 #include <future>
 
@@ -41,7 +42,9 @@ bool ModuleResources::Start()
 
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
+#if !defined(GAME)
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+#endif
 	return true;
 }
 
@@ -355,9 +358,11 @@ void ModuleResources::MonitorResources()
 					App->fileSystem->GetPathWithExtension(it->second->GetLibraryPath());
 
 				if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
-					!App->fileSystem->Exists(libraryPathWithExtension.c_str()))
+					!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
+					it->second->IsChanged())
 				{
 					toCreateLib.push_back(it->second);
+					it->second->SetChanged(false);
 				}
 				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
 				{
@@ -391,6 +396,11 @@ void ModuleResources::MonitorResources()
 		}
 		for (std::shared_ptr<Resource> resource : toCreateLib)
 		{
+			if (resource->GetType() == ResourceType::Material) 
+			{
+				std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
+				ReImportMaterialAsset(materialResource);
+			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
 		for (std::shared_ptr<Resource> resource : toCreateMeta)
@@ -400,6 +410,32 @@ void ModuleResources::MonitorResources()
 		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	}
 	
+}
+
+void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource)
+{
+	std::vector<std::string> pathTextures;
+
+	std::shared_ptr<ResourceTexture> textureDiffuse = RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
+	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
+
+	std::shared_ptr<ResourceTexture> textureNormal = RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
+	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
+
+	std::shared_ptr<ResourceTexture> textureOcclusion = RequestResource<ResourceTexture>(materialResource->GetOcclusionrUID()).lock();
+	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
+
+	std::shared_ptr<ResourceTexture> textureSpecular = RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
+	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
+
+	char* fileBuffer{};
+	unsigned int size = 0;
+
+	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
+	std::string materialPath = materialResource->GetAssetsPath();
+
+	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
+	delete fileBuffer;
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)

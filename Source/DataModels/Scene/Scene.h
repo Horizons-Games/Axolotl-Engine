@@ -71,6 +71,8 @@ public:
 	void GenerateNewQuadtree();
 	void InitNewEmptyScene();
 
+	void InitLights();
+
 private:
 	void RemoveCamera(const std::shared_ptr<GameObject>& cameraGameObject);
 
@@ -91,7 +93,7 @@ private:
 	unsigned ssboPoint = 0;
 	unsigned ssboSpot = 0;
 	
-	AABB rootQuadtreeAABB = AABB(float3(-50, -1000, -50), float3(50, 1000, 50));
+	AABB rootQuadtreeAABB = AABB(float3(-20, -20, -20), float3(20, 20, 20));
 	std::shared_ptr<Quadtree> sceneQuadTree = nullptr;
 };
 

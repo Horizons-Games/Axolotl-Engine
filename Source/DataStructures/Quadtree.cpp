@@ -136,6 +136,18 @@ void Quadtree::Remove(const std::weak_ptr<GameObject>& gameObject)
 			gameObjects.erase(it);
 			SmartRemove();
 		}
+		else {
+			frontRightNode->Remove(gameObject);
+			if (!IsLeaf()) frontLeftNode->Remove(gameObject);
+			if (!IsLeaf()) backRightNode->Remove(gameObject);
+			if (!IsLeaf()) backLeftNode->Remove(gameObject);
+
+			if (IsLeaf())
+			{
+				if (parent != nullptr) parent->OptimizeParentObjects();
+			}
+
+		}
 	}
 	else if (IsLeaf())
 	{

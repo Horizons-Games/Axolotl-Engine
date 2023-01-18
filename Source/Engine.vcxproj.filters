@@ -352,11 +352,20 @@
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Skybox\Skybox.cpp">
       <Filter>Source\DataModels\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>Source\DataModels\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -852,11 +861,20 @@
     <ClInclude Include="DataModels\Scene\Scene.h">
       <Filter>Source\DataModels\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Skybox\Skybox.h">
       <Filter>Source\DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>Source\DataModels\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

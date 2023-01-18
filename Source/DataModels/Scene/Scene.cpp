@@ -435,15 +435,11 @@ void Scene::InitNewEmptyScene()
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	std::shared_ptr<GameObject> pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
+	InitLights();
+}
 
-	std::shared_ptr<GameObject> spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);
-
-	std::shared_ptr<GameObject> spotLight2 = CreateGameObject("SpotLight", root);
-	spotLight2->CreateComponentLight(LightType::SPOT);
-
+void Scene::InitLights()
+{
 	GenerateLights();
 
 	UpdateScenePointLights();
@@ -453,6 +449,4 @@ void Scene::InitNewEmptyScene()
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
-
-	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }

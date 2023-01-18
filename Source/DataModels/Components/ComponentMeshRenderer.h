@@ -10,6 +10,7 @@
 class ResourceMaterial;
 class ResourceMesh;
 class Json;
+class WindowMeshInput;
 
 class ComponentMeshRenderer : public Component
 {
@@ -33,6 +34,8 @@ private:
 	bool IsMeshLoaded();
 
 	std::weak_ptr<ResourceMesh> mesh;
+
+	std::unique_ptr<WindowMeshInput> inputMesh;
 };
 
 inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const

@@ -14,6 +14,14 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum class TextureType 
+{ 
+	DIFFUSE, 
+	NORMAL, 
+	OCCLUSION, 
+	SPECULAR 
+};
+
 // Application -------------
 #define TITLE "Pre Super Awesome Engine"
 #define VERSION "1.0.0"
@@ -22,8 +30,8 @@ enum update_status
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
-#define QUADRANT_CAPACITY 50
-#define MIN_CUBE_SIZE 100.0f
+#define QUADRANT_CAPACITY 10
+#define MIN_CUBE_SIZE 5.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920

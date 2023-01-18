@@ -16,6 +16,8 @@ class MeshImporter;
 class MaterialImporter;
 class SkyBoxImporter;
 
+class ResourceMaterial;
+
 enum class ResourceType;
 
 class ModuleResources : public Module
@@ -63,6 +65,7 @@ private:
 	//folder and file management
 	void CreateAssetAndLibFolders();
 	void MonitorResources();
+	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	//utility methods
@@ -89,8 +92,10 @@ private:
 
 inline bool ModuleResources::CleanUp()
 {
+#if !defined(GAME)
 	monitorResources = false;
 	monitorThread.join();
+#endif
 	resources.clear();
 	return true;
 }

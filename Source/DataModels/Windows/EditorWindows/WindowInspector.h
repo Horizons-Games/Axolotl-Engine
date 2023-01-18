@@ -3,7 +3,10 @@
 #include "EditorWindow.h"
 
 #include "FileSystem/UniqueID.h"
-
+// TODO: REMOVE
+#include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "ImporterWindows/WindowSaveScene.h"
+// --
 #include <memory>
 
 class Model;
@@ -34,8 +37,13 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 
-
-	std::weak_ptr<Model> model;
+	// TODO: REMOVE
+	bool showSaveScene = true;
+	bool showLoadScene = true;
+	void DrawButtomsSaveAndLoad();
+	std::unique_ptr<WindowLoadScene> loadScene;
+	std::unique_ptr<WindowSaveScene> saveScene;
+	// --
 };
 
 inline ImVec2 WindowInspector::GetStartingSize() const

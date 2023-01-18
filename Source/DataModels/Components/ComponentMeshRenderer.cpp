@@ -10,6 +10,7 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
@@ -22,9 +23,12 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
+
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
+	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
@@ -117,10 +121,22 @@ void ComponentMeshRenderer::Display()
 		}
 		ImGui::SameLine();
 
-		if (ImGui::Button("Remove Current Mesh"))
+		bool showMeshBrowser;
+
+		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
+
+
+		if (showMeshBrowser)
 		{
-			meshAsShared->Unload();
-			mesh = std::weak_ptr<ResourceMesh>();
+			inputMesh->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Mesh"))
+			{
+				meshAsShared->Unload();
+				mesh = std::weak_ptr<ResourceMesh>();
+			}
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))
@@ -152,13 +168,16 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
 	UID uidMesh = 0;
+	std::string assetPath = "";
 
 	if(meshAsShared)
 	{
 		uidMesh = meshAsShared->GetUID();
+		assetPath = meshAsShared->GetAssetsPath();
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
+	meta["assetPathMesh"] = assetPath.c_str();
 
 	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
@@ -170,14 +189,30 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
 
-	SetMesh(App->resources->RequestResource<ResourceMesh>(uidMesh).lock());
+	if (resourceMesh)
+	{
+		SetMesh(resourceMesh);
+	}
+	else
+	{
+		std::string path = meta["assetPathMesh"];
+		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+		if (resourceExists) 
+		{
+			uidMesh = App->resources->ImportResource(path);
+			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+			SetMesh(resourceMesh);
+		}
+	}
 }
 
 void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
 
 	if (meshAsShared)
 	{
