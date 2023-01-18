@@ -3,12 +3,7 @@
 #include "imgui.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "GameObject/GameObject.h"
-
-#include <string>
-#include <assert.h>
 
 static bool playButtonState = false;
 

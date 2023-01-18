@@ -3,15 +3,12 @@
 #include "imgui.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentMaterial.h"
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"

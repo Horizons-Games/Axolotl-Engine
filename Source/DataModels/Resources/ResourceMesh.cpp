@@ -2,8 +2,6 @@
 
 #include "ResourceMesh.h"
 
-#include <vector>
-
 #include "GL/glew.h"
 #include "Math/float2.h"
 

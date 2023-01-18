@@ -14,10 +14,7 @@
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
-#include "Math/MathAll.h"
 #include "Geometry/Sphere.h"
-
-#include <GL/glew.h>
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 

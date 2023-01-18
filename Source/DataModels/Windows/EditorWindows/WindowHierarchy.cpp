@@ -8,9 +8,6 @@
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 
-#include "Components/Component.h"
-
-#include <string>
 #include <assert.h>
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -82,10 +79,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
-        // The root can't be neither deleted nor moved up/down
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot())
+        /*
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
             std::vector<std::weak_ptr<GameObject> > parentsChildren = gameObject->GetParent().lock()->GetChildren();
+
 
             if (ImGui::MenuItem("Move Up"))
             {
@@ -121,6 +119,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
                 }
             }
         }
+        */
 
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&

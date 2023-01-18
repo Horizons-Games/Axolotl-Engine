@@ -7,7 +7,6 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleEngineCamera.h"
-#include "ModuleTexture.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
@@ -24,7 +23,6 @@ Application::Application()
 	modules.push_back(program = std::make_shared<ModuleProgram>()); 
 	modules.push_back(fileSystem = std::make_shared<ModuleFileSystem>());
 	modules.push_back(resources = std::make_shared<ModuleResources>());
-	modules.push_back(textures = std::make_shared<ModuleTexture>());
 	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
 	modules.push_back(scene = std::make_shared<ModuleScene>());
 	modules.push_back(renderer = std::make_shared<ModuleRender>());

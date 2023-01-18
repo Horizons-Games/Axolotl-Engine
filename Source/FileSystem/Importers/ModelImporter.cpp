@@ -6,15 +6,12 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "EngineLog.h"
 
 #include "Math/float3.h"
 
 #include "assimp/scene.h"     
 #include "assimp/postprocess.h"
 #include "assimp/cimport.h"
-#include "assimp/types.h"
-#include "assimp/material.h"
 
 void myCallback(const char* msg, char* userData) {
 	ENGINE_LOG("[assimp] %s", msg);

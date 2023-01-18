@@ -1,5 +1,3 @@
-#include "Globals.h"
-#include "Application.h"
 #include "ModuleWindow.h"
 
 ModuleWindow::ModuleWindow()

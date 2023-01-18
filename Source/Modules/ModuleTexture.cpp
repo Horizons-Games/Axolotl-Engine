@@ -1,15 +1,9 @@
 #pragma warning (disable: 26451)
 
 #include "ModuleTexture.h"
-#include "Globals.h"
-
-#include <sys/stat.h>
 
 #include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 
 ModuleTexture::ModuleTexture()
 {

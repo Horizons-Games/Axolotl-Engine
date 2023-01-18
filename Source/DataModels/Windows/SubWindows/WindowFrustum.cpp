@@ -1,5 +1,4 @@
 #include "WindowFrustum.h"
-#include "Globals.h"
 #include "imgui.h"
 #include "Application.h"
 #include "Modules/ModuleDebugDraw.h"

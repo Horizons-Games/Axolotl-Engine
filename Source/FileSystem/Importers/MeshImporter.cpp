@@ -5,8 +5,6 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include "EngineLog.h"
-
 void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> resource)
 {
 	char* loadBuffer{};

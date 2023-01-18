@@ -1,6 +1,5 @@
 #include "GameObject.h"
 
-#include "../Components/Component.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"

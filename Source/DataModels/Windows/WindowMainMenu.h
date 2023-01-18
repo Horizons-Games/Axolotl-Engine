@@ -2,10 +2,6 @@
 
 #include "Windows/Window.h"
 
-#include <list>
-#include <vector>
-#include <memory>
-
 #include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
 
