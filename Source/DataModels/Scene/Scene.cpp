@@ -35,22 +35,31 @@ Scene::~Scene()
 	sceneCameras.clear();
 }
 
-void Scene::FillQuadtree(std::vector<std::shared_ptr<GameObject> >& gameObjects)
+void Scene::FillQuadtree(const std::vector<std::weak_ptr<GameObject> >& gameObjects)
 {
-	for (std::shared_ptr<GameObject> gameObject : gameObjects)
+	for (std::weak_ptr<GameObject> gameObject : gameObjects)
 	{
-		sceneQuadTree->Add(gameObject);
+		std::shared_ptr<GameObject> asShared = gameObject.lock();
+		if (asShared)
+			sceneQuadTree->Add(asShared);
 	}
 }
 
 bool Scene::IsInsideACamera(const OBB& obb)
 {
 	// TODO: We have to add all the cameras in the future
-	for (std::shared_ptr<GameObject> cameraGameObject : sceneCameras)
+	for (std::weak_ptr<GameObject> cameraGameObject : sceneCameras)
 	{
-		std::shared_ptr<ComponentCamera> camera =
-			std::static_pointer_cast<ComponentCamera>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-		if (camera->IsInside(obb)) return true;
+		std::shared_ptr<GameObject> asShared = cameraGameObject.lock();
+		if (asShared)
+		{
+			std::shared_ptr<ComponentCamera> camera =
+				std::static_pointer_cast<ComponentCamera>(asShared->GetComponent(ComponentType::CAMERA));
+			if (camera->IsInside(obb))
+			{
+				return true;
+			}
+		}
 	}
 	return false;
 }
@@ -100,13 +109,14 @@ std::shared_ptr<GameObject> Scene::CreateCameraGameObject(const char* name, cons
 
 void Scene::DestroyGameObject(const std::shared_ptr<GameObject>& gameObject)
 {
-	gameObject->GetParent()->RemoveChild(gameObject);
+	gameObject->GetParent().lock()->RemoveChild(gameObject);
 	RemoveCamera(gameObject);
-	for (std::vector<std::shared_ptr<GameObject> >::const_iterator it = sceneGameObjects.begin();
+	for (std::vector<std::weak_ptr<GameObject> >::const_iterator it = sceneGameObjects.begin();
 		it != sceneGameObjects.end();
 		++it)
 	{
-		if (*it == gameObject)
+		std::shared_ptr<GameObject> asShared = (*it).lock();
+		if (asShared && asShared == gameObject)
 		{
 			sceneGameObjects.erase(it);
 			return;
@@ -158,28 +168,29 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	}
 }
 
-std::shared_ptr<GameObject> Scene::SearchGameObjectByID(UID gameObjectID) const
+std::weak_ptr<GameObject> Scene::SearchGameObjectByID(UID gameObjectID) const
 {
-	for (std::shared_ptr<GameObject> gameObject : sceneGameObjects)
+	for (std::weak_ptr<GameObject> gameObject : sceneGameObjects)
 	{
-		if (gameObject->GetUID() == gameObjectID)
+		std::shared_ptr<GameObject> asShared = gameObject.lock();
+		if (asShared && asShared->GetUID() == gameObjectID)
 		{
 			return gameObject;
 		}
 	}
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
-	std::shared_ptr<GameObject> emptyPtr = std::shared_ptr<GameObject>();
-	return emptyPtr;
+	return std::weak_ptr<GameObject>();
 }
 
 void Scene::RemoveCamera(const std::shared_ptr<GameObject>& cameraGameObject)
 {
-	for (std::vector<std::shared_ptr<GameObject> >::iterator it = sceneCameras.begin();
+	for (std::vector<std::weak_ptr<GameObject> >::iterator it = sceneCameras.begin();
 		it != sceneCameras.end();
 		++it)
 	{
-		if (cameraGameObject == *it)
+		std::shared_ptr<GameObject> asShared = (*it).lock();
+		if (asShared && cameraGameObject == asShared)
 		{
 			sceneCameras.erase(it);
 			return;
@@ -335,27 +346,31 @@ void Scene::UpdateScenePointLights()
 {
 	pointLights.clear();
 
-	std::vector<std::shared_ptr<GameObject> > children = GetSceneGameObjects();
+	std::vector<std::weak_ptr<GameObject> > children = GetSceneGameObjects();
 
-	for (std::shared_ptr<GameObject> child : children)
+	for (std::weak_ptr<GameObject> child : children)
 	{
-		std::vector<std::shared_ptr<ComponentLight> > components =
-			child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-		if (!components.empty())
+		std::shared_ptr<GameObject> childAsShared = child.lock();
+		if (childAsShared)
 		{
-			if (components[0]->GetLightType() == LightType::POINT)
+			std::vector<std::shared_ptr<ComponentLight> > components =
+				childAsShared->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+			if (!components.empty())
 			{
-				std::shared_ptr<ComponentPointLight> pointLightComp =
-					std::static_pointer_cast<ComponentPointLight>(components[0]);
-				std::shared_ptr<ComponentTransform> transform =
-					std::static_pointer_cast<ComponentTransform>(components[0]
-						->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+				if (components[0]->GetLightType() == LightType::POINT)
+				{
+					std::shared_ptr<ComponentPointLight> pointLightComp =
+						std::static_pointer_cast<ComponentPointLight>(components[0]);
+					std::shared_ptr<ComponentTransform> transform =
+						std::static_pointer_cast<ComponentTransform>(components[0]
+							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 
-				PointLight pl;
-				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
-				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+					PointLight pl;
+					pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
-				pointLights.push_back(pl);
+					pointLights.push_back(pl);
+				}
 			}
 		}
 	}
@@ -365,30 +380,34 @@ void Scene::UpdateSceneSpotLights()
 {
 	spotLights.clear();
 
-	std::vector<std::shared_ptr<GameObject> > children = GetSceneGameObjects();
+	std::vector<std::weak_ptr<GameObject> > children = GetSceneGameObjects();
 
-	for (std::shared_ptr<GameObject> child : children)
+	for (std::weak_ptr<GameObject> child : children)
 	{
-		std::vector<std::shared_ptr<ComponentLight> > components =
-			child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-		if (!components.empty())
+		std::shared_ptr<GameObject> childAsShared = child.lock();
+		if (childAsShared)
 		{
-			if (components[0]->GetLightType() == LightType::SPOT)
+			std::vector<std::shared_ptr<ComponentLight> > components =
+				childAsShared->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+			if (!components.empty())
 			{
-				std::shared_ptr<ComponentSpotLight> spotLightComp =
-					std::static_pointer_cast<ComponentSpotLight>(components[0]);
-				std::shared_ptr<ComponentTransform> transform =
-					std::static_pointer_cast<ComponentTransform>(components[0]
-						->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+				if (components[0]->GetLightType() == LightType::SPOT)
+				{
+					std::shared_ptr<ComponentSpotLight> spotLightComp =
+						std::static_pointer_cast<ComponentSpotLight>(components[0]);
+					std::shared_ptr<ComponentTransform> transform =
+						std::static_pointer_cast<ComponentTransform>(components[0]
+							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 
-				SpotLight sl;
-				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
-				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
-				sl.aim = transform->GetGlobalForward().Normalized();
-				sl.innerAngle = spotLightComp->GetInnerAngle();
-				sl.outAngle = spotLightComp->GetOuterAngle();
+					SpotLight sl;
+					sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+					sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
+					sl.aim = transform->GetGlobalForward().Normalized();
+					sl.innerAngle = spotLightComp->GetInnerAngle();
+					sl.outAngle = spotLightComp->GetOuterAngle();
 
-				spotLights.push_back(sl);
+					spotLights.push_back(sl);
+				}
 			}
 		}
 	}

@@ -28,95 +28,98 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject();
+	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
 
-	bool enable = currentGameObject->IsEnabled();
-	ImGui::Checkbox("Enable", &enable);
-
-	if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	if (currentGameObject)
 	{
-		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
-	}
+		bool enable = currentGameObject->IsEnabled();
+		ImGui::Checkbox("Enable", &enable);
 
-	ImGui::SameLine();
-
-	if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
-	{
-		char* name = (char*)currentGameObject->GetName();
-		if (ImGui::InputText("##GameObject", name, 24))
+		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 		{
-			std::string scene = " Scene";
-			std::string sceneName = name + scene;
-			currentGameObject->SetName(sceneName.c_str());
+			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 		}
-	}
 
-	else
-	{
-		char* name = (char*)currentGameObject->GetName();
-		ImGui::InputText("##GameObject", name, 24);
-	}
+		ImGui::SameLine();
 
-	ImGui::Separator();
-
-	if (WindowRightClick() && 
-		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
-	{
-		ImGui::OpenPopup("AddComponent");
-	}
-
-	if (ImGui::BeginPopup("AddComponent"))
-	{
-		if (App->scene->GetSelectedGameObject() != nullptr)
+		if (!currentGameObject->GetParent().expired()) // Keep the word Scene in the root
 		{
-			if (ImGui::MenuItem("Create Mesh Renderer Component"))
+			char* name = (char*)currentGameObject->GetName();
+			if (ImGui::InputText("##GameObject", name, 24))
 			{
-				AddComponentMeshRenderer();
-			}
-
-			if (ImGui::MenuItem("Create Material Component"))
-			{
-				AddComponentMaterial();
-			}
-
-			if (ImGui::MenuItem("Create Spot Light Component"))
-			{
-				AddComponentLight(LightType::SPOT);
-			}
-
-			if (ImGui::MenuItem("Create Point Light Component"))
-			{
-				AddComponentLight(LightType::POINT);
+				std::string scene = " Scene";
+				std::string sceneName = name + scene;
+				currentGameObject->SetName(sceneName.c_str());
 			}
 		}
 
 		else
 		{
-			ENGINE_LOG("No GameObject is selected");
+			char* name = (char*)currentGameObject->GetName();
+			ImGui::InputText("##GameObject", name, 24);
 		}
 
-		ImGui::EndPopup();
-	}
-	
-	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
-	{
-		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+		ImGui::Separator();
+
+		if (WindowRightClick() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 		{
-			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
-			{
-				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-				ImGui::SameLine();
-				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
-					break;
-				ImGui::SameLine();
-			}
+			ImGui::OpenPopup("AddComponent");
 		}
 
-		currentGameObject->GetComponents()[i]->Display();
+		if (ImGui::BeginPopup("AddComponent"))
+		{
+			if (!App->scene->GetSelectedGameObject().expired())
+			{
+				if (ImGui::MenuItem("Create Mesh Renderer Component"))
+				{
+					AddComponentMeshRenderer();
+				}
+
+				if (ImGui::MenuItem("Create Material Component"))
+				{
+					AddComponentMaterial();
+				}
+
+				if (ImGui::MenuItem("Create Spot Light Component"))
+				{
+					AddComponentLight(LightType::SPOT);
+				}
+
+				if (ImGui::MenuItem("Create Point Light Component"))
+				{
+					AddComponentLight(LightType::POINT);
+				}
+			}
+
+			else
+			{
+				ENGINE_LOG("No GameObject is selected");
+			}
+
+			ImGui::EndPopup();
+		}
+
+		for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+		{
+			if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+			{
+				if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+				{
+					DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+					ImGui::SameLine();
+					if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+						break;
+					ImGui::SameLine();
+				}
+			}
+
+			currentGameObject->GetComponents()[i]->Display();
+		}
 	}
 
 	//DrawTextureTable();
@@ -140,7 +143,7 @@ bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared
 
 	if (ImGui::Button(textRemove, ImVec2(90, 20)))
 	{
-		if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
 		{
 			assert(false && "Trying to delete a non-existing component");
 		}
@@ -166,17 +169,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
+	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
 }
 
 void WindowInspector::DrawTextureTable()

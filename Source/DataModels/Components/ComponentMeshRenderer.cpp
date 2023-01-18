@@ -48,7 +48,8 @@ void ComponentMeshRenderer::Draw()
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 		const float4x4& model =
-			std::static_pointer_cast<ComponentTransform>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			std::static_pointer_cast<ComponentTransform>(GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		GLint programInUse;
 		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
@@ -170,7 +171,7 @@ void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 	{
 		meshAsShared->Load();
 		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
-			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner().lock()->GetComponent(ComponentType::BOUNDINGBOX));
 		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
 	}
 }

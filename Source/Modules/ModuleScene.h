@@ -22,8 +22,8 @@ public:
 
 	const std::shared_ptr<Scene>& GetLoadedScene() const;
 	void SetLoadedScene(const std::shared_ptr<Scene>& newScene);
-	const std::shared_ptr<GameObject>& GetSelectedGameObject() const;
-	void SetSelectedGameObject(const std::shared_ptr<GameObject>& gameObject);
+	const std::weak_ptr<GameObject>& GetSelectedGameObject() const;
+	void SetSelectedGameObject(const std::weak_ptr<GameObject>& gameObject);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -40,7 +40,7 @@ private:
 
 private:
 	std::shared_ptr<Scene> loadedScene = nullptr;
-	std::shared_ptr<GameObject> selectedGameObject = nullptr;
+	std::weak_ptr<GameObject> selectedGameObject = std::weak_ptr<GameObject>();
 
 	//to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
@@ -56,12 +56,12 @@ inline void ModuleScene::SetLoadedScene(const std::shared_ptr<Scene>& newScene)
 	loadedScene = newScene;
 }
 
-inline const std::shared_ptr<GameObject>& ModuleScene::GetSelectedGameObject() const
+inline const std::weak_ptr<GameObject>& ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
 }
 
-inline void ModuleScene::SetSelectedGameObject(const std::shared_ptr<GameObject>& gameObject)
+inline void ModuleScene::SetSelectedGameObject(const std::weak_ptr<GameObject>& gameObject)
 {
 	selectedGameObject = gameObject;
 }

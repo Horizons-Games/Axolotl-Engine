@@ -34,9 +34,9 @@ public:
 
 	UID GetUID() const;
 	const char* GetName() const;
-	const std::shared_ptr<GameObject>& GetParent() const;
-	const std::vector<std::shared_ptr<GameObject> >& GetChildren() const;
-	void SetChildren(const std::vector<std::shared_ptr<GameObject> >& children);
+	const std::weak_ptr<GameObject>& GetParent() const;
+	const std::vector<std::weak_ptr<GameObject> >& GetChildren() const;
+	void SetChildren(const std::vector<std::weak_ptr<GameObject> >& children);
 	const std::vector<std::shared_ptr<Component> >& GetComponents() const;
 	void SetComponents(const std::vector<std::shared_ptr<Component> >& children);
 	template<class T>
@@ -47,7 +47,7 @@ public:
 	void Disable();
 
 	void SetName(const char* newName);
-	void SetParent(const std::shared_ptr<GameObject>& newParent);
+	void SetParent(const std::weak_ptr<GameObject>& newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -58,7 +58,7 @@ public:
 	bool RemoveComponent(const std::shared_ptr<Component>& component);
 	std::shared_ptr<Component> GetComponent(ComponentType type);
 
-	std::list<std::shared_ptr<GameObject> > GetGameObjectsInside();
+	std::list<std::weak_ptr<GameObject> > GetGameObjectsInside();
 
 private:
 	bool IsAChild(const std::shared_ptr<GameObject>& child);
@@ -96,7 +96,7 @@ inline void GameObject::SetName(const char* newName)
 	name = newName;
 }
 
-inline const std::shared_ptr<GameObject>& GameObject::GetParent() const
+inline const std::weak_ptr<GameObject>& GameObject::GetParent() const
 {
 	return parent;
 }
@@ -106,14 +106,20 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline const std::vector<std::shared_ptr<GameObject> >& GameObject::GetChildren() const
+inline const std::vector<std::weak_ptr<GameObject> >& GameObject::GetChildren() const
 {
-	return children;
+	std::vector<std::weak_ptr<GameObject> > weakChildren = {};
+	weakChildren.insert(weakChildren.end(), children.begin(), children.end());
+	return weakChildren;
 }
 
-inline void GameObject::SetChildren(const std::vector<std::shared_ptr<GameObject> >& children)
+inline void GameObject::SetChildren(const std::vector<std::weak_ptr<GameObject> >& children)
 {
-	this->children = children;
+	this->children.clear();
+	for (std::weak_ptr<GameObject> newChild : children)
+	{
+		this->children.push_back(newChild.lock());
+	}
 }
 
 inline const std::vector<std::shared_ptr<Component> >& GameObject::GetComponents() const

@@ -44,7 +44,8 @@ void ComponentPointLight::Draw()
 	if (this->GetActive())
 	{
 		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetPosition();
 
@@ -80,14 +81,14 @@ void ComponentPointLight::Display()
 						if (lightTypes[i] == "Spot")
 						{
 							std::shared_ptr<ComponentSpotLight> newSpot =
-								std::static_pointer_cast<ComponentSpotLight>(this->GetOwner()
+								std::static_pointer_cast<ComponentSpotLight>(this->GetOwner().lock()
 									->CreateComponentLight(LightType::SPOT));
 							
 							newSpot->SetColor(color);
 							newSpot->SetIntensity(intensity);
 							newSpot->SetRadius(radius);
 
-							this->GetOwner()->RemoveComponent(shared_from_this());
+							this->GetOwner().lock()->RemoveComponent(shared_from_this());
 
 							App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 							App->scene->GetLoadedScene()->RenderSpotLights();

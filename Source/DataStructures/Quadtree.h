@@ -18,11 +18,11 @@ public:
 
 	void Add(const std::shared_ptr<GameObject>& gameObject);
 	void AddGameObjectAndChildren(const std::shared_ptr<GameObject>& gameObject);
-	void Remove(const std::shared_ptr<GameObject>& gameObject);
-	void RemoveGameObjectAndChildren(const std::shared_ptr<GameObject>& gameObject);
+	void Remove(const std::weak_ptr<GameObject>& gameObject);
+	void RemoveGameObjectAndChildren(const std::weak_ptr<GameObject>& gameObject);
 	void SmartRemove();
 	void OptimizeParentObjects();
-	
+
 	void Subdivide();
 	void RedistributeGameObjects(const std::shared_ptr<GameObject>& gameobject);
 
@@ -31,8 +31,8 @@ public:
 
 	void ResetChildren();
 
-	const std::list<std::shared_ptr<GameObject> >& GetGameObjects() const;
-	void GetFamilyObjects(std::list<std::shared_ptr<GameObject> >& familyGameObjects);
+	const std::list<std::weak_ptr<GameObject> >& GetGameObjects() const;
+	void GetFamilyObjects(std::list<std::weak_ptr<GameObject> >& familyGameObjects);
 
 	const std::shared_ptr<Quadtree>& GetFrontRightNode() const;
 	const std::shared_ptr<Quadtree>& GetFrontLeftNode() const;
@@ -51,11 +51,11 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 
-	std::list<std::shared_ptr<GameObject> > GetAllGameObjects(const std::shared_ptr<GameObject>& gameObject);
+	std::list<std::weak_ptr<GameObject> > GetAllGameObjects(const std::weak_ptr<GameObject>& gameObject);
 
 private:
 
-	std::list<std::shared_ptr<GameObject> > gameObjects;
+	std::list<std::weak_ptr<GameObject> > gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity = QUADRANT_CAPACITY;
@@ -81,7 +81,7 @@ inline void Quadtree::SetFreezedStatus(bool isFreezed)
 {
 	this->isFreezed = isFreezed;
 }
- 
+
 inline const AABB& Quadtree::GetBoundingBox() const
 {
 	return boundingBox;
@@ -102,7 +102,7 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::list<std::shared_ptr<GameObject> >& Quadtree::GetGameObjects() const
+inline const std::list<std::weak_ptr<GameObject> >& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }

@@ -23,7 +23,7 @@ ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_pt
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 
 {
 	std::shared_ptr<ComponentTransform> transform =
-		std::static_pointer_cast<ComponentTransform>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		std::static_pointer_cast<ComponentTransform>((this)->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 	objectOBB = OBB(localAABB);
 	objectOBB.Transform(transform->GetGlobalMatrix());
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();

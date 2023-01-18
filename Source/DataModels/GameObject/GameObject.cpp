@@ -153,18 +153,18 @@ void GameObject::InitNewEmptyGameObject()
 	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
-void GameObject::SetParent(const std::shared_ptr<GameObject>& newParent)
+void GameObject::SetParent(const std::weak_ptr<GameObject>& newParent)
 {
-	assert(newParent != nullptr);
+	assert(newParent.lock());
 
-	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
-		newParent->IsAChild(shared_from_this()))				// Avoid dragging direct children into thier parent GameObjects
+	if (this->IsADescendant(newParent.lock()) ||		// Avoid dragging parent GameObjects into their descendants
+		newParent.lock()->IsAChild(shared_from_this()))				// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
 	}
 
 	parent->RemoveChild(shared_from_this());
-	parent = newParent;
+	parent = newParent.lock();
 	parent->AddChild(shared_from_this());
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
@@ -424,14 +424,14 @@ bool GameObject::IsADescendant(const std::shared_ptr<GameObject>& descendant)
 	return false;
 }
 
-std::list<std::shared_ptr<GameObject> > GameObject::GetGameObjectsInside()
+std::list<std::weak_ptr<GameObject> > GameObject::GetGameObjectsInside()
 {
 
-	std::list<std::shared_ptr<GameObject> > familyObjects = {};
+	std::list<std::weak_ptr<GameObject> > familyObjects = {};
 	familyObjects.push_back(shared_from_this());
-	for (std::shared_ptr<GameObject> children : this->GetChildren())
+	for (std::shared_ptr<GameObject> children : this->children)
 	{
-		std::list<std::shared_ptr<GameObject> > objectsChildren = children->GetGameObjectsInside();
+		std::list<std::weak_ptr<GameObject> > objectsChildren = children->GetGameObjectsInside();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;

@@ -612,7 +612,7 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    std::shared_ptr<GameObject> selectedGameObject = App->scene->GetSelectedGameObject();
+    std::shared_ptr<GameObject> selectedGameObject = App->scene->GetSelectedGameObject().lock();
     std::shared_ptr<ComponentTransform> selectedTransform =
         std::static_pointer_cast<ComponentTransform>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 

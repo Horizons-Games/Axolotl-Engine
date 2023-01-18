@@ -79,7 +79,8 @@ void ComponentDirLight::Draw()
 	if (this->GetActive())
 	{
 		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetPosition();
 		float3 forward = transform->GetGlobalForward();

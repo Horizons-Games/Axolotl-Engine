@@ -199,12 +199,12 @@ update_status ModuleRender::Update()
 {
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
-	AddToRenderList(App->scene->GetSelectedGameObject());
+	AddToRenderList(App->scene->GetSelectedGameObject().lock());
 
-	for (std::shared_ptr<GameObject> gameObject : gameObjectsToDraw)
+	for (std::weak_ptr<GameObject> gameObject : gameObjectsToDraw)
 	{
-		if (gameObject->IsActive())
-			gameObject->Draw();
+		if (!gameObject.expired() && gameObject.lock()->IsActive())
+			gameObject.lock()->Draw();
 	}
 
 	int w, h;
@@ -301,17 +301,17 @@ void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		std::list<std::shared_ptr<GameObject>> gameObjectsToRender = quadtree->GetGameObjects();
+		std::list<std::weak_ptr<GameObject>> gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
-			for (std::shared_ptr<GameObject> gameObject : gameObjectsToRender)
+			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (std::shared_ptr<GameObject> gameObject : gameObjectsToRender)  //We draw all these objects
+			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)  //We draw all these objects
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
@@ -341,9 +341,9 @@ void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject
 
 	if (!gameObject->GetChildren().empty())
 	{
-		for (std::shared_ptr<GameObject> children : gameObject->GetChildren())
+		for (std::weak_ptr<GameObject> children : gameObject->GetChildren())
 		{
-			AddToRenderList(children);
+			AddToRenderList(children.lock());
 		}
 	}
 }

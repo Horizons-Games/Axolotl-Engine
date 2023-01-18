@@ -51,9 +51,9 @@ void ModuleScene::UpdateGameObjectAndDescendants(const std::shared_ptr<GameObjec
 	if (gameObject != loadedScene->GetRoot())
 		gameObject->Update();
 
-	for (std::shared_ptr<GameObject> child : gameObject->GetChildren())
+	for (std::weak_ptr<GameObject> child : gameObject->GetChildren())
 	{
-		UpdateGameObjectAndDescendants(child);
+		UpdateGameObjectAndDescendants(child.lock());
 	}
 }
 
@@ -146,6 +146,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::shared_ptr<GameObject> ambientLight = nullptr;
 	std::shared_ptr<GameObject> directionalLight = nullptr;
 
+	std::vector<std::weak_ptr<GameObject> > vecOfWeak(loadedObjects.begin(), loadedObjects.end());
 	for (std::shared_ptr<GameObject> obj : loadedObjects)
 	{
 		std::vector<std::shared_ptr<ComponentCamera> > camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
@@ -172,7 +173,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				sceneToLoad->FillQuadtree(loadedObjects);
+				sceneToLoad->FillQuadtree(vecOfWeak);
 			}
 		}
 		else
@@ -185,8 +186,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetRoot(newRoot);
 	selectedGameObject = newRoot;
 
-	sceneToLoad->SetSceneGameObjects(loadedObjects);
-	sceneToLoad->SetSceneCameras(loadedCameras);
+	sceneToLoad->SetSceneGameObjects(vecOfWeak);
+	sceneToLoad->SetSceneCameras(vecOfWeak);
 	sceneToLoad->SetAmbientLight(ambientLight);
 	sceneToLoad->SetDirectionalLight(directionalLight);
 	sceneToLoad->SetSceneQuadTree(sceneQuadtree);

@@ -69,14 +69,14 @@ void ComponentSpotLight::Display()
 						if (lightTypes[i] == "Point")
 						{
 							std::shared_ptr<ComponentPointLight> newPoint =
-								std::static_pointer_cast<ComponentPointLight>(this->GetOwner()
+								std::static_pointer_cast<ComponentPointLight>(this->GetOwner().lock()
 									->CreateComponentLight(LightType::POINT));
 
 							newPoint->SetColor(this->color);
 							newPoint->SetIntensity(this->intensity);
 							newPoint->SetRadius(this->radius);
 
-							this->GetOwner()->RemoveComponent(shared_from_this());
+							this->GetOwner().lock()->RemoveComponent(shared_from_this());
 
 							App->scene->GetLoadedScene()->UpdateScenePointLights();
 							App->scene->GetLoadedScene()->RenderPointLights();
@@ -166,7 +166,8 @@ void ComponentSpotLight::Draw()
 	if (this->GetActive())
 	{
 		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();

@@ -55,7 +55,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<std::shared_ptr<GameObject> > gameObjectsToDraw;
+	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	GLuint frameBuffer = 0;
