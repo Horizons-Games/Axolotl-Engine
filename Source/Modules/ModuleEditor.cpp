@@ -51,9 +51,9 @@ bool ModuleEditor::Init()
 	
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowInspector>());
-	
 	windows.push_back(std::make_shared<WindowConfiguration>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
+	
 
 	
 
@@ -147,16 +147,15 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 		
-		 if (i == 4)
-		{
+		
 			if (!firstDeployed)
 			{
-
-				mainMenu->SetWindowEnabled(4, false);
+				
+				mainMenu->SetWindowEnabled(windows.size() - 1, false);
 				firstDeployed = true;
 			}
 
-		}
+		
 	}
 
 	return status;
