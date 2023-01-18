@@ -55,7 +55,7 @@ bool Scene::IsInsideACamera(const OBB& obb)
 		{
 			std::shared_ptr<ComponentCamera> camera =
 				std::static_pointer_cast<ComponentCamera>(asShared->GetComponent(ComponentType::CAMERA));
-			if (camera->IsInside(obb))
+			if (camera && camera->IsInside(obb))
 			{
 				return true;
 			}
