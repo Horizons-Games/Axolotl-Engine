@@ -90,15 +90,18 @@ void WindowInspector::DrawWindowContents()
 				}
 			}
 
-			if (ImGui::MenuItem("Create Spot Light Component"))
-			{
-				AddComponentLight(LightType::SPOT);
-			}
+			if (!App->scene->GetSelectedGameObject()->GetComponent(ComponentType::LIGHT)) {
+				if (ImGui::MenuItem("Create Spot Light Component"))
+				{
+					AddComponentLight(LightType::SPOT);
+				}
 
-			if (ImGui::MenuItem("Create Point Light Component"))
-			{
-				AddComponentLight(LightType::POINT);
+				if (ImGui::MenuItem("Create Point Light Component"))
+				{
+					AddComponentLight(LightType::POINT);
+				}
 			}
+			
 		}
 		else
 		{
