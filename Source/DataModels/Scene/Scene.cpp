@@ -129,7 +129,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	//Cargas el ComponentMaterial con el ResourceMaterial
 	//Cargas el ComponentMesh con el ResourceMesh
 
-	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
+	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
 		std::shared_ptr<ResourceMesh> mesh =
 			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
@@ -313,7 +313,7 @@ void Scene::RenderSpotLights() const
 
 	if (numSpot > 0)
 	{
-		for (int i = 0; i < numSpot; ++i)
+		for (unsigned int i = 0; i < numSpot; ++i)
 		{
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
 		}

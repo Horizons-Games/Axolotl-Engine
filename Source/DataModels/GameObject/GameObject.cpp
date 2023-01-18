@@ -114,7 +114,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 
 	if(jsonComponents.Size() != 0)
 	{
-		for (int i = 0; i < jsonComponents.Size(); ++i)
+		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 		{
 			Json jsonComponent = jsonComponents[i]["Component"];
 			std::string typeName = jsonComponent["type"];
@@ -144,7 +144,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 
 	if (jsonChildrens.Size() != 0) 
 	{
-		for (int i = 0; i < jsonChildrens.Size(); ++i)
+		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
 		{
 			Json jsonGameObject = jsonChildrens[i]["GameObject"];
 			std::string name = jsonGameObject["name"];

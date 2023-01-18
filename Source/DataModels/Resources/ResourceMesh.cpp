@@ -50,7 +50,7 @@ void ResourceMesh::CreateVBO()
 
 	float2* uvs = (float2*)(glMapBufferRange(GL_ARRAY_BUFFER, uvOffset, uvSize, GL_MAP_WRITE_BIT));
 
-	for (int i = 0; i < numVertices; ++i)
+	for (unsigned int i = 0; i < numVertices; ++i)
 	{
 		uvs[i] = float2(textureCoords[i].x, textureCoords[i].y);
 	}
@@ -81,7 +81,7 @@ void ResourceMesh::CreateEBO()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	for (int i = 0; i < numFaces; ++i)
+	for (unsigned int i = 0; i < numFaces; ++i)
 	{
 		assert(facesIndices[i].size() == 3); // note: assume triangles = 3 indices per face
 		*(indices++) = facesIndices[i][0];

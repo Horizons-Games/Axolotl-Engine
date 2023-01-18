@@ -1,3 +1,5 @@
+#pragma warning (disable: 4804)
+
 #include "ComponentMaterial.h"
 
 #include "Application.h"
