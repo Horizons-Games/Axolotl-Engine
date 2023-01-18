@@ -79,7 +79,7 @@ void ComponentDirLight::Draw()
 	{
 		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
 
-		float3 position = transform->GetPosition();
+		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
 
 		float radius = 0.2f;

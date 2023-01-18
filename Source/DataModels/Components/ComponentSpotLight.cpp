@@ -164,7 +164,7 @@ void ComponentSpotLight::Draw()
 	{
 		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
 
-		float3 position = transform->GetPosition();
+		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
 
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
