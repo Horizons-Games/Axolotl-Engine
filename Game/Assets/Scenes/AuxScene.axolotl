@@ -217,9 +217,9 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 13.199999809265137,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 6.074999809265137
                         }
                     },
                     {
@@ -281,8 +281,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 18010801583565425437,
-                                        "textureDiffuseUID": 17446901847213357160,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -303,7 +303,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 1476268448377155443
+                                        "meshUID": 0
                                     }
                                 }
                             ],
@@ -353,8 +353,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 18010801583565425437,
-                                        "textureDiffuseUID": 17446901847213357160,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -375,7 +375,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 8085311756610824798
+                                        "meshUID": 0
                                     }
                                 }
                             ],
@@ -404,7 +404,7 @@
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
+                            "localSca_Y": 9.75,
                             "localSca_Z": 1.0
                         }
                     },
@@ -467,8 +467,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 12232488433191161546,
-                                        "textureDiffuseUID": 1585877050570772969,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -489,7 +489,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 564316486509845110
+                                        "meshUID": 0
                                     }
                                 }
                             ],
@@ -539,8 +539,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 14874291093928681211,
-                                        "textureDiffuseUID": 1585877050570772969,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -561,7 +561,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 14016307685903405208
+                                        "meshUID": 0
                                     }
                                 }
                             ],
@@ -611,8 +611,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 9872551885693275134,
-                                        "textureDiffuseUID": 1585877050570772969,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -633,7 +633,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 8692837069386020199
+                                        "meshUID": 0
                                     }
                                 }
                             ],
@@ -725,8 +725,8 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "materialUID": 7616548299229441139,
-                                        "textureDiffuseUID": 12779161745657461538,
+                                        "materialUID": 0,
+                                        "textureDiffuseUID": 0,
                                         "textureNormalUID": 0,
                                         "textureOcclusionUID": 0,
                                         "textureSpecularUID": 0,
@@ -747,7 +747,7 @@
                                         "active": true,
                                         "owner": true,
                                         "removed": true,
-                                        "meshUID": 1530306214381948877
+                                        "meshUID": 0
                                     }
                                 }
                             ],

@@ -411,6 +411,11 @@ void Scene::InitNewEmptyScene()
 	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
 	spotLight2->CreateComponentLight(LightType::SPOT);
 
+	InitLights();
+}
+
+void Scene::InitLights()
+{
 	GenerateLights();
 
 	UpdateScenePointLights();
