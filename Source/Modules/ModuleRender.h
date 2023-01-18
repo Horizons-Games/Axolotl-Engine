@@ -6,6 +6,7 @@
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
+
 #include <SDL.h>
 
 #include <list>
@@ -13,6 +14,8 @@
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
+
+class Skybox;
 
 class ModuleRender : public Module
 {
@@ -58,6 +61,8 @@ private:
 	
 	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
 	const std::vector<std::string> modelTypes = { "FBX" };
+
+	std::shared_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;

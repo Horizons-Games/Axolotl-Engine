@@ -295,9 +295,6 @@
     <ClCompile Include="FileSystem\Json.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resource\Skybox.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
@@ -360,6 +357,12 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
+      <Filter>Source\DataModels\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Program\Program.cpp">
+      <Filter>Source\DataModels\Program</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -801,9 +804,6 @@
     <ClInclude Include="FileSystem\Json.h">
       <Filter>Source\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resource\Skybox.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -863,6 +863,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Skybox\Skybox.h">
+      <Filter>Source\DataModels\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Program\Program.h">
+      <Filter>Source\DataModels\Program</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -952,6 +958,12 @@
     </Filter>
     <Filter Include="Source\DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Skybox">
+      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Program">
+      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

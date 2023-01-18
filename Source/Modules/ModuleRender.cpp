@@ -8,7 +8,10 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "DataStructures/Quadtree.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 
 #include "3DModels/Model.h"
@@ -169,9 +172,25 @@ bool ModuleRender::Start()
 
 	// Import models into the scene
 	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
 	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
 	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
+	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
 
+	//Skybox
+	UID skyboxUID = App->resources->ImportResource("/Assets/Skybox/skybox.sky");
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_shared<Skybox>(resourceSkybox);
+	}
 	return true;
 }
 
@@ -197,6 +216,12 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	if (skybox)
+	{
+		skybox->Draw();
+
+	}
+
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	AddToRenderList(App->scene->GetSelectedGameObject());
@@ -286,9 +311,12 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
-	const char* vertexSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->vertexShader).c_str());
-	const char* fragmentSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->fragmentShader).c_str());
-
+	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
+	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
+	char* vertexSource;
+	char * fragmentSource;
+	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 

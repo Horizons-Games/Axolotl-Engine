@@ -15,6 +15,7 @@ public:
 	~ModuleScene();
 
 	bool Init() override;
+	bool Start() override;
 	update_status Update() override;
 
 	Scene* GetLoadedScene() const;

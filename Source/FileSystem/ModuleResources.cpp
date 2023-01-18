@@ -42,7 +42,9 @@ bool ModuleResources::Start()
 
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
+#if !defined(GAME)
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
+#endif
 	return true;
 }
 

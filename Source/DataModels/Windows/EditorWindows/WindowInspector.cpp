@@ -19,6 +19,8 @@
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	loadScene = std::make_unique<WindowLoadScene>();
+	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -27,8 +29,12 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
+	//TODO: REMOVE AFTER, HERE WE GO
+	DrawButtomsSaveAndLoad();
+	ImGui::Separator();
+	//
 
+	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 
 	bool enable = currentGameObject->IsEnabled();
 	ImGui::Checkbox("Enable", &enable);
@@ -118,8 +124,6 @@ void WindowInspector::DrawWindowContents()
 
 		currentGameObject->GetComponents()[i]->Display();
 	}
-
-	//DrawTextureTable();
 }
 
 void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* component)
@@ -181,24 +185,10 @@ void WindowInspector::AddComponentLight(LightType type)
 	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
-void WindowInspector::DrawTextureTable()
+// TODO: REMOVE
+void WindowInspector::DrawButtomsSaveAndLoad()
 {
-	ImGui::Text("TEXTURE");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("TextureTable1", 2))
-	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Height: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureHeight(0));
-		ImGui::TableNextColumn();
-		ImGui::Text("Width: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureWidth(0));
-
-		ImGui::EndTable();
-		ImGui::Separator();
-	}
-
-	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
+	loadScene->DrawWindowContents();
+	ImGui::SameLine();
+	saveScene->DrawWindowContents();
 }

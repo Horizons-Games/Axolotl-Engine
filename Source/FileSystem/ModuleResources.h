@@ -92,8 +92,10 @@ private:
 
 inline bool ModuleResources::CleanUp()
 {
+#if !defined(GAME)
 	monitorResources = false;
 	monitorThread.join();
+#endif
 	resources.clear();
 	return true;
 }

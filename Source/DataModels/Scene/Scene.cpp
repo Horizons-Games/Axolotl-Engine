@@ -411,6 +411,11 @@ void Scene::InitNewEmptyScene()
 	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
 	spotLight2->CreateComponentLight(LightType::SPOT);
 
+	InitLights();
+}
+
+void Scene::InitLights()
+{
 	GenerateLights();
 
 	UpdateScenePointLights();
@@ -420,6 +425,4 @@ void Scene::InitNewEmptyScene()
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
-
-	//FillQuadtree(sceneGameObjects); //TODO: This call has to be moved AFTER the scene is loaded
 }
