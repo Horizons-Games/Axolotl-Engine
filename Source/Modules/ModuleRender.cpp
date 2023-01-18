@@ -9,6 +9,8 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "DataStructures/Quadtree.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 
 #include "3DModels/Model.h"
@@ -172,6 +174,14 @@ bool ModuleRender::Start()
 	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
 	App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
 
+	//Skybox
+	UID skyboxUID = App->resources->ImportResource("/Assets/Skybox/skybox.sky");
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_shared<Skybox>(resourceSkybox);
+	}
 	return true;
 }
 
@@ -197,6 +207,12 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	if (skybox)
+	{
+		skybox->Draw();
+
+	}
+
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	AddToRenderList(App->scene->GetSelectedGameObject());

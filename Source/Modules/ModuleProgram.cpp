@@ -1,8 +1,44 @@
 #include "ModuleProgram.h"
+
+#include "DataModels/Program/Program.h"
 #include "GL/glew.h"
 
 ModuleProgram::ModuleProgram(){}
 ModuleProgram::~ModuleProgram(){}
+
+
+bool ModuleProgram::Start()
+{
+	Programs.reserve((int)ProgramType::SKYBOX + 1);
+	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
+	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
+
+	return true;
+}
+
+
+std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName)
+{
+	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((RootPath + vtxShaderFileName).c_str()));
+	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((RootPath + frgShaderFileName).c_str()));
+
+	if (vertexShader == 0 || fragmentShader == 0)
+	{
+		return nullptr;
+	}
+
+	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader);
+
+	if (program->GetId() == 0)
+	{
+		return nullptr;
+	}
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	return program;
+}
 
 bool ModuleProgram::CleanUp()
 {
