@@ -6,6 +6,7 @@
 #include "Math/float4x4.h"
 #include "GL/glew.h"
 
+
 #include <SDL.h>
 
 #include <list>
@@ -13,6 +14,8 @@
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
+
+class Skybox;
 
 class ModuleRender : public Module
 {
@@ -46,6 +49,7 @@ public:
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
+	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
 
 private:
 	void UpdateProgram();
@@ -57,6 +61,8 @@ private:
 	
 	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
+
+	std::shared_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;
