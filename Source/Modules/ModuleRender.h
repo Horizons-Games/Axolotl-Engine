@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning (disable: 26495)
+
 #include "Module.h"
 #include "Globals.h"
 #include "3DModels/Model.h"

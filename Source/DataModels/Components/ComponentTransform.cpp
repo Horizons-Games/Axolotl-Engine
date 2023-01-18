@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 

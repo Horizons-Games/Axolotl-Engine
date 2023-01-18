@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "Globals.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
