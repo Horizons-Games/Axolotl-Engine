@@ -4,12 +4,13 @@
 #include "Math/float3.h"
 
 #include "FileSystem/UniqueID.h"
+#include "Globals.h"
 
 #include <memory>
 
 #define COMPONENT_MATERIAL "Material"
 
-
+class WindowTextureInput;
 class ResourceMaterial;
 class ResourceTexture;
 class Json;
@@ -64,6 +65,11 @@ private:
 	float normalStrength = 1.0f;
 
 	bool hasShininessAlpha = false;
+
+	bool showTextureInput;
+	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
+	std::unique_ptr<WindowTextureInput> inputTextureNormal;
+	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 
 	//This has to be erased
 	std::weak_ptr<ResourceTexture> textureDiffuse;

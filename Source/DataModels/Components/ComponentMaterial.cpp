@@ -10,6 +10,7 @@
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
 
 #include <GL/glew.h>
 #include "imgui.h"
@@ -171,6 +172,8 @@ void ComponentMaterial::Display()
 				materialAsShared->SetOcclusionUID(uidNull);
 				materialAsShared->SetSpecularUID(uidNull);
 
+				materialAsShared->SetChanged(true);
+
 				diffuseUID = 0;
 				normalUID = 0;
 				occlusionUID = 0;
@@ -186,35 +189,39 @@ void ComponentMaterial::Display()
 
 		ImGui::Text("Diffuse Texture");
 
-		std::string diffuseTextureButton = "Load Diffuse Texture";
+		bool showTextureBrowserDiffuse = true;
 
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetDiffuseUID())
 			{
-				std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
+				std::shared_ptr<ResourceTexture> texture = 
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 				if (texture)
 				{
 					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
 				}
 
-				diffuseTextureButton = "Remove Texture Diffuse";
+				showTextureBrowserDiffuse = false;
 			}
 		}
 
-		if (ImGui::Button(diffuseTextureButton.c_str())) 
+		if(showTextureBrowserDiffuse)
 		{
-			if (materialAsShared->GetDiffuseUID()) 
+			inputTextureDiffuse->DrawWindowContents();
+		}
+		else 
+		{
+			if (ImGui::Button("Remove Texture Diffuse"))
 			{
-				UID uidNull = 0;
-				materialAsShared->SetDiffuseUID(uidNull);
-				diffuseUID = 0;
+				if (materialAsShared->GetDiffuseUID())
+				{
+					UID uidNull = 0;
+					materialAsShared->SetDiffuseUID(uidNull);
+					diffuseUID = 0;
 
-				LoadTexture(TextureType::DIFFUSE);
-			}
-			else
-			{
-				//LOAD
+					LoadTexture(TextureType::DIFFUSE);
+				}
 			}
 		}
 
@@ -222,35 +229,39 @@ void ComponentMaterial::Display()
 
 		ImGui::Text("Specular Texture");
 
-		std::string specularTextureButton = "Load Specular Texture";
+		bool showTextureBrowserSpecular = true;
 
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetSpecularUID())
 			{
-				std::shared_ptr<ResourceTexture> texture = textureSpecular.lock();
+				std::shared_ptr<ResourceTexture> texture =
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
 				if (texture)
 				{
 					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
 				}
 
-				specularTextureButton = "Remove Texture Specular";
+				showTextureBrowserSpecular = false;
 			}
 		}
 
-		if (ImGui::Button(specularTextureButton.c_str()))
+		if (showTextureBrowserSpecular)
 		{
-			if (materialAsShared->GetSpecularUID())
+			inputTextureSpecular->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Texture Specular"))
 			{
-				UID uidNull = 0;
-				materialAsShared->SetSpecularUID(uidNull);
-				specularUID = 0;
+				if (materialAsShared->GetSpecularUID())
+				{
+					UID uidNull = 0;
+					materialAsShared->SetSpecularUID(uidNull);
+					specularUID = 0;
 
-				LoadTexture(TextureType::SPECULAR);
-			}
-			else
-			{
-				//LOAD
+					LoadTexture(TextureType::SPECULAR);
+				}
 			}
 		}
 
@@ -258,38 +269,41 @@ void ComponentMaterial::Display()
 
 		ImGui::Text("Normal Texture");
 
-		std::string normalTextureButton = "Load Normal Texture";
+		bool showTextureBrowserNormal = true;
 
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetNormalUID())
 			{
-				std::shared_ptr<ResourceTexture> texture = textureNormal.lock();
+				std::shared_ptr<ResourceTexture> texture =
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
 				if (texture)
 				{
 					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
 				}
 
-				normalTextureButton = "Remove Texture Normal";
+				showTextureBrowserNormal = false;
 			}
 		}
 
-		if (ImGui::Button(normalTextureButton.c_str()))
+		if (showTextureBrowserNormal)
 		{
-			if (materialAsShared->GetNormalUID())
+			inputTextureNormal->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Texture Normal"))
 			{
-				UID uidNull = 0;
-				materialAsShared->SetNormalUID(uidNull);
-				normalUID = 0;
+				if (materialAsShared->GetNormalUID())
+				{
+					UID uidNull = 0;
+					materialAsShared->SetNormalUID(uidNull);
+					normalUID = 0;
 
-				LoadTexture(TextureType::SPECULAR);
-			}
-			else
-			{
-				//LOAD
+					LoadTexture(TextureType::NORMAL);
+				}
 			}
 		}
-
 		//bool hasNormal;
 		//std::shared_ptr<ResourceTexture> textureAsShared = textureNormal.lock();
 		//textureAsShared ? hasNormal = true : hasNormal = false;
@@ -486,6 +500,10 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 	material = newMaterial;
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
+	inputTextureDiffuse = std::make_unique<WindowTextureInput>(material, TextureType::DIFFUSE);
+	inputTextureNormal = std::make_unique<WindowTextureInput>(material, TextureType::NORMAL);
+	inputTextureSpecular = std::make_unique<WindowTextureInput>(material, TextureType::SPECULAR);
+	
 	if (materialAsShared)
 	{
 		materialAsShared->Load();
