@@ -28,6 +28,7 @@ ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	UnloadTextures();
 }
 
 void ComponentMaterial::Update()
