@@ -41,7 +41,32 @@ GameObject::~GameObject()
 {
 	for (Component* comp : components)
 	{
-		delete comp;
+		Scene* currentScene = App->scene->GetLoadedScene();
+
+		if (comp->GetType() == ComponentType::LIGHT)
+		{
+			ComponentLight* compLight = (ComponentLight*)comp;
+			LightType type = compLight->GetLightType();
+
+			delete comp;
+
+			switch (type)
+			{
+			case LightType::SPOT:
+				currentScene->UpdateSceneSpotLights();
+				currentScene->RenderSpotLights();
+				break;
+
+			case LightType::POINT:
+				currentScene->UpdateScenePointLights();
+				currentScene->RenderPointLights();
+				break;
+			}
+		}
+		else
+		{
+			delete comp;
+		}
 	}
 
 	components.clear();
