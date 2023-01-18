@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <assert.h>
 
 enum class ComponentType { UNKNOWN, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
@@ -11,10 +12,10 @@ const static ComponentType GetTypeByName(const std::string& name);
 class GameObject;
 class Json;
 
-class Component
+class Component : public std::enable_shared_from_this<Component>
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(const ComponentType type, const bool active, const std::shared_ptr<GameObject>& owner, const bool canBeRemoved);
 	virtual ~Component();
 
 	virtual void Init(); // In case any component needs an init to do something once created
@@ -33,17 +34,20 @@ public:
 	bool GetActive();
 	ComponentType GetType();
 
-	GameObject* GetOwner();
+	std::weak_ptr<GameObject> GetOwner();
 	bool GetCanBeRemoved();
 
 protected:
 	ComponentType type;
 	bool active;
-	GameObject* owner;
+	std::weak_ptr<GameObject> owner;
 	bool canBeRemoved;
 };
 
-inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved)
+inline Component::Component(const ComponentType type,
+							const bool active,
+							const std::shared_ptr<GameObject>& owner,
+							const bool canBeRemoved)
 	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
 {
 }
@@ -82,7 +86,7 @@ inline ComponentType Component::GetType()
 	return this->type;
 }
 
-inline GameObject* Component::GetOwner()
+inline std::weak_ptr<GameObject> Component::GetOwner()
 {
 	return this->owner;
 }

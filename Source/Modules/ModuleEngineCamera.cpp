@@ -85,16 +85,16 @@ update_status ModuleEngineCamera::Update()
 			Zoom();
 		}
 
-		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
+		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(App->scene->GetSelectedGameObject());
+			Focus(App->scene->GetSelectedGameObject().lock());
 
-		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
+		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			const OBB& obb = ((ComponentBoundingBoxes*)App->scene->GetSelectedGameObject()
-				->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
+			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
+				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
 			SetLookAt(obb.CenterPoint());
 			Orbit(obb);
@@ -255,16 +255,22 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	frustum.SetPos(position);
 }
 
-void ModuleEngineCamera::Focus(GameObject* gameObject)
+void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 {
-	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+	std::list<std::weak_ptr<GameObject> > insideGameObjects = gameObject->GetGameObjectsInside();
 	AABB minimalAABB;
 	std::vector<math::vec> outputArray{};
-	for (GameObject* object: insideGameObjects)
+	for (std::weak_ptr<GameObject> object: insideGameObjects)
 	{
-		ComponentBoundingBoxes* boundingBox = (ComponentBoundingBoxes*)object->GetComponent(ComponentType::BOUNDINGBOX);
-		outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
-		outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
+		std::shared_ptr<GameObject> asShared = object.lock();
+
+		if (asShared)
+		{
+			std::shared_ptr<ComponentBoundingBoxes> boundingBox =
+				std::static_pointer_cast<ComponentBoundingBoxes>(asShared->GetComponent(ComponentType::BOUNDINGBOX));
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
+		}
 	}
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;

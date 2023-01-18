@@ -27,8 +27,8 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawChangeActiveComponentContent(int labelNum, Component* component);
-	bool DrawDeleteComponentContent(int labelNum, Component* component);
+	void DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component);
+	bool DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component);
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();

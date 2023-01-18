@@ -15,7 +15,7 @@
 
 #include "Math/float3x3.h"
 
-ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
+ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
 }
@@ -38,7 +38,8 @@ void ComponentTransform::Display()
 	bool rotationModified = false;
 	bool scaleModified = false;
 
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner()) // The root must not be moved through the inspector
+	// The root must not be moved through the inspector
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner().lock())
 		dragSpeed = 0.0f;
 
 	if (ImGui::CollapsingHeader("TRANSFORM", ImGuiTreeNodeFlags_DefaultOpen))
@@ -152,7 +153,7 @@ void ComponentTransform::Display()
 	}
 	ImGui::Separator();
 
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner())
+	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner().lock())
 	{
 		SetPosition(float3::zero);
 		SetRotation(Quat::identity);
@@ -185,17 +186,17 @@ void ComponentTransform::Display()
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
 	{
-		Component* comp = this->GetOwner()->GetComponent(ComponentType::LIGHT);
+		std::shared_ptr<Component> comp = this->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
+		std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
 
-		if (comp != nullptr)
+		if (lightComp)
 		{
-			ComponentLight* lightComp = (ComponentLight*)comp;
 			CalculateLightTransformed(lightComp, translationModified, rotationModified);
 		}
 	}
 }
 
-void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent, 
+void ComponentTransform::CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
 												   bool translationModified, 
 												   bool rotationModified)
 {
@@ -228,7 +229,6 @@ void ComponentTransform::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool) active;
-	meta["owner"] = (GameObject*) owner;
 	meta["removed"] = (bool) canBeRemoved;
 
 	meta["localPos_X"] = (float)pos.x;
@@ -267,7 +267,7 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.z = (float) meta["localSca_Z"];
 
 	CalculateLocalMatrix();
-	if(GetOwner()->GetParent() != nullptr) 
+	if(!GetOwner().lock()->GetParent().expired()) 
 		CalculateGlobalMatrix();
 }
 
@@ -280,13 +280,14 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	assert(GetOwner()->GetParent() != nullptr);
+	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform = (ComponentTransform*)GetOwner()->GetParent()
-															->GetComponent(ComponentType::TRANSFORM);
+	std::shared_ptr<ComponentTransform> parentTransform =
+		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

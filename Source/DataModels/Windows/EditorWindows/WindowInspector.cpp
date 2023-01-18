@@ -31,21 +31,27 @@ void WindowInspector::DrawWindowContents()
 	ImGui::Separator();
 	//
 
-	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
+	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
 
-	bool enable = currentGameObject->IsEnabled();
-	ImGui::Checkbox("Enable", &enable);
-
-	if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	if (currentGameObject)
 	{
-		(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+		bool enable = currentGameObject->IsEnabled();
+		ImGui::Checkbox("Enable", &enable);
+
+		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		{
+			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+		}
+	}
+	else
+	{
+		char* name = (char*)currentGameObject->GetName();
+		ImGui::InputText("##GameObject", name, 24);
 	}
 
-	ImGui::SameLine();
-
-	if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
+	if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
 	{
 		char* name = (char*)currentGameObject->GetName();
 		if (ImGui::InputText("##GameObject", name, 24))
@@ -54,6 +60,7 @@ void WindowInspector::DrawWindowContents()
 			std::string sceneName = name + scene;
 			currentGameObject->SetName(sceneName.c_str());
 		}
+			
 	}
 	else
 	{
@@ -63,7 +70,7 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && 
+	if (WindowRightClick() &&
 		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
 		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
 		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
@@ -73,33 +80,29 @@ void WindowInspector::DrawWindowContents()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		if (App->scene->GetSelectedGameObject() != nullptr)
+		if (!App->scene->GetSelectedGameObject().expired())
 		{
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
 			}
-			
-			if (!App->scene->GetSelectedGameObject()->GetComponent(ComponentType::MATERIAL)) {
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
+
+			if (ImGui::MenuItem("Create Material Component"))
+			{
+				AddComponentMaterial();
 			}
 
-			if (!App->scene->GetSelectedGameObject()->GetComponent(ComponentType::LIGHT)) {
-				if (ImGui::MenuItem("Create Spot Light Component"))
-				{
-					AddComponentLight(LightType::SPOT);
-				}
-
-				if (ImGui::MenuItem("Create Point Light Component"))
-				{
-					AddComponentLight(LightType::POINT);
-				}
+			if (ImGui::MenuItem("Create Spot Light Component"))
+			{
+				AddComponentLight(LightType::SPOT);
 			}
-			
+
+			if (ImGui::MenuItem("Create Point Light Component"))
+			{
+				AddComponentLight(LightType::POINT);
+			}
 		}
+
 		else
 		{
 			ENGINE_LOG("No GameObject is selected");
@@ -107,7 +110,7 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::EndPopup();
 	}
-	
+
 	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
 	{
 		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
@@ -126,7 +129,7 @@ void WindowInspector::DrawWindowContents()
 	}
 }
 
-void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* component)
+void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
 {
 	char* textActive = new char[30];
 	sprintf(textActive, "##Enabled #%d", labelNum);
@@ -137,14 +140,14 @@ void WindowInspector::DrawChangeActiveComponentContent(int labelNum, Component* 
 	(enable) ? component->Enable() : component->Disable();
 }
 
-bool WindowInspector::DrawDeleteComponentContent(int labelNum, Component* component)
+bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
 {
 	char* textRemove = new char[30];
 	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
 
 	if (ImGui::Button(textRemove, ImVec2(90, 20)))
 	{
-		if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
 		{
 			assert(false && "Trying to delete a non-existing component");
 		}
@@ -170,17 +173,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
+	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
 }
 
 // TODO: REMOVE

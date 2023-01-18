@@ -3,8 +3,6 @@
 
 #define NUM_MOUSEBUTTONS 5
 
-typedef unsigned __int8 Uint8;
-
 enum class KeyState {
 	IDLE,
 	DOWN,
@@ -33,7 +31,7 @@ public:
 	bool IsMouseWheelScrolled() const;
 
 private:
-	const Uint8 *keyboard = NULL;
+	const uint8_t* keyboard = NULL;
 
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };

@@ -18,7 +18,7 @@
 #include <GL/glew.h>
 #include "imgui.h"
 
-ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
+ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 	inputMaterial = std::make_unique<WindowMaterialInput>(this);
@@ -145,7 +145,6 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();

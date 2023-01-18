@@ -15,7 +15,7 @@ class WindowMeshInput;
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, GameObject* owner);
+	ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner);
 	~ComponentMeshRenderer() override;
 
 	void Update() override;

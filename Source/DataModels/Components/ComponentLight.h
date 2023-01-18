@@ -19,12 +19,12 @@ class Json;
 class ComponentLight : public Component
 {
 public:
-	ComponentLight(const bool active, GameObject* owner);
+	ComponentLight(const bool active, const std::shared_ptr<GameObject>& owner);
 	ComponentLight(LightType type, bool canBeRemoved);
-	ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved);
+	ComponentLight(LightType type, const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, 
-				   GameObject* gameObject, bool canBeRemoved);
+				   const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved);
 
 	virtual ~ComponentLight() {};
 

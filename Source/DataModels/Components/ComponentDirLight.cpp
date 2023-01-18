@@ -18,7 +18,8 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 {
 }
 
-ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
+ComponentDirLight::ComponentDirLight(const std::shared_ptr<GameObject>& parent) :
+	ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
 }
 
@@ -27,7 +28,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 {
 }
 
-ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
+ComponentDirLight::ComponentDirLight(const float3& color, float intensity, const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
 }
@@ -77,7 +78,9 @@ void ComponentDirLight::Draw()
 {
 	if (this->GetActive())
 	{
-		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
+		std::shared_ptr<ComponentTransform> transform =
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
@@ -108,7 +111,6 @@ void ComponentDirLight::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["color_light_X"] = (float)color.x;
@@ -126,7 +128,6 @@ void ComponentDirLight::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	color.x = (float)meta["color_light_X"];

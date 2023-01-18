@@ -37,13 +37,13 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
+	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
 
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
-	void DrawQuadtree(Quadtree* quadtree);
+	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
 
 private:
 	void UpdateProgram();
@@ -53,7 +53,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<GameObject*> gameObjectsToDraw; //This vector should convert to shared_ptr when Scene does
+	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	std::shared_ptr<Skybox> skybox;

@@ -14,7 +14,8 @@ ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(GameObject* parent) : ComponentLight(LightType::AMBIENT, parent, false)
+ComponentAmbient::ComponentAmbient(const std::shared_ptr<GameObject>& parent) :
+	ComponentLight(LightType::AMBIENT, parent, false)
 {
 }
 
@@ -22,7 +23,7 @@ ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightTy
 {
 }
 
-ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) : 
+ComponentAmbient::ComponentAmbient(const float3& color, const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
 {
 }
@@ -55,7 +56,6 @@ void ComponentAmbient::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["color_light_X"] = (float)color.x;
@@ -72,7 +72,6 @@ void ComponentAmbient::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	color.x = (float)meta["color_light_X"];

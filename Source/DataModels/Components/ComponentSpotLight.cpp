@@ -17,7 +17,8 @@ ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(GameObject* parent) : ComponentLight(LightType::SPOT, parent, true)
+ComponentSpotLight::ComponentSpotLight(const std::shared_ptr<GameObject>& parent) :
+	ComponentLight(LightType::SPOT, parent, true)
 {
 }
 
@@ -31,7 +32,8 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
-									   const float3& color, float intensity, GameObject* parent) :
+									   const float3& color, float intensity,
+									   const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::SPOT, color, intensity, parent, true)
 {
 	this->radius = radius;
@@ -66,14 +68,15 @@ void ComponentSpotLight::Display()
 					{
 						if (lightTypes[i] == "Point")
 						{
-							ComponentPointLight* newPoint = (ComponentPointLight*)this->GetOwner()->
-								CreateComponentLight(LightType::POINT);
+							std::shared_ptr<ComponentPointLight> newPoint =
+								std::static_pointer_cast<ComponentPointLight>(this->GetOwner().lock()
+									->CreateComponentLight(LightType::POINT));
 
 							newPoint->SetColor(this->color);
 							newPoint->SetIntensity(this->intensity);
 							newPoint->SetRadius(this->radius);
 
-							this->GetOwner()->RemoveComponent(this);
+							this->GetOwner().lock()->RemoveComponent(shared_from_this());
 
 							App->scene->GetLoadedScene()->UpdateScenePointLights();
 							App->scene->GetLoadedScene()->RenderPointLights();
@@ -162,7 +165,9 @@ void ComponentSpotLight::Draw()
 {
 	if (this->GetActive())
 	{
-		ComponentTransform* transform = (ComponentTransform*)this->GetOwner()->GetComponent(ComponentType::TRANSFORM);
+		std::shared_ptr<ComponentTransform> transform =
+			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
@@ -177,7 +182,6 @@ void ComponentSpotLight::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["color_light_X"] = (float)color.x;
@@ -197,7 +201,6 @@ void ComponentSpotLight::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	color.x = (float)meta["color_light_X"];

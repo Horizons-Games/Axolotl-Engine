@@ -19,7 +19,7 @@ class Json;
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(bool active, GameObject* owner);
+	ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner);
 	~ComponentMaterial() override;
 
 	void Update() override;

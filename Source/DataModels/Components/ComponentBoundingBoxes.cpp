@@ -11,7 +11,7 @@
 
 #include "imgui.h"
 
-ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
+ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner, false)
 {
 	localAABB = { {0 ,0, 0}, {0, 0, 0} };
@@ -22,7 +22,8 @@ ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 
 {
-	ComponentTransform* transform = (ComponentTransform*)((Component*)this)->GetOwner()->GetComponent(ComponentType::TRANSFORM);
+	std::shared_ptr<ComponentTransform> transform =
+		std::static_pointer_cast<ComponentTransform>((this)->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 	objectOBB = OBB(localAABB);
 	objectOBB.Transform(transform->GetGlobalMatrix());
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
@@ -50,7 +51,6 @@ void ComponentBoundingBoxes::SaveOptions(Json& meta)
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
-	meta["owner"] = (GameObject*)owner;
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["AABBMin_X"] = (float)localAABB.minPoint.x;
@@ -68,7 +68,6 @@ void ComponentBoundingBoxes::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	localAABB = { { (float)meta["AABBMin_X"], (float)meta["AABBMin_Y"], (float)meta["AABBMin_Z"] }, { (float)meta["AABBMax_X"], (float)meta["AABBMax_Y"], (float)meta["AABBMax_Z"] } };

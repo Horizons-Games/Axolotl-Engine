@@ -19,7 +19,7 @@ class Json;
 class ComponentCamera : public Component
 {
 public:
-	ComponentCamera(bool active, GameObject* owner);
+	ComponentCamera(bool active, const std::shared_ptr<GameObject>& owner);
 	~ComponentCamera() override;
 
 	void Update() override;
@@ -48,7 +48,7 @@ private:
 	float frustumOffset;
 	Plane offsetFrustumPlanes[6];
 	bool drawFrustum;
-	ComponentTransform* trans;
+	std::shared_ptr<ComponentTransform> trans;
 };
 
 inline void ComponentCamera::SetDrawFrustum(bool newFrustum)
