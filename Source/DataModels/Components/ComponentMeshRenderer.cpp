@@ -20,8 +20,6 @@
 
 #include "GameObject/GameObject.h"
 
-#include "Math/float3x3.h"
-
 #include "GL/glew.h"
 #include "imgui.h"
 

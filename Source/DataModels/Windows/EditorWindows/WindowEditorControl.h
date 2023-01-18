@@ -1,9 +1,5 @@
 #pragma once
 #include "EditorWindow.h"
-#include "Windows/SubWindows/SubWindow.h"
-#include "ModuleScene.h"
-#include <vector>
-#include <memory>
 
 class GameObject;
 
