@@ -269,7 +269,7 @@ void ModuleEngineCamera::Focus(GameObject* gameObject)
 		outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
 		outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
 	}
-	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), outputArray.size());
+	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
 
 	if (minSphere.r == 0) minSphere.r = 1.f;

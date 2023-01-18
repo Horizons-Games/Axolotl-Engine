@@ -215,7 +215,7 @@ void Scene::GenerateLights()
 
 	// Point
 
-	unsigned numPoint = pointLights.size();
+	size_t numPoint = pointLights.size();
 
 	glGenBuffers(1, &ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
@@ -230,7 +230,7 @@ void Scene::GenerateLights()
 
 	// Spot
 
-	unsigned numSpot = spotLights.size();
+	size_t numSpot = spotLights.size();
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
@@ -282,7 +282,7 @@ void Scene::RenderPointLights() const
 
 	glUseProgram(program);
 
-	unsigned numPoint = pointLights.size();
+	size_t numPoint = pointLights.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
@@ -303,7 +303,7 @@ void Scene::RenderPointLights() const
 void Scene::RenderSpotLights() const
 {
 	const unsigned program = App->program->GetProgram();
-	unsigned numSpot = spotLights.size();
+	size_t numSpot = spotLights.size();
 
 	glUseProgram(program);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);

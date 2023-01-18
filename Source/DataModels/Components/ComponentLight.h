@@ -84,6 +84,9 @@ const std::string GetNameByLightType(LightType type)
 	case LightType::AMBIENT:
 		return "LightType_Ambient";
 		break;
+	default:
+		assert(false && "Wrong light type introduced");
+		return "";
 	}
 }
 

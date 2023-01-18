@@ -16,8 +16,8 @@ struct SpotLight
 	float4 position;
 	float4 color;
 	float3 aim;
-	float innerAngle;
-	float outAngle;
+	float innerAngle = 0.0f;
+	float outAngle = 0.0f;
 };
 
 class GameObject;

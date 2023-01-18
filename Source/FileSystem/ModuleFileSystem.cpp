@@ -1,3 +1,5 @@
+#pragma warning (disable: 6386)
+
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include <iostream>
@@ -88,7 +90,7 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
         return -1;
     }
     PHYSFS_close(file);
-    return size;
+    return (unsigned int)size;
 }
 
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
@@ -159,7 +161,7 @@ const std::string ModuleFileSystem::GetPathWithoutFile(const std::string& pathWi
 {
     std::string fileName = "";
     bool separatorFound = false;
-    for (int i = pathWithFile.size() - 1; 0 <= i && !separatorFound; --i)
+    for (int i = (int)(pathWithFile.size() - 1); 0 <= i && !separatorFound; --i)
     {
         char currentChar = pathWithFile[i];
         separatorFound = currentChar == '\\' || currentChar == '/';
@@ -175,7 +177,7 @@ const std::string ModuleFileSystem::GetPathWithoutExtension(const std::string& p
 {
     std::string pathWithoutExtension = std::string(pathWithExtension);
     std::string fileExtension = GetFileExtension(pathWithExtension);
-    int posOfExtensionInPath = pathWithExtension.find(fileExtension);
+    int posOfExtensionInPath = (int)pathWithExtension.find(fileExtension);
     if (0 < posOfExtensionInPath) //has file extension
     {
         pathWithoutExtension.erase(posOfExtensionInPath, fileExtension.size());
@@ -187,7 +189,7 @@ const std::string ModuleFileSystem::GetFileName(const std::string& path)
 {
     std::string fileName = "";
     bool separatorNotFound = true;
-    for (int i = path.size() - 1; 0 <= i && separatorNotFound; --i)
+    for (int i = (int)(path.size() - 1); 0 <= i && separatorNotFound; --i)
     {
         char currentChar = path[i];
         separatorNotFound = currentChar != '\\' && currentChar != '/';
@@ -203,7 +205,7 @@ const std::string ModuleFileSystem::GetFileExtension(const std::string& path)
 {
     std::string fileExtension = "";
     bool dotNotFound = true;
-    for (int i = path.size() - 1; dotNotFound && 0 <= i; --i)
+    for (int i = (int)(path.size() - 1); dotNotFound && 0 <= i; --i)
     {
         char currentChar = path[i];
         fileExtension.insert(fileExtension.begin(), currentChar);
@@ -235,9 +237,11 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 
 void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[4] = { pathTextures[0].size(), pathTextures[1].size(), pathTextures[2].size(), pathTextures[3].size() };
+	unsigned int header[4] = { (unsigned int)pathTextures[0].size(), (unsigned int)pathTextures[1].size(), 
+                                (unsigned int)pathTextures[2].size(), (unsigned int)pathTextures[3].size() };
 
-	size = sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() + pathTextures[3].size();
+	size = (unsigned int)(sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + 
+                                            pathTextures[2].size() + pathTextures[3].size());
 
 	char* cursor = new char[size] {};
 
@@ -248,22 +252,22 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 
 	cursor += bytes;
 
-	bytes = pathTextures[0].size();
+	bytes = (unsigned int)pathTextures[0].size();
 	memcpy(cursor, pathTextures[0].c_str(), bytes);
 
 	cursor += bytes;
 
-	bytes = pathTextures[1].size();
+	bytes = (unsigned int)pathTextures[1].size();
 	memcpy(cursor, pathTextures[1].c_str(), bytes);
 
 	cursor += bytes;
 
-	bytes = pathTextures[2].size();
+	bytes = (unsigned int)pathTextures[2].size();
 	memcpy(cursor, pathTextures[2].c_str(), bytes);
 
 	cursor += bytes;
 
-	bytes = pathTextures[3].size();
+	bytes = (unsigned int)pathTextures[3].size();
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
 }
 

@@ -1,4 +1,5 @@
 #pragma warning (disable: 4804)
+#pragma warning (disable: 4312)
 
 #include "ComponentMaterial.h"
 

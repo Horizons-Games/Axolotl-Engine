@@ -85,14 +85,14 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		assert(false && "Unsupported format");
 	}
 
-	resource->SetWidth(flippedImg.GetMetadata().width);
-	resource->SetHeight(flippedImg.GetMetadata().height);
+	resource->SetWidth((unsigned int)flippedImg.GetMetadata().width);
+	resource->SetHeight((unsigned int)flippedImg.GetMetadata().height);
 
 	resource->SetInternalFormat(internalFormat);
 	resource->SetFormat(format);
 	resource->SetImageType(type);
 
-	resource->SetPixelsSize(flippedImg.GetPixelsSize());
+	resource->SetPixelsSize((unsigned int)flippedImg.GetPixelsSize());
 
 	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
 
