@@ -31,10 +31,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	delete root; // When the root is deleted, the ambient and point lights are also deleted
 	delete sceneQuadTree;
 
-	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
+	
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
 }
 
