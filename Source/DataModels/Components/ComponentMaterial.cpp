@@ -145,8 +145,6 @@ void ComponentMaterial::Display()
 		static UID thisUID = UniqueID::GenerateUID();
 
 		std::string removeButtonLabel = "No Texture";
-		//char* removeButtonLabel = new char[30];
-		//sprintf(removeButtonLabel, "Remove Texture %d", thisUID);   // mirar
 
 		if (materialAsShared)
 		{
@@ -154,7 +152,6 @@ void ComponentMaterial::Display()
 			haveTextures += materialAsShared->GetDiffuseUID();
 			haveTextures += materialAsShared->GetNormalUID();
 			haveTextures += materialAsShared->GetSpecularUID();
-			//TODO Occlusion is missing (And 1 for some reason)
 
 			//Be carefull with the name of the button because if we have two componentMaterial (Not the usual function)
 			//Then this will erase all the textures of all the componentMaterial
