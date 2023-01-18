@@ -39,6 +39,7 @@ public:
 	const std::weak_ptr<Resource>& RequestResource(UID uid);
 	template<class R>
 	const std::weak_ptr<R>& RequestResource(UID uid);
+	const UID GetSkyBoxResource();
 
 private:
 	//resource creation and deletition
@@ -86,6 +87,8 @@ private:
 	std::unique_ptr<MeshImporter> meshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
+
+	UID skybox;
 	
 	std::thread monitorThread;
 	bool monitorResources = false;
