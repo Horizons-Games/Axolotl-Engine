@@ -150,11 +150,14 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	Scene* sceneToLoad = new Scene();
 	GameObject* newRoot = new GameObject(std::string(Json["name"]).c_str());
 
+	delete loadedScene;
+	loadedScene = sceneToLoad;
+
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
 
-	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-50, -1000, -50), float3(50, 1000, 50))));
+	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-20, -20, -20), float3(20, 20, 20))));
 	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -162,6 +165,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
 		if (!camerasOfObj.empty())
 		{
@@ -186,7 +190,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				sceneToLoad->FillQuadtree(loadedObjects);
+				//sceneToLoad->FillQuadtree(loadedObjects);
 			}
 		}
 		else
@@ -194,6 +198,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			sceneQuadtree->Add(obj);
 		}
 	}
+
 	App->renderer->FillRenderList(sceneQuadtree);
 
 	sceneToLoad->SetRoot(newRoot);
@@ -207,6 +212,4 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	sceneToLoad->InitLights();
 
-	delete loadedScene;
-	loadedScene = sceneToLoad;
 }

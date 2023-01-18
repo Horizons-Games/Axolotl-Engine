@@ -91,7 +91,7 @@ private:
 	unsigned ssboPoint = 0;
 	unsigned ssboSpot = 0;
 	
-	AABB rootQuadtreeAABB = AABB(float3(-50, -1000, -50), float3(50, 1000, 50));
+	AABB rootQuadtreeAABB = AABB(float3(-20, -20, -20), float3(20, 20, 20));
 	Quadtree* sceneQuadTree = nullptr;
 };
 
