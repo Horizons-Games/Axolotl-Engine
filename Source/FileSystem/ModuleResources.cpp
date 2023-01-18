@@ -1,23 +1,18 @@
 #include "ModuleResources.h"
 
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleFileSystem.h"
 #include "Json.h"
 
-#include "FileSystem/Importers/Importer.h"
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 
-#include "Resources/Resource.h"
-#include "Resources/ResourceMesh.h"
-#include "Resources/ResourceTexture.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
-#include <thread>
+
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";

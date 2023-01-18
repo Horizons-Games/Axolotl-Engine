@@ -1,7 +1,4 @@
-#include <stdlib.h>
 #include "Application.h"
-#include "ModuleRender.h"
-#include "Globals.h"
 
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2main.lib" )

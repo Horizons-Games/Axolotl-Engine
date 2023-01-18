@@ -23,9 +23,6 @@
 #include <FontIcons/CustomFont.cpp>
 #include <GL/glew.h>
 
-#include <shellapi.h>
-#include <limits>
-
 static bool cameraOpened = true;
 static bool configOpened = true;
 static bool consoleOpened = true;

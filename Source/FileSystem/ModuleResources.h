@@ -3,8 +3,6 @@
 
 #include "Module.h"
 
-#include <string>
-#include <memory>
 #include <map>
 #include <thread>
 

@@ -3,7 +3,6 @@
 #include "EngineLog.h"
 
 #include <windows.h>
-#include <stdio.h>
 
 #define GLSL_VERSION "#version 440"
 
@@ -23,7 +22,7 @@ enum class TextureType
 };
 
 // Application -------------
-#define TITLE "Pre Super Awesome Engine"
+#define TITLE "Axolotl Engine"
 #define VERSION "1.0.0"
 //#define GAME
 

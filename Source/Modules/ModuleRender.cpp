@@ -11,25 +11,13 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "DataStructures/Quadtree.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 
-#include <iostream>
-#include <algorithm>
-
-#include "Geometry/AABB.h"
-#include "Geometry/Frustum.h"
-#include "Math/float3x3.h"
-#include "Math/float3.h"
-
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
-		 
-#include "GL/glew.h"
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)

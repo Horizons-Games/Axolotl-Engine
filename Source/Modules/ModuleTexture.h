@@ -3,8 +3,6 @@
 
 #include "GL/glew.h"
 
-#include <vector>
-
 class ModuleTexture : public Module
 {
 public:

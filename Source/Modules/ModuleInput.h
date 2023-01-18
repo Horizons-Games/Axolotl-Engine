@@ -1,8 +1,5 @@
 #pragma once
 #include "Module.h"
-#include "Globals.h"
-
-#include "SDL/include/SDL.h"
 
 #define NUM_MOUSEBUTTONS 5
 

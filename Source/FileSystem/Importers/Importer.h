@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SDL/include/SDL.h"
 #include <memory>
 
 template <typename U>

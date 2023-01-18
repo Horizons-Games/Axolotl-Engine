@@ -2,19 +2,10 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
-#include "ModuleWindow.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-#include "FileSystem/ModuleResources.h"
 
 #include "imgui_impl_sdl.h"
-
-#include <algorithm>
-#include <string>
-
-#include "GL/glew.h"
 
 ModuleInput::ModuleInput()
 {}

@@ -1,9 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
-#include "Globals.h"
 #include "Module.h"
 #include "Timer/Timer.h"
 
@@ -45,7 +41,6 @@ public:
 	std::shared_ptr<ModuleDebugDraw> debug;
 	std::shared_ptr<ModuleEditor> editor;
 	std::shared_ptr<ModuleEngineCamera> engineCamera;
-	std::shared_ptr<ModuleTexture> textures;
 	std::shared_ptr<ModuleResources> resources;
 private:
 	std::vector<std::shared_ptr<Module> > modules;
