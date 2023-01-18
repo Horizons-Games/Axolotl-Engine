@@ -35,7 +35,7 @@ public:
 	UID GetUID() const;
 	const char* GetName() const;
 	const std::weak_ptr<GameObject>& GetParent() const;
-	const std::vector<std::weak_ptr<GameObject> >& GetChildren() const;
+	std::vector<std::weak_ptr<GameObject> > GetChildren() const;
 	void SetChildren(const std::vector<std::weak_ptr<GameObject> >& children);
 	const std::vector<std::shared_ptr<Component> >& GetComponents() const;
 	void SetComponents(const std::vector<std::shared_ptr<Component> >& children);
@@ -106,7 +106,7 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline const std::vector<std::weak_ptr<GameObject> >& GameObject::GetChildren() const
+inline std::vector<std::weak_ptr<GameObject> > GameObject::GetChildren() const
 {
 	std::vector<std::weak_ptr<GameObject> > weakChildren = {};
 	weakChildren.insert(weakChildren.end(), children.begin(), children.end());
