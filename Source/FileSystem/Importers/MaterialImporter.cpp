@@ -95,18 +95,11 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
-	
-	std::shared_ptr<Resource> texture = App->resources->RequestResource(texturesUIDs[0]).lock();
-	if(texture) resource->SetDiffuseUID(texturesUIDs[0]);
 
-	texture = App->resources->RequestResource(texturesUIDs[1]).lock();
-	if (texture) resource->SetNormalUID(texturesUIDs[1]);
-
-	texture = App->resources->RequestResource(texturesUIDs[2]).lock();
-	if (texture) resource->SetOcclusionUID(texturesUIDs[2]);
-
-	texture = App->resources->RequestResource(texturesUIDs[3]).lock();
-	if (texture) resource->SetSpecularUID(texturesUIDs[3]);
+	if(texturesUIDs[0] != 0) resource->SetDiffuseUID(texturesUIDs[0]);
+	if(texturesUIDs[1] != 0) resource->SetNormalUID(texturesUIDs[1]);
+	if(texturesUIDs[2] != 0) resource->SetOcclusionUID(texturesUIDs[2]);
+	if(texturesUIDs[3] != 0) resource->SetSpecularUID(texturesUIDs[3]);
 
 	fileBuffer += sizeof(texturesUIDs);
 
