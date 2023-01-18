@@ -119,6 +119,7 @@ void ComponentMeshRenderer::Display()
 		{
 			if (ImGui::Button("Remove Mesh"))
 			{
+				meshAsShared->Unload();
 				mesh = std::weak_ptr<ResourceMesh>();
 			}
 		}
