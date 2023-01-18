@@ -58,7 +58,18 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	unsigned int bytes = sizeof(UID) * 6;
 	memcpy(texturesPointer, fileBuffer, bytes);
 	std::vector<UID> textures(texturesPointer, texturesPointer + 6);
+	
+	for (int i = 0; i < textures.size(); ++i) 
+	{
+		std::shared_ptr<Resource> texture = App->resources->RequestResource(textures[i]).lock();
+		if (!texture)
+		{
+			Import(resource->GetAssetsPath().c_str(), resource);
+			delete[] texturesPointer;
+			return;
+		}
+	}
+	
 	resource->SetTexturesUIDs(textures);
-
 	delete[] texturesPointer;
 }
