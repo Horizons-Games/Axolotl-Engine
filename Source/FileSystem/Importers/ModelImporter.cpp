@@ -16,8 +16,16 @@
 #include "assimp/types.h"
 #include "assimp/material.h"
 
+void myCallback(const char* msg, char* userData) {
+	ENGINE_LOG("[assimp] %s", msg);
+}
+
 void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> resource)
 {
+	struct aiLogStream stream;
+	stream.callback = myCallback;
+	aiAttachLogStream(&stream);
+
 	ENGINE_LOG("Import Model from %s", filePath);
 
 	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate);

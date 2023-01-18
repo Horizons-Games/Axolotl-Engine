@@ -36,9 +36,10 @@ public:
 	UID ImportThread(const std::string& originalPath);
 
 	//request resoruce
-	const std::weak_ptr<Resource>& RequestResource(UID uid);
+	const std::weak_ptr<Resource> RequestResource(UID uid);
 	template<class R>
-	const std::weak_ptr<R>& RequestResource(UID uid);
+	const std::weak_ptr<R> RequestResource(UID uid);
+	const UID GetSkyBoxResource();
 
 private:
 	//resource creation and deletition
@@ -86,6 +87,8 @@ private:
 	std::unique_ptr<MeshImporter> meshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
+
+	UID skybox;
 	
 	std::thread monitorThread;
 	bool monitorResources = false;
@@ -101,13 +104,13 @@ inline bool ModuleResources::CleanUp()
 	return true;
 }
 
-inline const std::weak_ptr<Resource>& ModuleResources::RequestResource(UID uid)
+inline const std::weak_ptr<Resource> ModuleResources::RequestResource(UID uid)
 {
 	return RequestResource<Resource>(uid);
 }
 
 template<class R>
-inline const std::weak_ptr<R>& ModuleResources::RequestResource(UID uid)
+inline const std::weak_ptr<R> ModuleResources::RequestResource(UID uid)
 {
 	auto it = resources.find(uid);
 	if (it != resources.end())
