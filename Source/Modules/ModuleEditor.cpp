@@ -148,12 +148,11 @@ update_status ModuleEditor::Update()
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 		
 		
-			if (!firstDeployed)
-			{
-				
-				mainMenu->SetWindowEnabled(windows.size() - 1, false);
-				firstDeployed = true;
-			}
+		if (!firstDeployed && windows[i]->GetName() == "Configuration")
+		{
+			mainMenu->SetWindowEnabled(i, false);
+			firstDeployed = true;
+		}
 
 		
 	}
