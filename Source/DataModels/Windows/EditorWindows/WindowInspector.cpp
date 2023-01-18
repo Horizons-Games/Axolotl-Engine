@@ -38,7 +38,6 @@ void WindowInspector::DrawWindowContents()
 
 	if (currentGameObject)
 	{
-
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 
@@ -55,82 +54,81 @@ void WindowInspector::DrawWindowContents()
 		ImGui::InputText("##GameObject", name, 24);
 	}
 
-		if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
+	if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
+	{
+		char* name = (char*)currentGameObject->GetName();
+		if (ImGui::InputText("##GameObject", name, 24))
 		{
-			char* name = (char*)currentGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
-			{
-				std::string scene = " Scene";
-				std::string sceneName = name + scene;
-				currentGameObject->SetName(sceneName.c_str());
-			}
-			
+			std::string scene = " Scene";
+			std::string sceneName = name + scene;
+			currentGameObject->SetName(sceneName.c_str());
 		}
+			
+	}
+	else
+	{
+		char* name = (char*)currentGameObject->GetName();
+		ImGui::InputText("##GameObject", name, 24);
+	}
+
+	ImGui::Separator();
+
+	if (WindowRightClick() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	{
+		ImGui::OpenPopup("AddComponent");
+	}
+
+	if (ImGui::BeginPopup("AddComponent"))
+	{
+		if (!App->scene->GetSelectedGameObject().expired())
+		{
+			if (ImGui::MenuItem("Create Mesh Renderer Component"))
+			{
+				AddComponentMeshRenderer();
+			}
+
+			if (ImGui::MenuItem("Create Material Component"))
+			{
+				AddComponentMaterial();
+			}
+
+			if (ImGui::MenuItem("Create Spot Light Component"))
+			{
+				AddComponentLight(LightType::SPOT);
+			}
+
+			if (ImGui::MenuItem("Create Point Light Component"))
+			{
+				AddComponentLight(LightType::POINT);
+			}
+		}
+
 		else
 		{
-			char* name = (char*)currentGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
+			ENGINE_LOG("No GameObject is selected");
 		}
 
-		ImGui::Separator();
+		ImGui::EndPopup();
+	}
 
-		if (WindowRightClick() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+	{
+		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			ImGui::OpenPopup("AddComponent");
+			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+			{
+				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				ImGui::SameLine();
+				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+					break;
+				ImGui::SameLine();
+			}
 		}
 
-		if (ImGui::BeginPopup("AddComponent"))
-		{
-			if (!App->scene->GetSelectedGameObject().expired())
-			{
-				if (ImGui::MenuItem("Create Mesh Renderer Component"))
-				{
-					AddComponentMeshRenderer();
-				}
-
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
-
-				if (ImGui::MenuItem("Create Spot Light Component"))
-				{
-					AddComponentLight(LightType::SPOT);
-				}
-
-				if (ImGui::MenuItem("Create Point Light Component"))
-				{
-					AddComponentLight(LightType::POINT);
-				}
-			}
-
-			else
-			{
-				ENGINE_LOG("No GameObject is selected");
-			}
-
-			ImGui::EndPopup();
-		}
-
-		for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
-		{
-			if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
-			{
-				if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
-				{
-					DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-					ImGui::SameLine();
-					if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
-						break;
-					ImGui::SameLine();
-				}
-			}
-
-			currentGameObject->GetComponents()[i]->Display();
-		}
+		currentGameObject->GetComponents()[i]->Display();
 	}
 }
 
