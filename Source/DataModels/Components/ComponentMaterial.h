@@ -8,8 +8,6 @@
 
 #include <memory>
 
-#define COMPONENT_MATERIAL "Material"
-
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceMaterial;
@@ -48,7 +46,7 @@ public:
 	const UID& GetOcclusionUID() const;
 	const UID& GetSpecularUID() const;
 	const float3& GetDiffuseColor() const;
-	const float3 GetSpecularColor() const;
+	const float3& GetSpecularColor() const;
 	const float GetShininess() const;
 	const float GetNormalStrenght() const;
 	const bool HasShininessAlpha() const;
@@ -74,12 +72,6 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
-
-	//This has to be erased
-	std::weak_ptr<ResourceTexture> textureDiffuse;
-	std::weak_ptr<ResourceTexture> textureNormal;
-	std::weak_ptr<ResourceTexture> textureOcclusion;
-	std::weak_ptr<ResourceTexture> textureSpecular;
 
 	//Auxiliar UIDs
 	UID diffuseUID = 0;
@@ -139,7 +131,7 @@ inline const float3& ComponentMaterial::GetDiffuseColor() const {
 	return diffuseColor;
 }
 
-inline const float3 ComponentMaterial::GetSpecularColor() const {
+inline const float3& ComponentMaterial::GetSpecularColor() const {
 	return specularColor;
 }
 
