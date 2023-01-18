@@ -22,6 +22,8 @@
 #include "GL/glew.h"
 #include "imgui.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
+
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
@@ -115,10 +117,22 @@ void ComponentMeshRenderer::Display()
 		}
 		ImGui::SameLine();
 
-		if (ImGui::Button("Remove Current Mesh"))
+		bool showMeshBrowser;
+
+		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
+
+
+		if (showMeshBrowser)
 		{
-			meshAsShared->Unload();
-			mesh = std::weak_ptr<ResourceMesh>();
+			inputMesh->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Mesh"))
+			{
+				meshAsShared->Unload();
+				mesh = std::weak_ptr<ResourceMesh>();
+			}
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))
@@ -178,6 +192,8 @@ void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if(inputMesh == nullptr) inputMesh = std::make_unique<WindowMeshInput>(this);
 
 	if (meshAsShared)
 	{

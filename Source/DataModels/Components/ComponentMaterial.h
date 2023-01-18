@@ -4,17 +4,16 @@
 #include "Math/float3.h"
 
 #include "FileSystem/UniqueID.h"
+#include "Globals.h"
 
 #include <memory>
 
 #define COMPONENT_MATERIAL "Material"
 
-
+class WindowTextureInput;
 class ResourceMaterial;
 class ResourceTexture;
 class Json;
-
-enum class TextureType { DIFFUSE, NORMAL, OCCLUSION, SPECULAR };
 
 class ComponentMaterial : public Component
 {
@@ -55,28 +54,34 @@ public:
 
 private:
 
-	void LoadTexture();
-	void LoadTexture(TextureType textureType);
+	void UnloadTextures();
+	void UnloadTexture(TextureType textureType);
 
 	std::weak_ptr<ResourceMaterial> material;
-
-	std::weak_ptr<ResourceTexture> textureDiffuse;
-	std::weak_ptr<ResourceTexture> textureNormal;
-	std::weak_ptr<ResourceTexture> textureOcclusion;
-	std::weak_ptr<ResourceTexture> textureSpecular;
 
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);
 	float shininess = 512.f;
-	float normalStrength = 1.0;
+	float normalStrength = 1.0f;
 
 	bool hasShininessAlpha = false;
+
+	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
+	std::unique_ptr<WindowTextureInput> inputTextureNormal;
+	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+
+	//This has to be erased
+	std::weak_ptr<ResourceTexture> textureDiffuse;
+	std::weak_ptr<ResourceTexture> textureNormal;
+	std::weak_ptr<ResourceTexture> textureOcclusion;
+	std::weak_ptr<ResourceTexture> textureSpecular;
 
 	//Auxiliar UIDs
 	UID diffuseUID = 0;
 	UID normalUID = 0;
 	UID occlusionUID = 0;
 	UID specularUID = 0;
+	//All this
 };
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)

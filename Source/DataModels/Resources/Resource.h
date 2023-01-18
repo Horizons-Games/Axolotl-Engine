@@ -37,11 +37,16 @@ public:
 
 	bool IsLoaded() const;
 
+	bool IsChanged() const;
+	void SetChanged(bool changed);
+
 protected:
 	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
+
+	bool changed = false;
 
 private:
 	UID uid;
@@ -54,6 +59,16 @@ private:
 inline bool Resource::IsLoaded() const
 {
 	return this->loaded;
+}
+
+inline bool Resource::IsChanged() const
+{
+	return this->changed;
+}
+
+inline void Resource::SetChanged(bool changed)
+{
+	this->changed = changed;
 }
 
 inline Resource::Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath):
