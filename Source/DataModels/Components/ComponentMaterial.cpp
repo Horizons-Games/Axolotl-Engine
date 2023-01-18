@@ -6,8 +6,6 @@
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/Json.h"
 
-#include "GameObject/GameObject.h"
-
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
@@ -29,7 +27,6 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::Update()
 {
-	
 }
 
 void ComponentMaterial::Draw()
@@ -48,9 +45,11 @@ void ComponentMaterial::Draw()
 
 	if(materialAsShared) 
 	{
-		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 
-		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
+		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
+					diffuseColor.x, diffuseColor.y, diffuseColor.z);
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -106,11 +105,11 @@ void ComponentMaterial::Draw()
 			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
 		}
 
-		glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
+		glUniform3f(glGetUniformLocation(program, "material.specular_color"), 
+					specularColor.x, specularColor.y, specularColor.z);
 		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
 		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
 
-		//move to main component(?)
 		float3 viewPos = App->engineCamera->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
@@ -186,15 +185,12 @@ void ComponentMaterial::Display()
 				specularUID = 0;
 			}
 		}
-
 		ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
 		ImGui::SliderFloat("Shininess", &shininess, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 		ImGui::Separator();
 
 		ImGui::Text("Diffuse Texture");
-
 		bool showTextureBrowserDiffuse = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetDiffuseUID())
@@ -308,17 +304,12 @@ void ComponentMaterial::Display()
 				}
 			}
 		}
-		//bool hasNormal;
-		//std::shared_ptr<ResourceTexture> textureAsShared = textureNormal.lock();
-		//textureAsShared ? hasNormal = true : hasNormal = false;
 
-		//ImGui::Checkbox("Normal slider", &hasNormal);
 		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::Text("");
 	}
 	ImGui::Separator();
-
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)
@@ -338,11 +329,6 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	}
 	meta["materialUID"] = (UID)uidMaterial;
 
-	SaveUIDOfResourceToMeta(meta, "textureDiffuseUID", textureDiffuse.lock());
-	SaveUIDOfResourceToMeta(meta, "textureNormalUID", textureNormal.lock());
-	SaveUIDOfResourceToMeta(meta, "textureOcclusionUID", textureOcclusion.lock());
-	SaveUIDOfResourceToMeta(meta, "textureSpecularUID", textureSpecular.lock());
-
 	meta["diffuseColor_X"] = (float)diffuseColor.x;
 	meta["diffuseColor_Y"] = (float)diffuseColor.y;
 	meta["diffuseColor_Z"] = (float)diffuseColor.z;
@@ -357,7 +343,9 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	meta["hasShininessAlpha"] = (bool)hasShininessAlpha;
 }
 
-void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr)
+void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
+												const char* field, 
+												const std::weak_ptr<ResourceTexture>& texturePtr)
 {
 	std::shared_ptr<ResourceTexture> textureAsShared = texturePtr.lock();
 	UID uidTexture = 0;
@@ -367,7 +355,6 @@ void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, c
 		uidTexture = textureAsShared->GetUID();
 	}
 	meta[field] = (UID)uidTexture;
-
 }
 
 void ComponentMaterial::LoadOptions(Json& meta)
@@ -438,7 +425,8 @@ void ComponentMaterial::UnloadTextures()
 
 	if(materialAsShared)
 	{
-		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
@@ -502,7 +490,5 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 			}
 			break;
 		}
-
 	}
-	
 }
