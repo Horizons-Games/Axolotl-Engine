@@ -236,6 +236,7 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 					break;
 				case ResourceType::SkyBox:
 					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+					skybox = uid;
 					break;
 				default:
 					break;
@@ -245,6 +246,11 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 			}
 		}
 	}
+}
+
+const UID ModuleResources::GetSkyBoxResource()
+{
+	return skybox;
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
