@@ -249,10 +249,12 @@ void ComponentTransform::LoadOptions(Json& meta)
 	pos.x = (float) meta["localPos_X"];
 	pos.y = (float) meta["localPos_Y"];
 	pos.z = (float) meta["localPos_Z"];
-				    
-	rot.x = (float) meta["localRot_X"];
-	rot.y = (float) meta["localRot_Y"];
-	rot.z = (float) meta["localRot_Z"];
+		
+	float3 rotation;
+	rotation.x = (float) meta["localRot_X"];
+	rotation.y = (float) meta["localRot_Y"];
+	rotation.z = (float) meta["localRot_Z"];
+	SetRotation(rotation);
 				    
 	sca.x = (float) meta["localSca_X"];
 	sca.y = (float) meta["localSca_Y"];
