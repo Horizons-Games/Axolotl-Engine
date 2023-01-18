@@ -11,6 +11,8 @@
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
 #include "imgui.h"
@@ -18,6 +20,10 @@
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
+	inputMaterial = std::make_unique<WindowMaterialInput>(this);
+	inputTextureDiffuse = std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE);
+	inputTextureNormal = std::make_unique<WindowTextureInput>(this, TextureType::NORMAL);
+	inputTextureSpecular = std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR);
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -41,80 +47,95 @@ void ComponentMaterial::Draw()
 		glUseProgram(program);
 	}
 
-	glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
-	std::shared_ptr<ResourceTexture> texture = textureDiffuse.lock();
-	if (texture)
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if(materialAsShared) 
 	{
-		if (!texture->IsLoaded())
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+
+		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
+			glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 		}
 
-		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
-		glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
-	}
-	texture = textureSpecular.lock();
-	if (texture)
-	{
-		if (!texture->IsLoaded())
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
+			glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
 		}
 
-		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
-		glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
-	}
-	texture = textureNormal.lock();
-	if (texture)
-	{
-		if (!texture->IsLoaded())
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+		if (texture)
 		{
-			texture->Load();
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
+			glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
+
+			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+		}
+		else
+		{
+			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
 		}
 
-		glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
-		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-		glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
-		glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
+		glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
+		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
+		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
 
-		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+		//move to main component(?)
+		float3 viewPos = App->engineCamera->GetPosition();
+		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
-	else
-	{
-		glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
-	}
-	glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
-	glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-	glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
-
-	//move to main component(?)
-	float3 viewPos = App->engineCamera->GetPosition();
-	glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 }
 
 void ComponentMaterial::Display()
 {
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
 	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::BeginTable("##MaterialTable", 2))
+		if (materialAsShared)
 		{
-			ImGui::EndTable();
+			DisplaySetMaterial();
+		}
+		else
+		{
+			DisplayEmptyMaterial();
 		}
 	}
-
 	ImGui::Separator();
+
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)
@@ -212,104 +233,21 @@ void ComponentMaterial::LoadOptions(Json& meta)
 void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)
 {
 	this->diffuseUID = diffuseUID;
-	LoadTexture(TextureType::DIFFUSE);
 }
 
 void ComponentMaterial::SetNormalUID(UID& normalUID)
 {
 	this->normalUID = normalUID;
-	LoadTexture(TextureType::NORMAL);
 }
 
 void ComponentMaterial::SetOcclusionUID(UID& occlusionUID)
 {
 	this->occlusionUID = occlusionUID;
-	LoadTexture(TextureType::OCCLUSION);
 }
 
 void ComponentMaterial::SetSpecularUID(UID& specularUID)
 {
 	this->specularUID = specularUID;
-	LoadTexture(TextureType::SPECULAR);
-}
-
-void ComponentMaterial::LoadTexture()
-{
-	//TODO User can change the Texture UID on the JSON
-	//This destroys the changes of the user
-
-	std::shared_ptr<ResourceTexture> texture;
-	//Load Diffuse
-	textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
-	texture = textureDiffuse.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Normal
-	textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
-	texture = textureNormal.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Occlusion
-	textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
-	texture = textureOcclusion.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Specular
-	textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
-	texture = textureSpecular.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-}
-
-void ComponentMaterial::LoadTexture(TextureType textureType)
-{
-	//TODO User can change the Texture UID on the JSON
-	//This destroys the changes of the user
-
-	std::shared_ptr<ResourceTexture> texture;
-	switch (textureType)
-	{
-	case TextureType::DIFFUSE:
-		textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
-		texture = textureDiffuse.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::NORMAL:
-		textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
-		texture = textureNormal.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::OCCLUSION:
-		textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
-		texture = textureOcclusion.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::SPECULAR:
-		textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
-		texture = textureSpecular.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	}
 }
 
 void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial)
@@ -317,6 +255,7 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 	material = newMaterial;
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
+	
 	if (materialAsShared)
 	{
 		materialAsShared->Load();
@@ -324,6 +263,296 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 		normalUID = materialAsShared->GetNormalUID();
 		occlusionUID = materialAsShared->GetOcclusionrUID();
 		specularUID = materialAsShared->GetSpecularUID();
-		LoadTexture();
+	}
+}
+
+void ComponentMaterial::UnloadTextures()
+{
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if(materialAsShared)
+	{
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetOcclusionrUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+	}
+}
+
+void ComponentMaterial::UnloadTexture(TextureType textureType)
+{
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if (materialAsShared)
+	{
+		std::shared_ptr<ResourceTexture> texture;
+		switch (textureType)
+		{
+		case TextureType::DIFFUSE:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::NORMAL:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::OCCLUSION:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetOcclusionrUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::SPECULAR:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		}
+
+	}
+	
+}
+
+void ComponentMaterial::DisplaySetMaterial()
+{
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if (materialAsShared)
+	{
+		ImGui::Text("");
+		if (materialAsShared)
+			ImGui::Text(std::to_string(materialAsShared->GetUID()).c_str());
+
+		if (ImGui::Button("Remove material"))
+		{
+			material = std::weak_ptr<ResourceMaterial>();
+		}
+
+		char name[20] = "Texture";
+		ImGui::InputText("Texture Name", name, 20);
+
+		ImGui::Text("");
+
+		static float3 colorDiffuse = GetDiffuseColor();
+		ImGui::Text("Diffuse Color:"); ImGui::SameLine();
+		if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			SetDiffuseColor(colorDiffuse);
+
+		static float3 colorSpecular = GetSpecularColor();
+		ImGui::Text("Specular Color:"); ImGui::SameLine();
+		if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+			SetSpecularColor(colorSpecular);
+
+		ImGui::Text("");
+
+		static UID thisUID = UniqueID::GenerateUID();
+
+		std::string removeButtonLabel = "No Texture";
+		//char* removeButtonLabel = new char[30];
+		//sprintf(removeButtonLabel, "Remove Texture %d", thisUID);   // mirar
+
+		if (materialAsShared)
+		{
+			bool haveTextures = false;
+			haveTextures += materialAsShared->GetDiffuseUID();
+			haveTextures += materialAsShared->GetNormalUID();
+			haveTextures += materialAsShared->GetSpecularUID();
+			//TODO Occlusion is missing (And 1 for some reason)
+
+			//Be carefull with the name of the button because if we have two componentMaterial (Not the usual function)
+			//Then this will erase all the textures of all the componentMaterial
+			if (haveTextures)
+			{
+				removeButtonLabel = "Remove Textures";
+			}
+
+		}
+
+		if (ImGui::Button(removeButtonLabel.c_str()))
+		{
+			if (materialAsShared)
+			{
+				UnloadTextures();
+
+				UID uidNull = 0;
+				materialAsShared->SetDiffuseUID(uidNull);
+				materialAsShared->SetNormalUID(uidNull);
+				materialAsShared->SetOcclusionUID(uidNull);
+				materialAsShared->SetSpecularUID(uidNull);
+
+				materialAsShared->SetChanged(true);
+
+				diffuseUID = 0;
+				normalUID = 0;
+				occlusionUID = 0;
+				specularUID = 0;
+			}
+		}
+
+		ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
+		ImGui::SliderFloat("Shininess", &shininess, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::Separator();
+
+		ImGui::Text("Diffuse Texture");
+
+		bool showTextureBrowserDiffuse = true;
+
+		if (materialAsShared)
+		{
+			if (materialAsShared->GetDiffuseUID())
+			{
+				std::shared_ptr<ResourceTexture> texture =
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+				if (texture)
+				{
+					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+				}
+
+				showTextureBrowserDiffuse = false;
+			}
+		}
+
+		if (showTextureBrowserDiffuse)
+		{
+			inputTextureDiffuse->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Texture Diffuse"))
+			{
+				if (materialAsShared->GetDiffuseUID())
+				{
+					UnloadTexture(TextureType::DIFFUSE);
+
+					UID uidNull = 0;
+					materialAsShared->SetDiffuseUID(uidNull);
+					diffuseUID = 0;
+				}
+			}
+		}
+
+		ImGui::Separator();
+
+		ImGui::Text("Specular Texture");
+
+		bool showTextureBrowserSpecular = true;
+
+		if (materialAsShared)
+		{
+			if (materialAsShared->GetSpecularUID())
+			{
+				std::shared_ptr<ResourceTexture> texture =
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+				if (texture)
+				{
+					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+				}
+
+				showTextureBrowserSpecular = false;
+			}
+		}
+
+		if (showTextureBrowserSpecular)
+		{
+			inputTextureSpecular->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Texture Specular"))
+			{
+				if (materialAsShared->GetSpecularUID())
+				{
+					UnloadTexture(TextureType::SPECULAR);
+
+					UID uidNull = 0;
+					materialAsShared->SetSpecularUID(uidNull);
+					specularUID = 0;
+				}
+			}
+		}
+
+		ImGui::Separator();
+
+		ImGui::Text("Normal Texture");
+
+		bool showTextureBrowserNormal = true;
+
+		if (materialAsShared)
+		{
+			if (materialAsShared->GetNormalUID())
+			{
+				std::shared_ptr<ResourceTexture> texture =
+					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+				if (texture)
+				{
+					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+				}
+
+				showTextureBrowserNormal = false;
+			}
+		}
+
+		if (showTextureBrowserNormal)
+		{
+			inputTextureNormal->DrawWindowContents();
+		}
+		else
+		{
+			if (ImGui::Button("Remove Texture Normal"))
+			{
+				if (materialAsShared->GetNormalUID())
+				{
+					UnloadTexture(TextureType::NORMAL);
+
+					UID uidNull = 0;
+					materialAsShared->SetNormalUID(uidNull);
+					normalUID = 0;
+				}
+			}
+		}
+		//bool hasNormal;
+		//std::shared_ptr<ResourceTexture> textureAsShared = textureNormal.lock();
+		//textureAsShared ? hasNormal = true : hasNormal = false;
+
+		//ImGui::Checkbox("Normal slider", &hasNormal);
+		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+
+		ImGui::Text("");
+	}
+}
+
+void ComponentMaterial::DisplayEmptyMaterial()
+{
+	if (material.expired())
+	{
+		inputMaterial->DrawWindowContents();
 	}
 }

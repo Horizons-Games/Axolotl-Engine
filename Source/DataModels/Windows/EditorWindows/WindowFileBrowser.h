@@ -35,7 +35,7 @@ inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser")
 {
 	title = ICON_IGFD_FOLDER " Open File Dialog";
 	dialogName = "Choose File";
-	filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},.md,.*";
+	filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg *.dds){.png,.gif,.jpg,.jpeg,.dds},.md,.*";
 	startPath = ".";
 	browserPath = fileDialogBrowser.GetCurrentPath() + "Assets";
 

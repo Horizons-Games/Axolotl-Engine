@@ -233,6 +233,40 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
     return "";
 }
 
+void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size)
+{
+	unsigned int header[4] = { pathTextures[0].size(), pathTextures[1].size(), pathTextures[2].size(), pathTextures[3].size() };
+
+	size = sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() + pathTextures[3].size();
+
+	char* cursor = new char[size] {};
+
+	fileBuffer = cursor;
+
+	unsigned int bytes = sizeof(header);
+	memcpy(cursor, header, bytes);
+
+	cursor += bytes;
+
+	bytes = pathTextures[0].size();
+	memcpy(cursor, pathTextures[0].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = pathTextures[1].size();
+	memcpy(cursor, pathTextures[1].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = pathTextures[2].size();
+	memcpy(cursor, pathTextures[2].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = pathTextures[3].size();
+	memcpy(cursor, pathTextures[3].c_str(), bytes);
+}
+
 void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
 {
     std::vector<std::string> files = ListFiles(path);

@@ -14,6 +14,14 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum class TextureType 
+{ 
+	DIFFUSE, 
+	NORMAL, 
+	OCCLUSION, 
+	SPECULAR 
+};
+
 // Application -------------
 #define TITLE "Pre Super Awesome Engine"
 #define VERSION "1.0.0"

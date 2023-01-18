@@ -230,9 +230,10 @@ void ComponentTransform::SaveOptions(Json& meta)
 	meta["localPos_Y"] = (float)pos.y;
 	meta["localPos_Z"] = (float)pos.z;
 
-	meta["localRot_X"] = (float)rot.x;
-	meta["localRot_Y"] = (float)rot.y;
-	meta["localRot_Z"] = (float)rot.z;
+	float3 rotation = GetRotationXYZ();
+	meta["localRot_X"] = (float)rotation.x;
+	meta["localRot_Y"] = (float)rotation.y;
+	meta["localRot_Z"] = (float)rotation.z;
 
 	meta["localSca_X"] = (float)sca.x;
 	meta["localSca_Y"] = (float)sca.y;
