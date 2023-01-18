@@ -80,27 +80,33 @@ void WindowInspector::DrawWindowContents()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		if (!App->scene->GetSelectedGameObject().expired())
+		std::shared_ptr<GameObject> go = App->scene->GetSelectedGameObject().lock();
+		if (go)
 		{
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
 			}
 
-			if (ImGui::MenuItem("Create Material Component"))
-			{
-				AddComponentMaterial();
+			if (!go->GetComponent(ComponentType::MATERIAL)) {
+				if (ImGui::MenuItem("Create Material Component"))
+				{
+					AddComponentMaterial();
+				}
 			}
 
-			if (ImGui::MenuItem("Create Spot Light Component"))
-			{
-				AddComponentLight(LightType::SPOT);
-			}
+			if (!go->GetComponent(ComponentType::LIGHT)) {
+				if (ImGui::MenuItem("Create Spot Light Component"))
+				{
+					AddComponentLight(LightType::SPOT);
+				}
 
-			if (ImGui::MenuItem("Create Point Light Component"))
-			{
-				AddComponentLight(LightType::POINT);
+				if (ImGui::MenuItem("Create Point Light Component"))
+				{
+					AddComponentLight(LightType::POINT);
+				}
 			}
+			
 		}
 
 		else
