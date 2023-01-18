@@ -32,7 +32,7 @@ void WindowFileBrowser::DrawWindowContents()
 	}
 	//End of Window importer
 	
-	if(title == ICON_IGFD_FOLDER " Open File Dialog")
+	if(title == ICON_IGFD_FOLDER " Import Asset")
 	{
 		Browser();
 	}

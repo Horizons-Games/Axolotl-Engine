@@ -33,7 +33,7 @@ inline ImVec2 WindowFileBrowser::GetStartingSize() const
 }
 inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser")
 {
-	title = ICON_IGFD_FOLDER " Open File Dialog";
+	title = ICON_IGFD_FOLDER " Import Asset";
 	dialogName = "Choose File";
 	filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg *.dds){.png,.gif,.jpg,.jpeg,.dds},.md,.*";
 	startPath = ".";
