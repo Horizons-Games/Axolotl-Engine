@@ -38,7 +38,7 @@ public:
 	//request resoruce
 	const std::weak_ptr<Resource> RequestResource(UID uid);
 	template<class R>
-	const std::weak_ptr<R>& RequestResource(UID uid);
+	const std::weak_ptr<R> RequestResource(UID uid);
 	const UID GetSkyBoxResource();
 
 private:
