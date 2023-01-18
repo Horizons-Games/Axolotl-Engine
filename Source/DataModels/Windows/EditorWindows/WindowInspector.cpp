@@ -58,7 +58,6 @@ void WindowInspector::DrawWindowContents()
 			currentGameObject->SetName(sceneName.c_str());
 		}
 	}
-
 	else
 	{
 		char* name = (char*)currentGameObject->GetName();
@@ -83,23 +82,27 @@ void WindowInspector::DrawWindowContents()
 			{
 				AddComponentMeshRenderer();
 			}
-
-			if (ImGui::MenuItem("Create Material Component"))
-			{
-				AddComponentMaterial();
+			
+			if (!App->scene->GetSelectedGameObject()->GetComponent(ComponentType::MATERIAL)) {
+				if (ImGui::MenuItem("Create Material Component"))
+				{
+					AddComponentMaterial();
+				}
 			}
 
-			if (ImGui::MenuItem("Create Spot Light Component"))
-			{
-				AddComponentLight(LightType::SPOT);
-			}
+			if (!App->scene->GetSelectedGameObject()->GetComponent(ComponentType::LIGHT)) {
+				if (ImGui::MenuItem("Create Spot Light Component"))
+				{
+					AddComponentLight(LightType::SPOT);
+				}
 
-			if (ImGui::MenuItem("Create Point Light Component"))
-			{
-				AddComponentLight(LightType::POINT);
+				if (ImGui::MenuItem("Create Point Light Component"))
+				{
+					AddComponentLight(LightType::POINT);
+				}
 			}
+			
 		}
-
 		else
 		{
 			ENGINE_LOG("No GameObject is selected");
@@ -170,14 +173,12 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	ComponentMeshRenderer* newMeshRenderer = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-																->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	ComponentMeshRenderer* newMaterial = (ComponentMeshRenderer*)App->scene->GetSelectedGameObject()
-		->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
