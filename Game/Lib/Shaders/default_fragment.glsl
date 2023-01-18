@@ -78,7 +78,7 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
     
     vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
-    vec3 bitangent = cross(normal, orthoTangent);
+    vec3 bitangent = cross(orthoTangent, normal);
     return mat3(tangent, bitangent, normal); //TBN
 }
 
@@ -214,7 +214,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
   
 void main()
 {
-	vec3 norm = normalize(Normal);
+	vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
@@ -227,12 +227,12 @@ void main()
     
 	if (material.has_normal_map)
 	{
-        mat3 space = CreateTangentSpace(normalize(norm), normalize(tangent));
+        mat3 space = CreateTangentSpace(norm, tangent);
         norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
-        norm = space * norm;
+        norm = normalize(space * norm);
 	}
 
     //fresnel

@@ -37,7 +37,7 @@ bool ModuleScene::Start()
 #else
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/buena.axolotl");
+		LoadSceneFromJson("Lib/Scenes/Final_Scene_Lights_mini_Lights.axolotl");
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
