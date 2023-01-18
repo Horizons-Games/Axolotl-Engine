@@ -49,5 +49,4 @@ inline WindowTextureInput::WindowTextureInput(ComponentMaterial* material, Textu
 
 inline WindowTextureInput::~WindowTextureInput()
 {
-	delete materialComponent;
 }
