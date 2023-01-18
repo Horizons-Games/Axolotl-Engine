@@ -22,6 +22,7 @@ This engine has been created by [Horizons Studio](https://github.com/Pre-SuperAw
 - The scene can be change into a JSON scene and loaded. 
 - Change an asset into the inspector the resource it's updated. 
 - Modify the save asset that's in a local folder is upgraded. 
+- There are a GAME mode, that load all the files using a zip file of custom files. To active this only define a GAME predefine compilation variable in Globals.h.
 
 **Spatial Partitioning and Frustum Culling**
 - Build the Spatial Partitioning structure Based on QuadTree.
