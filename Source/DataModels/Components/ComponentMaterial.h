@@ -9,6 +9,7 @@
 #include <memory>
 
 class WindowTextureInput;
+class WindowMaterialInput;
 class ResourceMaterial;
 class ResourceTexture;
 class Json;
@@ -54,6 +55,8 @@ private:
 
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
+	void DisplaySetMaterial();
+	void DisplayEmptyMaterial();
 
 	std::weak_ptr<ResourceMaterial> material;
 
@@ -63,6 +66,8 @@ private:
 	float normalStrength = 1.0f;
 
 	bool hasShininessAlpha = false;
+
+	std::unique_ptr<WindowMaterialInput> inputMaterial;
 
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
