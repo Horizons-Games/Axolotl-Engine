@@ -78,8 +78,8 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
     
     vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
-    vec3 bitangent = cross(orthoTangent, normal);
-    return transpose(mat3(orthoTangent, bitangent, normal)); //TBN
+    vec3 bitangent = cross(normal, orthoTangent);
+    return mat3(tangent, bitangent, normal); //TBN
 }
 
 vec3 fresnelSchlick(float cosTheta, vec3 F0)
