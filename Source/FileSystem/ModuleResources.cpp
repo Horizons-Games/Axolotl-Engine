@@ -260,7 +260,7 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 
 	std::string path = resource->GetLibraryPath() + META_EXTENSION;
 
-	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
+	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 
 }
 

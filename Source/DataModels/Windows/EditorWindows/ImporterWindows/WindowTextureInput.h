@@ -1,6 +1,6 @@
 #pragma once
 #include "Windows/EditorWindows/WindowFileBrowser.h"
-#include "Globals.h";
+#include "Globals.h"
 #include <memory>
 
 class ComponentMaterial;
@@ -43,7 +43,7 @@ inline WindowTextureInput::WindowTextureInput(ComponentMaterial* material, Textu
 		break;
 	}
 
-	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds){.png,.gif,.jpg,.jpeg,.dds}";
+	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
 	startPath = "Assets/Textures";
 }
 

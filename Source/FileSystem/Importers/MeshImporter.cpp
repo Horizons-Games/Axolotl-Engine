@@ -1,3 +1,5 @@
+#pragma warning (disable: 6386)
+
 #include "MeshImporter.h"
 
 #include "Application.h"
@@ -81,7 +83,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 		cursor += bytes;
 	}
 
-	for (int i = 0; i < resource->GetNumFaces(); ++i)
+	for (unsigned int i = 0; i < resource->GetNumFaces(); ++i)
 	{
 		bytes = sizeof(unsigned int) * 3;
 		memcpy(cursor, &(resource->GetFacesIndices()[i][0]), bytes);
@@ -151,7 +153,7 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	memcpy(indexesPointer, fileBuffer, bytes);
 	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
 	std::vector<std::vector<unsigned int>> faces;
-	for (int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
+	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
 	{
 		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
 		faces.push_back(indexes);

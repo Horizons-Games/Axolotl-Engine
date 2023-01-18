@@ -1,3 +1,6 @@
+#pragma warning (disable: 4804)
+#pragma warning (disable: 4312)
+
 #include "ComponentMaterial.h"
 
 #include "Application.h"
@@ -6,8 +9,6 @@
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
-
-#include "GameObject/GameObject.h"
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
@@ -28,11 +29,11 @@ ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObje
 
 ComponentMaterial::~ComponentMaterial()
 {
+	UnloadTextures();
 }
 
 void ComponentMaterial::Update()
 {
-	
 }
 
 void ComponentMaterial::Draw()
@@ -51,9 +52,11 @@ void ComponentMaterial::Draw()
 
 	if(materialAsShared) 
 	{
-		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 
-		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
+		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
+					diffuseColor.x, diffuseColor.y, diffuseColor.z);
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -109,11 +112,11 @@ void ComponentMaterial::Draw()
 			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
 		}
 
-		glUniform3f(glGetUniformLocation(program, "material.specular_color"), specularColor.x, specularColor.y, specularColor.z);
+		glUniform3f(glGetUniformLocation(program, "material.specular_color"), 
+					specularColor.x, specularColor.y, specularColor.z);
 		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
 		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
 
-		//move to main component(?)
 		float3 viewPos = App->engineCamera->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
@@ -135,7 +138,6 @@ void ComponentMaterial::Display()
 		}
 	}
 	ImGui::Separator();
-
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)
@@ -157,11 +159,6 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	meta["materialUID"] = (UID)uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
 
-	SaveUIDOfResourceToMeta(meta, "textureDiffuseUID", textureDiffuse.lock());
-	SaveUIDOfResourceToMeta(meta, "textureNormalUID", textureNormal.lock());
-	SaveUIDOfResourceToMeta(meta, "textureOcclusionUID", textureOcclusion.lock());
-	SaveUIDOfResourceToMeta(meta, "textureSpecularUID", textureSpecular.lock());
-
 	meta["diffuseColor_X"] = (float)diffuseColor.x;
 	meta["diffuseColor_Y"] = (float)diffuseColor.y;
 	meta["diffuseColor_Z"] = (float)diffuseColor.z;
@@ -176,7 +173,9 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	meta["hasShininessAlpha"] = (bool)hasShininessAlpha;
 }
 
-void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr)
+void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
+												const char* field, 
+												const std::weak_ptr<ResourceTexture>& texturePtr)
 {
 	std::shared_ptr<ResourceTexture> textureAsShared = texturePtr.lock();
 	UID uidTexture = 0;
@@ -271,7 +270,8 @@ void ComponentMaterial::UnloadTextures()
 
 	if(materialAsShared)
 	{
-		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
@@ -335,9 +335,7 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 			}
 			break;
 		}
-
 	}
-	
 }
 
 void ComponentMaterial::DisplaySetMaterial()
@@ -375,8 +373,6 @@ void ComponentMaterial::DisplaySetMaterial()
 		static UID thisUID = UniqueID::GenerateUID();
 
 		std::string removeButtonLabel = "No Texture";
-		//char* removeButtonLabel = new char[30];
-		//sprintf(removeButtonLabel, "Remove Texture %d", thisUID);   // mirar
 
 		if (materialAsShared)
 		{
@@ -384,10 +380,7 @@ void ComponentMaterial::DisplaySetMaterial()
 			haveTextures += materialAsShared->GetDiffuseUID();
 			haveTextures += materialAsShared->GetNormalUID();
 			haveTextures += materialAsShared->GetSpecularUID();
-			//TODO Occlusion is missing (And 1 for some reason)
 
-			//Be carefull with the name of the button because if we have two componentMaterial (Not the usual function)
-			//Then this will erase all the textures of all the componentMaterial
 			if (haveTextures)
 			{
 				removeButtonLabel = "Remove Textures";
@@ -421,9 +414,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Diffuse Texture");
-
 		bool showTextureBrowserDiffuse = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetDiffuseUID())
@@ -461,9 +452,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Specular Texture");
-
 		bool showTextureBrowserSpecular = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetSpecularUID())
@@ -501,9 +490,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Normal Texture");
-
 		bool showTextureBrowserNormal = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetNormalUID())
@@ -537,11 +524,6 @@ void ComponentMaterial::DisplaySetMaterial()
 				}
 			}
 		}
-		//bool hasNormal;
-		//std::shared_ptr<ResourceTexture> textureAsShared = textureNormal.lock();
-		//textureAsShared ? hasNormal = true : hasNormal = false;
-
-		//ImGui::Checkbox("Normal slider", &hasNormal);
 		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::Text("");

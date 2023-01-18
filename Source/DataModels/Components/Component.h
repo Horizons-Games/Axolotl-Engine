@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <assert.h>
 
 enum class ComponentType { UNKNOWN, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
 
@@ -117,6 +118,9 @@ const std::string GetNameByType(ComponentType type)
 	case ComponentType::BOUNDINGBOX:
 		return "Component_Bounding";
 		break;
+	default:
+		assert(false && "Wrong component type introduced");
+		return "";
 	}
 }
 

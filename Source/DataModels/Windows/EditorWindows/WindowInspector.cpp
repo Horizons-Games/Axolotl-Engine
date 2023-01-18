@@ -7,7 +7,6 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
-#include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
@@ -49,8 +48,12 @@ void WindowInspector::DrawWindowContents()
 		{
 			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 		}
-
-		ImGui::SameLine();
+	}
+	else
+	{
+		char* name = (char*)currentGameObject->GetName();
+		ImGui::InputText("##GameObject", name, 24);
+	}
 
 		if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
 		{
@@ -61,8 +64,8 @@ void WindowInspector::DrawWindowContents()
 				std::string sceneName = name + scene;
 				currentGameObject->SetName(sceneName.c_str());
 			}
+			
 		}
-
 		else
 		{
 			char* name = (char*)currentGameObject->GetName();

@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"

@@ -9,7 +9,6 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/Component.h"
-#include "3DModels/Model.h"
 
 #include <string>
 #include <assert.h>

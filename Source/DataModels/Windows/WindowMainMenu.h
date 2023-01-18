@@ -35,7 +35,7 @@ private:
 	
 	bool showAbout = false;
 	
-	int nWindows;
+	size_t nWindows;
 	std::vector<std::string> windowNames;
 	std::vector<bool> windowsEnabled;
 };

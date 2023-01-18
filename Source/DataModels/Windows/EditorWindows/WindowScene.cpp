@@ -1,3 +1,5 @@
+#pragma warning (disable: 4312)
+
 #include "WindowScene.h"
 
 #include "imgui.h"

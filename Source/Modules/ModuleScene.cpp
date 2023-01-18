@@ -117,7 +117,7 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->fileSystem->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
+	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
@@ -154,7 +154,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<std::shared_ptr<GameObject> > loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-20, -20, -20), float3(20, 20, 20))));
+	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
 	std::shared_ptr<Quadtree> sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<std::shared_ptr<GameObject> > loadedCameras{};
 	std::shared_ptr<GameObject> ambientLight = nullptr;

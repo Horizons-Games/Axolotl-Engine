@@ -41,9 +41,37 @@ std::shared_ptr<GameObject> GameObject::CreateGameObject(const char* name, const
 
 GameObject::~GameObject()
 {
+	std::vector<std::shared_ptr<ComponentLight> > lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+	bool hadSpotLight, hadPointLight = false;
+	for (std::shared_ptr<ComponentLight> light : lights)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			hadSpotLight = true;
+			break;
+		case LightType::POINT:
+			hadPointLight = true;
+			break;
+		}
+	}
+	
 	components.clear();
 
 	children.clear();
+
+	std::shared_ptr<Scene> currentScene = App->scene->GetLoadedScene();
+
+	if (hadSpotLight)
+	{
+		currentScene->UpdateSceneSpotLights();
+		currentScene->RenderSpotLights();
+	}
+	if (hadPointLight)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
 void GameObject::Update()
@@ -106,7 +134,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject>
 
 	if(jsonComponents.Size() != 0)
 	{
-		for (int i = 0; i < jsonComponents.Size(); ++i)
+		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 		{
 			Json jsonComponent = jsonComponents[i]["Component"];
 			std::string typeName = jsonComponent["type"];
@@ -136,7 +164,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject>
 
 	if (jsonChildrens.Size() != 0) 
 	{
-		for (int i = 0; i < jsonChildrens.Size(); ++i)
+		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
 		{
 			Json jsonGameObject = jsonChildrens[i]["GameObject"];
 			std::string name = jsonGameObject["name"];
