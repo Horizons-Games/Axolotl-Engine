@@ -364,6 +364,9 @@
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>Source\DataModels\Program</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -869,6 +872,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>Source\DataModels\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
