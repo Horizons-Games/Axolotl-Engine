@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEngineCamera.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "GameObject/GameObject.h"
@@ -147,12 +148,15 @@ void ComponentMaterial::SaveOptions(Json& meta)
 
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 	UID uidMaterial = 0;
+	std::string assetPath = "";
 
 	if (materialAsShared)
 	{
 		uidMaterial = materialAsShared->GetUID();
+		assetPath = materialAsShared->GetAssetsPath();
 	}
 	meta["materialUID"] = (UID)uidMaterial;
+	meta["assetPathMaterial"] = assetPath.c_str();
 
 	SaveUIDOfResourceToMeta(meta, "textureDiffuseUID", textureDiffuse.lock());
 	SaveUIDOfResourceToMeta(meta, "textureNormalUID", textureNormal.lock());
@@ -183,7 +187,6 @@ void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, c
 		uidTexture = textureAsShared->GetUID();
 	}
 	meta[field] = (UID)uidTexture;
-
 }
 
 void ComponentMaterial::LoadOptions(Json& meta)
@@ -191,12 +194,27 @@ void ComponentMaterial::LoadOptions(Json& meta)
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMaterial = meta["materialUID"];
 
-	SetMaterial(App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock());
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+
+	if(resourceMaterial)
+	{
+		SetMaterial(resourceMaterial);
+	}
+	else 
+	{
+		std::string path = meta["assetPathMaterial"];
+		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+		if (resourceExists) 
+		{
+			uidMaterial = App->resources->ImportResource(path);
+			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+			SetMaterial(resourceMaterial);
+		}
+	}
 
 	diffuseColor.x = (float)meta["diffuseColor_X"];
 	diffuseColor.y = (float)meta["diffuseColor_Y"];
