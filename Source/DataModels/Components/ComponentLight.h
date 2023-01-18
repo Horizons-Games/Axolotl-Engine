@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning (disable: 26495)
 
 #include "Component.h"
 
@@ -83,6 +84,9 @@ const std::string GetNameByLightType(LightType type)
 	case LightType::AMBIENT:
 		return "LightType_Ambient";
 		break;
+	default:
+		assert(false && "Wrong light type introduced");
+		return "";
 	}
 }
 

@@ -1,3 +1,5 @@
+#pragma warning (disable: 26451)
+
 #include "ModuleTexture.h"
 #include "Globals.h"
 
@@ -142,13 +144,13 @@ unsigned int & textureWidth, unsigned int & textureHeight)
 
 	std::vector<uint8_t> aux(flippedImg.GetPixels(), flippedImg.GetPixels() + flippedImg.GetPixelsSize());
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, flippedImg.GetMetadata().width,
-		flippedImg.GetMetadata().height, 0, format, type, flippedImg.GetPixels());
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, (GLsizei)flippedImg.GetMetadata().width,
+		(GLsizei)flippedImg.GetMetadata().height, 0, format, type, flippedImg.GetPixels());
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	textureWidth = img.GetMetadata().width;
-	textureHeight = img.GetMetadata().height;
+	textureWidth = (unsigned int)img.GetMetadata().width;
+	textureHeight = (unsigned int)img.GetMetadata().height;
 
 	ENGINE_LOG("Texture %i loaded", texture);
 
@@ -227,8 +229,8 @@ GLuint ModuleTexture::LoadCubeMap(std::vector<std::string> faces)
 			assert(false && "Unsupported format");
 		}
 
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internalFormat, img.GetMetadata().width,
-			img.GetMetadata().height, 0, format, type, img.GetPixels());
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internalFormat, (GLsizei)img.GetMetadata().width,
+			(GLsizei)img.GetMetadata().height, 0, format, type, img.GetPixels());
 
 	}
 

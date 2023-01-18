@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "Globals.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
@@ -13,8 +15,6 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
-
-#include "3DModels/Model.h"
 
 #include <iostream>
 #include <algorithm>

@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -170,9 +172,9 @@ void ComponentTransform::Display()
 	
 	if (scaleModified)
 	{
-		if (scale.x <= 0) scale.x = 0.0001;
-		if (scale.y <= 0) scale.y = 0.0001;
-		if (scale.z <= 0) scale.z = 0.0001;
+		if (scale.x <= 0) scale.x = 0.0001f;
+		if (scale.y <= 0) scale.y = 0.0001f;
+		if (scale.z <= 0) scale.z = 0.0001f;
 
 		SetScale(scale);
 	}
