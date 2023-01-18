@@ -310,11 +310,11 @@ void ComponentMaterial::Display()
 
 		//ImGui::Checkbox("Normal slider", &hasNormal);
 		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-		ImGui::Separator();
 
-		ImGui::Separator();
 		ImGui::Text("");
 	}
+	ImGui::Separator();
+
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)
