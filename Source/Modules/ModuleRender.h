@@ -49,6 +49,7 @@ public:
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
+	void DrawQuadtree(Quadtree* quadtree);
 
 private:
 	void UpdateProgram();

@@ -27,6 +27,14 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
+ComponentMeshRenderer::~ComponentMeshRenderer()
+{
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if (meshAsShared)
+		mesh.lock()->Unload();
+}
+
 void ComponentMeshRenderer::Update()
 {
 
@@ -97,7 +105,10 @@ void ComponentMeshRenderer::Display()
 					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
 
 				if (newMesh)
+				{
+					meshAsShared->Unload();
 					SetMesh(newMesh);
+				}
 			}
 
 			ImGui::EndDragDropTarget();
@@ -106,6 +117,7 @@ void ComponentMeshRenderer::Display()
 
 		if (ImGui::Button("Remove Current Mesh"))
 		{
+			meshAsShared->Unload();
 			mesh = std::weak_ptr<ResourceMesh>();
 		}
 
