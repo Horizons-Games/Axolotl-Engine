@@ -52,7 +52,7 @@ void WindowInspector::DrawWindowContents()
 
 		ImGui::SameLine();
 
-		if (!currentGameObject->GetParent().expired()) // Keep the word Scene in the root
+		if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
 		{
 			char* name = (char*)currentGameObject->GetName();
 			if (ImGui::InputText("##GameObject", name, 24))
