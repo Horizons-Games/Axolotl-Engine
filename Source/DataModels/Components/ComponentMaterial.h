@@ -14,8 +14,6 @@ class ResourceMaterial;
 class ResourceTexture;
 class Json;
 
-enum class TextureType { DIFFUSE, NORMAL, OCCLUSION, SPECULAR };
-
 class ComponentMaterial : public Component
 {
 public:
