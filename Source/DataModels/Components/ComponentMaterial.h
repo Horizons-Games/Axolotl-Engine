@@ -54,8 +54,8 @@ public:
 
 private:
 
-	void LoadTexture();
-	void LoadTexture(TextureType textureType);
+	void UnloadTextures();
+	void UnloadTexture(TextureType textureType);
 
 	std::weak_ptr<ResourceMaterial> material;
 

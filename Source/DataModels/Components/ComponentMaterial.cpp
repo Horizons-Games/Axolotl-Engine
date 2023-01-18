@@ -166,6 +166,8 @@ void ComponentMaterial::Display()
 		{
 			if (materialAsShared)
 			{
+				UnloadTextures();
+
 				UID uidNull = 0;
 				materialAsShared->SetDiffuseUID(uidNull);
 				materialAsShared->SetNormalUID(uidNull);
@@ -178,8 +180,6 @@ void ComponentMaterial::Display()
 				normalUID = 0;
 				occlusionUID = 0;
 				specularUID = 0;
-
-				LoadTexture();
 			}
 		}
 
@@ -216,11 +216,11 @@ void ComponentMaterial::Display()
 			{
 				if (materialAsShared->GetDiffuseUID())
 				{
+					UnloadTexture(TextureType::DIFFUSE);
+
 					UID uidNull = 0;
 					materialAsShared->SetDiffuseUID(uidNull);
 					diffuseUID = 0;
-
-					LoadTexture(TextureType::DIFFUSE);
 				}
 			}
 		}
@@ -256,11 +256,11 @@ void ComponentMaterial::Display()
 			{
 				if (materialAsShared->GetSpecularUID())
 				{
+					UnloadTexture(TextureType::SPECULAR);
+
 					UID uidNull = 0;
 					materialAsShared->SetSpecularUID(uidNull);
 					specularUID = 0;
-
-					LoadTexture(TextureType::SPECULAR);
 				}
 			}
 		}
@@ -296,11 +296,11 @@ void ComponentMaterial::Display()
 			{
 				if (materialAsShared->GetNormalUID())
 				{
+					UnloadTexture(TextureType::NORMAL);
+
 					UID uidNull = 0;
 					materialAsShared->SetNormalUID(uidNull);
 					normalUID = 0;
-
-					LoadTexture(TextureType::NORMAL);
 				}
 			}
 		}
@@ -395,104 +395,21 @@ void ComponentMaterial::LoadOptions(Json& meta)
 void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)
 {
 	this->diffuseUID = diffuseUID;
-	LoadTexture(TextureType::DIFFUSE);
 }
 
 void ComponentMaterial::SetNormalUID(UID& normalUID)
 {
 	this->normalUID = normalUID;
-	LoadTexture(TextureType::NORMAL);
 }
 
 void ComponentMaterial::SetOcclusionUID(UID& occlusionUID)
 {
 	this->occlusionUID = occlusionUID;
-	LoadTexture(TextureType::OCCLUSION);
 }
 
 void ComponentMaterial::SetSpecularUID(UID& specularUID)
 {
 	this->specularUID = specularUID;
-	LoadTexture(TextureType::SPECULAR);
-}
-
-void ComponentMaterial::LoadTexture()
-{
-	//TODO User can change the Texture UID on the JSON
-	//This destroys the changes of the user
-
-	std::shared_ptr<ResourceTexture> texture;
-	//Load Diffuse
-	textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
-	texture = textureDiffuse.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Normal
-	textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
-	texture = textureNormal.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Occlusion
-	textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
-	texture = textureOcclusion.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-	//Load Specular
-	textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
-	texture = textureSpecular.lock();
-	if (texture)
-	{
-		texture->Load();
-	}
-}
-
-void ComponentMaterial::LoadTexture(TextureType textureType)
-{
-	//TODO User can change the Texture UID on the JSON
-	//This destroys the changes of the user
-
-	std::shared_ptr<ResourceTexture> texture;
-	switch (textureType)
-	{
-	case TextureType::DIFFUSE:
-		textureDiffuse = App->resources->RequestResource<ResourceTexture>(diffuseUID).lock();
-		texture = textureDiffuse.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::NORMAL:
-		textureNormal = App->resources->RequestResource<ResourceTexture>(normalUID).lock();
-		texture = textureNormal.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::OCCLUSION:
-		textureOcclusion = App->resources->RequestResource<ResourceTexture>(occlusionUID).lock();
-		texture = textureOcclusion.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	case TextureType::SPECULAR:
-		textureSpecular = App->resources->RequestResource<ResourceTexture>(specularUID).lock();
-		texture = textureSpecular.lock();
-		if (texture)
-		{
-			texture->Load();
-		}
-		break;
-	}
 }
 
 void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial)
@@ -511,6 +428,80 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 		normalUID = materialAsShared->GetNormalUID();
 		occlusionUID = materialAsShared->GetOcclusionrUID();
 		specularUID = materialAsShared->GetSpecularUID();
-		LoadTexture();
 	}
+}
+
+void ComponentMaterial::UnloadTextures()
+{
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if(materialAsShared)
+	{
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetOcclusionrUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+		if (texture)
+		{
+			texture->Unload();
+		}
+	}
+}
+
+void ComponentMaterial::UnloadTexture(TextureType textureType)
+{
+	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
+
+	if (materialAsShared)
+	{
+		std::shared_ptr<ResourceTexture> texture;
+		switch (textureType)
+		{
+		case TextureType::DIFFUSE:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::NORMAL:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::OCCLUSION:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetOcclusionrUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::SPECULAR:
+			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		}
+
+	}
+	
 }
