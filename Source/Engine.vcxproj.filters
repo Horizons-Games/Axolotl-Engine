@@ -160,12 +160,6 @@
     <ClCompile Include="DataModels\Timer\Timer.cpp">
       <Filter>Source\DataModels\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\3DModels\Mesh.cpp">
-      <Filter>Source\DataModels\3DModels</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\3DModels\Model.cpp">
-      <Filter>Source\DataModels\3DModels</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\GameObject\GameObject.cpp">
       <Filter>Source\DataModels\GameObject</Filter>
     </ClCompile>
@@ -636,12 +630,6 @@
     <ClInclude Include="DataModels\Timer\Timer.h">
       <Filter>Source\DataModels\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\3DModels\Mesh.h">
-      <Filter>Source\DataModels\3DModels</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\3DModels\Model.h">
-      <Filter>Source\DataModels\3DModels</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\Component.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
@@ -907,9 +895,6 @@
     </Filter>
     <Filter Include="Source\DataModels\Timer">
       <UniqueIdentifier>{f75295bc-065a-440a-aa53-ce3dfcd97940}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\3DModels">
-      <UniqueIdentifier>{6abfe724-ef9e-4a78-b1c1-9cc6cbfc6f6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataModels\GameObject">
       <UniqueIdentifier>{2c464690-68af-41c3-8707-3a2f09badcd2}</UniqueIdentifier>
