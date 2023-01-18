@@ -11,12 +11,10 @@ class ResourceScene : public Resource
 {
 public:
 	ResourceScene(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceScene() override = default;
+	~ResourceScene() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override {};
-	void Unload() override {};
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -25,6 +23,10 @@ public:
 	std::shared_ptr<OptionsScene>& GetOptions();
 
 	//Sets
+
+protected:
+	void InternalLoad() override {};
+	void InternalUnload() override {};
 private:
 
 
@@ -38,6 +40,11 @@ inline ResourceScene::ResourceScene(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsScene>();
+}
+
+inline ResourceScene::~ResourceScene()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceScene::GetType() const

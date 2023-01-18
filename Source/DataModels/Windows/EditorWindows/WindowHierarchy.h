@@ -1,9 +1,5 @@
 #pragma once
 #include "EditorWindow.h"
-#include "Windows/SubWindows/SubWindow.h"
-
-#include <vector>
-#include <memory>
 
 class GameObject;
 
@@ -20,7 +16,7 @@ protected:
 
 
 private:
-	void DrawRecursiveHierarchy(GameObject* gameObject);
+	void DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& gameObject);
 };
 
 inline ImVec2 WindowHierarchy::GetStartingSize() const

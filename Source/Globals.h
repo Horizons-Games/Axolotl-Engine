@@ -3,7 +3,6 @@
 #include "EngineLog.h"
 
 #include <windows.h>
-#include <stdio.h>
 
 #define GLSL_VERSION "#version 440"
 
@@ -14,16 +13,25 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum class TextureType 
+{ 
+	DIFFUSE, 
+	NORMAL, 
+	OCCLUSION, 
+	SPECULAR 
+};
+
 // Application -------------
-#define TITLE "Pre Super Awesome Engine"
+#define TITLE "Axolotl Engine"
 #define VERSION "1.0.0"
+//#define GAME
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
 #define QUADRANT_CAPACITY 10
-#define MIN_CUBE_SIZE 100.0f
+#define MIN_CUBE_SIZE 5.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920
@@ -40,6 +48,9 @@ enum update_status
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
 #define MESHES_LIB_PATH "Lib/Meshes/"
+#define MATERIAL_PATH "Assets/Materials/"
+#define MATERIAL_LIB_PATH "Lib/Materials/"
+#define SCENE_PATH "Assets/Scenes/"
 
 // Resource extension ------
 #define MODEL_EXTENSION ".fbx"
@@ -48,7 +59,9 @@ enum update_status
 #define TIF_TEXTURE_EXTENSION ".tif"
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
-#define SCENE_EXTENSION ".scene"
+#define SCENE_EXTENSION ".axolotl"
+#define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
+#define GENERAL_BINARY_EXTENSION ".bin"

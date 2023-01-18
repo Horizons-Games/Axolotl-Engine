@@ -2,10 +2,14 @@
 
 #include "EngineLog.h"
 
-#include "rapidjson/writer.h"
+#include "rapidjson/prettywriter.h"
 
 Json::Json(rapidjson::Document& document, rapidjson::Value& value) : document(document), value(value) 
 {
+}
+
+unsigned int Json::Size() const {
+	return value.IsArray() ? value.Size() : 0;
 }
 
 bool Json::fromBuffer(char*& buffer)
@@ -22,7 +26,7 @@ bool Json::fromBuffer(char*& buffer)
 void Json::toBuffer(rapidjson::StringBuffer& buffer)
 {
 	buffer.Clear();
-	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	rapidjson::PrettyWriter<rapidjson::StringBuffer, rapidjson::UTF8<>, rapidjson::UTF8<>, rapidjson::CrtAllocator > writer(buffer);
 	document.Accept(writer);
 }
 

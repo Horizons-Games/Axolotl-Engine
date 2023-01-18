@@ -1,10 +1,17 @@
+#include "Application.h"
 #include "ModuleScene.h"
-#include "Quadtree.h"
+#include "ModuleRender.h"
+#include "DataStructures/Quadtree.h"
+
 #include "GameObject/GameObject.h"
-#include "Components/ComponentTransform.h"
-#include "Components/ComponentCamera.h"
+#include "Scene/Scene.h"
 
 #include <assert.h>
+
+#include "FileSystem/ModuleFileSystem.h"
+#include "Components/Component.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 
 ModuleScene::ModuleScene()
 {
@@ -12,139 +19,66 @@ ModuleScene::ModuleScene()
 
 ModuleScene::~ModuleScene()
 {
-	delete root;
-	delete sceneQuadTree;
-	root = nullptr;
-
-	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 }
 
 bool ModuleScene::Init()
 {
-	root = new GameObject("Scene");
-	sceneGameObjects.push_back(root);
-
-	selectedGameObject = root;
-
-	sceneQuadTree = new Quadtree(rootQuadtreeAABB);
-	FillQuadtree(root); //TODO: This call has to be moved AFTER the scene is loaded
 	return true;
 }
 
-void ModuleScene::FillQuadtree(GameObject* gameObject) 
+bool ModuleScene::Start()
 {
-	sceneQuadTree->Add(gameObject);
-	if (!gameObject->GetChildren().empty())
+#if !defined(GAME)
+	if (loadedScene == nullptr)
 	{
-		for (GameObject* child : gameObject->GetChildren()) FillQuadtree(child);
+		loadedScene = CreateEmptyScene();
 	}
-}
-
-bool ModuleScene::IsInsideACamera(const OBB& obb)
-{
-	// TODO: We have to add all the cameras in the future
-	for (GameObject* cameraGameObject : sceneCameras)
+#else
+	if (loadedScene == nullptr)
 	{
-		ComponentCamera* camera = (ComponentCamera*)cameraGameObject->GetComponent(ComponentType::CAMERA);
-		if (camera->IsInside(obb)) return true;
+		LoadSceneFromJson("Lib/Scenes/Final_Scene_Lights_mini_Lights.axolotl");
 	}
-	return false;
-}
-
-bool ModuleScene::IsInsideACamera(const AABB& aabb)
-{
-	return IsInsideACamera(aabb.ToOBB());
+#endif
+	selectedGameObject = loadedScene->GetRoot();
+	return true;
 }
 
 update_status ModuleScene::Update()
 {
-	UpdateGameObjectAndDescendants(root);
+	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+
+	//SaveSceneToJson("AuxScene");
 
 	return UPDATE_CONTINUE;
 }
 
-GameObject* ModuleScene::CreateGameObject(const char* name, GameObject* parent)
-{
-	assert(name != nullptr && parent != nullptr);
-
-	GameObject* gameObject = new GameObject(name, parent);
-	sceneGameObjects.push_back(gameObject);
-
-	//sceneQuadTree->Add(gameObject);
-	return gameObject;
-}
-
-GameObject* ModuleScene::CreateCameraGameObject(const char* name, GameObject* parent)
-{
-	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(gameObject);
-
-	return gameObject;
-}
-
-void ModuleScene::DestroyGameObject(GameObject* gameObject)
-{
-	gameObject->GetParent()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
-	{
-		if (*it == gameObject)
-		{
-			sceneGameObjects.erase(it);
-			delete gameObject;
-			return;
-		}
-	}
-}
-
-void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject)
+void ModuleScene::UpdateGameObjectAndDescendants(const std::shared_ptr<GameObject>& gameObject) const
 {
 	assert(gameObject != nullptr);
 
 	if (!gameObject->IsEnabled())
 		return;
 
-	if (gameObject != root)
+	if (gameObject != loadedScene->GetRoot())
 		gameObject->Update();
 
-	for (GameObject* child : gameObject->GetChildren())
+	for (std::weak_ptr<GameObject> child : gameObject->GetChildren())
 	{
-		UpdateGameObjectAndDescendants(child);
+		UpdateGameObjectAndDescendants(child.lock());
 	}
-}
-
-GameObject* ModuleScene::SearchGameObjectByID(UID gameObjectID) const
-{
-	for (GameObject* gameObject : sceneGameObjects)
-	{
-		if (gameObject->GetUID() == gameObjectID)
-		{
-			return gameObject;
-		}
-	}
-
-	assert(false && "Wrong GameObjectID introduced, GameObject not found");
-	return nullptr;
-}
-
-void ModuleScene::RemoveCamera(GameObject* cameraGameObject)
-{
-
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin(); it != sceneCameras.end(); it++)
-	{
-		if (cameraGameObject == *it)
-		{
-			sceneCameras.erase(it);
-			return;
-		}
-	}
-	return;
 }
 
 void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");
+
+	Json jsonScene(tmpDoc, tmpDoc);
+
+	std::shared_ptr<GameObject> root = loadedScene->GetRoot();
+	root->SaveOptions(jsonScene);
+
+	rapidjson::StringBuffer buffer;
+	jsonScene.toBuffer(buffer);
 }
 
 void ModuleScene::OnPause()
@@ -155,4 +89,125 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+	Json Json(tmpDoc, tmpDoc);
+
+	SetSceneFromJson(Json);
+	//clear the document
+	rapidjson::Document().Swap(tmpDoc).SetObject();
+}
+
+std::shared_ptr<Scene> ModuleScene::CreateEmptyScene() const
+{
+	std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
+	newScene->InitNewEmptyScene();
+	return newScene;
+}
+
+void ModuleScene::SaveSceneToJson(const std::string& name)
+{
+	rapidjson::Document doc;
+	Json jsonScene(doc, doc);
+
+	std::shared_ptr<GameObject> root = loadedScene->GetRoot();
+	root->SetName(App->fileSystem->GetFileName(name).c_str());
+	root->SaveOptions(jsonScene);
+
+	rapidjson::StringBuffer buffer;
+	jsonScene.toBuffer(buffer);
+
+	std::string path = SCENE_PATH + name;
+
+	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+}
+
+void ModuleScene::LoadSceneFromJson(const std::string& filePath)
+{
+	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	char* buffer{};
+#if !defined(GAME)
+	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
+
+	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	if (!resourceExists)
+		App->fileSystem->CopyFileInAssets(filePath, assetPath);
+	App->fileSystem->Load(assetPath.c_str(), buffer);
+#else
+	App->fileSystem->Load(filePath.c_str(), buffer);
+#endif
+	rapidjson::Document doc;
+	Json Json(doc, doc);
+
+	Json.fromBuffer(buffer);
+
+	SetSceneFromJson(Json);
+
+	delete buffer;
+}
+
+void ModuleScene::SetSceneFromJson(Json& Json)
+{
+	std::shared_ptr<Scene> sceneToLoad = std::make_shared<Scene>();
+	std::shared_ptr<GameObject> newRoot = std::make_shared<GameObject>(std::string(Json["name"]).c_str());
+
+	loadedScene = sceneToLoad;
+
+	std::vector<std::shared_ptr<GameObject> > loadedObjects{};
+	newRoot->LoadOptions(Json, loadedObjects);
+
+	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
+	std::shared_ptr<Quadtree> sceneQuadtree = sceneToLoad->GetSceneQuadTree();
+	std::vector<std::shared_ptr<GameObject> > loadedCameras{};
+	std::shared_ptr<GameObject> ambientLight = nullptr;
+	std::shared_ptr<GameObject> directionalLight = nullptr;
+
+	std::vector<std::weak_ptr<GameObject> > vecOfWeak(loadedObjects.begin(), loadedObjects.end());
+	for (std::shared_ptr<GameObject> obj : loadedObjects)
+	{
+		sceneQuadtree = sceneToLoad->GetSceneQuadTree();
+		std::vector<std::shared_ptr<ComponentCamera> > camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
+		if (!camerasOfObj.empty())
+		{
+			loadedCameras.push_back(obj);
+		}
+
+		std::vector<std::shared_ptr<ComponentLight> > lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		for (std::shared_ptr<ComponentLight> light : lightsOfObj)
+		{
+			if (light->GetLightType() == LightType::AMBIENT)
+			{
+				ambientLight = obj;
+			}
+			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			{
+				directionalLight = obj;
+			}
+		}
+		//Quadtree treatment
+		if (!sceneQuadtree->InQuadrant(obj))
+		{
+			if (!sceneQuadtree->IsFreezed())
+			{
+				sceneQuadtree->ExpandToFit(obj);
+				//sceneToLoad->FillQuadtree(loadedObjects);
+			}
+		}
+		else
+		{
+			sceneQuadtree->Add(obj);
+		}
+	}
+
+	App->renderer->FillRenderList(sceneQuadtree);
+
+	sceneToLoad->SetRoot(newRoot);
+	selectedGameObject = newRoot;
+
+	sceneToLoad->SetSceneGameObjects(vecOfWeak);
+	sceneToLoad->SetSceneCameras(vecOfWeak);
+	sceneToLoad->SetAmbientLight(ambientLight);
+	sceneToLoad->SetDirectionalLight(directionalLight);
+	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
+
+	sceneToLoad->InitLights();
+
 }

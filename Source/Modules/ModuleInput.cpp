@@ -2,17 +2,10 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
-#include "ModuleWindow.h"
-#include "FileSystem/ModuleResources.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "imgui_impl_sdl.h"
-
-#include <algorithm>
-#include <string>
-
-#include "GL/glew.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -108,8 +101,8 @@ update_status ModuleInput::Update()
             break;
 
         case SDL_MOUSEWHEEL:
-            this->mouseWheel.first = sdlEvent.wheel.x;
-            this->mouseWheel.second = sdlEvent.wheel.y;
+            this->mouseWheel.first = (float)sdlEvent.wheel.x;
+            this->mouseWheel.second = (float)sdlEvent.wheel.y;
             this->mouseWheelScrolled = true;
             break;
 
@@ -119,9 +112,8 @@ update_status ModuleInput::Update()
             /*if (App->renderer->IsSupportedPath(droppedFilePath))
                 App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
-            std::replace( dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            App->renderer->LoadModel(droppedFilePath);
-            //UID modelUID = App->resources->ImportThread(droppedFilePath);
+            std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
+            App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }

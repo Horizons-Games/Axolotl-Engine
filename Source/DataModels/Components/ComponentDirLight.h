@@ -2,28 +2,22 @@
 
 #include "ComponentLight.h"
 
+#define COMPONENT_DIRLIGHT "DirLight"
+
+class Json;
+
 class ComponentDirLight : public ComponentLight
 {
 public:
 	ComponentDirLight();
-	ComponentDirLight(const float3 &dir, const float3& color, float intensity);
+	ComponentDirLight(const std::shared_ptr<GameObject>& parent);
+	ComponentDirLight(const float3& color, float intensity);
+	ComponentDirLight(const float3& color, float intensity, const std::shared_ptr<GameObject>& parent);
 	~ComponentDirLight() {};
 
-	const float3& GetDir() const;
+	void Draw() override;
+	void Display() override;
 
-	void SetDir(const float3& dir);
-
-private:
-	float3 dir = float3(0.0f, 0.0f, 1.0f);
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 };
-
-
-inline const float3& ComponentDirLight::GetDir() const
-{
-	return dir;
-}
-
-inline void ComponentDirLight::SetDir(const float3& dir)
-{
-	this->dir = dir.Normalized();
-}

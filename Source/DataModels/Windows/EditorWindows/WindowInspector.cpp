@@ -3,19 +3,21 @@
 #include "imgui.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "Scene/Scene.h"
 
-#include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
-#include "Components/ComponentTransform.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	loadScene = std::make_unique<WindowLoadScene>();
+	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -24,16 +26,32 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
+	//TODO: REMOVE AFTER, HERE WE GO
+	DrawButtomsSaveAndLoad();
+	ImGui::Separator();
+	//
 
-	bool enable = currentGameObject->IsEnabled();
-	ImGui::Checkbox("Enable", &enable);
+	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
 
-	(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+	if (currentGameObject)
+	{
+		bool enable = currentGameObject->IsEnabled();
+		ImGui::Checkbox("Enable", &enable);
 
-	ImGui::SameLine();
+		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		{
+			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+		}
+	}
+	else
+	{
+		char* name = (char*)currentGameObject->GetName();
+		ImGui::InputText("##GameObject", name, 24);
+	}
 
-	if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the scene root
+	if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
 	{
 		char* name = (char*)currentGameObject->GetName();
 		if (ImGui::InputText("##GameObject", name, 24))
@@ -42,47 +60,8 @@ void WindowInspector::DrawWindowContents()
 			std::string sceneName = name + scene;
 			currentGameObject->SetName(sceneName.c_str());
 		}
-		else
-		{
-			currentGameObject->Disable();
-		}
-
-		ImGui::SameLine();
-
-		if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
-		{
-			char* name = (char*)currentGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
-			{
-				std::string scene = " Scene";
-				std::string sceneName = name + scene;
-				currentGameObject->SetName(sceneName.c_str());
-			}
-		}
-
-		else
-		{
-			char* name = (char*)currentGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
-		}
-
-		ImGui::Separator();
-
-		/*DrawTransformationTable(currentGameObject);
-
-		DrawBoundingBoxTable(currentGameObject);
-
-		DrawGeometryTable();
-
-		ImGui::Separator();
-
-		DrawTextureTable();
-
-		ComponentCamera* camera = (ComponentCamera*)currentGameObject->GetComponent(ComponentType::CAMERA);
-		if (camera != nullptr) DrawCameraTable(camera);
-		*/
+			
 	}
-
 	else
 	{
 		char* name = (char*)currentGameObject->GetName();
@@ -91,118 +70,132 @@ void WindowInspector::DrawWindowContents()
 
 	ImGui::Separator();
 
-	for (Component* component : currentGameObject->GetComponents())
+	if (WindowRightClick() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
-		component->Display();
+		ImGui::OpenPopup("AddComponent");
 	}
 
-	/*
-	DrawGeometryTable();
-
-	DrawTextureTable();
-	*/
-}
-
-void WindowInspector::DrawBoundingBoxTable(GameObject* selected)
-{
-	
-	if (App->scene->GetRoot() == selected) // The root must not have BoundingBox
-		return;
-
-	ComponentBoundingBoxes* boundingBox = (ComponentBoundingBoxes*)selected->GetComponent(ComponentType::BOUNDINGBOX);
-
-	bool drawBox = boundingBox->isDrawBoundingBoxes();
-
-	ImGui::Text("BOUNDING BOXES");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("BoundingTable", 2))
+	if (ImGui::BeginPopup("AddComponent"))
 	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		if (ImGui::Checkbox("", &drawBox))
+		std::shared_ptr<GameObject> go = App->scene->GetSelectedGameObject().lock();
+		if (go)
 		{
-			boundingBox->setDrawBoundingBoxes(drawBox);
+			if (ImGui::MenuItem("Create Mesh Renderer Component"))
+			{
+				AddComponentMeshRenderer();
+			}
+
+			if (!go->GetComponent(ComponentType::MATERIAL)) {
+				if (ImGui::MenuItem("Create Material Component"))
+				{
+					AddComponentMaterial();
+				}
+			}
+
+			if (!go->GetComponent(ComponentType::LIGHT)) {
+				if (ImGui::MenuItem("Create Spot Light Component"))
+				{
+					AddComponentLight(LightType::SPOT);
+				}
+
+				if (ImGui::MenuItem("Create Point Light Component"))
+				{
+					AddComponentLight(LightType::POINT);
+				}
+			}
+			
 		}
-		ImGui::EndTable();
-		ImGui::Separator();
-	}
-	
-}
 
-void WindowInspector::DrawGeometryTable()
-{
-	ImGui::Text("GEOMETRY");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("GeometryTable1", 2))
-	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Number of vertices: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetNumVertices());
-		ImGui::TableNextColumn();
-		ImGui::Text("Number of triangles: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetNumTriangles());
-
-		ImGui::EndTable();
-		ImGui::Separator();
-	}
-}
-
-void WindowInspector::DrawTextureTable()
-{
-	ImGui::Text("TEXTURE");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-	if (ImGui::BeginTable("TextureTable1", 2))
-	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Height: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureHeight(0));
-		ImGui::TableNextColumn();
-		ImGui::Text("Width: ");
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", model.lock()->GetTextureWidth(0));
-
-		ImGui::EndTable();
-		ImGui::Separator();
-	}
-
-	ImGui::Image((void*)model.lock()->GetTextureID(0), ImVec2(100.0f, 100.0f), ImVec2(0, 1), ImVec2(1, 0));
-}
-
-
-void WindowInspector::DrawCameraTable(ComponentCamera* camera)
-{
-
-	bool draw = camera->IsDrawFrustum();
-	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
-	int currentFrustum = camera->GetFrustumMode();
-	float currentOffset = camera->GetFrustumOffset();
-
-
-	ImGui::Text("CAMERA");
-	ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-	if (ImGui::BeginTable("CameraComponentTable", 2))
-	{
-		ImGui::TableNextColumn();
-		ImGui::Text("Draw Frustum"); ImGui::SameLine();
-		if (ImGui::Checkbox("", &draw))
+		else
 		{
-			camera->SetDrawFrustum(draw);
+			ENGINE_LOG("No GameObject is selected");
 		}
 
-		if (ImGui::ListBox("Frustum Mode\n(single select)", &currentFrustum, listbox_items, IM_ARRAYSIZE(listbox_items), 3))
-		{
-			camera->SetFrustumMode(currentFrustum);
-		}
-
-		if (ImGui::SliderFloat("Frustum Offset", &currentOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-			camera->SetFrustumOffset(currentOffset);
-		}
-
-		ImGui::EndTable();
-		ImGui::Separator();
+		ImGui::EndPopup();
 	}
+
+	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+	{
+		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+		{
+			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+			{
+				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				ImGui::SameLine();
+				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+					break;
+				ImGui::SameLine();
+			}
+		}
+
+		currentGameObject->GetComponents()[i]->Display();
+	}
+}
+
+void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
+{
+	char* textActive = new char[30];
+	sprintf(textActive, "##Enabled #%d", labelNum);
+
+	bool enable = component->GetActive();
+	ImGui::Checkbox(textActive, &enable);
+
+	(enable) ? component->Enable() : component->Disable();
+}
+
+bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
+{
+	char* textRemove = new char[30];
+	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
+
+	if (ImGui::Button(textRemove, ImVec2(90, 20)))
+	{
+		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
+		{
+			assert(false && "Trying to delete a non-existing component");
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool WindowInspector::MousePosIsInWindow()
+{
+	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x
+		&& ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
+		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y
+		&& ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
+}
+
+bool WindowInspector::WindowRightClick()
+{
+	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
+}
+
+void WindowInspector::AddComponentMeshRenderer()
+{
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MESHRENDERER);
+}
+
+void WindowInspector::AddComponentMaterial()
+{
+	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MATERIAL);
+}
+
+void WindowInspector::AddComponentLight(LightType type)
+{
+	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
+}
+
+// TODO: REMOVE
+void WindowInspector::DrawButtomsSaveAndLoad()
+{
+	loadScene->DrawWindowContents();
+	ImGui::SameLine();
+	saveScene->DrawWindowContents();
 }

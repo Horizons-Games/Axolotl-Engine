@@ -1653,7 +1653,7 @@ namespace dd
         // A sequence is stored backwards, so we have to write
         // it to a temp then output the buffer in reverse.
         int i = 0;
-        std::uint8_t sequence[LzwMaxDictEntries];
+        std::uint8_t sequence[LzwMaxDictEntries]{};
         do
         {
             sequence[i++] = dict.entries[code].value & 0xFF;
@@ -2278,7 +2278,7 @@ namespace dd
             const float u1 = u0 + (fixedWidth / scaleU);
             const float v1 = v0 + (fixedHeight / scaleV);
 
-            DrawVertex verts[4];
+            DrawVertex verts[4]{};
             verts[0].glyph.x = x;
             verts[0].glyph.y = y;
             verts[0].glyph.u = u0;
@@ -3167,7 +3167,7 @@ namespace dd
         };
 
         ddVec3 points[8];
-        float wCoords[8];
+        float wCoords[8]{};
 
         // Transform the planes by the inverse clip matrix:
         for (int i = 0; i < arrayLength(planes); ++i)

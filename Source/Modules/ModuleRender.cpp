@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "Globals.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
@@ -7,23 +9,15 @@
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
-#include "Quadtree.h"
-
-#include "3DModels/Model.h"
-
-#include <iostream>
-#include <algorithm>
-
-#include "Geometry/AABB.h"
-#include "Geometry/Frustum.h"
-#include "Math/float3x3.h"
-#include "Math/float3.h"
+#include "ModuleScene.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
+#include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
-		 
-#include "GL/glew.h"
+#include "Components/ComponentBoundingBoxes.h"
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -163,32 +157,25 @@ bool ModuleRender::Start()
 	ENGINE_LOG("--------- Render Start ----------");
 
 	UpdateProgram();
-	
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>(); // This line should disappear
-	bakerHouse->Load("Assets/Models/BakerHouse.fbx"); // This line should disappear
 
-	models.push_back(bakerHouse); // This line should disappear
-	
-	/*
-	Import resource example:
-		We are using the model as a placeholder class to transfer the information of the resource
-		and display the processed import, but you can move to a gameObject or another class 
-		all the functionality used here*/
-	
-	/*UID modelUID = App->resources->ImportResource("Assets/Models/BakerHouse.fbx");
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> bakerHouse = std::make_shared<Model>();
-	bakerHouse->SetFromResource(resourceModel);
-	models.push_back(bakerHouse);*/
-
+#if !defined(GAME)
+	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
+#else
+	UID skyboxUID = App->resources->GetSkyBoxResource();
+#endif
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	if (resourceSkybox)
+	{
+		skybox = std::make_shared<Skybox>(resourceSkybox);
+	}
 	return true;
 }
 
 update_status ModuleRender::PreUpdate()
 {
 	int width, height;
+
+	gameObjectsToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -206,44 +193,24 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	/* Uncomment the loop below when models are removed 
-	and GameObjects are used in their place */
-
-	/*for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	if (skybox)
 	{
-		DrawGameObject(gameObject);
-	}*/
+		skybox->Draw();
 
-	// This loop should disappear
-	for (std::shared_ptr<Model> model : models)
-	{
-		model->Draw();
 	}
-	
 
-	/*
-	 
-	*Logic to apply when model class is deleted and GameObjects are implemented
-	*
-	
-	FIRST APPROACH
-	DrawScene(App->scene->GetSceneQuadTree());
-	
-	
-	SECOND APPROACH
-	const std::list<GameObject*>& gameObjectsToDraw = 
-		App->scene->GetSceneQuadTree()->GetGameObjectsToDraw();
-	for (GameObject* gameObject : gameObjectsToDraw) 
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+
+	AddToRenderList(App->scene->GetSelectedGameObject().lock());
+
+	for (std::weak_ptr<GameObject> gameObject : gameObjectsToDraw)
 	{
-		for (Component* component : gameObject->GetComponents()) 
-		{
-			if (component->GetType() == ComponentType::MESH) 
-			{
-				//Draw gameobject
-			}
-		}
+		if (!gameObject.expired() && gameObject.lock()->IsActive())
+			gameObject.lock()->Draw();
 	}
-	*/
+
+	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
@@ -269,11 +236,7 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(this->context);
 
 	glDeleteBuffers(1, &this->vbo);
-
-	gameObjects.clear();
 	
-	models.clear(); // This line should disappear
-
 	return true;
 }
 
@@ -308,36 +271,6 @@ void ModuleRender::SetShaders(const std::string& vertexShader, const std::string
 	UpdateProgram();
 }
 
-
-bool ModuleRender::LoadModel(const char* path)
-{
-	ENGINE_LOG("---- Loading Model ----");
-
-	UID modelUID = App->resources->ImportResource(path);
-	std::shared_ptr<ResourceModel> resourceModel = std::dynamic_pointer_cast<ResourceModel>(App->resources->RequestResource(modelUID));
-	resourceModel->Load();
-
-	std::shared_ptr<Model> newModel = std::make_shared<Model>();
-	newModel->SetFromResource(resourceModel);
-
-	if (AnyModelLoaded())
-	{
-		models[0] = nullptr;
-		models.clear();
-	}
-
-	models.push_back(newModel);
-
-	return false;
-}
-
-
-bool ModuleRender::AnyModelLoaded()
-{
-	return !models.empty();
-}
-
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -353,22 +286,14 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	return valid;
 }
 
-
-void ModuleRender::DrawGameObject(std::shared_ptr<GameObject>& gameObject)
-{
-	const std::vector<ComponentMeshRenderer*>& meshRenderers = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-
-	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
-	{
-		meshRenderer->Draw();
-	}
-}
-
 void ModuleRender::UpdateProgram()
 {
-	const char* vertexSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->vertexShader).c_str());
-	const char* fragmentSource = App->program->LoadShaderSource(("Assets/Shaders/" + this->fragmentShader).c_str());
-
+	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
+	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
+	char* vertexSource;
+	char * fragmentSource;
+	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
@@ -378,35 +303,68 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::DrawScene(Quadtree* quadtree)
+void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) /* || App->scene->IsInsideACamera(quadtree->GetBoundingBox()) */)
+	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
+		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		auto gameObjectsToRender = quadtree->GetGameObjects();
+		std::list<std::weak_ptr<GameObject>> gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
-			for (GameObject* gameObject : gameObjectsToRender)
+			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)
 			{
-				//gameObject->Draw;
+				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				//gameObject->Draw;
+				gameObjectsToDraw.push_back(gameObject);
 			}
-			DrawScene(quadtree->GetFrontRightNode()); //And also call all the children to render
-			DrawScene(quadtree->GetFrontLeftNode());
-			DrawScene(quadtree->GetBackRightNode());
-			DrawScene(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
+			FillRenderList(quadtree->GetFrontLeftNode());
+			FillRenderList(quadtree->GetBackRightNode());
+			FillRenderList(quadtree->GetBackLeftNode());
 		}
 		else 
 		{
-			DrawScene(quadtree->GetFrontRightNode());
-			DrawScene(quadtree->GetFrontLeftNode());
-			DrawScene(quadtree->GetBackRightNode());
-			DrawScene(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode());
+			FillRenderList(quadtree->GetFrontLeftNode());
+			FillRenderList(quadtree->GetBackRightNode());
+			FillRenderList(quadtree->GetBackLeftNode());
 		}
 	}
 }
+
+void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject)
+{
+	std::shared_ptr<ComponentBoundingBoxes> boxes =
+		std::static_pointer_cast<ComponentBoundingBoxes>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
+	
+
+	if (!gameObject->GetChildren().empty())
+	{
+		for (std::weak_ptr<GameObject> children : gameObject->GetChildren())
+		{
+			AddToRenderList(children.lock());
+		}
+	}
+}
+
+void ModuleRender::DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree)
+{
+	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	else
+	{
+		DrawQuadtree(quadtree->GetBackLeftNode());
+		DrawQuadtree(quadtree->GetBackRightNode());
+		DrawQuadtree(quadtree->GetFrontLeftNode());
+		DrawQuadtree(quadtree->GetFrontRightNode());
+	}
+	
+}
+

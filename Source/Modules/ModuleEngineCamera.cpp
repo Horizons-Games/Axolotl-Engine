@@ -1,3 +1,5 @@
+#pragma warning (disable: 26495)
+
 #include "Application.h"
 
 #include "ModuleEngineCamera.h"
@@ -5,13 +7,14 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentBoundingBoxes.h"
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
-#include "Math/MathAll.h"
 #include "Geometry/Sphere.h"
-
-#include <GL/glew.h>
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 
@@ -24,8 +27,9 @@ bool ModuleEngineCamera::Init()
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 	aspectRatio = float(w) / h;
 
+	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	frustum.SetViewPlaneDistances(0.1f, viewPlaneDistance);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	acceleration = DEFAULT_SHIFT_ACCELERATION;
@@ -48,8 +52,12 @@ bool ModuleEngineCamera::Init()
 
 bool ModuleEngineCamera::Start()
 {
-	if (App->renderer->AnyModelLoaded())
-		Focus(App->renderer->GetModel(0)->GetAABB());
+	// When the bounding boxes scale correctly with the models, uncomment this if
+	/*
+	if (!App->scene->GetRoot()->GetChildren().empty())
+		Focus(((ComponentBoundingBoxes*)App->scene->GetRoot()->GetChildren()[0]
+			->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
+	*/
 
 	return true;
 }
@@ -77,21 +85,22 @@ update_status ModuleEngineCamera::Update()
 			Zoom();
 		}
 
-		if (App->renderer->AnyModelLoaded() && App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(App->renderer->GetModel(0)->GetOBB());
+		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
+			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			Focus(App->scene->GetSelectedGameObject().lock());
 
-		if (App->renderer->AnyModelLoaded() &&
+		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			const OBB& obb = App->renderer->GetModel(0)->GetOBB();
+			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
+				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
 			SetLookAt(obb.CenterPoint());
 			Orbit(obb);
 		}
 
 		KeyboardRotate();
-		SelectObjects();
 		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
@@ -176,16 +185,6 @@ void ModuleEngineCamera::KeyboardRotate()
 	ApplyRotation(rotationDeltaMatrix);
 }
 
-void ModuleEngineCamera::SelectObjects() {
-	if (App->renderer->AnyModelLoaded()) {
-		for (int i = 0; i < App->renderer->GetModelCount(); ++i) {
-			for (int j = 0; j < App->renderer->GetModel(i)->GetMeshCount(); ++j) {
-				App->debug->DrawBoundingBox(App->renderer->GetModel(i)->GetOBB());
-			}
-		}
-	}
-}
-
 void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix) 
 {
 	vec oldFront = frustum.Front().Normalized();
@@ -255,6 +254,36 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 
 	frustum.SetPos(position);
 }
+
+void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
+{
+	std::list<std::weak_ptr<GameObject> > insideGameObjects = gameObject->GetGameObjectsInside();
+	AABB minimalAABB;
+	std::vector<math::vec> outputArray{};
+	for (std::weak_ptr<GameObject> object: insideGameObjects)
+	{
+		std::shared_ptr<GameObject> asShared = object.lock();
+
+		if (asShared)
+		{
+			std::shared_ptr<ComponentBoundingBoxes> boundingBox =
+				std::static_pointer_cast<ComponentBoundingBoxes>(asShared->GetComponent(ComponentType::BOUNDINGBOX));
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
+		}
+	}
+	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
+	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
+
+	if (minSphere.r == 0) minSphere.r = 1.f;
+	float3 point = minSphere.Centroid();
+	position = point - frustum.Front().Normalized() * minSphere.Diameter();
+
+	SetLookAt(point);
+
+	frustum.SetPos(position);
+}
+
 
 void ModuleEngineCamera::Orbit(const OBB& obb)
 {

@@ -1,6 +1,8 @@
 #ifndef _MODULE_DEBUGDRAW_H_
 #define _MODULE_DEBUGDRAW_H_
 
+#pragma warning (disable: 26495)
+
 #include "Module.h"
 
 #include "Math/float4x4.h"
@@ -10,6 +12,7 @@
 
 class DDRenderInterfaceCoreGL;
 class Camera;
+class ComponentTransform;
 
 class ModuleDebugDraw : public Module
 {
@@ -24,6 +27,7 @@ public:
     bool            CleanUp();
 
     void            Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height);
+    void            DrawTransform(const std::shared_ptr<ComponentTransform>& transform);
     void            DrawBoundingBox(const AABB& aabb);
     void            DrawBoundingBox(const OBB& obb);
     void            DrawFrustum(const Frustum& frustum);
@@ -31,7 +35,7 @@ public:
     bool            IsShowingBoundingBoxes() const;
 
 private:
-    bool showBoundingBoxes = false;
+    bool showBoundingBoxes;
     static DDRenderInterfaceCoreGL* implementation;
 };
 

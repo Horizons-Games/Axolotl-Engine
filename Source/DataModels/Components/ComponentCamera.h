@@ -6,6 +6,7 @@
 #include "Geometry/OBB.h"
 #include "ComponentTransform.h"
 
+#define COMPONENT_CAMERA "Camera"
 enum ECameraFrustumMode
 {
 	normalFrustum,
@@ -13,15 +14,20 @@ enum ECameraFrustumMode
 	noFrustum
 };
 
+class Json;
+
 class ComponentCamera : public Component
 {
 public:
-	ComponentCamera(bool active, GameObject* owner);
+	ComponentCamera(bool active, const std::shared_ptr<GameObject>& owner);
 	~ComponentCamera() override;
 
 	void Update() override;
 	void Draw() override;
 	void Display() override;
+
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	void UpdateFrustumOffset();
 	bool IsInside(const OBB& obb);
@@ -42,7 +48,7 @@ private:
 	float frustumOffset;
 	Plane offsetFrustumPlanes[6];
 	bool drawFrustum;
-	ComponentTransform* trans;
+	std::shared_ptr<ComponentTransform> trans;
 };
 
 inline void ComponentCamera::SetDrawFrustum(bool newFrustum)

@@ -1,18 +1,15 @@
 #pragma once
+#pragma warning (disable: 26495)
+
 #include "Module.h"
-#include "Globals.h"
-#include "3DModels/Model.h"
-#include "Quadtree.h"
-#include "Math/float4x4.h"
+#include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
-
-#include <SDL.h>
-
-#include <list>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
+
+class Skybox;
 
 class ModuleRender : public Module
 {
@@ -36,22 +33,19 @@ public:
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
-	std::shared_ptr<Model> GetModel(unsigned pos) const; // This method should disappear
-	const int GetModelCount() const; // This method should disappear
-
 	unsigned int GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void DrawScene(Quadtree* quadtree);
-	
-	bool LoadModel(const char* path); // This method should disappear
-	bool AnyModelLoaded(); // This method should disappear
+	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
+	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
+
+	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
+	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
 
 private:
-	void DrawGameObject(std::shared_ptr<GameObject>& gameObject);
 	void UpdateProgram();
 
 	void* context;
@@ -59,10 +53,10 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<std::shared_ptr<Model> > models; // This vector should disappear
-
-	std::vector<std::shared_ptr<GameObject>> gameObjects;
+	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
+
+	std::shared_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;
@@ -82,16 +76,6 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 inline float4 ModuleRender::GetBackgroundColor() const
 {
 	return backgroundColor;
-}
-
-inline std::shared_ptr<Model> ModuleRender::GetModel(unsigned pos) const
-{
-	return models[pos];
-}
-
-inline const int ModuleRender::GetModelCount() const
-{
-	return models.size();
 }
 
 inline unsigned int ModuleRender::GetRenderedTexture() const

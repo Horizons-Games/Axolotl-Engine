@@ -1,24 +1,44 @@
+#pragma warning (disable: 6386)
+
 #include "MeshImporter.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include "EngineLog.h"
-
 void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> resource)
 {
-	char* buffer;
+	char* loadBuffer{};
+	App->fileSystem->Load(filePath, loadBuffer);
+	Load(loadBuffer, resource);
 
-	App->fileSystem->Load(filePath, buffer);
-	Load(buffer, resource);
+	char* saveBuffer{};
+	unsigned int size;
+	Save(resource, saveBuffer, size);
+	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+
+	delete loadBuffer;
+	delete saveBuffer;
 }
 
-uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
+void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
-	unsigned int header[3] = { resource->GetNumFaces(), resource->GetNumVertices(), resource->GetMaterialIndex()};
+	unsigned int hasTangents = !resource->GetTangents().empty();
+	unsigned int header[4] =
+	{
+		resource->GetNumFaces(),
+		resource->GetNumVertices(),
+		resource->GetMaterialIndex(),
+		hasTangents
+	};
 	
-	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3) 
-		+ sizeof(float3) * resource->GetNumVertices() * 2;
+	unsigned int sizeOfVectors = sizeof(float3) * resource->GetNumVertices();
+	unsigned int numOfVectors = 3;
+	if (hasTangents)
+	{
+		numOfVectors = 4;
+	}
+	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
 	
 	char* cursor = new char[size];
 	
@@ -29,32 +49,56 @@ uint64_t MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*
 
 	cursor += bytes;
 
-	bytes = resource->GetNumFaces() * (sizeof(unsigned int) * 3);
-	memcpy(cursor, &resource->GetFacesIndices(), bytes);
+	if (!resource->GetVertices().empty())
+	{
+		bytes = sizeof(float3) * resource->GetNumVertices();
+		memcpy(cursor, &(resource->GetVertices()[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetVertices(), bytes);
+	if (!resource->GetTextureCoords().empty())
+	{
+		bytes = sizeof(float3) * resource->GetNumVertices();
+		memcpy(cursor, &(resource->GetTextureCoords()[0]), bytes);
 
-	cursor += bytes;
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float3) * resource->GetNumVertices();
-	memcpy(cursor, &resource->GetTextureCoords(), bytes);
+	if (!resource->GetNormals().empty())
+	{
+		bytes = sizeof(float3) * resource->GetNumVertices();
+		memcpy(cursor, &(resource->GetNormals()[0]), bytes);
 
+		cursor += bytes;
+	}
 
-	// Provisional return, here we have to return serialize UID for the object
-	return 0;
+	if (!resource->GetTangents().empty())
+	{
+		bytes = sizeof(float3) * resource->GetNumVertices();
+		memcpy(cursor, &(resource->GetTangents()[0]), bytes);
+
+		cursor += bytes;
+	}
+
+	for (unsigned int i = 0; i < resource->GetNumFaces(); ++i)
+	{
+		bytes = sizeof(unsigned int) * 3;
+		memcpy(cursor, &(resource->GetFacesIndices()[i][0]), bytes);
+
+		cursor += bytes;
+	}
 }
 
-void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& resource)
+void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
 {
-	unsigned int header[3];
+	unsigned int header[4];
 	memcpy(header, fileBuffer, sizeof(header));
 
 	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
 	resource->SetMaterialIndex(header[2]);
+	bool hasTangents = header[3];
 
 	fileBuffer += sizeof(header);
 
@@ -66,6 +110,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& r
 
 	fileBuffer += bytes;
 
+	delete[] vertexPointer;
+
 	float3* textureCoordPointer = new float3[resource->GetNumVertices()];
 	bytes = sizeof(float3) * resource->GetNumVertices();
 	memcpy(textureCoordPointer, fileBuffer, bytes);
@@ -74,17 +120,43 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh>& r
 
 	fileBuffer += bytes;
 
+	delete[] textureCoordPointer;
+
+	float3* normalPointer = new float3[resource->GetNumVertices()];
+	bytes = sizeof(float3) * resource->GetNumVertices();
+	memcpy(normalPointer, fileBuffer, bytes);
+	std::vector<float3> normals(normalPointer, normalPointer + resource->GetNumVertices());
+	resource->SetNormals(normals);
+
+	fileBuffer += bytes;
+
+	delete[] normalPointer;
+
+	if(hasTangents)
+	{
+		float3* tangentPointer = new float3[resource->GetNumVertices()];
+		bytes = sizeof(float3) * resource->GetNumVertices();
+		memcpy(tangentPointer, fileBuffer, bytes);
+		std::vector<float3> tangents(tangentPointer, tangentPointer + resource->GetNumVertices());
+		resource->SetTangents(tangents);
+
+		fileBuffer += bytes;
+
+		delete[] tangentPointer;
+	}
+
 	int size = 3 * resource->GetNumFaces();
 	unsigned int* indexesPointer = new unsigned int[size];
 	bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
 	memcpy(indexesPointer, fileBuffer, bytes);
 	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
 	std::vector<std::vector<unsigned int>> faces;
-	for (int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
+	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
 	{
 		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
 		faces.push_back(indexes);
 	}
 	resource->SetFacesIndices(faces);
 
+	delete[] indexesPointer;
 }

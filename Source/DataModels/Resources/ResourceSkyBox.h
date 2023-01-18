@@ -11,33 +11,51 @@ class ResourceSkyBox : public Resource
 {
 public:
 	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceSkyBox() override = default;
+	~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override {};
-	void Unload() override {};
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
-	//Gets
+	void LoadVBO();
+	void CreateVAO();
 
+	unsigned int GetGlTexture() const;
+	const std::vector<UID>& GetTexturesUIDs() const;
 	std::shared_ptr<OptionsSkyBox>& GetOptions();
 
-	//Sets
+	void SetTexturesUIDs(const std::vector<UID>& texturesUIDs);
+
+	unsigned int GetVBO() const;
+	unsigned int GetVAO() const;
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
+
 private:
-
-
+	unsigned int glTexture = 0;
+	std::vector<UID> texturesUIDs;
 	std::shared_ptr<OptionsSkyBox> options;
+
+	unsigned vbo;
+	unsigned vao;
 };
 
 inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
-									  const std::string& fileName,
-									  const std::string& assetsPath,
-									  const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
+	const std::string& fileName,
+	const std::string& assetsPath,
+	const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath),
+	texturesUIDs(6),
+	options(std::make_shared<OptionsSkyBox>())
 {
-	options = std::make_shared<OptionsSkyBox>();
+}
+
+inline ResourceSkyBox::~ResourceSkyBox()
+{
+	Unload();
 }
 
 inline ResourceType ResourceSkyBox::GetType() const
@@ -45,7 +63,32 @@ inline ResourceType ResourceSkyBox::GetType() const
 	return ResourceType::SkyBox;
 }
 
+inline unsigned int ResourceSkyBox::GetGlTexture() const
+{
+	return glTexture;
+}
+
+inline const std::vector<UID>& ResourceSkyBox::GetTexturesUIDs() const
+{
+	return texturesUIDs;
+}
+
 inline std::shared_ptr<OptionsSkyBox>& ResourceSkyBox::GetOptions()
 {
-	this->options;
+	return options;
+}
+
+inline void ResourceSkyBox::SetTexturesUIDs(const std::vector<UID>& texturesUIDs)
+{
+	this->texturesUIDs = texturesUIDs;
+}
+
+inline unsigned int ResourceSkyBox::GetVBO() const
+{
+	return vbo;
+}
+
+inline unsigned int ResourceSkyBox::GetVAO() const
+{
+	return vao;
 }

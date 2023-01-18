@@ -1,10 +1,11 @@
 #pragma once
 
 #include "EditorWindow.h"
-#include "Windows/SubWindows/SubWindow.h"
 
 #include <vector>
 #include <memory>
+
+class SubWindow;
 
 class WindowConfiguration : public EditorWindow
 {

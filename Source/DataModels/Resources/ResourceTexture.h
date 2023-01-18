@@ -55,15 +55,12 @@ class ResourceTexture : public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceTexture() override = default;
+	~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
-
 
 	unsigned int GetGlTexture() const;
 	unsigned int GetWidth() const;
@@ -84,6 +81,9 @@ public:
 	void SetPixels(std::vector<uint8_t>& pixels);
 	void SetPixelsSize(unsigned int pixelsSize);
 
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 private:
 	void CreateTexture();
 
@@ -106,6 +106,11 @@ inline ResourceTexture::ResourceTexture(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsTexture>();
+}
+
+inline ResourceTexture::~ResourceTexture()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceTexture::GetType() const

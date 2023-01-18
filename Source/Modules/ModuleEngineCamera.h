@@ -1,19 +1,23 @@
 #pragma once
+#pragma warning (disable: 26495)
 
 #include "Module.h"
 #include "ModuleDebugDraw.h"
+
+#include <memory>
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Geometry/Plane.h"
 
-#define DEFAULT_MOVE_SPEED 5.f
-#define DEFAULT_ROTATION_DEGREE 25
+#define DEFAULT_MOVE_SPEED 9.f
+#define DEFAULT_ROTATION_DEGREE 30
 #define DEFAULT_ROTATION_SPEED 5.f
 #define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
 #define DEFAULT_SHIFT_ACCELERATION 2.f
 #define DEFAULT_FRUSTUM_MODE 0
 #define DEFAULT_FRUSTUM_OFFSET 1.f
+#define DEFAULT_FRUSTUM_DISTANCE 20000.f
 
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
@@ -33,6 +37,8 @@ enum EFrustumMode
 	noFrustum
 };
 
+class GameObject;
+
 class ModuleEngineCamera : public Module
 {
 public:
@@ -46,13 +52,13 @@ public:
 
 	void Move();
 	void KeyboardRotate();
-	void SelectObjects();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
 	void Run();
 	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
+	void Focus(const std::shared_ptr<GameObject>& gameObject);
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
@@ -71,6 +77,7 @@ public:
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
 	void SetFrustumMode(int mode);
+	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
 	const float4x4& GetViewMatrix() const;
@@ -83,8 +90,10 @@ public:
 	float GetRotationSpeed() const;
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
+	float GetViewPlaneDistance() const;
 	int	GetFrustumMode() const;
-
+	const float3& GetPosition() const;
+	
 private:
 	Frustum frustum;
 	float3 position;
@@ -97,6 +106,22 @@ private:
 	float mouseSpeedModifier;
 	float frustumOffset;
 	int frustumMode;
+	float viewPlaneDistance;
 	math::Plane offsetFrustumPlanes[6];
 };
 
+inline const float3& ModuleEngineCamera::GetPosition() const
+{
+	return position;
+}
+
+inline float ModuleEngineCamera::GetViewPlaneDistance() const
+{
+	return viewPlaneDistance;
+}
+
+inline void ModuleEngineCamera::SetViewPlaneDistance(float distance)
+{
+	viewPlaneDistance = distance;
+	frustum.SetViewPlaneDistances(0.1f, distance);
+}

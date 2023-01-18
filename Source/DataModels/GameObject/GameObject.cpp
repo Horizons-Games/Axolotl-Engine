@@ -1,70 +1,203 @@
 #include "GameObject.h"
-#include "../Components/Component.h"
+
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
+#include "../Components/ComponentAmbient.h"
+#include "../Components/ComponentPointLight.h"
+#include "../Components/ComponentDirLight.h"
+#include "../Components/ComponentSpotLight.h"
 
-#include "FileSystem/UniqueID.h"
+#include "Application.h"
+
+#include "Modules/ModuleScene.h"
+
+#include "Scene/Scene.h"
+
+#include "FileSystem/Json.h"
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name)
+GameObject::GameObject(const char* name) : name(name) // Root constructor
 {
 	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent)
+std::shared_ptr<GameObject> GameObject::CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent)
 {
-	assert(this->parent != nullptr);
+	std::shared_ptr<GameObject> newGameObject = std::make_shared<GameObject>(name);
+	newGameObject->parent = parent;
+	assert(newGameObject->parent);
 
-	this->parent->children.push_back(this);
-	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
+	newGameObject->parent->AddChild(newGameObject);
+	newGameObject->active = (newGameObject->parent->IsEnabled() && newGameObject->parent->IsActive());
 
-	uid = UniqueID::GenerateUID();
-	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
+	return newGameObject;
 }
 
 GameObject::~GameObject()
 {
-	std::vector<Component*>().swap(components);	// temp vector to properlly deallocate memory
-	std::vector<GameObject*>().swap(children);	// temp vector to properlly deallocate memory
+	std::vector<std::shared_ptr<ComponentLight> > lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+	bool hadSpotLight, hadPointLight = false;
+	for (std::shared_ptr<ComponentLight> light : lights)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			hadSpotLight = true;
+			break;
+		case LightType::POINT:
+			hadPointLight = true;
+			break;
+		}
+	}
+	
+	components.clear();
+
+	children.clear();
+
+	std::shared_ptr<Scene> currentScene = App->scene->GetLoadedScene();
+
+	if (hadSpotLight)
+	{
+		currentScene->UpdateSceneSpotLights();
+		currentScene->RenderSpotLights();
+	}
+	if (hadPointLight)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
 void GameObject::Update()
 {
-	for (Component* component : components)
-		component->Update();
+	for (std::shared_ptr<Component> component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Update();
+		}
+	}
 }
 
 void GameObject::Draw()
 {
-	//TODO: Draw the components what needs a draw
-	//for (Component* component : components) component->Draw();
+	for (std::shared_ptr<Component> component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
 }
 
-void GameObject::SetParent(GameObject* newParent)
+void GameObject::SaveOptions(Json& meta)
 {
-	assert(newParent != nullptr);
+	meta["name"] = name.c_str();
+	meta["enabled"] = (bool) enabled;
+	meta["active"] = (bool) active;
 
-	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
-		newParent->IsAChild(this))				// Avoid dragging direct children into thier parent GameObjects
+	Json jsonComponents = meta["Components"];
+
+	for (int i = 0; i < components.size(); ++i)
+	{
+		Json jsonComponent = jsonComponents[i]["Component"];
+
+		components[i]->SaveOptions(jsonComponent);
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+
+		children[i]->SaveOptions(jsonGameObject);
+	}
+}
+
+void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject> >& loadedObjects)
+{
+	loadedObjects.push_back(shared_from_this());
+
+	uid = UniqueID::GenerateUID();
+	name = meta["name"];
+	enabled = (bool) meta["enabled"];
+	active = (bool) meta["active"];
+	
+	Json jsonComponents = meta["Components"];
+
+	if(jsonComponents.Size() != 0)
+	{
+		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+		{
+			Json jsonComponent = jsonComponents[i]["Component"];
+			std::string typeName = jsonComponent["type"];
+
+			ComponentType type = GetTypeByName(jsonComponent["type"]);
+			
+			if (type == ComponentType::UNKNOWN) return;
+
+			std::shared_ptr<Component> component;
+			if (type == ComponentType::LIGHT)
+			{
+				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+				component = CreateComponentLight(lightType);
+			}
+			else
+			{
+				component = CreateComponent(type);
+			}
+
+			component->LoadOptions(jsonComponent);
+		}
+	}
+
+	Json jsonChildrens = meta["Childrens"];
+
+	int size = jsonChildrens.Size();
+
+	if (jsonChildrens.Size() != 0) 
+	{
+		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
+		{
+			Json jsonGameObject = jsonChildrens[i]["GameObject"];
+			std::string name = jsonGameObject["name"];
+
+			std::shared_ptr<GameObject> gameObject = GameObject::CreateGameObject(name.c_str(), shared_from_this());
+			gameObject->LoadOptions(jsonGameObject, loadedObjects);
+		}
+	}
+}
+
+void GameObject::InitNewEmptyGameObject()
+{
+	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
+}
+
+void GameObject::SetParent(const std::weak_ptr<GameObject>& newParent)
+{
+	assert(newParent.lock());
+
+	if (this->IsADescendant(newParent.lock()) ||		// Avoid dragging parent GameObjects into their descendants
+		newParent.lock()->IsAChild(shared_from_this()))				// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
 	}
 
-	parent->RemoveChild(this);
-	parent = newParent;
-	parent->AddChild(this);
+	parent->RemoveChild(shared_from_this());
+	parent = newParent.lock();
+	parent->AddChild(shared_from_this());
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }
 
-void GameObject::AddChild(GameObject* child)
+void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 {
 	assert(child != nullptr);
 
@@ -75,7 +208,7 @@ void GameObject::AddChild(GameObject* child)
 	}
 }
 
-void GameObject::RemoveChild(GameObject* child)
+void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
 {
 	assert(child != nullptr);
 
@@ -84,7 +217,9 @@ void GameObject::RemoveChild(GameObject* child)
 		return;
 	}
 
-	for (std::vector<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	for (std::vector<std::shared_ptr<GameObject> >::const_iterator it = children.begin();
+		it != children.end();
+		++it)
 	{
 		if (*it == child)
 		{
@@ -96,15 +231,12 @@ void GameObject::RemoveChild(GameObject* child)
 
 void GameObject::Enable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
 
-	for (GameObject* child : children)
+	for (std::shared_ptr<GameObject> child : children)
 	{
 		child->ActivateChildren();
 	}
@@ -112,15 +244,12 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	if (this->parent == nullptr)
-	{
-		return;
-	}
+	assert(this->parent != nullptr);
 
 	enabled = false;
 	active = false;
 
-	for (GameObject* child : children)
+	for (std::shared_ptr<GameObject> child : children)
 	{
 		child->DeactivateChildren();
 	}
@@ -135,7 +264,7 @@ void GameObject::DeactivateChildren()
 		return;
 	}
 
-	for (GameObject* child : children)
+	for (std::shared_ptr<GameObject> child : children)
 	{
 		child->DeactivateChildren();
 	}
@@ -150,61 +279,141 @@ void GameObject::ActivateChildren()
 		return;
 	}
 
-	for (GameObject* child : children)
+	for (std::shared_ptr<GameObject> child : children)
 	{
 		child->ActivateChildren();
 	}
 }
 
-Component* GameObject::CreateComponent(ComponentType type)
+std::shared_ptr<Component> GameObject::CreateComponent(ComponentType type)
 {
-	Component* newComponent = nullptr;
+	std::shared_ptr<Component> newComponent = std::shared_ptr<Component>();
 
 	switch (type)
 	{
 		case ComponentType::TRANSFORM:
 		{
-			newComponent = new ComponentTransform(true, this);
+			newComponent = std::make_shared<ComponentTransform>(true, shared_from_this());
 			break;
 		}
 
 		case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this, UniqueID::GenerateUID(), UniqueID::GenerateUID());
+			newComponent = std::make_shared<ComponentMeshRenderer>(true, shared_from_this());
+			break;
+		}
+		
+		case ComponentType::MATERIAL:
+		{
+			newComponent = std::make_shared<ComponentMaterial>(true, shared_from_this());
 			break;
 		}
 
-		/*case ComponentType::MATERIAL:
-		{
-			newComponent = new ComponentMaterial(true, this);
-			break;
-		}*/
+		
 		case ComponentType::CAMERA:
 		{
-			newComponent = new ComponentCamera(true, this);
+			newComponent = std::make_shared<ComponentCamera>(true, shared_from_this());
 			break;
 		}
+
+		case ComponentType::LIGHT:
+		{
+			newComponent = std::make_shared<ComponentLight>(true, shared_from_this());
+			break;
+		}
+
 		case ComponentType::BOUNDINGBOX:
 		{
-			newComponent = new ComponentBoundingBoxes(true, this);
+			newComponent = std::make_shared<ComponentBoundingBoxes>(true, shared_from_this());
 			break;
 		}
 
 		default:
-			assert(false && "Unknown Component Type");
+			assert(false && "Wrong component type introduced");
 	}
 
-	if (newComponent != nullptr)
+	if (newComponent)
 		components.push_back(newComponent);
 
 	return newComponent;
 }
 
-Component* GameObject::GetComponent(ComponentType type)
+std::shared_ptr<Component> GameObject::CreateComponentLight(LightType lightType)
 {
-	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	std::shared_ptr<Component> newComponent = std::shared_ptr<Component>();
+
+	switch (lightType)
 	{
-		Component* component = *it;
+	case LightType::AMBIENT:
+		newComponent = std::make_shared<ComponentAmbient>(float3(0.05f), shared_from_this());
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = std::make_shared<ComponentDirLight>(float3(1.0f), 1.0f, shared_from_this());
+		break;
+
+	case LightType::POINT:
+		newComponent = std::make_shared<ComponentPointLight>(0.5f, float3(1.0f), 1.0f, shared_from_this());
+		break;
+
+	case LightType::SPOT:
+		newComponent = std::make_shared<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, shared_from_this());
+		break;
+	}
+
+	if (newComponent)
+		components.push_back(newComponent);
+
+	return newComponent;
+}
+
+bool GameObject::RemoveComponent(const std::shared_ptr<Component>& component)
+{
+	for (std::vector<std::shared_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if (*it == component)
+		{
+			if ((*it)->GetType() == ComponentType::LIGHT)
+			{
+				std::shared_ptr<ComponentLight> light = std::static_pointer_cast<ComponentLight>(*it);
+
+				LightType type = light->GetLightType();
+
+				components.erase(it);
+
+				switch (type)
+				{
+				case LightType::POINT:
+					App->scene->GetLoadedScene()->UpdateScenePointLights();
+					App->scene->GetLoadedScene()->RenderPointLights();
+
+					break;
+
+				case LightType::SPOT:
+					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+					App->scene->GetLoadedScene()->RenderSpotLights();
+
+					break;
+				}
+			}
+
+			else
+			{
+				components.erase(it);
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+std::shared_ptr<Component> GameObject::GetComponent(ComponentType type)
+{
+	for (std::vector<std::shared_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		std::shared_ptr<Component> component = *it;
 
 		if (component->GetType() == type)
 		{
@@ -213,14 +422,14 @@ Component* GameObject::GetComponent(ComponentType type)
 
 	}
 
-	return nullptr;
+	return std::shared_ptr<Component>();
 }
 
-bool GameObject::IsAChild(const GameObject* child)
+bool GameObject::IsAChild(const std::shared_ptr<GameObject>& child)
 {
 	assert(child != nullptr);
 
-	for (GameObject* gameObject : children)
+	for (std::shared_ptr<GameObject> gameObject : children)
 	{
 		if (gameObject == child)
 			return true;
@@ -229,15 +438,28 @@ bool GameObject::IsAChild(const GameObject* child)
 	return false;
 }
 
-bool GameObject::IsADescendant(const GameObject* descendant)
+bool GameObject::IsADescendant(const std::shared_ptr<GameObject>& descendant)
 {
 	assert(descendant != nullptr);
 
-	for (GameObject* child : children)
+	for (std::shared_ptr<GameObject> child : children)
 	{
 		if (child == descendant || child->IsADescendant(descendant))
 			return true;
 	}
 
 	return false;
+}
+
+std::list<std::weak_ptr<GameObject> > GameObject::GetGameObjectsInside()
+{
+
+	std::list<std::weak_ptr<GameObject> > familyObjects = {};
+	familyObjects.push_back(shared_from_this());
+	for (std::shared_ptr<GameObject> children : this->children)
+	{
+		std::list<std::weak_ptr<GameObject> > objectsChildren = children->GetGameObjectsInside();
+		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
+	}
+	return familyObjects;
 }

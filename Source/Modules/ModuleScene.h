@@ -1,74 +1,68 @@
 #pragma once
 
 #include "Module.h"
+
+#include <memory>
+
 #include "../FileSystem/UniqueID.h"
-#include "Geometry/OBB.h" 
-#include "Geometry/AABB.h" 
+#include "FileSystem/Json.h"
 
 class GameObject;
 class Quadtree;
+class Scene;
 
-class ModuleScene :public Module
+class ModuleScene : public Module
 {
 public:
 	ModuleScene();
 	~ModuleScene();
 
 	bool Init() override;
+	bool Start() override;
 	update_status Update() override;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
-	void DestroyGameObject(GameObject* gameObject);
+	const std::shared_ptr<Scene>& GetLoadedScene() const;
+	void SetLoadedScene(const std::shared_ptr<Scene>& newScene);
+	const std::weak_ptr<GameObject>& GetSelectedGameObject() const;
+	void SetSelectedGameObject(const std::weak_ptr<GameObject>& gameObject);
 
-	void FillQuadtree(GameObject* gameObject);
-	bool IsInsideACamera(const OBB& obb);
-	bool IsInsideACamera(const AABB& aabb);
-	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
-	Quadtree* GetSceneQuadTree() const;
-
-	GameObject* GetRoot() const;
-	GameObject* GetSelectedGameObject() const;
-	void SetSelectedGameObject(GameObject* gameObject);
-
-	GameObject* SearchGameObjectByID(UID gameObjectID) const;
-	void RemoveCamera(GameObject* cameraGameObject);
+	void SaveSceneToJson(const std::string& name);
+	void LoadSceneFromJson(const std::string& name);
 
 	void OnPlay();
 	void OnPause();
 	void OnStop();
 
 private:
-	void UpdateGameObjectAndDescendants(GameObject* gameObject);
-	
+	void UpdateGameObjectAndDescendants(const std::shared_ptr<GameObject>& gameObject) const;
+	std::shared_ptr<Scene> CreateEmptyScene() const;
+
+	void SetSceneFromJson(Json& Json);
 
 private:
-	GameObject* root = nullptr;
-	GameObject* selectedGameObject = nullptr;
+	std::shared_ptr<Scene> loadedScene = nullptr;
+	std::weak_ptr<GameObject> selectedGameObject = std::weak_ptr<GameObject>();
 
-	std::vector<GameObject*> sceneGameObjects = {};
-	std::vector<GameObject*> sceneCameras = {};
-
-	AABB rootQuadtreeAABB = AABB(float3(-100, 0, -100), float3(100, 50, 100));
-	Quadtree* sceneQuadTree = nullptr;
+	//to store the tmp serialization of the Scene
+	rapidjson::Document tmpDoc;
 };
 
-inline GameObject* ModuleScene::GetRoot() const
+inline const std::shared_ptr<Scene>& ModuleScene::GetLoadedScene() const
 {
-	return root;
+	return loadedScene;
 }
 
-inline GameObject* ModuleScene::GetSelectedGameObject() const
+inline void ModuleScene::SetLoadedScene(const std::shared_ptr<Scene>& newScene)
+{
+	loadedScene = newScene;
+}
+
+inline const std::weak_ptr<GameObject>& ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
 }
 
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+inline void ModuleScene::SetSelectedGameObject(const std::weak_ptr<GameObject>& gameObject)
 {
 	selectedGameObject = gameObject;
 }
-
-inline Quadtree* ModuleScene::GetSceneQuadTree() const
-{
-	return sceneQuadTree;
-}
-

@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning (disable: 26495)
 
 #include "Resource.h"
 
@@ -15,12 +16,10 @@ class ResourceMesh : public Resource
 {
 public:
 	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceMesh() override = default;
+	~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
-	void Load() override;
-	void Unload() override;
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
@@ -34,6 +33,8 @@ public:
 	unsigned int GetMaterialIndex();
 	const std::vector<float3>& GetVertices();
 	const std::vector<float3>& GetTextureCoords();
+	const std::vector<float3>& GetNormals();
+	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
 	std::shared_ptr<OptionsMesh>& GetOptions();
@@ -44,7 +45,13 @@ public:
 	void SetMaterialIndex(unsigned int materialIndex);
 	void SetVertices(const std::vector<float3>& vertices);
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
+	void SetNormals(const std::vector<float3>& normals);
+	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
 
 private:
 	void CreateVBO();
@@ -62,6 +69,8 @@ private:
 	unsigned int materialIndex = 0;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
+	std::vector<float3> normals;
+	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
 
 	std::shared_ptr<OptionsMesh> options;
@@ -74,6 +83,11 @@ inline ResourceMesh::ResourceMesh(UID resourceUID,
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 	options = std::make_shared<OptionsMesh>();
+}
+
+inline ResourceMesh::~ResourceMesh()
+{
+	this->Unload();
 }
 
 inline ResourceType ResourceMesh::GetType() const
@@ -126,6 +140,16 @@ inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
 	return textureCoords;
 }
 
+inline const std::vector<float3>& ResourceMesh::GetNormals()
+{
+	return normals;
+}
+
+inline const std::vector<float3>& ResourceMesh::GetTangents()
+{
+	return tangents;
+}
+
 inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
 {
 	return facesIndices;
@@ -144,6 +168,7 @@ inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
+	this->numIndexes = numFaces * 3;
 }
 
 inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)
@@ -164,6 +189,16 @@ inline void ResourceMesh::SetVertices(const std::vector<float3>& vertices)
 inline void ResourceMesh::SetTextureCoords(const std::vector<float3>& textureCoords)
 {
 	this->textureCoords = textureCoords;
+}
+
+inline void ResourceMesh::SetNormals(const std::vector<float3>& normals)
+{
+	this->normals = normals;
+}
+
+inline void ResourceMesh::SetTangents(const std::vector<float3>& tangents)
+{
+	this->tangents = tangents;
 }
 
 inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices)

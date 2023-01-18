@@ -585,7 +585,7 @@ const char* DDRenderInterfaceCoreGL::textFragShaderSrc = "\n"
 
 DDRenderInterfaceCoreGL* ModuleDebugDraw::implementation = 0;
 
-ModuleDebugDraw::ModuleDebugDraw()
+ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(false)
 {
 }
 
@@ -612,10 +612,11 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
-    ComponentTransform* selectedTransform = (ComponentTransform*)selectedGameObject->GetComponent(ComponentType::TRANSFORM);
+    std::shared_ptr<GameObject> selectedGameObject = App->scene->GetSelectedGameObject().lock();
+    std::shared_ptr<ComponentTransform> selectedTransform =
+        std::static_pointer_cast<ComponentTransform>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
-    dd::axisTriad(selectedTransform->GetGlobalMatrix(), 0.1f, 1.0f);
+    DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;
@@ -630,20 +631,26 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
+void ModuleDebugDraw::DrawTransform(const std::shared_ptr<ComponentTransform>& transform)
+{
+    float4x4 transformDrawPosition = float4x4::FromTRS((float3)transform->GetGlobalPosition(), 
+                                                            Quat::identity, float3(0.5f, 0.5f, 0.5f));
+
+    dd::axisTriad(transformDrawPosition, 0.1f, 1.0f);
+}
+
 void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)
 {
-    if(showBoundingBoxes) dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
+    dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Orange);
 }
 
 void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
 {
-    if (showBoundingBoxes) 
-    {
-        ddVec3 points[8];
-        obb.GetCornerPoints(points);
-        ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
-        dd::box(orderedPoints, dd::colors::Orange);
-    }
+    ddVec3 points[8];
+    obb.GetCornerPoints(points);
+    ddVec3 orderedPoints[8] = { points[0], points[1], points[3], points[2], points[4], points[5], points[7], points[6] };
+    dd::box(orderedPoints, dd::colors::Orange);
+    
 }
 
 void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)

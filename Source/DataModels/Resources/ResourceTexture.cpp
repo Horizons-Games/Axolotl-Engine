@@ -3,12 +3,12 @@
 #include "GL/glew.h"
 #include "FileSystem/Json.h"
 
-void ResourceTexture::Load()
+void ResourceTexture::InternalLoad()
 {
 	this->CreateTexture();
 }
 
-void ResourceTexture::Unload()
+void ResourceTexture::InternalUnload()
 {
 	glDeleteTextures(1, &glTexture);
 	glTexture = 0;
