@@ -124,132 +124,6 @@ void ComponentMaterial::Display()
 
 	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Text("");
-		if(materialAsShared)
-			ImGui::Text(std::to_string(materialAsShared->GetUID()).c_str());
-
-		char name[20] = "Texture";
-		ImGui::InputText("Texture Name", name, 20);
-
-		ImGui::Text("");
-
-		static float3 colorDiffuse = GetDiffuseColor();
-		ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-		if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
-			SetDiffuseColor(colorDiffuse);
-
-		static float3 colorSpecular = GetSpecularColor();
-		ImGui::Text("Specular Color:"); ImGui::SameLine();
-		if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
-			SetSpecularColor(colorSpecular);
-
-		ImGui::Text("");
-
-		static UID thisUID = UniqueID::GenerateUID();
-
-		std::string removeButtonLabel = "No Texture";
-
-		if (materialAsShared)
-		{
-			bool haveTextures = false;
-			haveTextures += materialAsShared->GetDiffuseUID();
-			haveTextures += materialAsShared->GetNormalUID();
-			haveTextures += materialAsShared->GetSpecularUID();
-
-			//Be carefull with the name of the button because if we have two componentMaterial (Not the usual function)
-			//Then this will erase all the textures of all the componentMaterial
-			if (haveTextures)
-			{
-				removeButtonLabel = "Remove Textures";
-			}
-			
-		}
-
-		if (ImGui::Button(removeButtonLabel.c_str()))
-		{
-			if (materialAsShared)
-			{
-				UnloadTextures();
-
-				UID uidNull = 0;
-				materialAsShared->SetDiffuseUID(uidNull);
-				materialAsShared->SetNormalUID(uidNull);
-				materialAsShared->SetOcclusionUID(uidNull);
-				materialAsShared->SetSpecularUID(uidNull);
-
-				materialAsShared->SetChanged(true);
-
-				diffuseUID = 0;
-				normalUID = 0;
-				occlusionUID = 0;
-				specularUID = 0;
-			}
-		}
-		ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
-		ImGui::SliderFloat("Shininess", &shininess, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-		ImGui::Separator();
-
-		ImGui::Text("Diffuse Texture");
-		bool showTextureBrowserDiffuse = true;
-		if (materialAsShared)
-		{
-			if (materialAsShared->GetDiffuseUID())
-			{
-				std::shared_ptr<ResourceTexture> texture = 
-					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
-				if (texture)
-				{
-					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
-				}
-
-				showTextureBrowserDiffuse = false;
-			}
-		}
-
-		if(showTextureBrowserDiffuse)
-		{
-			inputTextureDiffuse->DrawWindowContents();
-		}
-		else 
-		{
-			if (ImGui::Button("Remove Texture Diffuse"))
-			{
-				if (materialAsShared->GetDiffuseUID())
-				{
-					UnloadTexture(TextureType::DIFFUSE);
-
-					UID uidNull = 0;
-					materialAsShared->SetDiffuseUID(uidNull);
-					diffuseUID = 0;
-				}
-			}
-		}
-
-		ImGui::Separator();
-
-		ImGui::Text("Specular Texture");
-
-		bool showTextureBrowserSpecular = true;
-
-		if (materialAsShared)
-		{
-			if (materialAsShared->GetSpecularUID())
-			{
-				std::shared_ptr<ResourceTexture> texture =
-					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
-				if (texture)
-				{
-					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
-				}
-
-				showTextureBrowserSpecular = false;
-			}
-		}
-
-		if (showTextureBrowserSpecular)
-		{
-			inputTextureSpecular->DrawWindowContents();
-		}
 		if (materialAsShared)
 		{
 			DisplaySetMaterial();
@@ -258,50 +132,6 @@ void ComponentMaterial::Display()
 		{
 			DisplayEmptyMaterial();
 		}
-
-		ImGui::Separator();
-
-		ImGui::Text("Normal Texture");
-
-		bool showTextureBrowserNormal = true;
-
-		if (materialAsShared)
-		{
-			if (materialAsShared->GetNormalUID())
-			{
-				std::shared_ptr<ResourceTexture> texture =
-					App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
-				if (texture)
-				{
-					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
-				}
-
-				showTextureBrowserNormal = false;
-			}
-		}
-
-		if (showTextureBrowserNormal)
-		{
-			inputTextureNormal->DrawWindowContents();
-		}
-		else
-		{
-			if (ImGui::Button("Remove Texture Normal"))
-			{
-				if (materialAsShared->GetNormalUID())
-				{
-					UnloadTexture(TextureType::NORMAL);
-
-					UID uidNull = 0;
-					materialAsShared->SetNormalUID(uidNull);
-					normalUID = 0;
-				}
-			}
-		}
-
-		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-
-		ImGui::Text("");
 	}
 	ImGui::Separator();
 }
@@ -540,8 +370,6 @@ void ComponentMaterial::DisplaySetMaterial()
 		static UID thisUID = UniqueID::GenerateUID();
 
 		std::string removeButtonLabel = "No Texture";
-		//char* removeButtonLabel = new char[30];
-		//sprintf(removeButtonLabel, "Remove Texture %d", thisUID);   // mirar
 
 		if (materialAsShared)
 		{
@@ -549,10 +377,7 @@ void ComponentMaterial::DisplaySetMaterial()
 			haveTextures += materialAsShared->GetDiffuseUID();
 			haveTextures += materialAsShared->GetNormalUID();
 			haveTextures += materialAsShared->GetSpecularUID();
-			//TODO Occlusion is missing (And 1 for some reason)
 
-			//Be carefull with the name of the button because if we have two componentMaterial (Not the usual function)
-			//Then this will erase all the textures of all the componentMaterial
 			if (haveTextures)
 			{
 				removeButtonLabel = "Remove Textures";
@@ -586,9 +411,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Diffuse Texture");
-
 		bool showTextureBrowserDiffuse = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetDiffuseUID())
@@ -626,9 +449,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Specular Texture");
-
 		bool showTextureBrowserSpecular = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetSpecularUID())
@@ -666,9 +487,7 @@ void ComponentMaterial::DisplaySetMaterial()
 		ImGui::Separator();
 
 		ImGui::Text("Normal Texture");
-
 		bool showTextureBrowserNormal = true;
-
 		if (materialAsShared)
 		{
 			if (materialAsShared->GetNormalUID())
@@ -702,11 +521,6 @@ void ComponentMaterial::DisplaySetMaterial()
 				}
 			}
 		}
-		//bool hasNormal;
-		//std::shared_ptr<ResourceTexture> textureAsShared = textureNormal.lock();
-		//textureAsShared ? hasNormal = true : hasNormal = false;
-
-		//ImGui::Checkbox("Normal slider", &hasNormal);
 		ImGui::SliderFloat("Normal", &normalStrength, 0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::Text("");
