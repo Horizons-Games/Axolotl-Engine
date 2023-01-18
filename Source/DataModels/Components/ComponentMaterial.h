@@ -66,7 +66,6 @@ private:
 
 	bool hasShininessAlpha = false;
 
-	bool showTextureInput;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
