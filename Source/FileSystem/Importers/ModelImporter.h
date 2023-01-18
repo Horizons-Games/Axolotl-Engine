@@ -24,6 +24,5 @@ private:
 
     void CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer);
 
-    void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
     void SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int& size);
 };

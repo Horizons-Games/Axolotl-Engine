@@ -146,7 +146,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		char* fileBuffer{};
 		unsigned int size = 0;
 
-		SaveInfoMaterial(pathTextures, fileBuffer, size);
+		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
 		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
@@ -206,41 +206,6 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 	}
 	else
 		dataBuffer = std::string(file.data);
-
-}
-
-void ModelImporter::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size)
-{
-	unsigned int header[4] = { pathTextures[0].size(), pathTextures[1].size(), pathTextures[2].size(), pathTextures[3].size() };
-
-	size = sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() + pathTextures[3].size();
-
-	char* cursor = new char[size] {};
-
-	fileBuffer = cursor;
-
-	unsigned int bytes = sizeof(header);
-	memcpy(cursor, header, bytes);
-
-	cursor += bytes;
-
-	bytes = pathTextures[0].size();
-	memcpy(cursor, pathTextures[0].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = pathTextures[1].size();
-	memcpy(cursor, pathTextures[1].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = pathTextures[2].size();
-	memcpy(cursor, pathTextures[2].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = pathTextures[3].size();
-	memcpy(cursor, pathTextures[3].c_str(), bytes);
 
 }
 
@@ -315,6 +280,5 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 		cursor += bytes;
 	}
-
 }
 

@@ -25,5 +25,7 @@ public:
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
+
+	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
 };
 
