@@ -27,6 +27,7 @@
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
+	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
@@ -193,7 +194,6 @@ void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 	mesh = newMesh;
 	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-	if(inputMesh == nullptr) inputMesh = std::make_unique<WindowMeshInput>(this);
 
 	if (meshAsShared)
 	{

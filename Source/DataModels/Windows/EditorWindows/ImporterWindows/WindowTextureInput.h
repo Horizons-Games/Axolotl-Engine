@@ -3,24 +3,24 @@
 #include "Globals.h";
 #include <memory>
 
-class ResourceMaterial;
+class ComponentMaterial;
 
 class WindowTextureInput :
     public WindowFileBrowser
 {
 public:
-	WindowTextureInput(const std::weak_ptr<ResourceMaterial>& material, TextureType textureType);
-	~WindowTextureInput() = default;
+	WindowTextureInput(ComponentMaterial* material, TextureType textureType);
+	~WindowTextureInput();
 	void DoThisIfOk() override;
 
 private:
-	std::weak_ptr<ResourceMaterial> material;
+	ComponentMaterial* materialComponent;
 	TextureType textureType;
 };
 
-inline WindowTextureInput::WindowTextureInput(const std::weak_ptr<ResourceMaterial>& material, TextureType textureType) :WindowFileBrowser()
+inline WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType textureType) :WindowFileBrowser()
 {
-	this->material = material;
+	this->materialComponent = material;
 	this->textureType = textureType;
 
 	dialogName = "Select Texture";
@@ -45,4 +45,9 @@ inline WindowTextureInput::WindowTextureInput(const std::weak_ptr<ResourceMateri
 
 	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds){.png,.gif,.jpg,.jpeg,.dds}";
 	startPath = "Assets/Textures";
+}
+
+inline WindowTextureInput::~WindowTextureInput()
+{
+	delete materialComponent;
 }

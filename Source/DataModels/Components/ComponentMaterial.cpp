@@ -18,6 +18,9 @@
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
+	inputTextureDiffuse = std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE);
+	inputTextureNormal = std::make_unique<WindowTextureInput>(this, TextureType::NORMAL);
+	inputTextureSpecular = std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR);
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -120,7 +123,8 @@ void ComponentMaterial::Display()
 	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Text("");
-		ImGui::Text(std::to_string(materialAsShared->GetUID()).c_str());
+		if(materialAsShared)
+			ImGui::Text(std::to_string(materialAsShared->GetUID()).c_str());
 
 		char name[20] = "Texture";
 		ImGui::InputText("Texture Name", name, 20);
@@ -417,9 +421,6 @@ void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMa
 	material = newMaterial;
 	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
-	inputTextureDiffuse = std::make_unique<WindowTextureInput>(material, TextureType::DIFFUSE);
-	inputTextureNormal = std::make_unique<WindowTextureInput>(material, TextureType::NORMAL);
-	inputTextureSpecular = std::make_unique<WindowTextureInput>(material, TextureType::SPECULAR);
 	
 	if (materialAsShared)
 	{
