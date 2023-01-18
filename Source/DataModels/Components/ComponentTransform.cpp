@@ -179,6 +179,9 @@ void ComponentTransform::Display()
 		SetScale(scale);
 	}
 
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
 	{

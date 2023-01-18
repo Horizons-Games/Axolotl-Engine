@@ -31,10 +31,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
 	delete root; // When the root is deleted, the ambient and point lights are also deleted
 	delete sceneQuadTree;
 
-	std::vector<GameObject*>().swap(sceneGameObjects);	// temp vector to properlly deallocate memory
+	
 	std::vector<GameObject*>().swap(sceneCameras);		// temp vector to properlly deallocate memory
 }
 
@@ -401,15 +402,6 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
-
-	GameObject* pointLight = CreateGameObject("PointLight", root);
-	pointLight->CreateComponentLight(LightType::POINT);
-
-	GameObject* spotLight1 = CreateGameObject("SpotLight", root);
-	spotLight1->CreateComponentLight(LightType::SPOT);
-
-	GameObject* spotLight2 = CreateGameObject("SpotLight", root);
-	spotLight2->CreateComponentLight(LightType::SPOT);
 
 	InitLights();
 }

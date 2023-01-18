@@ -157,7 +157,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	newRoot->LoadOptions(Json, loadedObjects);
 
 
-	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-20, -20, -20), float3(20, 20, 20))));
+	sceneToLoad->SetSceneQuadTree(new Quadtree(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
 	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;

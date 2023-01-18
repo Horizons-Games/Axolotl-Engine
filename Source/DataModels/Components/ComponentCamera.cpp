@@ -26,7 +26,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	float aspectRatio = 16.f / 9.f;
 
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 10.f);
+	frustum.SetViewPlaneDistances(0.1f, 2000.f);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	//Position PlaceHolder get position from component transform
