@@ -55,13 +55,11 @@ GameObject::~GameObject()
 			case LightType::SPOT:
 				currentScene->UpdateSceneSpotLights();
 				currentScene->RenderSpotLights();
-
 				break;
 
 			case LightType::POINT:
 				currentScene->UpdateScenePointLights();
 				currentScene->RenderPointLights();
-
 				break;
 			}
 		}
