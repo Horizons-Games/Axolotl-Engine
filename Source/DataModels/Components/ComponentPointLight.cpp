@@ -47,7 +47,7 @@ void ComponentPointLight::Draw()
 			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
 				->GetComponent(ComponentType::TRANSFORM));
 
-		float3 position = transform->GetPosition();
+		float3 position = transform->GetGlobalPosition();
 
 		dd::sphere(position, dd::colors::White, radius);
 	}

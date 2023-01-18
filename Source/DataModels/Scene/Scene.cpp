@@ -366,7 +366,7 @@ void Scene::UpdateScenePointLights()
 							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 
 					PointLight pl;
-					pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
 					pointLights.push_back(pl);
@@ -400,7 +400,7 @@ void Scene::UpdateSceneSpotLights()
 							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
 
 					SpotLight sl;
-					sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+					sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
 					sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
 					sl.aim = transform->GetGlobalForward().Normalized();
 					sl.innerAngle = spotLightComp->GetInnerAngle();
