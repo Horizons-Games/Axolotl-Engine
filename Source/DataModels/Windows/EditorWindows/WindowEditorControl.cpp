@@ -7,8 +7,6 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
 
-#include "3DModels/Model.h"
-
 #include <string>
 #include <assert.h>
 

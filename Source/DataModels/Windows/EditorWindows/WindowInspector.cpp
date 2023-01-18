@@ -7,7 +7,6 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
-#include "3DModels/Model.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
