@@ -170,27 +170,14 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-	// Import models into the scene
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/BakerHouse.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/shiba.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
-	//App->scene->GetLoadedScene()->ConvertModelIntoGameObject("Assets/Models/fox.fbx");
-
 	//Skybox
-	/*UID skyboxUID = App->resources->ImportResource("/Assets/Skybox/skybox.sky");
+	UID skyboxUID = App->resources->ImportResource("/Assets/Skybox/skybox.sky");
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
 
 	if (resourceSkybox)
 	{
 		skybox = std::make_shared<Skybox>(resourceSkybox);
-	}*/
+	}
 	return true;
 }
 
