@@ -1,3 +1,6 @@
+#pragma warning (disable: 26495)
+#pragma warning (disable: 6386)
+
 #include "ModelImporter.h"
 
 #include "Application.h"
@@ -39,9 +42,9 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[2] = { resource->GetNumMeshes(), resource->GetNumMaterials() };
+	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
 
-	size = sizeof(header) + sizeof(UID) * resource->GetNumMeshes() + sizeof(UID) * resource->GetNumMaterials();
+	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() + sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 
 	char* cursor = new char[size]{};
 
@@ -52,12 +55,12 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
-	bytes = sizeof(UID) * resource->GetNumMeshes();
+	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
 	memcpy(cursor, &(resource->GetMeshesUIDs()[0]), bytes);
 
 	cursor += bytes;
 
-	bytes = sizeof(UID) * resource->GetNumMaterials();
+	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
 }
 
@@ -73,7 +76,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	fileBuffer += bytes;
 
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
-	bytes = sizeof(UID) * resource->GetNumMeshes();
+	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
 	std::vector<UID> meshes(meshesPointer, meshesPointer + resource->GetNumMeshes());
 	resource->SetMeshesUIDs(meshes);
@@ -83,7 +86,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	delete[] meshesPointer;
 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
-	bytes = sizeof(UID) * resource->GetNumMaterials();
+	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	resource->SetMaterialsUIDs(materials);
@@ -273,7 +276,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		cursor += bytes;
 	}
 
-	for (int i = 0; i < ourMesh->mNumFaces; ++i) 
+	for (unsigned int i = 0; i < ourMesh->mNumFaces; ++i) 
 	{
 		bytes = sizeof(unsigned int) * numIndexes;
 		memcpy(cursor, &(ourMesh->mFaces[i].mIndices[0]), bytes);

@@ -110,8 +110,8 @@ update_status ModuleInput::Update()
             break;
 
         case SDL_MOUSEWHEEL:
-            this->mouseWheel.first = sdlEvent.wheel.x;
-            this->mouseWheel.second = sdlEvent.wheel.y;
+            this->mouseWheel.first = (float)sdlEvent.wheel.x;
+            this->mouseWheel.second = (float)sdlEvent.wheel.y;
             this->mouseWheelScrolled = true;
             break;
 

@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning (disable: 26495)
 
 #include "Resource.h"
 #include "Math/float3.h"
@@ -81,8 +82,8 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	occlusionUID = 0;
 	specularUID = 0;
 	options = std::make_shared<OptionsMaterial>();
-	diffuseColor = float3(1.0, 1.0, 0.0);
-	specularColor = float3(0.5, 0.3, 0.5);
+	diffuseColor = float3(1.0f, 1.0f, 0.0f);
+	specularColor = float3(0.5f, 0.3f, 0.5f);
 	shininess = 512.f;
 	normalStrength = 1.0f;
 	hasDiffuse = false;

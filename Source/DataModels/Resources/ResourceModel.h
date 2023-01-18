@@ -20,8 +20,8 @@ public:
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
-	const unsigned int GetNumMeshes() const;
-	const unsigned int GetNumMaterials() const;
+	const size_t GetNumMeshes() const;
+	const size_t GetNumMaterials() const;
 	const std::vector<UID>& GetMeshesUIDs() const;
 	const std::vector<UID>& GetMaterialsUIDs() const;
 
@@ -37,8 +37,8 @@ protected:
 	void InternalUnload() override;
 
 private:
-	unsigned int numMeshes;
-	unsigned int numMaterials;
+	size_t numMeshes;
+	size_t numMaterials;
 	std::vector<UID> meshesUIDs;
 	std::vector<UID> materialsUIDs;
 
@@ -64,12 +64,12 @@ inline ResourceType ResourceModel::GetType() const
 	return ResourceType::Model;
 }
 
-inline const unsigned int ResourceModel::GetNumMeshes() const
+inline const size_t ResourceModel::GetNumMeshes() const
 {
 	return numMeshes;
 }
 
-inline const unsigned int ResourceModel::GetNumMaterials() const
+inline const size_t ResourceModel::GetNumMaterials() const
 {
 	return numMaterials;
 }

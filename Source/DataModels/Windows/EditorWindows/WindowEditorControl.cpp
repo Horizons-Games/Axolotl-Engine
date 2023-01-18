@@ -7,8 +7,6 @@
 #include "ModuleScene.h"
 #include "GameObject/GameObject.h"
 
-#include "3DModels/Model.h"
-
 #include <string>
 #include <assert.h>
 
@@ -30,7 +28,7 @@ void WindowEditorControl::DrawWindowContents()
     float size = ImGui::CalcTextSize("##Play").x + style.FramePadding.x * 2.0f;
     float avail = ImGui::GetContentRegionAvail().x;
 
-    float off = (avail - size) * 0.47;
+    float off = (avail - size) * 0.47f;
     if (off > 0.0f)
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 

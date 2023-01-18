@@ -82,7 +82,7 @@ update_status Application::Update()
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay(1000.0f / GetMaxFrameRate() - dt);
+		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	this->deltaTime = (appTimer->Read() - ms) / 1000.0f;
@@ -94,7 +94,7 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (int i = modules.size() - 1; i >= 0; --i)
+	for (int i = (int)(modules.size() - 1); i >= 0; --i)
 		ret = modules[i]->CleanUp();
 
 	return ret;

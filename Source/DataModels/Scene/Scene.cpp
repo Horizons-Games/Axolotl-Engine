@@ -130,7 +130,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	//Cargas el ComponentMaterial con el ResourceMaterial
 	//Cargas el ComponentMesh con el ResourceMesh
 
-	for (int i = 0; i < resourceModel->GetNumMeshes(); ++i)
+	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
 		std::shared_ptr<ResourceMesh> mesh =
 			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
@@ -216,7 +216,7 @@ void Scene::GenerateLights()
 
 	// Point
 
-	unsigned numPoint = pointLights.size();
+	size_t numPoint = pointLights.size();
 
 	glGenBuffers(1, &ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
@@ -231,7 +231,7 @@ void Scene::GenerateLights()
 
 	// Spot
 
-	unsigned numSpot = spotLights.size();
+	size_t numSpot = spotLights.size();
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
@@ -283,7 +283,7 @@ void Scene::RenderPointLights() const
 
 	glUseProgram(program);
 
-	unsigned numPoint = pointLights.size();
+	size_t numPoint = pointLights.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
@@ -304,7 +304,7 @@ void Scene::RenderPointLights() const
 void Scene::RenderSpotLights() const
 {
 	const unsigned program = App->program->GetProgram();
-	unsigned numSpot = spotLights.size();
+	size_t numSpot = spotLights.size();
 
 	glUseProgram(program);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
@@ -314,7 +314,7 @@ void Scene::RenderSpotLights() const
 
 	if (numSpot > 0)
 	{
-		for (int i = 0; i < numSpot; ++i)
+		for (unsigned int i = 0; i < numSpot; ++i)
 		{
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
 		}
@@ -341,7 +341,7 @@ void Scene::UpdateScenePointLights()
 					GetComponent(ComponentType::TRANSFORM);
 
 				PointLight pl;
-				pl.position = float4(transform->GetPosition(), pointLightComp->GetRadius());
+				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
 				pointLights.push_back(pl);
@@ -368,7 +368,7 @@ void Scene::UpdateSceneSpotLights()
 					GetComponent(ComponentType::TRANSFORM);
 
 				SpotLight sl;
-				sl.position = float4(transform->GetPosition(), spotLightComp->GetRadius());
+				sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
 				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
 				sl.aim = transform->GetGlobalForward().Normalized();
 				sl.innerAngle = spotLightComp->GetInnerAngle();

@@ -141,7 +141,7 @@ void WindowHardware::GetSoftwareVersions()
 void WindowHardware::GetCPUinfo()
 {
 	int cacheSizeInB = SDL_GetCPUCacheLineSize();
-	int cacheSizeInKB = std::ceil(cacheSizeInB / 1024.f);
+	int cacheSizeInKB = (int)std::ceil(cacheSizeInB / 1024.f);
 	int cacheSizeInKb = cacheSizeInKB * 8;
 	cpusAndCache = std::to_string(SDL_GetCPUCount()) + " (Cache: " + std::to_string(cacheSizeInKb) + "kb)";
 
@@ -152,7 +152,7 @@ void WindowHardware::GetCPUinfo()
 	//insted of to the power of 9, which is what Giga is
 	//this is to make rounding easier,
 	//since I can't find a way to set decimal precision
-	int ramInGbOneDecimalAux = std::ceil(ramInGb * 10.f);
+	int ramInGbOneDecimalAux = (int)std::ceil(ramInGb * 10.f);
 	std::string ramInGbOneDecimal = std::to_string(ramInGbOneDecimalAux);
 	//insert a dot in the penultimate position
 	ramInGbOneDecimal.insert(ramInGbOneDecimal.length() - 1, ".");

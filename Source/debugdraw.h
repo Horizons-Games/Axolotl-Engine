@@ -1,6 +1,8 @@
 #ifndef _DEBUGDRAW_H_
 #define _DEBUGDRAW_H_
 
+#pragma warning (disable: 26495)
+
 #include "Math/float3.h"
 #include "Math/float4x4.h"
 
