@@ -184,9 +184,6 @@
     <ClCompile Include="Modules\ModuleScene.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleTexture.cpp">
-      <Filter>Source\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\ModuleWindow.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
@@ -661,9 +658,6 @@
       <Filter>Source\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleScene.h">
-      <Filter>Source\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\ModuleTexture.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleWindow.h">

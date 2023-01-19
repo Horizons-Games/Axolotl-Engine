@@ -5,7 +5,6 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleEngineCamera.h"
-#include "ModuleTexture.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
