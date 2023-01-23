@@ -358,6 +358,15 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -858,6 +867,15 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -949,6 +967,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
+      <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

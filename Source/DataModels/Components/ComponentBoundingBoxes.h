@@ -36,6 +36,8 @@ private:
 	AABB encapsuledAABB;
 	OBB objectOBB;
 	bool drawBoundingBoxes;
+
+	friend class WindowComponentBoundingBoxes;
 };
 
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)

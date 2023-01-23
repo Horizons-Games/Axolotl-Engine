@@ -12,6 +12,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
@@ -117,21 +118,19 @@ void WindowInspector::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 
-	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
-	{
-		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
-		{
-			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
-			{
-				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-				ImGui::SameLine();
-				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
-					break;
-				ImGui::SameLine();
-			}
-		}
+	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponents;
 
-		currentGameObject->GetComponents()[i]->Display();
+	for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
+	{
+		windowsForComponents.push_back(ComponentWindow::CreateWindowForComponent(component));
+	}
+
+	for (int i = 0; i < windowsForComponents.size(); ++i)
+	{
+		if (windowsForComponents[i])
+		{ 
+			windowsForComponents[i]->Draw();
+		}
 	}
 }
 

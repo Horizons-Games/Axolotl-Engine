@@ -230,6 +230,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp" />
@@ -390,6 +393,9 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h" />

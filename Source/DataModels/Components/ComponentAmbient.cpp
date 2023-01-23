@@ -30,25 +30,6 @@ ComponentAmbient::ComponentAmbient(const float3& color, const std::shared_ptr<Ga
 
 void ComponentAmbient::Display()
 {
-	if (ImGui::CollapsingHeader("AMBIENT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-		if (ImGui::BeginTable("AmbientLightTable", 2))
-		{
-			ImGui::TableNextColumn();
-						
-			ImGui::Text("Color"); 
-			ImGui::SameLine();
-
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-			{
-				App->scene->GetLoadedScene()->RenderAmbientLight();
-			}
-			ImGui::EndTable();
-		}
-	}
-	ImGui::Separator();
 }
 
 void ComponentAmbient::SaveOptions(Json& meta)
