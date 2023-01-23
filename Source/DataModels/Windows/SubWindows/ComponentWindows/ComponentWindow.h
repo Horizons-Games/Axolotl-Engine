@@ -9,7 +9,7 @@ class Component;
 class ComponentWindow : public SubWindow
 {
 public:
-	virtual ~ComponentWindow() = default;
+	virtual ~ComponentWindow() override;
 
 	static std::unique_ptr<ComponentWindow> CreateWindowForComponent(const std::weak_ptr<Component>& component);
 

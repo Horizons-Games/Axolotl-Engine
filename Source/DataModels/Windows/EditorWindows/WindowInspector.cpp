@@ -134,35 +134,6 @@ void WindowInspector::DrawWindowContents()
 	}
 }
 
-void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textActive = new char[30];
-	sprintf(textActive, "##Enabled #%d", labelNum);
-
-	bool enable = component->GetActive();
-	ImGui::Checkbox(textActive, &enable);
-
-	(enable) ? component->Enable() : component->Disable();
-}
-
-bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textRemove = new char[30];
-	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
-
-	if (ImGui::Button(textRemove, ImVec2(90, 20)))
-	{
-		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
-		{
-			assert(false && "Trying to delete a non-existing component");
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
 bool WindowInspector::MousePosIsInWindow()
 {
 	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x

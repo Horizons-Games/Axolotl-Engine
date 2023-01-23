@@ -1,5 +1,7 @@
 #include "ComponentWindow.h"
 
+#include <sstream>
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
 
@@ -10,6 +12,11 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentBoundingBoxes.h"
+
+ComponentWindow::~ComponentWindow()
+{
+	this->component = std::weak_ptr<Component>();
+}
 
 std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const std::weak_ptr<Component>& component)
 {
@@ -58,7 +65,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 
 ComponentWindow::ComponentWindow(const std::string& name, const std::weak_ptr<Component>& component) :
 	SubWindow(name),
-	component(),
+	component(component),
 	windowUUID(UniqueID::GenerateUUID())
 {
 	flags |= ImGuiTreeNodeFlags_DefaultOpen;
@@ -77,11 +84,11 @@ void ComponentWindow::DrawEnableComponent()
 	std::shared_ptr<Component> asShared = component.lock();
 	if (asShared)
 	{
-		char* textActive = new char[30];
-		sprintf(textActive, "##Enabled #%s", windowUUID.c_str());
+		std::stringstream ss;
+		ss << "##Enabled " << windowUUID;
 
 		bool enable = asShared->GetActive();
-		ImGui::Checkbox(textActive, &enable);
+		ImGui::Checkbox(ss.str().c_str(), &enable);
 
 		(enable) ? asShared->Enable() : asShared->Disable();
 	}
@@ -92,10 +99,10 @@ void ComponentWindow::DrawDeleteComponent()
 	std::shared_ptr<Component> asShared = component.lock();
 	if (asShared)
 	{
-		char* textRemove = new char[30];
-		sprintf(textRemove, "Remove Comp. #%s", windowUUID.c_str());
+		std::stringstream ss;
+		ss << "Remove Comp. " << windowUUID;
 
-		if (ImGui::Button(textRemove, ImVec2(90, 20)))
+		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
 			if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(asShared))
 			{

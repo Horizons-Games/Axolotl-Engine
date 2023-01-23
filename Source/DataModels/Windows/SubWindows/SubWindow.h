@@ -7,7 +7,7 @@
 class SubWindow : public Window
 {
 public:
-	~SubWindow();
+	virtual ~SubWindow() override;
 
 	void Draw(bool& enabled = defaultEnabled) override;
 
