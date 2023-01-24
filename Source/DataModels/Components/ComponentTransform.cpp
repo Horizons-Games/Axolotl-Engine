@@ -156,7 +156,7 @@ void ComponentTransform::Display()
 	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner().lock())
 	{
 		SetPosition(float3::zero);
-		SetRotation(Quat::identity);
+		SetRotation(float3::zero);
 		SetScale(float3::one);
 		return;
 	}
@@ -273,7 +273,7 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 void ComponentTransform::CalculateLocalMatrix()
 {
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
+	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (float4x4)GetRotation(), (float3)GetScale());
 
 	SetLocalMatrix(localMatrix);
 }
@@ -284,7 +284,7 @@ void ComponentTransform::CalculateGlobalMatrix()
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
-	Quat parentRot, localRot;
+	float4x4 parentRot, localRot;
 
 	std::shared_ptr<ComponentTransform> parentTransform =
 		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
@@ -293,7 +293,7 @@ void ComponentTransform::CalculateGlobalMatrix()
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);
 
 	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
+	float4x4 rotation = localRot * parentRot;
 	float3 scale = parentSca.Mul(localSca);
 
 	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
@@ -303,16 +303,16 @@ void ComponentTransform::CalculateGlobalMatrix()
 const float3& ComponentTransform::GetGlobalPosition() const
 {
 	float3 globalPos, globalSca;
-	Quat globalRot;
+	float4x4 globalRot;
 	globalMatrix.Decompose(globalPos, globalRot, globalSca);
 
 	return globalPos;
 }
 
-const Quat& ComponentTransform::GetGlobalRotation() const
+const float4x4& ComponentTransform::GetGlobalRotation() const
 {
 	float3 globalPos, globalSca;
-	Quat globalRot;
+	float4x4 globalRot;
 	globalMatrix.Decompose(globalPos, globalRot, globalSca);
 
 	return globalRot;
@@ -321,7 +321,7 @@ const Quat& ComponentTransform::GetGlobalRotation() const
 const float3& ComponentTransform::GetGlobalScale() const
 {
 	float3 globalPos, globalSca;
-	Quat globalRot;
+	float4x4 globalRot;
 	globalMatrix.Decompose(globalPos, globalRot, globalSca);
 
 	return globalSca;

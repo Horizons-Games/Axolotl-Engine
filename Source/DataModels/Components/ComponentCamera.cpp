@@ -31,7 +31,7 @@ ComponentCamera::ComponentCamera(bool active, const std::shared_ptr<GameObject>&
 	trans = std::static_pointer_cast<ComponentTransform>(owner->GetComponent(ComponentType::TRANSFORM));
 	
 	frustum.SetPos(trans->GetPosition());
-	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
