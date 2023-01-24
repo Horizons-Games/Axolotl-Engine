@@ -47,9 +47,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 			return std::make_unique<WindowComponentMeshRenderer>
 				(std::static_pointer_cast<ComponentMeshRenderer>(asShared));
 		case ComponentType::TRANSFORM:
-			/*return std::make_unique<WindowComponentTransform>
-				(std::static_pointer_cast<ComponentTransform>(asShared));*/
-			return nullptr;
+			return std::make_unique<WindowComponentTransform>
+				(std::static_pointer_cast<ComponentTransform>(asShared));
 		case ComponentType::CAMERA:
 			return std::make_unique<WindowComponentCamera>
 				(std::static_pointer_cast<ComponentCamera>(asShared));
@@ -75,7 +74,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 					(std::static_pointer_cast<ComponentSpotLight>(asLight));
 			case LightType::UNKNOWN:
 			default:
-				return nullptr;
+				return std::make_unique<WindowComponentLight>(asLight);
 			}
 		}
 		}

@@ -6,6 +6,7 @@
 #include "DataModels/GameObject/GameObject.h"
 
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentLight.h"
 
 WindowComponentTransform::WindowComponentTransform(const std::weak_ptr<ComponentTransform>& component) :
 	ComponentWindow("TRANSFORM", component)
