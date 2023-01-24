@@ -210,7 +210,16 @@ void ModuleEngineCamera::FreeLook()
 
 	float3 newUp = xy.MulDir(oldUp);
 
-	if (newUp.y > 0.f) {
+	if (newUp.y > 0.f) 
+	{
+		frustum.SetUp(xy.MulDir(oldUp));
+		frustum.SetFront(xy.MulDir(oldFront));
+	}
+	else
+	{
+		y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), 0);
+		xy = x * y;
+
 		frustum.SetUp(xy.MulDir(oldUp));
 		frustum.SetFront(xy.MulDir(oldFront));
 	}
