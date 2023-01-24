@@ -50,11 +50,11 @@ public:
 
 	void ResetGlobalMatrix();
 
-private:
 	void CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-	
+
+private:
 	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
 	float3 sca = float3::one;

@@ -28,7 +28,6 @@
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
-	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()

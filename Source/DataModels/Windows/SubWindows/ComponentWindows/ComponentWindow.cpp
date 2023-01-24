@@ -4,6 +4,14 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -12,6 +20,13 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentDirLight.h"
+#include "Components/ComponentMaterial.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentPointLight.h"
+#include "Components/ComponentSpotLight.h"
+#include "Components/ComponentTransform.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -26,13 +41,18 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 		switch (asShared->GetType())
 		{
 		case ComponentType::MATERIAL:
-			return nullptr;
+			return std::make_unique<WindowComponentMaterial>
+				(std::static_pointer_cast<ComponentMaterial>(asShared));
 		case ComponentType::MESHRENDERER:
-			return nullptr;
+			return std::make_unique<WindowComponentMeshRenderer>
+				(std::static_pointer_cast<ComponentMeshRenderer>(asShared));
 		case ComponentType::TRANSFORM:
+			/*return std::make_unique<WindowComponentTransform>
+				(std::static_pointer_cast<ComponentTransform>(asShared));*/
 			return nullptr;
 		case ComponentType::CAMERA:
-			return nullptr;
+			return std::make_unique<WindowComponentCamera>
+				(std::static_pointer_cast<ComponentCamera>(asShared));
 		case ComponentType::BOUNDINGBOX:
 			return std::make_unique<WindowComponentBoundingBoxes>
 				(std::static_pointer_cast<ComponentBoundingBoxes>(asShared));
@@ -45,19 +65,19 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 				return std::make_unique<WindowComponentAmbient>
 					(std::static_pointer_cast<ComponentAmbient>(asLight));
 			case LightType::DIRECTIONAL:
-				return nullptr;
+				return std::make_unique<WindowComponentDirLight>
+					(std::static_pointer_cast<ComponentDirLight>(asLight));
 			case LightType::POINT:
-				return nullptr;
+				return std::make_unique<WindowComponentPointLight>
+					(std::static_pointer_cast<ComponentPointLight>(asLight));
 			case LightType::SPOT:
-				return nullptr;
+				return std::make_unique<WindowComponentSpotLight>
+					(std::static_pointer_cast<ComponentSpotLight>(asLight));
 			case LightType::UNKNOWN:
 			default:
 				return nullptr;
 			}
 		}
-		case ComponentType::UNKNOWN:
-		default:
-			return nullptr;
 		}
 	}
 	return nullptr;
