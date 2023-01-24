@@ -2,6 +2,8 @@
 
 #include "ComponentWindow.h"
 
+#include "Math/float3.h"
+
 class ComponentTransform;
 
 class WindowComponentTransform : public ComponentWindow
