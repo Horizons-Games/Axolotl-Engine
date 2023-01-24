@@ -273,28 +273,37 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 void ComponentTransform::CalculateLocalMatrix()
 {
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
+	float4x4 localMatrix = float4x4::FromTRS((float3)pos, (Quat)rot, (float3)sca);
 
 	SetLocalMatrix(localMatrix);
 }
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
-	assert(parent);
+	float3 parentPos, parentSca, localPos, localSca, position, scale;
+	Quat parentRot, localRot, rotation;
 
-	float3 parentPos, parentSca, localPos, localSca;
-	Quat parentRot, localRot;
-
-	std::shared_ptr<ComponentTransform> parentTransform =
-		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
-
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);
 
-	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
+	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+
+	if (parent != nullptr)
+	{
+		std::shared_ptr<ComponentTransform> parentTransform =
+			std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
+
+		parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
+
+		position = localPos + parentPos;
+		rotation = localRot * parentRot;
+		scale = parentSca.Mul(localSca);
+	}
+	else
+	{
+		position = localPos;
+		rotation = localRot;
+		scale = localSca;
+	}
 
 	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
 	SetGlobalMatrix(globalMatrix);
