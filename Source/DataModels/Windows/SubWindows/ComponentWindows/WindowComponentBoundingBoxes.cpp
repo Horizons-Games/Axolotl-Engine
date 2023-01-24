@@ -9,8 +9,6 @@ WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(const std::weak_ptr<C
 
 void WindowComponentBoundingBoxes::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
-
 	std::shared_ptr<ComponentBoundingBoxes> asSharedBB =
 		std::dynamic_pointer_cast<ComponentBoundingBoxes>(this->component.lock());
 
