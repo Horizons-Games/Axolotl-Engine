@@ -22,8 +22,8 @@ ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<
 
 void ComponentTransform::Update()
 {
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+	//CalculateLocalMatrix();
+	//CalculateGlobalMatrix();
 }
 
 void ComponentTransform::Display()
@@ -180,8 +180,8 @@ void ComponentTransform::Display()
 		SetScale(scale);
 	}
 
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+	//CalculateLocalMatrix();
+	//CalculateGlobalMatrix();
 
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
@@ -266,9 +266,9 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.y = (float) meta["localSca_Y"];
 	sca.z = (float) meta["localSca_Z"];
 
-	CalculateLocalMatrix();
-	if(!GetOwner().lock()->GetParent().expired()) 
-		CalculateGlobalMatrix();
+	//CalculateLocalMatrix();
+	/*if (!GetOwner().lock()->GetParent().expired())
+		CalculateGlobalMatrix();*/
 }
 
 void ComponentTransform::CalculateLocalMatrix()
