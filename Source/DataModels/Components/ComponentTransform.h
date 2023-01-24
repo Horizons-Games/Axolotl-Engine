@@ -67,11 +67,17 @@ private:
 
 inline const float3& ComponentTransform::GetPosition() const
 {
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
 	return pos;
 }
 
 inline const Quat& ComponentTransform::GetRotation() const
 {
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
 	return rot;
 }
 
@@ -82,6 +88,9 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 
 inline const float3& ComponentTransform::GetScale() const
 {
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
 	return sca;
 }
 
@@ -119,11 +128,16 @@ inline void ComponentTransform::SetScale(const float3& scale)
 
 inline const float4x4& ComponentTransform::GetLocalMatrix() const
 {
+	CalculateLocalMatrix();
+
 	return localMatrix;
 }
 
 inline const float4x4& ComponentTransform::GetGlobalMatrix() const
 {
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
 	return globalMatrix;
 }
 
