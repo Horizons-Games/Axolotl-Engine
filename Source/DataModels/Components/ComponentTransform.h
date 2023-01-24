@@ -24,12 +24,12 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	const float3& GetPosition() const;
+	const float3& GetPosition();
 	const float3& GetGlobalPosition() const;
-	const Quat& GetRotation() const;
+	const Quat& GetRotation();
 	const float3& GetRotationXYZ() const;
 	const Quat& GetGlobalRotation() const;
-	const float3& GetScale() const;
+	const float3& GetScale();
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
 	const float3& GetGlobalScale() const;
@@ -39,8 +39,8 @@ public:
 	void SetRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 
-	const float4x4& GetLocalMatrix() const;
-	const float4x4& GetGlobalMatrix() const;
+	const float4x4& GetLocalMatrix();
+	const float4x4& GetGlobalMatrix();
 
 	void SetLocalMatrix(const float4x4& matrix);
 	void SetGlobalMatrix(const float4x4& matrix);
@@ -65,7 +65,7 @@ private:
 	float4x4 globalMatrix = float4x4::identity;
 };
 
-inline const float3& ComponentTransform::GetPosition() const
+inline const float3& ComponentTransform::GetPosition()
 {
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
@@ -73,7 +73,7 @@ inline const float3& ComponentTransform::GetPosition() const
 	return pos;
 }
 
-inline const Quat& ComponentTransform::GetRotation() const
+inline const Quat& ComponentTransform::GetRotation()
 {
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
@@ -86,7 +86,7 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
-inline const float3& ComponentTransform::GetScale() const
+inline const float3& ComponentTransform::GetScale()
 {
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
@@ -126,14 +126,14 @@ inline void ComponentTransform::SetScale(const float3& scale)
 	sca = scale;
 }
 
-inline const float4x4& ComponentTransform::GetLocalMatrix() const
+inline const float4x4& ComponentTransform::GetLocalMatrix()
 {
 	CalculateLocalMatrix();
 
 	return localMatrix;
 }
 
-inline const float4x4& ComponentTransform::GetGlobalMatrix() const
+inline const float4x4& ComponentTransform::GetGlobalMatrix()
 {
 	CalculateLocalMatrix();
 	CalculateGlobalMatrix();
