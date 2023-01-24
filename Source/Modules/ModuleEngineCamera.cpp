@@ -196,32 +196,24 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 
 void ModuleEngineCamera::FreeLook()
 {
-	float yaw = 0.f, pitch = 0.f;
-	float xrel = App->input->GetMouseMotionX();
-	float yrel = App->input->GetMouseMotionY();
-	float rotationAngle = RadToDeg(frustum.Front().Normalized().AngleBetween(float3::unitY));
-
-	if (abs(xrel) + abs(yrel) != 0  && mouseSpeedModifier < MAX_MOUSE_SPEED_MODIFIER)
-	{
-		mouseSpeedModifier += 0.5f;
-	}
-	else if (abs(xrel) + abs(yrel) == 0)
-		mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
-
-	if (yrel > 0) { if (rotationAngle - yrel > 0) pitch = math::DegToRad(yrel); }
-	else if (yrel < 0) { if (rotationAngle - yrel < 180) pitch = math::DegToRad(yrel); }
-	
-	yaw = math::DegToRad(-xrel);
-
 	float deltaTime = App->GetDeltaTime();
-	Quat pitchQuat(frustum.WorldRight(), pitch * mouseSpeedModifier * deltaTime);
-	Quat yawQuat(float3::unitY, yaw * mouseSpeedModifier * deltaTime);
+	float mouseSpeedPercentage = 0.05f;
+	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
-	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
-	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
+	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
+	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
+	float3x3 xy = x * y;
 
-	ApplyRotation(rotationDeltaMatrix);
+	vec oldUp = frustum.Up().Normalized();
+	vec oldFront = frustum.Front().Normalized();
+
+	float3 newUp = xy.MulDir(oldUp);
+
+	if (newUp.y > 0.f) {
+		frustum.SetUp(xy.MulDir(oldUp));
+		frustum.SetFront(xy.MulDir(oldFront));
+	}
 }
 
 void ModuleEngineCamera::Run()
