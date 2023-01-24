@@ -81,22 +81,21 @@ void WindowInspector::DrawWindowContents()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		std::shared_ptr<GameObject> go = App->scene->GetSelectedGameObject().lock();
-		if (go)
+		if (currentGameObject)
 		{
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
 			}
 
-			if (!go->GetComponent(ComponentType::MATERIAL)) {
+			if (!currentGameObject->GetComponent(ComponentType::MATERIAL)) {
 				if (ImGui::MenuItem("Create Material Component"))
 				{
 					AddComponentMaterial();
 				}
 			}
 
-			if (!go->GetComponent(ComponentType::LIGHT)) {
+			if (!currentGameObject->GetComponent(ComponentType::LIGHT)) {
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
 					AddComponentLight(LightType::SPOT);
@@ -118,19 +117,29 @@ void WindowInspector::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 
-	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponents;
-
-	for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
+	if (currentGameObject)
 	{
-		windowsForComponents.push_back(ComponentWindow::CreateWindowForComponent(component));
-	}
+		//if the selected game object has changed
+		//or number of components is different
+		//create the windows again
+		if (currentGameObject->GetUID() != lastSelectedObjectUID
+			|| currentGameObject->GetComponents().size() != windowsForComponentsOfSelectedObject.size())
+		{
+			windowsForComponentsOfSelectedObject.clear();
 
-	for (int i = 0; i < windowsForComponents.size(); ++i)
-	{
-		if (windowsForComponents[i])
-		{ 
-			windowsForComponents[i]->Draw();
+			for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
+			{
+				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component));
+			}
 		}
+		for (int i = 0; i < windowsForComponentsOfSelectedObject.size(); ++i)
+		{
+			if (windowsForComponentsOfSelectedObject[i])
+			{
+				windowsForComponentsOfSelectedObject[i]->Draw();
+			}
+		}
+		lastSelectedObjectUID = currentGameObject->GetUID();
 	}
 }
 

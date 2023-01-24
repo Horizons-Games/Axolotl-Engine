@@ -14,6 +14,7 @@ class GameObject;
 class Component;
 class ComponentCamera;
 enum class LightType;
+class ComponentWindow;
 
 class WindowInspector : public EditorWindow
 {
@@ -42,6 +43,9 @@ private:
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 	// --
+
+	UID lastSelectedObjectUID = 0;
+	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
 };
 
 inline ImVec2 WindowInspector::GetStartingSize() const
