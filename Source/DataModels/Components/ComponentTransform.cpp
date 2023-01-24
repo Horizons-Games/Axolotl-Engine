@@ -22,8 +22,7 @@ ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<
 
 void ComponentTransform::Update()
 {
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+	// Empty for now
 }
 
 void ComponentTransform::Display()
@@ -161,27 +160,29 @@ void ComponentTransform::Display()
 		return;
 	}
 
-	if (translationModified)
+	if (translationModified || rotationModified || scaleModified)
 	{
-		SetPosition(translation);
-	}
-	
-	if (rotationModified)
-	{
-		SetRotation(rotation);
-	}
-	
-	if (scaleModified)
-	{
-		if (scale.x <= 0) scale.x = 0.0001f;
-		if (scale.y <= 0) scale.y = 0.0001f;
-		if (scale.z <= 0) scale.z = 0.0001f;
+		if (translationModified)
+		{
+			SetPosition(translation);
+		}
 
-		SetScale(scale);
-	}
+		if (rotationModified)
+		{
+			SetRotation(rotation);
+		}
 
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+		if (scaleModified)
+		{
+			if (scale.x <= 0) scale.x = 0.0001f;
+			if (scale.y <= 0) scale.y = 0.0001f;
+			if (scale.z <= 0) scale.z = 0.0001f;
+
+			SetScale(scale);
+		}
+
+		UpdateTransformMatrices();
+	}
 
 	//Rendering lights if modified
 	if (translationModified || rotationModified) 
@@ -325,4 +326,22 @@ const float3& ComponentTransform::GetGlobalScale() const
 	globalMatrix.Decompose(globalPos, globalRot, globalSca);
 
 	return globalSca;
+}
+
+inline void ComponentTransform::UpdateTransformMatrices()
+{
+	CalculateLocalMatrix();
+	CalculateGlobalMatrix();
+
+	if (this->GetOwner().lock()->GetChildren().empty())
+		return;
+
+	for (std::weak_ptr<GameObject> child : this->GetOwner().lock()->GetChildren())
+	{
+		std::shared_ptr<GameObject> childAsShared = child.lock();
+		std::shared_ptr<ComponentTransform> childTransform = 
+			std::static_pointer_cast<ComponentTransform>(childAsShared->GetComponent(ComponentType::TRANSFORM));
+
+		childTransform->UpdateTransformMatrices();
+	}
 }

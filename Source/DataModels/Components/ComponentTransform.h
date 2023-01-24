@@ -45,15 +45,15 @@ public:
 	void SetLocalMatrix(const float4x4& matrix);
 	void SetGlobalMatrix(const float4x4& matrix);
 
-	void CalculateLocalMatrix();
-	void CalculateGlobalMatrix();
-
-	void ResetGlobalMatrix();
+	void UpdateTransformMatrices();
 
 private:
 	void CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
+
+	void CalculateLocalMatrix();
+	void CalculateGlobalMatrix();
 	
 	float3 pos = float3::zero;
 	float4x4 rot = float4x4::identity;
@@ -134,9 +134,4 @@ inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
 inline void ComponentTransform::SetGlobalMatrix(const float4x4& matrix)
 {
 	globalMatrix = matrix;
-}
-
-inline void ComponentTransform::ResetGlobalMatrix()
-{
-	globalMatrix = float4x4::identity;
 }

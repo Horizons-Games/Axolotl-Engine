@@ -41,7 +41,8 @@ std::shared_ptr<GameObject> GameObject::CreateGameObject(const char* name, const
 GameObject::~GameObject()
 {
 	std::vector<std::shared_ptr<ComponentLight> > lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight, hadPointLight = false;
+	bool hadSpotLight = false;
+	bool hadPointLight = false;
 	for (std::shared_ptr<ComponentLight> light : lights)
 	{
 		switch (light->GetLightType())
@@ -185,7 +186,7 @@ void GameObject::SetParent(const std::weak_ptr<GameObject>& newParent)
 	assert(newParent.lock());
 
 	if (this->IsADescendant(newParent.lock()) ||		// Avoid dragging parent GameObjects into their descendants
-		newParent.lock()->IsAChild(shared_from_this()))				// Avoid dragging direct children into thier parent GameObjects
+		newParent.lock()->IsAChild(shared_from_this()))	// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
 	}
@@ -193,6 +194,11 @@ void GameObject::SetParent(const std::weak_ptr<GameObject>& newParent)
 	parent->RemoveChild(shared_from_this());
 	parent = newParent.lock();
 	parent->AddChild(shared_from_this());
+
+	// Update the transform respect its parent when moved around
+	std::shared_ptr<ComponentTransform> childTransform =
+		std::static_pointer_cast<ComponentTransform>(this->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }

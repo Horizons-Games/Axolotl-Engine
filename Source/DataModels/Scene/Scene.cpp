@@ -75,6 +75,12 @@ std::shared_ptr<GameObject> Scene::CreateGameObject(const char* name, const std:
 
 	std::shared_ptr<GameObject> gameObject = GameObject::CreateGameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
+
+	// Update the transform respect its parent when created
+	std::shared_ptr<ComponentTransform> childTransform =
+		std::static_pointer_cast<ComponentTransform>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
