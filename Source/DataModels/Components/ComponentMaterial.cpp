@@ -16,7 +16,6 @@
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
-#include "imgui.h"
 
 ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
@@ -116,16 +115,6 @@ void ComponentMaterial::Draw()
 		float3 viewPos = App->engineCamera->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
-}
-
-void ComponentMaterial::Display()
-{
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
-
-	if (ImGui::CollapsingHeader("MATERIAL", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-	}
-	ImGui::Separator();
 }
 
 void ComponentMaterial::SaveOptions(Json& meta)

@@ -25,7 +25,6 @@ public:
 	void Update() override;
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);

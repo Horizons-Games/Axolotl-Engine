@@ -19,7 +19,6 @@ public:
 	ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner);
 
 	void Update() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

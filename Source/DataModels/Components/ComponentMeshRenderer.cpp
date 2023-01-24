@@ -21,7 +21,6 @@
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
-#include "imgui.h"
 
 #include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 
@@ -83,79 +82,6 @@ void ComponentMeshRenderer::Draw()
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-}
-
-void ComponentMeshRenderer::Display()
-{
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		static char* meshPath = (char*)("unknown");
-
-		if (meshAsShared)
-			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
-		else
-			meshPath = (char*)("unknown");
-
-		ImGui::InputText("##Mesh path", meshPath, 128);
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
-			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-
-				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
-
-				if (newMesh)
-				{
-					meshAsShared->Unload();
-					SetMesh(newMesh);
-				}
-			}
-
-			ImGui::EndDragDropTarget();
-		}
-		ImGui::SameLine();
-
-		bool showMeshBrowser;
-
-		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
-
-		if (showMeshBrowser)
-		{
-			inputMesh->DrawWindowContents();
-		}
-		else
-		{
-			if (ImGui::Button("Remove Mesh"))
-			{
-				meshAsShared->Unload();
-				mesh = std::weak_ptr<ResourceMesh>();
-			}
-		}
-
-		if (ImGui::BeginTable("##GeometryTable", 2))
-		{
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of vertices: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumVertices() : 0);
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of triangles: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
-
-			ImGui::EndTable();
-		}
-	}
-
-	ImGui::Separator();
 }
 
 void ComponentMeshRenderer::SaveOptions(Json& meta)

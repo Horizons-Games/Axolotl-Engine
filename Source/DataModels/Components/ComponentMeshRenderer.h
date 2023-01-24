@@ -21,7 +21,6 @@ public:
 	void Update() override;
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

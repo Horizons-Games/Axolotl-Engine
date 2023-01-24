@@ -10,7 +10,6 @@
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
-#include "imgui.h"
 
 #include "GL/glew.h"
 
@@ -31,47 +30,6 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
-}
-
-void ComponentDirLight::Display()
-{
-	const char* lightTypes[] = { "Point", "Spot" };
-
-	bool modified = false;
-
-	if (ImGui::CollapsingHeader("DIRECTIONAL LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-		if (ImGui::BeginTable("DirLightTable", 2))
-		{
-			ImGui::TableNextColumn();
-
-			ImGui::Text("Intensity"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
-			{
-				modified = true;
-			}
-			ImGui::PopStyleVar();
-
-			ImGui::Text("Color"); ImGui::SameLine();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-			{
-				modified = true;
-			}
-
-			if (modified)
-			{
-				App->scene->GetLoadedScene()->RenderDirectionalLight();
-			}
-
-			ImGui::EndTable();
-		}
-
-		ImGui::Separator();
-	}
 }
 
 void ComponentDirLight::Draw()

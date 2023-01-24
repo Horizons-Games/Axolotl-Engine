@@ -8,8 +8,6 @@
 
 #include "FileSystem/Json.h"
 
-#include "imgui.h"
-
 ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
@@ -25,10 +23,6 @@ ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightTy
 
 ComponentAmbient::ComponentAmbient(const float3& color, const std::shared_ptr<GameObject>& parent) :
 	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
-{
-}
-
-void ComponentAmbient::Display()
 {
 }
 
