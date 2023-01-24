@@ -237,10 +237,12 @@ void ModuleEngineCamera::Walk()
 
 void ModuleEngineCamera::Zoom()
 {
-	float newHFOV = GetHFOV() - App->input->GetMouseWheelY();
-
-	if (newHFOV <= MAX_HFOV && newHFOV >= MIN_HFOV)
-		SetHFOV(math::DegToRad(newHFOV));
+	float zoomSpeed = App->input->GetMouseWheelY() * DEFAULT_MOUSE_ZOOM_SPEED;
+	float deltaTime = App->GetDeltaTime();
+	
+	position = position + frustum.Front().Normalized() *
+		zoomSpeed * deltaTime;
+	frustum.SetPos(position);
 }
 
 void ModuleEngineCamera::Focus(const OBB &obb)
