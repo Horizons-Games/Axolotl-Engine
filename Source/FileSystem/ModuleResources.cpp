@@ -137,6 +137,11 @@ void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std
 
 void ModuleResources::DeleteResource(UID uidToDelete)
 {
+	if (resources.count(uidToDelete) == 0) //resource not in map
+	{
+		return;
+	}
+
 	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
 	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
 	App->fileSystem->Delete(metaPath.c_str());
