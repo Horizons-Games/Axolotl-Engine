@@ -164,7 +164,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 		std::shared_ptr<ComponentMeshRenderer> meshRenderer =
 			std::static_pointer_cast<ComponentMeshRenderer>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
-		meshRenderer->SetMesh(mesh);
+		meshRenderer->SetMesh(mesh->GetUID());
 	}
 }
 

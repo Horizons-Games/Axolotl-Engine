@@ -2,6 +2,7 @@
 
 #include "Components/Component.h"
 #include "FileSystem/UniqueID.h"
+#include "GeometryBatch/GeometryBatch.h"
 
 #include <memory>
 
@@ -26,24 +27,31 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
+	void SetMesh(UID meshUID);
 
+	UID GetMeshUID() const;
 	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
-	std::weak_ptr<ResourceMesh> mesh;
-
+	UID meshUID;
+	//std::weak_ptr<ResourceMesh> mesh;
+	std::unique_ptr<GeometryBatch> batch;
 	std::unique_ptr<WindowMeshInput> inputMesh;
 };
 
 inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
-	return mesh;
+	return batch->GetMesh(meshUID);
+}
+
+inline UID ComponentMeshRenderer::GetMeshUID() const
+{
+	return meshUID;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
-	return !mesh.expired();
+	return !batch->GetMesh(meshUID).expired();
 }

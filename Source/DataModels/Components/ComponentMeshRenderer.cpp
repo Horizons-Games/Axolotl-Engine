@@ -28,15 +28,18 @@
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
+	batch = std::make_unique<GeometryBatch>();
 	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	std::shared_ptr<ResourceMesh> meshAsShared = GetMesh().lock();
 
 	if (meshAsShared)
-		mesh.lock()->Unload();
+	{
+		meshAsShared->Unload();
+	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -47,7 +50,7 @@ void ComponentMeshRenderer::Update()
 void ComponentMeshRenderer::Draw()
 {
 	//lock it so it does not expire during this block
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	std::shared_ptr<ResourceMesh> meshAsShared = GetMesh().lock();
 
 	if (meshAsShared) //pointer not empty
 	{
@@ -88,7 +91,7 @@ void ComponentMeshRenderer::Draw()
 
 void ComponentMeshRenderer::Display()
 {
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	std::shared_ptr<ResourceMesh> meshAsShared = GetMesh().lock();
 
 	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -113,7 +116,7 @@ void ComponentMeshRenderer::Display()
 				if (newMesh)
 				{
 					meshAsShared->Unload();
-					SetMesh(newMesh);
+					SetMesh(newMesh->GetUID());
 				}
 			}
 
@@ -135,7 +138,7 @@ void ComponentMeshRenderer::Display()
 			if (ImGui::Button("Remove Mesh"))
 			{
 				meshAsShared->Unload();
-				mesh = std::weak_ptr<ResourceMesh>();
+				//mesh = std::weak_ptr<ResourceMesh>();
 			}
 		}
 
@@ -165,7 +168,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	std::shared_ptr<ResourceMesh> meshAsShared = GetMesh().lock();
 
 	UID uidMesh = 0;
 	std::string assetPath = "";
@@ -193,7 +196,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (resourceMesh)
 	{
-		SetMesh(resourceMesh);
+		SetMesh(resourceMesh->GetUID());
 	}
 	else
 	{
@@ -203,15 +206,15 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		{
 			uidMesh = App->resources->ImportResource(path);
 			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-			SetMesh(resourceMesh);
+			SetMesh(resourceMesh->GetUID());
 		}
 	}
 }
 
-void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
+void ComponentMeshRenderer::SetMesh(UID meshUID)
 {
-	mesh = newMesh;
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+	this->meshUID = meshUID;
+	std::shared_ptr<ResourceMesh> meshAsShared = GetMesh().lock();
 
 
 	if (meshAsShared)
