@@ -19,7 +19,8 @@ public:
 	std::weak_ptr<ResourceMesh> GetMesh(UID meshUID) const;
 
 private:
-	void CreateUniqueComponent();
+	void AddUniqueComponent(std::weak_ptr<ResourceMesh> resourceMesh);
+	bool isUniqueResourceMesh(std::weak_ptr<ResourceMesh> resourceMesh);
 
 	std::vector<ComponentMeshRenderer*> components;
 	std::vector<std::weak_ptr<ResourceMesh>> uniqueComponents;

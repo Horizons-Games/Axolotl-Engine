@@ -13,7 +13,11 @@ GeometryBatch::~GeometryBatch()
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
 {
-	components.push_back(newComponent);
+	if (newComponent != nullptr)
+	{
+		AddUniqueComponent(newComponent->GetMesh());
+		components.push_back(newComponent);
+	}
 }
 
 std::weak_ptr<ResourceMesh> GeometryBatch::GetMesh(UID meshUID) const
@@ -29,7 +33,25 @@ std::weak_ptr<ResourceMesh> GeometryBatch::GetMesh(UID meshUID) const
 	return std::weak_ptr<ResourceMesh>();
 }
 
-void GeometryBatch::CreateUniqueComponent()
+void GeometryBatch::AddUniqueComponent(std::weak_ptr<ResourceMesh> resourceMesh)
 {
+	if (isUniqueResourceMesh(resourceMesh))
+	{
+		uniqueComponents.push_back(resourceMesh);
+	}
+}
 
+bool GeometryBatch::isUniqueResourceMesh(std::weak_ptr<ResourceMesh> resourceMesh)
+{
+	std::shared_ptr<ResourceMesh> meshAsShared = resourceMesh.lock();
+
+	for (std::weak_ptr<ResourceMesh> uniqueComponent : uniqueComponents)
+	{
+		if (uniqueComponent.lock() == meshAsShared)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
