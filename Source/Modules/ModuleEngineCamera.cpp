@@ -101,7 +101,6 @@ update_status ModuleEngineCamera::Update()
 			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
 				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
-			SetLookAt(obb.CenterPoint());
 			Orbit(obb);
 		}
 
@@ -298,50 +297,21 @@ void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 	
 	Focus(minimalAABB);
-
-	/*math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
-
-	if (minSphere.r == 0) minSphere.r = 1.f;
-	float3 point = minSphere.Centroid();
-	position = point - frustum.Front().Normalized() * minSphere.Diameter();
-
-
-	frustum.SetPos(position);
-	SetLookAt(point);*/
 }
 
 
 void ModuleEngineCamera::Orbit(const OBB& obb)
 {
-	float distance = obb.CenterPoint().Distance(position);
+	FreeLook();
 
-	vec oldPosition = position + frustum.Front().Normalized() * distance;
+	float3 posToOrbit = obb.CenterPoint();
 
-	float deltaTime = App->GetDeltaTime();
-	Quat verticalOrbit(
-		frustum.WorldRight(),
-		DegToRad(-App->input->GetMouseMotionY() * rotationSpeed * 
-			ORBIT_SPEED_MULTIPLIER * deltaTime
-		)
-	);
-	Quat sideOrbit(
-		float3::unitY, 
-		DegToRad(-App->input->GetMouseMotionX() * rotationSpeed *
-			ORBIT_SPEED_MULTIPLIER * deltaTime
-		)
-	);
+	vec camDirection = frustum.Front().Normalized();
+	float camDistance = posToOrbit.Distance(frustum.Pos());
 
-	float3x3 rotationMatrixX = float3x3::FromQuat(verticalOrbit);
-	float3x3 rotationMatrixY = float3x3::FromQuat(sideOrbit);
-	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
+	float3 newPosition = posToOrbit - (camDirection * camDistance);
 
-	ApplyRotation(rotationDeltaMatrix);
-
-	vec newPosition = position + frustum.Front().Normalized() * distance;
-
-	position = position + (oldPosition - newPosition);
-
-	frustum.SetPos(position);
+	frustum.SetPos(newPosition);
 }
 
 bool ModuleEngineCamera::IsInside(const AABB& aabb)
