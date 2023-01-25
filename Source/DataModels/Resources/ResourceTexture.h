@@ -3,51 +3,14 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression {
-	NONE,
-	DXT1,
-	DXT3,
-	DXT5,
-	BC7
-};
+struct LoadOptionsTexture;
 
-enum class TextureMinFilter {
-	NEAREST,
-	LINEAR,
-	NEAREST_MIPMAP_NEAREST,
-	LINEAR_MIPMAP_NEAREST,
-	NEAREST_MIPMAP_LINEAR,
-	LINEAR_MIPMAP_LINEAR
-};
-
-enum class TextureMagFilter {
-	NEAREST,
-	LINEAR
-};
-
-enum class TextureWrap {
-	REPEAT,
-	CLAMP_TO_EDGE,
-	CLAMP_TO_BORDER,
-	MIRROR_REPEAT,
-	MIRROR_CLAMP_TO_EDGE
-};
-
-
-struct OptionsTexture
+struct ImportOptionsTexture
 {
-	TextureMinFilter min;
-	TextureMagFilter mag;
-	TextureWrap wrapS;
-	TextureWrap wrapT;
-	bool mipMap;
+	bool flip;
 
-	OptionsTexture() :
-		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
-		mag(TextureMagFilter::LINEAR),
-		wrapS(TextureWrap::REPEAT),
-		wrapT(TextureWrap::REPEAT),
-		mipMap(true)
+	ImportOptionsTexture() :
+		flip(true)
 	{}
 };
 
@@ -71,7 +34,8 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
-	std::shared_ptr<OptionsTexture>& GetOptions();
+	std::shared_ptr<ImportOptionsTexture>& GetImportOptions();
+	std::shared_ptr<LoadOptionsTexture>& GetLoadOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -96,17 +60,9 @@ private:
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize = 0;
 
-	std::shared_ptr<OptionsTexture> options;
+	std::shared_ptr<LoadOptionsTexture> loadOptions;
+	std::shared_ptr<ImportOptionsTexture> importOptions;
 };
-
-inline ResourceTexture::ResourceTexture(UID resourceUID,
-										const std::string& fileName,
-										const std::string& assetsPath,
-										const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsTexture>();
-}
 
 inline ResourceTexture::~ResourceTexture()
 {
@@ -158,9 +114,14 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 	return pixelsSize;
 }
 
-inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
+inline std::shared_ptr<ImportOptionsTexture>& ResourceTexture::GetImportOptions()
 {
-	return this->options;
+	return this->importOptions;
+}
+
+inline std::shared_ptr<LoadOptionsTexture>& ResourceTexture::GetLoadOptions()
+{
+	return this->loadOptions;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

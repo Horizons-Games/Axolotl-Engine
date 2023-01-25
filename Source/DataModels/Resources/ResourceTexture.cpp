@@ -3,6 +3,41 @@
 #include "GL/glew.h"
 #include "FileSystem/Json.h"
 
+//enum class TextureCompression {
+//	NONE,
+//	DXT1,
+//	DXT3,
+//	DXT5,
+//	BC7
+//};
+
+struct LoadOptionsTexture
+{
+	GLenum min;
+	GLenum mag;
+	GLenum wrapS;
+	GLenum wrapT;
+	bool mipMap;
+
+	LoadOptionsTexture() :
+		min(GL_LINEAR_MIPMAP_LINEAR),
+		mag(GL_LINEAR),
+		wrapS(GL_REPEAT),
+		wrapT(GL_REPEAT),
+		mipMap(true)
+	{}
+};
+
+ResourceTexture::ResourceTexture(UID resourceUID,
+	const std::string& fileName,
+	const std::string& assetsPath,
+	const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
+{
+	importOptions = std::make_shared<ImportOptionsTexture>();
+	loadOptions = std::make_shared<LoadOptionsTexture>();
+}
+
 void ResourceTexture::InternalLoad()
 {
 	this->CreateTexture();
@@ -16,20 +51,24 @@ void ResourceTexture::InternalUnload()
 
 void ResourceTexture::SaveOptions(Json& meta)
 {
-	meta["min"] = (int) options->min;
-	meta["mag"] = (int) options->mag;
-	meta["wrapS"] = (int) options->wrapS;
-	meta["wrapT"] = (int) options->wrapT;
-	meta["mipMap"] = options->mipMap;
+	meta["flip"] = importOptions->flip;
+
+	meta["min"] = (int) loadOptions->min;
+	meta["mag"] = (int) loadOptions->mag;
+	meta["wrapS"] = (int) loadOptions->wrapS;
+	meta["wrapT"] = (int) loadOptions->wrapT;
+	meta["mipMap"] = loadOptions->mipMap;
 }
 
 void ResourceTexture::LoadOptions(Json& meta)
 {
-	options->min = (TextureMinFilter)(int) meta["min"];
-	options->mag = (TextureMagFilter)(int) meta["mag"];
-	options->wrapS = (TextureWrap)(int) meta["wrapS"];
-	options->wrapT = (TextureWrap)(int) meta["wrapT"];
-	options->mipMap = meta["mipMap"];
+	importOptions->flip = meta["flip"];
+
+	loadOptions->min = (int) meta["min"];
+	loadOptions->mag = (int) meta["mag"];
+	loadOptions->wrapS = (int) meta["wrapS"];
+	loadOptions->wrapT = (int) meta["wrapT"];
+	loadOptions->mipMap = meta["mipMap"];
 }
 
 void ResourceTexture::CreateTexture()
@@ -37,8 +76,10 @@ void ResourceTexture::CreateTexture()
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, loadOptions->mag);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, loadOptions->min);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 
