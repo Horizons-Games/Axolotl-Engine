@@ -264,15 +264,18 @@ void ModuleEngineCamera::Zoom()
 
 void ModuleEngineCamera::Focus(const OBB &obb)
 {
-	math::Sphere minSphere = obb.MinimalEnclosingSphere();
+	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
-	float3 point = minSphere.Centroid();
+	float radius = boundingSphere.r;
+	if (boundingSphere.r < 1.f) radius = 1.f;
+	float fov = frustum.HorizontalFov();
+	float camDistance = radius / sin(fov / 2.0);
+	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
-	position = point - frustum.Front().Normalized() * minSphere.Diameter();
-
-	SetLookAt(point);
+	position = boundingSphere.pos - (camDirection * camDistance);
 
 	frustum.SetPos(position);
+	SetLookAt(boundingSphere.pos);
 }
 
 void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
@@ -293,15 +296,18 @@ void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 		}
 	}
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
-	math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
+	
+	Focus(minimalAABB);
+
+	/*math::Sphere minSphere = minimalAABB.MinimalEnclosingSphere();;
 
 	if (minSphere.r == 0) minSphere.r = 1.f;
 	float3 point = minSphere.Centroid();
 	position = point - frustum.Front().Normalized() * minSphere.Diameter();
 
-	SetLookAt(point);
 
 	frustum.SetPos(position);
+	SetLookAt(point);*/
 }
 
 
