@@ -6,7 +6,10 @@ GeometryBatch::GeometryBatch()
 {}
 
 GeometryBatch::~GeometryBatch()
-{}
+{
+	components.clear();
+	uniqueComponents.clear();
+}
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
 {
