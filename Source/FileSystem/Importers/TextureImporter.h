@@ -1,6 +1,7 @@
 #pragma once
 #include "FileSystem/Importers/Importer.h"
-#include "DataModels/Resources/ResourceTexture.h"
+
+class ResourceTexture;
 
 class TextureImporter : public Importer<ResourceTexture>
 {

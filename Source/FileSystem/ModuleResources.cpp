@@ -12,6 +12,7 @@
 
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 
 #include <future>
 

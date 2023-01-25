@@ -3,6 +3,8 @@
 #include "EngineLog.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
+#include "Resources/ResourceTexture.h"
 
 #include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
@@ -12,6 +14,8 @@
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
 	ENGINE_LOG("Import texture from %s", filePath);
+
+	std::shared_ptr<ImportOptionsTexture> options = resource->GetImportOptions();
 
 	std::string narrowString(filePath);
 	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
@@ -30,13 +34,19 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		{
 			result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
 
-			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+			if (options->flip)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+			}
 		}
 		else
 		{
-			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+			if (options->flip)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+			}
 		}
 	}
 	else
@@ -44,15 +54,18 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		result = DirectX::Decompress(img.GetImages(), img.GetImageCount(),
 			md, DXGI_FORMAT_UNKNOWN, dcmprsdImg);
 
-		result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
-			dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+		if (options->flip)
+		{
+			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
+				dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
+		}
 	}
 
 	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
-	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	/*result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);*/
 
 	GLint internalFormat;
 	GLenum format, type;
@@ -153,4 +166,4 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 	resource->SetPixels(pixels);
 
 	delete[] pixelsPointer;
-} 
+}
