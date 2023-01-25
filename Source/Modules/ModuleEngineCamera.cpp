@@ -85,6 +85,11 @@ update_status ModuleEngineCamera::Update()
 			Zoom();
 		}
 
+		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
+		{
+			Move();
+		}
+
 		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			Focus(App->scene->GetSelectedGameObject().lock());
@@ -146,6 +151,18 @@ void ModuleEngineCamera::Move()
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
+		frustum.SetPos(position);
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
+	{
+		float deltaTime = App->GetDeltaTime();
+		float mouseSpeedPercentage = 0.05f;
+		float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float yrel = App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+
+		position = position + (frustum.WorldRight()) * xrel;
+		position = position + (frustum.Up()) * yrel;
 		frustum.SetPos(position);
 	}
 }
