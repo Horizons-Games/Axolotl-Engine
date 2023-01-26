@@ -5,6 +5,7 @@
 
 #include <map>
 #include <thread>
+#include <future>
 
 #include "FileSystem/UniqueID.h"
 #include "DataModels/Resources/Resource.h"
@@ -31,7 +32,7 @@ public:
 
 	//import resource from path
 	UID ImportResource(const std::string& originalPath);
-	UID ImportThread(const std::string& originalPath);
+	std::future<UID> ImportThread(const std::string& originalPath);
 
 	//request resoruce
 	const std::weak_ptr<Resource> RequestResource(UID uid);

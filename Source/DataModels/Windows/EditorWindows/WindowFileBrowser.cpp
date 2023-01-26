@@ -57,5 +57,19 @@ void WindowFileBrowser::Browser()
 void WindowFileBrowser::DoThisIfOk()
 {
 	std::string filePathName = fileDialogImporter.GetFilePathName();
-	App->resources->ImportResource(filePathName);
+	this->ImportResourceWithLoadingWindow(filePathName);
+}
+
+UID WindowFileBrowser::ImportResourceWithLoadingWindow(const std::string& filePath) const
+{
+	std::future<UID> futureResourceUID = App->resources->ImportThread(filePath);
+	while (futureResourceUID.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
+	{
+		//maybe?
+		//ImGui::ProgressBar(progress / 100.f);
+
+		//TODO: delete, just for debug
+		ENGINE_LOG("Loading...");
+	}
+	return futureResourceUID.get();
 }

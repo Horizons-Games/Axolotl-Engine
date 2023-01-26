@@ -13,8 +13,6 @@
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
 
-#include <future>
-
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
@@ -73,18 +71,13 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	return uid;
 }
 
-UID ModuleResources::ImportThread(const std::string& originalPath)
+std::future<UID> ModuleResources::ImportThread(const std::string& originalPath)
 {
-	std::promise<UID> p;
-	std::future<UID> f = p.get_future();
-	std::thread importThread = std::thread(
-		[&]() 
+	return std::async(std::launch::async,
+		[&]()
 		{
-			p.set_value(ImportResource(originalPath));
-		}
-	);
-	importThread.detach();
-	return f.get();
+			return ImportResource(std::string(originalPath));
+		});
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,

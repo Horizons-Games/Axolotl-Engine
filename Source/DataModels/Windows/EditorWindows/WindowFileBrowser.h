@@ -13,6 +13,8 @@ public:
 	virtual void Browser();
 	
 protected:
+	unsigned long long ImportResourceWithLoadingWindow(const std::string& filePath) const;
+
 	ImVec2 GetStartingSize() const override;
 
 	bool isSave = false;

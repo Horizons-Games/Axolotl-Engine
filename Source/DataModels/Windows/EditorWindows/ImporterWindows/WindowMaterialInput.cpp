@@ -8,7 +8,7 @@
 void WindowMaterialInput::DoThisIfOk()
 {
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	UID uidMaterial = App->resources->ImportResource(filePath);
+	UID uidMaterial = this->ImportResourceWithLoadingWindow(filePath);
 	std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
 	componentMaterial->SetMaterial(material);
 }
