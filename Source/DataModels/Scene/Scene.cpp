@@ -23,6 +23,8 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
+#include "DataModels/Batch/BatchManager.h"
+
 #include <GL/glew.h>
 
 Scene::Scene()
@@ -141,8 +143,6 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	//Cargas el ComponentMaterial con el ResourceMaterial
 	//Cargas el ComponentMesh con el ResourceMesh
 
-	std::unique_ptr<GeometryBatch> batch = std::make_unique<GeometryBatch>();
-
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
 		std::shared_ptr<ResourceMesh> mesh =
@@ -167,7 +167,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			std::static_pointer_cast<ComponentMeshRenderer>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh->GetUID());
-		batch->AddComponentMeshRenderer(meshRenderer);
+		batchManager->AddComponent(meshRenderer);
 	}
 }
 
@@ -437,6 +437,8 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root);
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	batchManager = std::make_shared<BatchManager>();
 
 	InitLights();
 }

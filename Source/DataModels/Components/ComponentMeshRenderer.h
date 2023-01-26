@@ -2,7 +2,7 @@
 
 #include "Components/Component.h"
 #include "FileSystem/UniqueID.h"
-#include "GeometryBatch/GeometryBatch.h"
+#include "Batch/GeometryBatch.h"
 
 #include <memory>
 

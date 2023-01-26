@@ -24,6 +24,7 @@ struct SpotLight
 
 class GameObject;
 class Quadtree;
+class BatchManager;
 
 class Scene
 {
@@ -95,6 +96,8 @@ private:
 	
 	AABB rootQuadtreeAABB = AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000));
 	std::shared_ptr<Quadtree> sceneQuadTree = nullptr;
+
+	std::shared_ptr<BatchManager> batchManager;
 };
 
 inline UID Scene::GetUID() const

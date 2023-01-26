@@ -361,10 +361,10 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\GeometryBatch\GeometryBatch.cpp">
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
       <Filter>Source\DataModels\Batch</Filter>
     </ClCompile>
-    <ClCompile Include="BatchManager.cpp">
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
       <Filter>Source\DataModels\Batch</Filter>
     </ClCompile>
   </ItemGroup>
@@ -870,10 +870,10 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\GeometryBatch\GeometryBatch.h">
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
       <Filter>Source\DataModels\Batch</Filter>
     </ClInclude>
-    <ClInclude Include="BatchManager.h">
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>Source\DataModels\Batch</Filter>
     </ClInclude>
   </ItemGroup>
