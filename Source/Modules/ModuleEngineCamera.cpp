@@ -8,9 +8,14 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+
 #include "Scene/Scene.h"
+
 #include "GameObject/GameObject.h"
+
 #include "Components/ComponentBoundingBoxes.h"
+
+#include "Windows/EditorWindows/WindowScene.h"
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
@@ -69,10 +74,24 @@ update_status ModuleEngineCamera::Update()
 
 	if (App->editor->IsSceneFocused())
 	{
+		std::shared_ptr<WindowScene> scene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
+        std::string log1 = "X = ";
+        std::string log2 = std::to_string(App->input->GetMousePosition().x - scene->GetStartingPos().x).c_str();
+        std::string log3 = ", Y = ";
+        std::string log4 = std::to_string(App->input->GetMousePosition().y - scene->GetStartingPos().y).c_str();
+        std::string log = log1 + log2 + log3 + log4;
+        ENGINE_LOG(log.c_str());
+
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
 			Walk();
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
+		{
+			float mouseX = App->input->GetMousePosition().x - scene->GetStartingPos().x;
+			float mouseY = App->input->GetMousePosition().y - scene->GetStartingPos().y;
+		}
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
@@ -197,8 +216,8 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 void ModuleEngineCamera::FreeLook()
 {
 	float yaw = 0.f, pitch = 0.f;
-	float xrel = App->input->GetMouseMotionX();
-	float yrel = App->input->GetMouseMotionY();
+	float xrel = App->input->GetMouseMotion().x;
+	float yrel = App->input->GetMouseMotion().y;
 	float rotationAngle = RadToDeg(frustum.Front().Normalized().AngleBetween(float3::unitY));
 
 	if (abs(xrel) + abs(yrel) != 0  && mouseSpeedModifier < MAX_MOUSE_SPEED_MODIFIER)
@@ -236,7 +255,7 @@ void ModuleEngineCamera::Walk()
 
 void ModuleEngineCamera::Zoom()
 {
-	float newHFOV = GetHFOV() - App->input->GetMouseWheelY();
+	float newHFOV = GetHFOV() - App->input->GetMouseWheel().y;
 
 	if (newHFOV <= MAX_HFOV && newHFOV >= MIN_HFOV)
 		SetHFOV(math::DegToRad(newHFOV));
@@ -294,13 +313,13 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 	float deltaTime = App->GetDeltaTime();
 	Quat verticalOrbit(
 		frustum.WorldRight(),
-		DegToRad(-App->input->GetMouseMotionY() * rotationSpeed * 
+		DegToRad(-App->input->GetMouseMotion().y * rotationSpeed *
 			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);
 	Quat sideOrbit(
 		float3::unitY, 
-		DegToRad(-App->input->GetMouseMotionX() * rotationSpeed *
+		DegToRad(-App->input->GetMouseMotion().x * rotationSpeed *
 			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);

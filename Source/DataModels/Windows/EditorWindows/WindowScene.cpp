@@ -26,13 +26,17 @@ void WindowScene::DrawWindowContents()
 
 void WindowScene::ManageResize()
 {
+	startingPos = ImGui::GetWindowContentRegionMin();
+	startingPos.x += ImGui::GetWindowPos().x;
+	startingPos.y += ImGui::GetWindowPos().y;
+
 	ImVec2 availableRegion = ImGui::GetContentRegionAvail();
-	bool widthChanged = previousWidht != availableRegion.x;
-	bool heightChanged = previousHeight != availableRegion.y;
+	bool widthChanged = currentWidth != availableRegion.x;
+	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
 		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
-		previousWidht = availableRegion.x;
-		previousHeight = availableRegion.y;
+		currentWidth = availableRegion.x;
+		currentHeight = availableRegion.y;
 	}
 }

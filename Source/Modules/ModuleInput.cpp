@@ -32,24 +32,23 @@ update_status ModuleInput::Update()
 {
     update_status status = UPDATE_CONTINUE;
 
-    this->mouseMotion.first = 0.f;
-    this->mouseMotion.second = 0.f;
-    this->mouseWheelScrolled = false;
+    mouseMotion = float2::zero;
+    mouseWheelScrolled = false;
     
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
-        if (this->keysState[i] == KeyState::DOWN)
-            this->keysState[i] = KeyState::REPEAT;
+        if (keysState[i] == KeyState::DOWN)
+            keysState[i] = KeyState::REPEAT;
 
-        if (this->keysState[i] == KeyState::UP)
-            this->keysState[i] = KeyState::IDLE;
+        if (keysState[i] == KeyState::UP)
+            keysState[i] = KeyState::IDLE;
     }
 
     for (int i = 0; i < NUM_MOUSEBUTTONS; ++i) {
-        if (this->mouseButtonState[i] == KeyState::DOWN)
-            this->mouseButtonState[i] = KeyState::REPEAT;
+        if (mouseButtonState[i] == KeyState::DOWN)
+            mouseButtonState[i] = KeyState::REPEAT;
 
-        if (this->mouseButtonState[i] == KeyState::UP)
-            this->mouseButtonState[i] = KeyState::IDLE;
+        if (mouseButtonState[i] == KeyState::UP)
+            mouseButtonState[i] = KeyState::IDLE;
     }
 
     SDL_PumpEvents();
@@ -83,27 +82,26 @@ update_status ModuleInput::Update()
             break;
 
         case SDL_KEYDOWN:
-            this->keysState[sdlEvent.key.keysym.scancode] = KeyState::DOWN;
+            keysState[sdlEvent.key.keysym.scancode] = KeyState::DOWN;
             break;
         case SDL_KEYUP:
-            this->keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
+            keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
             break;
 
         case SDL_MOUSEBUTTONDOWN:
-            this->mouseButtonState[sdlEvent.button.button] = KeyState::DOWN;
+            mouseButtonState[sdlEvent.button.button] = KeyState::DOWN;
             break;
         case SDL_MOUSEBUTTONUP:
-            this->mouseButtonState[sdlEvent.button.button] = KeyState::UP;
+            mouseButtonState[sdlEvent.button.button] = KeyState::UP;
             break;
 
         case SDL_MOUSEMOTION:
-            this->mouseMotion = std::make_pair(sdlEvent.motion.xrel, sdlEvent.motion.yrel);
+            mouseMotion = float2((float)sdlEvent.motion.xrel, (float)sdlEvent.motion.yrel);
             break;
 
         case SDL_MOUSEWHEEL:
-            this->mouseWheel.first = (float)sdlEvent.wheel.x;
-            this->mouseWheel.second = (float)sdlEvent.wheel.y;
-            this->mouseWheelScrolled = true;
+            mouseWheel = float2((float)sdlEvent.wheel.x, (float)sdlEvent.wheel.y);
+            mouseWheelScrolled = true;
             break;
 
         case SDL_DROPFILE:
@@ -117,6 +115,8 @@ update_status ModuleInput::Update()
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }
+
+	    SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
     }
 
     return status;

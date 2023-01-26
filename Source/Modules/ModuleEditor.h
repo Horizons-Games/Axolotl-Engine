@@ -21,6 +21,8 @@ public:
 
 	void Resized();
 
+	const std::shared_ptr<WindowScene> GetScene() const;
+
 	bool IsSceneFocused() const;
 
 private:
@@ -32,3 +34,7 @@ private:
 	bool windowResized = false;
 };
 
+inline const std::shared_ptr<WindowScene> ModuleEditor::GetScene() const
+{
+	return scene;
+}
