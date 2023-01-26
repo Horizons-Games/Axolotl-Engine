@@ -52,8 +52,7 @@ private:
 								   bool translationModified,
 								   bool rotationModified);
 
-	void CalculateLocalMatrix();
-	void CalculateGlobalMatrix();
+	void CalculateMatrices();
 	
 	float3 pos = float3::zero;
 	float4x4 rot = float4x4::identity;

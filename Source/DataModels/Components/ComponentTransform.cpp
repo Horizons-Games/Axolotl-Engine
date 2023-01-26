@@ -267,38 +267,35 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.y = (float) meta["localSca_Y"];
 	sca.z = (float) meta["localSca_Z"];
 
-	CalculateLocalMatrix();
-	if(!GetOwner().lock()->GetParent().expired()) 
-		CalculateGlobalMatrix();
+	CalculateMatrices();
 }
 
-void ComponentTransform::CalculateLocalMatrix()
+void ComponentTransform::CalculateMatrices()
 {
+	// Set local matrix
 	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (float4x4)GetRotation(), (float3)GetScale());
-
 	SetLocalMatrix(localMatrix);
-}
 
-void ComponentTransform::CalculateGlobalMatrix()
-{
+	// Set global matrix
 	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
-	assert(parent);
+	if (parent)
+	{
+		float3 parentPos, parentSca, localPos, localSca;
+		float4x4 parentRot, localRot;
 
-	float3 parentPos, parentSca, localPos, localSca;
-	float4x4 parentRot, localRot;
+		std::shared_ptr<ComponentTransform> parentTransform =
+			std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
 
-	std::shared_ptr<ComponentTransform> parentTransform =
-		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
+		parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
+		GetLocalMatrix().Decompose(localPos, localRot, localSca);
 
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
-	GetLocalMatrix().Decompose(localPos, localRot, localSca);
+		float3 position = localPos + parentPos;
+		float4x4 rotation = localRot * parentRot;
+		float3 scale = parentSca.Mul(localSca);
 
-	float3 position = localPos + parentPos;
-	float4x4 rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
-
-	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-	SetGlobalMatrix(globalMatrix);
+		float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
+		SetGlobalMatrix(globalMatrix);
+	}
 }
 
 const float3& ComponentTransform::GetGlobalPosition() const
@@ -330,8 +327,7 @@ const float3& ComponentTransform::GetGlobalScale() const
 
 inline void ComponentTransform::UpdateTransformMatrices()
 {
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+	CalculateMatrices();
 
 	if (this->GetOwner().lock()->GetChildren().empty())
 		return;
