@@ -28,7 +28,7 @@
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
-	batch = std::make_unique<GeometryBatch>();
+	batch = nullptr;
 	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 

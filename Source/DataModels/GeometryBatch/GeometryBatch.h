@@ -7,6 +7,7 @@
 
 class ComponentMeshRenderer;
 class ResourceMesh;
+class GameObject;
 
 class GeometryBatch
 {
@@ -14,15 +15,18 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
-	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
+	void AddComponentMeshRenderer(const std::shared_ptr<ComponentMeshRenderer>& newComponent);
 
-	std::weak_ptr<ResourceMesh> GetMesh(UID meshUID) const;
+	void Draw();
+
+	const std::weak_ptr<ResourceMesh>& GetMesh(UID meshUID) const;
 
 private:
 	void AddUniqueComponent(std::weak_ptr<ResourceMesh> resourceMesh);
+	const std::shared_ptr<GameObject>& GetComponentOwner(const std::weak_ptr<ResourceMesh>& resourceMesh);
 	bool isUniqueResourceMesh(std::weak_ptr<ResourceMesh> resourceMesh);
 
-	std::vector<ComponentMeshRenderer*> components;
+	std::vector<std::shared_ptr<ComponentMeshRenderer>> components;
 	std::vector<std::weak_ptr<ResourceMesh>> uniqueComponents;
 
 	unsigned int vbo = 0;
