@@ -19,12 +19,12 @@ public:
 
 	void Draw();
 
-	const std::weak_ptr<ResourceMesh>& GetMesh(UID meshUID) const;
+	const std::weak_ptr<ResourceMesh>& GetMesh(const UID meshUID) const;
 
 private:
-	void AddUniqueComponent(std::weak_ptr<ResourceMesh> resourceMesh);
+	void AddUniqueComponent(const std::weak_ptr<ResourceMesh>& resourceMesh);
 	const std::shared_ptr<GameObject>& GetComponentOwner(const std::weak_ptr<ResourceMesh>& resourceMesh);
-	bool isUniqueResourceMesh(std::weak_ptr<ResourceMesh> resourceMesh);
+	bool isUniqueResourceMesh(const std::weak_ptr<ResourceMesh>& resourceMesh);
 
 	std::vector<std::shared_ptr<ComponentMeshRenderer>> components;
 	std::vector<std::weak_ptr<ResourceMesh>> uniqueComponents;

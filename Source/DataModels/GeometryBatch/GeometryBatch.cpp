@@ -74,7 +74,7 @@ void GeometryBatch::Draw()
 	}
 }
 
-const std::weak_ptr<ResourceMesh>& GeometryBatch::GetMesh(UID meshUID) const
+const std::weak_ptr<ResourceMesh>& GeometryBatch::GetMesh(const UID meshUID) const
 {
 	for (std::shared_ptr<ComponentMeshRenderer> component : components)
 	{
@@ -87,7 +87,7 @@ const std::weak_ptr<ResourceMesh>& GeometryBatch::GetMesh(UID meshUID) const
 	return std::weak_ptr<ResourceMesh>();
 }
 
-void GeometryBatch::AddUniqueComponent(std::weak_ptr<ResourceMesh> resourceMesh)
+void GeometryBatch::AddUniqueComponent(const std::weak_ptr<ResourceMesh>& resourceMesh)
 {
 	if (isUniqueResourceMesh(resourceMesh))
 	{
@@ -108,7 +108,7 @@ const std::shared_ptr<GameObject>& GeometryBatch::GetComponentOwner(const std::w
 	return nullptr;
 }
 
-bool GeometryBatch::isUniqueResourceMesh(std::weak_ptr<ResourceMesh> resourceMesh)
+bool GeometryBatch::isUniqueResourceMesh(const std::weak_ptr<ResourceMesh>& resourceMesh)
 {
 	if (resourceMesh.expired())
 	{
