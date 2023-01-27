@@ -78,6 +78,7 @@ update_status ModuleEngineCamera::Update()
 		{
 			Move();
 			FreeLook();
+			UnlimitedCursor();
 		}
 
 		if (App->input->IsMouseWheelScrolled())
@@ -214,8 +215,8 @@ void ModuleEngineCamera::FreeLook()
 {
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -cameraMouseMotion.first * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -cameraMouseMotion.second * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
 	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
@@ -238,6 +239,52 @@ void ModuleEngineCamera::FreeLook()
 
 		frustum.SetUp(xy.MulDir(oldUp));
 		frustum.SetFront(xy.MulDir(oldFront));
+	}
+}
+
+void ModuleEngineCamera::UnlimitedCursor()
+{
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	if (mouseWarped)
+	{
+		this->cameraMouseMotion = std::make_pair(mouseX - lastMouseX, mouseY - lastMouseY);
+		mouseWarped = false;
+	}
+	else
+	{
+		this->cameraMouseMotion = std::make_pair(App->input->GetMouseMotionX(), App->input->GetMouseMotionY());
+	}
+	int width, height;
+	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	if (mouseX <= 0)
+	{
+		lastMouseX = width - 1;
+		lastMouseY = mouseY;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), width - 1, mouseY);
+		mouseWarped = true;
+	}
+	if (mouseX >= width - 1)
+	{
+		lastMouseX = 0;
+		lastMouseY = mouseY;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), 0, mouseY);
+		mouseWarped = true;
+	}
+	if (mouseY <= 0)
+	{
+		lastMouseX = mouseX;
+		lastMouseY = height - 1;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, height - 1);
+		mouseWarped = true;
+	}
+	if (mouseY >= height - 1)
+	{
+		lastMouseX = mouseX;
+		lastMouseY = 0;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
+		mouseWarped = true;
 	}
 }
 
@@ -302,7 +349,35 @@ void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 
 void ModuleEngineCamera::Orbit(const OBB& obb)
 {
-	FreeLook();
+	//OLD freelook function (only xrel and yrel change)
+	float deltaTime = App->GetDeltaTime();
+	float mouseSpeedPercentage = 0.05f;
+	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+
+	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
+	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
+	float3x3 xy = x * y;
+
+	vec oldUp = frustum.Up().Normalized();
+	vec oldFront = frustum.Front().Normalized();
+
+	float3 newUp = xy.MulDir(oldUp);
+
+	if (newUp.y > 0.f)
+	{
+		frustum.SetUp(xy.MulDir(oldUp));
+		frustum.SetFront(xy.MulDir(oldFront));
+	}
+	else
+	{
+		y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), 0);
+		xy = x * y;
+
+		frustum.SetUp(xy.MulDir(oldUp));
+		frustum.SetFront(xy.MulDir(oldFront));
+	}
+	//end of old freelook function
 
 	float3 posToOrbit = obb.CenterPoint();
 

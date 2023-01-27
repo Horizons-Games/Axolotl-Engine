@@ -55,6 +55,7 @@ public:
 	void KeyboardRotate();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
+	void UnlimitedCursor();
 	void Run();
 	void Walk();
 	void Zoom();
@@ -109,6 +110,10 @@ private:
 	int frustumMode;
 	float viewPlaneDistance;
 	math::Plane offsetFrustumPlanes[6];
+	bool mouseWarped = false;
+	int lastMouseX, lastMouseY;
+	int mouseState;
+	std::pair<float, float> cameraMouseMotion;
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const
