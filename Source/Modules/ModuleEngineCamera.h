@@ -93,6 +93,8 @@ public:
 	float GetViewPlaneDistance() const;
 	int	GetFrustumMode() const;
 	const float3& GetPosition() const;
+
+	float2 mousePositionInScene = float2::zero;
 	
 private:
 	Frustum frustum;

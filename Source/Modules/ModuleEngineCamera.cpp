@@ -20,6 +20,7 @@
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/LineSegment.h"
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 
@@ -75,12 +76,31 @@ update_status ModuleEngineCamera::Update()
 	if (App->editor->IsSceneFocused())
 	{
 		std::shared_ptr<WindowScene> scene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
-        std::string log1 = "X = ";
-        std::string log2 = std::to_string(App->input->GetMousePosition().x - scene->GetStartingPos().x).c_str();
-        std::string log3 = ", Y = ";
-        std::string log4 = std::to_string(App->input->GetMousePosition().y - scene->GetStartingPos().y).c_str();
-        std::string log = log1 + log2 + log3 + log4;
-        ENGINE_LOG(log.c_str());
+		mousePositionInScene = float2(App->input->GetMousePosition().x - scene->GetStartingPos().x,
+												App->input->GetMousePosition().y - scene->GetStartingPos().y);
+
+		if (mousePositionInScene.x < 0.0f || 
+			mousePositionInScene.y < 0.0f ||
+			mousePositionInScene.x > scene->GetEndingPos().x ||
+			mousePositionInScene.y > scene->GetEndingPos().y)
+		{
+			mousePositionInScene = float2(-0.0f, -0.0f); // Out of bounds of the scene window
+		}
+
+		LineSegment ray = frustum.UnProjectLineSegment(mousePositionInScene.x, mousePositionInScene.y);
+
+		/*
+		std::string log = "Ray goes from (";
+		log += std::to_string(ray.a.x).c_str();
+		log += ", ";
+		log += std::to_string(ray.a.y).c_str();
+		log += ") to (";
+		log += std::to_string(ray.b.x).c_str();
+		log += ", ";
+		log += std::to_string(ray.b.y).c_str();
+		log += ") (to infinity).";
+		ENGINE_LOG(log.c_str());
+		*/
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();

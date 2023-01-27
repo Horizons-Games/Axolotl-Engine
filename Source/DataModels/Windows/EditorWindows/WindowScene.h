@@ -11,6 +11,7 @@ public:
 	~WindowScene();
 
 	ImVec2 GetStartingPos() const;
+	ImVec2 GetEndingPos() const;
 
 protected:
 	void DrawWindowContents() override;
@@ -25,6 +26,7 @@ private:
 	float currentHeight = 0;
 
 	ImVec2 startingPos;
+	ImVec2 endingPos;
 };
 
 inline ImVec2 WindowScene::GetStartingSize() const
@@ -36,3 +38,8 @@ inline ImVec2 WindowScene::GetStartingPos() const
 {
 	return startingPos;
 }	
+
+inline ImVec2 WindowScene::GetEndingPos() const
+{
+	return endingPos;
+}

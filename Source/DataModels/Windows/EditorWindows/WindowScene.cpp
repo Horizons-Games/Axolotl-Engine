@@ -27,6 +27,7 @@ void WindowScene::DrawWindowContents()
 void WindowScene::ManageResize()
 {
 	startingPos = ImGui::GetWindowContentRegionMin();
+	endingPos = ImGui::GetWindowContentRegionMax();
 	startingPos.x += ImGui::GetWindowPos().x;
 	startingPos.y += ImGui::GetWindowPos().y;
 
