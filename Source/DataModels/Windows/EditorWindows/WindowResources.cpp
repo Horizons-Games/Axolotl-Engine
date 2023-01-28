@@ -7,21 +7,36 @@
 
 void WindowResources::DrawWindowContents()
 {
-	std::vector<UID> resourcesToDelete;
+	std::vector<UID> loadedResources, unloadedResources, resourcesToDelete;
+
+	//in theory, since mapEntry is a reference to the one in the resources map,
+	//it should not increase reference count while iterating since it's not a new pointer
+	for (std::pair<const UID, std::shared_ptr<Resource> >& mapEntry : App->resources->resources)
+	{
+		if (mapEntry.second->IsLoaded())
+		{
+			loadedResources.push_back(mapEntry.first);
+		}
+		else
+		{
+			unloadedResources.push_back(mapEntry.first);
+		}
+	}
 
 	if (ImGui::BeginTable("Resources", 2))
 	{
-		ImGui::TableSetupColumn("Unloaded", ImGuiTableColumnFlags_None);
 		ImGui::TableSetupColumn("Loaded", ImGuiTableColumnFlags_None);
+		ImGui::TableSetupColumn("Unloaded", ImGuiTableColumnFlags_None);
 		ImGui::TableHeadersRow();
-		ImGui::TableNextRow();
 
-		//in theory, since mapEntry is a reference to the one in the resources map,
-		//it should not increase reference count while iterating since it's not a new pointer
-		for (std::pair<const UID, std::shared_ptr<Resource> >& mapEntry : App->resources->resources)
-		{
-			DrawResource(mapEntry.second, resourcesToDelete);
-		}
+		ImGui::TableNextColumn();
+
+		DrawResourceTable("LoadedResources", loadedResources, resourcesToDelete);
+
+		ImGui::TableNextColumn();
+		ImGui::SameLine();
+
+		DrawResourceTable("UnloadedResources", unloadedResources, resourcesToDelete);
 
 		ImGui::EndTable();
 	}
@@ -32,14 +47,29 @@ void WindowResources::DrawWindowContents()
 	}
 }
 
+void WindowResources::DrawResourceTable(const std::string& tableName,
+										const std::vector<UID>& resourcesUIDs,
+										std::vector<UID>& resourcesToDelete)
+{
+	if (ImGui::BeginTable(tableName.c_str(), 1))
+	{
+		for (UID resUID : resourcesUIDs)
+		{
+			ImGui::TableNextRow();
+			ImGui::TableNextColumn();
+			DrawResource(App->resources->RequestResource(resUID), resourcesToDelete);
+		}
+
+		ImGui::EndTable();
+	}
+}
+
 void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource, std::vector<UID>& resourcesToDelete)
 {
 	long referenceCountBeforeLock = resource.use_count();
 	std::shared_ptr<Resource> asShared = resource.lock();
 	if (asShared)
 	{
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(asShared->IsLoaded());
 		std::string uidString = std::to_string(asShared->GetUID());
 
 		ImGui::BeginGroup();
