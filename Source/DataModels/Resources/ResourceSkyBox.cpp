@@ -20,17 +20,8 @@ void ResourceSkyBox::InternalLoad()
         {
             textI->Load();
             std::vector<uint8_t> aux = textI->GetPixels();
-            if (i != 2 && i != 3)
-            {
-                std::reverse(aux.begin(), aux.end());
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, GL_ABGR_EXT, textI->GetImageType(), &(aux[0]));
-            }
-            else
-            {
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
-            }
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
+                textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
         }
 
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
