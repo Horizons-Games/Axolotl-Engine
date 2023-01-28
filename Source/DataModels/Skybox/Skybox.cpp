@@ -38,6 +38,7 @@ void Skybox::Draw()
         std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
         if (skyboxAsShared)
         {
+            skyboxAsShared->Load();
             glBindVertexArray(skyboxAsShared->GetVAO());
             glActiveTexture(GL_TEXTURE0);
 
