@@ -14,6 +14,9 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentBoundingBoxes.h"
+
+#include "Resources/ResourceMesh.h"
 
 #include "Windows/EditorWindows/WindowScene.h"
 
@@ -21,6 +24,8 @@
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/LineSegment.h"
+
+#include <map>
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 
@@ -75,14 +80,14 @@ update_status ModuleEngineCamera::Update()
 
 	if (App->editor->IsSceneFocused())
 	{
-		std::shared_ptr<WindowScene> scene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
-		mousePositionInScene = float2(App->input->GetMousePosition().x - scene->GetStartingPos().x,
-												App->input->GetMousePosition().y - scene->GetStartingPos().y);
+		std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
+		mousePositionInScene = float2(App->input->GetMousePosition().x - windowScene->GetStartingPos().x,
+												App->input->GetMousePosition().y - windowScene->GetStartingPos().y);
 
 		if (mousePositionInScene.x < 0.0f || 
 			mousePositionInScene.y < 0.0f ||
-			mousePositionInScene.x > scene->GetEndingPos().x ||
-			mousePositionInScene.y > scene->GetEndingPos().y)
+			mousePositionInScene.x > windowScene->GetEndingPos().x ||
+			mousePositionInScene.y > windowScene->GetEndingPos().y)
 		{
 			mousePositionInScene = float2(-0.0f, -0.0f); // Out of bounds of the scene window
 		}
@@ -102,6 +107,42 @@ update_status ModuleEngineCamera::Update()
 		ENGINE_LOG(log.c_str());
 		*/
 
+		std::vector<std::weak_ptr<GameObject>> vectorGos = App->scene->GetLoadedScene()->GetSceneGameObjects();
+		std::map<float, std::shared_ptr<GameObject>> objects;
+		for (std::weak_ptr<GameObject> goAsWeak : vectorGos) {
+			std::shared_ptr<GameObject> goAsShared = goAsWeak.lock();
+			if (goAsShared) {
+				std::shared_ptr<ComponentBoundingBoxes> boundingBox =
+					std::static_pointer_cast<ComponentBoundingBoxes>(goAsShared->GetComponent(ComponentType::BOUNDINGBOX));
+				if (ray.Intersects(boundingBox->GetObjectOBB())) { // if doesnt work try encapsuledAABB
+					float nearDistance;
+					float farDistance;
+					for (std::weak_ptr<GameObject> childAsWeak : goAsShared->GetChildren()) {
+						std::shared_ptr<GameObject> childAsShared = childAsWeak.lock();
+						if (childAsShared) {
+							objects[nearDistance] = childAsShared;
+						}
+					}
+				}
+				
+			}
+		}
+		
+		/*std::map<float, std::shared_ptr<GameObject>>::iterator it = objects.begin();
+
+		// Iterating over the map using Iterator till map end.
+		while (it != objects.end())
+		{
+			// Accessing the key
+			float word = it->first;
+			std::string log = std::to_string(word);
+			log += ", ";
+			log += it->second->GetName();
+			ENGINE_LOG(log.c_str());
+			it++;
+		}
+		*/
+
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
@@ -109,8 +150,8 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			float mouseX = App->input->GetMousePosition().x - scene->GetStartingPos().x;
-			float mouseY = App->input->GetMousePosition().y - scene->GetStartingPos().y;
+			float mouseX = App->input->GetMousePosition().x - windowScene->GetStartingPos().x;
+			float mouseY = App->input->GetMousePosition().y - windowScene->GetStartingPos().y;
 		}
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
