@@ -37,6 +37,9 @@ public:
 	const std::weak_ptr<Resource> RequestResource(UID uid);
 	template<class R>
 	const std::weak_ptr<R> RequestResource(UID uid);
+
+	void ReimportResource(UID resourceUID);
+
 	const UID GetSkyBoxResource();
 
 private:

@@ -249,6 +249,13 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 	}
 }
 
+void ModuleResources::ReimportResource(UID resourceUID)
+{
+	std::shared_ptr<Resource> resource = resources[resourceUID];
+	CreateMetaFileOfResource(resource);
+	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+}
+
 const UID ModuleResources::GetSkyBoxResource()
 {
 	return skybox;
