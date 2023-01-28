@@ -7,7 +7,8 @@
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleEngineCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 
@@ -618,6 +619,13 @@ update_status ModuleDebugDraw::Update()
 
     DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
+
+    float3 baseMouseMovement = float3(App->engineCamera->mousePositionInScene.x * 0.01f,
+                                       -App->engineCamera->mousePositionInScene.y * 0.01f, 0.0f);
+
+    dd::line(App->engineCamera->ray.a, baseMouseMovement, float3::zero);
+
+    dd::sphere(baseMouseMovement, float3::zero, 1);
 
     return UPDATE_CONTINUE;
 }

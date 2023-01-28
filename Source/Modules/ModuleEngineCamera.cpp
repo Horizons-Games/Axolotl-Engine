@@ -23,7 +23,6 @@
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
-#include "Geometry/LineSegment.h"
 
 #include <map>
 
@@ -84,15 +83,15 @@ update_status ModuleEngineCamera::Update()
 		mousePositionInScene = float2(App->input->GetMousePosition().x - windowScene->GetStartingPos().x,
 												App->input->GetMousePosition().y - windowScene->GetStartingPos().y);
 
-		if (mousePositionInScene.x < 0.0f || 
-			mousePositionInScene.y < 0.0f ||
-			mousePositionInScene.x > windowScene->GetEndingPos().x ||
-			mousePositionInScene.y > windowScene->GetEndingPos().y)
-		{
-			mousePositionInScene = float2(-0.0f, -0.0f); // Out of bounds of the scene window
-		}
+		if (mousePositionInScene.x < 0.0f) mousePositionInScene.x = 0.0f;
+		else if (mousePositionInScene.x > windowScene->GetEndingPos().x)
+			mousePositionInScene.x = windowScene->GetEndingPos().x;
 
-		LineSegment ray = frustum.UnProjectLineSegment(mousePositionInScene.x, mousePositionInScene.y);
+		if (mousePositionInScene.y < 0.0f) mousePositionInScene.y = 0.0f;
+		else if (mousePositionInScene.y > windowScene->GetEndingPos().y)
+			mousePositionInScene.y = windowScene->GetEndingPos().y;
+
+		ray = frustum.UnProjectLineSegment(frustum.Front().x, frustum.Front().y);
 
 		/*
 		std::string log = "Ray goes from (";
@@ -107,41 +106,25 @@ update_status ModuleEngineCamera::Update()
 		ENGINE_LOG(log.c_str());
 		*/
 
-		std::vector<std::weak_ptr<GameObject>> vectorGos = App->scene->GetLoadedScene()->GetSceneGameObjects();
-		std::map<float, std::shared_ptr<GameObject>> objects;
-		for (std::weak_ptr<GameObject> goAsWeak : vectorGos) {
-			std::shared_ptr<GameObject> goAsShared = goAsWeak.lock();
-			if (goAsShared) {
-				std::shared_ptr<ComponentBoundingBoxes> boundingBox =
-					std::static_pointer_cast<ComponentBoundingBoxes>(goAsShared->GetComponent(ComponentType::BOUNDINGBOX));
-				if (ray.Intersects(boundingBox->GetObjectOBB())) { // if doesnt work try encapsuledAABB
-					float nearDistance;
-					float farDistance;
-					for (std::weak_ptr<GameObject> childAsWeak : goAsShared->GetChildren()) {
-						std::shared_ptr<GameObject> childAsShared = childAsWeak.lock();
-						if (childAsShared) {
-							objects[nearDistance] = childAsShared;
-						}
-					}
-				}
-				
+		std::vector<std::weak_ptr<GameObject>> existingGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
+		std::vector<std::weak_ptr<GameObject>> hittedGameObjects;
+
+		for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
+		{
+			std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
+			std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
+				std::static_pointer_cast<ComponentBoundingBoxes>
+				(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
+
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB()); // ray vs. AABB
+
+			if (hit)
+			{
+				hittedGameObjects.push_back(std::weak_ptr<GameObject>(currentGameObjectAsShared));
 			}
 		}
 		
-		/*std::map<float, std::shared_ptr<GameObject>>::iterator it = objects.begin();
-
-		// Iterating over the map using Iterator till map end.
-		while (it != objects.end())
-		{
-			// Accessing the key
-			float word = it->first;
-			std::string log = std::to_string(word);
-			log += ", ";
-			log += it->second->GetName();
-			ENGINE_LOG(log.c_str());
-			it++;
-		}
-		*/
+		//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();

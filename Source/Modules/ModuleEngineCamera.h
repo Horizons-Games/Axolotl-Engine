@@ -9,6 +9,7 @@
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Geometry/Plane.h"
+#include "Geometry/LineSegment.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
 #define DEFAULT_ROTATION_DEGREE 30
@@ -95,6 +96,7 @@ public:
 	const float3& GetPosition() const;
 
 	float2 mousePositionInScene = float2::zero;
+	LineSegment ray = LineSegment(float3::zero, float3::zero);
 	
 private:
 	Frustum frustum;
