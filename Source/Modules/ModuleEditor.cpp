@@ -17,6 +17,10 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 
+//TODO REMOVE
+#include "Windows/EditorWindows/WindowInspectorResource.h"
+//
+
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
@@ -55,6 +59,10 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowEditorControl>());
 	windows.push_back(std::make_shared<WindowFileBrowser>());
 	windows.push_back(std::make_shared<WindowResources>());
+
+	//TODO REMOVE
+	windows.push_back(std::make_shared<WindowInspectorResource>());
+
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;

@@ -230,6 +230,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspectorResource.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp" />
@@ -392,6 +393,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspectorResource.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h" />
