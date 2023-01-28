@@ -2,6 +2,10 @@
 #include "Module.h"
 
 #define NUM_MOUSEBUTTONS 5
+#define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
+#define BMP_ORBITSURFACE "Assets/MouseCursors/orbit.bmp"
+#define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
+#define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
 enum class KeyState {
 	IDLE,
@@ -30,6 +34,10 @@ public:
 
 	void SetMouseMotionX(float posX);
 	void SetMouseMotionY(float posY);
+	void SetFreeLookCursor();
+	void SetOrbitCursor();
+	void SetMoveCursor();
+	void SetZoomCursor();
 
 	bool IsMouseWheelScrolled() const;
 
@@ -43,6 +51,15 @@ private:
 	std::pair<float, float> mouseMotion;
 
 	bool mouseWheelScrolled;
+
+	SDL_Surface* freeLookSurface;
+	SDL_Surface* orbitSurface;
+	SDL_Surface* moveSurface;
+	SDL_Surface* zoomSurface;
+	SDL_Cursor* freeLookCursor;
+	SDL_Cursor* orbitCursor;
+	SDL_Cursor* moveCursor;
+	SDL_Cursor* zoomCursor;
 };
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
@@ -83,6 +100,26 @@ inline void ModuleInput::SetMouseMotionX(float posX)
 inline void ModuleInput::SetMouseMotionY(float posY)
 {
 	this->mouseMotion.second = posY;
+}
+
+inline void ModuleInput::SetFreeLookCursor()
+{
+	SDL_SetCursor(freeLookCursor);
+}
+
+inline void ModuleInput::SetOrbitCursor()
+{
+	SDL_SetCursor(orbitCursor);
+}
+
+inline void ModuleInput::SetMoveCursor()
+{
+	SDL_SetCursor(moveCursor);
+}
+
+inline void ModuleInput::SetZoomCursor()
+{
+	SDL_SetCursor(zoomCursor);
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const

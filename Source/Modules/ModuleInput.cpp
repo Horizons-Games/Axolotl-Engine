@@ -25,6 +25,15 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
+    freeLookSurface = SDL_LoadBMP(BMP_FREELOOKSURFACE);
+    orbitSurface = SDL_LoadBMP(BMP_ORBITSURFACE);
+    moveSurface = SDL_LoadBMP(BMP_MOVESURFACE);
+    zoomSurface = SDL_LoadBMP(BMP_ZOOMSURFACE);
+    freeLookCursor = SDL_CreateColorCursor(freeLookSurface, 0, 0);
+    orbitCursor = SDL_CreateColorCursor(orbitSurface, 0, 0);
+    moveCursor = SDL_CreateColorCursor(moveSurface, 0, 0);
+    zoomCursor = SDL_CreateColorCursor(zoomSurface, 0, 0);
+
 	return ret;
 }
 

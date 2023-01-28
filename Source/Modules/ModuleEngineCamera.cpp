@@ -77,6 +77,7 @@ update_status ModuleEngineCamera::Update()
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 			App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
+			App->input->SetFreeLookCursor();
 			UnlimitedCursor();
 			Move();
 			FreeLook();
@@ -89,6 +90,7 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 		{
+			App->input->SetMoveCursor();
 			UnlimitedCursor();
 			Move();
 		}
@@ -103,7 +105,8 @@ update_status ModuleEngineCamera::Update()
 		{
 			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
 				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
-
+			
+			App->input->SetOrbitCursor();
 			UnlimitedCursor();
 			Orbit(obb);
 		}
@@ -112,6 +115,7 @@ update_status ModuleEngineCamera::Update()
 			App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE && 
 			App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
 		{
+			App->input->SetZoomCursor();
 			UnlimitedCursor();
 			Zoom();
 		}
@@ -170,7 +174,7 @@ void ModuleEngineCamera::Move()
 		float deltaTime = App->GetDeltaTime();
 		float mouseSpeedPercentage = 0.05f;
 		float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-		float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float yrel = App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 		position = position + (frustum.WorldRight()) * xrel;
 		position = position + (frustum.Up()) * yrel;
