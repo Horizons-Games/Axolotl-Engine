@@ -51,6 +51,20 @@ void ResourceSkyBox::InternalUnload()
     glTexture = 0;
 }
 
+bool ResourceSkyBox::ChildChanged() const
+{
+    bool result = false;
+    for (UID uid : texturesUIDs)
+    {
+        std::shared_ptr<Resource> texture = App->resources->RequestResource(uid).lock();
+        if (texture && texture->IsChanged())
+        {
+            result = true;
+            texture->SetChanged(false);
+        }
+    }
+    return result;
+}
 
 
 void ResourceSkyBox::LoadVBO()

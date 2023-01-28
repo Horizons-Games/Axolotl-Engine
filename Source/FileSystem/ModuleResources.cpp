@@ -372,11 +372,9 @@ void ModuleResources::MonitorResources()
 					App->fileSystem->GetPathWithExtension(it->second->GetLibraryPath());
 
 				if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
-					!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
-					it->second->IsChanged())
+					!App->fileSystem->Exists(libraryPathWithExtension.c_str()))
 				{
 					toCreateLib.push_back(it->second);
-					it->second->SetChanged(false);
 				}
 				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
 				{

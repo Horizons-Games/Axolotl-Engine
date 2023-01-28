@@ -400,7 +400,7 @@ void ComponentMaterial::DisplaySetMaterial()
 				materialAsShared->SetOcclusionUID(uidNull);
 				materialAsShared->SetSpecularUID(uidNull);
 
-				materialAsShared->SetChanged(true);
+				App->resources->ReimportResource(materialAsShared->GetUID());
 
 				diffuseUID = 0;
 				normalUID = 0;

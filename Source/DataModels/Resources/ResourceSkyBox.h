@@ -34,6 +34,8 @@ protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
 
+	bool ChildChanged() const override;
+
 private:
 	unsigned int glTexture = 0;
 	std::vector<UID> texturesUIDs;

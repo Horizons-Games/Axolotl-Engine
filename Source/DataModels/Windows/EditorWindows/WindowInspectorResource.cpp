@@ -18,7 +18,7 @@ WindowInspectorResource::~WindowInspectorResource()
 
 void WindowInspectorResource::DrawWindowContents()
 {
-	UID aux = App->resources->ImportResource("Assets/Textures/top.jpg");
+	UID aux = App->resources->ImportResource("Assets/Textures/front.jpg");
 	std::shared_ptr<ResourceTexture> resource = App->resources->RequestResource<ResourceTexture>(aux).lock();
 	resource->Load();
 	//TODO When user select another resource Unload the last one
@@ -36,7 +36,7 @@ void WindowInspectorResource::DrawWindowContents()
 
 void WindowInspectorResource::DrawTextureOptions()
 {
-	UID aux = App->resources->ImportResource("Assets/Textures/top.jpg");
+	UID aux = App->resources->ImportResource("Assets/Textures/front.jpg");
 	std::shared_ptr<ResourceTexture> resource = App->resources->RequestResource<ResourceTexture>(aux).lock();
 
 	if (ImGui::BeginTable("table1", 2))
@@ -65,6 +65,7 @@ void WindowInspectorResource::DrawTextureOptions()
 		if (ImGui::Button("Apply"))
 		{
 			resource->Unload();
+			resource->SetChanged(true);
 			App->resources->ReimportResource(resource->GetUID());
 		}
 	}
