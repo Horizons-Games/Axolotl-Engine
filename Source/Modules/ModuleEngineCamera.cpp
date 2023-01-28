@@ -265,24 +265,22 @@ void ModuleEngineCamera::Walk()
 
 void ModuleEngineCamera::Zoom()
 {
+	float deltaTime = App->GetDeltaTime();
 	if (App->input->IsMouseWheelScrolled())
 	{
 		float zoomSpeed = App->input->GetMouseWheelY() * DEFAULT_MOUSE_ZOOM_SPEED;
-		float deltaTime = App->GetDeltaTime();
 
 		position = position + frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
-		SetPosition(position);
 	}
 	else
 	{
 		float zoomSpeed = App->input->GetMouseMotionX() * DEFAULT_MOUSE_ZOOM_SPEED;
-		float deltaTime = App->GetDeltaTime();
 
 		position = position + frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
-		SetPosition(position);
 	}
+	SetPosition(position);
 }
 
 void ModuleEngineCamera::Focus(const OBB &obb)
