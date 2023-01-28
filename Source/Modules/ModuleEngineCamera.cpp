@@ -123,38 +123,38 @@ void ModuleEngineCamera::Move()
 	{
 		position = position + frustum.Front().Normalized() * 
 			moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Front().Normalized()) * 
 			moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		position = position + -(frustum.WorldRight()) * moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		position = position + frustum.WorldRight() * moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
 		position = position + frustum.Up() * moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
@@ -166,7 +166,7 @@ void ModuleEngineCamera::Move()
 
 		position = position + (frustum.WorldRight()) * xrel;
 		position = position + (frustum.Up()) * yrel;
-		frustum.SetPos(position);
+		SetPosition(position);
 	}
 }
 
@@ -245,49 +245,6 @@ void ModuleEngineCamera::FreeLook()
 	}
 }
 
-void ModuleEngineCamera::UnlimitedCursor()
-{
-	int mouseX, mouseY;
-	SDL_GetMouseState(&mouseX, &mouseY);
-
-	if (mouseWarped)
-	{
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
-		mouseWarped = false;
-	}
-	int width, height;
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	if (mouseX <= 0)
-	{
-		lastMouseX = width - 1;
-		lastMouseY = mouseY;
-		SDL_WarpMouseInWindow(App->window->GetWindow(), width - 1, mouseY);
-		mouseWarped = true;
-	}
-	if (mouseX >= width - 1)
-	{
-		lastMouseX = 0;
-		lastMouseY = mouseY;
-		SDL_WarpMouseInWindow(App->window->GetWindow(), 0, mouseY);
-		mouseWarped = true;
-	}
-	if (mouseY <= 0)
-	{
-		lastMouseX = mouseX;
-		lastMouseY = height - 1;
-		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, height - 1);
-		mouseWarped = true;
-	}
-	if (mouseY >= height - 1)
-	{
-		lastMouseX = mouseX;
-		lastMouseY = 0;
-		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
-		mouseWarped = true;
-	}
-}
-
 void ModuleEngineCamera::Run()
 {
 	acceleration = DEFAULT_SHIFT_ACCELERATION;
@@ -305,7 +262,7 @@ void ModuleEngineCamera::Zoom()
 	
 	position = position + frustum.Front().Normalized() *
 		zoomSpeed * deltaTime;
-	frustum.SetPos(position);
+	SetPosition(position);
 }
 
 void ModuleEngineCamera::Focus(const OBB &obb)
@@ -320,7 +277,7 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 
 	position = boundingSphere.pos - (camDirection * camDistance);
 
-	frustum.SetPos(position);
+	SetPosition(position);
 	SetLookAt(boundingSphere.pos);
 }
 
@@ -358,7 +315,7 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 	float3 newPosition = posToOrbit - (camDirection * camDistance);
 
-	frustum.SetPos(newPosition);
+	SetPosition(newPosition);
 }
 
 bool ModuleEngineCamera::IsInside(const AABB& aabb)
@@ -451,6 +408,50 @@ void ModuleEngineCamera::RecalculateOffsetPlanes()
 
 }
 
+
+void ModuleEngineCamera::UnlimitedCursor()
+{
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	if (mouseWarped)
+	{
+		App->input->SetMouseMotionX(mouseX - lastMouseX);
+		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		mouseWarped = false;
+	}
+	int width, height;
+	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	if (mouseX <= 0)
+	{
+		lastMouseX = width - 1;
+		lastMouseY = mouseY;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), width - 1, mouseY);
+		mouseWarped = true;
+	}
+	if (mouseX >= width - 1)
+	{
+		lastMouseX = 0;
+		lastMouseY = mouseY;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), 0, mouseY);
+		mouseWarped = true;
+	}
+	if (mouseY <= 0)
+	{
+		lastMouseX = mouseX;
+		lastMouseY = height - 1;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, height - 1);
+		mouseWarped = true;
+	}
+	if (mouseY >= height - 1)
+	{
+		lastMouseX = mouseX;
+		lastMouseY = 0;
+		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
+		mouseWarped = true;
+	}
+}
+
 void ModuleEngineCamera::SetHFOV(float fov)
 {
 	frustum.SetHorizontalFovAndAspectRatio(fov, aspectRatio);
@@ -475,6 +476,7 @@ void ModuleEngineCamera::SetPlaneDistance(float zNear, float zFar)
 void ModuleEngineCamera::SetPosition(const float3& position)
 {
 	frustum.SetPos(position);
+	this->position = position;
 }
 
 void ModuleEngineCamera::SetOrientation(const float3& orientation)
