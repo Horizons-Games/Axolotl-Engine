@@ -3,7 +3,52 @@
 #include "Resource.h"
 #include <memory>
 
-struct LoadOptionsTexture;
+enum class TextureCompression {
+	NONE,
+	DXT1,
+	DXT3,
+	DXT5,
+	BC7
+};
+
+enum class TextureMinFilter {
+	NEAREST,
+	LINEAR,
+	NEAREST_MIPMAP_NEAREST,
+	LINEAR_MIPMAP_NEAREST,
+	NEAREST_MIPMAP_LINEAR,
+	LINEAR_MIPMAP_LINEAR
+};
+
+enum class TextureMagFilter {
+	NEAREST,
+	LINEAR
+};
+
+enum class TextureWrap {
+	REPEAT,
+	CLAMP_TO_EDGE,
+	CLAMP_TO_BORDER,
+	MIRROR_REPEAT,
+	MIRROR_CLAMP_TO_EDGE
+};
+
+struct LoadOptionsTexture
+{
+	TextureMinFilter min;
+	TextureMagFilter mag;
+	TextureWrap wrapS;
+	TextureWrap wrapT;
+	bool mipMap;
+
+	LoadOptionsTexture() :
+		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
+		mag(TextureMagFilter::LINEAR),
+		wrapS(TextureWrap::REPEAT),
+		wrapT(TextureWrap::REPEAT),
+		mipMap(true)
+	{}
+};
 
 struct ImportOptionsTexture
 {
@@ -50,6 +95,12 @@ protected:
 	void InternalUnload() override;
 private:
 	void CreateTexture();
+
+	int GetMagFilterEquivalence(TextureMagFilter filter);
+
+	int GetMinFilterEquivalence(TextureMinFilter filter);
+
+	int GetWrapFilterEquivalence(TextureWrap filter);
 
 	unsigned int glTexture = 0;
 	unsigned int width = 0;

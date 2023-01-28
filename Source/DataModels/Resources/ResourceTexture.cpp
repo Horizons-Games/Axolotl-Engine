@@ -3,31 +3,6 @@
 #include "GL/glew.h"
 #include "FileSystem/Json.h"
 
-//enum class TextureCompression {
-//	NONE,
-//	DXT1,
-//	DXT3,
-//	DXT5,
-//	BC7
-//};
-
-struct LoadOptionsTexture
-{
-	GLenum min;
-	GLenum mag;
-	GLenum wrapS;
-	GLenum wrapT;
-	bool mipMap;
-
-	LoadOptionsTexture() :
-		min(GL_LINEAR_MIPMAP_LINEAR),
-		mag(GL_LINEAR),
-		wrapS(GL_REPEAT),
-		wrapT(GL_REPEAT),
-		mipMap(true)
-	{}
-};
-
 ResourceTexture::ResourceTexture(UID resourceUID,
 	const std::string& fileName,
 	const std::string& assetsPath,
@@ -64,10 +39,10 @@ void ResourceTexture::LoadOptions(Json& meta)
 {
 	importOptions->flip = meta["flip"];
 
-	loadOptions->min = (int) meta["min"];
-	loadOptions->mag = (int) meta["mag"];
-	loadOptions->wrapS = (int) meta["wrapS"];
-	loadOptions->wrapT = (int) meta["wrapT"];
+	loadOptions->min = (TextureMinFilter)(int)meta["min"];
+	loadOptions->mag = (TextureMagFilter)(int)meta["mag"];
+	loadOptions->wrapS = (TextureWrap)(int)meta["wrapS"];
+	loadOptions->wrapT = (TextureWrap)(int)meta["wrapT"];
 	loadOptions->mipMap = meta["mipMap"];
 }
 
@@ -75,13 +50,68 @@ void ResourceTexture::CreateTexture()
 {
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
-
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, loadOptions->mag);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilterEquivalence(loadOptions->mag));
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, loadOptions->min);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilterEquivalence(loadOptions->min));
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapFilterEquivalence(loadOptions->wrapS));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapFilterEquivalence(loadOptions->wrapT));
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 
-	glGenerateMipmap(GL_TEXTURE_2D);
+	if(loadOptions->mipMap) glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+int ResourceTexture::GetMagFilterEquivalence(TextureMagFilter filter) 
+{
+	switch (filter)
+	{
+	case TextureMagFilter::NEAREST:
+		return GL_NEAREST;
+	case TextureMagFilter::LINEAR:
+		return GL_LINEAR;
+	default:
+		return GL_NEAREST;
+	}
+}
+
+int ResourceTexture::GetMinFilterEquivalence(TextureMinFilter filter)
+{
+	switch (filter)
+	{
+	case TextureMinFilter::NEAREST:
+		return GL_NEAREST;
+	case TextureMinFilter::LINEAR:
+		return GL_LINEAR;
+	case TextureMinFilter::NEAREST_MIPMAP_NEAREST:
+		return GL_NEAREST_MIPMAP_NEAREST;
+	case TextureMinFilter::LINEAR_MIPMAP_NEAREST:
+		return GL_LINEAR_MIPMAP_NEAREST;
+	case TextureMinFilter::NEAREST_MIPMAP_LINEAR:
+		return GL_NEAREST_MIPMAP_LINEAR;
+	case TextureMinFilter::LINEAR_MIPMAP_LINEAR:
+		return GL_LINEAR_MIPMAP_LINEAR;
+	default:
+		return GL_NEAREST;
+	}
+}
+
+int ResourceTexture::GetWrapFilterEquivalence(TextureWrap filter)
+{
+	switch (filter)
+	{
+	case TextureWrap::REPEAT:
+		return GL_REPEAT;
+	case TextureWrap::CLAMP_TO_EDGE:
+		return GL_CLAMP_TO_EDGE;
+	case TextureWrap::CLAMP_TO_BORDER:
+		return GL_CLAMP_TO_BORDER;
+	case TextureWrap::MIRROR_REPEAT:
+		return GL_MIRRORED_REPEAT;
+	case TextureWrap::MIRROR_CLAMP_TO_EDGE:
+		return GL_MIRROR_CLAMP_TO_EDGE;
+	default:
+		return GL_REPEAT;
+	}
 }
