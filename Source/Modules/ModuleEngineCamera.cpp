@@ -76,9 +76,9 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
+			UnlimitedCursor();
 			Move();
 			FreeLook();
-			UnlimitedCursor();
 		}
 
 		if (App->input->IsMouseWheelScrolled())
@@ -88,7 +88,9 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 		{
+			UnlimitedCursor();
 			Move();
+
 		}
 
 		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
@@ -102,6 +104,7 @@ update_status ModuleEngineCamera::Update()
 			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
 				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 
+			UnlimitedCursor();
 			Orbit(obb);
 		}
 
@@ -159,7 +162,7 @@ void ModuleEngineCamera::Move()
 		float deltaTime = App->GetDeltaTime();
 		float mouseSpeedPercentage = 0.05f;
 		float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-		float yrel = App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 		position = position + (frustum.WorldRight()) * xrel;
 		position = position + (frustum.Up()) * yrel;
@@ -215,8 +218,8 @@ void ModuleEngineCamera::FreeLook()
 {
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -cameraMouseMotion.first * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -cameraMouseMotion.second * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
 	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
@@ -249,12 +252,9 @@ void ModuleEngineCamera::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		this->cameraMouseMotion = std::make_pair(mouseX - lastMouseX, mouseY - lastMouseY);
+		App->input->SetMouseMotionX(mouseX - lastMouseX);
+		App->input->SetMouseMotionY(mouseY - lastMouseY);
 		mouseWarped = false;
-	}
-	else
-	{
-		this->cameraMouseMotion = std::make_pair(App->input->GetMouseMotionX(), App->input->GetMouseMotionY());
 	}
 	int width, height;
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -349,35 +349,7 @@ void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
 
 void ModuleEngineCamera::Orbit(const OBB& obb)
 {
-	//OLD freelook function (only xrel and yrel change)
-	float deltaTime = App->GetDeltaTime();
-	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-
-	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
-	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
-	float3x3 xy = x * y;
-
-	vec oldUp = frustum.Up().Normalized();
-	vec oldFront = frustum.Front().Normalized();
-
-	float3 newUp = xy.MulDir(oldUp);
-
-	if (newUp.y > 0.f)
-	{
-		frustum.SetUp(xy.MulDir(oldUp));
-		frustum.SetFront(xy.MulDir(oldFront));
-	}
-	else
-	{
-		y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), 0);
-		xy = x * y;
-
-		frustum.SetUp(xy.MulDir(oldUp));
-		frustum.SetFront(xy.MulDir(oldFront));
-	}
-	//end of old freelook function
+	FreeLook();
 
 	float3 posToOrbit = obb.CenterPoint();
 

@@ -113,7 +113,6 @@ private:
 	bool mouseWarped = false;
 	int lastMouseX, lastMouseY;
 	int mouseState;
-	std::pair<float, float> cameraMouseMotion;
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const

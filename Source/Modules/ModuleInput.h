@@ -28,6 +28,9 @@ public:
 	float GetMouseWheelX() const;
 	float GetMouseWheelY() const;
 
+	void SetMouseMotionX(float posX);
+	void SetMouseMotionY(float posY);
+
 	bool IsMouseWheelScrolled() const;
 
 private:
@@ -70,6 +73,16 @@ inline float ModuleInput::GetMouseWheelX() const
 inline float ModuleInput::GetMouseWheelY() const 
 {
 	return this->mouseWheel.second;
+}
+
+inline void ModuleInput::SetMouseMotionX(float posX)
+{
+	this->mouseMotion.first = posX;
+}
+
+inline void ModuleInput::SetMouseMotionY(float posY)
+{
+	this->mouseMotion.second = posY;
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const
