@@ -74,7 +74,8 @@ update_status ModuleEngineCamera::Update()
 		else
 			Walk();
 
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
+			App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
 			UnlimitedCursor();
 			Move();
@@ -90,7 +91,6 @@ update_status ModuleEngineCamera::Update()
 		{
 			UnlimitedCursor();
 			Move();
-
 		}
 
 		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
@@ -106,6 +106,14 @@ update_status ModuleEngineCamera::Update()
 
 			UnlimitedCursor();
 			Orbit(obb);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE && 
+			App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE && 
+			App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
+		{
+			UnlimitedCursor();
+			Zoom();
 		}
 
 		KeyboardRotate();
@@ -257,12 +265,24 @@ void ModuleEngineCamera::Walk()
 
 void ModuleEngineCamera::Zoom()
 {
-	float zoomSpeed = App->input->GetMouseWheelY() * DEFAULT_MOUSE_ZOOM_SPEED;
-	float deltaTime = App->GetDeltaTime();
-	
-	position = position + frustum.Front().Normalized() *
-		zoomSpeed * deltaTime;
-	SetPosition(position);
+	if (App->input->IsMouseWheelScrolled())
+	{
+		float zoomSpeed = App->input->GetMouseWheelY() * DEFAULT_MOUSE_ZOOM_SPEED;
+		float deltaTime = App->GetDeltaTime();
+
+		position = position + frustum.Front().Normalized() *
+			zoomSpeed * deltaTime;
+		SetPosition(position);
+	}
+	else
+	{
+		float zoomSpeed = App->input->GetMouseMotionX() * DEFAULT_MOUSE_ZOOM_SPEED;
+		float deltaTime = App->GetDeltaTime();
+
+		position = position + frustum.Front().Normalized() *
+			zoomSpeed * deltaTime;
+		SetPosition(position);
+	}
 }
 
 void ModuleEngineCamera::Focus(const OBB &obb)
