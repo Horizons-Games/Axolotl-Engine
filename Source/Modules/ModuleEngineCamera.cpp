@@ -80,18 +80,56 @@ update_status ModuleEngineCamera::Update()
 	if (App->editor->IsSceneFocused())
 	{
 		std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
-		mousePositionInScene = float2(App->input->GetMousePosition().x - windowScene->GetStartingPos().x,
-												App->input->GetMousePosition().y - windowScene->GetStartingPos().y);
 
-		if (mousePositionInScene.x < 0.0f) mousePositionInScene.x = 0.0f;
-		else if (mousePositionInScene.x > windowScene->GetEndingPos().x)
-			mousePositionInScene.x = windowScene->GetEndingPos().x;
+		// normalize the input to [-1, 1].
+		auto startPosScene = windowScene->GetStartPos();
+		auto endPosScene = windowScene->GetEndPos();
 
-		if (mousePositionInScene.y < 0.0f) mousePositionInScene.y = 0.0f;
-		else if (mousePositionInScene.y > windowScene->GetEndingPos().y)
-			mousePositionInScene.y = windowScene->GetEndingPos().y;
+		mousePositionInScene = App->input->GetMousePosition();
+		mousePositionInScene.x -= startPosScene.x;
+		mousePositionInScene.y -= startPosScene.y;
 
-		ray = frustum.UnProjectLineSegment(frustum.Front().x, frustum.Front().y);
+		auto width = endPosScene.x - startPosScene.x;
+		auto height = endPosScene.y - startPosScene.y;
+
+		if (mousePositionInScene.x < 0.0f) 
+		{
+			mousePositionInScene.x = 0.0f;
+		}
+		else if (mousePositionInScene.x > endPosScene.x)
+		{
+			mousePositionInScene.x = endPosScene.x;
+		}
+		
+		if (mousePositionInScene.y < 0.0f)
+		{
+			mousePositionInScene.y = 0.0f;
+		}
+		else if (mousePositionInScene.y > endPosScene.y)
+		{
+			mousePositionInScene.y = endPosScene.y;
+		}
+
+		float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
+		float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;
+
+		ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+
+		/*std::string log = "(";
+		log += std::to_string(mousePositionInScene.x).c_str();
+		log += ", ";
+		log += std::to_string(mousePositionInScene.y).c_str();
+		log += ")";
+		ENGINE_LOG(log.c_str());*/
+
+		std::string log = "(";
+		log += std::to_string(normalizedX).c_str();
+		log += ", ";
+		log += std::to_string(normalizedY).c_str();
+		log += ")";
+		ENGINE_LOG(log.c_str());
+
+		//ray = frustum.UnProjectLineSegment(mousePositionInScene.x, mousePositionInScene.y);
 
 		/*
 		std::string log = "Ray goes from (";
@@ -106,25 +144,27 @@ update_status ModuleEngineCamera::Update()
 		ENGINE_LOG(log.c_str());
 		*/
 
-		std::vector<std::weak_ptr<GameObject>> existingGameObjects = App->scene->GetLoadedScene()->GetSceneGameObjects();
-		std::vector<std::weak_ptr<GameObject>> hittedGameObjects;
+		std::vector<std::weak_ptr<GameObject>> existingGameObjects = 
+			App->scene->GetLoadedScene()->GetSceneGameObjects();
+		std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
 
 		for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
 		{
+			float nearDistance, farDistance;
 			std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
 			std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
 				std::static_pointer_cast<ComponentBoundingBoxes>
 				(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
 
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB()); // ray vs. AABB
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
 
 			if (hit)
 			{
-				hittedGameObjects.push_back(std::weak_ptr<GameObject>(currentGameObjectAsShared));
+				hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
 			}
 		}
 		
-		//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
+		ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
@@ -133,8 +173,8 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 		{
-			float mouseX = App->input->GetMousePosition().x - windowScene->GetStartingPos().x;
-			float mouseY = App->input->GetMousePosition().y - windowScene->GetStartingPos().y;
+			float mouseX = App->input->GetMousePosition().x - windowScene->GetStartPos().x;
+			float mouseY = App->input->GetMousePosition().y - windowScene->GetStartPos().y;
 		}
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
@@ -164,7 +204,7 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
-		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;

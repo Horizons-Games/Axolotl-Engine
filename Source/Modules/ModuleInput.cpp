@@ -96,6 +96,8 @@ update_status ModuleInput::Update()
             break;
 
         case SDL_MOUSEMOTION:
+            mousePosX = sdlEvent.motion.x;
+            mousePosY = sdlEvent.motion.y;
             mouseMotion = float2((float)sdlEvent.motion.xrel, (float)sdlEvent.motion.yrel);
             break;
 
@@ -116,7 +118,8 @@ update_status ModuleInput::Update()
             break;
         }
 
-	    SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
+        //SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
+	    //SDL_GetMouseState(&mousePosX, &mousePosY);
     }
 
     return status;

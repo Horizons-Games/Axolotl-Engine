@@ -26,11 +26,8 @@ void WindowScene::DrawWindowContents()
 
 void WindowScene::ManageResize()
 {
-	startingPos = ImGui::GetWindowContentRegionMin();
-	endingPos = ImGui::GetWindowContentRegionMax();
-	startingPos.x += ImGui::GetWindowPos().x;
-	startingPos.y += ImGui::GetWindowPos().y;
-
+	auto viewportOffset = ImGui::GetCursorPos(); // include tab bar
+	
 	ImVec2 availableRegion = ImGui::GetContentRegionAvail();
 	bool widthChanged = currentWidth != availableRegion.x;
 	bool heightChanged = currentHeight != availableRegion.y;
@@ -40,4 +37,15 @@ void WindowScene::ManageResize()
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 	}
+	
+	auto windowSize = ImGui::GetWindowSize();
+
+	ImVec2 minBounds = ImGui::GetWindowPos();
+	minBounds.x += viewportOffset.x;
+	minBounds.y += viewportOffset.y;
+	
+	ImVec2 maxBounds = { minBounds.x + windowSize.x, minBounds.y + windowSize.y};
+	
+	viewportBounds[0] = { minBounds.x, minBounds.y };
+	viewportBounds[1] = { maxBounds.x, maxBounds.y };
 }

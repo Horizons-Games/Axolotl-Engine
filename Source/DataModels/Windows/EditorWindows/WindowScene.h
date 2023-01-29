@@ -10,8 +10,8 @@ public:
 	WindowScene();
 	~WindowScene();
 
-	ImVec2 GetStartingPos() const;
-	ImVec2 GetEndingPos() const;
+	ImVec2 GetStartPos() const;
+	ImVec2 GetEndPos() const;
 
 protected:
 	void DrawWindowContents() override;
@@ -25,8 +25,7 @@ private:
 	float currentWidth = 0;
 	float currentHeight = 0;
 
-	ImVec2 startingPos;
-	ImVec2 endingPos;
+	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport
 };
 
 inline ImVec2 WindowScene::GetStartingSize() const
@@ -34,12 +33,12 @@ inline ImVec2 WindowScene::GetStartingSize() const
 	return ImVec2(900, 250);
 }
 
-inline ImVec2 WindowScene::GetStartingPos() const
+inline ImVec2 WindowScene::GetStartPos() const
 {
-	return startingPos;
+	return viewportBounds[0];
 }	
 
-inline ImVec2 WindowScene::GetEndingPos() const
+inline ImVec2 WindowScene::GetEndPos() const
 {
-	return endingPos;
+	return viewportBounds[1];
 }
