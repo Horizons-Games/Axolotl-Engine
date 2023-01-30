@@ -60,8 +60,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowFileBrowser>());
 	windows.push_back(std::make_shared<WindowResources>());
 
-	//TODO REMOVE
-	windows.push_back(std::make_shared<WindowInspectorResource>());
+	//TODO sustitute with only one Inspector
+	windows.push_back(inspectorResources = std::make_shared<WindowInspectorResource>());
 
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
@@ -158,4 +158,9 @@ void ModuleEditor::Resized()
 bool ModuleEditor::IsSceneFocused() const
 {
 	return this->scene->IsFocused();
+}
+
+void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
+{
+	this->inspectorResources->SetResource(resource);
 }
