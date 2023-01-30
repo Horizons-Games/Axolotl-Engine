@@ -24,8 +24,6 @@
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 
-#include <map>
-
 ModuleEngineCamera::ModuleEngineCamera() {};
 
 ModuleEngineCamera::~ModuleEngineCamera() {};
@@ -81,90 +79,10 @@ update_status ModuleEngineCamera::Update()
 	{
 		std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
 
-		// normalize the input to [-1, 1].
-		auto startPosScene = windowScene->GetStartPos();
-		auto endPosScene = windowScene->GetEndPos();
-
-		mousePositionInScene = App->input->GetMousePosition();
-		mousePositionInScene.x -= startPosScene.x;
-		mousePositionInScene.y -= startPosScene.y;
-
-		auto width = endPosScene.x - startPosScene.x;
-		auto height = endPosScene.y - startPosScene.y;
-
-		if (mousePositionInScene.x < 0.0f) 
-		{
-			mousePositionInScene.x = 0.0f;
-		}
-		else if (mousePositionInScene.x > endPosScene.x)
-		{
-			mousePositionInScene.x = endPosScene.x;
-		}
-		
-		if (mousePositionInScene.y < 0.0f)
-		{
-			mousePositionInScene.y = 0.0f;
-		}
-		else if (mousePositionInScene.y > endPosScene.y)
-		{
-			mousePositionInScene.y = endPosScene.y;
-		}
-
-		float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
-		float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;
-
-		ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
-
-		/*std::string log = "(";
-		log += std::to_string(mousePositionInScene.x).c_str();
-		log += ", ";
-		log += std::to_string(mousePositionInScene.y).c_str();
-		log += ")";
-		ENGINE_LOG(log.c_str());*/
-
-		std::string log = "(";
-		log += std::to_string(normalizedX).c_str();
-		log += ", ";
-		log += std::to_string(normalizedY).c_str();
-		log += ")";
-		ENGINE_LOG(log.c_str());
-
-		//ray = frustum.UnProjectLineSegment(mousePositionInScene.x, mousePositionInScene.y);
-
-		/*
-		std::string log = "Ray goes from (";
-		log += std::to_string(ray.a.x).c_str();
-		log += ", ";
-		log += std::to_string(ray.a.y).c_str();
-		log += ") to (";
-		log += std::to_string(ray.b.x).c_str();
-		log += ", ";
-		log += std::to_string(ray.b.y).c_str();
-		log += ") (to infinity).";
-		ENGINE_LOG(log.c_str());
-		*/
-
-		std::vector<std::weak_ptr<GameObject>> existingGameObjects = 
-			App->scene->GetLoadedScene()->GetSceneGameObjects();
-		std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
-
-		for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
-		{
-			float nearDistance, farDistance;
-			std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
-			std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
-				std::static_pointer_cast<ComponentBoundingBoxes>
-				(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
-
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
-
-			if (hit)
-			{
-				hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
-			}
-		}
-		
-		ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
+		// --RAYCAST CALCULATION-- //
+		CreateRaycastFromMousePosition(windowScene);
+		CalculateHittedGameObjects();
+		// --RAYCAST CALCULATION-- //
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
@@ -627,4 +545,86 @@ float ModuleEngineCamera::GetFrustumOffset() const
 int ModuleEngineCamera::GetFrustumMode() const
 {
 	return frustumMode;
+}
+
+void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
+{
+	// normalize the input to [-1, 1].
+	auto startPosScene = windowScene->GetStartPos();
+	auto endPosScene = windowScene->GetEndPos();
+
+	float2 mousePositionInScene = App->input->GetMousePosition();
+	mousePositionInScene.x -= startPosScene.x;
+	mousePositionInScene.y -= startPosScene.y;
+
+	auto width = endPosScene.x - startPosScene.x;
+	auto height = endPosScene.y - startPosScene.y;
+
+	if (mousePositionInScene.x < 0.0f)
+	{
+		mousePositionInScene.x = 0.0f;
+	}
+	else if (mousePositionInScene.x > endPosScene.x)
+	{
+		mousePositionInScene.x = endPosScene.x;
+	}
+
+	if (mousePositionInScene.y < 0.0f)
+	{
+		mousePositionInScene.y = 0.0f;
+	}
+	else if (mousePositionInScene.y > endPosScene.y)
+	{
+		mousePositionInScene.y = endPosScene.y;
+	}
+
+	float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
+	float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;
+
+	/*
+	std::string log = "(";
+	log += std::to_string(normalizedX).c_str();
+	log += ", ";
+	log += std::to_string(normalizedY).c_str();
+	log += ")";
+	ENGINE_LOG(log.c_str());
+	*/
+
+	ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+}
+
+void ModuleEngineCamera::CalculateHittedGameObjects()
+{
+	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
+		App->scene->GetLoadedScene()->GetSceneGameObjects();
+	std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
+
+	for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
+	{
+		float nearDistance, farDistance;
+		std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
+		std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
+			std::static_pointer_cast<ComponentBoundingBoxes>
+			(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
+
+		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+
+		if (hit && currentGameObjectAsShared->IsActive())
+		{
+			hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
+		}
+	}
+
+	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
+	SetNewSelectedGameObject(hittedGameObjects);
+}
+
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects)
+{
+	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
+	{
+		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
+
+		//ENGINE_LOG(hittedAsShared->GetName());
+	}
 }

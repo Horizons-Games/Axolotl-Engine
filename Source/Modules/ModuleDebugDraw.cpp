@@ -620,8 +620,6 @@ update_status ModuleDebugDraw::Update()
     DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
-    dd::line(App->engineCamera->ray.a * 2, App->engineCamera->ray.b, float3::zero);
-
     return UPDATE_CONTINUE;
 }
 

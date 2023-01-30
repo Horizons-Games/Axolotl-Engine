@@ -5,6 +5,7 @@
 #include "ModuleDebugDraw.h"
 
 #include <memory>
+#include <map>
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
@@ -39,6 +40,7 @@ enum EFrustumMode
 };
 
 class GameObject;
+class WindowScene;
 
 class ModuleEngineCamera : public Module
 {
@@ -94,9 +96,6 @@ public:
 	float GetViewPlaneDistance() const;
 	int	GetFrustumMode() const;
 	const float3& GetPosition() const;
-
-	float2 mousePositionInScene = float2::zero;
-	LineSegment ray = LineSegment(float3::zero, float3::zero);
 	
 private:
 	Frustum frustum;
@@ -112,6 +111,12 @@ private:
 	int frustumMode;
 	float viewPlaneDistance;
 	math::Plane offsetFrustumPlanes[6];
+
+	LineSegment ray = LineSegment(float3::zero, float3::zero);
+
+	void CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene);
+	void CalculateHittedGameObjects();
+	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects);
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const
