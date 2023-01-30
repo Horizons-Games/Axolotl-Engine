@@ -28,9 +28,14 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
+		{
+			ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
+		}
 		else
+		{
 			meshPath = (char*)("unknown");
+		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
 
