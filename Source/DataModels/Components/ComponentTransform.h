@@ -42,8 +42,8 @@ public:
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
 
-	void SetLocalMatrix(const float4x4& matrix);
-	void SetGlobalMatrix(const float4x4& matrix);
+	//void SetLocalMatrix(const float4x4& matrix);
+	//void SetGlobalMatrix(const float4x4& matrix);
 
 	void UpdateTransformMatrices();
 
@@ -125,6 +125,7 @@ inline const float4x4& ComponentTransform::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
+/*
 inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
 {
 	localMatrix = matrix;
@@ -133,4 +134,4 @@ inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
 inline void ComponentTransform::SetGlobalMatrix(const float4x4& matrix)
 {
 	globalMatrix = matrix;
-}
+}*/
