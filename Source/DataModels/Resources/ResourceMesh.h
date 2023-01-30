@@ -49,6 +49,8 @@ public:
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
 
+	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
+
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;

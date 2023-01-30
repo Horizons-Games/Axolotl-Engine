@@ -4,6 +4,9 @@
 
 #include "GL/glew.h"
 #include "Math/float2.h"
+#include "Math/float4x4.h"
+#include "Math/float4.h"
+#include "Geometry/Triangle.h"
 
 void ResourceMesh::InternalLoad()
 {
@@ -116,4 +119,30 @@ void ResourceMesh::CreateVAO()
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * this->numVertices));
 	}
+}
+
+const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& modelMatrix)
+{
+	if (!this->IsLoaded())
+	{
+		this->Load();
+	}
+
+	// Vertices
+	std::vector<float3> vertices;
+	for (unsigned i = 0; i < numVertices; ++i) {
+
+		vertices.push_back((modelMatrix.MulPos(this->vertices[i])));
+	}
+
+	// Triangles
+	std::vector<Triangle> triangles;
+	triangles.reserve(numFaces);
+
+	for (unsigned i = 0; i < numFaces; ++i)
+	{
+		triangles.push_back(Triangle(vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
+	}
+
+	return triangles;
 }

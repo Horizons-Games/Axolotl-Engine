@@ -13,8 +13,9 @@
 
 #include "GameObject/GameObject.h"
 
+#include "Components/ComponentTransform.h"
 #include "Components/ComponentBoundingBoxes.h"
-#include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
 
@@ -23,6 +24,7 @@
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/Triangle.h"
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 
@@ -79,20 +81,18 @@ update_status ModuleEngineCamera::Update()
 	{
 		std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
 
-		// --RAYCAST CALCULATION-- //
-		CreateRaycastFromMousePosition(windowScene);
-		CalculateHittedGameObjects();
-		// --RAYCAST CALCULATION-- //
-
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
 			Walk();
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
+			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
-			float mouseX = App->input->GetMousePosition().x - windowScene->GetStartPos().x;
-			float mouseY = App->input->GetMousePosition().y - windowScene->GetStartPos().y;
+			// --RAYCAST CALCULATION-- //
+			CreateRaycastFromMousePosition(windowScene);
+			CalculateHittedGameObjects();
+			// --RAYCAST CALCULATION-- //
 		}
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
@@ -621,10 +621,48 @@ void ModuleEngineCamera::CalculateHittedGameObjects()
 
 void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects)
 {
+	std::shared_ptr<GameObject> selectedGameObject = nullptr;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float thisDistance = 0.0f;
+
 	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
 	{
 		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
-
 		//ENGINE_LOG(hittedAsShared->GetName());
+
+		std::shared_ptr<ComponentMeshRenderer> componentMeshRenderer =
+			std::static_pointer_cast<ComponentMeshRenderer>
+			(hittedAsShared->GetComponent(ComponentType::MESHRENDERER));
+		std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh().lock();
+
+		if (!gameObjectMeshAsShared)
+		{
+			continue;
+		}
+
+		const float4x4& gameObjectModelMatrix =
+			std::static_pointer_cast<ComponentTransform>
+			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+		std::vector<Triangle> meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+		for (Triangle& triangle : meshTriangles)
+		{
+			bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+			if (!hit) continue;
+			if (thisDistance >= minCurrentDistance) continue;
+
+			selectedGameObject = hittedAsShared;
+			minCurrentDistance = thisDistance;
+		}
+	}
+
+	if (selectedGameObject != nullptr)
+	{
+		App->scene->GetLoadedScene()->GetSceneQuadTree()
+			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject().lock());
+		App->scene->SetSelectedGameObject(selectedGameObject);
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(selectedGameObject);
 	}
 }
