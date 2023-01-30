@@ -12,6 +12,7 @@ public:
 
 	ImVec2 GetStartPos() const;
 	ImVec2 GetEndPos() const;
+	ImVec2 GetAvailableRegion() const;
 
 protected:
 	void DrawWindowContents() override;
@@ -25,6 +26,7 @@ private:
 	float currentWidth = 0;
 	float currentHeight = 0;
 
+	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport
 };
 
@@ -41,4 +43,9 @@ inline ImVec2 WindowScene::GetStartPos() const
 inline ImVec2 WindowScene::GetEndPos() const
 {
 	return viewportBounds[1];
+}
+
+inline ImVec2 WindowScene::GetAvailableRegion() const
+{
+	return availableRegion;
 }

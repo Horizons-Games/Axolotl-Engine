@@ -557,8 +557,8 @@ void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowSc
 	mousePositionInScene.x -= startPosScene.x;
 	mousePositionInScene.y -= startPosScene.y;
 
-	auto width = endPosScene.x - startPosScene.x;
-	auto height = endPosScene.y - startPosScene.y;
+	auto width = windowScene->GetAvailableRegion().x;
+	auto height = windowScene->GetAvailableRegion().y;
 
 	if (mousePositionInScene.x < 0.0f)
 	{
@@ -577,6 +577,8 @@ void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowSc
 	{
 		mousePositionInScene.y = endPosScene.y;
 	}
+
+	ImGuiIO& io = ImGui::GetIO();
 
 	float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
 	float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;

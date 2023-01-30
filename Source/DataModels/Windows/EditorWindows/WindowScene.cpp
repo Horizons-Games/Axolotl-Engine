@@ -28,7 +28,7 @@ void WindowScene::ManageResize()
 {
 	auto viewportOffset = ImGui::GetCursorPos(); // include tab bar
 	
-	ImVec2 availableRegion = ImGui::GetContentRegionAvail();
+	availableRegion = ImGui::GetContentRegionAvail();
 	bool widthChanged = currentWidth != availableRegion.x;
 	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
