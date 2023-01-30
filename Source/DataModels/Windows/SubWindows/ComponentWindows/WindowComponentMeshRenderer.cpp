@@ -25,67 +25,64 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	if (asSharedMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asSharedMeshRenderer->GetMesh().lock();
+		static char* meshPath = (char*)("unknown");
+
 		if (meshAsShared)
+			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
+		else
+			meshPath = (char*)("unknown");
+
+		ImGui::InputText("##Mesh path", meshPath, 128);
+
+		if (ImGui::BeginDragDropTarget())
 		{
-			static char* meshPath = (char*)("unknown");
-
-			if (meshAsShared)
-				meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
-			else
-				meshPath = (char*)("unknown");
-
-			ImGui::InputText("##Mesh path", meshPath, 128);
-
-			if (ImGui::BeginDragDropTarget())
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
+				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
+
+				std::shared_ptr<ResourceMesh> newMesh =
+					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
+
+				if (newMesh)
 				{
-					UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-
-					std::shared_ptr<ResourceMesh> newMesh =
-						App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
-
-					if (newMesh)
-					{
-						meshAsShared->Unload();
-						asSharedMeshRenderer->SetMesh(newMesh);
-					}
+					meshAsShared->Unload();
+					asSharedMeshRenderer->SetMesh(newMesh);
 				}
-
-				ImGui::EndDragDropTarget();
-			}
-			ImGui::SameLine();
-
-			bool showMeshBrowser;
-
-			meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
-
-			if (showMeshBrowser)
-			{
-				inputMesh->DrawWindowContents();
-			}
-			else if (ImGui::Button("Remove Mesh"))
-			{
-				meshAsShared->Unload();
-				asSharedMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
 			}
 
-			if (ImGui::BeginTable("##GeometryTable", 2))
-			{
-				ImGui::TableNextColumn();
-				ImGui::Text("Number of vertices: ");
-				ImGui::TableNextColumn();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-					meshAsShared.get()->GetNumVertices() : 0);
-				ImGui::TableNextColumn();
-				ImGui::Text("Number of triangles: ");
-				ImGui::TableNextColumn();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-					meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+			ImGui::EndDragDropTarget();
+		}
+		ImGui::SameLine();
 
-				ImGui::EndTable();
-			}
+		bool showMeshBrowser;
+
+		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
+
+
+		if (showMeshBrowser)
+		{
+			inputMesh->DrawWindowContents();
+		}
+		else if (ImGui::Button("Remove Mesh"))
+		{
+			meshAsShared->Unload();
+			asSharedMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
+		}
+
+		if (ImGui::BeginTable("##GeometryTable", 2))
+		{
+			ImGui::TableNextColumn();
+			ImGui::Text("Number of vertices: ");
+			ImGui::TableNextColumn();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+				meshAsShared.get()->GetNumVertices() : 0);
+			ImGui::TableNextColumn();
+			ImGui::Text("Number of triangles: ");
+			ImGui::TableNextColumn();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
+				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+
+			ImGui::EndTable();
 		}
 	}
 }
