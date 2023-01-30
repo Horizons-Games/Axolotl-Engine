@@ -52,10 +52,12 @@ struct LoadOptionsTexture
 
 struct ImportOptionsTexture
 {
-	bool flip;
+	bool flipVertical;
+	bool flipHorizontal;
 
 	ImportOptionsTexture() :
-		flip(true)
+		flipVertical(true),
+		flipHorizontal(false)
 	{}
 };
 

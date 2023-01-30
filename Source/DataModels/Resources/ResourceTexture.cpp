@@ -26,7 +26,8 @@ void ResourceTexture::InternalUnload()
 
 void ResourceTexture::SaveOptions(Json& meta)
 {
-	meta["flip"] = importOptions->flip;
+	meta["flipVertical"] = importOptions->flipVertical;
+	meta["flipHorizontal"] = importOptions->flipHorizontal;
 
 	meta["min"] = (int) loadOptions->min;
 	meta["mag"] = (int) loadOptions->mag;
@@ -37,7 +38,8 @@ void ResourceTexture::SaveOptions(Json& meta)
 
 void ResourceTexture::LoadOptions(Json& meta)
 {
-	importOptions->flip = meta["flip"];
+	importOptions->flipVertical = meta["flipVertical"];
+	importOptions->flipHorizontal = meta["flipHorizontal"];
 
 	loadOptions->min = (TextureMinFilter)(int)meta["min"];
 	loadOptions->mag = (TextureMagFilter)(int)meta["mag"];

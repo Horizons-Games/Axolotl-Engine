@@ -18,61 +18,93 @@ WindowInspectorResource::~WindowInspectorResource()
 
 void WindowInspectorResource::DrawWindowContents()
 {
-	UID aux = App->resources->ImportResource("Assets/Textures/front.jpg");
-	std::shared_ptr<ResourceTexture> resource = App->resources->RequestResource<ResourceTexture>(aux).lock();
-	resource->Load();
-	//TODO When user select another resource Unload the last one
-
-	ImGui::Text(resource->GetFileName().c_str());
-	switch (resource->GetType())
+	std::shared_ptr<Resource> resourceAsShared = resource.lock();
+	if(resourceAsShared) 
 	{
-	case ResourceType::Texture:
-		DrawTextureOptions();
-		break;
-	default:
-		break;
+		resourceAsShared->Load();
+		//TODO When user select another resource Unload the last one
+
+		ImGui::Text(resourceAsShared->GetFileName().c_str());
+		switch (resourceAsShared->GetType())
+		{
+		case ResourceType::Texture:
+			DrawTextureOptions();
+			break;
+		default:
+			break;
+		}
 	}
+}
+
+void WindowInspectorResource::SetResource(const std::weak_ptr<Resource>& resource) {
+	std::shared_ptr<Resource> lastResource = this->resource.lock();
+	/*if (lastResource) //Unload of last resource
+	{
+		lastResource->Unload();
+	}*/
+
+	this->resource = resource;
+
+	std::shared_ptr<Resource> resourceAsShared = resource.lock();
+	if (resourceAsShared)
+	{
+		switch (resourceAsShared->GetType())
+		{
+		case ResourceType::Texture:
+			InitTextureImportOptions();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void WindowInspectorResource::InitTextureImportOptions()
+{
+	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	flipVertical = resourceTexture->GetImportOptions()->flipVertical;
+	flipHorizontal = resourceTexture->GetImportOptions()->flipHorizontal;
 }
 
 void WindowInspectorResource::DrawTextureOptions()
 {
-	UID aux = App->resources->ImportResource("Assets/Textures/front.jpg");
-	std::shared_ptr<ResourceTexture> resource = App->resources->RequestResource<ResourceTexture>(aux).lock();
+	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
 
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image((void*)resource->GetGlTexture(), ImVec2(100, 100));
+		ImGui::Image((void*)resourceTexture->GetGlTexture(), ImVec2(100, 100));
 		ImGui::TableNextColumn();
-		ImGui::Text("Width %.2f", resource->GetWidth());
-		ImGui::Text("Height %.2f", resource->GetHeight());
+		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
+		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
 		ImGui::EndTable();
 	}
 	ImGui::Text("");
 	if(ImGui::CollapsingHeader("Import Options", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		std::shared_ptr<ImportOptionsTexture> importOptions = resource->GetImportOptions();
-		
-		ImGui::Checkbox("Flip Image", &importOptions->flip);
+		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
+		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
 
 		ImGui::Text("");
 		ImGui::SameLine(ImGui::GetWindowWidth() - 110);
 		if (ImGui::Button("Revert"))
 		{
-			//TODO REVERT
+			InitTextureImportOptions();
 		}
 		ImGui::SameLine(ImGui::GetWindowWidth() - 50);
 		if (ImGui::Button("Apply"))
 		{
-			resource->Unload();
-			resource->SetChanged(true);
-			App->resources->ReimportResource(resource->GetUID());
+			resourceTexture->GetImportOptions()->flipVertical = flipVertical;
+			resourceTexture->GetImportOptions()->flipHorizontal = flipHorizontal;
+			resourceTexture->Unload();
+			resourceTexture->SetChanged(true);
+			App->resources->ReimportResource(resourceTexture->GetUID());
 		}
 	}
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		std::shared_ptr<LoadOptionsTexture> loadOptions = resource->GetLoadOptions();
+		std::shared_ptr<LoadOptionsTexture> loadOptions = resourceTexture->GetLoadOptions();
 		ImGui::Checkbox("MipMap", &loadOptions->mipMap);
 
 		const char* minFilters[] = { "NEAREST", "LINEAR", "NEAREST_MIPMAP_NEAREST", "LINEAR_MIPMAP_NEAREST", "NEAREST_MIPMAP_LINEAR", "LINEAR_MIPMAP_LINEAR"};

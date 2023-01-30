@@ -3,23 +3,17 @@
 #include "EditorWindow.h"
 
 #include "FileSystem/UniqueID.h"
-// TODO: REMOVE
-#include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
-#include "ImporterWindows/WindowSaveScene.h"
-// --
 #include <memory>
 
-class Model;
-class GameObject;
-class Component;
-class ComponentCamera;
-enum class LightType;
+class Resource;
 
 class WindowInspectorResource : public EditorWindow
 {
 public:
 	WindowInspectorResource();
 	~WindowInspectorResource();
+
+	void SetResource(const std::weak_ptr<Resource>& resource);
 
 protected:
 	void DrawWindowContents() override;
@@ -29,6 +23,15 @@ protected:
 private:
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
+
+	void InitTextureImportOptions();
+
+	std::weak_ptr<Resource> resource;
+
+	//Import Options (Move this to another class? Probably)
+	//Texture
+	bool flipVertical;
+	bool flipHorizontal;
 };
 
 inline ImVec2 WindowInspectorResource::GetStartingSize() const

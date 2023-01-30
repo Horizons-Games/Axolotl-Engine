@@ -36,23 +36,51 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
 
 			imgResult = &img;
-			if (options->flip)
+			if(options->flipVertical && options->flipHorizontal)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
+
+				if (!FAILED(result)) imgResult = &flippedImg;
+			}
+			else if (options->flipVertical)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 
-				imgResult = &flippedImg;
+				if(!FAILED(result)) imgResult = &flippedImg;
+			}
+			else if (options->flipHorizontal)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
+
+				if (!FAILED(result)) imgResult = &flippedImg;
 			}
 		}
 		else
 		{
 			imgResult = &img;
-			if (options->flip)
+			if (options->flipVertical && options->flipHorizontal)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
+
+				if (!FAILED(result)) imgResult = &flippedImg;
+			}
+			else if (options->flipVertical)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 
-				imgResult = &flippedImg;
+				if (!FAILED(result)) imgResult = &flippedImg;
+			}
+			else if (options->flipHorizontal)
+			{
+				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
+
+				if (!FAILED(result)) imgResult = &flippedImg;
 			}
 		}
 	}
@@ -63,20 +91,32 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 		imgResult = &dcmprsdImg;
 
-		if (options->flip)
+		if (options->flipVertical && options->flipHorizontal)
+		{
+			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+				DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
+
+			if (!FAILED(result)) imgResult = &flippedImg;
+		}
+		else if (options->flipVertical)
 		{
 			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
 				dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 			
-			imgResult = &flippedImg;
+			if (!FAILED(result)) imgResult = &flippedImg;
+		}
+		else if (options->flipHorizontal)
+		{
+			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(), dcmprsdImg.GetMetadata(),
+				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
+
+			if (!FAILED(result)) imgResult = &flippedImg;
 		}
 	}
 
 	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
-
-	/*result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);*/
 
 	GLint internalFormat;
 	GLenum format, type;
