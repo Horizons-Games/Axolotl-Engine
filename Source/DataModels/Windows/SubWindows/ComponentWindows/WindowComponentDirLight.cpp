@@ -55,7 +55,5 @@ void WindowComponentDirLight::DrawWindowContents()
 
 			ImGui::EndTable();
 		}
-
-		ImGui::Separator();
 	}
 }
