@@ -578,8 +578,6 @@ void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowSc
 		mousePositionInScene.y = endPosScene.y;
 	}
 
-	ImGuiIO& io = ImGui::GetIO();
-
 	float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
 	float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;
 
