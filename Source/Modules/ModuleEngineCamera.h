@@ -8,6 +8,7 @@
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
+#include "Math/Quat.h"
 #include "Geometry/Plane.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
@@ -101,6 +102,7 @@ private:
 	float3 position;
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
+	Quat initialRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;

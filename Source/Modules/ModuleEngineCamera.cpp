@@ -510,9 +510,11 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 {
 	float3 direction = lookAt - position;
 
-	float3x3 rotationMatrix = float3x3::LookAt(
-		frustum.Front().Normalized(), direction.Normalized(), frustum.Up(), float3::unitY
-	);
+	Quat finalRotation = Quat::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
+	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime());
+
+	initialRotation = rotation;
+	float3x3 rotationMatrix = float3x3::FromQuat(rotation);
 	
 	ApplyRotation(rotationMatrix);
 }
