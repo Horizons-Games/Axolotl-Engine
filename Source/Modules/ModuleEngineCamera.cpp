@@ -224,6 +224,8 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 
 	frustum.SetFront(rotationMatrix.MulDir(oldFront));
 	frustum.SetUp(rotationMatrix.MulDir(oldUp));
+
+	initialRotation = initialRotation.Mul(rotationMatrix.ToQuat());
 }
 
 void ModuleEngineCamera::FreeLook()
@@ -513,7 +515,6 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	Quat finalRotation = Quat::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
 	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime());
 
-	initialRotation = rotation;
 	float3x3 rotationMatrix = float3x3::FromQuat(rotation);
 	
 	ApplyRotation(rotationMatrix);
