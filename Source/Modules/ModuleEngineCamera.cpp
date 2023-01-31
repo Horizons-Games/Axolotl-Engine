@@ -86,14 +86,14 @@ update_status ModuleEngineCamera::Update()
 		else
 			Walk();
 
+		// --RAYCAST CALCULATION-- //
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
 			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
-			// --RAYCAST CALCULATION-- //
 			CreateRaycastFromMousePosition(windowScene);
 			CalculateHittedGameObjects();
-			// --RAYCAST CALCULATION-- //
 		}
+		// --RAYCAST CALCULATION-- //
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
@@ -550,36 +550,18 @@ int ModuleEngineCamera::GetFrustumMode() const
 void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
 {
 	// normalize the input to [-1, 1].
-	auto startPosScene = windowScene->GetStartPos();
-	auto endPosScene = windowScene->GetEndPos();
+	ImVec2 startPosScene = windowScene->GetStartPos();
+	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
 	mousePositionInScene.x -= startPosScene.x;
 	mousePositionInScene.y -= startPosScene.y;
 
-	auto width = windowScene->GetAvailableRegion().x;
-	auto height = windowScene->GetAvailableRegion().y;
+	float width = windowScene->GetAvailableRegion().x;
+	float height = windowScene->GetAvailableRegion().y;
 
-	if (mousePositionInScene.x < 0.0f)
-	{
-		mousePositionInScene.x = 0.0f;
-	}
-	else if (mousePositionInScene.x > endPosScene.x)
-	{
-		mousePositionInScene.x = endPosScene.x;
-	}
-
-	if (mousePositionInScene.y < 0.0f)
-	{
-		mousePositionInScene.y = 0.0f;
-	}
-	else if (mousePositionInScene.y > endPosScene.y)
-	{
-		mousePositionInScene.y = endPosScene.y;
-	}
-
-	float normalizedX = -1.0 + 2.0 * mousePositionInScene.x / width;
-	float normalizedY = 1.0 - 2.0 * mousePositionInScene.y / height;
+	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+	float normalizedY = 1.0 - 2.0f * mousePositionInScene.y / height;
 
 	/*
 	std::string log = "(";
@@ -621,10 +603,7 @@ void ModuleEngineCamera::CalculateHittedGameObjects()
 
 void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects)
 {
-	std::shared_ptr<GameObject> selectedGameObject = nullptr;
-	float minCurrentDistance = inf;
-	float3 exactHitPoint = float3::zero;
-	float thisDistance = 0.0f;
+	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
 
 	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
 	{
@@ -645,24 +624,29 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 			std::static_pointer_cast<ComponentTransform>
 			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-		std::vector<Triangle> meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
-		for (Triangle& triangle : meshTriangles)
+		float thisDistance = 0.0f;
+		float minCurrentDistance = inf;
+		float3 exactHitPoint = float3::zero;
+
+		const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+		for (const Triangle& triangle : meshTriangles)
 		{
 			bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
 
 			if (!hit) continue;
 			if (thisDistance >= minCurrentDistance) continue;
 
-			selectedGameObject = hittedAsShared;
+			// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
+			newSelectedGameObject = hittedAsShared;
 			minCurrentDistance = thisDistance;
 		}
 	}
 
-	if (selectedGameObject != nullptr)
+	if (newSelectedGameObject != nullptr)
 	{
 		App->scene->GetLoadedScene()->GetSceneQuadTree()
 			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject().lock());
-		App->scene->SetSelectedGameObject(selectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(selectedGameObject);
+		App->scene->SetSelectedGameObject(newSelectedGameObject);
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
 	}
 }

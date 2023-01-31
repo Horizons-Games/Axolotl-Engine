@@ -121,6 +121,7 @@ void ResourceMesh::CreateVAO()
 	}
 }
 
+// For mouse-picking purposes
 const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& modelMatrix)
 {
 	if (!this->IsLoaded())
@@ -130,8 +131,9 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 
 	// Vertices
 	std::vector<float3> vertices;
-	for (unsigned i = 0; i < numVertices; ++i) {
-
+	for (unsigned i = 0; i < numVertices; ++i) 
+	{
+		// Adapt the mesh vertices to the model matrix of its gameobject transform
 		vertices.push_back((modelMatrix.MulPos(this->vertices[i])));
 	}
 
@@ -141,6 +143,7 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 
 	for (unsigned i = 0; i < numFaces; ++i)
 	{
+		// Retrieve the triangles from the vertices adapted to the model matrix
 		triangles.push_back(Triangle(vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
 	}
 
