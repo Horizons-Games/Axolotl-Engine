@@ -605,6 +605,10 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 {
 	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
 
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+
 	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
 	{
 		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
@@ -623,10 +627,6 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 		const float4x4& gameObjectModelMatrix =
 			std::static_pointer_cast<ComponentTransform>
 			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-
-		float thisDistance = 0.0f;
-		float minCurrentDistance = inf;
-		float3 exactHitPoint = float3::zero;
 
 		const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 		for (const Triangle& triangle : meshTriangles)

@@ -17,7 +17,7 @@ ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_pt
 	localAABB = { {0 ,0, 0}, {0, 0, 0} };
 	encapsuledAABB = localAABB;
 	objectOBB = { localAABB };
-	drawBoundingBoxes = true;
+	drawBoundingBoxes = false;
 }
 
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 

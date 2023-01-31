@@ -54,6 +54,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
         flags |= ImGuiTreeNodeFlags_Selected;
     }
 
+    const std::list<std::weak_ptr<GameObject>>& childrenList = gameObject->GetGameObjectsInside();
+    for (std::weak_ptr<GameObject> child : childrenList)
+    {
+        std::shared_ptr<GameObject> childAsShared = child.lock();
+        if (childAsShared == App->scene->GetSelectedGameObject().lock())
+        {
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+        }
+    }
+
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
