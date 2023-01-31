@@ -90,6 +90,8 @@ private:
 	
 	std::thread monitorThread;
 	bool monitorResources = false;
+
+	friend class WindowResources;
 };
 
 inline bool ModuleResources::CleanUp()
