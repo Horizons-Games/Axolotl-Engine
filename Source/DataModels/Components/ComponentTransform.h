@@ -132,6 +132,10 @@ inline void ComponentTransform::SetRotation(const float4x4& rotation)
 inline void ComponentTransform::SetScale(const float3& scale)
 {
 	sca = scale;
+
+	if (sca.x <= 0) sca.x = 0.0001f;
+	if (sca.y <= 0) sca.y = 0.0001f;
+	if (sca.z <= 0) sca.z = 0.0001f;
 }
 
 inline const float4x4& ComponentTransform::GetLocalMatrix() const
