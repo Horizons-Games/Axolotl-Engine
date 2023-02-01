@@ -11,9 +11,6 @@
 #include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
 
-#include "imgui.h"
-
-
 ComponentCamera::ComponentCamera(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::CAMERA, active, owner, false)
 {
@@ -59,22 +56,6 @@ void ComponentCamera::Update()
 void ComponentCamera::Draw()
 {
 	if(drawFrustum) App->debug->DrawFrustum(frustum);
-}
-
-void ComponentCamera::Display()
-{
-	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
-
-	if (ImGui::CollapsingHeader("CAMERA", ImGuiTreeNodeFlags_DefaultOpen)) 
-	{
-		ImGui::Text("Draw Frustum"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
-
-		ImGui::ListBox("Frustum Mode\n(single select)", &frustumMode, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
-		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
-
-		ImGui::Separator();
-	}
 }
 
 void ComponentCamera::SaveOptions(Json& meta)

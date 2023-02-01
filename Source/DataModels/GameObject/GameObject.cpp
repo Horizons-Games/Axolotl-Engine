@@ -41,7 +41,7 @@ std::shared_ptr<GameObject> GameObject::CreateGameObject(const char* name, const
 GameObject::~GameObject()
 {
 	std::vector<std::shared_ptr<ComponentLight> > lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight, hadPointLight = false;
+	bool hadSpotLight = false, hadPointLight = false;
 	for (std::shared_ptr<ComponentLight> light : lights)
 	{
 		switch (light->GetLightType())
