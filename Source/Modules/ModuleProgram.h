@@ -26,7 +26,7 @@ public:
 	unsigned CompileShader(unsigned type, const char* source);
 
 	const unsigned& GetProgram() const { return program; }
-	const std::shared_ptr<Program> GetProgram(ProgramType type) const;
+	const std::weak_ptr<Program> GetProgram(ProgramType type) const;
 
 
 private:
@@ -35,7 +35,7 @@ private:
 	std::string RootPath = "Lib/Shaders/";
 };
 
-inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
+inline const std::weak_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
 {
 	return Programs[(int)type];
 }

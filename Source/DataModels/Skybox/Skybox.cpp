@@ -27,7 +27,7 @@ void Skybox::Draw()
 {
     glDepthMask(GL_FALSE);
 
-    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
+    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX).lock();
     if (program) 
     {
         program->Activate();
