@@ -303,22 +303,11 @@ void ComponentTransform::CalculateMatrices()
 		// Set global matrix
 		globalMatrix = std::static_pointer_cast<ComponentTransform>
 			(parent->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Mul(localMatrix);
+
+		globalPos = globalMatrix.TranslatePart();
+		globalRot = globalMatrix.RotatePart().ToQuat().ToFloat4x4();
+		globalSca = globalMatrix.GetScale();
 	}
-}
-
-const float3& ComponentTransform::GetGlobalPosition() const
-{
-	return globalPos;
-}
-
-const float4x4& ComponentTransform::GetGlobalRotation() const
-{
-	return globalRot;
-}
-
-const float3& ComponentTransform::GetGlobalScale() const
-{
-	return globalSca;
 }
 
 inline void ComponentTransform::UpdateTransformMatrices()
