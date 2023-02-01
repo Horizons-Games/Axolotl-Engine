@@ -9,20 +9,23 @@ class WindowTextureInput :
     public WindowFileBrowser
 {
 public:
-	WindowTextureInput(ComponentMaterial* material, TextureType textureType);
+	WindowTextureInput(const std::weak_ptr<ComponentMaterial>& material, TextureType textureType);
 	~WindowTextureInput();
 	void DoThisIfOk() override;
 
 private:
-	ComponentMaterial* materialComponent;
+	std::weak_ptr<ComponentMaterial> materialComponent;
 	TextureType textureType;
+
+	friend class WindowComponentMaterial;
 };
 
-inline WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType textureType) :WindowFileBrowser()
+inline WindowTextureInput::WindowTextureInput(const std::weak_ptr<ComponentMaterial>& material,
+											  TextureType textureType) :
+	WindowFileBrowser(),
+	materialComponent(material),
+	textureType(textureType)
 {
-	this->materialComponent = material;
-	this->textureType = textureType;
-
 	dialogName = "Select Texture";
 
 	switch (textureType)

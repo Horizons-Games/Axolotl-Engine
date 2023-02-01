@@ -33,7 +33,6 @@ public:
 	void Enable() override;
 	void Disable() override;
 
-	virtual void Display() override;
 	virtual void Draw() override {};
 
 	virtual void SaveOptions(Json& meta) override {};

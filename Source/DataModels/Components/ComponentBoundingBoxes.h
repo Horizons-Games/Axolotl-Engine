@@ -14,7 +14,6 @@ public:
 	ComponentBoundingBoxes(const bool active, const std::shared_ptr<GameObject>& owner);
 
 	void Update() override;
-	void Display() override;
 
 	void CalculateBoundingBoxes();
 	void Draw() override;
@@ -36,6 +35,8 @@ private:
 	AABB encapsuledAABB;
 	OBB objectOBB;
 	bool drawBoundingBoxes;
+
+	friend class WindowComponentBoundingBoxes;
 };
 
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
