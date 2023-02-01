@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "GL/glew.h"
+#include <MathGeoLib/Include/Math/float3.h>
 
 Program::Program(unsigned vertexShader, unsigned fragmentShader)
 {
@@ -49,17 +50,18 @@ void Program::BindUniformFloat4x4(const char* name, const float* data, bool tran
 	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, transpose, data);
 }
 
-void Program::BindUniformFloat3(const char* name, const float* data)
+void Program::BindUniformFloat3(const char* name, const float3 data)
 {
-	glUniform3fv(glGetUniformLocation(id, name), 1, data);
+	glUniform3f(glGetUniformLocation(id, name),
+		data.x, data.y, data.z);
 }
 
-void Program::BindUniformFloat(const char* name, const float* data)
+void Program::BindUniformFloat(const char* name, const float data)
 {
-	glUniform1fv(glGetUniformLocation(id, name), 1, data);
+	glUniform1f(glGetUniformLocation(id, name), data);
 }
 
-void Program::BindUniformBool(const char* name, bool value)
+void Program::BindUniformInt(const char* name, int value)
 {
 	glUniform1i(glGetUniformLocation(id, name), value);
 }
