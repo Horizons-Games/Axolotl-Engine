@@ -79,8 +79,6 @@ update_status ModuleEngineCamera::Update()
 
 	if (App->editor->IsSceneFocused())
 	{
-		std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
-
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
@@ -90,8 +88,9 @@ update_status ModuleEngineCamera::Update()
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
 			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
-			CreateRaycastFromMousePosition(windowScene);
-			CalculateHittedGameObjects();
+			std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
+			LineSegment ray = CreateRaycastFromMousePosition(windowScene);
+			CalculateHittedGameObjects(ray);
 		}
 		// --RAYCAST CALCULATION-- //
 
@@ -547,7 +546,7 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
-void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
+LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
 {
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
@@ -563,19 +562,10 @@ void ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowSc
 	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
 	float normalizedY = 1.0 - 2.0f * mousePositionInScene.y / height;
 
-	/*
-	std::string log = "(";
-	log += std::to_string(normalizedX).c_str();
-	log += ", ";
-	log += std::to_string(normalizedY).c_str();
-	log += ")";
-	ENGINE_LOG(log.c_str());
-	*/
-
-	ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+	return frustum.UnProjectLineSegment(normalizedX, normalizedY);
 }
 
-void ModuleEngineCamera::CalculateHittedGameObjects()
+void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 {
 	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
 		App->scene->GetLoadedScene()->GetSceneGameObjects();
@@ -598,10 +588,11 @@ void ModuleEngineCamera::CalculateHittedGameObjects()
 	}
 
 	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
-	SetNewSelectedGameObject(hittedGameObjects);
+	SetNewSelectedGameObject(hittedGameObjects, ray);
 }
 
-void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects)
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+												  const LineSegment& ray)
 {
 	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
 

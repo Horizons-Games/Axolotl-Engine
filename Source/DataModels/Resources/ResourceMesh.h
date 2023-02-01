@@ -89,7 +89,7 @@ inline ResourceMesh::ResourceMesh(UID resourceUID,
 
 inline ResourceMesh::~ResourceMesh()
 {
-	this->Unload();
+	Unload();
 }
 
 inline ResourceType ResourceMesh::GetType() const
@@ -99,17 +99,17 @@ inline ResourceType ResourceMesh::GetType() const
 
 inline unsigned int ResourceMesh::GetVBO() const
 {
-	return this->vbo;
+	return vbo;
 }
 
 inline unsigned int ResourceMesh::GetEBO() const
 {
-	return this->ebo;
+	return ebo;
 }
 
 inline unsigned int ResourceMesh::GetVAO() const
 {
-	return this->vao;
+	return vao;
 }
 
 inline unsigned int ResourceMesh::GetNumVertices()
@@ -159,7 +159,7 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 
 inline std::shared_ptr<OptionsMesh>& ResourceMesh::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
@@ -170,7 +170,7 @@ inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
-	this->numIndexes = numFaces * 3;
+	numIndexes = numFaces * 3;
 }
 
 inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)

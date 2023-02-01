@@ -98,25 +98,30 @@ public:
 	const float3& GetPosition() const;
 	
 private:
+	LineSegment CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene);
+	
+	void CalculateHittedGameObjects(const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+								  const LineSegment& ray);
+
 	Frustum frustum;
+
 	float3 position;
+
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
+
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;
 	float rotationSpeed;
 	float mouseSpeedModifier;
 	float frustumOffset;
-	int frustumMode;
 	float viewPlaneDistance;
+
+	int frustumMode;
+
 	math::Plane offsetFrustumPlanes[6];
-
-	LineSegment ray = LineSegment(float3::zero, float3::zero);
-
-	void CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene);
-	void CalculateHittedGameObjects();
-	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects);
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const

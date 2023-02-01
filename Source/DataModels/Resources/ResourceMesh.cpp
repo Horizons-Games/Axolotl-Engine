@@ -10,9 +10,9 @@
 
 void ResourceMesh::InternalLoad()
 {
-	this->CreateVBO();
-	this->CreateEBO();
-	this->CreateVAO();
+	CreateVBO();
+	CreateEBO();
+	CreateVAO();
 }
 
 void ResourceMesh::InternalUnload()
@@ -111,22 +111,22 @@ void ResourceMesh::CreateVAO()
 
 	//normals
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2) * this->numVertices));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2) * numVertices));
 
 	//tangents
 	if (tangents.size() != 0)
 	{
 		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * this->numVertices));
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
 }
 
 // For mouse-picking purposes
 const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& modelMatrix)
 {
-	if (!this->IsLoaded())
+	if (!IsLoaded())
 	{
-		this->Load();
+		Load();
 	}
 
 	// Vertices
