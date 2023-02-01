@@ -42,8 +42,8 @@ public:
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
 
-	void SetLocalMatrix(const float4x4& matrix);
-	void SetGlobalMatrix(const float4x4& matrix);
+	//void SetLocalMatrix(const float4x4& matrix);
+	//void SetGlobalMatrix(const float4x4& matrix);
 
 	void UpdateTransformMatrices();
 
@@ -61,11 +61,20 @@ private:
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;
+
+	float3 globalPos = float3::zero;
+	float4x4 globalRot = float4x4::identity;
+	float3 globalSca = float3::one;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
 {
 	return pos;
+}
+
+inline const float3& ComponentTransform::GetGlobalPosition() const
+{
+	return globalPos;
 }
 
 inline const float4x4& ComponentTransform::GetRotation() const
@@ -78,9 +87,19 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
+inline const float4x4& ComponentTransform::GetGlobalRotation() const
+{
+	return globalRot;
+}
+
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
+}
+
+inline const float3& ComponentTransform::GetGlobalScale() const
+{
+	return globalSca;
 }
 
 inline const float3& ComponentTransform::GetLocalForward() const
@@ -125,6 +144,7 @@ inline const float4x4& ComponentTransform::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
+/*
 inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
 {
 	localMatrix = matrix;
@@ -133,4 +153,4 @@ inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
 inline void ComponentTransform::SetGlobalMatrix(const float4x4& matrix)
 {
 	globalMatrix = matrix;
-}
+}*/

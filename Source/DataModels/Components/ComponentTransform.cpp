@@ -272,14 +272,14 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 void ComponentTransform::CalculateMatrices()
 {
-	// Set local matrix
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (float4x4)GetRotation(), (float3)GetScale());
-	SetLocalMatrix(localMatrix);
+	//float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (float4x4)GetRotation(), (float3)GetScale());
+	//SetLocalMatrix(localMatrix);
 
-	// Set global matrix
 	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+
 	if (parent)
 	{
+		/*
 		float3 parentPos, parentSca, localPos, localSca;
 		float4x4 parentRot, localRot;
 
@@ -294,35 +294,20 @@ void ComponentTransform::CalculateMatrices()
 		float3 scale = parentSca.Mul(localSca);
 
 		float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-		SetGlobalMatrix(globalMatrix);
+		SetGlobalMatrix(globalMatrix);*/
+
+		// Set local matrix
+		localMatrix = std::static_pointer_cast<ComponentTransform>
+			(parent->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+
+		// Set global matrix
+		globalMatrix = std::static_pointer_cast<ComponentTransform>
+			(parent->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Mul(localMatrix);
+
+		globalPos = globalMatrix.TranslatePart();
+		globalRot = globalMatrix.RotatePart().ToQuat().ToFloat4x4();
+		globalSca = globalMatrix.GetScale();
 	}
-}
-
-const float3& ComponentTransform::GetGlobalPosition() const
-{
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalPos;
-}
-
-const float4x4& ComponentTransform::GetGlobalRotation() const
-{
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalRot;
-}
-
-const float3& ComponentTransform::GetGlobalScale() const
-{
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalSca;
 }
 
 inline void ComponentTransform::UpdateTransformMatrices()
