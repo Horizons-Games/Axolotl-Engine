@@ -27,9 +27,9 @@ void ComponentTransform::Update()
 
 void ComponentTransform::Display()
 {
-	float3 translation = GetPosition();
-	float3 rotation = GetRotationXYZ();
-  	float3 scale = GetScale();
+	const float3& translation = GetPosition();
+	const float3& rotation = GetRotationXYZ();
+  	const float3& scale = GetScale();
 
 	float dragSpeed = 0.025f;
 
@@ -52,7 +52,7 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XTrans", &translation.x, dragSpeed,
+			if (ImGui::DragFloat("##XTrans", (float*) &translation.x, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 				translationModified = true;
@@ -62,7 +62,7 @@ void ComponentTransform::Display()
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##YTrans", &translation.y, dragSpeed,
+			if (ImGui::DragFloat("##YTrans", (float*) &translation.y, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 				translationModified = true;
@@ -72,7 +72,7 @@ void ComponentTransform::Display()
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZTrans", &translation.z, dragSpeed,
+			if (ImGui::DragFloat("##ZTrans", (float*) &translation.z, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 				translationModified = true;
@@ -86,7 +86,7 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XRot", &rotation.x, dragSpeed,
+			if (ImGui::DragFloat("##XRot", (float*) &rotation.x, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
 			{
 				rotationModified = true;
@@ -96,7 +96,7 @@ void ComponentTransform::Display()
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##YRot", &rotation.y, dragSpeed,
+			if (ImGui::DragFloat("##YRot", (float*) &rotation.y, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
 			{
 				rotationModified = true;
@@ -106,7 +106,7 @@ void ComponentTransform::Display()
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZRot", &rotation.z, dragSpeed,
+			if (ImGui::DragFloat("##ZRot", (float*) &rotation.z, dragSpeed,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
 			{
 				rotationModified = true;
@@ -120,7 +120,7 @@ void ComponentTransform::Display()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XScale", &scale.x, dragSpeed,
+			if (ImGui::DragFloat("##XScale", (float*) &scale.x, dragSpeed,
 				0.0001f, std::numeric_limits<float>::max()))
 			{
 				scaleModified = true;
@@ -130,7 +130,7 @@ void ComponentTransform::Display()
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if(ImGui::DragFloat("##YScale", &scale.y, dragSpeed,
+			if(ImGui::DragFloat("##YScale", (float*) &scale.y, dragSpeed,
 				0.0001f, std::numeric_limits<float>::max()))
 			{
 				scaleModified = true;
@@ -140,7 +140,7 @@ void ComponentTransform::Display()
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if(ImGui::DragFloat("##ZScale", &scale.z, dragSpeed,
+			if(ImGui::DragFloat("##ZScale", (float*) &scale.z, dragSpeed,
 				0.0001f, std::numeric_limits<float>::max()))
 			{
 				scaleModified = true;
