@@ -61,6 +61,10 @@ private:
 
 	float4x4 localMatrix = float4x4::identity;
 	float4x4 globalMatrix = float4x4::identity;
+
+	float3 globalPos = float3::zero;
+	float4x4 globalRot = float4x4::identity;
+	float3 globalSca = float3::one;
 };
 
 inline const float3& ComponentTransform::GetPosition() const

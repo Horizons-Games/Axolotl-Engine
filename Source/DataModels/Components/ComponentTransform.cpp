@@ -308,28 +308,16 @@ void ComponentTransform::CalculateMatrices()
 
 const float3& ComponentTransform::GetGlobalPosition() const
 {
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
 	return globalPos;
 }
 
 const float4x4& ComponentTransform::GetGlobalRotation() const
 {
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
 	return globalRot;
 }
 
 const float3& ComponentTransform::GetGlobalScale() const
 {
-	float3 globalPos, globalSca;
-	float4x4 globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
 	return globalSca;
 }
 
