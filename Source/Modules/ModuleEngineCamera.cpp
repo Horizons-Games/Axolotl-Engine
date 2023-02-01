@@ -560,7 +560,7 @@ LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<W
 	float height = windowScene->GetAvailableRegion().y;
 
 	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
-	float normalizedY = 1.0 - 2.0f * mousePositionInScene.y / height;
+	float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
 
 	return frustum.UnProjectLineSegment(normalizedX, normalizedY);
 }
