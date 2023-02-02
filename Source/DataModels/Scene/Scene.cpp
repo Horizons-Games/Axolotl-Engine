@@ -266,6 +266,8 @@ void Scene::GenerateLights()
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+		program->Deactivate();
 	}
 }
 
