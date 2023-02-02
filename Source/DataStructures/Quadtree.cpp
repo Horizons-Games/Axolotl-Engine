@@ -466,3 +466,34 @@ std::list<std::weak_ptr<GameObject> > Quadtree::GetAllGameObjects(const std::wea
 	}
 	return familyObjects;
 }
+
+// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
+void Quadtree::CheckRaycastIntersection(std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects, 
+	const LineSegment& ray)
+{
+	if (!ray.Intersects(boundingBox))
+	{
+		return;
+	}
+
+	float nearDistance, farDistance;
+	for (std::weak_ptr<GameObject> gameObject : gameObjects)
+	{
+		std::shared_ptr<GameObject> gameObjectAsShared = gameObject.lock();
+		std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
+			std::static_pointer_cast<ComponentBoundingBoxes>
+			(gameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
+
+		bool hit = ray.Intersects(componentBoundingBox->GetObjectOBB(), nearDistance, farDistance);
+
+		if (hit && gameObjectAsShared->IsActive())
+		{
+			hittedGameObjects[nearDistance] = std::weak_ptr<GameObject>(gameObjectAsShared);
+		}
+	}
+
+	if (frontRightNode != nullptr) frontRightNode->CheckRaycastIntersection(hittedGameObjects, ray);
+	if (frontLeftNode != nullptr) frontLeftNode->CheckRaycastIntersection(hittedGameObjects, ray);
+	if (backRightNode != nullptr) backRightNode->CheckRaycastIntersection(hittedGameObjects, ray);
+	if (backLeftNode != nullptr) backLeftNode->CheckRaycastIntersection(hittedGameObjects, ray);
+}

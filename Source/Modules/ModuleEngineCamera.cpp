@@ -567,10 +567,12 @@ LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<W
 
 void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 {
-	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
-		App->scene->GetLoadedScene()->GetSceneGameObjects();
 	std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
 
+	//App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hittedGameObjects, ray);
+
+	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
+		App->scene->GetLoadedScene()->GetSceneGameObjects();
 	for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
 	{
 		float nearDistance, farDistance;
@@ -579,11 +581,11 @@ void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 			std::static_pointer_cast<ComponentBoundingBoxes>
 			(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
 
-		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+		bool hit = ray.Intersects(componentBoundingBox->GetObjectOBB(), nearDistance, farDistance); // ray vs. AABB
 
 		if (hit && currentGameObjectAsShared->IsActive())
 		{
-			hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
+			hittedGameObjects[nearDistance] = std::weak_ptr<GameObject>(currentGameObjectAsShared);
 		}
 	}
 
@@ -608,6 +610,12 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 		std::shared_ptr<ComponentMeshRenderer> componentMeshRenderer =
 			std::static_pointer_cast<ComponentMeshRenderer>
 			(hittedAsShared->GetComponent(ComponentType::MESHRENDERER));
+
+		if (!componentMeshRenderer)
+		{
+			continue;
+		}
+
 		std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh().lock();
 
 		if (!gameObjectMeshAsShared)
