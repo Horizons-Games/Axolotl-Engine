@@ -14,6 +14,8 @@ public:
 	void BindUniformFloat3(const char* name, const float3 data);
 	void BindUniformFloat(const char* name, const float data);
 	void BindUniformInt(const char* name, int value);
+	void BindUniformBlock(const char* name, const unsigned value);
+	void BindShaderStorageBlock(const char* name, const unsigned value);
 	const unsigned& GetId() const;
 
 private:

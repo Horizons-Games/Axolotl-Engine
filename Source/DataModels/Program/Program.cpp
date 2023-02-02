@@ -29,7 +29,6 @@ Program::Program(unsigned vertexShader, unsigned fragmentShader)
 	}
 }
 
-
 void Program::Activate()
 {
 	glUseProgram(id);
@@ -64,4 +63,14 @@ void Program::BindUniformFloat(const char* name, const float data)
 void Program::BindUniformInt(const char* name, int value)
 {
 	glUniform1i(glGetUniformLocation(id, name), value);
+}
+
+void Program::BindUniformBlock(const char* name, const unsigned value)
+{
+	glUniformBlockBinding(id, glGetUniformBlockIndex(id, name), value);
+}
+
+void Program::BindShaderStorageBlock(const char* name, const unsigned value)
+{
+	glShaderStorageBlockBinding(id, glGetProgramResourceIndex(id, GL_SHADER_STORAGE_BLOCK, name), value);
 }
