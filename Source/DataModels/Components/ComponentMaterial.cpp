@@ -52,8 +52,6 @@ void ComponentMaterial::Draw()
 											RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
 
 			program->BindUniformFloat3("material.diffuse_color", diffuseColor);
-			/*glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
-						diffuseColor.x, diffuseColor.y, diffuseColor.z);*/
 			if (texture)
 			{
 				if (!texture->IsLoaded())
@@ -62,15 +60,12 @@ void ComponentMaterial::Draw()
 				}
 				program->BindUniformInt("material.has_diffuse_map", 1);
 				program->BindUniformInt("material.diffuse_map", texture->GetGlTexture());
-				/*glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
-				glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());*/
 				glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			}
 			else
 			{
 				program->BindUniformInt("material.has_diffuse_map", 0);
-				//glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 			}
 
 			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetSpecularUID()).lock();
@@ -83,15 +78,12 @@ void ComponentMaterial::Draw()
 
 				program->BindUniformInt("material.has_specular_map", 1);
 				program->BindUniformInt("material.specular_map", texture->GetGlTexture());
-				/*glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
-				glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());*/
 				glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			}
 			else
 			{
 				program->BindUniformInt("material.has_specular_map", 0);
-				//glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
 			}
 
 			texture = App->resources->RequestResource<ResourceTexture>(materialAsShared->GetNormalUID()).lock();
@@ -108,28 +100,18 @@ void ComponentMaterial::Draw()
 				program->BindUniformFloat("material.normal_strength", normalStrength);
 
 				program->BindUniformInt("material.has_normal_map", 1);
-				/*glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
-				glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
-
-				glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);*/
 			}
 			else
 			{
 				program->BindUniformInt("material.has_normal_map", 0);
-				//glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
 			}
 
 			program->BindUniformFloat3("material.specular_color", specularColor);
 			program->BindUniformFloat("material.shininess", shininess);
 			program->BindUniformFloat("material.shininess_alpha", hasShininessAlpha);
-			/*glUniform3f(glGetUniformLocation(program, "material.specular_color"), 
-						specularColor.x, specularColor.y, specularColor.z);
-			glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-			glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);*/
 
 			float3 viewPos = App->engineCamera->GetPosition();
 			program->BindUniformFloat3("viewPos", viewPos);
-			//glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 		}
 		program->Deactivate();
 	}

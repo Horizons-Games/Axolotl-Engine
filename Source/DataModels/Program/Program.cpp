@@ -4,7 +4,9 @@
 #include "GL/glew.h"
 #include <MathGeoLib/Include/Math/float3.h>
 
-Program::Program(unsigned vertexShader, unsigned fragmentShader)
+Program::Program(unsigned vertexShader, unsigned fragmentShader, 
+	std::string vtxShaderFileName, std::string frgShaderFileName) :
+	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName)
 {
 	id = glCreateProgram();
 	glAttachShader(id, vertexShader);
@@ -27,6 +29,20 @@ Program::Program(unsigned vertexShader, unsigned fragmentShader)
 		}
 		id = 0;
 	}
+}
+
+Program::~Program()
+{
+	CleanUp();
+}
+
+void Program::UpdateProgram(std::string vtxShaderFileName, std::string frgShaderFileName)
+{
+
+	/*id = glCreateProgram();
+	glAttachShader(id, vertexShader);
+	glAttachShader(id, fragmentShader);
+	glLinkProgram(id);*/
 }
 
 void Program::Activate()

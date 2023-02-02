@@ -27,7 +27,7 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 		return nullptr;
 	}
 
-	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader);
+	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader, vtxShaderFileName, frgShaderFileName);
 
 	if (program->GetId() == 0)
 	{
@@ -42,35 +42,7 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 
 bool ModuleProgram::CleanUp()
 {
-	glDeleteProgram(program);
-
 	return true;
-}
-
-void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
-{
-	this->program = glCreateProgram();
-	glAttachShader(this->program, vtxShader);
-	glAttachShader(this->program, frgShader);
-	glLinkProgram(this->program);
-
-	int res;
-	glGetProgramiv(this->program, GL_LINK_STATUS, &res);
-	if (res == GL_FALSE)
-	{
-		int len = 0;
-		glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &len);
-		if (len > 0)
-		{
-			int written = 0;
-			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(this->program, len, &written, info);
-			ENGINE_LOG("Program Log Info: %s", info);
-			free(info);
-		}
-	}
-	glDeleteShader(vtxShader);
-	glDeleteShader(frgShader);
 }
 
 char* ModuleProgram::LoadShaderSource(const char* shaderFileName)

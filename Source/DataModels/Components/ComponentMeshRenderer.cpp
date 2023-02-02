@@ -72,9 +72,6 @@ void ComponentMeshRenderer::Draw()
 			program->BindUniformFloat4x4("model", (const float*)&model, GL_TRUE);
 			program->BindUniformFloat4x4("view", (const float*)&view, GL_TRUE);
 			program->BindUniformFloat4x4("proj", (const float*)&proj, GL_TRUE);
-			/*glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-			glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);*/
 
 			glBindVertexArray(meshAsShared->GetVAO());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
