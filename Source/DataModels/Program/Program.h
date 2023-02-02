@@ -7,11 +7,12 @@ class Program
 
 public:
 	Program(unsigned vertexShader, unsigned fragmentShader, 
-		std::string vtxShaderFileName, std::string frgShaderFileName);
+		std::string vtxShaderFileName, std::string frgShaderFileName, std::string programName);
 	~Program();
 	void CleanUp();
 
-	void UpdateProgram(std::string vtxShaderFileName, std::string frgShaderFileName);
+	void UpdateProgram(unsigned vertexShader, unsigned fragmentShader,
+		std::string vtxShaderFileName, std::string frgShaderFileName, std::string programName);
 	void Activate();
 	void Deactivate();
 	
@@ -25,11 +26,13 @@ public:
 	const unsigned& GetId() const;
 	const std::string& GetFragementShaderFileName() const;
 	const std::string& GetVertexShaderFileName() const;
+	const std::string& GetProgramName() const;
 
 private:
 	unsigned id;
 	std::string vertexShaderFileName;
 	std::string fragmentShaderFileName;
+	std::string programName;
 
 };
 
@@ -46,4 +49,9 @@ inline const std::string& Program::GetFragementShaderFileName() const
 inline const std::string& Program::GetVertexShaderFileName() const
 {
 	return vertexShaderFileName;
+}
+
+inline const std::string& Program::GetProgramName() const
+{
+	return programName;
 }
