@@ -131,6 +131,7 @@ void ComponentMaterial::Draw()
 			program->BindUniformFloat3("viewPos", viewPos);
 			//glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 		}
+		program->Deactivate();
 	}
 }
 
