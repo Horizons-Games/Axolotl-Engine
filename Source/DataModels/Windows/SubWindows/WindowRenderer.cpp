@@ -12,6 +12,7 @@ int WindowRenderer::bufferSize = 128;
 
 WindowRenderer::WindowRenderer() : SubWindow("Renderer")
 {
+	initialized = false;
 }
 
 WindowRenderer::~WindowRenderer()
@@ -20,25 +21,44 @@ WindowRenderer::~WindowRenderer()
 
 void WindowRenderer::DrawWindowContents()
 {
+	if (!initialized)
+	{
+		vertexShaderBuffers.resize((int)ProgramType::SKYBOX + 1);
+		fragmentShaderBuffer.resize((int)ProgramType::SKYBOX + 1);
+		for (int i = 0; i <= (int)ProgramType::SKYBOX; i++)
+		{
+			std::shared_ptr<Program> program = App->program->GetProgram((ProgramType)i).lock();
+			if (program)
+			{
+				vertexShaderBuffers[i] = program->GetVertexShaderFileName();
+				fragmentShaderBuffer[i] = program->GetFragementShaderFileName();
+			}
+		}
+		initialized = true;
+	}
 
 	for (int i = 0; i <= (int)ProgramType::SKYBOX;i++) 
 	{
 		std::shared_ptr<Program> program = App->program->GetProgram((ProgramType)i).lock();
 		if (program)
 		{
-			std::string vertexShaderBuffer = program->GetVertexShaderFileName();
-			std::string fragmentShaderBuffer = program->GetFragementShaderFileName();
+			std::string vertexShaderLabel = program->GetProgramName() + " vertex shader";
+			std::string fragmentShaderLabel = program->GetProgramName() + " Fragment shader";
+
+
 			ImGui::TextUnformatted(program->GetProgramName().c_str());
 			ImGui::TextUnformatted("Vertex shader");
-			ImGui::InputText("##vertex shader", &vertexShaderBuffer[0], bufferSize);
+			ImGui::InputText(vertexShaderLabel.c_str(), &vertexShaderBuffers[i][0], bufferSize);
 			ImGui::TextUnformatted("Fragment shader");
-			ImGui::InputText("##fragment shader", &fragmentShaderBuffer[0], bufferSize);
+			ImGui::InputText(fragmentShaderLabel.c_str(), &fragmentShaderBuffer[i][0], bufferSize);
 
 			ImGui::Dummy(ImVec2(0.f, 5.f)); //spacing
 
-			if (ImGui::Button( "Update shaders"))
+			std::string ButtonName = program->GetProgramName() + " update";
+
+			if (ImGui::Button(ButtonName.c_str()))
 			{
-				App->renderer->SetShaders(vertexShaderBuffer, fragmentShaderBuffer);
+				App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
 			}
 			ImGui::Dummy(ImVec2(0.f, 10.f)); //spacing
 			ImGui::Separator();

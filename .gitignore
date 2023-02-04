@@ -437,3 +437,5 @@ FodyWeavers.xsd
 
 !**/lib/**
 imgui.ini
+/Game/Lib/Shaders/1f.glsl
+/Game/Lib/Shaders/2v.glsl

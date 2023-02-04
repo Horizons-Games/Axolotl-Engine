@@ -162,8 +162,6 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	UpdateProgram();
-
 #if !defined(GAME)
 	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
 #else
@@ -270,13 +268,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ModuleRender::SetShaders(const std::string& vertexShader, const std::string& fragmentShader)
-{
-	this->vertexShader = vertexShader.c_str();
-	this->fragmentShader = fragmentShader.c_str();
-	UpdateProgram();
-}
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -292,30 +283,6 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	return valid;
 }
 
-void ModuleRender::UpdateProgram()
-{
-	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
-
-	/*std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX).lock();
-	if (program)
-	{
-		char* vertexSource;
-		char* fragmentSource;
-		App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
-		App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
-
-		program->U
-
-		unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-		unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-		delete vertexSource;
-		delete fragmentSource;
-
-		App->program->CreateProgram(vertexShader, fragmentShader);
-	}*/
-}
 
 void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
 {

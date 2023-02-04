@@ -19,6 +19,9 @@ public:
 	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
 		std::string programName);
 
+	void UpdateProgram(std::string vtxShaderFileName, std::string frgShaderFileName, int programType,
+		std::string programName);
+
 	bool CleanUp() override;
 	
 	char* LoadShaderSource(const char* shaderFileName);
