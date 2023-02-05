@@ -361,9 +361,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="GeometryBatch.cpp">
-      <Filter>Source\DataModels\GeometryBatch</Filter>
-    </ClCompile>
+    <ClCompile Include="DataModels\GeometryBatch\GeometryBatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -867,9 +865,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryBatch.h">
-      <Filter>Source\DataModels\GeometryBatch</Filter>
-    </ClInclude>
+    <ClInclude Include="DataModels\GeometryBatch\GeometryBatch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
