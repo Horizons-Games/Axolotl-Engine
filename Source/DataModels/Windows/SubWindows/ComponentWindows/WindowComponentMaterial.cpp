@@ -22,10 +22,10 @@ WindowComponentMaterial::WindowComponentMaterial(const std::weak_ptr<ComponentMa
 
 void WindowComponentMaterial::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
 	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(this->component.lock());
+		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
 
 	if (asSharedMaterial)
 	{
@@ -44,7 +44,7 @@ void WindowComponentMaterial::DrawWindowContents()
 void WindowComponentMaterial::DrawSetMaterial()
 {
 	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(this->component.lock());
+		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
 
 	if (asSharedMaterial)
 	{
@@ -52,12 +52,6 @@ void WindowComponentMaterial::DrawSetMaterial()
 		if (materialResource)
 		{
 			ImGui::Text("");
-			ImGui::Text(std::to_string(materialResource->GetUID()).c_str());
-
-			if (ImGui::Button("Remove material"))
-			{
-				asSharedMaterial->SetMaterial(std::weak_ptr<ResourceMaterial>());
-			}
 
 			char name[20] = "Texture";
 			ImGui::InputText("Texture Name", name, 20);
@@ -82,12 +76,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			if (materialResource)
 			{
-				bool haveTextures = false;
-				haveTextures += materialResource->GetDiffuseUID();
-				haveTextures += materialResource->GetNormalUID();
-				haveTextures += materialResource->GetSpecularUID();
-
-				if (haveTextures)
+				if (materialResource->GetDiffuseUID() || materialResource->GetNormalUID()
+					|| materialResource->GetSpecularUID())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -119,15 +109,16 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("Diffuse Texture");
 			bool showTextureBrowserDiffuse = true;
+			std::shared_ptr<ResourceTexture> texture;
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuseUID())
 				{
-					std::shared_ptr<ResourceTexture> texture =
-						App->resources->RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
+					 texture = 
+						 App->resources->RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
 					if (texture)
 					{
-						ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
 					}
 
 					showTextureBrowserDiffuse = false;
@@ -156,11 +147,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetSpecularUID())
 			{
-				std::shared_ptr<ResourceTexture> texture =
+				texture =
 					App->resources->RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
 				if (texture)
 				{
-					ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
 				}
 
 				showTextureBrowserSpecular = false;
@@ -188,11 +179,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 			bool showTextureBrowserNormal = true;
 			if (materialResource && materialResource->GetNormalUID())
 			{
-					std::shared_ptr<ResourceTexture> texture =
+					texture =
 						App->resources->RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
 					if (texture)
 					{
-						ImGui::Image((void*)texture->GetGlTexture(), ImVec2(100, 100));
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
 					}
 
 					showTextureBrowserNormal = false;
@@ -224,7 +215,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 void WindowComponentMaterial::DrawEmptyMaterial()
 {
 	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(this->component.lock());
+		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
 
 	if (asSharedMaterial)
 	{

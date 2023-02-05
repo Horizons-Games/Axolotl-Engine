@@ -8,13 +8,23 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+
 #include "Scene/Scene.h"
+
 #include "GameObject/GameObject.h"
+
+#include "Components/ComponentTransform.h"
 #include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentMeshRenderer.h"
+
+#include "Resources/ResourceMesh.h"
+
+#include "Windows/EditorWindows/WindowScene.h"
 
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/Triangle.h"
 
 ModuleEngineCamera::ModuleEngineCamera() {};
 
@@ -74,6 +84,16 @@ update_status ModuleEngineCamera::Update()
 		else
 			Walk();
 
+		// --RAYCAST CALCULATION-- //
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
+			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+		{
+			std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
+			LineSegment ray = CreateRaycastFromMousePosition(windowScene);
+			CalculateHittedGameObjects(ray);
+		}
+		// --RAYCAST CALCULATION-- //
+
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
 			Move();
@@ -101,7 +121,7 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		KeyboardRotate();
-		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
@@ -197,8 +217,8 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 void ModuleEngineCamera::FreeLook()
 {
 	float yaw = 0.f, pitch = 0.f;
-	float xrel = App->input->GetMouseMotionX();
-	float yrel = App->input->GetMouseMotionY();
+	float xrel = App->input->GetMouseMotion().x;
+	float yrel = App->input->GetMouseMotion().y;
 	float rotationAngle = RadToDeg(frustum.Front().Normalized().AngleBetween(float3::unitY));
 
 	if (abs(xrel) + abs(yrel) != 0  && mouseSpeedModifier < MAX_MOUSE_SPEED_MODIFIER)
@@ -236,7 +256,7 @@ void ModuleEngineCamera::Walk()
 
 void ModuleEngineCamera::Zoom()
 {
-	float newHFOV = GetHFOV() - App->input->GetMouseWheelY();
+	float newHFOV = GetHFOV() - App->input->GetMouseWheel().y;
 
 	if (newHFOV <= MAX_HFOV && newHFOV >= MIN_HFOV)
 		SetHFOV(math::DegToRad(newHFOV));
@@ -294,13 +314,13 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 	float deltaTime = App->GetDeltaTime();
 	Quat verticalOrbit(
 		frustum.WorldRight(),
-		DegToRad(-App->input->GetMouseMotionY() * rotationSpeed * 
+		DegToRad(-App->input->GetMouseMotion().y * rotationSpeed *
 			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);
 	Quat sideOrbit(
 		float3::unitY, 
-		DegToRad(-App->input->GetMouseMotionX() * rotationSpeed *
+		DegToRad(-App->input->GetMouseMotion().x * rotationSpeed *
 			ORBIT_SPEED_MULTIPLIER * deltaTime
 		)
 	);
@@ -524,4 +544,100 @@ float ModuleEngineCamera::GetFrustumOffset() const
 int ModuleEngineCamera::GetFrustumMode() const
 {
 	return frustumMode;
+}
+
+LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
+{
+	// normalize the input to [-1, 1].
+	ImVec2 startPosScene = windowScene->GetStartPos();
+	ImVec2 endPosScene = windowScene->GetEndPos();
+
+	float2 mousePositionInScene = App->input->GetMousePosition();
+	mousePositionInScene.x -= startPosScene.x;
+	mousePositionInScene.y -= startPosScene.y;
+
+	float width = windowScene->GetAvailableRegion().x;
+	float height = windowScene->GetAvailableRegion().y;
+
+	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+	float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
+
+	return frustum.UnProjectLineSegment(normalizedX, normalizedY);
+}
+
+void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
+{
+	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
+		App->scene->GetLoadedScene()->GetSceneGameObjects();
+	std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
+
+	for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
+	{
+		float nearDistance, farDistance;
+		std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
+		std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
+			std::static_pointer_cast<ComponentBoundingBoxes>
+			(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
+
+		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+
+		if (hit && currentGameObjectAsShared->IsActive())
+		{
+			hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
+		}
+	}
+
+	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
+	SetNewSelectedGameObject(hittedGameObjects, ray);
+}
+
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+												  const LineSegment& ray)
+{
+	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+
+	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
+	{
+		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
+		//ENGINE_LOG(hittedAsShared->GetName());
+
+		std::shared_ptr<ComponentMeshRenderer> componentMeshRenderer =
+			std::static_pointer_cast<ComponentMeshRenderer>
+			(hittedAsShared->GetComponent(ComponentType::MESHRENDERER));
+		std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh().lock();
+
+		if (!gameObjectMeshAsShared)
+		{
+			continue;
+		}
+
+		const float4x4& gameObjectModelMatrix =
+			std::static_pointer_cast<ComponentTransform>
+			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+		const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+		for (const Triangle& triangle : meshTriangles)
+		{
+			bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+			if (!hit) continue;
+			if (thisDistance >= minCurrentDistance) continue;
+
+			// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
+			newSelectedGameObject = hittedAsShared;
+			minCurrentDistance = thisDistance;
+		}
+	}
+
+	if (newSelectedGameObject != nullptr)
+	{
+		App->scene->GetLoadedScene()->GetSceneQuadTree()
+			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject().lock());
+		App->scene->SetSelectedGameObject(newSelectedGameObject);
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+	}
 }

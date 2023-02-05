@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include "Math/float2.h"
 
 #define NUM_MOUSEBUTTONS 5
 
@@ -22,11 +23,13 @@ public:
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
+	
+	float2 GetMouseMotion() const;
+	float2 GetMouseWheel() const;
+	float2 GetMousePosition() const;
 
-	float GetMouseMotionX() const;
-	float GetMouseMotionY() const;
-	float GetMouseWheelX() const;
-	float GetMouseWheelY() const;
+	void SetMousePositionX(int mouseX);
+	void SetMousePositionY(int mouseY);
 
 	bool IsMouseWheelScrolled() const;
 
@@ -36,43 +39,51 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 
-	std::pair<float, float> mouseWheel;
-	std::pair<float, float> mouseMotion;
+	float2 mouseWheel = float2::zero;
+	float2 mouseMotion = float2::zero;
+
+	int mousePosX = 0;
+	int mousePosY = 0;
 
 	bool mouseWheelScrolled;
 };
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
 {
-	return this->keysState[scanCode];
+	return keysState[scanCode];
 }
 
 inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 {
-	return this->mouseButtonState[mouseButton];
+	return mouseButtonState[mouseButton];
 }
 
-inline float ModuleInput::GetMouseMotionX() const
+inline float2 ModuleInput::GetMouseMotion() const
 {
-	return this->mouseMotion.first; 
+	return mouseMotion; 
 }
 
-inline float ModuleInput::GetMouseMotionY() const
-{ 
-	return this->mouseMotion.second;
-}
-
-inline float ModuleInput::GetMouseWheelX() const
+inline float2 ModuleInput::GetMouseWheel() const
 {
-	return this->mouseWheel.first;
+	return mouseWheel;
 }
 
-inline float ModuleInput::GetMouseWheelY() const 
+inline float2 ModuleInput::GetMousePosition() const
 {
-	return this->mouseWheel.second;
+	return float2((float)mousePosX, (float)mousePosY);
+}
+
+inline void ModuleInput::SetMousePositionX(int mouseX)
+{
+	mousePosX = mouseX;
+}
+
+inline void ModuleInput::SetMousePositionY(int mouseY)
+{
+	mousePosY = mouseY;
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const
 {
-	return this->mouseWheelScrolled;
+	return mouseWheelScrolled;
 }
