@@ -1,5 +1,7 @@
 #include "WindowRenderer.h"
 
+#include <fstream>
+
 #include "imgui.h"
 
 #include "Application.h"
@@ -7,6 +9,7 @@
 #include "Modules/ModuleProgram.h"
 
 #include "DataModels/Program/Program.h"
+
 
 int WindowRenderer::bufferSize = 128;
 
@@ -58,7 +61,19 @@ void WindowRenderer::DrawWindowContents()
 
 			if (ImGui::Button(ButtonName.c_str()))
 			{
-				App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+				std::ifstream vf(("Lib/Shaders/" + vertexShaderBuffers[i]).c_str());
+				std::ifstream ff(("Lib/Shaders/" + fragmentShaderBuffer[i]).c_str());
+				
+				if (vf.good()
+					&& ff.good())
+				{
+					App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+				}
+				else
+				{
+					vertexShaderBuffers[i] = program->GetVertexShaderFileName();
+					fragmentShaderBuffer[i] = program->GetFragementShaderFileName();
+				}
 			}
 			ImGui::Dummy(ImVec2(0.f, 10.f)); //spacing
 			ImGui::Separator();
