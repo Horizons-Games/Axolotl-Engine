@@ -113,6 +113,7 @@ private:
 	float viewPlaneDistance;
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped = false;
+	bool focusFlag = false;
 	int lastMouseX, lastMouseY;
 	int mouseState;
 };

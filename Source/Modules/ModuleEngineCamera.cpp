@@ -97,7 +97,8 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(App->scene->GetSelectedGameObject().lock());
+			focusFlag = true;
+			
 
 		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
@@ -119,6 +120,9 @@ update_status ModuleEngineCamera::Update()
 			UnlimitedCursor();
 			Zoom();
 		}
+
+		if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
+		
 
 		KeyboardRotate();
 		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
@@ -224,8 +228,6 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 
 	frustum.SetFront(rotationMatrix.MulDir(oldFront));
 	frustum.SetUp(rotationMatrix.MulDir(oldUp));
-
-	initialRotation = initialRotation.Mul(rotationMatrix.ToQuat());
 }
 
 void ModuleEngineCamera::FreeLook()
@@ -513,7 +515,9 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	float3 direction = lookAt - position;
 
 	Quat finalRotation = Quat::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
-	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime());
+	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime()* rotationSpeed);
+
+	if (rotation.Equals(Quat::identity)) focusFlag = false;
 
 	float3x3 rotationMatrix = float3x3::FromQuat(rotation);
 	
