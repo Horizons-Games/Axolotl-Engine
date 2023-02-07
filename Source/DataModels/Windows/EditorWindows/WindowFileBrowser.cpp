@@ -65,8 +65,8 @@ UID WindowFileBrowser::ImportResourceWithLoadingWindow(const std::string& filePa
 	std::future<UID> futureResourceUID = App->resources->ImportThread(filePath);
 	while (futureResourceUID.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
 	{
-		//maybe?
-		//ImGui::ProgressBar(progress / 100.f);
+		bool trueVal = true;
+		winLoading->Draw(trueVal);
 
 		//TODO: delete, just for debug
 		ENGINE_LOG("Loading...");

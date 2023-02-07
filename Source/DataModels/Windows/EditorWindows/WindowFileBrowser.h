@@ -1,7 +1,9 @@
 #pragma once
 #include "EditorWindow.h"
+
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "FontIcons/CustomFont.h"
+#include "DataModels/Windows/EditorWindows/WindowLoading.h"
 
 class WindowFileBrowser : public EditorWindow
 {
@@ -27,13 +29,16 @@ protected:
 	ImGuiFileDialog fileDialogBrowser;
 	ImGuiFileDialog fileDialogImporter;
 	bool showFileDialog = false;
+
+private:
+	std::unique_ptr<WindowLoading> winLoading;
 };
 
 inline ImVec2 WindowFileBrowser::GetStartingSize() const
 {
 	return ImVec2(900, 250);
 }
-inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser")
+inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"), winLoading(std::make_unique<WindowLoading>())
 {
 	title = ICON_IGFD_FOLDER " Import Asset";
 	dialogName = "Choose File";
