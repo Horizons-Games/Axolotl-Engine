@@ -9,7 +9,7 @@ class ComponentTransform;
 class WindowComponentTransform : public ComponentWindow
 {
 public:
-	WindowComponentTransform(const std::weak_ptr<ComponentTransform>& component);
+	WindowComponentTransform(ComponentTransform* component);
 	~WindowComponentTransform() override = default;
 
 protected:

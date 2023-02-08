@@ -129,7 +129,7 @@ void WindowInspector::DrawWindowContents()
 
 			for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
 			{
-				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component));
+				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component.lock().get()));
 			}
 		}
 		for (int i = 0; i < windowsForComponentsOfSelectedObject.size(); ++i)

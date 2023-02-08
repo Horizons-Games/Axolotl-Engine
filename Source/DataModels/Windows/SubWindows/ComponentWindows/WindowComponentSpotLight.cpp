@@ -7,7 +7,7 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentPointLight.h"
 
-WindowComponentSpotLight::WindowComponentSpotLight(const std::weak_ptr<ComponentSpotLight>& component) :
+WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component) :
 	ComponentWindow("SPOT LIGHT", component)
 {
 }
@@ -16,10 +16,9 @@ void WindowComponentSpotLight::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentSpotLight> asSharedSpotLight =
-		std::dynamic_pointer_cast<ComponentSpotLight>(this->component.lock());
+	ComponentSpotLight* asSpotLight = static_cast<ComponentSpotLight*>(this->component);
 
-	if (asSharedSpotLight)
+	if (asSpotLight)
 	{
 		const char* lightTypes[] = { "Point", "Spot" };
 
@@ -45,14 +44,14 @@ void WindowComponentSpotLight::DrawWindowContents()
 						if (lightTypes[i] == "Point")
 						{
 							std::shared_ptr<ComponentPointLight> newPoint =
-								std::static_pointer_cast<ComponentPointLight>(asSharedSpotLight->GetOwner().lock()
+								std::static_pointer_cast<ComponentPointLight>(asSpotLight->GetOwner().lock()
 									->CreateComponentLight(LightType::POINT));
 
-							newPoint->SetColor(asSharedSpotLight->GetColor());
-							newPoint->SetIntensity(asSharedSpotLight->GetIntensity());
-							newPoint->SetRadius(asSharedSpotLight->GetRadius());
+							newPoint->SetColor(asSpotLight->GetColor());
+							newPoint->SetIntensity(asSpotLight->GetIntensity());
+							newPoint->SetRadius(asSpotLight->GetRadius());
 
-							asSharedSpotLight->GetOwner().lock()->RemoveComponent(asSharedSpotLight);
+							asSpotLight->GetOwner().lock()->RemoveComponent(asSpotLight->shared_from_this() /*this MUST be removed once Scene is updated*/);
 
 							App->scene->GetLoadedScene()->UpdateScenePointLights();
 							App->scene->GetLoadedScene()->RenderPointLights();
@@ -74,35 +73,35 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::Text("Intensity"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float intensity = asSharedSpotLight->GetIntensity();
+			float intensity = asSpotLight->GetIntensity();
 			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
 			{
-				asSharedSpotLight->SetIntensity(intensity);
+				asSpotLight->SetIntensity(intensity);
 				modified = true;
 			}
 			ImGui::PopStyleVar();
 
 			ImGui::Text("Color"); ImGui::SameLine();
-			float3 color = asSharedSpotLight->GetColor();
+			float3 color = asSpotLight->GetColor();
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
-				asSharedSpotLight->SetColor(color);
+				asSpotLight->SetColor(color);
 				modified = true;
 			}
 
 			ImGui::Text("Radius"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float radius = asSharedSpotLight->GetRadius();
+			float radius = asSpotLight->GetRadius();
 			if (ImGui::DragFloat("##Radius", &radius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
-				asSharedSpotLight->SetRadius(radius);
+				asSpotLight->SetRadius(radius);
 				modified = true;
 			}
 			ImGui::PopStyleVar();
 
-			float innerAngle = asSharedSpotLight->GetInnerAngle();
-			float outerAngle = asSharedSpotLight->GetOuterAngle();
+			float innerAngle = asSpotLight->GetInnerAngle();
+			float outerAngle = asSpotLight->GetOuterAngle();
 
 			ImGui::Text("Inner Angle"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
@@ -111,7 +110,7 @@ void WindowComponentSpotLight::DrawWindowContents()
 			{
 				if (innerAngle <= outerAngle)
 				{
-					asSharedSpotLight->SetInnerAngle(innerAngle);
+					asSpotLight->SetInnerAngle(innerAngle);
 					modified = true;
 				}
 			}
@@ -124,7 +123,7 @@ void WindowComponentSpotLight::DrawWindowContents()
 			{
 				if (outerAngle >= innerAngle)
 				{
-					asSharedSpotLight->SetOuterAngle(outerAngle);
+					asSpotLight->SetOuterAngle(outerAngle);
 					modified = true;
 				}
 			}
