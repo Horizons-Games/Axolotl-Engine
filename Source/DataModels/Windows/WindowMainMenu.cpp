@@ -6,12 +6,12 @@
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Pre-SuperAwesomeEngine/Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::shared_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
+WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
 {
 	about = std::make_unique<WindowAbout>();
 	
 	nWindows = editorWindows.size();
-	for (std::shared_ptr<EditorWindow> window : editorWindows)
+	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
 	{
 		windowNames.push_back(window->GetName());
 		windowsEnabled.push_back(true);
