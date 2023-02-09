@@ -103,6 +103,7 @@ private:
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
 	Quat initialRotation = Quat::identity;
+	Quat currentRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;

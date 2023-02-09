@@ -77,6 +77,7 @@ update_status ModuleEngineCamera::Update()
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 			App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
+			focusFlag = false;
 			App->input->SetFreeLookCursor();
 			UnlimitedCursor();
 			Move();
@@ -90,6 +91,7 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 		{
+			focusFlag = false;
 			App->input->SetMoveCursor();
 			UnlimitedCursor();
 			Move();
@@ -121,8 +123,7 @@ update_status ModuleEngineCamera::Update()
 			Zoom();
 		}
 
-		if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
-		
+		if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());	
 
 		KeyboardRotate();
 		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
@@ -227,6 +228,7 @@ void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix)
 	vec oldUp = frustum.Up().Normalized();
 
 	frustum.SetFront(rotationMatrix.MulDir(oldFront));
+	if (!focusFlag) frustum.SetUp(float3::unitY);;
 	frustum.SetUp(rotationMatrix.MulDir(oldUp));
 }
 
@@ -301,7 +303,10 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	float camDistance = radius / sin(fov / 2.0);
 	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
-	position = boundingSphere.pos - (camDirection * camDistance);
+	//position = boundingSphere.pos - (camDirection * camDistance);
+
+	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
+	position = position.Lerp(endposition,App->GetDeltaTime()*rotationSpeed);
 
 	SetPosition(position);
 	SetLookAt(boundingSphere.pos);
@@ -515,9 +520,10 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	float3 direction = lookAt - position;
 
 	Quat finalRotation = Quat::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
-	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime()* rotationSpeed);
+	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime()*rotationSpeed);
+	currentRotation = rotation;
 
-	if (rotation.Equals(Quat::identity)) focusFlag = false;
+	//if (rotation.Equals(Quat::identity)) focusFlag = false;
 
 	float3x3 rotationMatrix = float3x3::FromQuat(rotation);
 	
