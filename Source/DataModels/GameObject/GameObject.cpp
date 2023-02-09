@@ -26,10 +26,10 @@ GameObject::GameObject(const char* name) : name(name) // Root constructor
 	uid = UniqueID::GenerateUID();
 }
 
-GameObject* GameObject::CreateGameObject(const char* name, GameObject& parent)
+GameObject* GameObject::CreateGameObject(const char* name, GameObject* parent)
 {
 	GameObject* newGameObject = new GameObject(name);
-	newGameObject->parent = &parent;
+	newGameObject->parent = parent;
 	assert(newGameObject->parent);
 
 	newGameObject->parent->AddChild(newGameObject);
@@ -75,7 +75,7 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	for (std::shared_ptr<Component> component : components)
+	for (Component* component : components)
 	{
 		if (component->GetActive())
 		{
@@ -86,7 +86,7 @@ void GameObject::Update()
 
 void GameObject::Draw()
 {
-	for (std::shared_ptr<Component> component : components)
+	for (Component* component : components)
 	{
 		if (component->GetActive())
 		{
@@ -180,24 +180,24 @@ void GameObject::InitNewEmptyGameObject()
 	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
-void GameObject::SetParent(const std::weak_ptr<GameObject>& newParent)
+void GameObject::SetParent(GameObject* newParent)
 {
-	assert(newParent.lock());
+	assert(newParent);
 
-	if (this->IsADescendant(newParent.lock()) ||		// Avoid dragging parent GameObjects into their descendants
-		newParent.lock()->IsAChild(shared_from_this()))				// Avoid dragging direct children into thier parent GameObjects
+	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
+		newParent->IsAChild(this))				// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
 	}
 
-	parent->RemoveChild(shared_from_this());
-	parent = newParent.lock();
-	parent->AddChild(shared_from_this());
+	parent->RemoveChild(this);
+	parent = newParent;
+	parent->AddChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }
 
-void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
+void GameObject::AddChild(GameObject* child)
 {
 	assert(child != nullptr);
 
@@ -208,7 +208,7 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	}
 }
 
-void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
+void GameObject::RemoveChild(GameObject* child)
 {
 	assert(child != nullptr);
 
@@ -217,7 +217,7 @@ void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
 		return;
 	}
 
-	for (std::vector<std::shared_ptr<GameObject> >::const_iterator it = children.begin();
+	for (std::vector<GameObject*>::const_iterator it = children.begin();
 		it != children.end();
 		++it)
 	{

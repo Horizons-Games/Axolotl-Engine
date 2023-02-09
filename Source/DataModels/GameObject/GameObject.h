@@ -18,7 +18,7 @@ class GameObject
 {
 public:
 	explicit GameObject(const char* name);
-	static GameObject* CreateGameObject(const char* name, GameObject& parent);
+	static GameObject* CreateGameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -29,8 +29,8 @@ public:
 
 	void InitNewEmptyGameObject();
 
-	void AddChild(const std::shared_ptr<GameObject>& child);
-	void RemoveChild(const std::shared_ptr<GameObject>& child);
+	void AddChild(GameObject* child);
+	void RemoveChild(GameObject* child);
 
 	UID GetUID() const;
 	const char* GetName() const;
@@ -47,7 +47,7 @@ public:
 	void Disable();
 
 	void SetName(const char* newName);
-	void SetParent(const std::weak_ptr<GameObject>& newParent);
+	void SetParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -70,7 +70,7 @@ private:
 	bool enabled = true;
 	bool active = true;
 	std::string name = "Empty";
-	std::vector<Component> components = {};
+	std::vector<Component*> components = {};
 
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children = {};
