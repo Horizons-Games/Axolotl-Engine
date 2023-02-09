@@ -5,7 +5,7 @@
 #include <MathGeoLib/Include/Math/float3.h>
 
 Program::Program(unsigned vertexShader, unsigned fragmentShader, 
-	std::string vtxShaderFileName, std::string frgShaderFileName, std::string programName) :
+	std::string& vtxShaderFileName, std::string& frgShaderFileName, std::string& programName) :
 	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName), programName(programName)
 {
 	id = glCreateProgram();
@@ -37,7 +37,7 @@ Program::~Program()
 }
 
 void Program::UpdateProgram(unsigned vertexShader, unsigned fragmentShader,
-	std::string vtxShaderFileName, std::string frgShaderFileName, std::string programName)
+	std::string& vtxShaderFileName, std::string& frgShaderFileName, std::string& programName)
 {
 	this->programName = programName;
 	vertexShaderFileName = vtxShaderFileName;

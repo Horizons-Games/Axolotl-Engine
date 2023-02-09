@@ -44,7 +44,7 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 	return program;
 }
 
-void ModuleProgram::UpdateProgram(std::string vtxShaderFileName, std::string frgShaderFileName, int programType,
+void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
 	std::string programName)
 {
 	Programs[programType] = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
