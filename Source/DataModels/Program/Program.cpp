@@ -36,21 +36,6 @@ Program::~Program()
 	CleanUp();
 }
 
-void Program::UpdateProgram(unsigned vertexShader, unsigned fragmentShader,
-	std::string& vtxShaderFileName, std::string& frgShaderFileName, std::string& programName)
-{
-	this->programName = programName;
-	vertexShaderFileName = vtxShaderFileName;
-	fragmentShaderFileName = frgShaderFileName;
-
-	CleanUp();
-
-	id = glCreateProgram();
-	glAttachShader(id, vertexShader);
-	glAttachShader(id, fragmentShader);
-	glLinkProgram(id);
-}
-
 void Program::Activate()
 {
 	glUseProgram(id);

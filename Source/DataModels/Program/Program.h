@@ -11,8 +11,6 @@ public:
 	~Program();
 	void CleanUp();
 
-	void UpdateProgram(unsigned vertexShader, unsigned fragmentShader,
-		std::string& vtxShaderFileName, std::string& frgShaderFileName, std::string& programName);
 	void Activate();
 	void Deactivate();
 	
