@@ -24,17 +24,14 @@
 
 #include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (meshAsShared)
-		mesh.lock()->Unload();
+	mesh->Unload();
 }
 
 void ComponentMeshRenderer::Update()
@@ -133,17 +130,15 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 }
 
-void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
+void ComponentMeshRenderer::SetMesh(ResourceMesh* newMesh)
 {
 	mesh = newMesh;
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-
-	if (meshAsShared)
+	if (mesh)
 	{
-		meshAsShared->Load();
-		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
-			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner().lock()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
+		mesh->Load();
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }
