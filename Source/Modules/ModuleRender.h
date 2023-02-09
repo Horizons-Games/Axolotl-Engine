@@ -37,13 +37,13 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
+	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
 
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
-	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
+	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
 	void UpdateProgram();

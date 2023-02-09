@@ -413,11 +413,6 @@ void Scene::UpdateSceneSpotLights()
 	}
 }
 
-void Scene::GenerateNewQuadtree()
-{
-	sceneQuadTree = std::make_shared<Quadtree>(rootQuadtreeAABB);
-}
-
 void Scene::InitNewEmptyScene()
 {
 	uid = UniqueID::GenerateUID();
@@ -427,7 +422,7 @@ void Scene::InitNewEmptyScene()
 
 	sceneGameObjects.push_back(root);
 
-	sceneQuadTree = std::make_shared<Quadtree>(rootQuadtreeAABB);
+	sceneQuadTree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
 	ambientLight = CreateGameObject("Ambient_Light", root);
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
@@ -449,4 +444,14 @@ void Scene::InitLights()
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
+}
+
+void Scene::SetSceneQuadTree(Quadtree* quadtree)
+{
+	sceneQuadTree = std::unique_ptr<Quadtree>(quadtree);
+}
+
+std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
+{
+	return std::move(sceneQuadTree);
 }
