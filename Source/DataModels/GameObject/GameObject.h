@@ -34,11 +34,11 @@ public:
 
 	UID GetUID() const;
 	const char* GetName() const;
-	const std::weak_ptr<GameObject>& GetParent() const;
-	std::vector<std::weak_ptr<GameObject> > GetChildren() const;
-	void SetChildren(const std::vector<std::weak_ptr<GameObject> >& children);
-	const std::vector<std::shared_ptr<Component> >& GetComponents() const;
-	void SetComponents(const std::vector<std::shared_ptr<Component> >& children);
+	const GameObject* GetParent() const;
+	const std::vector<GameObject*> GetChildren() const;
+	void SetChildren(const std::vector<GameObject*>& children);
+	const std::vector<Component*>& GetComponents() const;
+	void SetComponents(const std::vector<Component*>& children);
 	template<class T>
 	const std::vector<std::shared_ptr<T>> GetComponentsByType(ComponentType type) const;
 
@@ -96,7 +96,7 @@ inline void GameObject::SetName(const char* newName)
 	name = newName;
 }
 
-inline const std::weak_ptr<GameObject>& GameObject::GetParent() const
+inline const GameObject* GameObject::GetParent() const
 {
 	return parent;
 }
@@ -106,28 +106,26 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline std::vector<std::weak_ptr<GameObject> > GameObject::GetChildren() const
+inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
-	std::vector<std::weak_ptr<GameObject> > weakChildren = {};
-	weakChildren.insert(weakChildren.end(), children.begin(), children.end());
-	return weakChildren;
+	return children;
 }
 
-inline void GameObject::SetChildren(const std::vector<std::weak_ptr<GameObject> >& children)
+inline void GameObject::SetChildren(const std::vector<GameObject*>& children)
 {
 	this->children.clear();
-	for (std::weak_ptr<GameObject> newChild : children)
+	for (GameObject* newChild : children)
 	{
-		this->children.push_back(newChild.lock());
+		this->children.push_back(newChild);
 	}
 }
 
-inline const std::vector<std::shared_ptr<Component> >& GameObject::GetComponents() const
+inline const std::vector<Component*>& GameObject::GetComponents() const
 {
 	return components;
 }
 
-inline void GameObject::SetComponents(const std::vector<std::shared_ptr<Component> >& components)
+inline void GameObject::SetComponents(const std::vector<Component*>& children)
 {
 	this->components = components;
 }
