@@ -19,7 +19,7 @@ class Json;
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentMaterial(bool active, GameObject* owner);
 	~ComponentMaterial() override;
 
 	void Update() override;
@@ -27,10 +27,10 @@ public:
 	void Draw() override;
 
 	void SaveOptions(Json& meta) override;
-	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);
+	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const ResourceTexture* texturePtr);
 	void LoadOptions(Json& meta) override;
 
-	void SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial);
+	void SetMaterial(ResourceMaterial* newMaterial);
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);
 	void SetOcclusionUID(UID& occlusionUID);
@@ -57,7 +57,7 @@ private:
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
-	std::weak_ptr<ResourceMaterial> material;
+	ResourceMaterial* material;
 
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);

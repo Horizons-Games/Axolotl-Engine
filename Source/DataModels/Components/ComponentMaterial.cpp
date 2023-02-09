@@ -17,7 +17,7 @@
 
 #include <GL/glew.h>
 
-ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner)
+ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
@@ -124,14 +124,13 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 	UID uidMaterial = 0;
 	std::string assetPath = "";
 
-	if (materialAsShared)
+	if (material)
 	{
-		uidMaterial = materialAsShared->GetUID();
-		assetPath = materialAsShared->GetAssetsPath();
+		uidMaterial = material->GetUID();
+		assetPath = material->GetAssetsPath();
 	}
 	meta["materialUID"] = (UID)uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
@@ -152,14 +151,13 @@ void ComponentMaterial::SaveOptions(Json& meta)
 
 void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
 												const char* field, 
-												const std::weak_ptr<ResourceTexture>& texturePtr)
+												const ResourceTexture* texturePtr)
 {
-	std::shared_ptr<ResourceTexture> textureAsShared = texturePtr.lock();
 	UID uidTexture = 0;
 
-	if (textureAsShared)
+	if (texturePtr)
 	{
-		uidTexture = textureAsShared->GetUID();
+		uidTexture = texturePtr->GetUID();
 	}
 	meta[field] = (UID)uidTexture;
 }
@@ -225,19 +223,18 @@ void ComponentMaterial::SetSpecularUID(UID& specularUID)
 	this->specularUID = specularUID;
 }
 
-void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial)
+void ComponentMaterial::SetMaterial(ResourceMaterial* newMaterial)
 {
 	material = newMaterial;
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 
 	
-	if (materialAsShared)
+	if (material)
 	{
-		materialAsShared->Load();
-		diffuseUID = materialAsShared->GetDiffuseUID();
-		normalUID = materialAsShared->GetNormalUID();
-		occlusionUID = materialAsShared->GetOcclusionrUID();
-		specularUID = materialAsShared->GetSpecularUID();
+		material->Load();
+		diffuseUID = material->GetDiffuseUID();
+		normalUID = material->GetNormalUID();
+		occlusionUID = material->GetOcclusionrUID();
+		specularUID = material->GetSpecularUID();
 	}
 }
 
