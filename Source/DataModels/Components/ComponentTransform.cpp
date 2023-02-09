@@ -108,14 +108,13 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	const GameObject* parent = this->GetOwner()->GetParent();
+	const GameObject* parent = GetOwner()->GetParent();
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform =
-		static_cast<ComponentTransform*>(((GameObject*) parent)->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

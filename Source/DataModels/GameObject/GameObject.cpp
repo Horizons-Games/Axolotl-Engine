@@ -409,7 +409,7 @@ bool GameObject::RemoveComponent(const Component* component)
 	return false;
 }
 
-Component* GameObject::GetComponent(ComponentType type)
+Component* GameObject::GetComponent(ComponentType type) const
 {
 	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{

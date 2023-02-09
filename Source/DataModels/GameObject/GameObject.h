@@ -55,7 +55,7 @@ public:
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
 	bool RemoveComponent(const Component* component);
-	Component* GetComponent(ComponentType type);
+	Component* GetComponent(ComponentType type) const;
 
 	std::list<GameObject*> GetGameObjectsInside();
 
