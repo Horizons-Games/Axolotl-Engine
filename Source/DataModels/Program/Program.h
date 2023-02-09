@@ -7,19 +7,19 @@ class Program
 
 public:
 	Program(unsigned vertexShader, unsigned fragmentShader, 
-		std::string& vtxShaderFileName, std::string& frgShaderFileName, std::string& programName);
+		const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName);
 	~Program();
 	void CleanUp();
 
 	void Activate();
 	void Deactivate();
 	
-	void BindUniformFloat4x4(const char* name, const float* data, bool transpose);
-	void BindUniformFloat3(const char* name, const float3 data);
-	void BindUniformFloat(const char* name, const float data);
-	void BindUniformInt(const char* name, int value);
-	void BindUniformBlock(const char* name, const unsigned value);
-	void BindShaderStorageBlock(const char* name, const unsigned value);
+	void BindUniformFloat4x4(const std::string& name, const float* data, bool transpose);
+	void BindUniformFloat3(const std::string& name, const float3 data);
+	void BindUniformFloat(const std::string& name, const float data);
+	void BindUniformInt(const std::string& name, int value);
+	void BindUniformBlock(const std::string& name, const unsigned value);
+	void BindShaderStorageBlock(const std::string& name, const unsigned value);
 
 	const unsigned& GetId() const;
 	const std::string& GetFragementShaderFileName() const;
