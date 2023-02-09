@@ -53,16 +53,16 @@ public:
 	void DeactivateChildren();
 	void ActivateChildren();
 
-	std::shared_ptr<Component> CreateComponent(ComponentType type);
-	std::shared_ptr<Component> CreateComponentLight(LightType lightType);
-	bool RemoveComponent(const std::shared_ptr<Component>& component);
-	std::shared_ptr<Component> GetComponent(ComponentType type);
+	Component* CreateComponent(ComponentType type);
+	Component* CreateComponentLight(LightType lightType);
+	bool RemoveComponent(const Component* component);
+	Component* GetComponent(ComponentType type);
 
-	std::list<std::weak_ptr<GameObject> > GetGameObjectsInside();
+	std::list<GameObject*> GetGameObjectsInside();
 
 private:
 	bool IsAChild(const GameObject* child);
-	bool IsADescendant(const std::shared_ptr<GameObject>& child);
+	bool IsADescendant(const GameObject* descendant);
 
 private:
 	UID uid = 0;
