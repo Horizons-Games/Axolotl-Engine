@@ -40,9 +40,9 @@ GameObject* GameObject::CreateGameObject(const char* name, GameObject* parent)
 
 GameObject::~GameObject()
 {
-	std::vector<std::shared_ptr<ComponentLight> > lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+	std::vector<ComponentLight*> lights = this->GetComponentsByType<ComponentLight*>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
-	for (std::shared_ptr<ComponentLight> light : lights)
+	for (ComponentLight* light : lights)
 	{
 		switch (light->GetLightType())
 		{
@@ -59,7 +59,7 @@ GameObject::~GameObject()
 
 	children.clear();
 
-	std::shared_ptr<Scene> currentScene = App->scene->GetLoadedScene();
+	Scene* currentScene = App->scene->GetLoadedScene();
 
 	if (hadSpotLight)
 	{
@@ -120,9 +120,9 @@ void GameObject::SaveOptions(Json& meta)
 	}
 }
 
-void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject> >& loadedObjects)
+void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
 {
-	loadedObjects.push_back(shared_from_this());
+	loadedObjects.push_back(this);
 
 	uid = UniqueID::GenerateUID();
 	name = meta["name"];
@@ -142,7 +142,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject>
 			
 			if (type == ComponentType::UNKNOWN) return;
 
-			std::shared_ptr<Component> component;
+			Component* component;
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
@@ -168,7 +168,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<std::shared_ptr<GameObject>
 			Json jsonGameObject = jsonChildrens[i]["GameObject"];
 			std::string name = jsonGameObject["name"];
 
-			std::shared_ptr<GameObject> gameObject = GameObject::CreateGameObject(name.c_str(), shared_from_this());
+			GameObject* gameObject = GameObject::CreateGameObject(name.c_str(), this);
 			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}

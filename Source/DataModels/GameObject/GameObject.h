@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <list>
-#include <memory>
 
 #include "../../FileSystem/UniqueID.h"
 
@@ -22,7 +21,7 @@ public:
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& json, std::vector<std::shared_ptr<GameObject> >& loadedObjects);
+	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
 	void Draw();
@@ -40,7 +39,7 @@ public:
 	const std::vector<Component*>& GetComponents() const;
 	void SetComponents(const std::vector<Component*>& children);
 	template<class T>
-	const std::vector<std::shared_ptr<T>> GetComponentsByType(ComponentType type) const;
+	const std::vector<T> GetComponentsByType(ComponentType type) const;
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -131,15 +130,15 @@ inline void GameObject::SetComponents(const std::vector<Component*>& children)
 }
 
 template<class T>
-inline const std::vector<std::shared_ptr<T> > GameObject::GetComponentsByType(ComponentType type) const
+inline const std::vector<T> GameObject::GetComponentsByType(ComponentType type) const
 {
-	std::vector<std::shared_ptr<T> > components;
+	std::vector<T> components;
 
-	for (std::shared_ptr<Component> component : this->components)
+	for (Component* component : this->components)
 	{
 		if (component->GetType() == type)
 		{
-			components.push_back(std::dynamic_pointer_cast<T>(component));
+			components.push_back(dynamic_cast<T>(component));
 		}
 	}
 
