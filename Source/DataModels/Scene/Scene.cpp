@@ -446,9 +446,9 @@ void Scene::InitLights()
 	RenderSpotLights();
 }
 
-void Scene::SetSceneQuadTree(Quadtree* quadtree)
+void Scene::SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree)
 {
-	sceneQuadTree = std::unique_ptr<Quadtree>(quadtree);
+	sceneQuadTree = std::move(quadtree);
 }
 
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()

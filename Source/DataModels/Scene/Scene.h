@@ -63,7 +63,7 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 
 	void SetRoot(const std::shared_ptr<GameObject>& newRoot);
-	void SetSceneQuadTree(Quadtree* quadtree);
+	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
 	void SetSceneGameObjects(const std::vector<std::weak_ptr<GameObject> >& gameObjects);
 	void SetSceneCameras(const std::vector<std::weak_ptr<GameObject> >& cameras);
 	void SetAmbientLight(const std::shared_ptr<GameObject>& ambientLight);
