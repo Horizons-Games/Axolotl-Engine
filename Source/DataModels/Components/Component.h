@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include <assert.h>
 
 enum class ComponentType { UNKNOWN, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
