@@ -224,11 +224,11 @@ void ModuleEngineCamera::KeyboardRotate()
 
 void ModuleEngineCamera::ApplyRotation(const float3x3& rotationMatrix) 
 {
+	currentRotation.Set(rotationMatrix);
 	vec oldFront = frustum.Front().Normalized();
 	vec oldUp = frustum.Up().Normalized();
 
 	frustum.SetFront(rotationMatrix.MulDir(oldFront));
-	if (!focusFlag) frustum.SetUp(float3::unitY);;
 	frustum.SetUp(rotationMatrix.MulDir(oldUp));
 }
 
@@ -520,12 +520,12 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	float3 direction = lookAt - position;
 
 	Quat finalRotation = Quat::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
-	Quat rotation = initialRotation.Slerp(finalRotation, App->GetDeltaTime()*rotationSpeed);
-	currentRotation = rotation;
+	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime()*rotationSpeed);
+	//currentRotation = rotation
 
 	//if (rotation.Equals(Quat::identity)) focusFlag = false;
 
-	float3x3 rotationMatrix = float3x3::FromQuat(rotation);
+	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	
 	ApplyRotation(rotationMatrix);
 }
