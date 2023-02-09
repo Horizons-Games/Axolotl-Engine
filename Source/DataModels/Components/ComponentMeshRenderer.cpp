@@ -41,21 +41,18 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	//lock it so it does not expire during this block
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (meshAsShared) //pointer not empty
+	if (this->IsMeshLoaded()) //pointer not empty
 	{
-		if (!meshAsShared->IsLoaded())
+		if (!mesh->IsLoaded())
 		{
-			meshAsShared->Load();
+			mesh->Load();
 		}
 
 		unsigned program = App->program->GetProgram();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 		const float4x4& model =
-			std::static_pointer_cast<ComponentTransform>(GetOwner().lock()
+			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		GLint programInUse;
@@ -70,10 +67,10 @@ void ComponentMeshRenderer::Draw()
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(meshAsShared->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
@@ -87,15 +84,13 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(meshAsShared)
+	if(mesh)
 	{
-		uidMesh = meshAsShared->GetUID();
-		assetPath = meshAsShared->GetAssetsPath();
+		uidMesh = mesh->GetUID();
+		assetPath = mesh->GetAssetsPath();
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
@@ -111,7 +106,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+	ResourceMesh* resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).get();
 
 	if (resourceMesh)
 	{
@@ -124,7 +119,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		if (resourceExists) 
 		{
 			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).get();
 			SetMesh(resourceMesh);
 		}
 	}
