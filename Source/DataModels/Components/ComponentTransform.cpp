@@ -13,7 +13,7 @@
 
 #include "Math/float3x3.h"
 
-ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
+ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
 }
@@ -24,7 +24,7 @@ void ComponentTransform::Update()
 	CalculateGlobalMatrix();
 }
 
-void ComponentTransform::CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified, 
 												   bool rotationModified)
 {
@@ -95,7 +95,7 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.z = (float) meta["localSca_Z"];
 
 	CalculateLocalMatrix();
-	if(!GetOwner().lock()->GetParent().expired()) 
+	if(!GetOwner()->GetParent()) 
 		CalculateGlobalMatrix();
 }
 
@@ -108,14 +108,14 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+	const GameObject* parent = this->GetOwner()->GetParent();
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	std::shared_ptr<ComponentTransform> parentTransform =
-		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform =
+		static_cast<ComponentTransform*>(((GameObject*) parent)->GetComponent(ComponentType::TRANSFORM));
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

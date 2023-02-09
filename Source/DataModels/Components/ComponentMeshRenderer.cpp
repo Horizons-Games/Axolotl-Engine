@@ -87,7 +87,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(mesh)
+	if(this->IsMeshLoaded())
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -129,7 +129,7 @@ void ComponentMeshRenderer::SetMesh(ResourceMesh* newMesh)
 {
 	mesh = newMesh;
 
-	if (mesh)
+	if (this->IsMeshLoaded())
 	{
 		mesh->Load();
 		ComponentBoundingBoxes* boundingBox =

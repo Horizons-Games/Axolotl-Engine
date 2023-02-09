@@ -3,8 +3,6 @@
 #include "Components/Component.h"
 #include "FileSystem/UniqueID.h"
 
-#include <memory>
-
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
 class ResourceMaterial;
