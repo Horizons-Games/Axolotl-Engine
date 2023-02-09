@@ -26,10 +26,10 @@ GameObject::GameObject(const char* name) : name(name) // Root constructor
 	uid = UniqueID::GenerateUID();
 }
 
-std::shared_ptr<GameObject> GameObject::CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent)
+GameObject* GameObject::CreateGameObject(const char* name, GameObject& parent)
 {
-	std::shared_ptr<GameObject> newGameObject = std::make_shared<GameObject>(name);
-	newGameObject->parent = parent;
+	GameObject* newGameObject = new GameObject(name);
+	newGameObject->parent = &parent;
 	assert(newGameObject->parent);
 
 	newGameObject->parent->AddChild(newGameObject);
@@ -425,11 +425,11 @@ std::shared_ptr<Component> GameObject::GetComponent(ComponentType type)
 	return std::shared_ptr<Component>();
 }
 
-bool GameObject::IsAChild(const std::shared_ptr<GameObject>& child)
+bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
-	for (std::shared_ptr<GameObject> gameObject : children)
+	for (GameObject* gameObject : children)
 	{
 		if (gameObject == child)
 			return true;

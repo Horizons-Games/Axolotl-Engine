@@ -14,11 +14,11 @@ class Json;
 enum class ComponentType;
 enum class LightType;
 
-class GameObject : public std::enable_shared_from_this<GameObject>
+class GameObject
 {
 public:
 	explicit GameObject(const char* name);
-	static std::shared_ptr<GameObject> CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent);
+	static GameObject* CreateGameObject(const char* name, GameObject& parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -61,7 +61,7 @@ public:
 	std::list<std::weak_ptr<GameObject> > GetGameObjectsInside();
 
 private:
-	bool IsAChild(const std::shared_ptr<GameObject>& child);
+	bool IsAChild(const GameObject* child);
 	bool IsADescendant(const std::shared_ptr<GameObject>& child);
 
 private:
@@ -70,10 +70,10 @@ private:
 	bool enabled = true;
 	bool active = true;
 	std::string name = "Empty";
-	std::vector<std::shared_ptr<Component> > components = {};
+	std::vector<Component> components = {};
 
-	std::shared_ptr<GameObject> parent = nullptr;
-	std::vector<std::shared_ptr<GameObject> > children = {};
+	GameObject* parent = nullptr;
+	std::vector<GameObject*> children = {};
 };
 
 inline UID GameObject::GetUID() const
