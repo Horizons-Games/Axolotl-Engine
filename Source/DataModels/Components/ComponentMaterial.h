@@ -8,8 +8,6 @@
 #include "FileSystem/UniqueID.h"
 #include "Globals.h"
 
-#include <memory>
-
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceMaterial;
@@ -41,7 +39,7 @@ public:
 	void SetNormalStrenght(float normalStrength);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
-	std::weak_ptr<ResourceMaterial> GetMaterial() const;
+	ResourceMaterial* GetMaterial() const;
 	const UID& GetDiffuseUID() const;
 	const UID& GetNormalUID() const;
 	const UID& GetOcclusionUID() const;
@@ -101,7 +99,7 @@ inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 	this->hasShininessAlpha = hasShininessAlpha;
 }
 
-inline std::weak_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
+inline ResourceMaterial* ComponentMaterial::GetMaterial() const
 {
 	return material;
 }
