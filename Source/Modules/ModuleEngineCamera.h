@@ -54,6 +54,7 @@ public:
 
 	void Move();
 	void KeyboardRotate();
+	void Rotate();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
 	void UnlimitedCursor();
@@ -114,6 +115,7 @@ private:
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped = false;
 	bool focusFlag = false;
+	bool isFocusing = false;
 	int lastMouseX, lastMouseY;
 	int mouseState;
 };

@@ -69,64 +69,75 @@ update_status ModuleEngineCamera::Update()
 
 	if (App->editor->IsSceneFocused())
 	{
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-			Run();
-		else
-			Walk();
-
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
-			App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+		if (isFocusing)
 		{
-			focusFlag = false;
-			App->input->SetFreeLookCursor();
-			UnlimitedCursor();
-			Move();
-			FreeLook();
+			if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
+			//need to the same as KeyboardRotate here else the camera is jiggling
+			Rotate();
 		}
-
-		if (App->input->IsMouseWheelScrolled())
+		else if (!isFocusing)
 		{
-			focusFlag = false;
-			Zoom();
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+				Run();
+			else
+				Walk();
+
+			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
+				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+			{
+				focusFlag = false;
+				App->input->SetFreeLookCursor();
+				UnlimitedCursor();
+				Move();
+				FreeLook();
+			}
+
+			if (App->input->IsMouseWheelScrolled())
+			{
+				focusFlag = false;
+				Zoom();
+			}
+
+			if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
+			{
+				focusFlag = false;
+				App->input->SetMoveCursor();
+				UnlimitedCursor();
+				Move();
+			}
+
+			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
+				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			{
+				focusFlag = true;
+				isFocusing = true;
+			}
+
+
+			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
+				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
+				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
+			{
+				const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
+					App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
+				focusFlag = false;
+				App->input->SetOrbitCursor();
+				UnlimitedCursor();
+				Orbit(obb);
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
+				App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
+				App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
+			{
+				App->input->SetZoomCursor();
+				UnlimitedCursor();
+				Zoom();
+			}
+			KeyboardRotate();
+			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 		}
-
-		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
-		{
-			focusFlag = false;
-			App->input->SetMoveCursor();
-			UnlimitedCursor();
-			Move();
-		}
-
-		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
-			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			focusFlag = true;
-			
-
-		if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
-			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
-			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
-		{
-			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
-				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
-			focusFlag = false;
-			App->input->SetOrbitCursor();
-			UnlimitedCursor();
-			Orbit(obb);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE && 
-			App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE && 
-			App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
-		{
-			App->input->SetZoomCursor();
-			UnlimitedCursor();
-			Zoom();
-		}
-
-		if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());	
-		KeyboardRotate();
-		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+		
 	}
 
 	return UPDATE_CONTINUE;
@@ -218,6 +229,23 @@ void ModuleEngineCamera::KeyboardRotate()
 		focusFlag = false;
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 	}
+
+	float deltaTime = App->GetDeltaTime();
+	Quat pitchQuat(frustum.WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
+	Quat yawQuat(float3::unitY, yaw * deltaTime * rotationSpeed * acceleration);
+
+	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
+	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
+	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
+
+	ApplyRotation(rotationDeltaMatrix);
+}
+
+void ModuleEngineCamera::Rotate()
+{
+	float yaw = 0.f, pitch = 0.f;
+
+	float rotationAngle = RadToDeg(frustum.Front().Normalized().AngleBetween(float3::unitY));
 
 	float deltaTime = App->GetDeltaTime();
 	Quat pitchQuat(frustum.WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
@@ -531,7 +559,7 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime()*rotationSpeed);
 	//currentRotation = rotation
 
-	//if (rotation.Equals(Quat::identity)) focusFlag = false;
+	if (nextRotation.Equals(Quat::identity)) isFocusing = false;
 
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	
