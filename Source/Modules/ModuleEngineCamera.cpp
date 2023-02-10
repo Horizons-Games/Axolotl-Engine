@@ -86,6 +86,7 @@ update_status ModuleEngineCamera::Update()
 
 		if (App->input->IsMouseWheelScrolled())
 		{
+			focusFlag = false;
 			Zoom();
 		}
 
@@ -108,7 +109,7 @@ update_status ModuleEngineCamera::Update()
 		{
 			const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
 				App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
-			
+			focusFlag = false;
 			App->input->SetOrbitCursor();
 			UnlimitedCursor();
 			Orbit(obb);
@@ -124,7 +125,6 @@ update_status ModuleEngineCamera::Update()
 		}
 
 		if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());	
-
 		KeyboardRotate();
 		if(frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
@@ -195,21 +195,29 @@ void ModuleEngineCamera::KeyboardRotate()
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
 	{
+		focusFlag = false;
 		if (rotationAngle + rotationSpeed * acceleration < 180) 
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
 	{
+		focusFlag = false;
 		if (rotationAngle - rotationSpeed * acceleration > 0) 
 			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
+	{
+		focusFlag = false;
 		yaw = math::DegToRad(DEFAULT_ROTATION_DEGREE);
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
+	{
+		focusFlag = false;
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
+	}
 
 	float deltaTime = App->GetDeltaTime();
 	Quat pitchQuat(frustum.WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
