@@ -31,7 +31,7 @@ public:
 	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);
 	void LoadOptions(Json& meta) override;
 
-	void SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial);
+	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);
 	void SetOcclusionUID(UID& occlusionUID);
@@ -60,7 +60,7 @@ private:
 	void DisplaySetMaterial();
 	void DisplayEmptyMaterial();
 
-	std::weak_ptr<ResourceMaterial> material;
+	std::shared_ptr<ResourceMaterial> material;
 
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);

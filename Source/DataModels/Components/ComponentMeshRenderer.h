@@ -26,14 +26,14 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetMesh(const std::weak_ptr<ResourceMesh>& newMesh);
+	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
 	std::weak_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
-	std::weak_ptr<ResourceMesh> mesh;
+	std::shared_ptr<ResourceMesh> mesh;
 
 	std::unique_ptr<WindowMeshInput> inputMesh;
 };
@@ -45,5 +45,5 @@ inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
-	return !mesh.expired();
+	return mesh != nullptr;
 }

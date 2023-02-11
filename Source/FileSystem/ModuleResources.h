@@ -34,9 +34,9 @@ public:
 	UID ImportThread(const std::string& originalPath);
 
 	//request resoruce
-	const std::weak_ptr<Resource> RequestResource(UID uid);
+	const std::shared_ptr<Resource> RequestResource(UID uid);
 	template<class R>
-	const std::weak_ptr<R> RequestResource(UID uid);
+	const std::shared_ptr<R> RequestResource(UID uid);
 	const UID GetSkyBoxResource();
 
 private:
@@ -78,7 +78,7 @@ private:
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
-	std::map<UID, std::shared_ptr<Resource> > resources;
+	std::map<UID, std::weak_ptr<Resource> > resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
@@ -104,19 +104,20 @@ inline bool ModuleResources::CleanUp()
 	return true;
 }
 
-inline const std::weak_ptr<Resource> ModuleResources::RequestResource(UID uid)
+inline const std::shared_ptr<Resource> ModuleResources::RequestResource(UID uid)
 {
 	return RequestResource<Resource>(uid);
 }
 
 template<class R>
-inline const std::weak_ptr<R> ModuleResources::RequestResource(UID uid)
+inline const std::shared_ptr<R> ModuleResources::RequestResource(UID uid)
 {
 	auto it = resources.find(uid);
 	if (it != resources.end())
 	{
-		return std::dynamic_pointer_cast<R>(it->second);
+		std::shared_ptr<Resource> shared = (it->second).lock();
+		return std::dynamic_pointer_cast<R>(shared);
 	}
 	//empty weak_ptr
-	return std::weak_ptr<R>();
+	return std::shared_ptr<R>();
 }

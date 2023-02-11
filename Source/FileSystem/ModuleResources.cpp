@@ -36,7 +36,7 @@ bool ModuleResources::Start()
 	CreateAssetAndLibFolders();
 
 	//remove file separator from library folder
-	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
+	//LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
 #if !defined(GAME)
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 #endif
@@ -142,12 +142,14 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 		return;
 	}
 
-	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
-	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
+	std::shared_ptr<Resource> resourceAsShared = resources[uidToDelete].lock();
+
+	std::string libPath = resourceAsShared->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string metaPath = resourceAsShared->GetLibraryPath() + META_EXTENSION;
 	App->fileSystem->Delete(metaPath.c_str());
 	App->fileSystem->Delete(libPath.c_str());
 
-	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
+	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete);
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
@@ -350,41 +352,44 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource> > toImport;
 		std::vector<std::shared_ptr<Resource> > toCreateLib;
 		std::vector<std::shared_ptr<Resource> > toCreateMeta;
-		std::map<UID, std::shared_ptr<Resource> >::iterator it;
+		std::map<UID, std::weak_ptr<Resource> >::iterator it;
+
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
-			if (it->second->GetType() != ResourceType::Mesh &&
-				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			std::shared_ptr<Resource> resourceAsShared = it->second.lock();
+
+			if (resourceAsShared->GetType() != ResourceType::Mesh &&
+				!App->fileSystem->Exists(resourceAsShared->GetAssetsPath().c_str()))
 			{
 				toRemove.push_back(it->first);
 			}
 			else 
 			{
 				std::string libraryPathWithExtension =
-					App->fileSystem->GetPathWithExtension(it->second->GetLibraryPath());
+					App->fileSystem->GetPathWithExtension(resourceAsShared->GetLibraryPath());
 
 				if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
 					!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
-					it->second->IsChanged())
+					resourceAsShared->IsChanged())
 				{
-					toCreateLib.push_back(it->second);
-					it->second->SetChanged(false);
+					toCreateLib.push_back(resourceAsShared);
+					resourceAsShared->SetChanged(false);
 				}
-				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
+				if (!App->fileSystem->Exists((resourceAsShared->GetLibraryPath() + META_EXTENSION).c_str()))
 				{
-					toCreateMeta.push_back(it->second);
+					toCreateMeta.push_back(resourceAsShared);
 				}
 						 //these type's assets are binary files changed in runtime
-				else if (it->second->GetType() != ResourceType::Mesh &&
-						 it->second->GetType() != ResourceType::Material)
+				else if (resourceAsShared->GetType() != ResourceType::Mesh &&
+						 resourceAsShared->GetType() != ResourceType::Material)
 				{
 					long long assetTime =
-						App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
+						App->fileSystem->GetModificationDate(resourceAsShared->GetAssetsPath().c_str());
 					long long libTime =
-						App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
+						App->fileSystem->GetModificationDate((resourceAsShared->GetLibraryPath() + META_EXTENSION).c_str());
 					if (assetTime > libTime)
 					{
-						toImport.push_back(it->second);
+						toImport.push_back(resourceAsShared);
 					}
 				}
 			}
@@ -422,16 +427,16 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 {
 	std::vector<std::string> pathTextures;
 
-	std::shared_ptr<ResourceTexture> textureDiffuse = RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
+	std::shared_ptr<ResourceTexture> textureDiffuse = RequestResource<ResourceTexture>(materialResource->GetDiffuseUID());
 	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureNormal = RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
+	std::shared_ptr<ResourceTexture> textureNormal = RequestResource<ResourceTexture>(materialResource->GetNormalUID());
 	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureOcclusion = RequestResource<ResourceTexture>(materialResource->GetOcclusionrUID()).lock();
+	std::shared_ptr<ResourceTexture> textureOcclusion = RequestResource<ResourceTexture>(materialResource->GetOcclusionrUID());
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureSpecular = RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
+	std::shared_ptr<ResourceTexture> textureSpecular = RequestResource<ResourceTexture>(materialResource->GetSpecularUID());
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
@@ -446,12 +451,14 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
 {
-	std::map<UID, std::shared_ptr<Resource> >::iterator it;
+	std::map<UID, std::weak_ptr<Resource> >::iterator it;
 	for (it = resources.begin(); it != resources.end(); it++)
 	{
-		if (it->second->GetAssetsPath() == assetsPath)
+		std::shared_ptr<Resource> resourceAsShared = it->second.lock();
+
+		if (resourceAsShared->GetAssetsPath() == assetsPath)
 		{
-			resourceUID = it->second->GetUID();
+			resourceUID = resourceAsShared->GetUID();
 			return true;
 		}
 	}

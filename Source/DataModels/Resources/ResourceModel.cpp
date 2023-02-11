@@ -7,7 +7,7 @@ void ResourceModel::InternalLoad()
 {
 	for (UID materialUID : materialsUIDs)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID).lock();
+		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID);
 		if (material)
 		{
 			material->Load();
@@ -16,7 +16,7 @@ void ResourceModel::InternalLoad()
 
 	for (UID meshUID : meshesUIDs)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID).lock();
+		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID);
 		if (mesh)
 		{
 			mesh->Load();
@@ -28,7 +28,7 @@ void ResourceModel::InternalUnload()
 {
 	for (UID materialUID : materialsUIDs)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID).lock();
+		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID);
 		if (material)
 		{
 			material->Unload();
@@ -37,7 +37,7 @@ void ResourceModel::InternalUnload()
 
 	for (UID meshUID : meshesUIDs)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID).lock();
+		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID);
 		if (mesh)
 		{
 			mesh->Unload();

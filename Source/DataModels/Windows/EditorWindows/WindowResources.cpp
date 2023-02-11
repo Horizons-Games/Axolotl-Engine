@@ -11,9 +11,11 @@ void WindowResources::DrawWindowContents()
 
 	//in theory, since mapEntry is a reference to the one in the resources map,
 	//it should not increase reference count while iterating since it's not a new pointer
-	for (std::pair<const UID, std::shared_ptr<Resource> >& mapEntry : App->resources->resources)
+	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : App->resources->resources)
 	{
-		if (mapEntry.second->IsLoaded())
+		std::shared_ptr<Resource> mapEntryAsShared = mapEntry.second.lock();
+
+		if (mapEntryAsShared->IsLoaded())
 		{
 			loadedResources.push_back(mapEntry.first);
 		}

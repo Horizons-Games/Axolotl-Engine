@@ -127,7 +127,7 @@ void Scene::DestroyGameObject(const std::shared_ptr<GameObject>& gameObject)
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID);
 	resourceModel->Load();
 
 	std::string modelName = model;
@@ -144,12 +144,12 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
 		std::shared_ptr<ResourceMesh> mesh =
-			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
+			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]);
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
 		std::shared_ptr<ResourceMaterial> material = 
-			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
+			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]);
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
