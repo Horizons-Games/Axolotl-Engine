@@ -87,6 +87,12 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
+vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
+{
+    vec3 kD = vec3(1.0) - f0;
+    return kD * texDiffuse;
+}
+
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
@@ -103,8 +109,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
 
     vec3 numerator = (shininess + 2) * fresnel * spec;
     vec3 specular = numerator / 2;
-    vec3 kD = vec3(1.0) - specular;
-    vec3 diffuse = kD * texDiffuse;
+    vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
     vec3 Lo = (diffuse + specular) * Li * dotNL;
 
@@ -141,8 +146,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
 
         vec3 numerator = (shininess + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
         Lo += (diffuse + specular) * Li * dotNL;
     }
@@ -203,8 +207,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
 
         vec3 numerator = (shininess + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 diffuse = calculDiffuse(f0, texDiffuse);
             
         Lo += (diffuse + specular) * Li * dotNL;
     }
@@ -222,8 +225,8 @@ void main()
 	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
         textureMat = texture(material.diffuse_map, TexCoord).rgb; 
-        textureMat = pow(textureMat, vec3(2.2));
     }
+    textureMat = pow(textureMat, vec3(2.2));
     
 	if (material.has_normal_map)
 	{
@@ -239,8 +242,8 @@ void main()
     vec4 specularMat =  vec4(material.specular_color, 0.0);
     if (material.has_specular_map == 1) {
         specularMat = vec4(texture(material.specular_map, TexCoord));
-        specularMat = pow(specularMat, vec4(2.2));
     }
+    specularMat = pow(specularMat, vec4(2.2));
 
     vec3 f0 =  specularMat.rgb;
 
@@ -271,5 +274,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 2.0);
+    outColor = vec4(color, 1.0);
 }
