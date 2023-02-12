@@ -31,7 +31,8 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	mesh->Unload();
+	if (this->IsMeshLoaded())
+		mesh->Unload();
 }
 
 void ComponentMeshRenderer::Update()

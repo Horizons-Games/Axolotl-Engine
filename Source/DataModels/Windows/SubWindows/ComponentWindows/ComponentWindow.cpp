@@ -115,6 +115,7 @@ void ComponentWindow::DrawDeleteComponent()
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}
+			this->component = nullptr;
 		}
 	}
 }

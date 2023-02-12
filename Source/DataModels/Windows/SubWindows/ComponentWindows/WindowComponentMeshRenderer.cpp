@@ -79,12 +79,12 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumVertices() : 0);
+				meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+				meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}
