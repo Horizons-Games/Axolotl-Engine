@@ -48,13 +48,12 @@ void Scene::FillQuadtree(const std::vector<std::weak_ptr<GameObject> >& gameObje
 bool Scene::IsInsideACamera(const OBB& obb)
 {
 	// TODO: We have to add all the cameras in the future
-	for (std::weak_ptr<GameObject> cameraGameObject : sceneCameras)
+	for (GameObject* cameraGameObject : sceneCameras)
 	{
-		std::shared_ptr<GameObject> asShared = cameraGameObject.lock();
-		if (asShared)
+		if (cameraGameObject)
 		{
-			std::shared_ptr<ComponentCamera> camera =
-				std::static_pointer_cast<ComponentCamera>(asShared->GetComponent(ComponentType::CAMERA));
+			ComponentCamera* camera =
+				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
 			if (camera && camera->IsInside(obb))
 			{
 				return true;
@@ -69,11 +68,11 @@ bool Scene::IsInsideACamera(const AABB& aabb)
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-std::shared_ptr<GameObject> Scene::CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent)
+std::shared_ptr<GameObject> Scene::CreateGameObject(const char* name, GameObject* parent)
 {
 	assert(name != nullptr && parent != nullptr);
 
-	std::shared_ptr<GameObject> gameObject = GameObject::CreateGameObject(name, parent);
+	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
 	sceneGameObjects.push_back(gameObject);
 
