@@ -45,8 +45,8 @@ void ComponentMaterial::Draw()
 
 	if(material) 
 	{
-		ResourceTexture* texture = App->resources->
-										RequestResource<ResourceTexture>(material->GetDiffuseUID()).get();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
 
 		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
 					diffuseColor.x, diffuseColor.y, diffuseColor.z);
@@ -67,7 +67,7 @@ void ComponentMaterial::Draw()
 			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).get();
+		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -85,7 +85,7 @@ void ComponentMaterial::Draw()
 			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).get();
+		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -169,7 +169,7 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	ResourceMaterial* resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).get();
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 
 	if(resourceMaterial)
 	{
@@ -182,7 +182,7 @@ void ComponentMaterial::LoadOptions(Json& meta)
 		if (resourceExists) 
 		{
 			uidMaterial = App->resources->ImportResource(path);
-			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).get();
+			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 			SetMaterial(resourceMaterial);
 		}
 	}
@@ -240,26 +240,26 @@ void ComponentMaterial::UnloadTextures()
 {
 	if(material)
 	{
-		ResourceTexture* texture = App->resources->
-										RequestResource<ResourceTexture>(material->GetDiffuseUID()).get();
+		std::shared_ptr<ResourceTexture> texture = App->resources->
+										RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).get();
+		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).get();
+		texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).get();
+		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
 		if (texture)
 		{
 			texture->Unload();
@@ -271,32 +271,32 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 {
 	if (material)
 	{
-		ResourceTexture* texture;
+		std::shared_ptr<ResourceTexture> texture;
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetDiffuseUID()).get();
+			texture = App->resources->RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::NORMAL:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).get();
+			texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::OCCLUSION:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).get();
+			texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).lock();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::SPECULAR:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).get();
+			texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
 			if (texture)
 			{
 				texture->Unload();

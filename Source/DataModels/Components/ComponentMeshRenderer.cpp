@@ -106,7 +106,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
-	ResourceMesh* resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).get();
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
 
 	if (resourceMesh)
 	{
@@ -119,7 +119,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		if (resourceExists) 
 		{
 			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).get();
+			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
 			SetMesh(resourceMesh);
 		}
 	}

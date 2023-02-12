@@ -332,7 +332,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	}
 
 	if (newComponent)
-		components.push_back(newComponent);
+		components.push_back(std::move(newComponent));
 
 	return newComponent.get();
 }
@@ -361,7 +361,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	}
 
 	if (newComponent)
-		components.push_back(newComponent);
+		components.push_back(std::move(newComponent));
 
 	return newComponent.get();
 }
