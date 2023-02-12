@@ -176,7 +176,7 @@ void ModuleEngineCamera::Move()
 	//Increase/decrease camera velocity with mouse wheel
 	if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KeyState::IDLE)
 	{
-		moveSpeed += App->input->GetMouseWheelY();
+		moveSpeed += App->input->GetMouseWheel().y;
 		if (moveSpeed < 1.0f)
 			moveSpeed = 1.0f;
 		if (moveSpeed > 900.0f)
@@ -232,8 +232,8 @@ void ModuleEngineCamera::Move()
 	{
 		float deltaTime = App->GetDeltaTime();
 		float mouseSpeedPercentage = 0.05f;
-		float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-		float yrel = App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float yrel = App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 		position = position + (frustum.WorldRight()) * xrel;
 		position = position + (frustum.Up()) * yrel;
@@ -315,8 +315,8 @@ void ModuleEngineCamera::FreeLook()
 {
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->input->GetMouseMotionX() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->input->GetMouseMotionY() * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
 	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
 	float3x3 y = float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), yrel);
@@ -357,14 +357,14 @@ void ModuleEngineCamera::Zoom()
 	float deltaTime = App->GetDeltaTime();
 	if (App->input->IsMouseWheelScrolled())
 	{
-		float zoomSpeed = App->input->GetMouseWheelY() * DEFAULT_MOUSE_ZOOM_SPEED;
+		float zoomSpeed = App->input->GetMouseWheel().y * DEFAULT_MOUSE_ZOOM_SPEED;
 
 		position = position + frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
 	}
 	else
 	{
-		float zoomSpeed = App->input->GetMouseMotionX() * DEFAULT_MOUSE_ZOOM_SPEED;
+		float zoomSpeed = App->input->GetMouseMotion().x * DEFAULT_MOUSE_ZOOM_SPEED;
 
 		position = position + frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
