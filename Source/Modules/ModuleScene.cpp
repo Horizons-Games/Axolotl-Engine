@@ -154,8 +154,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<std::shared_ptr<GameObject> > loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	sceneToLoad->SetSceneQuadTree(std::make_shared<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
-	std::shared_ptr<Quadtree> sceneQuadtree = sceneToLoad->GetSceneQuadTree();
+	sceneToLoad->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
+	Quadtree* sceneQuadtree = sceneToLoad->GetSceneQuadTree();
 	std::vector<std::shared_ptr<GameObject> > loadedCameras{};
 	std::shared_ptr<GameObject> ambientLight = nullptr;
 	std::shared_ptr<GameObject> directionalLight = nullptr;
@@ -206,7 +206,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	sceneToLoad->SetSceneCameras(vecOfWeak);
 	sceneToLoad->SetAmbientLight(ambientLight);
 	sceneToLoad->SetDirectionalLight(directionalLight);
-	sceneToLoad->SetSceneQuadTree(sceneQuadtree);
+	//sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	sceneToLoad->InitLights();
 
