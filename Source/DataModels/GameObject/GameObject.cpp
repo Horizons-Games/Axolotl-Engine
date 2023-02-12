@@ -26,21 +26,20 @@ GameObject::GameObject(const char* name) : name(name) // Root constructor
 	uid = UniqueID::GenerateUID();
 }
 
-GameObject* GameObject::CreateGameObject(const char* name, GameObject* parent)
+GameObject::GameObject(const char* name, GameObject* parent) : name(name)
 {
-	GameObject* newGameObject = new GameObject(name);
-	newGameObject->parent = parent;
-	assert(newGameObject->parent);
+	uid = UniqueID::GenerateUID();
 
-	newGameObject->parent->AddChild(newGameObject);
-	newGameObject->active = (newGameObject->parent->IsEnabled() && newGameObject->parent->IsActive());
+	this->parent = parent;
+	assert(this->parent);
 
-	return newGameObject;
+	this->parent->AddChild(std::unique_ptr<GameObject>(this));
+	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
 }
 
 GameObject::~GameObject()
 {
-	std::vector<ComponentLight*> lights = this->GetComponentsByType<ComponentLight*>(ComponentType::LIGHT);
+	std::vector<ComponentLight*> lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
 	for (ComponentLight* light : lights)
 	{
@@ -75,7 +74,7 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	for (Component* component : components)
+	for (std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
 		{
@@ -86,7 +85,7 @@ void GameObject::Update()
 
 void GameObject::Draw()
 {
-	for (Component* component : components)
+	for (std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
 		{
@@ -168,7 +167,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 			Json jsonGameObject = jsonChildrens[i]["GameObject"];
 			std::string name = jsonGameObject["name"];
 
-			GameObject* gameObject = GameObject::CreateGameObject(name.c_str(), this);
+			GameObject* gameObject = new GameObject(name.c_str(), this);
 			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}
@@ -192,18 +191,18 @@ void GameObject::SetParent(GameObject* newParent)
 
 	parent->RemoveChild(this);
 	parent = newParent;
-	parent->AddChild(this);
+	parent->AddChild(std::unique_ptr<GameObject>(this));
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }
 
-void GameObject::AddChild(GameObject* child)
+void GameObject::AddChild(std::unique_ptr<GameObject> child)
 {
 	assert(child != nullptr);
 
-	if (!IsAChild(child))
+	if (!IsAChild(child.get()))
 	{
-		children.push_back(child);
+		children.push_back(std::move(child));
 		child->active = (this->IsActive() && this->IsEnabled());
 	}
 }
@@ -217,11 +216,11 @@ void GameObject::RemoveChild(GameObject* child)
 		return;
 	}
 
-	for (std::vector<GameObject*>::const_iterator it = children.begin();
+	for (std::vector<std::unique_ptr<GameObject>>::const_iterator it = children.begin();
 		it != children.end();
 		++it)
 	{
-		if (*it == child)
+		if ((*it).get() == child)
 		{
 			children.erase(it);
 			return;
@@ -236,7 +235,7 @@ void GameObject::Enable()
 	enabled = true;
 	active = parent->IsActive();
 
-	for (GameObject* child : children)
+	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->ActivateChildren();
 	}
@@ -249,7 +248,7 @@ void GameObject::Disable()
 	enabled = false;
 	active = false;
 
-	for (GameObject* child : children)
+	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
 	}
@@ -264,7 +263,7 @@ void GameObject::DeactivateChildren()
 		return;
 	}
 
-	for (GameObject* child : children)
+	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
 	}
@@ -279,7 +278,7 @@ void GameObject::ActivateChildren()
 		return;
 	}
 
-	for (GameObject* child : children)
+	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->ActivateChildren();
 	}
@@ -287,44 +286,44 @@ void GameObject::ActivateChildren()
 
 Component* GameObject::CreateComponent(ComponentType type)
 {
-	Component* newComponent;
+	std::unique_ptr<Component> newComponent;
 
 	switch (type)
 	{
 		case ComponentType::TRANSFORM:
 		{
-			newComponent = new ComponentTransform(true, this);
+			newComponent = std::make_unique<ComponentTransform>(true, this);
 			break;
 		}
 
 		case ComponentType::MESHRENDERER:
 		{
-			newComponent = new ComponentMeshRenderer(true, this);
+			newComponent = std::make_unique<ComponentMeshRenderer>(true, this);
 			break;
 		}
 		
 		case ComponentType::MATERIAL:
 		{
-			newComponent = new ComponentMaterial(true, this);
+			newComponent = std::make_unique<ComponentMaterial>(true, this);
 			break;
 		}
 
 		
 		case ComponentType::CAMERA:
 		{
-			newComponent = new ComponentCamera(true, this);
+			newComponent = std::make_unique<ComponentCamera>(true, this);
 			break;
 		}
 
 		case ComponentType::LIGHT:
 		{
-			newComponent = new ComponentLight(true, this);
+			newComponent = std::make_unique<ComponentLight>(true, this);
 			break;
 		}
 
 		case ComponentType::BOUNDINGBOX:
 		{
-			newComponent = new ComponentBoundingBoxes(true, this);
+			newComponent = std::make_unique<ComponentBoundingBoxes>(true, this);
 			break;
 		}
 
@@ -335,47 +334,47 @@ Component* GameObject::CreateComponent(ComponentType type)
 	if (newComponent)
 		components.push_back(newComponent);
 
-	return newComponent;
+	return newComponent.get();
 }
 
 Component* GameObject::CreateComponentLight(LightType lightType)
 {
-	Component* newComponent;
+	std::unique_ptr<Component> newComponent;
 
 	switch (lightType)
 	{
 	case LightType::AMBIENT:
-		newComponent = new ComponentAmbient(float3(0.05f), this);
+		newComponent = std::make_unique<ComponentAmbient>(float3(0.05f), this);
 		break;
 
 	case LightType::DIRECTIONAL:
-		newComponent = new ComponentDirLight(float3(1.0f), 1.0f, this);
+		newComponent = std::make_unique<ComponentDirLight>(float3(1.0f), 1.0f, this);
 		break;
 
 	case LightType::POINT:
-		newComponent = new ComponentPointLight(0.5f, float3(1.0f), 1.0f, this);
+		newComponent = std::make_unique<ComponentPointLight>(0.5f, float3(1.0f), 1.0f, this);
 		break;
 
 	case LightType::SPOT:
-		newComponent = new ComponentSpotLight(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
+		newComponent = std::make_unique<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
 		break;
 	}
 
 	if (newComponent)
 		components.push_back(newComponent);
 
-	return newComponent;
+	return newComponent.get();
 }
 
 bool GameObject::RemoveComponent(const Component* component)
 {
-	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
-		if (*it == component)
+		if ((*it).get() == component)
 		{
 			if ((*it)->GetType() == ComponentType::LIGHT)
 			{
-				ComponentLight* light = static_cast<ComponentLight*>(*it);
+				ComponentLight* light = static_cast<ComponentLight*>((*it).get());
 
 				LightType type = light->GetLightType();
 
@@ -411,11 +410,11 @@ bool GameObject::RemoveComponent(const Component* component)
 
 Component* GameObject::GetComponent(ComponentType type) const
 {
-	for (std::vector<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
 		if ((*it)->GetType() == type)
 		{
-			return *it;
+			return (*it).get();
 		}
 	}
 
@@ -426,9 +425,9 @@ bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
-	for (GameObject* gameObject : children)
+	for (std::unique_ptr<GameObject>& gameObject : children)
 	{
-		if (gameObject == child)
+		if (gameObject.get() == child)
 			return true;
 	}
 
@@ -439,9 +438,9 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 {
 	assert(descendant != nullptr);
 
-	for (GameObject* child : children)
+	for (std::unique_ptr<GameObject>& child : children)
 	{
-		if (child == descendant || child->IsADescendant(descendant))
+		if (child.get() == descendant || child->IsADescendant(descendant))
 			return true;
 	}
 
@@ -452,7 +451,7 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
-	for (GameObject* children : this->children)
+	for (std::unique_ptr<GameObject>& children : this->children)
 	{
 		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());

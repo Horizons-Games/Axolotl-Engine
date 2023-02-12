@@ -5,6 +5,7 @@
 #include <list>
 
 #include "../../FileSystem/UniqueID.h"
+#include <memory>
 
 class Component;
 class ComponentMeshRenderer;
@@ -17,7 +18,8 @@ class GameObject
 {
 public:
 	explicit GameObject(const char* name);
-	static GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject(const char* name, GameObject* parent);
+	//static GameObject* CreateGameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -28,18 +30,19 @@ public:
 
 	void InitNewEmptyGameObject();
 
-	void AddChild(GameObject* child);
+	void AddChild(std::unique_ptr<GameObject> child);
 	void RemoveChild(GameObject* child);
 
 	UID GetUID() const;
 	const char* GetName() const;
 	const GameObject* GetParent() const;
 	const std::vector<GameObject*> GetChildren() const;
-	void SetChildren(const std::vector<GameObject*>& children);
-	const std::vector<Component*>& GetComponents() const;
-	void SetComponents(const std::vector<Component*>& children);
-	template<class T>
-	const std::vector<T> GetComponentsByType(ComponentType type) const;
+	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
+	const std::vector<Component*> GetComponents() const;
+	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
+	template <typename T,
+		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
+	const std::vector<T*> GetComponentsByType(ComponentType type) const;
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -69,10 +72,10 @@ private:
 	bool enabled = true;
 	bool active = true;
 	std::string name = "Empty";
-	std::vector<Component*> components = {};
+	std::vector<std::unique_ptr<Component>> components = {};
 
 	GameObject* parent = nullptr;
-	std::vector<GameObject*> children = {};
+	std::vector<std::unique_ptr<GameObject>> children = {};
 };
 
 inline UID GameObject::GetUID() const
@@ -107,40 +110,56 @@ inline bool GameObject::IsActive() const
 
 inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
-	return children;
+	std::vector<GameObject*> rawChildren;
+
+	std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
+		std::unique_ptr<GameObject>::get);
+
+	return rawChildren;
 }
 
-inline void GameObject::SetChildren(const std::vector<GameObject*>& children)
+inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& children)
 {
 	this->children.clear();
-	for (GameObject* newChild : children)
+	for (std::unique_ptr<GameObject>& newChild : children)
 	{
-		this->children.push_back(newChild);
+		this->children.push_back(std::move(newChild));
 	}
 }
 
-inline const std::vector<Component*>& GameObject::GetComponents() const
+inline const std::vector<Component*> GameObject::GetComponents() const
 {
-	return components;
+	std::vector<Component*> rawComponent;
+
+	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
+		std::unique_ptr<Component>::get);
+
+	return rawComponent;
 }
 
-inline void GameObject::SetComponents(const std::vector<Component*>& children)
+inline void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& components)
 {
-	this->components = components;
+	this->components.clear();
+	for (std::unique_ptr<Component>& newComponent : components)
+	{
+		this->components.push_back(std::move(newComponent));
+	}
 }
 
-template<class T>
-inline const std::vector<T> GameObject::GetComponentsByType(ComponentType type) const
+template <typename T,
+	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
+inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
-	std::vector<T> components;
+	std::vector<T*> components;
 
-	for (Component* component : this->components)
+	for (std::unique_ptr<Component>& component : this->components)
 	{
 		if (component->GetType() == type)
 		{
-			components.push_back(dynamic_cast<T>(component));
+			components.push_back(dynamic_cast<T*>(component.get()));
 		}
 	}
 
 	return components;
 }
+
