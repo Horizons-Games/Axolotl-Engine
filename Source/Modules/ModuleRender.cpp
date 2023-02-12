@@ -303,7 +303,7 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
+void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
@@ -355,7 +355,7 @@ void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject
 	}
 }
 
-void ModuleRender::DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree)
+void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
 	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
 	else
