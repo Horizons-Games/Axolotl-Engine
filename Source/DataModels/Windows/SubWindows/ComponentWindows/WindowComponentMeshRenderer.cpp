@@ -23,7 +23,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 	if (asMeshRenderer)
 	{
-		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh().lock();
+		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
@@ -70,7 +70,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		else if (ImGui::Button("Remove Mesh"))
 		{
 			meshAsShared->Unload();
-			asMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
+			asMeshRenderer->SetMesh(nullptr);
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))

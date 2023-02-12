@@ -23,7 +23,7 @@ public:
 
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
-	const GameObject* GetSelectedGameObject() const;
+	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
 
 	void SaveSceneToJson(const std::string& name);
@@ -52,7 +52,7 @@ inline Scene* ModuleScene::GetLoadedScene() const
 	return loadedScene.get();
 }
 
-inline const GameObject* ModuleScene::GetSelectedGameObject() const
+inline GameObject* ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
 }

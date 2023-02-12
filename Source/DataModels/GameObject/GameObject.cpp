@@ -189,41 +189,53 @@ void GameObject::SetParent(GameObject* newParent)
 		return;
 	}
 
-	parent->RemoveChild(this);
+	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
 	parent = newParent;
-	parent->AddChild(std::unique_ptr<GameObject>(this));
+	parent->AddChild(std::move(pointerToThis));
 
 	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
 }
 
 void GameObject::AddChild(std::unique_ptr<GameObject> child)
 {
-	assert(child != nullptr);
+	assert(child);
 
 	if (!IsAChild(child.get()))
 	{
-		children.push_back(std::move(child));
 		child->active = (this->IsActive() && this->IsEnabled());
+		children.push_back(std::move(child));
 	}
 }
 
-void GameObject::RemoveChild(const GameObject* child)
+std::unique_ptr<GameObject> GameObject::RemoveChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
 	if (!IsAChild(child))
 	{
-		return;
+		return nullptr;
 	}
 
-	for (std::vector<std::unique_ptr<GameObject>>::const_iterator it = children.begin();
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = children.begin();
 		it != children.end(); ++it)
 	{
 		if ((*it).get() == child)
 		{
+			std::unique_ptr<GameObject> objectToBeDeleted = std::move(*it);
 			children.erase(it);
-			return;
+			return objectToBeDeleted;
 		}
+	}
+
+	return nullptr;
+}
+
+void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& components)
+{
+	this->components.clear();
+	for (std::unique_ptr<Component>& newComponent : components)
+	{
+		this->components.push_back(std::move(newComponent));
 	}
 }
 
@@ -331,9 +343,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 	}
 
 	if (newComponent)
+	{
+		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+		return referenceBeforeMove;
+	}
 
-	return newComponent.get();
+	return nullptr;
 }
 
 Component* GameObject::CreateComponentLight(LightType lightType)
@@ -360,9 +376,13 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	}
 
 	if (newComponent)
+	{
+		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+		return referenceBeforeMove;
+	}
 
-	return newComponent.get();
+	return nullptr;
 }
 
 bool GameObject::RemoveComponent(const Component* component)

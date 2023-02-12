@@ -111,7 +111,7 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component->shared_from_this() /*this MUST be changed once all of scene is updated; the method should recieve a raw pointer*/))
+			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

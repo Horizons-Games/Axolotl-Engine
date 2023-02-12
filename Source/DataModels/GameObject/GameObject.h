@@ -33,7 +33,7 @@ public:
 	void InitNewEmptyGameObject();
 
 	void AddChild(std::unique_ptr<GameObject> child);
-	void RemoveChild(const GameObject* child);
+	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
 
 	UID GetUID() const;
 	const char* GetName() const;
@@ -137,15 +137,6 @@ inline const std::vector<Component*> GameObject::GetComponents() const
 		[](const std::unique_ptr<Component>& c) { return c.get(); });
 
 	return rawComponent;
-}
-
-inline void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& components)
-{
-	this->components.clear();
-	for (std::unique_ptr<Component>& newComponent : components)
-	{
-		this->components.push_back(std::move(newComponent));
-	}
 }
 
 template <typename T,

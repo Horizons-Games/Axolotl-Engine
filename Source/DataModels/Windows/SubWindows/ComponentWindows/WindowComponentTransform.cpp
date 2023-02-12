@@ -29,7 +29,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner().lock();
+		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)
@@ -200,8 +200,8 @@ void WindowComponentTransform::UpdateLights()
 		//Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
-			std::shared_ptr<Component> comp = asTransform->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
-			std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
+			Component* comp = asTransform->GetOwner()->GetComponent(ComponentType::LIGHT);
+			ComponentLight* lightComp = static_cast<ComponentLight*>(comp);
 
 			if (lightComp)
 			{

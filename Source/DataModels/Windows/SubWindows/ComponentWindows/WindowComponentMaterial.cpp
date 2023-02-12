@@ -28,8 +28,7 @@ void WindowComponentMaterial::DrawWindowContents()
 
 	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
-		if (materialResource)
+		if (asMaterial->GetMaterial())
 		{
 			DrawSetMaterial();
 		}
@@ -46,7 +45,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
 		if (materialResource)
 		{
 			ImGui::Text("");
@@ -216,7 +215,7 @@ void WindowComponentMaterial::DrawEmptyMaterial()
 
 	if (asMaterial)
 	{
-		if (asMaterial->GetMaterial().expired())
+		if (asMaterial->GetMaterial() == nullptr)
 		{
 			inputMaterial->DrawWindowContents();
 		}
