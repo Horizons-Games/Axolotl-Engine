@@ -221,7 +221,7 @@ void ComponentMaterial::SetSpecularUID(UID& specularUID)
 	this->specularUID = specularUID;
 }
 
-void ComponentMaterial::SetMaterial(ResourceMaterial* newMaterial)
+void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
 {
 	material = newMaterial;
 

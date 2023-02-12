@@ -8,6 +8,8 @@
 #include "FileSystem/UniqueID.h"
 #include "Globals.h"
 
+#include <memory>
+
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceMaterial;
@@ -28,7 +30,7 @@ public:
 	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const ResourceTexture* texturePtr);
 	void LoadOptions(Json& meta) override;
 
-	void SetMaterial(ResourceMaterial* newMaterial);
+	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);
 	void SetOcclusionUID(UID& occlusionUID);
@@ -39,7 +41,7 @@ public:
 	void SetNormalStrenght(float normalStrength);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
-	ResourceMaterial* GetMaterial() const;
+	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const UID& GetDiffuseUID() const;
 	const UID& GetNormalUID() const;
 	const UID& GetOcclusionUID() const;
@@ -55,7 +57,7 @@ private:
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
-	ResourceMaterial* material;
+	std::shared_ptr<ResourceMaterial> material;
 
 	float3 diffuseColor = float3(1.0, 1.0, 0.0);
 	float3 specularColor = float3(0.5, 0.5, 0.5);
@@ -99,7 +101,7 @@ inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 	this->hasShininessAlpha = hasShininessAlpha;
 }
 
-inline ResourceMaterial* ComponentMaterial::GetMaterial() const
+inline std::shared_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
 {
 	return material;
 }

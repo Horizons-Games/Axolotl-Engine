@@ -38,7 +38,7 @@ public:
 	const std::string& GetFragmentShader() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
+	void AddToRenderList(const GameObject* gameObject);
 
 	//void DrawScene(Quadtree* quadtree);
 
@@ -53,7 +53,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
+	std::vector<const GameObject*> gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	std::shared_ptr<Skybox> skybox;

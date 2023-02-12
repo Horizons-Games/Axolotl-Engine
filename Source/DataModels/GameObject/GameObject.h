@@ -6,6 +6,8 @@
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
+#include <algorithm>
+#include <iterator>
 
 class Component;
 class ComponentMeshRenderer;
@@ -26,16 +28,16 @@ public:
 	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
-	void Draw();
+	void Draw() const;
 
 	void InitNewEmptyGameObject();
 
 	void AddChild(std::unique_ptr<GameObject> child);
-	void RemoveChild(GameObject* child);
+	void RemoveChild(const GameObject* child);
 
 	UID GetUID() const;
 	const char* GetName() const;
-	const GameObject* GetParent() const;
+	GameObject* GetParent() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 	const std::vector<Component*> GetComponents() const;
@@ -98,7 +100,7 @@ inline void GameObject::SetName(const char* newName)
 	name = newName;
 }
 
-inline const GameObject* GameObject::GetParent() const
+inline GameObject* GameObject::GetParent() const
 {
 	return parent;
 }
@@ -113,7 +115,7 @@ inline const std::vector<GameObject*> GameObject::GetChildren() const
 	std::vector<GameObject*> rawChildren;
 
 	std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-		std::unique_ptr<GameObject>::get);
+		[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
 
 	return rawChildren;
 }
@@ -132,7 +134,7 @@ inline const std::vector<Component*> GameObject::GetComponents() const
 	std::vector<Component*> rawComponent;
 
 	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
-		std::unique_ptr<Component>::get);
+		[](const std::unique_ptr<Component>& c) { return c.get(); });
 
 	return rawComponent;
 }
@@ -152,7 +154,7 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 {
 	std::vector<T*> components;
 
-	for (std::unique_ptr<Component>& component : this->components)
+	for (const std::unique_ptr<Component>& component : this->components)
 	{
 		if (component->GetType() == type)
 		{

@@ -33,16 +33,16 @@ public:
 
 	UID GetUID() const;
 
-	void FillQuadtree(const std::vector<std::weak_ptr<GameObject> >& gameObject);
-	bool IsInsideACamera(const OBB& obb);
-	bool IsInsideACamera(const AABB& aabb);
+	void FillQuadtree(const std::vector<GameObject*>& gameObjects);
+	bool IsInsideACamera(const OBB& obb) const;
+	bool IsInsideACamera(const AABB& aabb) const;
 
-	std::shared_ptr<GameObject> CreateGameObject(const char* name, GameObject* parent);
-	std::shared_ptr<GameObject> CreateCameraGameObject(const char* name, const std::shared_ptr<GameObject>& parent);
-	void DestroyGameObject(const std::shared_ptr<GameObject>& gameObject);
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
+	void DestroyGameObject(GameObject* gameObject);
 	void ConvertModelIntoGameObject(const char* model);
 
-	std::weak_ptr<GameObject> SearchGameObjectByID(UID gameObjectID) const;
+	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
 	void GenerateLights();
 
@@ -66,15 +66,15 @@ public:
 	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
-	void SetAmbientLight(std::unique_ptr<GameObject> ambientLight);
-	void SetDirectionalLight(std::unique_ptr<GameObject> directionalLight);
+	void SetAmbientLight(GameObject* ambientLight);
+	void SetDirectionalLight(GameObject* directionalLight);
 
 	void InitNewEmptyScene();
 
 	void InitLights();
 
 private:
-	void RemoveCamera(const std::shared_ptr<GameObject>& cameraGameObject);
+	void RemoveCamera(const GameObject* cameraGameObject);
 
 	UID uid = 0;
 	std::unique_ptr<GameObject> root = nullptr;
@@ -82,8 +82,8 @@ private:
 	std::vector<GameObject*> sceneGameObjects = {};
 	std::vector<GameObject*> sceneCameras = {};
 
-	std::unique_ptr<GameObject> ambientLight = nullptr;
-	std::unique_ptr<GameObject> directionalLight = nullptr;
+	GameObject* ambientLight = nullptr;
+	GameObject* directionalLight = nullptr;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
@@ -109,12 +109,12 @@ inline GameObject* Scene::GetRoot()
 
 inline const GameObject* Scene::GetAmbientLight() const
 {
-	return ambientLight.get();
+	return ambientLight;
 }
 
 inline const GameObject* Scene::GetDirectionalLight() const
 {
-	return directionalLight.get();
+	return directionalLight;
 }
 
 inline void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
@@ -142,14 +142,14 @@ inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 	sceneCameras = cameras;
 }
 
-inline void Scene::SetAmbientLight(std::unique_ptr<GameObject> ambientLight)
+inline void Scene::SetAmbientLight(GameObject* ambientLight)
 {
-	this->ambientLight = std::move(ambientLight);
+	this->ambientLight = ambientLight;
 }
 
-inline void Scene::SetDirectionalLight(std::unique_ptr<GameObject> directionalLight)
+inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 {
-	this->directionalLight = std::move(directionalLight);
+	this->directionalLight = directionalLight;
 }
 
 inline Quadtree* Scene::GetSceneQuadTree() const

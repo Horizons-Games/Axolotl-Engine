@@ -3,6 +3,8 @@
 #include "Components/Component.h"
 #include "FileSystem/UniqueID.h"
 
+#include <memory>
+
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
 class ResourceMaterial;
@@ -23,19 +25,19 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetMesh(ResourceMesh* newMesh);
+	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	ResourceMesh* GetMesh() const;
+	std::shared_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
-	ResourceMesh* mesh;
+	std::shared_ptr<ResourceMesh> mesh;
 
 	WindowMeshInput* inputMesh;
 };
 
-inline ResourceMesh* ComponentMeshRenderer::GetMesh() const
+inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return mesh;
 }

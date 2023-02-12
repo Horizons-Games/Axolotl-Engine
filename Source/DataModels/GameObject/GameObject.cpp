@@ -83,9 +83,9 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::Draw()
+void GameObject::Draw() const
 {
-	for (std::unique_ptr<Component>& component : components)
+	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
 		{
@@ -207,7 +207,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 	}
 }
 
-void GameObject::RemoveChild(GameObject* child)
+void GameObject::RemoveChild(const GameObject* child)
 {
 	assert(child != nullptr);
 

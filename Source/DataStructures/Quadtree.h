@@ -14,25 +14,25 @@ public:
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool InQuadrant(const std::shared_ptr<GameObject>& gameObject);
+	bool InQuadrant(const GameObject* gameObject);
 
-	void Add(const std::shared_ptr<GameObject>& gameObject);
-	void AddGameObjectAndChildren(const std::shared_ptr<GameObject>& gameObject);
-	void Remove(const std::weak_ptr<GameObject>& gameObject);
-	void RemoveGameObjectAndChildren(const std::weak_ptr<GameObject>& gameObject);
+	void Add(const GameObject* gameObject);
+	void AddGameObjectAndChildren(const GameObject* gameObject);
+	void Remove(const GameObject* gameObject);
+	void RemoveGameObjectAndChildren(const GameObject* gameObject);
 	void SmartRemove();
 	void OptimizeParentObjects();
 
 	void Subdivide();
-	void RedistributeGameObjects(const std::shared_ptr<GameObject>& gameobject);
+	void RedistributeGameObjects(const GameObject* gameObject);
 
-	void ExpandToFit(const std::shared_ptr<GameObject>& gameObject);
+	void ExpandToFit(const GameObject* gameObject);
 	void AdjustHeightToNodes(float minY, float maxY);
 
 	void ResetChildren();
 
-	const std::list<std::weak_ptr<GameObject> >& GetGameObjects() const;
-	void GetFamilyObjects(std::list<std::weak_ptr<GameObject> >& familyGameObjects);
+	const std::list<const GameObject*>& GetGameObjects() const;
+	void GetFamilyObjects(std::list<const GameObject*>& familyGameObjects);
 
 	const Quadtree* GetFrontRightNode() const;
 	const Quadtree* GetFrontLeftNode() const;
@@ -51,11 +51,11 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 
-	std::list<std::weak_ptr<GameObject> > GetAllGameObjects(const std::weak_ptr<GameObject>& gameObject);
+	std::list<const GameObject*> GetAllGameObjects(const GameObject* gameObject);
 
 private:
 
-	std::list<std::weak_ptr<GameObject> > gameObjects;
+	std::list<const GameObject*> gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity = QUADRANT_CAPACITY;
@@ -102,7 +102,7 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::list<std::weak_ptr<GameObject> >& Quadtree::GetGameObjects() const
+inline const std::list<const GameObject*>& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }
