@@ -32,18 +32,18 @@ public:
 	float GetDeltaTime() const;
 
 public:
-	std::shared_ptr<ModuleScene> scene;
-	std::shared_ptr<ModuleFileSystem> fileSystem;
-	std::shared_ptr<ModuleRender> renderer;
-	std::shared_ptr<ModuleWindow> window;
-	std::shared_ptr<ModuleInput> input;
-	std::shared_ptr<ModuleProgram> program;
-	std::shared_ptr<ModuleDebugDraw> debug;
-	std::shared_ptr<ModuleEditor> editor;
-	std::shared_ptr<ModuleEngineCamera> engineCamera;
-	std::shared_ptr<ModuleResources> resources;
+	ModuleScene* scene;
+	ModuleFileSystem* fileSystem;
+	ModuleRender* renderer;
+	ModuleWindow* window;
+	ModuleInput* input;
+	ModuleProgram* program;
+	ModuleDebugDraw* debug;
+	ModuleEditor* editor;
+	ModuleEngineCamera* engineCamera;
+	ModuleResources* resources;
 private:
-	std::vector<std::shared_ptr<Module> > modules;
+	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;

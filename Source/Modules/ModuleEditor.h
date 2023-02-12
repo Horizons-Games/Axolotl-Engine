@@ -21,20 +21,19 @@ public:
 
 	void Resized();
 
-	const std::shared_ptr<WindowScene> GetScene() const;
+	const WindowScene* GetScene() const;
 
 	bool IsSceneFocused() const;
 
 private:
-	std::vector<std::string> lines;
-	std::vector<std::shared_ptr<EditorWindow> > windows;
+	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-	std::shared_ptr<WindowScene> scene = nullptr;
+	WindowScene* scene = nullptr;
 
 	bool windowResized = false;
 };
 
-inline const std::shared_ptr<WindowScene> ModuleEditor::GetScene() const
+inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
 }

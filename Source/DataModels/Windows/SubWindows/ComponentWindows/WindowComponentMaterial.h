@@ -9,7 +9,7 @@ class WindowMaterialInput;
 class WindowComponentMaterial : public ComponentWindow
 {
 public:
-	WindowComponentMaterial(const std::weak_ptr<ComponentMaterial>& component);
+	WindowComponentMaterial(ComponentMaterial* component);
 	~WindowComponentMaterial() override = default;
 
 protected:

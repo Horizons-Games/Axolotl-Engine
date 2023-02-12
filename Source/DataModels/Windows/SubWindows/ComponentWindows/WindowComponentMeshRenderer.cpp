@@ -9,7 +9,7 @@
 
 #include "DataModels/Resources/ResourceMesh.h"
 
-WindowComponentMeshRenderer::WindowComponentMeshRenderer(const std::weak_ptr<ComponentMeshRenderer>& component) :
+WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
 	ComponentWindow("MESH RENDERER", component)
 {
 	inputMesh = std::make_unique<WindowMeshInput>(component);
@@ -19,12 +19,11 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentMeshRenderer> asSharedMeshRenderer =
-		std::dynamic_pointer_cast<ComponentMeshRenderer>(this->component.lock());
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(this->component);
 
-	if (asSharedMeshRenderer)
+	if (asMeshRenderer)
 	{
-		std::shared_ptr<ResourceMesh> meshAsShared = asSharedMeshRenderer->GetMesh().lock();
+		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh().lock();
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
@@ -51,7 +50,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 				if (newMesh)
 				{
 					meshAsShared->Unload();
-					asSharedMeshRenderer->SetMesh(newMesh);
+					asMeshRenderer->SetMesh(newMesh);
 				}
 			}
 
@@ -71,7 +70,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		else if (ImGui::Button("Remove Mesh"))
 		{
 			meshAsShared->Unload();
-			asSharedMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
+			asMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))

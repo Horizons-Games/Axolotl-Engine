@@ -98,7 +98,7 @@ public:
 	const float3& GetPosition() const;
 	
 private:
-	LineSegment CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene);
+	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
 	
 	void CalculateHittedGameObjects(const LineSegment& ray);
 	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
