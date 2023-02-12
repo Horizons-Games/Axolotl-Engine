@@ -5,7 +5,6 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleEngineCamera.h"
-#include "ModuleTexture.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -46,13 +45,13 @@ bool ModuleEditor::Init()
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
-	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
 	windows.push_back(std::make_shared<WindowConfiguration>());
 	windows.push_back(std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowEditorControl>());
 	windows.push_back(std::make_shared<WindowFileBrowser>());
+	windows.push_back(std::make_shared<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;

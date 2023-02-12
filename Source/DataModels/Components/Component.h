@@ -22,7 +22,6 @@ public:
 
 	virtual void Update() = 0; // Abstract because each component will perform its own Update
 
-	virtual void Display() = 0; // Abstract because each component will draw itself in the Inspector Window
 	virtual void Draw();
 
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values

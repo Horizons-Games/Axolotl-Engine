@@ -7,7 +7,8 @@
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleEngineCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 

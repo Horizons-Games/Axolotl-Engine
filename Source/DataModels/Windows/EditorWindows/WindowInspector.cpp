@@ -12,6 +12,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentBoundingBoxes.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector")
 {
@@ -80,22 +81,21 @@ void WindowInspector::DrawWindowContents()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		std::shared_ptr<GameObject> go = App->scene->GetSelectedGameObject().lock();
-		if (go)
+		if (currentGameObject)
 		{
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
 			}
 
-			if (!go->GetComponent(ComponentType::MATERIAL)) {
+			if (!currentGameObject->GetComponent(ComponentType::MATERIAL)) {
 				if (ImGui::MenuItem("Create Material Component"))
 				{
 					AddComponentMaterial();
 				}
 			}
 
-			if (!go->GetComponent(ComponentType::LIGHT)) {
+			if (!currentGameObject->GetComponent(ComponentType::LIGHT)) {
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
 					AddComponentLight(LightType::SPOT);
@@ -117,51 +117,30 @@ void WindowInspector::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 
-	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+	if (currentGameObject)
 	{
-		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+		//if the selected game object has changed
+		//or number of components is different
+		//create the windows again
+		if (currentGameObject->GetUID() != lastSelectedObjectUID
+			|| currentGameObject->GetComponents().size() != windowsForComponentsOfSelectedObject.size())
 		{
-			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+			windowsForComponentsOfSelectedObject.clear();
+
+			for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
 			{
-				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
-				ImGui::SameLine();
-				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
-					break;
-				ImGui::SameLine();
+				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component));
 			}
 		}
-
-		currentGameObject->GetComponents()[i]->Display();
-	}
-}
-
-void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textActive = new char[30];
-	sprintf(textActive, "##Enabled #%d", labelNum);
-
-	bool enable = component->GetActive();
-	ImGui::Checkbox(textActive, &enable);
-
-	(enable) ? component->Enable() : component->Disable();
-}
-
-bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textRemove = new char[30];
-	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
-
-	if (ImGui::Button(textRemove, ImVec2(90, 20)))
-	{
-		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
+		for (int i = 0; i < windowsForComponentsOfSelectedObject.size(); ++i)
 		{
-			assert(false && "Trying to delete a non-existing component");
+			if (windowsForComponentsOfSelectedObject[i])
+			{
+				windowsForComponentsOfSelectedObject[i]->Draw();
+			}
 		}
-
-		return true;
+		lastSelectedObjectUID = currentGameObject->GetUID();
 	}
-
-	return false;
 }
 
 bool WindowInspector::MousePosIsInWindow()

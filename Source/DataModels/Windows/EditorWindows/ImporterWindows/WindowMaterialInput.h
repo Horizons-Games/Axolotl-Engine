@@ -7,17 +7,17 @@ class ComponentMaterial;
 class WindowMaterialInput : public WindowFileBrowser
 {
 public:
-	//WindowMaterialInput(const std::weak_ptr<ComponentMaterial>& componentMaterial);
-	WindowMaterialInput(ComponentMaterial* componentMaterial);
+	WindowMaterialInput(const std::weak_ptr<ComponentMaterial>& componentMaterial);
 	~WindowMaterialInput() = default;
 	void DoThisIfOk() override;
 
 private:
-	//std::weak_ptr<ComponentMaterial> componentMaterial;
-	ComponentMaterial* componentMaterial;
+	std::weak_ptr<ComponentMaterial> componentMaterial;
+
+	friend class WindowComponentMaterial;
 };
 
-inline WindowMaterialInput::WindowMaterialInput(ComponentMaterial* componentMaterial) :
+inline WindowMaterialInput::WindowMaterialInput(const std::weak_ptr<ComponentMaterial>& componentMaterial) :
 	WindowFileBrowser(),
 	componentMaterial(componentMaterial)
 {

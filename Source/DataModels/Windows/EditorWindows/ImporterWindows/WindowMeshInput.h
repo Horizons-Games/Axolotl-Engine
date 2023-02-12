@@ -9,21 +9,18 @@ class WindowMeshInput :
 	public WindowFileBrowser
 {
 public:
-	//WindowMeshInput(const std::weak_ptr<ComponentMesh>& componentMesh);
-	WindowMeshInput(ComponentMeshRenderer* componentMesh);
+	WindowMeshInput(const std::weak_ptr<ComponentMeshRenderer>& componentMesh);
 	~WindowMeshInput() = default;
 	void DoThisIfOk() override;
 
 private:
-	//std::weak_ptr<ComponentMesh> componentMesh;
-	ComponentMeshRenderer* componentMesh;
+	std::weak_ptr<ComponentMeshRenderer> componentMesh;
 };
 
-//inline WindowMeshInput::WindowMeshInput(const std::weak_ptr<ComponentMesh>& componentMesh) :WindowFileBrowser()
-inline WindowMeshInput::WindowMeshInput(ComponentMeshRenderer* componentMesh) :WindowFileBrowser()
+inline WindowMeshInput::WindowMeshInput(const std::weak_ptr<ComponentMeshRenderer>& componentMesh) :
+	WindowFileBrowser(),
+	componentMesh(componentMesh)
 {
-	this->componentMesh = componentMesh;
-
 	dialogName = "Select Mesh";
 	title = "Load Mesh";
 	filters = MESH_EXTENSION;

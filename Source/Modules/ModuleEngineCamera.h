@@ -5,11 +5,13 @@
 #include "ModuleDebugDraw.h"
 
 #include <memory>
+#include <map>
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 #include "Geometry/Plane.h"
+#include "Geometry/LineSegment.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
 #define DEFAULT_ROTATION_DEGREE 30
@@ -40,6 +42,7 @@ enum EFrustumMode
 };
 
 class GameObject;
+class WindowScene;
 
 class ModuleEngineCamera : public Module
 {
@@ -99,8 +102,16 @@ public:
 	const float3& GetPosition() const;
 	
 private:
+	LineSegment CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene);
+	
+	void CalculateHittedGameObjects(const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+								  const LineSegment& ray);
+
 	Frustum frustum;
+
 	float3 position;
+
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
 	Quat currentRotation = Quat::identity;
@@ -110,8 +121,10 @@ private:
 	float rotationSpeed;
 	float mouseSpeedModifier;
 	float frustumOffset;
-	int frustumMode;
 	float viewPlaneDistance;
+
+	int frustumMode;
+
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped = false;
 	bool focusFlag = false;
