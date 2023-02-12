@@ -114,8 +114,9 @@ inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
 	std::vector<GameObject*> rawChildren;
 
-	std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-		[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
+	if(!children.empty())
+		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
+			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
 
 	return rawChildren;
 }
