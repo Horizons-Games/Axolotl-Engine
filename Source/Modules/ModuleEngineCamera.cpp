@@ -163,7 +163,7 @@ void ModuleEngineCamera::Move()
 			moveSpeed = 900.0f;
 	}
 
-	//Gorward
+	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position = position + frustum.Front().Normalized() * 
