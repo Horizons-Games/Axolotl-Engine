@@ -69,19 +69,21 @@ update_status ModuleEngineCamera::Update()
 
 	if (App->editor->IsSceneFocused())
 	{
+		//We block everything on while Focus (slerp) to avoid camera problems
 		if (isFocusing)
 		{
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
-			//need to the same as KeyboardRotate here else the camera is jiggling
 			Rotate();
 		}
 		else if (!isFocusing)
 		{
+			//Shift speed
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 				Run();
 			else
 				Walk();
 
+			//Move and rotate with right buttons and ASDWQE
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
@@ -92,12 +94,14 @@ update_status ModuleEngineCamera::Update()
 				FreeLook();
 			}
 
+			//Zoom with mouse wheel
 			if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				focusFlag = false;
 				Zoom();
 			}
 
+			//Move camera UP/DOWN and RIGHT/LEFT with mouse mid button
 			if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 			{
 				focusFlag = false;
@@ -106,6 +110,7 @@ update_status ModuleEngineCamera::Update()
 				Move();
 			}
 
+			//Focus
 			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
@@ -113,7 +118,7 @@ update_status ModuleEngineCamera::Update()
 				isFocusing = true;
 			}
 
-
+			//Orbit object with ALT + LEFT MOUSE CLICK
 			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
@@ -126,6 +131,7 @@ update_status ModuleEngineCamera::Update()
 				Orbit(obb);
 			}
 
+			//Zoom with ALT + RIGHT MOUSE CLICK
 			if (App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
@@ -147,8 +153,8 @@ void ModuleEngineCamera::Move()
 {
 	float deltaTime = App->GetDeltaTime();
 
-
-	if (App->input->IsMouseWheelScrolled())
+	//Increase/decrease camera velocity with mouse wheel
+	if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KeyState::IDLE)
 	{
 		moveSpeed += App->input->GetMouseWheelY();
 		if (moveSpeed < 1.0f)
@@ -157,6 +163,7 @@ void ModuleEngineCamera::Move()
 			moveSpeed = 900.0f;
 	}
 
+	//Gorward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position = position + frustum.Front().Normalized() * 
@@ -164,6 +171,7 @@ void ModuleEngineCamera::Move()
 		SetPosition(position);
 	}
 
+	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Front().Normalized()) * 
@@ -171,30 +179,35 @@ void ModuleEngineCamera::Move()
 		SetPosition(position);
 	}
 
+	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		position = position + -(frustum.WorldRight()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
+	//Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		position = position + frustum.WorldRight() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
+	//Up
 	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
 		position = position + frustum.Up() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
+	//Down
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
 		position = position + -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
+	//Move UP/DOWN and RIGHT/LEFT with mid mouse button
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 	{
 		float deltaTime = App->GetDeltaTime();
