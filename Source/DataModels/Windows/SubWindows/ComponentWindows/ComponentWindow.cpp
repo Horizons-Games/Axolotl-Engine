@@ -30,48 +30,38 @@
 
 ComponentWindow::~ComponentWindow()
 {
-	this->component = std::weak_ptr<Component>();
+	this->component = nullptr;
 }
 
-std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const std::weak_ptr<Component>& component)
+std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Component* component)
 {
-	std::shared_ptr<Component> asShared = component.lock();
-	if (asShared)
+	if (component)
 	{
-		switch (asShared->GetType())
+		switch (component->GetType())
 		{
 		case ComponentType::MATERIAL:
-			return std::make_unique<WindowComponentMaterial>
-				(std::static_pointer_cast<ComponentMaterial>(asShared));
+			return std::make_unique<WindowComponentMaterial>(static_cast<ComponentMaterial*>(component));
 		case ComponentType::MESHRENDERER:
-			return std::make_unique<WindowComponentMeshRenderer>
-				(std::static_pointer_cast<ComponentMeshRenderer>(asShared));
+			return std::make_unique<WindowComponentMeshRenderer>(static_cast<ComponentMeshRenderer*>(component));
 		case ComponentType::TRANSFORM:
-			return std::make_unique<WindowComponentTransform>
-				(std::static_pointer_cast<ComponentTransform>(asShared));
+			return std::make_unique<WindowComponentTransform>(static_cast<ComponentTransform*>(component));
 		case ComponentType::CAMERA:
-			return std::make_unique<WindowComponentCamera>
-				(std::static_pointer_cast<ComponentCamera>(asShared));
+			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 		case ComponentType::BOUNDINGBOX:
-			return std::make_unique<WindowComponentBoundingBoxes>
-				(std::static_pointer_cast<ComponentBoundingBoxes>(asShared));
+			return std::make_unique<WindowComponentBoundingBoxes>(static_cast<ComponentBoundingBoxes*>(component));
 		case ComponentType::LIGHT:
 		{
-			std::shared_ptr<ComponentLight> asLight = std::dynamic_pointer_cast<ComponentLight>(asShared);
+			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
 			case LightType::AMBIENT:
-				return std::make_unique<WindowComponentAmbient>
-					(std::static_pointer_cast<ComponentAmbient>(asLight));
+				return std::make_unique<WindowComponentAmbient>(static_cast<ComponentAmbient*>(component));
 			case LightType::DIRECTIONAL:
-				return std::make_unique<WindowComponentDirLight>
-					(std::static_pointer_cast<ComponentDirLight>(asLight));
+				return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
 			case LightType::POINT:
-				return std::make_unique<WindowComponentPointLight>
-					(std::static_pointer_cast<ComponentPointLight>(asLight));
+				return std::make_unique<WindowComponentPointLight>(static_cast<ComponentPointLight*>(component));
 			case LightType::SPOT:
-				return std::make_unique<WindowComponentSpotLight>
-					(std::static_pointer_cast<ComponentSpotLight>(asLight));
+				return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
 			case LightType::UNKNOWN:
 			default:
 				return std::make_unique<WindowComponentLight>(asLight);
@@ -82,7 +72,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(const
 	return nullptr;
 }
 
-ComponentWindow::ComponentWindow(const std::string& name, const std::weak_ptr<Component>& component) :
+ComponentWindow::ComponentWindow(const std::string& name, Component* component) :
 	SubWindow(name),
 	component(component),
 	windowUUID(UniqueID::GenerateUUID())
@@ -100,30 +90,28 @@ void ComponentWindow::DrawEnableAndDeleteComponent()
 
 void ComponentWindow::DrawEnableComponent()
 {
-	std::shared_ptr<Component> asShared = component.lock();
-	if (asShared)
+	if (component)
 	{
 		std::stringstream ss;
 		ss << "##Enabled " << windowUUID;
 
-		bool enable = asShared->GetActive();
+		bool enable = component->GetActive();
 		ImGui::Checkbox(ss.str().c_str(), &enable);
 
-		(enable) ? asShared->Enable() : asShared->Disable();
+		(enable) ? component->Enable() : component->Disable();
 	}
 }
 
 void ComponentWindow::DrawDeleteComponent()
 {
-	std::shared_ptr<Component> asShared = component.lock();
-	if (asShared)
+	if (component)
 	{
 		std::stringstream ss;
 		ss << "Remove Comp. " << windowUUID;
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(asShared))
+			if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component->shared_from_this() /*this MUST be changed once all of scene is updated; the method should recieve a raw pointer*/))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

@@ -7,7 +7,7 @@
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 
-WindowComponentPointLight::WindowComponentPointLight(const std::weak_ptr<ComponentPointLight>& component) :
+WindowComponentPointLight::WindowComponentPointLight(ComponentPointLight* component) :
 	ComponentWindow("POINT LIGHT", component)
 {
 }
@@ -16,10 +16,9 @@ void WindowComponentPointLight::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentPointLight> asSharedPointLight =
-		std::dynamic_pointer_cast<ComponentPointLight>(this->component.lock());
+	ComponentPointLight* asPointLight = static_cast<ComponentPointLight*>(this->component);
 
-	if (asSharedPointLight)
+	if (asPointLight)
 	{
 		const char* lightTypes[] = { "Point", "Spot" };
 
@@ -45,14 +44,14 @@ void WindowComponentPointLight::DrawWindowContents()
 						if (lightTypes[i] == "Spot")
 						{
 							std::shared_ptr<ComponentSpotLight> newSpot =
-								std::static_pointer_cast<ComponentSpotLight>(asSharedPointLight->GetOwner().lock()
+								std::static_pointer_cast<ComponentSpotLight>(asPointLight->GetOwner().lock()
 									->CreateComponentLight(LightType::SPOT));
 
-							newSpot->SetColor(asSharedPointLight->GetColor());
-							newSpot->SetIntensity(asSharedPointLight->GetIntensity());
-							newSpot->SetRadius(asSharedPointLight->GetRadius());
+							newSpot->SetColor(asPointLight->GetColor());
+							newSpot->SetIntensity(asPointLight->GetIntensity());
+							newSpot->SetRadius(asPointLight->GetRadius());
 
-							asSharedPointLight->GetOwner().lock()->RemoveComponent(asSharedPointLight);
+							asPointLight->GetOwner().lock()->RemoveComponent(asPointLight->shared_from_this() /*this MUST be removed once Scene is updated*/);
 
 							App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 							App->scene->GetLoadedScene()->RenderSpotLights();
@@ -74,29 +73,29 @@ void WindowComponentPointLight::DrawWindowContents()
 			ImGui::Text("Intensity"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float intensity = asSharedPointLight->GetIntensity();
+			float intensity = asPointLight->GetIntensity();
 			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
 			{
-				asSharedPointLight->SetIntensity(intensity);
+				asPointLight->SetIntensity(intensity);
 				modified = true;
 			}
 			ImGui::PopStyleVar();
 
 			ImGui::Text("Color"); ImGui::SameLine();
-			float3 color = asSharedPointLight->GetColor();
+			float3 color = asPointLight->GetColor();
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
-				asSharedPointLight->SetColor(color);
+				asPointLight->SetColor(color);
 				modified = true;
 			}
 
 			ImGui::Text("Radius"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float radius = asSharedPointLight->GetRadius();
+			float radius = asPointLight->GetRadius();
 			if (ImGui::DragFloat("##Radius", &radius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
-				asSharedPointLight->SetRadius(radius);
+				asPointLight->SetRadius(radius);
 				modified = true;
 			}
 

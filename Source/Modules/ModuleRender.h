@@ -56,7 +56,8 @@ private:
 	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
-	std::shared_ptr<Skybox> skybox;
+	//should this be here?
+	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;

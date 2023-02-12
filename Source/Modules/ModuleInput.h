@@ -34,8 +34,6 @@ public:
 	bool IsMouseWheelScrolled() const;
 
 private:
-	const uint8_t* keyboard = NULL;
-
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 

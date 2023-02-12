@@ -166,7 +166,7 @@ bool ModuleRender::Start()
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
 	if (resourceSkybox)
 	{
-		skybox = std::make_shared<Skybox>(resourceSkybox);
+		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
 	return true;
 }
@@ -196,7 +196,6 @@ update_status ModuleRender::Update()
 	if (skybox)
 	{
 		skybox->Draw();
-
 	}
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());

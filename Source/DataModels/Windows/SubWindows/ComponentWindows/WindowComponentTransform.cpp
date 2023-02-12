@@ -8,21 +8,20 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"
 
-WindowComponentTransform::WindowComponentTransform(const std::weak_ptr<ComponentTransform>& component) :
+WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
 	ComponentWindow("TRANSFORM", component)
 {
 }
 
 void WindowComponentTransform::DrawWindowContents()
 {
-	std::shared_ptr<ComponentTransform> asSharedTransform =
-		std::dynamic_pointer_cast<ComponentTransform>(this->component.lock());
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
 
-	if (asSharedTransform)
+	if (asTransform)
 	{
-		currentTranslation = asSharedTransform->GetPosition();
-		currentRotation = asSharedTransform->GetRotationXYZ();
-		currentScale = asSharedTransform->GetScale();
+		currentTranslation = asTransform->GetPosition();
+		currentRotation = asTransform->GetRotationXYZ();
+		currentScale = asTransform->GetScale();
 
 		currentDragSpeed = 0.025f;
 
@@ -30,7 +29,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asSharedTransform->GetOwner().lock();
+		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner().lock();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)
@@ -40,9 +39,9 @@ void WindowComponentTransform::DrawWindowContents()
 
 		if (ownerIsRoot)
 		{
-			asSharedTransform->SetPosition(float3::zero);
-			asSharedTransform->SetRotation(Quat::identity);
-			asSharedTransform->SetScale(float3::one);
+			asTransform->SetPosition(float3::zero);
+			asTransform->SetRotation(Quat::identity);
+			asTransform->SetScale(float3::one);
 			return;
 		}
 
@@ -164,19 +163,18 @@ void WindowComponentTransform::DrawTransformTable()
 
 void WindowComponentTransform::UpdateComponentTransform()
 {
-	std::shared_ptr<ComponentTransform> asSharedTransform =
-		std::dynamic_pointer_cast<ComponentTransform>(this->component.lock());
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
 
-	if (asSharedTransform)
+	if (asTransform)
 	{
 		if (translationModified)
 		{
-			asSharedTransform->SetPosition(currentTranslation);
+			asTransform->SetPosition(currentTranslation);
 		}
 
 		if (rotationModified)
 		{
-			asSharedTransform->SetRotation(currentRotation);
+			asTransform->SetRotation(currentRotation);
 		}
 
 		if (scaleModified)
@@ -185,30 +183,29 @@ void WindowComponentTransform::UpdateComponentTransform()
 			if (currentScale.y <= 0) currentScale.y = 0.0001f;
 			if (currentScale.z <= 0) currentScale.z = 0.0001f;
 
-			asSharedTransform->SetScale(currentScale);
+			asTransform->SetScale(currentScale);
 		}
 
-		asSharedTransform->CalculateLocalMatrix();
-		asSharedTransform->CalculateGlobalMatrix();
+		asTransform->CalculateLocalMatrix();
+		asTransform->CalculateGlobalMatrix();
 	}
 }
 
 void WindowComponentTransform::UpdateLights()
 {
-	std::shared_ptr<ComponentTransform> asSharedTransform =
-		std::dynamic_pointer_cast<ComponentTransform>(this->component.lock());
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
 
-	if (asSharedTransform)
+	if (asTransform)
 	{
 		//Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
-			std::shared_ptr<Component> comp = asSharedTransform->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
+			std::shared_ptr<Component> comp = asTransform->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
 			std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
 
 			if (lightComp)
 			{
-				asSharedTransform->CalculateLightTransformed(lightComp, translationModified, rotationModified);
+				asTransform->CalculateLightTransformed(lightComp, translationModified, rotationModified);
 			}
 		}
 	}

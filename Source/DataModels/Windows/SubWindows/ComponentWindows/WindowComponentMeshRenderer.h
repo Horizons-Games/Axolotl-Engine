@@ -8,7 +8,7 @@ class WindowMeshInput;
 class WindowComponentMeshRenderer : public ComponentWindow
 {
 public:
-	WindowComponentMeshRenderer(const std::weak_ptr<ComponentMeshRenderer>& component);
+	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override = default;
 
 protected:
