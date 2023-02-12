@@ -1,11 +1,11 @@
 #pragma once
 
-#include <memory>
-
 #include "../FileSystem/UniqueID.h"
 
 #include "Geometry/OBB.h"
 #include "Geometry/AABB.h"
+
+#include <memory>
 
 struct PointLight
 {
@@ -115,11 +115,6 @@ inline const GameObject* Scene::GetAmbientLight() const
 inline const GameObject* Scene::GetDirectionalLight() const
 {
 	return directionalLight;
-}
-
-inline void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
-{
-	root = std::move(newRoot);
 }
 
 inline const std::vector<GameObject*>& Scene::GetSceneGameObjects() const

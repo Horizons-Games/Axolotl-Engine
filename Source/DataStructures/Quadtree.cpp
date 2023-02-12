@@ -427,10 +427,10 @@ void Quadtree::ResetChildren()
 void Quadtree::AddGameObjectAndChildren(const GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr) return;
-	std::list<GameObject*> familyObjects = {};
+	std::list<const GameObject*> familyObjects = {};
 	std::list<const GameObject*> objects = GetAllGameObjects(gameObject);
 	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());
-	for (GameObject* children : familyObjects)
+	for (const GameObject* children : familyObjects)
 	{
 		App->scene->GetLoadedScene()->GetSceneQuadTree()->Add(children);
 	}

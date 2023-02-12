@@ -447,3 +447,8 @@ std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 {
 	return std::move(sceneQuadTree);
 }
+
+void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
+{
+	root = std::move(newRoot);
+}

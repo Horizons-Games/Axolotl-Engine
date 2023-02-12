@@ -217,8 +217,7 @@ void GameObject::RemoveChild(const GameObject* child)
 	}
 
 	for (std::vector<std::unique_ptr<GameObject>>::const_iterator it = children.begin();
-		it != children.end();
-		++it)
+		it != children.end(); ++it)
 	{
 		if ((*it).get() == child)
 		{
