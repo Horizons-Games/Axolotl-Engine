@@ -92,7 +92,7 @@ update_status ModuleEngineCamera::Update()
 				FreeLook();
 			}
 
-			if (App->input->IsMouseWheelScrolled())
+			if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				focusFlag = false;
 				Zoom();
@@ -146,6 +146,16 @@ update_status ModuleEngineCamera::Update()
 void ModuleEngineCamera::Move()
 {
 	float deltaTime = App->GetDeltaTime();
+
+
+	if (App->input->IsMouseWheelScrolled())
+	{
+		moveSpeed += App->input->GetMouseWheelY();
+		if (moveSpeed < 1.0f)
+			moveSpeed = 1.0f;
+		if (moveSpeed > 900.0f)
+			moveSpeed = 900.0f;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
