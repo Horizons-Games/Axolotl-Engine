@@ -7,7 +7,7 @@ class ComponentCamera;
 class WindowComponentCamera : public ComponentWindow
 {
 public:
-	WindowComponentCamera(const std::weak_ptr<ComponentCamera>& component);
+	WindowComponentCamera(ComponentCamera* component);
 	~WindowComponentCamera() override = default;
 
 protected:

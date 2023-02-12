@@ -2,8 +2,8 @@
 
 #include "DataModels/Components/ComponentLight.h"
 
-WindowComponentLight::WindowComponentLight(const std::weak_ptr<ComponentLight>& component) :
-	ComponentWindow("BASIC LIGHT", std::weak_ptr<Component>())
+WindowComponentLight::WindowComponentLight(ComponentLight* component) :
+	ComponentWindow("BASIC LIGHT", component)
 {
 }
 

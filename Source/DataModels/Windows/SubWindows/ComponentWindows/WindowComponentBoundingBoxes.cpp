@@ -2,19 +2,18 @@
 
 #include "DataModels/Components/ComponentBoundingBoxes.h"
 
-WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(const std::weak_ptr<ComponentBoundingBoxes>& component)
+WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(ComponentBoundingBoxes* component)
 	: ComponentWindow("BOUNDING BOX", component)
 {
 }
 
 void WindowComponentBoundingBoxes::DrawWindowContents()
 {
-	std::shared_ptr<ComponentBoundingBoxes> asSharedBB =
-		std::dynamic_pointer_cast<ComponentBoundingBoxes>(this->component.lock());
+	ComponentBoundingBoxes* asBB = static_cast<ComponentBoundingBoxes*>(this->component);
 
-	if (asSharedBB)
+	if (asBB)
 	{
 		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Bounding Box", &(asSharedBB->drawBoundingBoxes));
+		ImGui::Checkbox("##Draw Bounding Box", &(asBB->drawBoundingBoxes));
 	}
 }

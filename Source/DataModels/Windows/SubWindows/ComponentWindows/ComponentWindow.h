@@ -11,13 +11,13 @@ class ComponentWindow : public SubWindow
 public:
 	virtual ~ComponentWindow() override;
 
-	static std::unique_ptr<ComponentWindow> CreateWindowForComponent(const std::weak_ptr<Component>& component);
+	static std::unique_ptr<ComponentWindow> CreateWindowForComponent(Component* component);
 
 protected:
-	ComponentWindow(const std::string& name, const std::weak_ptr<Component>& component);
+	ComponentWindow(const std::string& name, Component* component);
 	void DrawEnableAndDeleteComponent();
 
-	std::weak_ptr<Component> component;
+	Component* component;
 
 private:
 	void DrawEnableComponent();
