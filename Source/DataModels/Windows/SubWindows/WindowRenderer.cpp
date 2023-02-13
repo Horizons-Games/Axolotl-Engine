@@ -40,7 +40,12 @@ void WindowRenderer::DrawWindowContents()
 		initialized = true;
 	}
 
-	for (int i = 0; i <= (int)ProgramType::SKYBOX;i++) 
+	//this is very hard to scale
+	//everytime a new program type is added, this loop needs to be updated
+	//or we must remember to always leave SKYBOX at the end of the enum
+	//I think it would be better to do something similar to what was done in ModuleResources::CreateAssetAndLibFolders
+	//or, as said in a comment in that function, use the library magic_enum
+	for (int i = 0; i <= static_cast<int>(ProgramType::SKYBOX); i++)
 	{
 		std::shared_ptr<Program> program = App->program->GetProgram((ProgramType)i).lock();
 		if (program)
@@ -67,7 +72,8 @@ void WindowRenderer::DrawWindowContents()
 				if (vf.good()
 					&& ff.good())
 				{
-					App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+					App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i],
+						(ProgramType)i, program->GetProgramName());
 				}
 				else
 				{

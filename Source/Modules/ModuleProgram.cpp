@@ -9,21 +9,21 @@ ModuleProgram::~ModuleProgram(){}
 
 bool ModuleProgram::Start()
 {
-	Programs.reserve((int)ProgramType::SKYBOX + 1);
-	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
-	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
+	programs.reserve((int)ProgramType::SKYBOX + 1);
+	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
+	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
 
 	return true;
 }
 
 
-std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
-	std::string programName)
+std::shared_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName,
+	const std::string& frgShaderFileName, const std::string& programName)
 {
 	unsigned vertexShader = 
-		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((RootPath + vtxShaderFileName).c_str()));
+		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
 	unsigned fragmentShader = 
-		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((RootPath + frgShaderFileName).c_str()));
+		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{
@@ -44,10 +44,10 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 	return program;
 }
 
-void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
-	std::string programName)
+void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName,
+	ProgramType programType, const std::string& programName)
 {
-	Programs[programType] = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
+	programs[static_cast<int>(programType)] = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
 }
 
 bool ModuleProgram::CleanUp()

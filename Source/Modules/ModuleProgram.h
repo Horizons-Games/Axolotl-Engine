@@ -16,11 +16,11 @@ public:
 
 	bool Start() override;
 
-	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
-		std::string programName);
+	std::shared_ptr<Program> CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName,
+		const std::string& programName);
 
-	void UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
-		std::string programName);
+	void UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName,
+		ProgramType programType, const std::string& programName);
 
 	bool CleanUp() override;
 	
@@ -30,15 +30,11 @@ public:
 	const std::weak_ptr<Program> GetProgram(ProgramType type) const;
 
 private:
-	std::vector<std::shared_ptr<Program> > Programs;
-	std::string RootPath = "Lib/Shaders/";
+	std::vector<std::shared_ptr<Program> > programs;
+	std::string rootPath = "Lib/Shaders/";
 };
 
 inline const std::weak_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
 {
-	return Programs[(int)type];
+	return programs[(int)type];
 }
-
-
-
-
