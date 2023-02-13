@@ -43,15 +43,15 @@ void WindowComponentPointLight::DrawWindowContents()
 					{
 						if (lightTypes[i] == "Spot")
 						{
-							std::shared_ptr<ComponentSpotLight> newSpot =
-								std::static_pointer_cast<ComponentSpotLight>(asPointLight->GetOwner().lock()
+							ComponentSpotLight* newSpot =
+								static_cast<ComponentSpotLight*>(asPointLight->GetOwner()
 									->CreateComponentLight(LightType::SPOT));
 
 							newSpot->SetColor(asPointLight->GetColor());
 							newSpot->SetIntensity(asPointLight->GetIntensity());
 							newSpot->SetRadius(asPointLight->GetRadius());
 
-							asPointLight->GetOwner().lock()->RemoveComponent(asPointLight->shared_from_this() /*this MUST be removed once Scene is updated*/);
+							asPointLight->GetOwner()->RemoveComponent(asPointLight);
 
 							App->scene->GetLoadedScene()->UpdateSceneSpotLights();
 							App->scene->GetLoadedScene()->RenderSpotLights();

@@ -17,7 +17,7 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 {
 }
 
-ComponentDirLight::ComponentDirLight(const std::shared_ptr<GameObject>& parent) :
+ComponentDirLight::ComponentDirLight(GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
 }
@@ -27,7 +27,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 {
 }
 
-ComponentDirLight::ComponentDirLight(const float3& color, float intensity, const std::shared_ptr<GameObject>& parent) :
+ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
 }
@@ -36,8 +36,8 @@ void ComponentDirLight::Draw()
 {
 	if (this->GetActive())
 	{
-		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(this->GetOwner()
 				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();

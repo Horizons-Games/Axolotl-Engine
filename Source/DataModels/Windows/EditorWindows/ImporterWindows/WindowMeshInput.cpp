@@ -22,6 +22,6 @@ void WindowMeshInput::DoThisIfOk()
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		UID uidMesh = App->resources->ImportResource(filePath);
 		std::weak_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
-		componentMesh->SetMesh(mesh);
+		componentMesh->SetMesh(mesh.lock() /*TODO: change with filesystem rework*/);
 	}
 }
