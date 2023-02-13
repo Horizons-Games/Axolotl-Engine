@@ -42,7 +42,7 @@ void WindowComponentMaterial::DrawWindowContents()
 
 void WindowComponentMaterial::DrawSetMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	/*ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
 
 	if (asMaterial)
 	{
@@ -207,7 +207,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 		}
-	}
+	}*/
 }
 
 void WindowComponentMaterial::DrawEmptyMaterial()

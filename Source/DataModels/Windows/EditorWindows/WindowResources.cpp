@@ -59,7 +59,7 @@ void WindowResources::DrawResourceTable(const std::string& tableName,
 		{
 			ImGui::TableNextRow();
 			ImGui::TableNextColumn();
-			DrawResource(App->resources->RequestResource(resUID), resourcesToDelete);
+			//DrawResource(App->resources->RequestResource(resUID), resourcesToDelete);
 		}
 
 		ImGui::EndTable();

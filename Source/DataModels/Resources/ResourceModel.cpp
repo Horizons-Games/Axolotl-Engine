@@ -5,18 +5,16 @@
 
 void ResourceModel::InternalLoad()
 {
-	for (UID materialUID : materialsUIDs)
+	for (std::shared_ptr<Resource> material : materials)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID);
 		if (material)
 		{
 			material->Load();
 		}
 	}
 
-	for (UID meshUID : meshesUIDs)
+	for (std::shared_ptr<Resource> mesh : meshes)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID);
 		if (mesh)
 		{
 			mesh->Load();
@@ -26,18 +24,16 @@ void ResourceModel::InternalLoad()
 
 void ResourceModel::InternalUnload()
 {
-	for (UID materialUID : materialsUIDs)
+	for (std::shared_ptr<Resource> material : materials)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID);
 		if (material)
 		{
 			material->Unload();
 		}
 	}
 
-	for (UID meshUID : meshesUIDs)
+	for (std::shared_ptr<Resource> mesh : meshes)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID);
 		if (mesh)
 		{
 			mesh->Unload();

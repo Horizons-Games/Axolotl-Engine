@@ -53,7 +53,7 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	windows.push_back(std::make_shared<WindowResources>());
+	//windows.push_back(std::make_shared<WindowResources>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;

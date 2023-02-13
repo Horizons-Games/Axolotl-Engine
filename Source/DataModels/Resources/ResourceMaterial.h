@@ -19,10 +19,10 @@ public:
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
-	UID& GetDiffuseUID();
-	UID& GetNormalUID();
-	UID& GetOcclusionrUID();
-	UID& GetSpecularUID();
+	std::shared_ptr<Resource>& GetDiffuse();
+	std::shared_ptr<Resource>& GetNormal();
+	std::shared_ptr<Resource>& GetOcclusionr();
+	std::shared_ptr<Resource>& GetSpecular();
 	float3& GetDiffuseColor();
 	float3& GetSpecularColor();
 	float& GetShininess();
@@ -37,10 +37,10 @@ public:
 	std::shared_ptr<OptionsMaterial>& GetOptions();
 
 	//Sets
-	void SetDiffuseUID(UID& diffuseUID);
-	void SetNormalUID(UID& normalUID);
-	void SetOcclusionUID(UID& occlusionUID);
-	void SetSpecularUID(UID& specularUID);
+	void SetDiffuse(std::shared_ptr<Resource>& diffuse);
+	void SetNormal(std::shared_ptr<Resource>& normal);
+	void SetOcclusion(std::shared_ptr<Resource>& occlusion);
+	void SetSpecular(std::shared_ptr<Resource>& specular);
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float& shininess);
@@ -52,20 +52,15 @@ protected:
 
 private:
 
-	UID diffuseUID;
-	UID normalUID;
-	UID occlusionUID;
-	UID specularUID;
+	std::shared_ptr<Resource> diffuse;
+	std::shared_ptr<Resource> normal;
+	std::shared_ptr<Resource> occlusion;
+	std::shared_ptr<Resource> specular;
 	float3 diffuseColor;
 	float3 specularColor;
 	float shininess;
 	float normalStrength;
 
-	//TODO change UID or leave this here meanwhile this is for MaterialImporter and Component Material charge
-	bool hasDiffuse;
-	bool hasNormal;
-	bool hasOcclusion;
-	bool hasSpecular;
 	bool shininessAlpha;
 
 	std::shared_ptr<OptionsMaterial> options;
@@ -77,19 +72,11 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 	const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
-	diffuseUID = 0;
-	normalUID = 0;
-	occlusionUID = 0;
-	specularUID = 0;
 	options = std::make_shared<OptionsMaterial>();
 	diffuseColor = float3(1.0f, 1.0f, 0.0f);
 	specularColor = float3(0.5f, 0.3f, 0.5f);
 	shininess = 512.f;
 	normalStrength = 1.0f;
-	hasDiffuse = false;
-	hasNormal = false;
-	hasOcclusion = false;
-	hasSpecular = false;
 	shininessAlpha = false;
 }
 
@@ -103,24 +90,24 @@ inline ResourceType ResourceMaterial::GetType() const
 	return ResourceType::Material;
 }
 
-inline UID& ResourceMaterial::GetDiffuseUID()
+inline std::shared_ptr<Resource>& ResourceMaterial::GetDiffuse()
 {
-	return this->diffuseUID;
+	return this->diffuse;
 }
 
-inline UID& ResourceMaterial::GetNormalUID()
+inline std::shared_ptr<Resource>& ResourceMaterial::GetNormal()
 {
-	return this->normalUID;
+	return this->normal;
 }
 
-inline UID& ResourceMaterial::GetOcclusionrUID()
+inline std::shared_ptr<Resource>& ResourceMaterial::GetOcclusionr()
 {
-	return this->occlusionUID;
+	return this->occlusion;
 }
 
-inline UID& ResourceMaterial::GetSpecularUID()
+inline std::shared_ptr<Resource>& ResourceMaterial::GetSpecular()
 {
-	return this->specularUID;
+	return this->specular;
 }
 
 inline float3& ResourceMaterial::GetDiffuseColor()
@@ -150,22 +137,22 @@ inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
 
 inline bool ResourceMaterial::haveDiffuse()
 {
-	return hasDiffuse;
+	return diffuse != nullptr;
 }
 
 inline bool ResourceMaterial::haveNormal()
 {
-	return hasNormal;
+	return normal != nullptr;
 }
 
 inline bool ResourceMaterial::haveOcclusion()
 {
-	return hasOcclusion;
+	return occlusion != nullptr;
 }
 
 inline bool ResourceMaterial::haveSpecular()
 {
-	return hasSpecular;
+	return specular != nullptr;
 }
 
 inline bool ResourceMaterial::HaveShininessAlpha()
@@ -173,28 +160,24 @@ inline bool ResourceMaterial::HaveShininessAlpha()
 	return shininessAlpha;  
 }
 
-inline void ResourceMaterial::SetDiffuseUID(UID& diffuseUID)
+inline void ResourceMaterial::SetDiffuse(std::shared_ptr<Resource>& diffuse)
 {
-	this->diffuseUID = diffuseUID;
-	this->hasDiffuse = true;
+	this->diffuse = diffuse;
 }
 
-inline void ResourceMaterial::SetNormalUID(UID& normalUID)
+inline void ResourceMaterial::SetNormal(std::shared_ptr<Resource>& normal)
 {
-	this->normalUID = normalUID;
-	this->hasNormal = true;
+	this->normal = normal;
 }
 
-inline void ResourceMaterial::SetOcclusionUID(UID& occlusionUID)
+inline void ResourceMaterial::SetOcclusion(std::shared_ptr<Resource>& occlusion)
 {
-	this->occlusionUID = occlusionUID;
-	this->occlusionUID = true;
+	this->occlusion = occlusion;
 }
 
-inline void ResourceMaterial::SetSpecularUID(UID& specularUID)
+inline void ResourceMaterial::SetSpecular(std::shared_ptr<Resource>& specular)
 {
-	this->specularUID = specularUID;
-	this->hasSpecular = true;
+	this->specular = specular;
 }
 
 inline void ResourceMaterial::SetDiffuseColor(float3& diffuseColor)

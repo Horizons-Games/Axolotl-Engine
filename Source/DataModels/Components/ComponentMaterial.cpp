@@ -124,14 +124,13 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
 	UID uidMaterial = 0;
 	std::string assetPath = "";
 
-	if (materialAsShared)
+	if (material)
 	{
-		uidMaterial = materialAsShared->GetUID();
-		assetPath = materialAsShared->GetAssetsPath();
+		uidMaterial = material->GetUID();
+		assetPath = material->GetAssetsPath();
 	}
 	meta["materialUID"] = (UID)uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
@@ -166,43 +165,43 @@ void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta,
 
 void ComponentMaterial::LoadOptions(Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	//// Do not delete these
+	//type = GetTypeByName(meta["type"]);
+	//active = (bool)meta["active"];
+	//canBeRemoved = (bool)meta["removed"];
 
-	UID uidMaterial = meta["materialUID"];
+	//UID uidMaterial = meta["materialUID"];
 
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+	//std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
 
-	if(resourceMaterial)
-	{
-		SetMaterial(resourceMaterial);
-	}
-	else 
-	{
-		std::string path = meta["assetPathMaterial"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			uidMaterial = App->resources->ImportResource(path);
-			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
-			SetMaterial(resourceMaterial);
-		}
-	}
+	//if(resourceMaterial)
+	//{
+	//	SetMaterial(resourceMaterial);
+	//}
+	//else 
+	//{
+	//	std::string path = meta["assetPathMaterial"];
+	//	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	//	if (resourceExists) 
+	//	{
+	//		uidMaterial = App->resources->ImportResource(path)->GetUID();
+	//		resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
+	//		SetMaterial(resourceMaterial);
+	//	}
+	//}
 
-	diffuseColor.x = (float)meta["diffuseColor_X"];
-	diffuseColor.y = (float)meta["diffuseColor_Y"];
-	diffuseColor.z = (float)meta["diffuseColor_Z"];
+	//diffuseColor.x = (float)meta["diffuseColor_X"];
+	//diffuseColor.y = (float)meta["diffuseColor_Y"];
+	//diffuseColor.z = (float)meta["diffuseColor_Z"];
 
-	specularColor.x = (float)meta["specularColor_X"];
-	specularColor.y = (float)meta["specularColor_Y"];
-	specularColor.z = (float)meta["specularColor_Z"];
+	//specularColor.x = (float)meta["specularColor_X"];
+	//specularColor.y = (float)meta["specularColor_Y"];
+	//specularColor.z = (float)meta["specularColor_Z"];
 
-	shininess = (float)meta["shininess"];
-	normalStrength = (float)meta["normalStrenght"];
+	//shininess = (float)meta["shininess"];
+	//normalStrength = (float)meta["normalStrenght"];
 
-	hasShininessAlpha = (bool)meta["hasShininessAlpha"];
+	//hasShininessAlpha = (bool)meta["hasShininessAlpha"];
 }
 
 void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)
@@ -225,27 +224,23 @@ void ComponentMaterial::SetSpecularUID(UID& specularUID)
 	this->specularUID = specularUID;
 }
 
-void ComponentMaterial::SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial)
+void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
 {
 	material = newMaterial;
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
-
 	
-	if (materialAsShared)
+	if (material)
 	{
-		materialAsShared->Load();
-		diffuseUID = materialAsShared->GetDiffuseUID();
-		normalUID = materialAsShared->GetNormalUID();
-		occlusionUID = materialAsShared->GetOcclusionrUID();
-		specularUID = materialAsShared->GetSpecularUID();
+		material->Load();
+		diffuseUID = material->GetDiffuseUID();
+		normalUID = material->GetNormalUID();
+		occlusionUID = material->GetOcclusionrUID();
+		specularUID = material->GetSpecularUID();
 	}
 }
 
 void ComponentMaterial::UnloadTextures()
 {
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
-
-	if(materialAsShared)
+	/*if(material)
 	{
 		std::shared_ptr<ResourceTexture> texture = App->resources->
 										RequestResource<ResourceTexture>(materialAsShared->GetDiffuseUID()).lock();
@@ -271,14 +266,12 @@ void ComponentMaterial::UnloadTextures()
 		{
 			texture->Unload();
 		}
-	}
+	}*/
 }
 
 void ComponentMaterial::UnloadTexture(TextureType textureType)
 {
-	std::shared_ptr<ResourceMaterial> materialAsShared = material.lock();
-
-	if (materialAsShared)
+	/*if (material)
 	{
 		std::shared_ptr<ResourceTexture> texture;
 		switch (textureType)
@@ -312,5 +305,5 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 			}
 			break;
 		}
-	}
+	}*/
 }

@@ -9,6 +9,9 @@
 #include "FileSystem/UniqueID.h"
 #include "DataModels/Resources/Resource.h"
 
+#include "Application.h"
+#include "ModuleFileSystem.h"
+
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
@@ -29,14 +32,20 @@ public:
 	bool Start() override;
 	bool CleanUp() override;
 
-	//import resource from path
-	UID ImportResource(const std::string& originalPath);
-	UID ImportThread(const std::string& originalPath);
+	//Create Bin and .meta from path
+	std::shared_ptr<Resource> ImportResource(const std::string& originalPath);
+	std::shared_ptr<Resource> ImportThread(const std::string& originalPath);
 
-	//request resoruce
-	const std::shared_ptr<Resource> RequestResource(UID uid);
+	//request resource and Import if is necessary
+	const std::shared_ptr<Resource> RequestResource(const std::string assetPath);
 	template<class R>
-	const std::shared_ptr<R> RequestResource(UID uid);
+	const std::shared_ptr<R> RequestResource(const std::string assetPath);
+
+	//Search resource
+	const std::shared_ptr<Resource> SearchResource(UID uid);
+	template<class R>
+	const std::shared_ptr<R> SearchResource(UID uid);
+
 	const UID GetSkyBoxResource();
 
 private:
@@ -54,7 +63,7 @@ private:
 
 	//create resources from binaries
 	void LoadResourceStored(const char* filePath);
-	void ImportResourceFromLibrary(const std::string& libraryPath);
+	std::shared_ptr<Resource> ImportResourceFromLibrary(const std::string& libraryPath);
 
 	//importing: creation of binary and meta
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
@@ -104,13 +113,60 @@ inline bool ModuleResources::CleanUp()
 	return true;
 }
 
-inline const std::shared_ptr<Resource> ModuleResources::RequestResource(UID uid)
+inline const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath)
 {
-	return RequestResource<Resource>(uid);
+	return RequestResource<Resource>(assetPath);
 }
 
 template<class R>
-inline const std::shared_ptr<R> ModuleResources::RequestResource(UID uid)
+inline const std::shared_ptr<R> ModuleResources::RequestResource(const std::string assetPath)
+{
+	//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
+	std::string metaPath = assetPath + META_EXTENSION;
+	if (App->fileSystem->Exists(metaPath.c_str())) {
+		char* metaBuffer = {};
+		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+
+		rapidjson::Document doc;
+		Json Json(doc, doc);
+
+		Json.fromBuffer(metaBuffer);
+
+		UID uid = (UID)Json["UID"];
+
+		auto it = resources.find(uid);
+		if (it != resources.end())
+		{
+			return std::dynamic_pointer_cast<R>(resources.find(resourceUID)->second.lock());
+		}
+	}
+
+	//Si ese recurso tiene binarios y son nuevos los cargamos
+	std::shared_ptr<Resource> resource = ImportResourceFromLibrary(assetPath);
+	if (resource)
+	{
+		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = App->fileSystem->GetModificationDate(resource->GetLibraryPath().c_str());
+		if(assetTime < libTime) 
+		{
+			resources.insert({ resource->GetUID(), resource });
+			return std::dynamic_pointer_cast<R>(resource);
+		}
+	}
+
+	//Si ese recurso no tiene ninguna de las dos opciones lo volvemos a importar
+	resource = ImportResource(assetPath);
+	resources.insert({ resource->GetUID(), resource });
+	return std::dynamic_pointer_cast<R>(resource);
+}
+
+inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
+{
+	return SearchResource<Resource>(uid);
+}
+
+template<class R>
+inline const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
 {
 	auto it = resources.find(uid);
 	if (it != resources.end())
@@ -118,6 +174,8 @@ inline const std::shared_ptr<R> ModuleResources::RequestResource(UID uid)
 		std::shared_ptr<Resource> shared = (it->second).lock();
 		return std::dynamic_pointer_cast<R>(shared);
 	}
-	//empty weak_ptr
+	
+
+
 	return std::shared_ptr<R>();
 }

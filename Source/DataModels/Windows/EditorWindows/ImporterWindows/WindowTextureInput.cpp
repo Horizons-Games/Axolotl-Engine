@@ -44,29 +44,29 @@ void WindowTextureInput::DoThisIfOk()
 {
 	if (materialComponent)
 	{
-		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		UID uidTexture = App->resources->ImportResource(filePath);
+		// std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		// UID uidTexture = App->resources->ImportResource(filePath);
 
-		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial().lock();
+		// std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial().lock();
 
-		if (materialAsShared)
-		{
-			switch (textureType)
-			{
-			case TextureType::DIFFUSE:
-				materialAsShared->SetDiffuseUID(uidTexture);
-				break;
-			case TextureType::NORMAL:
-				materialAsShared->SetNormalUID(uidTexture);
-				break;
-			case TextureType::OCCLUSION:
-				break;
-			case TextureType::SPECULAR:
-				materialAsShared->SetSpecularUID(uidTexture);
-				break;
-			}
+		// if (materialAsShared)
+		// {
+		// 	switch (textureType)
+		// 	{
+		// 	case TextureType::DIFFUSE:
+		// 		materialAsShared->SetDiffuseUID(uidTexture);
+		// 		break;
+		// 	case TextureType::NORMAL:
+		// 		materialAsShared->SetNormalUID(uidTexture);
+		// 		break;
+		// 	case TextureType::OCCLUSION:
+		// 		break;
+		// 	case TextureType::SPECULAR:
+		// 		materialAsShared->SetSpecularUID(uidTexture);
+		// 		break;
+		// 	}
 
-			materialAsShared->SetChanged(true);
-		}
+		// 	materialAsShared->SetChanged(true);
+		// }
 	}
 }
