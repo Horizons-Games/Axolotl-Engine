@@ -567,9 +567,9 @@ LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene
 
 void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 {
-	std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
+	std::map<float, std::weak_ptr<GameObject>> hitGameObjects;
 
-	//App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hittedGameObjects, ray);
+	//App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
 
 	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
 		App->scene->GetLoadedScene()->GetSceneGameObjects();
@@ -585,15 +585,15 @@ void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 
 		if (hit && currentGameObjectAsShared->IsActive())
 		{
-			hittedGameObjects[nearDistance] = std::weak_ptr<GameObject>(currentGameObjectAsShared);
+			hitGameObjects[nearDistance] = std::weak_ptr<GameObject>(currentGameObjectAsShared);
 		}
 	}
 
-	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
-	SetNewSelectedGameObject(hittedGameObjects, ray);
+	//ENGINE_LOG(std::to_string(hitGameObjects.size()).c_str());
+	SetNewSelectedGameObject(hitGameObjects, ray);
 }
 
-void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hitGameObjects,
 												  const LineSegment& ray)
 {
 	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
@@ -602,14 +602,14 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
 
-	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
+	for (std::pair<float, std::weak_ptr<GameObject>> hitGameObject : hitGameObjects)
 	{
-		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
-		//ENGINE_LOG(hittedAsShared->GetName());
+		std::shared_ptr<GameObject> hitAsShared = hitGameObject.second.lock();
+		//ENGINE_LOG(hitAsShared->GetName());
 
 		std::shared_ptr<ComponentMeshRenderer> componentMeshRenderer =
 			std::static_pointer_cast<ComponentMeshRenderer>
-			(hittedAsShared->GetComponent(ComponentType::MESHRENDERER));
+			(hitAsShared->GetComponent(ComponentType::MESHRENDERER));
 
 		if (!componentMeshRenderer)
 		{
@@ -625,7 +625,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 
 		const float4x4& gameObjectModelMatrix =
 			std::static_pointer_cast<ComponentTransform>
-			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			(hitAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 		for (const Triangle& triangle : meshTriangles)
@@ -636,7 +636,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::wea
 			if (thisDistance >= minCurrentDistance) continue;
 
 			// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-			newSelectedGameObject = hittedAsShared;
+			newSelectedGameObject = hitAsShared;
 			minCurrentDistance = thisDistance;
 		}
 	}

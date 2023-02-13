@@ -101,7 +101,7 @@ private:
 	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
 	
 	void CalculateHittedGameObjects(const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hitGameObjects,
 								  const LineSegment& ray);
 
 	Frustum frustum;
