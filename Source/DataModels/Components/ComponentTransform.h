@@ -16,7 +16,7 @@ class ComponentLight;
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentTransform(const bool active, GameObject* owner);
 
 	void Update() override;
 
@@ -49,7 +49,7 @@ public:
 
 	void ResetGlobalMatrix();
 
-	void CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
 

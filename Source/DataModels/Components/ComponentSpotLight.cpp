@@ -16,7 +16,7 @@ ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(const std::shared_ptr<GameObject>& parent) :
+ComponentSpotLight::ComponentSpotLight(GameObject* parent) :
 	ComponentLight(LightType::SPOT, parent, true)
 {
 }
@@ -32,7 +32,7 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity,
-									   const std::shared_ptr<GameObject>& parent) :
+									   GameObject* parent) :
 	ComponentLight(LightType::SPOT, color, intensity, parent, true)
 {
 	this->radius = radius;
@@ -44,8 +44,8 @@ void ComponentSpotLight::Draw()
 {
 	if (this->GetActive())
 	{
-		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(this->GetOwner()
 				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();

@@ -23,7 +23,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 	if (asMeshRenderer)
 	{
-		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh().lock();
+		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
@@ -70,7 +70,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		else if (ImGui::Button("Remove Mesh"))
 		{
 			meshAsShared->Unload();
-			asMeshRenderer->SetMesh(std::weak_ptr<ResourceMesh>());
+			asMeshRenderer->SetMesh(nullptr);
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))
@@ -79,12 +79,12 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumVertices() : 0);
+				meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+				meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}
