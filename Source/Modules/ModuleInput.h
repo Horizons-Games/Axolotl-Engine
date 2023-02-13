@@ -58,14 +58,30 @@ private:
 
 	bool mouseWheelScrolled;
 
-	SDL_Surface* freeLookSurface;
-	SDL_Surface* orbitSurface;
-	SDL_Surface* moveSurface;
-	SDL_Surface* zoomSurface;
-	SDL_Cursor* freeLookCursor;
-	SDL_Cursor* orbitCursor;
-	SDL_Cursor* moveCursor;
-	SDL_Cursor* zoomCursor;
+	struct SDLSurfaceDestroyer
+	{
+		void operator()(SDL_Surface* surface) const
+		{
+			SDL_FreeSurface(surface);
+		}
+	};
+
+	struct SDLCursorDestroyer
+	{
+		void operator()(SDL_Cursor* cursor) const
+		{
+			SDL_FreeCursor(cursor);
+		}
+	};
+
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> freeLookSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> orbitSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> moveSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> zoomSurface;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> freeLookCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> orbitCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 };
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
@@ -115,22 +131,22 @@ inline void ModuleInput::SetMouseMotionY(float posY)
 
 inline void ModuleInput::SetFreeLookCursor()
 {
-	SDL_SetCursor(freeLookCursor);
+	SDL_SetCursor(freeLookCursor.get());
 }
 
 inline void ModuleInput::SetOrbitCursor()
 {
-	SDL_SetCursor(orbitCursor);
+	SDL_SetCursor(orbitCursor.get());
 }
 
 inline void ModuleInput::SetMoveCursor()
 {
-	SDL_SetCursor(moveCursor);
+	SDL_SetCursor(moveCursor.get());
 }
 
 inline void ModuleInput::SetZoomCursor()
 {
-	SDL_SetCursor(zoomCursor);
+	SDL_SetCursor(zoomCursor.get());
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const

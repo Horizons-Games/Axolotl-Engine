@@ -126,9 +126,9 @@ private:
 	int frustumMode;
 
 	math::Plane offsetFrustumPlanes[6];
-	bool mouseWarped = false;
-	bool focusFlag = false;
-	bool isFocusing = false;
+	bool mouseWarped;
+	bool focusFlag;
+	bool isFocusing;
 	int lastMouseX, lastMouseY;
 	int mouseState;
 };

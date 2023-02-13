@@ -26,7 +26,8 @@
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
-ModuleEngineCamera::ModuleEngineCamera() {};
+ModuleEngineCamera::ModuleEngineCamera() : mouseWarped(false), focusFlag(false), isFocusing(false)
+{};
 
 ModuleEngineCamera::~ModuleEngineCamera() {};
 
@@ -186,7 +187,7 @@ void ModuleEngineCamera::Move()
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		position = position + frustum.Front().Normalized() * 
+		position += frustum.Front().Normalized() * 
 			moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
@@ -194,7 +195,7 @@ void ModuleEngineCamera::Move()
 	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position = position + -(frustum.Front().Normalized()) * 
+		position += -(frustum.Front().Normalized()) * 
 			moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
@@ -202,28 +203,28 @@ void ModuleEngineCamera::Move()
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position = position + -(frustum.WorldRight()) * moveSpeed * acceleration * deltaTime;
+		position += -(frustum.WorldRight()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position = position + frustum.WorldRight() * moveSpeed * acceleration * deltaTime;
+		position += frustum.WorldRight() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Up
 	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
-		position = position + frustum.Up() * moveSpeed * acceleration * deltaTime;
+		position += frustum.Up() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Down
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
-		position = position + -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
+		position += -(frustum.Up()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
@@ -235,8 +236,8 @@ void ModuleEngineCamera::Move()
 		float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 		float yrel = App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
-		position = position + (frustum.WorldRight()) * xrel;
-		position = position + (frustum.Up()) * yrel;
+		position += (frustum.WorldRight()) * xrel;
+		position += (frustum.Up()) * yrel;
 		SetPosition(position);
 	}
 }
@@ -359,14 +360,14 @@ void ModuleEngineCamera::Zoom()
 	{
 		float zoomSpeed = App->input->GetMouseWheel().y * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position = position + frustum.Front().Normalized() *
+		position += frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
 	}
 	else
 	{
 		float zoomSpeed = App->input->GetMouseMotion().x * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position = position + frustum.Front().Normalized() *
+		position += frustum.Front().Normalized() *
 			zoomSpeed * deltaTime;
 	}
 	SetPosition(position);
