@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 
+#include "GL/glew.h"
+
 #include "Application.h"
-#include "ModuleTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceSkyBox.h"

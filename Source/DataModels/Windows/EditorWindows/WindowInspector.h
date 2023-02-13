@@ -14,6 +14,7 @@ class GameObject;
 class Component;
 class ComponentCamera;
 enum class LightType;
+class ComponentWindow;
 
 class WindowInspector : public EditorWindow
 {
@@ -27,8 +28,6 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component);
-	bool DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component);
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
@@ -44,6 +43,9 @@ private:
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 	// --
+
+	UID lastSelectedObjectUID = 0;
+	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
 };
 
 inline ImVec2 WindowInspector::GetStartingSize() const

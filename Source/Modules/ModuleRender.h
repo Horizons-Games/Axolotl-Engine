@@ -37,13 +37,13 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
+	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
 
 	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
-	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
+	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
 	void UpdateProgram();
@@ -56,7 +56,8 @@ private:
 	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
 	const std::vector<std::string> modelTypes = { "FBX" };
 
-	std::shared_ptr<Skybox> skybox;
+	//should this be here?
+	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;

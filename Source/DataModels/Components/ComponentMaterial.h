@@ -25,7 +25,6 @@ public:
 	void Update() override;
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);
@@ -57,8 +56,6 @@ private:
 
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
-	void DisplaySetMaterial();
-	void DisplayEmptyMaterial();
 
 	std::shared_ptr<ResourceMaterial> material;
 
@@ -69,18 +66,14 @@ private:
 
 	bool hasShininessAlpha = false;
 
-	std::unique_ptr<WindowMaterialInput> inputMaterial;
-
-	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
-	std::unique_ptr<WindowTextureInput> inputTextureNormal;
-	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
-
 	//Auxiliar UIDs
 	UID diffuseUID = 0;
 	UID normalUID = 0;
 	UID occlusionUID = 0;
 	UID specularUID = 0;
 	//All this
+
+	friend class WindowComponentMaterial;
 };
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)

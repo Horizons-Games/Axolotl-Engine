@@ -9,8 +9,6 @@
 #include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
-#include "imgui.h"
-
 ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner, false)
 {
@@ -32,18 +30,6 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 void ComponentBoundingBoxes::Draw()
 {
 	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
-}
-
-
-void ComponentBoundingBoxes::Display()
-{
-	if (ImGui::CollapsingHeader("BOUNDING BOX", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Bounding Box", &drawBoundingBoxes);
-	}
-
-	ImGui::Separator();
 }
 
 void ComponentBoundingBoxes::SaveOptions(Json& meta)

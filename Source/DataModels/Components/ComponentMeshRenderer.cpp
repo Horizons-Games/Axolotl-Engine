@@ -21,20 +21,20 @@
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
-#include "imgui.h"
 
 #include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
-	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	if (mesh)
-		mesh->Unload();
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if (meshAsShared)
+		mesh.lock()->Unload();
 }
 
 void ComponentMeshRenderer::Update()
@@ -44,11 +44,14 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	if (mesh) //pointer not empty
+	//lock it so it does not expire during this block
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
+	if (meshAsShared) //pointer not empty
 	{
-		if (!mesh->IsLoaded())
+		if (!meshAsShared->IsLoaded())
 		{
-			mesh->Load();
+			meshAsShared->Load();
 		}
 
 		unsigned program = App->program->GetProgram();
@@ -70,86 +73,15 @@ void ComponentMeshRenderer::Draw()
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(mesh->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+		glBindVertexArray(meshAsShared->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-}
-
-void ComponentMeshRenderer::Display()
-{
-	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		static char* meshPath = (char*)("unknown");
-
-		if (mesh)
-			meshPath = (char*)(mesh->GetLibraryPath().c_str());
-		else
-			meshPath = (char*)("unknown");
-
-		ImGui::InputText("##Mesh path", meshPath, 128);
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
-			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-
-				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->RequestResource<ResourceMesh>(draggedMeshUID);
-
-				if (newMesh)
-				{
-					mesh->Unload();
-					SetMesh(newMesh);
-				}
-			}
-
-			ImGui::EndDragDropTarget();
-		}
-		ImGui::SameLine();
-
-		bool showMeshBrowser;
-
-		mesh ? showMeshBrowser = false : showMeshBrowser = true;
-
-
-		if (showMeshBrowser)
-		{
-			inputMesh->DrawWindowContents();
-		}
-		else
-		{
-			if (ImGui::Button("Remove Mesh"))
-			{
-				mesh->Unload();
-				mesh = nullptr;
-			}
-		}
-
-		if (ImGui::BeginTable("##GeometryTable", 2))
-		{
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of vertices: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (mesh) ?
-				mesh.get()->GetNumVertices() : 0);
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of triangles: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (mesh) ?
-				mesh.get()->GetNumFaces() : 0); // faces = triangles
-
-			ImGui::EndTable();
-		}
-	}
-
-	ImGui::Separator();
 }
 
 void ComponentMeshRenderer::SaveOptions(Json& meta)
@@ -158,13 +90,15 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
+
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(mesh)
+	if(meshAsShared)
 	{
-		uidMesh = mesh->GetUID();
-		assetPath = mesh->GetAssetsPath();
+		uidMesh = meshAsShared->GetUID();
+		assetPath = meshAsShared->GetAssetsPath();
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
@@ -180,7 +114,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
 
 	if (resourceMesh)
 	{
@@ -193,21 +127,23 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		if (resourceExists) 
 		{
 			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
+			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
 			SetMesh(resourceMesh);
 		}
 	}
 }
 
-void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
+void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
+	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-	if (mesh)
+
+	if (meshAsShared)
 	{
-		mesh->Load();
+		meshAsShared->Load();
 		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
 			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner().lock()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
 	}
 }
