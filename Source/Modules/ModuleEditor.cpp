@@ -16,6 +16,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
@@ -108,6 +109,9 @@ update_status ModuleEditor::Update()
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
 	ImGui::End();
+
+	//disable ALT key triggering nav menu
+	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
