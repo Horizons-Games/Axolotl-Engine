@@ -24,7 +24,7 @@ void WindowFileBrowser::DrawWindowContents()
 		// action if OK
 		if (fileDialogImporter.IsOk())
 		{
-			DoThisIfOk();
+			trueVal = true;
 		}
 
 		// close
@@ -35,6 +35,16 @@ void WindowFileBrowser::DrawWindowContents()
 	if(title == ICON_IGFD_FOLDER " Import Asset")
 	{
 		Browser();
+	}
+	if (trueVal)
+	{
+		winLoading->Draw(trueVal);
+		++i;
+		if (1 < i) 
+		{
+			DoThisIfOk();
+			i = 0;
+		}
 	}
 }
 
@@ -60,16 +70,20 @@ void WindowFileBrowser::DoThisIfOk()
 	this->ImportResourceWithLoadingWindow(filePathName);
 }
 
-UID WindowFileBrowser::ImportResourceWithLoadingWindow(const std::string& filePath) const
+UID WindowFileBrowser::ImportResourceWithLoadingWindow(const std::string& filePath)
 {
 	std::future<UID> futureResourceUID = App->resources->ImportThread(filePath);
+	//int k = 0;
+	//while (k<10000)
 	while (futureResourceUID.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
 	{
-		bool trueVal = true;
-		winLoading->Draw(trueVal);
-
+		//trueVal = true;
+		//winLoading->Draw(trueVal);
+		//++k;
 		//TODO: delete, just for debug
 		ENGINE_LOG("Loading...");
 	}
+
+	trueVal = false;
 	return futureResourceUID.get();
 }

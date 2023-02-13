@@ -16,5 +16,5 @@ protected:
 
 inline ImVec2 WindowLoading::GetStartingSize() const
 {
-	return ImVec2(900, 250);
+	return ImVec2(250, 150);
 }

@@ -13,9 +13,11 @@ public:
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
 	virtual void Browser();
+	bool trueVal = false;
+	int i = 0;
 	
 protected:
-	unsigned long long ImportResourceWithLoadingWindow(const std::string& filePath) const;
+	unsigned long long ImportResourceWithLoadingWindow(const std::string& filePath);
 
 	ImVec2 GetStartingSize() const override;
 

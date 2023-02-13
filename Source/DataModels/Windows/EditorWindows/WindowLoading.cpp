@@ -15,6 +15,7 @@ void WindowLoading::DrawWindowContents()
 	ImGui::SetWindowSize(this->GetStartingSize());
 	ImGui::SetWindowCollapsed(false);
 	ImGui::SetWindowFocus();
-
+	
+	ENGINE_LOG("Entra");
 	ImGui::TextUnformatted("Loading...");
 }
