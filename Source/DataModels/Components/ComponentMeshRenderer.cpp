@@ -18,6 +18,8 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "DataModels/Program/Program.h"
+
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
@@ -56,33 +58,31 @@ void ComponentMeshRenderer::Draw()
 			meshAsShared->Load();
 		}
 
-		unsigned program = App->program->GetProgram();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 		const float4x4& model =
 			std::static_pointer_cast<ComponentTransform>(GetOwner().lock()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-		GLint programInUse;
-		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-		if (program != programInUse)
+		std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::MESHSHADER).lock();
+		if (program)
 		{
-			glUseProgram(program);
+			program->Activate();
+
+			program->BindUniformFloat4x4("model", (const float*)&model, GL_TRUE);
+			program->BindUniformFloat4x4("view", (const float*)&view, GL_TRUE);
+			program->BindUniformFloat4x4("proj", (const float*)&proj, GL_TRUE);
+
+			glBindVertexArray(meshAsShared->GetVAO());
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
+
+			glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindVertexArray(0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			program->Deactivate();
 		}
-
-		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
-
-		glBindVertexArray(meshAsShared->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
-
-		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }
 

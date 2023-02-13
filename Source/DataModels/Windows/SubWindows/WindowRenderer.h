@@ -15,8 +15,8 @@ protected:
 
 private:
 	static int bufferSize;
-
-	std::string vertexShaderBuffer;
-	std::string fragmentShaderBuffer;
+	bool initialized;
+	std::vector<std::string>vertexShaderBuffers;
+	std::vector<std::string>fragmentShaderBuffer;
 };
 

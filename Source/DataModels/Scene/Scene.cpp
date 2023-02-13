@@ -7,6 +7,8 @@
 
 #include "DataStructures/Quadtree.h"
 
+#include "DataModels/Program/Program.h"
+
 #include "FileSystem/ModuleResources.h"
 
 #include "Resources/ResourceModel.h"
@@ -200,72 +202,72 @@ void Scene::RemoveCamera(const std::shared_ptr<GameObject>& cameraGameObject)
 
 void Scene::GenerateLights()
 {
-	const unsigned program = App->program->GetProgram();
-	
-	glUseProgram(program);
+	std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::MESHSHADER).lock();
+	if (program)
+	{
+		program->Activate();
 
-	// Ambient
+		// Ambient
 
-	glGenBuffers(1, &uboAmbient);
-	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
+		glGenBuffers(1, &uboAmbient);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
 
-	const unsigned bindingAmbient = 1;
-	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
-	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
+		const unsigned bindingAmbient = 1;
+		program->BindUniformBlock("Ambient", bindingAmbient);
 
-	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	// Directional 
+		// Directional 
 
-	glGenBuffers(1, &uboDirectional);
-	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
+		glGenBuffers(1, &uboDirectional);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+		glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
-	const unsigned bindingDirectional = 2;
-	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
-	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
+		const unsigned bindingDirectional = 2;
+		program->BindUniformBlock("Directional", bindingDirectional);
 
-	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	// Point
+		// Point
 
-	size_t numPoint = pointLights.size();
+		size_t numPoint = pointLights.size();
 
-	glGenBuffers(1, &ssboPoint);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+		glGenBuffers(1, &ssboPoint);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingPoint = 3;
-	const unsigned storageBlckIxPoint = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "PointLights");
-	glShaderStorageBlockBinding(program, storageBlckIxPoint, bindingPoint);
+		const unsigned bindingPoint = 3;
+		program->BindShaderStorageBlock("PointLights", bindingPoint);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-	// Spot
+		// Spot
 
-	size_t numSpot = spotLights.size();
+		size_t numSpot = spotLights.size();
 
-	glGenBuffers(1, &ssboSpot);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+		glGenBuffers(1, &ssboSpot);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingSpot = 4;
-	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
-	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
+		const unsigned bindingSpot = 4;
+		program->BindShaderStorageBlock("SpotLights", bindingSpot);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+		program->Deactivate();
+	}
 }
 
 void Scene::RenderAmbientLight() const
 {
-	const unsigned program = App->program->GetProgram();
+	/*const unsigned program = App->program->GetProgram();
 
-	glUseProgram(program);
+	glUseProgram(program);*/
 
 	std::shared_ptr<ComponentLight> ambientComp =
 		std::static_pointer_cast<ComponentLight>(ambientLight->GetComponent(ComponentType::LIGHT));
@@ -278,9 +280,9 @@ void Scene::RenderAmbientLight() const
 
 void Scene::RenderDirectionalLight() const
 {
-	const unsigned program = App->program->GetProgram();
+	/*const unsigned program = App->program->GetProgram();
 
-	glUseProgram(program);
+	glUseProgram(program);*/
 
 	std::shared_ptr<ComponentTransform> dirTransform =
 		std::static_pointer_cast<ComponentTransform>(directionalLight->GetComponent(ComponentType::TRANSFORM));
@@ -298,9 +300,9 @@ void Scene::RenderDirectionalLight() const
 
 void Scene::RenderPointLights() const
 {
-	const unsigned program = App->program->GetProgram();
+	/*const unsigned program = App->program->GetProgram();
 
-	glUseProgram(program);
+	glUseProgram(program);*/
 
 	size_t numPoint = pointLights.size();
 
@@ -322,10 +324,12 @@ void Scene::RenderPointLights() const
 
 void Scene::RenderSpotLights() const
 {
-	const unsigned program = App->program->GetProgram();
-	size_t numSpot = spotLights.size();
+	/*const unsigned program = App->program->GetProgram();
 
-	glUseProgram(program);
+	glUseProgram(program);*/
+
+	size_t numSpot = spotLights.size();
+	
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
