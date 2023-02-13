@@ -5,7 +5,7 @@
 #include "DataModels/Scene/Scene.h"
 #include "DataModels/Components/ComponentDirLight.h"
 
-WindowComponentDirLight::WindowComponentDirLight(const std::weak_ptr<ComponentDirLight>& component) :
+WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
 	ComponentWindow("DIRECTIONAL LIGHT", component)
 {
 }
@@ -14,10 +14,9 @@ void WindowComponentDirLight::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentDirLight> asSharedDirLight =
-		std::dynamic_pointer_cast<ComponentDirLight>(this->component.lock());
+	ComponentDirLight* asDirLight = static_cast<ComponentDirLight*>(this->component);
 
-	if (asSharedDirLight)
+	if (asDirLight)
 	{
 		const char* lightTypes[] = { "Point", "Spot" };
 
@@ -32,19 +31,19 @@ void WindowComponentDirLight::DrawWindowContents()
 			ImGui::Text("Intensity"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float intensity = asSharedDirLight->GetIntensity();
+			float intensity = asDirLight->GetIntensity();
 			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
 			{
-				asSharedDirLight->SetIntensity(intensity);
+				asDirLight->SetIntensity(intensity);
 				modified = true;
 			}
 			ImGui::PopStyleVar();
 
 			ImGui::Text("Color"); ImGui::SameLine();
-			float3 color = asSharedDirLight->GetColor();
+			float3 color = asDirLight->GetColor();
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
-				asSharedDirLight->SetColor(color);
+				asDirLight->SetColor(color);
 				modified = true;
 			}
 

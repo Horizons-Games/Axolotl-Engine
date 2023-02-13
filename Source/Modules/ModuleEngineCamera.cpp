@@ -88,7 +88,7 @@ update_status ModuleEngineCamera::Update()
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
 			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
-			std::shared_ptr<WindowScene> windowScene = std::static_pointer_cast<WindowScene>(App->editor->GetScene());
+			const WindowScene* windowScene = App->editor->GetScene();
 			LineSegment ray = CreateRaycastFromMousePosition(windowScene);
 			CalculateHittedGameObjects(ray);
 		}
@@ -546,7 +546,7 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
-LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(std::shared_ptr<WindowScene> windowScene)
+LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
 {
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();

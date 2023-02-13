@@ -7,7 +7,7 @@ class ComponentPointLight;
 class WindowComponentPointLight : public ComponentWindow
 {
 public:
-	WindowComponentPointLight(const std::weak_ptr<ComponentPointLight>& component);
+	WindowComponentPointLight(ComponentPointLight* component);
 	~WindowComponentPointLight() override = default;
 
 protected:

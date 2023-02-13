@@ -7,7 +7,7 @@ class ComponentBoundingBoxes;
 class WindowComponentBoundingBoxes : public ComponentWindow
 {
 public:
-	WindowComponentBoundingBoxes(const std::weak_ptr<ComponentBoundingBoxes>& component);
+	WindowComponentBoundingBoxes(ComponentBoundingBoxes* component);
 	~WindowComponentBoundingBoxes() override = default;
 
 protected:

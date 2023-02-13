@@ -6,16 +6,48 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
+WindowTextureInput::WindowTextureInput(ComponentMaterial* material,
+	TextureType textureType) :
+	WindowFileBrowser(),
+	materialComponent(material),
+	textureType(textureType)
+{
+	dialogName = "Select Texture";
+
+	switch (textureType)
+	{
+	case TextureType::DIFFUSE:
+		title = "Load Diffuse";
+		break;
+	case TextureType::NORMAL:
+		title = "Load Normal";
+		break;
+	case TextureType::OCCLUSION:
+		title = "Load Occlusion";
+		break;
+	case TextureType::SPECULAR:
+		title = "Load Specular";
+		break;
+	default:
+		break;
+	}
+
+	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
+	startPath = "Assets/Textures";
+}
+
+WindowTextureInput::~WindowTextureInput()
+{
+}
 
 void WindowTextureInput::DoThisIfOk()
 {
-	std::shared_ptr<ComponentMaterial> asShared = materialComponent.lock();
-	if (asShared)
+	if (materialComponent)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		UID uidTexture = App->resources->ImportResource(filePath);
 
-		std::shared_ptr<ResourceMaterial> materialAsShared = asShared->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial().lock();
 
 		if (materialAsShared)
 		{
