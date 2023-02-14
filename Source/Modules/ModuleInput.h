@@ -41,6 +41,7 @@ public:
 	void SetOrbitCursor();
 	void SetMoveCursor();
 	void SetZoomCursor();
+	void SetDefaultCursor();
 
 	bool IsMouseWheelScrolled() const;
 
@@ -80,6 +81,7 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> orbitCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
 };
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
@@ -145,6 +147,11 @@ inline void ModuleInput::SetMoveCursor()
 inline void ModuleInput::SetZoomCursor()
 {
 	SDL_SetCursor(zoomCursor.get());
+}
+
+inline void ModuleInput::SetDefaultCursor()
+{
+	SDL_SetCursor(defaultCursor.get());
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const

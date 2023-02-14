@@ -38,6 +38,12 @@ bool ModuleInput::Init()
     zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
                     (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
 
+    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
+                    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
+    this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (defaultCursor.get());
+
+
 	return ret;
 }
 

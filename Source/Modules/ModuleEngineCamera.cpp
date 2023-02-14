@@ -78,6 +78,8 @@ update_status ModuleEngineCamera::Update()
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 
+	App->input->SetDefaultCursor();
+
 	if (App->editor->IsSceneFocused())
 	{
 		//We block everything on while Focus (slerp) to avoid camera problems
@@ -161,10 +163,11 @@ update_status ModuleEngineCamera::Update()
 				UnlimitedCursor();
 				Zoom();
 			}
+
 			KeyboardRotate();
+
 			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 		}
-		// --RAYCAST CALCULATION-- //
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
