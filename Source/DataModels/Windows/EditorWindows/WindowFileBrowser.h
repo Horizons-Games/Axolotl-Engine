@@ -13,8 +13,9 @@ public:
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
 	virtual void Browser();
-	bool trueVal = false;
-	int i = 0;
+	bool isLoading = false;
+	bool assignUID = false;
+	std::string filePathName;
 	
 protected:
 	unsigned long long ImportResourceWithLoadingWindow(const std::string& filePath);

@@ -2,7 +2,7 @@
 
 WindowLoading::WindowLoading() : EditorWindow("Loading")
 {
-	flags |= ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize;
+	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
 }
 
 WindowLoading::~WindowLoading()

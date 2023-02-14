@@ -4,6 +4,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
+std::future<UID> futureResourceUID;
+
 void WindowFileBrowser::DrawWindowContents()
 {
 	//WindowImporter
@@ -24,7 +26,8 @@ void WindowFileBrowser::DrawWindowContents()
 		// action if OK
 		if (fileDialogImporter.IsOk())
 		{
-			trueVal = true;
+			isLoading = true;
+			DoThisIfOk();
 		}
 
 		// close
@@ -36,15 +39,9 @@ void WindowFileBrowser::DrawWindowContents()
 	{
 		Browser();
 	}
-	if (trueVal)
+	if (isLoading)
 	{
-		winLoading->Draw(trueVal);
-		++i;
-		if (1 < i) 
-		{
-			DoThisIfOk();
-			i = 0;
-		}
+		this->ImportResourceWithLoadingWindow(filePathName);
 	}
 }
 
@@ -66,24 +63,38 @@ void WindowFileBrowser::Browser()
 
 void WindowFileBrowser::DoThisIfOk()
 {
-	std::string filePathName = fileDialogImporter.GetFilePathName();
+	filePathName = fileDialogImporter.GetFilePathName();
 	this->ImportResourceWithLoadingWindow(filePathName);
 }
 
 UID WindowFileBrowser::ImportResourceWithLoadingWindow(const std::string& filePath)
 {
-	std::future<UID> futureResourceUID = App->resources->ImportThread(filePath);
-	//int k = 0;
-	//while (k<10000)
-	while (futureResourceUID.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
+	if (!assignUID)
+	{
+		futureResourceUID = App->resources->ImportThread(filePath);
+		assignUID = true;
+	}
+	
+	winLoading->Draw(isLoading);
+	
+	if (futureResourceUID._Is_ready())
+	{
+		ENGINE_LOG("Loaded");
+		isLoading = false;
+		assignUID = false;
+		return futureResourceUID.get();
+	}
+	else
+	{
+		ENGINE_LOG("Not Loaded");
+		return NULL;
+	}
+	/*while (futureResourceUID.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
 	{
 		//trueVal = true;
 		//winLoading->Draw(trueVal);
-		//++k;
+
 		//TODO: delete, just for debug
 		ENGINE_LOG("Loading...");
-	}
-
-	trueVal = false;
-	return futureResourceUID.get();
+	}*/
 }
