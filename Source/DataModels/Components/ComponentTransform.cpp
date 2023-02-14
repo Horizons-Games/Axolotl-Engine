@@ -11,11 +11,9 @@
 #include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
-#include "imgui.h"
-
 #include "Math/float3x3.h"
 
-ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
+ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
 {
 }
@@ -25,175 +23,7 @@ void ComponentTransform::Update()
 	// Empty for now
 }
 
-void ComponentTransform::Display()
-{
-	const float3& translation = GetPosition();
-	const float3& rotation = GetRotationXYZ();
-  	const float3& scale = GetScale();
-
-	float dragSpeed = 0.025f;
-
-	bool translationModified = false;
-	bool rotationModified = false;
-	bool scaleModified = false;
-
-	// The root must not be moved through the inspector
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner().lock())
-		dragSpeed = 0.0f;
-
-	if (ImGui::CollapsingHeader("TRANSFORM", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		if (ImGui::BeginTable("TransformTable", 2))
-		{
-			ImGui::TableNextColumn();
-			ImGui::Text("Translation"); ImGui::SameLine();
-
-			ImGui::TableNextColumn();
-			ImGui::Text("x:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XTrans", (float*) &translation.x, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-			{
-				translationModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("y:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##YTrans", (float*) &translation.y, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-			{
-				translationModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("z:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZTrans", (float*) &translation.z, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-			{
-				translationModified = true;
-			}
-			ImGui::PopStyleVar();
-
-			ImGui::TableNextColumn();
-			ImGui::Text("Rotation"); ImGui::SameLine();
-
-			ImGui::TableNextColumn();
-			ImGui::Text("x:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XRot", (float*) &rotation.x, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
-			{
-				rotationModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("y:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##YRot", (float*) &rotation.y, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
-			{
-				rotationModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("z:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZRot", (float*) &rotation.z, dragSpeed,
-				std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
-			{
-				rotationModified = true;
-			}
-			ImGui::PopStyleVar();
-
-			ImGui::TableNextColumn();
-			ImGui::Text("Scale"); ImGui::SameLine();
-
-			ImGui::TableNextColumn();
-			ImGui::Text("x:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XScale", (float*) &scale.x, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()))
-			{
-				scaleModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("y:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if(ImGui::DragFloat("##YScale", (float*) &scale.y, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()))
-			{
-				scaleModified = true;
-			}
-			ImGui::PopStyleVar(); ImGui::SameLine();
-
-			ImGui::Text("z:"); ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if(ImGui::DragFloat("##ZScale", (float*) &scale.z, dragSpeed,
-				0.0001f, std::numeric_limits<float>::max()))
-			{
-				scaleModified = true;
-			}
-			ImGui::PopStyleVar();
-
-			ImGui::EndTable();
-		}
-	}
-	ImGui::Separator();
-
-	if (App->scene->GetLoadedScene()->GetRoot() == this->GetOwner().lock())
-	{
-		SetPosition(float3::zero);
-		SetRotation(float3::zero);
-		SetScale(float3::one);
-		return;
-	}
-
-	if (translationModified || rotationModified || scaleModified)
-	{
-		if (translationModified)
-		{
-			SetPosition(translation);
-		}
-
-		if (rotationModified)
-		{
-			SetRotation(rotation);
-		}
-
-		if (scaleModified)
-		{
-			SetScale(scale);
-		}
-
-		UpdateTransformMatrices();
-	}
-
-	//Rendering lights if modified
-	if (translationModified || rotationModified) 
-	{
-		std::shared_ptr<Component> comp = this->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
-		std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
-
-		if (lightComp)
-		{
-			CalculateLightTransformed(lightComp, translationModified, rotationModified);
-		}
-	}
-}
-
-void ComponentTransform::CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified, 
 												   bool rotationModified)
 {
@@ -263,7 +93,9 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.y = (float) meta["localSca_Y"];
 	sca.z = (float) meta["localSca_Z"];
 
-	CalculateMatrices();
+	CalculateLocalMatrix();
+	if(GetOwner()->GetParent()) 
+		CalculateGlobalMatrix();
 }
 
 void ComponentTransform::CalculateMatrices()
@@ -271,7 +103,8 @@ void ComponentTransform::CalculateMatrices()
 	//float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (float4x4)GetRotation(), (float3)GetScale());
 	//SetLocalMatrix(localMatrix);
 
-	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+	const GameObject* parent = GetOwner()->GetParent();
+	assert(parent);
 
 	if (parent)
 	{
@@ -279,8 +112,7 @@ void ComponentTransform::CalculateMatrices()
 		float3 parentPos, parentSca, localPos, localSca;
 		float4x4 parentRot, localRot;
 
-		std::shared_ptr<ComponentTransform> parentTransform =
-			std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
 		parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 		GetLocalMatrix().Decompose(localPos, localRot, localSca);

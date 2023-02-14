@@ -9,9 +9,7 @@
 #include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
-#include "imgui.h"
-
-ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_ptr<GameObject>& owner)
+ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
 	: Component(ComponentType::BOUNDINGBOX, active, owner, false)
 {
 	localAABB = { {0 ,0, 0}, {0, 0, 0} };
@@ -22,8 +20,8 @@ ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_pt
 
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 
 {
-	std::shared_ptr<ComponentTransform> transform =
-		std::static_pointer_cast<ComponentTransform>((this)->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	objectOBB = OBB(localAABB);
 	objectOBB.Transform(transform->GetGlobalMatrix());
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
@@ -32,18 +30,6 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 void ComponentBoundingBoxes::Draw()
 {
 	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
-}
-
-
-void ComponentBoundingBoxes::Display()
-{
-	if (ImGui::CollapsingHeader("BOUNDING BOX", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Bounding Box", &drawBoundingBoxes);
-	}
-
-	ImGui::Separator();
 }
 
 void ComponentBoundingBoxes::SaveOptions(Json& meta)

@@ -6,7 +6,7 @@
 class Window
 {
 public:
-	~Window() {}
+	virtual ~Window() {}
 
 	virtual void Draw(bool& enabled) = 0;
 

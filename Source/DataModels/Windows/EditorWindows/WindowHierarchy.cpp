@@ -30,13 +30,13 @@ void WindowHierarchy::DrawWindowContents()
     }
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& gameObject)
+void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject != nullptr);   
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
-    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject.get());
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
     if (gameObject->GetChildren().empty())
@@ -49,9 +49,18 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
     
-    if (App->scene->GetSelectedGameObject().lock() == gameObject)
+    if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
+    }
+
+    const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
+    for (GameObject* child : childrenList)
+    {
+        if (child == App->scene->GetSelectedGameObject())
+        {
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+        }
     }
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
@@ -61,7 +70,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
     if (ImGui::IsItemClicked())
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
-            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject().lock());
+            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
@@ -75,7 +84,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
         }
         if (ImGui::MenuItem("Create camera"))
         {
-            std::shared_ptr<GameObject> newCamera =
+            GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
@@ -127,11 +136,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
         {
             if (ImGui::MenuItem("Delete"))
             {
-                if (App->scene->GetSelectedGameObject().lock() == gameObject)
+                if (gameObject == App->scene->GetSelectedGameObject())
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent().lock());
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
                 App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
@@ -159,11 +168,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
         {
             UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
                                                             // of the UID of the dragged GameObject
-            std::weak_ptr<GameObject> draggedGameObject =
+            GameObject* draggedGameObject =
                 App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-            std::shared_ptr<GameObject> asShared = draggedGameObject.lock();
-            if (asShared)
-                asShared->SetParent(gameObject);
+            if (draggedGameObject)
+                draggedGameObject->SetParent(gameObject);
         }
 
         ImGui::EndDragDropTarget();
@@ -173,7 +181,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(const std::shared_ptr<GameObject>& 
     {
         for (int i = 0; i < gameObject->GetChildren().size(); ++i)
         {
-            DrawRecursiveHierarchy(gameObject->GetChildren()[i].lock());
+            DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
         }
 
         ImGui::TreePop();
