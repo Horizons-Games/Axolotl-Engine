@@ -40,7 +40,7 @@ void WindowComponentTransform::DrawWindowContents()
 		if (ownerIsRoot)
 		{
 			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(Quat::identity);
+			asTransform->SetRotation(float4x4::identity);
 			asTransform->SetScale(float3::one);
 			return;
 		}
@@ -186,8 +186,7 @@ void WindowComponentTransform::UpdateComponentTransform()
 			asTransform->SetScale(currentScale);
 		}
 
-		asTransform->CalculateLocalMatrix();
-		asTransform->CalculateGlobalMatrix();
+		asTransform->CalculateMatrices();
 	}
 }
 
