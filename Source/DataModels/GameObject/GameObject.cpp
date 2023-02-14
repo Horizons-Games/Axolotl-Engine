@@ -487,7 +487,7 @@ void GameObject::MoveUpChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it - 1, it);
-			App->scene->SetSelectedGameObject((it - 1)->get());
+			App->scene->SetSelectedGameObject((*(it - 1)).get());
 			break;
 		}
 	}
@@ -502,7 +502,7 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it, it + 1);
-			App->scene->SetSelectedGameObject((it + 1)->get());
+			App->scene->SetSelectedGameObject((*(it + 1)).get());
 			break;
 		}
 	}
