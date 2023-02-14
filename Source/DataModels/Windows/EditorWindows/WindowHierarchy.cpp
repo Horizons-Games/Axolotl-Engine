@@ -88,6 +88,49 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
+        //TODO: make this work
+        /*
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
+        {
+            std::vector<std::weak_ptr<GameObject> > parentsChildren = gameObject->GetParent().lock()->GetChildren();
+
+
+            if (ImGui::MenuItem("Move Up"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[0].lock() != gameObject)
+                {
+                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    {
+                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
+                        if (asShared && asShared == gameObject)
+                        {
+                            std::iter_swap(parentsChildren[i - 1].lock(), parentsChildren[i].lock());
+                            App->scene->SetSelectedGameObject(parentsChildren[i - 1].lock());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::MenuItem("Move Down"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1].lock() != gameObject)
+                {
+                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    {
+                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
+                        if (asShared && asShared == gameObject)
+                        {
+                            std::iter_swap(parentsChildren[i].lock(), parentsChildren[i + 1].lock());
+                            App->scene->SetSelectedGameObject(parentsChildren[i + 1].lock());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        */
+
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
