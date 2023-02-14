@@ -569,27 +569,24 @@ void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 		App->scene->GetLoadedScene()->GetSceneGameObjects();
 	std::map<float, const GameObject*> hitGameObjects;
 
-	//App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
 
-	for (GameObject* currentGameObject : existingGameObjects)
+	/*
+	float nearDistance, farDistance;
+	for (const GameObject* currentGameObject : existingGameObjects)
 	{
-		if (currentGameObject)
+		ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+			(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+
+		if (hit && currentGameObject->IsActive())
 		{
-			float nearDistance, farDistance;
-			ComponentBoundingBoxes* componentBoundingBox =
-				static_cast<ComponentBoundingBoxes*>
-				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
-
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
-
-			if (hit && currentGameObject->IsActive())
-			{
-				hitGameObjects[nearDistance] = currentGameObject;
-			}
+			hitGameObjects[nearDistance] = currentGameObject;
 		}
 	}
+	*/
 
-	//ENGINE_LOG(std::to_string(hitGameObjects.size()).c_str());
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
 
@@ -607,8 +604,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
 			std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh();
 
