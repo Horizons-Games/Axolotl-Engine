@@ -15,6 +15,7 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include <list>
+#include <queue>
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr)
 {
@@ -464,30 +465,43 @@ std::list<const GameObject*> Quadtree::GetAllGameObjects(const GameObject* gameO
 	return familyObjects;
 }
 
-// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
 void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
 {
-	if (!ray.Intersects(boundingBox))
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(this);
+
+	while (!quadtreeQueue.empty())
 	{
-		return;
-	}
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
 
-	float nearDistance, farDistance;
-	for (const GameObject* gameObject : App->renderer->GetGameObjectsToDraw())
-	{
-		ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
-			(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
-
-		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
-
-		if (hit && gameObject->IsActive())
+		if (!ray.Intersects(currentQuadtree->boundingBox))
 		{
-			hitGameObjects[nearDistance] = gameObject;
+			continue;
 		}
-	}
 
-	if (frontRightNode != nullptr) frontRightNode->CheckRaycastIntersection(hitGameObjects, ray);
-	if (frontLeftNode != nullptr) frontLeftNode->CheckRaycastIntersection(hitGameObjects, ray);
-	if (backRightNode != nullptr) backRightNode->CheckRaycastIntersection(hitGameObjects, ray);
-	if (backLeftNode != nullptr) backLeftNode->CheckRaycastIntersection(hitGameObjects, ray);
+		float nearDistance, farDistance;
+		for (const GameObject* gameObject : App->renderer->GetGameObjectsToDraw()) // This list has to be changed
+		{
+			ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+				(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+
+			if (hit && gameObject->IsActive())
+			{
+				hitGameObjects[nearDistance] = gameObject;
+			}
+		}
+
+		if (IsLeaf())
+		{
+			continue;
+		}
+
+		quadtreeQueue.push(GetFrontRightNode());
+		quadtreeQueue.push(GetFrontLeftNode());
+		quadtreeQueue.push(GetBackRightNode());
+		quadtreeQueue.push(GetBackLeftNode());
+	}
 }
