@@ -92,16 +92,6 @@ private:
 	bool monitorResources = false;
 };
 
-inline bool ModuleResources::CleanUp()
-{
-#if ENGINE
-	monitorResources = false;
-	monitorThread.join();
-#endif
-	resources.clear();
-	return true;
-}
-
 inline const std::weak_ptr<Resource> ModuleResources::RequestResource(UID uid)
 {
 	return RequestResource<Resource>(uid);

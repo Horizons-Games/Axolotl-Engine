@@ -43,6 +43,16 @@ bool ModuleResources::Start()
 	return true;
 }
 
+bool ModuleResources::CleanUp()
+{
+#if ENGINE
+	monitorResources = false;
+	monitorThread.join();
+#endif
+	resources.clear();
+	return true;
+}
+
 UID ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByPath(originalPath);
