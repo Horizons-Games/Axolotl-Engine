@@ -494,14 +494,13 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 			}
 		}
 
-		if (IsLeaf())
-		{
+		if (currentQuadtree->IsLeaf()) {
 			continue;
 		}
 
-		quadtreeQueue.push(GetFrontRightNode());
-		quadtreeQueue.push(GetFrontLeftNode());
-		quadtreeQueue.push(GetBackRightNode());
-		quadtreeQueue.push(GetBackLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
 	}
 }
