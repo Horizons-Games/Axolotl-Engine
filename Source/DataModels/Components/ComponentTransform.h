@@ -16,10 +16,9 @@ class ComponentLight;
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentTransform(const bool active, GameObject* owner);
 
 	void Update() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
@@ -50,11 +49,11 @@ public:
 
 	void ResetGlobalMatrix();
 
-private:
-	void CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-	
+
+private:
 	float3 pos = float3::zero;
 	Quat rot = Quat::identity;
 	float3 sca = float3::one;

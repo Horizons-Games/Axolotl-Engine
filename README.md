@@ -1,6 +1,5 @@
 # Axolot Engine
 This engine has been created by [Horizons Studio](https://github.com/Pre-SuperAwesomeEngine) for UPC's Master in Advanced Programming for AAA Videogames.
-**FOTO MEGARECHULONA**
 
 # Installation
 - Download the latest release
