@@ -87,8 +87,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-
-        //TODO: make this work
         
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
@@ -100,7 +98,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
                     selectedParent->MoveUpChild(gameObject);
-                    return;
                 }
             }
 
@@ -109,7 +106,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
                     selectedParent->MoveDownChild(gameObject);
-                    return;
                 }
             }
         }

@@ -484,7 +484,7 @@ void GameObject::MoveUpChild(GameObject* childToMove)
 		it != std::end(children);
 		++it)
 	{
-		if ((*it) == std::unique_ptr<GameObject>(childToMove))
+		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it - 1, it);
 			App->scene->SetSelectedGameObject((it - 1)->get());
@@ -499,7 +499,7 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 		it != std::end(children);
 		++it)
 	{
-		if ((*it) == std::unique_ptr<GameObject>(childToMove))
+		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it, it + 1);
 			App->scene->SetSelectedGameObject((it + 1)->get());
