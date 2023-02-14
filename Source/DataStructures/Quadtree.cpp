@@ -266,7 +266,7 @@ void Quadtree::RedistributeGameObjects(const GameObject* gameObject)
 	// GameObject redistribution part
 	gameObjects.push_back(gameObject);
 
-	for (std::list<const GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end();)
+	for (std::list<const GameObject*>::iterator it = std::begin(gameObjects); it != std::end(gameObjects);)
 	{
 		if (*it)
 		{
@@ -285,11 +285,11 @@ void Quadtree::RedistributeGameObjects(const GameObject* gameObject)
 			}
 			else
 			{
-				it = gameObjects.erase(it);
 				if (inFrontRight) frontRightNode->Add(*it);
 				if (inFrontLeft) frontLeftNode->Add(*it);
 				if (inBackRight) backRightNode->Add(*it);
 				if (inBackLeft) backLeftNode->Add(*it);
+				it = gameObjects.erase(it);
 			}
 		}
 	}
