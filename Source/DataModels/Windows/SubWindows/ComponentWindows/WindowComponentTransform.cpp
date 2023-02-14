@@ -186,7 +186,7 @@ void WindowComponentTransform::UpdateComponentTransform()
 			asTransform->SetScale(currentScale);
 		}
 
-		asTransform->CalculateMatrices();
+		asTransform->UpdateTransformMatrices();
 	}
 }
 
