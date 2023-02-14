@@ -11,6 +11,7 @@
 #include "geometry/AABB.h"
 
 #include "ModuleEngineCamera.h"
+#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include <list>
@@ -472,7 +473,7 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 	}
 
 	float nearDistance, farDistance;
-	for (const GameObject* gameObject : gameObjects)
+	for (const GameObject* gameObject : App->renderer->GetGameObjectsToDraw())
 	{
 		ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
 			(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
