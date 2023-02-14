@@ -10,6 +10,7 @@
 #include "ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
+#include "Math/Quat.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner, false)

@@ -67,8 +67,31 @@ void ComponentTransform::LoadOptions(Json& meta)
 	CalculateMatrices();
 }
 
+const float3& ComponentTransform::GetGlobalPosition()
+{
+	UpdateTransformMatrices();
+
+	return globalPos;
+}
+
+const float4x4& ComponentTransform::GetGlobalRotation()
+{
+	UpdateTransformMatrices();
+
+	return globalRot;
+}
+
+const float3& ComponentTransform::GetGlobalScale()
+{
+	UpdateTransformMatrices();
+
+	return globalSca;
+}
+
 void ComponentTransform::CalculateMatrices()
 {
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
+
 	const GameObject* parent = GetOwner()->GetParent();
 
 	if (parent)
@@ -76,13 +99,13 @@ void ComponentTransform::CalculateMatrices()
 		const ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
 		// Set local matrix
-		localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
 		globalPos = globalMatrix.TranslatePart();
-		globalRot = globalMatrix.RotatePart().ToQuat().ToFloat4x4();
+		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
 		globalSca = globalMatrix.GetScale();
 	}
 }

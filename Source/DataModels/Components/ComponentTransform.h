@@ -6,7 +6,6 @@
 
 #include "Math/float3.h"
 #include "Math/float4x4.h"
-#include "Math/Quat.h"
 
 #define COMPONENT_TRANSFORM "Transform"
 
@@ -24,14 +23,14 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	const float3& GetPosition() const;
-	const float3& GetGlobalPosition() const;
+	const float3& GetGlobalPosition();
 	const float4x4& GetRotation() const;
 	const float3& GetRotationXYZ() const;
-	const float4x4& GetGlobalRotation() const;
+	const float4x4& GetGlobalRotation();
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
-	const float3& GetGlobalScale() const;
+	const float3& GetGlobalScale();
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
@@ -67,12 +66,7 @@ inline const float3& ComponentTransform::GetPosition() const
 	return pos;
 }
 
-inline const float3& ComponentTransform::GetGlobalPosition() const
-{
-	return globalPos;
-}
-
-inline const float4x4& ComponentTransform::GetRotation() const
+inline const float4x4& ComponentTransform::GetRotation() const 
 {
 	return rot;
 }
@@ -82,19 +76,9 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
-inline const float4x4& ComponentTransform::GetGlobalRotation() const
-{
-	return globalRot;
-}
-
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
-}
-
-inline const float3& ComponentTransform::GetGlobalScale() const
-{
-	return globalSca;
 }
 
 inline const float3& ComponentTransform::GetLocalForward() const
