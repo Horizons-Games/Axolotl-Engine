@@ -95,7 +95,7 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.z = (float) meta["localSca_Z"];
 
 	CalculateLocalMatrix();
-	if(!GetOwner()->GetParent()) 
+	if(GetOwner()->GetParent()) 
 		CalculateGlobalMatrix();
 }
 
