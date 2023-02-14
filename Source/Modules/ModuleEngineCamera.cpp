@@ -164,7 +164,36 @@ update_status ModuleEngineCamera::Update()
 			KeyboardRotate();
 			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 		}
-		
+		// --RAYCAST CALCULATION-- //
+
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
+		{
+			Move();
+			FreeLook();
+		}
+
+		if (App->input->IsMouseWheelScrolled())
+		{
+			Zoom();
+		}
+
+		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
+			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			Focus(App->scene->GetSelectedGameObject());
+
+		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
+			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
+			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
+		{
+			const OBB& obb = static_cast<ComponentBoundingBoxes*>(
+				App->scene->GetSelectedGameObject()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
+
+			SetLookAt(obb.CenterPoint());
+			Orbit(obb);
+		}
+
+		KeyboardRotate();
+		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
@@ -392,19 +421,17 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	SetLookAt(boundingSphere.pos);
 }
 
-void ModuleEngineCamera::Focus(const std::shared_ptr<GameObject>& gameObject)
+void ModuleEngineCamera::Focus(GameObject* gameObject)
 {
-	std::list<std::weak_ptr<GameObject> > insideGameObjects = gameObject->GetGameObjectsInside();
+	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
 	AABB minimalAABB;
 	std::vector<math::vec> outputArray{};
-	for (std::weak_ptr<GameObject> object: insideGameObjects)
+	for (GameObject* object: insideGameObjects)
 	{
-		std::shared_ptr<GameObject> asShared = object.lock();
-
-		if (asShared)
+		if (object)
 		{
-			std::shared_ptr<ComponentBoundingBoxes> boundingBox =
-				std::static_pointer_cast<ComponentBoundingBoxes>(asShared->GetComponent(ComponentType::BOUNDINGBOX));
+			ComponentBoundingBoxes* boundingBox =
+				static_cast<ComponentBoundingBoxes*>(object->GetComponent(ComponentType::BOUNDINGBOX));
 			outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
 			outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
 		}
@@ -707,23 +734,25 @@ LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene
 
 void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 {
-	std::vector<std::weak_ptr<GameObject>> existingGameObjects =
+	std::vector<GameObject*> existingGameObjects =
 		App->scene->GetLoadedScene()->GetSceneGameObjects();
-	std::map<float, std::weak_ptr<GameObject>> hittedGameObjects;
+	std::map<float, GameObject*> hittedGameObjects;
 
-	for (std::weak_ptr<GameObject> currentGameObject : existingGameObjects)
+	for (GameObject* currentGameObject : existingGameObjects)
 	{
-		float nearDistance, farDistance;
-		std::shared_ptr<GameObject> currentGameObjectAsShared = currentGameObject.lock();
-		std::shared_ptr<ComponentBoundingBoxes> componentBoundingBox =
-			std::static_pointer_cast<ComponentBoundingBoxes>
-			(currentGameObjectAsShared->GetComponent(ComponentType::BOUNDINGBOX));
-
-		bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
-
-		if (hit && currentGameObjectAsShared->IsActive())
+		if (currentGameObject)
 		{
-			hittedGameObjects[nearDistance] = (std::weak_ptr<GameObject>(currentGameObjectAsShared));
+			float nearDistance, farDistance;
+			ComponentBoundingBoxes* componentBoundingBox =
+				static_cast<ComponentBoundingBoxes*>
+				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+
+			if (hit && currentGameObject->IsActive())
+			{
+				hittedGameObjects[nearDistance] = currentGameObject;
+			}
 		}
 	}
 
@@ -731,52 +760,53 @@ void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 	SetNewSelectedGameObject(hittedGameObjects, ray);
 }
 
-void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hittedGameObjects,
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
 												  const LineSegment& ray)
 {
-	std::shared_ptr<GameObject> newSelectedGameObject = nullptr;
+	GameObject* newSelectedGameObject = nullptr;
 
 	float thisDistance = 0.0f;
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
 
-	for (std::pair<float, std::weak_ptr<GameObject>> hittedGameObject : hittedGameObjects)
+	for (const std::pair<float, GameObject*>& hittedGameObject : hittedGameObjects)
 	{
-		std::shared_ptr<GameObject> hittedAsShared = hittedGameObject.second.lock();
-		//ENGINE_LOG(hittedAsShared->GetName());
-
-		std::shared_ptr<ComponentMeshRenderer> componentMeshRenderer =
-			std::static_pointer_cast<ComponentMeshRenderer>
-			(hittedAsShared->GetComponent(ComponentType::MESHRENDERER));
-		std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh().lock();
-
-		if (!gameObjectMeshAsShared)
+		GameObject* actualGameObject = hittedGameObject.second;
+		if (actualGameObject)
 		{
-			continue;
-		}
+			ComponentMeshRenderer* componentMeshRenderer =
+				static_cast<ComponentMeshRenderer*>
+				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh();
 
-		const float4x4& gameObjectModelMatrix =
-			std::static_pointer_cast<ComponentTransform>
-			(hittedAsShared->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			if (!gameObjectMeshAsShared)
+			{
+				continue;
+			}
 
-		const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
-		for (const Triangle& triangle : meshTriangles)
-		{
-			bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+			const float4x4& gameObjectModelMatrix =
+				static_cast<ComponentTransform*>
+				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			if (!hit) continue;
-			if (thisDistance >= minCurrentDistance) continue;
+			const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+			for (const Triangle& triangle : meshTriangles)
+			{
+				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
 
-			// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-			newSelectedGameObject = hittedAsShared;
-			minCurrentDistance = thisDistance;
+				if (!hit) continue;
+				if (thisDistance >= minCurrentDistance) continue;
+
+				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
+				newSelectedGameObject = actualGameObject;
+				minCurrentDistance = thisDistance;
+			}
 		}
 	}
 
 	if (newSelectedGameObject != nullptr)
 	{
 		App->scene->GetLoadedScene()->GetSceneQuadTree()
-			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject().lock());
+			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 		App->scene->SetSelectedGameObject(newSelectedGameObject);
 		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
 	}

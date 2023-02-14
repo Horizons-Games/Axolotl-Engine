@@ -11,7 +11,7 @@
 #include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
 
-ComponentCamera::ComponentCamera(bool active, const std::shared_ptr<GameObject>& owner)
+ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner, false)
 {
 	frustumOffset = 1;
@@ -25,7 +25,7 @@ ComponentCamera::ComponentCamera(bool active, const std::shared_ptr<GameObject>&
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 
 	//Position PlaceHolder get position from component transform
-	trans = std::static_pointer_cast<ComponentTransform>(owner->GetComponent(ComponentType::TRANSFORM));
+	trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	
 	frustum.SetPos(trans->GetPosition());
 	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
@@ -43,7 +43,7 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	frustum.SetPos((float3)trans->GetGlobalPosition());
+	frustum.SetPos((float3) trans->GetGlobalPosition());
 
 	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
