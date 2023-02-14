@@ -168,35 +168,6 @@ update_status ModuleEngineCamera::Update()
 
 			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 		}
-
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
-		{
-			Move();
-			FreeLook();
-		}
-
-		if (App->input->IsMouseWheelScrolled())
-		{
-			Zoom();
-		}
-
-		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
-			App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
-			Focus(App->scene->GetSelectedGameObject());
-
-		if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
-			App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
-			App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
-		{
-			const OBB& obb = static_cast<ComponentBoundingBoxes*>(
-				App->scene->GetSelectedGameObject()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
-
-			SetLookAt(obb.CenterPoint());
-			Orbit(obb);
-		}
-
-		KeyboardRotate();
-		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
 
 	return UPDATE_CONTINUE;
