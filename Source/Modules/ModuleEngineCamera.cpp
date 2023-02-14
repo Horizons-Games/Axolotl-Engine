@@ -567,7 +567,9 @@ void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 {
 	std::vector<GameObject*> existingGameObjects =
 		App->scene->GetLoadedScene()->GetSceneGameObjects();
-	std::map<float, GameObject*> hitGameObjects;
+	std::map<float, const GameObject*> hitGameObjects;
+
+	//App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
 
 	for (GameObject* currentGameObject : existingGameObjects)
 	{
@@ -591,7 +593,7 @@ void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
 
-void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hitGameObjects,
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
 												  const LineSegment& ray)
 {
 	GameObject* newSelectedGameObject = nullptr;
@@ -600,9 +602,9 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObje
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
 
-	for (const std::pair<float, GameObject*>& hittedGameObject : hitGameObjects)
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
-		GameObject* actualGameObject = hittedGameObject.second;
+		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
 			ComponentMeshRenderer* componentMeshRenderer =
@@ -628,7 +630,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObje
 				if (thisDistance >= minCurrentDistance) continue;
 
 				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-				newSelectedGameObject = actualGameObject;
+				newSelectedGameObject = (GameObject*)actualGameObject;
 				minCurrentDistance = thisDistance;
 			}
 		}
