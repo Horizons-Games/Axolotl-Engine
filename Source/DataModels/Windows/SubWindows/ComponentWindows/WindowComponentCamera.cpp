@@ -2,7 +2,7 @@
 
 #include "DataModels/Components/ComponentCamera.h"
 
-WindowComponentCamera::WindowComponentCamera(const std::weak_ptr<ComponentCamera>& component) :
+WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
 	ComponentWindow("CAMERA", component)
 {
 }
@@ -11,16 +11,15 @@ void WindowComponentCamera::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentCamera> asSharedCamera =
-		std::dynamic_pointer_cast<ComponentCamera>(this->component.lock());
+	ComponentCamera* asCamera = static_cast<ComponentCamera*>(this->component);
 
-	if (asSharedCamera)
+	if (asCamera)
 	{
 		const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
-		bool drawFrustum = asSharedCamera->IsDrawFrustum();
-		int frustumMode = asSharedCamera->GetFrustumMode();
-		float frustumOffset = asSharedCamera->GetFrustumOffset();
+		bool drawFrustum = asCamera->IsDrawFrustum();
+		int frustumMode = asCamera->GetFrustumMode();
+		float frustumOffset = asCamera->GetFrustumOffset();
 
 		ImGui::Text("Draw Frustum"); ImGui::SameLine();
 		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
@@ -30,8 +29,8 @@ void WindowComponentCamera::DrawWindowContents()
 
 		ImGui::Separator();
 
-		asSharedCamera->SetDrawFrustum(drawFrustum);
-		asSharedCamera->SetFrustumMode(frustumMode);
-		asSharedCamera->SetFrustumOffset(frustumOffset);
+		asCamera->SetDrawFrustum(drawFrustum);
+		asCamera->SetFrustumMode(frustumMode);
+		asCamera->SetFrustumOffset(frustumOffset);
 	}
 }

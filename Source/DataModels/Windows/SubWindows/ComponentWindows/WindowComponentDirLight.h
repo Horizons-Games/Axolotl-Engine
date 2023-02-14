@@ -7,7 +7,7 @@ class ComponentDirLight;
 class WindowComponentDirLight : public ComponentWindow
 {
 public:
-	WindowComponentDirLight(const std::weak_ptr<ComponentDirLight>& component);
+	WindowComponentDirLight(ComponentDirLight* component);
 	~WindowComponentDirLight() override = default;
 
 protected:

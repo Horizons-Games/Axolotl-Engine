@@ -11,7 +11,7 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
-WindowComponentMaterial::WindowComponentMaterial(const std::weak_ptr<ComponentMaterial>& component) :
+WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	ComponentWindow("MATERIAL", component)
 {
 	inputMaterial = std::make_unique<WindowMaterialInput>(component);
@@ -24,12 +24,11 @@ void WindowComponentMaterial::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
 
-	if (asSharedMaterial)
+	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asSharedMaterial->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
 		if (materialResource)
 		{
 			DrawSetMaterial();
@@ -43,12 +42,11 @@ void WindowComponentMaterial::DrawWindowContents()
 
 void WindowComponentMaterial::DrawSetMaterial()
 {
-	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
 
-	if (asSharedMaterial)
+	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asSharedMaterial->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
 		if (materialResource)
 		{
 			ImGui::Text("");
@@ -58,15 +56,15 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			static float3 colorDiffuse = asSharedMaterial->GetDiffuseColor();
+			static float3 colorDiffuse = asMaterial->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
-				asSharedMaterial->SetDiffuseColor(colorDiffuse);
+				asMaterial->SetDiffuseColor(colorDiffuse);
 
-			static float3 colorSpecular = asSharedMaterial->GetSpecularColor();
+			static float3 colorSpecular = asMaterial->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
-				asSharedMaterial->SetSpecularColor(colorSpecular);
+				asMaterial->SetSpecularColor(colorSpecular);
 
 			ImGui::Text("");
 
@@ -86,7 +84,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
-				asSharedMaterial->UnloadTextures();
+				asMaterial->UnloadTextures();
 				
 				UID uidNull = 0;
 				materialResource->SetDiffuseUID(uidNull);
@@ -96,14 +94,14 @@ void WindowComponentMaterial::DrawSetMaterial()
 				
 				materialResource->SetChanged(true);
 				
-				asSharedMaterial->diffuseUID = 0;
-				asSharedMaterial->normalUID = 0;
-				asSharedMaterial->occlusionUID = 0;
-				asSharedMaterial->specularUID = 0;
+				asMaterial->diffuseUID = 0;
+				asMaterial->normalUID = 0;
+				asMaterial->occlusionUID = 0;
+				asMaterial->specularUID = 0;
 			}
 
-			ImGui::Checkbox("Use specular Alpha as shininess", &(asSharedMaterial->hasShininessAlpha));
-			ImGui::SliderFloat("Shininess", &(asSharedMaterial->shininess),
+			ImGui::Checkbox("Use specular Alpha as shininess", &(asMaterial->hasShininessAlpha));
+			ImGui::SliderFloat("Shininess", &(asMaterial->shininess),
 				0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			ImGui::Separator();
 
@@ -133,11 +131,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				if (ImGui::Button("Remove Texture Diffuse") && materialResource->GetDiffuseUID())
 				{
-					asSharedMaterial->UnloadTexture(TextureType::DIFFUSE);
+					asMaterial->UnloadTexture(TextureType::DIFFUSE);
 
 					UID uidNull = 0;
 					materialResource->SetDiffuseUID(uidNull);
-					asSharedMaterial->diffuseUID = 0;
+					asMaterial->diffuseUID = 0;
 				}
 			}
 
@@ -165,11 +163,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecularUID())
 				{
-					asSharedMaterial->UnloadTexture(TextureType::SPECULAR);
+					asMaterial->UnloadTexture(TextureType::SPECULAR);
 
 					UID uidNull = 0;
 					materialResource->SetSpecularUID(uidNull);
-					asSharedMaterial->specularUID = 0;
+					asMaterial->specularUID = 0;
 				}
 			}
 
@@ -197,14 +195,14 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				if (materialResource->GetNormalUID())
 				{
-					asSharedMaterial->UnloadTexture(TextureType::NORMAL);
+					asMaterial->UnloadTexture(TextureType::NORMAL);
 
 					UID uidNull = 0;
 					materialResource->SetNormalUID(uidNull);
-					asSharedMaterial->normalUID = 0;
+					asMaterial->normalUID = 0;
 				}
 			}
-			ImGui::SliderFloat("Normal", &(asSharedMaterial->normalStrength),
+			ImGui::SliderFloat("Normal", &(asMaterial->normalStrength),
 				0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 
 			ImGui::Text("");
@@ -214,12 +212,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 void WindowComponentMaterial::DrawEmptyMaterial()
 {
-	std::shared_ptr<ComponentMaterial> asSharedMaterial =
-		std::dynamic_pointer_cast<ComponentMaterial>(component.lock());
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
 
-	if (asSharedMaterial)
+	if (asMaterial)
 	{
-		if (asSharedMaterial->GetMaterial().expired())
+		if (asMaterial->GetMaterial().expired())
 		{
 			inputMaterial->DrawWindowContents();
 		}
