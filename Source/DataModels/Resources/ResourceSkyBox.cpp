@@ -46,14 +46,6 @@ void ResourceSkyBox::InternalLoad()
 
 void ResourceSkyBox::InternalUnload()
 {
-    /*for (UID uid : texturesUIDs)
-    {
-        std::shared_ptr<Resource> texture = App->resources->RequestResource(uid).lock();
-        if (texture)
-        {
-            texture->Unload();
-        }
-    }*/
     //this will keep the capacity to 6
     texturesUIDs.clear();
     glDeleteTextures(1, &glTexture);

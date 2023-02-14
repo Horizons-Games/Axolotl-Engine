@@ -97,7 +97,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
 
-	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
