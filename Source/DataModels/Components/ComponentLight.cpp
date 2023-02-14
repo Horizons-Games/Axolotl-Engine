@@ -1,6 +1,6 @@
 #include "ComponentLight.h"
 
-ComponentLight::ComponentLight(const bool active, const std::shared_ptr<GameObject>& owner)
+ComponentLight::ComponentLight(const bool active, GameObject* owner)
 	: Component(ComponentType::LIGHT, active, owner, true)
 {
 }
@@ -10,7 +10,7 @@ ComponentLight::ComponentLight(LightType type, bool canBeRemoved) : Component(Co
 	this->lightType = type;
 };
 
-ComponentLight::ComponentLight(LightType type, const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved) :
+ComponentLight::ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved) :
 	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
 {
 	this->lightType = type;
@@ -25,7 +25,7 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 }
 
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity,
-							   const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved) :
+								GameObject* gameObject, bool canBeRemoved) :
 	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
 {
 	this->lightType = type;

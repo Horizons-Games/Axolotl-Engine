@@ -9,9 +9,9 @@ class ComponentAmbient : public ComponentLight
 {
 public:
 	ComponentAmbient();
-	ComponentAmbient(const std::shared_ptr<GameObject>& parent);
+	ComponentAmbient(GameObject* parent);
 	ComponentAmbient(const float3& color);
-	ComponentAmbient(const float3& color, const std::shared_ptr<GameObject>& parent);
+	ComponentAmbient(const float3& color, GameObject* parent);
 	~ComponentAmbient() {};
 
 	void Draw() override {};

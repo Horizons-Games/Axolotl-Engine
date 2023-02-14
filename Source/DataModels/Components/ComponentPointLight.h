@@ -10,10 +10,10 @@ class ComponentPointLight : public ComponentLight
 {
 public:
 	ComponentPointLight();
-	ComponentPointLight(const std::shared_ptr<GameObject>& parent);
+	ComponentPointLight(GameObject* parent);
 	ComponentPointLight(float radius, const float3& color, float intensity);
 	ComponentPointLight(float radius, const float3& color, float intensity,
-						const std::shared_ptr<GameObject>& parent);
+						GameObject* parent);
 
 	~ComponentPointLight();
 

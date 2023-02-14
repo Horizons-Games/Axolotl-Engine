@@ -61,7 +61,7 @@ public:
 	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
-	void Focus(const std::shared_ptr<GameObject>& gameObject);
+	void Focus(GameObject* gameObject);
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
@@ -100,8 +100,8 @@ public:
 private:
 	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
 	
-	void CalculateHittedGameObjects(const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, std::weak_ptr<GameObject>>& hitGameObjects,
+	void CalculateHitGameObjects(const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hitGameObjects,
 								  const LineSegment& ray);
 
 	Frustum frustum;

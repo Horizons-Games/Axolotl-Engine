@@ -12,7 +12,7 @@ ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(const std::shared_ptr<GameObject>& parent) :
+ComponentAmbient::ComponentAmbient(GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, parent, false)
 {
 }
@@ -21,7 +21,7 @@ ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightTy
 {
 }
 
-ComponentAmbient::ComponentAmbient(const float3& color, const std::shared_ptr<GameObject>& parent) :
+ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
 {
 }
