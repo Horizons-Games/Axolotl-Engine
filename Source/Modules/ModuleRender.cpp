@@ -158,7 +158,8 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-#if !defined(GAME)
+	//we really need to remove this :)
+#if ENGINE
 	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
 #else
 	UID skyboxUID = App->resources->GetSkyBoxResource();

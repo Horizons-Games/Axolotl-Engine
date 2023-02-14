@@ -28,7 +28,7 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-#if !defined(GAME)
+#if ENGINE
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
@@ -129,7 +129,7 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
-#if !defined(GAME)
+#if ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());

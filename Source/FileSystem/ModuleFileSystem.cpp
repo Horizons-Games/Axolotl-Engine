@@ -12,7 +12,7 @@ bool ModuleFileSystem::Init()
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
     PHYSFS_setWriteDir(".");
-#if defined(GAME)
+#if not ENGINE
     if (!Exists("Assets.zip"))
     {
         struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
