@@ -37,7 +37,7 @@ bool ModuleResources::Start()
 
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-#if ENGINE
+#ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 #endif
 	return true;
@@ -45,7 +45,7 @@ bool ModuleResources::Start()
 
 bool ModuleResources::CleanUp()
 {
-#if ENGINE
+#ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
 #endif

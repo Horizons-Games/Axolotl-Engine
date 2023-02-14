@@ -159,7 +159,7 @@ bool ModuleRender::Start()
 	UpdateProgram();
 
 	//we really need to remove this :)
-#if ENGINE
+#ifdef ENGINE
 	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
 #else
 	UID skyboxUID = App->resources->GetSkyBoxResource();
