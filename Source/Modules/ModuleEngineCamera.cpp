@@ -86,7 +86,7 @@ update_status ModuleEngineCamera::Update()
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
 			Rotate();
 		}
-		else if (!isFocusing)
+		else
 		{
 			//Shift speed
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
