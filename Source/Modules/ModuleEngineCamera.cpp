@@ -83,7 +83,7 @@ update_status ModuleEngineCamera::Update()
 		//We block everything on while Focus (slerp) to avoid camera problems
 		if (isFocusing)
 		{
-			if (focusFlag) Focus(App->scene->GetSelectedGameObject().lock());
+			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
 			Rotate();
 		}
 		else
@@ -132,7 +132,7 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			//Focus
-			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
+			if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
 				focusFlag = true;
@@ -140,12 +140,12 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			//Orbit object with ALT + LEFT MOUSE CLICK
-			if (App->scene->GetSelectedGameObject().lock() != App->scene->GetLoadedScene()->GetRoot() &&
+			if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				const OBB& obb = std::static_pointer_cast<ComponentBoundingBoxes>(
-					App->scene->GetSelectedGameObject().lock()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
+				const OBB& obb = static_cast<ComponentBoundingBoxes*>(
+					App->scene->GetSelectedGameObject()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 				focusFlag = false;
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
