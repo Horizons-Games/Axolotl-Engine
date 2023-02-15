@@ -3,6 +3,10 @@
 #include "Math/float2.h"
 
 #define NUM_MOUSEBUTTONS 5
+#define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
+#define BMP_ORBITSURFACE "Assets/MouseCursors/orbit.bmp"
+#define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
+#define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
 enum class KeyState {
 	IDLE,
@@ -31,6 +35,14 @@ public:
 	void SetMousePositionX(int mouseX);
 	void SetMousePositionY(int mouseY);
 
+	void SetMouseMotionX(float posX);
+	void SetMouseMotionY(float posY);
+	void SetFreeLookCursor();
+	void SetOrbitCursor();
+	void SetMoveCursor();
+	void SetZoomCursor();
+	void SetDefaultCursor();
+
 	bool IsMouseWheelScrolled() const;
 
 private:
@@ -44,6 +56,32 @@ private:
 	int mousePosY = 0;
 
 	bool mouseWheelScrolled;
+
+	struct SDLSurfaceDestroyer
+	{
+		void operator()(SDL_Surface* surface) const
+		{
+			SDL_FreeSurface(surface);
+		}
+	};
+
+	struct SDLCursorDestroyer
+	{
+		void operator()(SDL_Cursor* cursor) const
+		{
+			SDL_FreeCursor(cursor);
+		}
+	};
+
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> freeLookSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> orbitSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> moveSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> zoomSurface;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> freeLookCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> orbitCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
+	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
 };
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
@@ -79,6 +117,41 @@ inline void ModuleInput::SetMousePositionX(int mouseX)
 inline void ModuleInput::SetMousePositionY(int mouseY)
 {
 	mousePosY = mouseY;
+}
+
+inline void ModuleInput::SetMouseMotionX(float posX)
+{
+	this->mouseMotion.x = posX;
+}
+
+inline void ModuleInput::SetMouseMotionY(float posY)
+{
+	this->mouseMotion.y = posY;
+}
+
+inline void ModuleInput::SetFreeLookCursor()
+{
+	SDL_SetCursor(freeLookCursor.get());
+}
+
+inline void ModuleInput::SetOrbitCursor()
+{
+	SDL_SetCursor(orbitCursor.get());
+}
+
+inline void ModuleInput::SetMoveCursor()
+{
+	SDL_SetCursor(moveCursor.get());
+}
+
+inline void ModuleInput::SetZoomCursor()
+{
+	SDL_SetCursor(zoomCursor.get());
+}
+
+inline void ModuleInput::SetDefaultCursor()
+{
+	SDL_SetCursor(defaultCursor.get());
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const

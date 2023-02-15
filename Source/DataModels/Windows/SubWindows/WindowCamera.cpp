@@ -42,7 +42,7 @@ void WindowCamera::DrawWindowContents()
 	if (ImGui::SliderFloat("Movement Speed", &movementSpeed,
 		DEFAULT_MOVE_SPEED, DEFAULT_MOVE_SPEED * 100.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
 		App->engineCamera->SetMoveSpeed(movementSpeed);
-	if (ImGui::SliderFloat("Rotation Speed (keyboard)", &rotationSpeed,
+	if (ImGui::SliderFloat("Rotation Speed", &rotationSpeed,
 		DEFAULT_ROTATION_SPEED, DEFAULT_ROTATION_SPEED * 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
 		App->engineCamera->SetRotationSpeed(rotationSpeed);
 
