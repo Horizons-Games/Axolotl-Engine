@@ -16,7 +16,8 @@ public:
 
 	bool Start() override;
 
-	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName);
+	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+		std::string programName);
 
 	bool CleanUp() override;
 
