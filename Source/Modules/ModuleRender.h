@@ -28,6 +28,8 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
 
+	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
+
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
@@ -44,6 +46,7 @@ public:
 	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
 
 private:
+	void UpdateProgram();
 
 	void* context;
 	float4 backgroundColor;

@@ -9,29 +9,25 @@ ModuleProgram::~ModuleProgram(){}
 
 bool ModuleProgram::Start()
 {
-	programs.reserve((int)ProgramType::SKYBOX + 1);
-	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
-	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
+	Programs.reserve((int)ProgramType::SKYBOX + 1);
+	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
+	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
 
 	return true;
 }
 
 
-std::shared_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName,
-	const std::string& frgShaderFileName, const std::string& programName)
+std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName)
 {
-	unsigned vertexShader = 
-		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
-	unsigned fragmentShader = 
-		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
+	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((RootPath + vtxShaderFileName).c_str()));
+	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((RootPath + frgShaderFileName).c_str()));
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{
 		return nullptr;
 	}
 
-	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader,
-		vtxShaderFileName, frgShaderFileName, programName);
+	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader);
 
 	if (program->GetId() == 0)
 	{
@@ -44,15 +40,37 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShad
 	return program;
 }
 
-void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName,
-	ProgramType programType, const std::string& programName)
-{
-	programs[static_cast<int>(programType)] = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
-}
-
 bool ModuleProgram::CleanUp()
 {
+	glDeleteProgram(program);
+
 	return true;
+}
+
+void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
+{
+	this->program = glCreateProgram();
+	glAttachShader(this->program, vtxShader);
+	glAttachShader(this->program, frgShader);
+	glLinkProgram(this->program);
+
+	int res;
+	glGetProgramiv(this->program, GL_LINK_STATUS, &res);
+	if (res == GL_FALSE)
+	{
+		int len = 0;
+		glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &len);
+		if (len > 0)
+		{
+			int written = 0;
+			char* info = (char*)malloc(len);
+			glGetProgramInfoLog(this->program, len, &written, info);
+			ENGINE_LOG("Program Log Info: %s", info);
+			free(info);
+		}
+	}
+	glDeleteShader(vtxShader);
+	glDeleteShader(frgShader);
 }
 
 char* ModuleProgram::LoadShaderSource(const char* shaderFileName)
