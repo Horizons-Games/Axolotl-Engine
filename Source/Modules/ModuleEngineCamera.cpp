@@ -730,9 +730,9 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 		{
 			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
-			std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh();
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
-			if (!gameObjectMeshAsShared)
+			if (!goMeshAsShared)
 			{
 				continue;
 			}
@@ -740,7 +740,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
 				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 			for (const Triangle& triangle : meshTriangles)
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
@@ -748,7 +748,8 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 				if (!hit) continue;
 				if (thisDistance >= minCurrentDistance) continue;
 
-				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
 				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
 			}
