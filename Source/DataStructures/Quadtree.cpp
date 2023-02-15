@@ -480,8 +480,12 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 			continue;
 		}
 
+		std::list<const GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
+		// Always check for the selected gameobject that it is not inside any quadtree
+		quadtreeGameObjects.push_back(App->scene->GetSelectedGameObject());
+
 		float nearDistance, farDistance;
-		for (const GameObject* gameObject : App->renderer->GetGameObjectsToDraw()) // This list has to be changed
+		for (const GameObject* gameObject : quadtreeGameObjects)
 		{
 			ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
 				(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
