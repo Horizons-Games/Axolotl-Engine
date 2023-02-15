@@ -69,21 +69,21 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 const float3& ComponentTransform::GetGlobalPosition()
 {
-	UpdateTransformMatrices();
+	//UpdateTransformMatrices();
 
 	return globalPos;
 }
 
 const float4x4& ComponentTransform::GetGlobalRotation()
 {
-	UpdateTransformMatrices();
+	//UpdateTransformMatrices();
 
 	return globalRot;
 }
 
 const float3& ComponentTransform::GetGlobalScale()
 {
-	UpdateTransformMatrices();
+	//UpdateTransformMatrices();
 
 	return globalSca;
 }
