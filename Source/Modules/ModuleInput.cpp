@@ -7,6 +7,8 @@
 
 #include "imgui_impl_sdl.h"
 
+#include "optick.h"
+
 ModuleInput::ModuleInput()
 {}
 
@@ -30,6 +32,8 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::Update()
 {
+    OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+
     update_status status = UPDATE_CONTINUE;
 
     mouseMotion = float2::zero;

@@ -13,6 +13,8 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
+#include "optick.h"
+
 ModuleScene::ModuleScene()
 {
 }
@@ -45,6 +47,8 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update()
 {
+	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	//SaveSceneToJson("AuxScene");
