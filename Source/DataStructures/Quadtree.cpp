@@ -494,7 +494,8 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 			}
 		}
 
-		if (currentQuadtree->IsLeaf()) {
+		if (currentQuadtree->IsLeaf()) 
+		{
 			continue;
 		}
 

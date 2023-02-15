@@ -596,8 +596,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 				continue;
 			}
 
-			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
 				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
@@ -609,7 +608,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 				if (thisDistance >= minCurrentDistance) continue;
 
 				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-				newSelectedGameObject = (GameObject*)actualGameObject;
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
 			}
 		}
