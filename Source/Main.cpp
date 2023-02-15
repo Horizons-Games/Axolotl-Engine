@@ -96,5 +96,7 @@ int main(int argc, char ** argv)
 	}
 
 	ENGINE_LOG("Bye :)\n");
+	OPTICK_SHUTDOWN();
+
 	return mainReturn;
 }
