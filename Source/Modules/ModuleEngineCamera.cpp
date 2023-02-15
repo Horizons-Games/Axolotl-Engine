@@ -383,7 +383,7 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	float radius = boundingSphere.r;
 	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum.HorizontalFov();
-	float camDistance = radius / sin(fov / 2.0);
+	float camDistance = radius / sin(fov / 2.0f);
 	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
 	//position = boundingSphere.pos - (camDirection * camDistance);
@@ -528,8 +528,8 @@ void ModuleEngineCamera::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		App->input->SetMouseMotionX((float)mouseX - lastMouseX);
+		App->input->SetMouseMotionY((float)mouseY - lastMouseY);
 		mouseWarped = false;
 	}
 	int width, height;
@@ -708,8 +708,6 @@ LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene
 
 void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 {
-	std::vector<GameObject*> existingGameObjects =
-		App->scene->GetLoadedScene()->GetSceneGameObjects();
 	std::map<float, const GameObject*> hitGameObjects;
 
 	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
