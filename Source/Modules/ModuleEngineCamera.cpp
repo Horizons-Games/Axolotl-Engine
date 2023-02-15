@@ -102,7 +102,7 @@ update_status ModuleEngineCamera::Update()
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
 				LineSegment ray = CreateRaycastFromMousePosition(windowScene);
-				CalculateHittedGameObjects(ray);
+				CalculateHitGameObjects(ray);
 			}
 			// --RAYCAST CALCULATION-- //
 
