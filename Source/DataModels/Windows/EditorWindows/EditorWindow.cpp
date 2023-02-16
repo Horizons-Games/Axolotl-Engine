@@ -1,6 +1,7 @@
 #include "EditorWindow.h"
 
-EditorWindow::EditorWindow(const std::string& name) : Window(name)
+EditorWindow::EditorWindow(const std::string& name) : Window(name), flags(ImGuiWindowFlags_None),
+	focused(false)
 {
 }
 

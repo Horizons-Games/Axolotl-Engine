@@ -8,7 +8,8 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleEngineCamera.h"
 
-WindowScene::WindowScene() : EditorWindow("Scene")
+WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
+	currentWidth(0), currentHeight(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs;
 }
