@@ -102,7 +102,7 @@ public:
 	const float3& GetPosition() const;
 	
 private:
-	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene);
 	
 	void CalculateHitGameObjects(const LineSegment& ray);
 	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
@@ -133,6 +133,8 @@ private:
 	bool isFocusing;
 	int lastMouseX, lastMouseY;
 	int mouseState;
+
+	LineSegment ray;
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const

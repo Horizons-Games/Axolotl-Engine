@@ -101,8 +101,10 @@ update_status ModuleEngineCamera::Update()
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
-				LineSegment ray = CreateRaycastFromMousePosition(windowScene);
-				CalculateHitGameObjects(ray);
+				if (CreateRaycastFromMousePosition(windowScene))
+				{
+					CalculateHitGameObjects(ray);
+				}
 			}
 			// --RAYCAST CALCULATION-- //
 
@@ -687,23 +689,32 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
-LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
+bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
 {
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
-	mousePositionInScene.x -= startPosScene.x;
-	mousePositionInScene.y -= startPosScene.y;
+	if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x 
+		&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
+	{
+		mousePositionInScene.x -= startPosScene.x;
+		mousePositionInScene.y -= startPosScene.y;
 
-	float width = windowScene->GetAvailableRegion().x;
-	float height = windowScene->GetAvailableRegion().y;
+		float width = windowScene->GetAvailableRegion().x;
+		float height = windowScene->GetAvailableRegion().y;
 
-	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
-	float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
+		float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+		float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
+		ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
 
-	return frustum.UnProjectLineSegment(normalizedX, normalizedY);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
