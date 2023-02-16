@@ -26,7 +26,7 @@ public:
 	ComponentLight(LightType type, const float3& color, float intensity, 
 					GameObject* gameObject, bool canBeRemoved);
 
-	virtual ~ComponentLight() {};
+	virtual ~ComponentLight();
 
 	void Update() override;
 
@@ -46,8 +46,8 @@ public:
 	void SetIntensity(float intensity);
 
 protected:
-	float3 color = float3(1.0f, 1.0f, 1.0f);
-	float intensity = 1.f;
+	float3 color;
+	float intensity;
 
 	LightType lightType;
 };

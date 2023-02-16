@@ -12,32 +12,34 @@
 
 #include "debugdraw.h"
 
-ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
+ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true),
+	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
 {
 }
 
 ComponentSpotLight::ComponentSpotLight(GameObject* parent) :
-	ComponentLight(LightType::SPOT, parent, true)
+	ComponentLight(LightType::SPOT, parent, true),
+	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
 {
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity) :
-	ComponentLight(LightType::SPOT, color, intensity, true)
+	ComponentLight(LightType::SPOT, color, intensity, true),
+	radius(radius), innerAngle(innerAngle), outerAngle(outerAngle)
 {
-	this->radius = radius;
-	this->innerAngle = innerAngle;
-	this->outerAngle = outerAngle;
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity,
 									   GameObject* parent) :
-	ComponentLight(LightType::SPOT, color, intensity, parent, true)
+	ComponentLight(LightType::SPOT, color, intensity, parent, true),
+	radius(radius), innerAngle(innerAngle), outerAngle(outerAngle)
 {
-	this->radius = radius;
-	this->innerAngle = innerAngle;
-	this->outerAngle = outerAngle;
+}
+
+ComponentSpotLight::~ComponentSpotLight()
+{
 }
 
 void ComponentSpotLight::Draw()

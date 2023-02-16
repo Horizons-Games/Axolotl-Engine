@@ -43,21 +43,6 @@ private:
 	unsigned vao;
 };
 
-inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
-	const std::string& fileName,
-	const std::string& assetsPath,
-	const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	texturesUIDs(6),
-	options(std::make_shared<OptionsSkyBox>())
-{
-}
-
-inline ResourceSkyBox::~ResourceSkyBox()
-{
-	Unload();
-}
-
 inline ResourceType ResourceSkyBox::GetType() const
 {
 	return ResourceType::SkyBox;

@@ -12,33 +12,27 @@
 #include "FileSystem/Json.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner, false)
+	: Component(ComponentType::CAMERA, active, owner, false),
+	frustumOffset(1.0f), drawFrustum(true), frustumMode(ECameraFrustumMode::normalFrustum),
+	// PlaceHolder get position from component transform
+	trans(static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM)))
 {
-	frustumOffset = 1;
-	drawFrustum = true;
-	frustumMode = ECameraFrustumMode::normalFrustum;
-
 	float aspectRatio = 16.f / 9.f;
 
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 2000.f);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
-
-	//Position PlaceHolder get position from component transform
-	trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	
 	frustum.SetPos(trans->GetPosition());
 	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
-
 	UpdateFrustumOffset();
 }
 
 ComponentCamera::~ComponentCamera()
 {
-
 }
 
 void ComponentCamera::Update()

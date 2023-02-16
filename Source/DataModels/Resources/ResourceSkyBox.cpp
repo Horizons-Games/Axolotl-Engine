@@ -6,6 +6,17 @@
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+ResourceSkyBox::ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
+    const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
+    texturesUIDs(6), options(std::make_shared<OptionsSkyBox>()), vbo(0), vao(0)
+{
+}
+
+ResourceSkyBox::~ResourceSkyBox()
+{
+    Unload();
+}
+
 void ResourceSkyBox::InternalLoad()
 {
     glGenTextures(1, &glTexture);
