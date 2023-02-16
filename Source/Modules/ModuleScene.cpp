@@ -13,7 +13,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
-ModuleScene::ModuleScene()
+ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
 }
 

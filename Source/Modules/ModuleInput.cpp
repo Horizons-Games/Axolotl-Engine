@@ -7,11 +7,13 @@
 
 #include "imgui_impl_sdl.h"
 
-ModuleInput::ModuleInput()
-{}
+ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
+{
+}
 
 ModuleInput::~ModuleInput()
-{}
+{
+}
 
 bool ModuleInput::Init()
 {
