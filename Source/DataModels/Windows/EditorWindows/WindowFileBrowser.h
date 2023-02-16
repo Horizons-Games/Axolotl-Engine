@@ -7,7 +7,7 @@ class WindowFileBrowser : public EditorWindow
 {
 public:
 	WindowFileBrowser();
-	~WindowFileBrowser() = default;
+	~WindowFileBrowser();
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
 	virtual void Browser();
