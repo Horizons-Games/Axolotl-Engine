@@ -3,6 +3,13 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
+MaterialImporter::MaterialImporter()
+{
+}
+
+MaterialImporter::~MaterialImporter()
+{
+}
 
 void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {

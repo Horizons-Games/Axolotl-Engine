@@ -25,7 +25,7 @@ public:
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
-	const unsigned& GetProgram() const;
+	const unsigned GetProgram() const;
 	const std::shared_ptr<Program> GetProgram(ProgramType type) const;
 
 
@@ -35,7 +35,7 @@ private:
 	std::string rootPath;
 };
 
-inline const unsigned& ModuleProgram::GetProgram() const
+inline const unsigned ModuleProgram::GetProgram() const
 {
 	return program;
 }
