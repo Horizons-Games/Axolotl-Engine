@@ -111,7 +111,7 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+			if (!App->GetModuleScene()->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

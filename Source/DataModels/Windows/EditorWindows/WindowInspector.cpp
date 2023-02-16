@@ -32,16 +32,16 @@ void WindowInspector::DrawWindowContents()
 	ImGui::Separator();
 	//
 
-	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
+	GameObject* currentGameObject = App->GetModuleScene()->GetSelectedGameObject();
 
 	if (currentGameObject)
 	{
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 
-		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		if (currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetRoot() &&
+			currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetAmbientLight() &&
+			currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetDirectionalLight())
 		{
 			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 		}
@@ -67,9 +67,9 @@ void WindowInspector::DrawWindowContents()
 	ImGui::Separator();
 
 	if (WindowRightClick() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetRoot() &&
+		currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetAmbientLight() &&
+		currentGameObject != App->GetModuleScene()->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -153,17 +153,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	App->GetModuleScene()->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
+	App->GetModuleScene()->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
+	App->GetModuleScene()->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 // TODO: REMOVE

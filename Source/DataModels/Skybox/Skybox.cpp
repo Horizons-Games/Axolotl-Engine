@@ -28,13 +28,15 @@ void Skybox::Draw()
 {
     glDepthMask(GL_FALSE);
 
-    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
+    std::shared_ptr<Program> program = App->GetModuleProgram()->GetProgram(ProgramType::SKYBOX);
     if (program) 
     {
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
+        program->
+            BindUniformFloat4x4("view", (const float*)&App->GetModuleEngineCamera()->GetViewMatrix(), GL_TRUE);
+        program->
+            BindUniformFloat4x4("proj", (const float*)&App->GetModuleEngineCamera()->GetProjectionMatrix(), GL_TRUE);
 
         std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
         if (skyboxAsShared)

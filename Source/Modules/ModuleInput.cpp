@@ -94,8 +94,8 @@ update_status ModuleInput::Update()
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
                 sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
-                App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-                App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModuleRender()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModuleRender()->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
             }
 
             break;
@@ -132,7 +132,7 @@ update_status ModuleInput::Update()
                 App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
             std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
+            App->GetModuleScene()->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }

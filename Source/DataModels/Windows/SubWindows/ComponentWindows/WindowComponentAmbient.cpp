@@ -31,7 +31,7 @@ void WindowComponentAmbient::DrawWindowContents()
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
 				asAmbient->SetColor(color);
-				App->scene->GetLoadedScene()->RenderAmbientLight();
+				App->GetModuleScene()->GetLoadedScene()->RenderAmbientLight();
 			}
 			ImGui::EndTable();
 		}

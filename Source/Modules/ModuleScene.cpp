@@ -114,7 +114,7 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	Json jsonScene(doc, doc);
 
 	GameObject* root = loadedScene->GetRoot();
-	root->SetName(App->fileSystem->GetFileName(name).c_str());
+	root->SetName(App->GetModuleFileSystem()->GetFileName(name).c_str());
 	root->SaveOptions(jsonScene);
 
 	rapidjson::StringBuffer buffer;
@@ -122,20 +122,20 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModuleFileSystem()->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
-	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	std::string fileName = App->GetModuleFileSystem()->GetFileName(filePath).c_str();
 	char* buffer{};
 #if !defined(GAME)
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
-	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	bool resourceExists = App->GetModuleFileSystem()->Exists(assetPath.c_str());
 	if (!resourceExists)
-		App->fileSystem->CopyFileInAssets(filePath, assetPath);
-	App->fileSystem->Load(assetPath.c_str(), buffer);
+		App->GetModuleFileSystem()->CopyFileInAssets(filePath, assetPath);
+	App->GetModuleFileSystem()->Load(assetPath.c_str(), buffer);
 #else
 	App->fileSystem->Load(filePath.c_str(), buffer);
 #endif
@@ -200,7 +200,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 		}
 	}
 
-	App->renderer->FillRenderList(sceneQuadtree);
+	App->GetModuleRender()->FillRenderList(sceneQuadtree);
 
 	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();

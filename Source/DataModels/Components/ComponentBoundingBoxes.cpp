@@ -29,7 +29,7 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 
 void ComponentBoundingBoxes::Draw()
 {
-	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
+	if (drawBoundingBoxes) App->GetModuleDebugDraw()->DrawBoundingBox(GetObjectOBB());
 }
 
 void ComponentBoundingBoxes::SaveOptions(Json& meta)

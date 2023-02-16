@@ -62,7 +62,7 @@ bool ModuleEditor::Init()
 
 bool ModuleEditor::Start()
 {
-	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->GetModuleWindow()->GetWindow(), App->GetModuleRender()->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
 	return true;
@@ -82,7 +82,7 @@ bool ModuleEditor::CleanUp()
 update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
+	ImGui_ImplSDL2_NewFrame(App->GetModuleWindow()->GetWindow());
 	ImGui::NewFrame();
 	
 	return UPDATE_CONTINUE;

@@ -116,5 +116,5 @@ void WindowFileBrowser::Browser()
 void WindowFileBrowser::DoThisIfOk()
 {
 	std::string filePathName = fileDialogImporter.GetFilePathName();
-	App->resources->ImportResource(filePathName);
+	App->GetModuleResources()->ImportResource(filePathName);
 }

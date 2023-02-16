@@ -5,7 +5,8 @@ ComponentLight::ComponentLight(const bool active, GameObject* owner)
 {
 }
 
-ComponentLight::ComponentLight(LightType type, bool canBeRemoved) : Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
+ComponentLight::ComponentLight(LightType type, bool canBeRemoved)
+	: Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
 {
 	this->lightType = type;
 };

@@ -31,20 +31,31 @@ public:
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
 
-public:
-	ModuleScene* scene;
-	ModuleFileSystem* fileSystem;
-	ModuleRender* renderer;
-	ModuleWindow* window;
-	ModuleInput* input;
-	ModuleProgram* program;
-	ModuleDebugDraw* debug;
-	ModuleEditor* editor;
-	ModuleEngineCamera* engineCamera;
-	ModuleResources* resources;
+	ModuleWindow* GetModuleWindow() const;
+	ModuleEditor* GetModuleEditor() const;
+	ModuleInput* GetModuleInput() const;
+	ModuleProgram* GetModuleProgram() const;
+	ModuleFileSystem* GetModuleFileSystem() const;
+	ModuleResources* GetModuleResources() const;
+	ModuleEngineCamera* GetModuleEngineCamera() const;
+	ModuleScene* GetModuleScene() const;
+	ModuleRender* GetModuleRender() const;
+	ModuleDebugDraw* GetModuleDebugDraw() const;
+
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
+
+	ModuleWindow* window;
+	ModuleEditor* editor;
+	ModuleInput* input;
+	ModuleProgram* program;
+	ModuleFileSystem* fileSystem;
+	ModuleResources* resources;
+	ModuleEngineCamera* engineCamera;
+	ModuleScene* scene;
+	ModuleRender* renderer;
+	ModuleDebugDraw* debug;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
@@ -65,4 +76,54 @@ inline int Application::GetMaxFrameRate() const
 inline float Application::GetDeltaTime() const
 {
 	return deltaTime;
+}
+
+inline ModuleWindow* Application::GetModuleWindow() const
+{
+	return window;
+}
+
+inline ModuleEditor* Application::GetModuleEditor() const
+{
+	return editor;
+}
+
+inline ModuleInput* Application::GetModuleInput() const
+{
+	return input;
+}
+
+inline ModuleProgram* Application::GetModuleProgram() const
+{
+	return program;
+}
+
+inline ModuleFileSystem* Application::GetModuleFileSystem() const
+{
+	return fileSystem;
+}
+
+inline ModuleResources* Application::GetModuleResources() const
+{
+	return resources;
+}
+
+inline ModuleEngineCamera* Application::GetModuleEngineCamera() const
+{
+	return engineCamera;
+}
+
+inline ModuleScene* Application::GetModuleScene() const
+{
+	return scene;
+}
+
+inline ModuleRender* Application::GetModuleRender() const
+{
+	return renderer;
+}
+
+inline ModuleDebugDraw* Application::GetModuleDebugDraw() const
+{
+	return debug;
 }

@@ -58,7 +58,7 @@ GameObject::~GameObject()
 
 	children.clear();
 
-	Scene* currentScene = App->scene->GetLoadedScene();
+	Scene* currentScene = App->GetModuleScene()->GetLoadedScene();
 
 	if (hadSpotLight)
 	{
@@ -402,14 +402,14 @@ bool GameObject::RemoveComponent(const Component* component)
 				switch (type)
 				{
 				case LightType::POINT:
-					App->scene->GetLoadedScene()->UpdateScenePointLights();
-					App->scene->GetLoadedScene()->RenderPointLights();
+					App->GetModuleScene()->GetLoadedScene()->UpdateScenePointLights();
+					App->GetModuleScene()->GetLoadedScene()->RenderPointLights();
 
 					break;
 
 				case LightType::SPOT:
-					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-					App->scene->GetLoadedScene()->RenderSpotLights();
+					App->GetModuleScene()->GetLoadedScene()->UpdateSceneSpotLights();
+					App->GetModuleScene()->GetLoadedScene()->RenderSpotLights();
 
 					break;
 				}

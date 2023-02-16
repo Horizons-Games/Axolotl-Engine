@@ -10,7 +10,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 {
 	char* bufferFile;
 
-	App->fileSystem->Load(resource->GetAssetsPath().c_str(), bufferFile);
+	App->GetModuleFileSystem()->Load(resource->GetAssetsPath().c_str(), bufferFile);
 	
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -29,7 +29,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 	for(int i = 0; i < facesPaths.size(); ++i)
 	{
-		UID resourceTexture = App->resources->ImportResource(facesPaths[i]);
+		UID resourceTexture = App->GetModuleResources()->ImportResource(facesPaths[i]);
 		faces[i] = resourceTexture;
 	}
 
@@ -38,7 +38,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->GetModuleFileSystem()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
 }

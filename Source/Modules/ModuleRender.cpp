@@ -112,7 +112,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	this->context = SDL_GL_CreateContext(App->window->GetWindow());
+	this->context = SDL_GL_CreateContext(App->GetModuleWindow()->GetWindow());
 
 	this->backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
@@ -142,7 +142,7 @@ bool ModuleRender::Init()
 	glGenTextures(1, &renderedTexture);
 	glGenRenderbuffers(1, &depthRenderBuffer);
 
-	std::pair<int, int> windowSize = App->window->GetWindowSize();
+	std::pair<int, int> windowSize = App->GetModuleWindow()->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
 	// Set the list of draw buffers.
@@ -159,11 +159,12 @@ bool ModuleRender::Start()
 	UpdateProgram();
 
 #if !defined(GAME)
-	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
+	UID skyboxUID = App->GetModuleResources()->ImportResource("Assets/Skybox/skybox.sky");
 #else
-	UID skyboxUID = App->resources->GetSkyBoxResource();
+	UID skyboxUID = App->GetModuleResources()->GetSkyBoxResource();
 #endif
-	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->GetModuleResources()->RequestResource<ResourceSkyBox>(skyboxUID).lock();
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
@@ -179,7 +180,7 @@ update_status ModuleRender::PreUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	SDL_GetWindowSize(App->GetModuleWindow()->GetWindow(), &width, &height);
 
 	glViewport(0, 0, width, height);
 
@@ -198,9 +199,9 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	FillRenderList(App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree());
 
-	AddToRenderList(App->scene->GetSelectedGameObject());
+	AddToRenderList(App->GetModuleScene()->GetSelectedGameObject());
 
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
@@ -208,20 +209,21 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 	}
 
-	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	if(App->GetModuleDebugDraw()->IsShowingBoundingBoxes())
+		DrawQuadtree(App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree());
 
 	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	SDL_GetWindowSize(App->GetModuleWindow()->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetViewMatrix(),
-	App->engineCamera->GetProjectionMatrix(), w, h);
+	App->GetModuleDebugDraw()->Draw(App->GetModuleEngineCamera()->GetViewMatrix(),
+		App->GetModuleEngineCamera()->GetProjectionMatrix(), w, h);
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_GL_SwapWindow(App->window->GetWindow());
+	SDL_GL_SwapWindow(App->GetModuleWindow()->GetWindow());
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
@@ -241,8 +243,8 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->SetAspectRatio(float(width) / height);
-	App->editor->Resized();
+	App->GetModuleEngineCamera()->SetAspectRatio(float(width) / height);
+	App->GetModuleEditor()->Resized();
 }
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
@@ -291,21 +293,21 @@ void ModuleRender::UpdateProgram()
 	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
-	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+	App->GetModuleFileSystem()->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->GetModuleFileSystem()->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
+	unsigned vertexShader = App->GetModuleProgram()->CompileShader(GL_VERTEX_SHADER, vertexSource);
+	unsigned fragmentShader = App->GetModuleProgram()->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
 	delete vertexSource;
 	delete fragmentSource;
 
-	App->program->CreateProgram(vertexShader, fragmentShader);
+	App->GetModuleProgram()->CreateProgram(vertexShader, fragmentShader);
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
-		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
+	if (App->GetModuleEngineCamera()->IsInside(quadtree->GetBoundingBox()) || 
+		App->GetModuleScene()->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
 		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -341,8 +343,9 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
+	if (App->GetModuleEngineCamera()->IsInside(boxes->GetEncapsuledAABB()) ||
+		App->GetModuleScene()->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+		gameObjectsToDraw.push_back(gameObject);
 	
 
 	if (!gameObject->GetChildren().empty())
@@ -356,7 +359,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
-	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	if (quadtree->IsLeaf()) App->GetModuleDebugDraw()->DrawBoundingBox(quadtree->GetBoundingBox());
 	else
 	{
 		DrawQuadtree(quadtree->GetBackLeftNode());

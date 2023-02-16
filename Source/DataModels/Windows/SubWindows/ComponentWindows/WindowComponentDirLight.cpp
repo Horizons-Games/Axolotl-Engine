@@ -49,7 +49,7 @@ void WindowComponentDirLight::DrawWindowContents()
 
 			if (modified)
 			{
-				App->scene->GetLoadedScene()->RenderDirectionalLight();
+				App->GetModuleScene()->GetLoadedScene()->RenderDirectionalLight();
 			}
 
 			ImGui::EndTable();

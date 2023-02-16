@@ -29,7 +29,7 @@ void WindowEditorControl::DrawWindowContents()
 
     if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
     {
-        (playButtonState) ? App->scene->OnStop() : App->scene->OnPlay();
+        (playButtonState) ? App->GetModuleScene()->OnStop() : App->GetModuleScene()->OnPlay();
 
         playButtonState = !playButtonState;
     }
@@ -37,7 +37,7 @@ void WindowEditorControl::DrawWindowContents()
 
     if (ImGui::Button("||"))
     {
-        App->scene->OnPause();
+        App->GetModuleScene()->OnPause();
 
     }
     ImGui::SameLine();

@@ -20,7 +20,7 @@ WindowScene::~WindowScene()
 void WindowScene::DrawWindowContents()
 {
 	ManageResize();
-	ImGui::Image((void*)App->renderer->GetRenderedTexture(), 
+	ImGui::Image((void*)App->GetModuleRender()->GetRenderedTexture(), 
 		ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 }
 
@@ -33,7 +33,7 @@ void WindowScene::ManageResize()
 	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->GetModuleEngineCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 	}

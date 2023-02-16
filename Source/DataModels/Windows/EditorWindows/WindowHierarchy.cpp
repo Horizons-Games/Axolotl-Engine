@@ -24,9 +24,9 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    if (App->scene->GetLoadedScene()->GetRoot())
+    if (App->GetModuleScene()->GetLoadedScene()->GetRoot())
     {
-        DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot());
+        DrawRecursiveHierarchy(App->GetModuleScene()->GetLoadedScene()->GetRoot());
     }
 }
 
@@ -44,12 +44,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Leaf;
     }
 
-    if (gameObject == App->scene->GetLoadedScene()->GetRoot())
+    if (gameObject == App->GetModuleScene()->GetLoadedScene()->GetRoot())
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
     
-    if (gameObject == App->scene->GetSelectedGameObject())
+    if (gameObject == App->GetModuleScene()->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
     }
@@ -57,7 +57,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
     for (GameObject* child : childrenList)
     {
-        if (child == App->scene->GetSelectedGameObject())
+        if (child == App->GetModuleScene()->GetSelectedGameObject())
         {
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
         }
@@ -69,10 +69,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (ImGui::IsItemClicked())
     {
-        App->scene->GetLoadedScene()->GetSceneQuadTree()
-            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-        App->scene->SetSelectedGameObject(gameObject);
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+        App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()
+            ->AddGameObjectAndChildren(App->GetModuleScene()->GetSelectedGameObject());
+        App->GetModuleScene()->SetSelectedGameObject(gameObject);
+        App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
     ImGui::PushID(gameObjectLabel);
@@ -80,12 +80,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (ImGui::MenuItem("Create child"))
         {
-            App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
+            App->GetModuleScene()->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
         if (ImGui::MenuItem("Create camera"))
         {
             GameObject* newCamera =
-                App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+                App->GetModuleScene()->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
         /*
@@ -130,20 +130,20 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         }
         */
 
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
-            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+        if (gameObject != App->GetModuleScene()->GetLoadedScene()->GetRoot() &&
+            gameObject != App->GetModuleScene()->GetLoadedScene()->GetAmbientLight() &&
+            gameObject != App->GetModuleScene()->GetLoadedScene()->GetDirectionalLight())
         {
             if (ImGui::MenuItem("Delete"))
             {
-                if (gameObject == App->scene->GetSelectedGameObject())
+                if (gameObject == App->GetModuleScene()->GetSelectedGameObject())
                 {
-                    App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                    App->GetModuleScene()->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
+                    App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
-                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+                App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+                App->GetModuleScene()->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }
 
@@ -151,7 +151,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     ImGui::PopID();
 
-    if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
+    if (gameObject != App->GetModuleScene()->GetLoadedScene()->GetRoot()) // The root cannot be moved around
     {
         if (ImGui::BeginDragDropSource())
         {
@@ -169,7 +169,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
                                                             // of the UID of the dragged GameObject
             GameObject* draggedGameObject =
-                App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+                App->GetModuleScene()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
             if (draggedGameObject)
                 draggedGameObject->SetParent(gameObject);
         }

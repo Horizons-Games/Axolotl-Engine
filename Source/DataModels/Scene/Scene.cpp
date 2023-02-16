@@ -85,7 +85,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 		}
 		else
 		{
-			App->renderer->AddToRenderList(gameObject);
+			App->GetModuleRender()->AddToRenderList(gameObject);
 		}
 	}
 	else
@@ -123,8 +123,9 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
-	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
+	UID modelUID = App->GetModuleResources()->ImportResource(model);
+	std::shared_ptr<ResourceModel> resourceModel =
+		App->GetModuleResources()->RequestResource<ResourceModel>(modelUID).lock();
 	resourceModel->Load();
 
 	std::string modelName = model;
@@ -141,12 +142,12 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
 		std::shared_ptr<ResourceMesh> mesh =
-			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
+			App->GetModuleResources()->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = 
-			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
+		std::shared_ptr<ResourceMaterial> material = App->GetModuleResources()->
+			RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
@@ -194,7 +195,7 @@ void Scene::RemoveCamera(const GameObject* cameraGameObject)
 
 void Scene::GenerateLights()
 {
-	const unsigned program = App->program->GetProgram();
+	const unsigned program = App->GetModuleProgram()->GetProgram();
 	
 	glUseProgram(program);
 
@@ -257,7 +258,7 @@ void Scene::GenerateLights()
 
 void Scene::RenderAmbientLight() const
 {
-	const unsigned program = App->program->GetProgram();
+	const unsigned program = App->GetModuleProgram()->GetProgram();
 
 	glUseProgram(program);
 
@@ -272,7 +273,7 @@ void Scene::RenderAmbientLight() const
 
 void Scene::RenderDirectionalLight() const
 {
-	const unsigned program = App->program->GetProgram();
+	const unsigned program = App->GetModuleProgram()->GetProgram();
 
 	glUseProgram(program);
 
@@ -292,7 +293,7 @@ void Scene::RenderDirectionalLight() const
 
 void Scene::RenderPointLights() const
 {
-	const unsigned program = App->program->GetProgram();
+	const unsigned program = App->GetModuleProgram()->GetProgram();
 
 	glUseProgram(program);
 
@@ -316,7 +317,7 @@ void Scene::RenderPointLights() const
 
 void Scene::RenderSpotLights() const
 {
-	const unsigned program = App->program->GetProgram();
+	const unsigned program = App->GetModuleProgram()->GetProgram();
 	size_t numSpot = spotLights.size();
 
 	glUseProgram(program);

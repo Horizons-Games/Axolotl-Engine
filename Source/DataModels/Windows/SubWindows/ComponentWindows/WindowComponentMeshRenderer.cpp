@@ -45,7 +45,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
 
 				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
+					App->GetModuleResources()->RequestResource<ResourceMesh>(draggedMeshUID).lock();
 
 				if (newMesh)
 				{

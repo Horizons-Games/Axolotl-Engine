@@ -111,8 +111,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				if (materialResource->GetDiffuseUID())
 				{
-					 texture = 
-						 App->resources->RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
+					 texture = App->GetModuleResources()->
+						 RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -144,8 +144,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetSpecularUID())
 			{
-				texture =
-					App->resources->RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
+				texture = App->GetModuleResources()
+					->RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
 				if (texture)
 				{
 					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -176,8 +176,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 			bool showTextureBrowserNormal = true;
 			if (materialResource && materialResource->GetNormalUID())
 			{
-					texture =
-						App->resources->RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
+					texture = App->GetModuleResources()
+						->RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));

@@ -15,15 +15,15 @@ WindowWindow::~WindowWindow()
 
 void WindowWindow::DrawWindowContents()
 {
-	float brightness = App->window->GetBrightness();
+	float brightness = App->GetModuleWindow()->GetBrightness();
 	ImGui::TextUnformatted("Window Brightness");
 	bool brightnessChanged = 
 		ImGui::SliderFloat("##bright", &brightness, .25f, 1.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 	if (brightnessChanged)
-		App->window->SetBrightness(brightness);
+		App->GetModuleWindow()->SetBrightness(brightness);
 
 	std::pair<int, int> windowDimensions;
-	windowDimensions = App->window->GetWindowSize();
+	windowDimensions = App->GetModuleWindow()->GetWindowSize();
 	ImGui::TextUnformatted("Window Width");
 	bool widthChanged = 
 		ImGui::SliderInt("##width", &windowDimensions.first, 640, 1920, "%d", ImGuiSliderFlags_AlwaysClamp);
@@ -31,33 +31,33 @@ void WindowWindow::DrawWindowContents()
 	bool heighChanged = 
 		ImGui::SliderInt("##height", &windowDimensions.second, 360, 1080, "%d", ImGuiSliderFlags_AlwaysClamp);
 	if (widthChanged || heighChanged)
-		App->window->SetWindowSize(windowDimensions.first, windowDimensions.second);
+		App->GetModuleWindow()->SetWindowSize(windowDimensions.first, windowDimensions.second);
 
-	bool fullscreen = App->window->IsWindowFullscreen();
+	bool fullscreen = App->GetModuleWindow()->IsWindowFullscreen();
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
 	{
-		App->window->SetFullscreen(fullscreen);
+		App->GetModuleWindow()->SetFullscreen(fullscreen);
 	}
 
 	ImGui::SameLine();
 
-	bool resizable = App->window->IsWindowResizable();
+	bool resizable = App->GetModuleWindow()->IsWindowResizable();
 	if (ImGui::Checkbox("Resizable", &resizable))
 	{
-		App->window->SetResizable(resizable);
+		App->GetModuleWindow()->SetResizable(resizable);
 	}
 		
-	bool borderless = App->window->IsWindowBorderless();
+	bool borderless = App->GetModuleWindow()->IsWindowBorderless();
 	if (ImGui::Checkbox("Borderless", &borderless))
 	{
-		App->window->SetBorderless(borderless);
+		App->GetModuleWindow()->SetBorderless(borderless);
 	}
 
 	ImGui::SameLine();
 
-	bool fullDesktop = App->window->IsWindowDesktopFullscreen();
+	bool fullDesktop = App->GetModuleWindow()->IsWindowDesktopFullscreen();
 	if (ImGui::Checkbox("Desktop Fullscreen", &fullDesktop))
 	{
-		App->window->SetDesktopFullscreen(fullDesktop);
+		App->GetModuleWindow()->SetDesktopFullscreen(fullDesktop);
 	}
 }

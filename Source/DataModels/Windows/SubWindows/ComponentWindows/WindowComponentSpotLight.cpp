@@ -53,8 +53,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 							asSpotLight->GetOwner()->RemoveComponent(asSpotLight);
 
-							App->scene->GetLoadedScene()->UpdateScenePointLights();
-							App->scene->GetLoadedScene()->RenderPointLights();
+							App->GetModuleScene()->GetLoadedScene()->UpdateScenePointLights();
+							App->GetModuleScene()->GetLoadedScene()->RenderPointLights();
 
 							modified = true;
 						}
@@ -131,8 +131,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-				App->scene->GetLoadedScene()->RenderSpotLights();
+				App->GetModuleScene()->GetLoadedScene()->UpdateSceneSpotLights();
+				App->GetModuleScene()->GetLoadedScene()->RenderSpotLights();
 			}
 
 			ImGui::EndTable();

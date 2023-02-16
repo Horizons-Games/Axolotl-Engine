@@ -35,7 +35,8 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+		App->GetModuleFileSystem()->
+			Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
 
 		delete buffer;
 	}
@@ -154,11 +155,12 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		char* fileBuffer{};
 		unsigned int size = 0;
 
-		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
-		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
+		App->GetModuleFileSystem()->SaveInfoMaterial(pathTextures, fileBuffer, size);
+		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" 
+			+ std::to_string(i) + MATERIAL_EXTENSION;
 
-		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
-		UID resourceMaterial = App->resources->ImportResource(materialPath);
+		App->GetModuleFileSystem()->Save(materialPath.c_str(), fileBuffer, size);
+		UID resourceMaterial = App->GetModuleResources()->ImportResource(materialPath);
 		materialsUIDs.push_back(resourceMaterial);
 
 		delete fileBuffer;
@@ -181,8 +183,8 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		SaveInfoMesh(ourMesh, fileBuffer, size);
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
-		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		UID resourceMesh = App->resources->ImportResource(meshPath);
+		App->GetModuleFileSystem()->Save(meshPath.c_str(),fileBuffer,size);
+		UID resourceMesh = App->GetModuleResources()->ImportResource(meshPath);
 		meshesUIDs.push_back(resourceMesh);
 	}
 	resource->SetMeshesUIDs(meshesUIDs);
@@ -191,13 +193,13 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
 {
 	struct stat buffer {};
-	std::string name = App->fileSystem->GetFileName(file.data);
-	name += App->fileSystem->GetFileExtension(file.data);
+	std::string name = App->GetModuleFileSystem()->GetFileName(file.data);
+	name += App->GetModuleFileSystem()->GetFileExtension(file.data);
 	
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
-		std::string path = App->fileSystem->GetPathWithoutFile(filePath);
+		std::string path = App->GetModuleFileSystem()->GetPathWithoutFile(filePath);
 		//Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{

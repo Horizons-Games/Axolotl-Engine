@@ -29,7 +29,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
+		bool ownerIsRoot = App->GetModuleScene()->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)

@@ -8,7 +8,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 {
 	char* bufferPaths;
 
-	App->fileSystem->Load(filePath, bufferPaths);
+	App->GetModuleFileSystem()->Load(filePath, bufferPaths);
 
 	unsigned int header[4];
 	memcpy(header, bufferPaths, sizeof(header));
@@ -25,7 +25,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 		if (!path.empty()) 
 		{
-			resourceTexture.push_back(App->resources->ImportResource(path));
+			resourceTexture.push_back(App->GetModuleResources()->ImportResource(path));
 		}
 		else 
 		{
@@ -45,7 +45,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->GetModuleFileSystem()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
 }

@@ -49,9 +49,9 @@ void ComponentMeshRenderer::Draw()
 			mesh->Load();
 		}
 
-		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		unsigned program = App->GetModuleProgram()->GetProgram();
+		const float4x4& view = App->GetModuleEngineCamera()->GetViewMatrix();
+		const float4x4& proj = App->GetModuleEngineCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -107,7 +107,8 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+	std::shared_ptr<ResourceMesh> resourceMesh =
+		App->GetModuleResources()->RequestResource<ResourceMesh>(uidMesh).lock();
 
 	if (resourceMesh)
 	{
@@ -116,11 +117,11 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	else
 	{
 		std::string path = meta["assetPathMesh"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+		bool resourceExists = path != "" && App->GetModuleFileSystem()->Exists(path.c_str());
 		if (resourceExists) 
 		{
-			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+			uidMesh = App->GetModuleResources()->ImportResource(path);
+			resourceMesh = App->GetModuleResources()->RequestResource<ResourceMesh>(uidMesh).lock();
 			SetMesh(resourceMesh);
 		}
 	}
