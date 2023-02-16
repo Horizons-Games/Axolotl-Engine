@@ -10,7 +10,7 @@ class WindowComponentMaterial : public ComponentWindow
 {
 public:
 	WindowComponentMaterial(ComponentMaterial* component);
-	~WindowComponentMaterial() override = default;
+	~WindowComponentMaterial() override;
 
 protected:
 	void DrawWindowContents() override;

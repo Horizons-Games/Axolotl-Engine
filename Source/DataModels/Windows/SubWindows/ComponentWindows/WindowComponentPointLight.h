@@ -8,7 +8,7 @@ class WindowComponentPointLight : public ComponentWindow
 {
 public:
 	WindowComponentPointLight(ComponentPointLight* component);
-	~WindowComponentPointLight() override = default;
+	~WindowComponentPointLight() override;
 
 protected:
 	void DrawWindowContents() override;

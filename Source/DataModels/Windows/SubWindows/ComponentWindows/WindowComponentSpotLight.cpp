@@ -12,6 +12,10 @@ WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component
 {
 }
 
+WindowComponentSpotLight::~WindowComponentSpotLight()
+{
+}
+
 void WindowComponentSpotLight::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();

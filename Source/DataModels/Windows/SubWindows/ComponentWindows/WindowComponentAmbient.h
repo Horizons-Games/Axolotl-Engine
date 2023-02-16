@@ -8,7 +8,7 @@ class WindowComponentAmbient : public ComponentWindow
 {
 public:
 	WindowComponentAmbient(ComponentAmbient* component);
-	~WindowComponentAmbient() override = default;
+	~WindowComponentAmbient() override;
 
 protected:
 	void DrawWindowContents() override;

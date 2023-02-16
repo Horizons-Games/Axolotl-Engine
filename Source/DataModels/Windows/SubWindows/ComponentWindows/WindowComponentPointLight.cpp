@@ -12,6 +12,10 @@ WindowComponentPointLight::WindowComponentPointLight(ComponentPointLight* compon
 {
 }
 
+WindowComponentPointLight::~WindowComponentPointLight()
+{
+}
+
 void WindowComponentPointLight::DrawWindowContents()
 {
 	this->DrawEnableAndDeleteComponent();

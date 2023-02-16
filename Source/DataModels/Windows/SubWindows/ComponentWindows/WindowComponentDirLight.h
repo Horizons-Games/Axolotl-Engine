@@ -8,7 +8,7 @@ class WindowComponentDirLight : public ComponentWindow
 {
 public:
 	WindowComponentDirLight(ComponentDirLight* component);
-	~WindowComponentDirLight() override = default;
+	~WindowComponentDirLight() override;
 
 protected:
 	void DrawWindowContents() override;
