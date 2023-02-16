@@ -481,8 +481,6 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 		}
 
 		std::list<const GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
-		// Always check for the selected gameobject that it is not inside any quadtree
-		quadtreeGameObjects.push_back(App->scene->GetSelectedGameObject());
 
 		float nearDistance, farDistance;
 		for (const GameObject* gameObject : quadtreeGameObjects)

@@ -710,8 +710,25 @@ void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
 
+	CalculateHitSelectedGo(hitGameObjects, ray);
 	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	
 	SetNewSelectedGameObject(hitGameObjects, ray);
+}
+
+void ModuleEngineCamera::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+{
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	float nearDistance, farDistance;
+	ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+		(selectedGo->GetComponent(ComponentType::BOUNDINGBOX));
+
+	bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+
+	if (hit && selectedGo->IsActive())
+	{
+		hitGameObjects[nearDistance] = selectedGo;
+	}
 }
 
 void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
