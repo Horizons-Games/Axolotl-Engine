@@ -13,12 +13,12 @@ public:
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
 	virtual void Browser();
+	virtual void ImportResourceWithLoadingWindow();
 	bool isLoading = false;
-	bool assignUID = false;
 	std::string filePathName;
 	
 protected:
-	unsigned long long ImportResourceWithLoadingWindow(const std::string& filePath);
+	unsigned long long ImportResourceAsync(const std::string& filePath);
 
 	ImVec2 GetStartingSize() const override;
 
