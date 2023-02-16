@@ -3,6 +3,8 @@
 #include "Module.h"
 #include "Timer/Timer.h"
 
+#include <map>
+
 class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
@@ -14,6 +16,20 @@ class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
+
+enum class ModuleType
+{
+	WINDOW,
+	EDITOR,
+	INPUT,
+	PROGRAM,
+	FILESYSTEM,
+	RESOURCES,
+	CAMERA,
+	SCENE,
+	RENDER,
+	DEBUGDRAW
+};
 
 class Application
 {
@@ -43,19 +59,12 @@ public:
 	ModuleDebugDraw* GetModuleDebugDraw() const;
 
 private:
-	std::vector<std::unique_ptr<Module> > modules;
-	std::unique_ptr<Timer> appTimer;
+	template <typename M,
+		std::enable_if_t<std::is_base_of<Module, M>::value, bool> = true>
+	M* FindModuleOfType(ModuleType type) const;
 
-	ModuleWindow* window;
-	ModuleEditor* editor;
-	ModuleInput* input;
-	ModuleProgram* program;
-	ModuleFileSystem* fileSystem;
-	ModuleResources* resources;
-	ModuleEngineCamera* engineCamera;
-	ModuleScene* scene;
-	ModuleRender* renderer;
-	ModuleDebugDraw* debug;
+	std::map<ModuleType, std::unique_ptr<Module>> modules;
+	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
@@ -78,52 +87,14 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
-inline ModuleWindow* Application::GetModuleWindow() const
+template<typename M,
+	std::enable_if_t<std::is_base_of<Module, M>::value, bool>>
+inline M* Application::FindModuleOfType(ModuleType type) const
 {
-	return window;
-}
-
-inline ModuleEditor* Application::GetModuleEditor() const
-{
-	return editor;
-}
-
-inline ModuleInput* Application::GetModuleInput() const
-{
-	return input;
-}
-
-inline ModuleProgram* Application::GetModuleProgram() const
-{
-	return program;
-}
-
-inline ModuleFileSystem* Application::GetModuleFileSystem() const
-{
-	return fileSystem;
-}
-
-inline ModuleResources* Application::GetModuleResources() const
-{
-	return resources;
-}
-
-inline ModuleEngineCamera* Application::GetModuleEngineCamera() const
-{
-	return engineCamera;
-}
-
-inline ModuleScene* Application::GetModuleScene() const
-{
-	return scene;
-}
-
-inline ModuleRender* Application::GetModuleRender() const
-{
-	return renderer;
-}
-
-inline ModuleDebugDraw* Application::GetModuleDebugDraw() const
-{
-	return debug;
+	auto it = modules.find(type);
+	if (it != std::end(modules))
+	{
+		return static_cast<M*>((*it).second.get());
+	}
+	return nullptr;
 }

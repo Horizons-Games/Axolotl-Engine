@@ -17,16 +17,16 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
-	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
-	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
-	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
-	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
-	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
-	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
-	modules.push_back(std::unique_ptr<ModuleEngineCamera>(engineCamera = new ModuleEngineCamera()));
-	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
-	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
-	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
+	modules.emplace(ModuleType::WINDOW, std::make_unique<ModuleWindow>());
+	modules.emplace(ModuleType::EDITOR, std::make_unique<ModuleEditor>());
+	modules.emplace(ModuleType::INPUT, std::make_unique<ModuleInput>());
+	modules.emplace(ModuleType::PROGRAM, std::make_unique<ModuleProgram>());
+	modules.emplace(ModuleType::FILESYSTEM, std::make_unique<ModuleFileSystem>());
+	modules.emplace(ModuleType::RESOURCES, std::make_unique<ModuleResources>());
+	modules.emplace(ModuleType::CAMERA, std::make_unique<ModuleEngineCamera>());
+	modules.emplace(ModuleType::SCENE, std::make_unique<ModuleScene>());
+	modules.emplace(ModuleType::RENDER, std::make_unique<ModuleRender>());
+	modules.emplace(ModuleType::DEBUGDRAW, std::make_unique<ModuleDebugDraw>());
 
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
@@ -41,8 +41,8 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	for (int i = 0; i < modules.size() && ret; ++i)
-		ret = modules[i]->Init();
+	for (const std::pair<const ModuleType, std::unique_ptr<Module>>& moduleTypePair : modules)
+		ret = moduleTypePair.second->Init();
 
 	return ret;
 }
@@ -53,8 +53,8 @@ bool Application::Start()
 
 	appTimer->Start();
 
-	for (int i = 0; i < modules.size() && ret; ++i)
-		ret = modules[i]->Start();
+	for (const std::pair<const ModuleType, std::unique_ptr<Module>>& moduleTypePair : modules)
+		ret = moduleTypePair.second->Start();
 
 	return ret;
 }
@@ -65,14 +65,14 @@ update_status Application::Update()
 
 	update_status ret = UPDATE_CONTINUE;
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PreUpdate();
+	for (auto it = std::begin(modules); it != std::end(modules) && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it).second->PreUpdate();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->Update();
+	for (auto it = std::begin(modules); it != std::end(modules) && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it).second->Update();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PostUpdate();
+	for (auto it = std::begin(modules); it != std::end(modules) && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it).second->PostUpdate();
 
 	float dt = (appTimer->Read() - ms) / 1000.0f;
 
@@ -90,8 +90,58 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (int i = (int)(modules.size() - 1); i >= 0; --i)
-		ret = modules[i]->CleanUp();
+	for (auto it = std::rbegin(modules); it != std::rend(modules) && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it).second->CleanUp();
 
 	return ret;
+}
+
+ModuleWindow* Application::GetModuleWindow() const
+{
+	return FindModuleOfType<ModuleWindow>(ModuleType::WINDOW);
+}
+
+ModuleEditor* Application::GetModuleEditor() const
+{
+	return FindModuleOfType<ModuleEditor>(ModuleType::EDITOR);
+}
+
+ModuleInput* Application::GetModuleInput() const
+{
+	return FindModuleOfType<ModuleInput>(ModuleType::INPUT);
+}
+
+ModuleProgram* Application::GetModuleProgram() const
+{
+	return FindModuleOfType<ModuleProgram>(ModuleType::PROGRAM);
+}
+
+ModuleFileSystem* Application::GetModuleFileSystem() const
+{
+	return FindModuleOfType<ModuleFileSystem>(ModuleType::FILESYSTEM);
+}
+
+ModuleResources* Application::GetModuleResources() const
+{
+	return FindModuleOfType<ModuleResources>(ModuleType::RESOURCES);
+}
+
+ModuleEngineCamera* Application::GetModuleEngineCamera() const
+{
+	return FindModuleOfType<ModuleEngineCamera>(ModuleType::CAMERA);
+}
+
+ModuleScene* Application::GetModuleScene() const
+{
+	return FindModuleOfType<ModuleScene>(ModuleType::SCENE);
+}
+
+ModuleRender* Application::GetModuleRender() const
+{
+	return FindModuleOfType<ModuleRender>(ModuleType::RENDER);
+}
+
+ModuleDebugDraw* Application::GetModuleDebugDraw() const
+{
+	return FindModuleOfType<ModuleDebugDraw>(ModuleType::DEBUGDRAW);
 }
