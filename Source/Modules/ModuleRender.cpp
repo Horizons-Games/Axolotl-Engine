@@ -209,6 +209,7 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 	}
 
+#ifdef ENGINE
 	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	int w, h;
@@ -216,6 +217,7 @@ update_status ModuleRender::Update()
 
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
 	App->engineCamera->GetProjectionMatrix(), w, h);
+#endif // ENGINE
 
 	return UPDATE_CONTINUE;
 }
@@ -243,7 +245,9 @@ bool ModuleRender::CleanUp()
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 	App->engineCamera->SetAspectRatio(float(width) / height);
+#ifdef ENGINE
 	App->editor->Resized();
+#endif // ENGINE
 }
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
@@ -357,6 +361,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
+#ifdef ENGINE
 	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
 	else
 	{
@@ -365,6 +370,6 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontLeftNode());
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
-	
+#endif // ENGINE
 }
 

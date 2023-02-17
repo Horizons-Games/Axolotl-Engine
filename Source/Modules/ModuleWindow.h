@@ -58,7 +58,7 @@ private:
 	std::unique_ptr<SDL_Window, SDLWindowDestroyer> window;
 
 	//The surface contained by the window
-	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> screenSurface;
+	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> screenSurface = nullptr;
 
 	//whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
 	//this is because both flags are set at the same time, so it's impossible to differentiate otherwise

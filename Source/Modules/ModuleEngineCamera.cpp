@@ -77,6 +77,7 @@ update_status ModuleEngineCamera::Update()
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 
+#ifdef ENGINE
 	if (App->editor->IsSceneFocused())
 	{
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
@@ -123,6 +124,7 @@ update_status ModuleEngineCamera::Update()
 		KeyboardRotate();
 		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
+#endif // ENGINE
 
 	return UPDATE_CONTINUE;
 }

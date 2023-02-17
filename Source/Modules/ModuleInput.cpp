@@ -5,7 +5,9 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifdef ENGINE
 #include "imgui_impl_sdl.h"
+#endif // ENGINE
 
 ModuleInput::ModuleInput()
 {}
@@ -64,7 +66,9 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#endif // ENGINE
 
         switch (sdlEvent.type)
         {

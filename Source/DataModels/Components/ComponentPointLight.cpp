@@ -40,6 +40,7 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw()
 {
+#ifdef ENGINE
 	if (this->GetActive())
 	{
 		ComponentTransform* transform =
@@ -50,6 +51,7 @@ void ComponentPointLight::Draw()
 
 		dd::sphere(position, dd::colors::White, radius);
 	}
+#endif // ENGINE
 }
 
 void ComponentPointLight::SaveOptions(Json& meta)

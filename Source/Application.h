@@ -7,13 +7,15 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
 class ModuleProgram;
-class ModuleDebugDraw;
-class ModuleEditor;
-class ModuleEngineCamera;
 class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
+class ModuleEngineCamera;
+#ifdef ENGINE
+class ModuleEditor;
+class ModuleDebugDraw;
+#endif //ENGINE
 
 class Application
 {
@@ -38,10 +40,12 @@ public:
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleProgram* program;
-	ModuleDebugDraw* debug;
-	ModuleEditor* editor;
-	ModuleEngineCamera* engineCamera;
 	ModuleResources* resources;
+	ModuleEngineCamera* engineCamera;
+#ifdef ENGINE
+	ModuleEditor* editor;
+	ModuleDebugDraw* debug;
+#endif // ENGINE
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;

@@ -29,7 +29,9 @@ void ComponentBoundingBoxes::CalculateBoundingBoxes()
 
 void ComponentBoundingBoxes::Draw()
 {
+#ifdef ENGINE
 	if (drawBoundingBoxes) App->debug->DrawBoundingBox(GetObjectOBB());
+#endif // ENGINE
 }
 
 void ComponentBoundingBoxes::SaveOptions(Json& meta)
