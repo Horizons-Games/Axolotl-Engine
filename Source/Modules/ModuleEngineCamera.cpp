@@ -101,7 +101,8 @@ update_status ModuleEngineCamera::Update()
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
-				if (CreateRaycastFromMousePosition(windowScene))
+				LineSegment ray;
+				if (CreateRaycastFromMousePosition(windowScene, ray))
 				{
 					CalculateHitGameObjects(ray);
 				}
@@ -689,7 +690,7 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
-bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
+bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
