@@ -78,15 +78,21 @@ update_status ModuleEngineCamera::Update()
 	viewMatrix = frustum.ViewMatrix();
 
 #ifdef ENGINE
-	if (App->editor->IsSceneFocused())
+	bool sceneFocused = App->editor->IsSceneFocused();
+#else
+	bool sceneFocused = true;
+#endif // ENGINE
+
+	if (sceneFocused)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			Run();
 		else
 			Walk();
 
+#ifdef ENGINE
 		// --RAYCAST CALCULATION-- //
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE
 			&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 		{
 			const WindowScene* windowScene = App->editor->GetScene();
@@ -94,6 +100,7 @@ update_status ModuleEngineCamera::Update()
 			CalculateHittedGameObjects(ray);
 		}
 		// --RAYCAST CALCULATION-- //
+#endif // ENGINE
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE)
 		{
@@ -124,7 +131,6 @@ update_status ModuleEngineCamera::Update()
 		KeyboardRotate();
 		if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
 	}
-#endif // ENGINE
 
 	return UPDATE_CONTINUE;
 }

@@ -138,8 +138,10 @@ bool ModuleRender::Init()
 
 	glEnable(GL_TEXTURE_2D);
 
+#ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
+#endif // ENGINE
 	glGenRenderbuffers(1, &depthRenderBuffer);
 
 	std::pair<int, int> windowSize = App->window->GetWindowSize();
