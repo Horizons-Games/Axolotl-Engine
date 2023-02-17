@@ -96,6 +96,8 @@ private:
 	
 	AABB rootQuadtreeAABB = AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000));
 	std::unique_ptr<Quadtree> sceneQuadTree = nullptr;
+
+	BatchManager* batchManager;
 };
 
 inline UID Scene::GetUID() const

@@ -1,6 +1,7 @@
 #include "BatchManager.h"
 
 #include "DataModels/Batch/GeometryBatch.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
 
 BatchManager::BatchManager()
 {}
@@ -10,27 +11,30 @@ BatchManager::~BatchManager()
 	geometryBatches.clear();
 }
 
-void BatchManager::AddComponent(const std::shared_ptr<ComponentMeshRenderer>& newComponent)
+void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 {
-	const std::shared_ptr<GeometryBatch>& batch = CheckBatchCompatibility(newComponent);
-
-	if (batch != nullptr)
+	if (newComponent != nullptr)
 	{
-		batch->AddComponentMeshRenderer(newComponent);
-	}
-	else
-	{
-		const std::shared_ptr<GeometryBatch> newBatch = std::make_shared<GeometryBatch>();
+		GeometryBatch* batch = CheckBatchCompatibility(newComponent);
 
-		if (newBatch != nullptr)
+		if (batch != nullptr)
 		{
-			newBatch->AddComponentMeshRenderer(newComponent);
-			geometryBatches.push_back(newBatch);
+			batch->AddComponentMeshRenderer(newComponent);
+		}
+		else
+		{
+			GeometryBatch* newBatch = new GeometryBatch();
+
+			if (newBatch != nullptr)
+			{
+				newBatch->AddComponentMeshRenderer(newComponent);
+				geometryBatches.push_back(newBatch);
+			}
 		}
 	}
 }
 
-const std::shared_ptr<GeometryBatch>& BatchManager::CheckBatchCompatibility(const std::shared_ptr<ComponentMeshRenderer>& newComponent)
+GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent)
 {
 	return nullptr;
 }

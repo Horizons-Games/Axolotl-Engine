@@ -28,25 +28,22 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	std::shared_ptr<ResourceMesh> GetMesh() const;
+	const std::shared_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 
+	GeometryBatch* batch;
 	WindowMeshInput* inputMesh;
 };
 
-inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
+inline const std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
-	return batch->GetMesh(meshUID);
+	return mesh;
 }
 
-inline UID ComponentMeshRenderer::GetMeshUID() const
-{
-	return meshUID;
-}
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {

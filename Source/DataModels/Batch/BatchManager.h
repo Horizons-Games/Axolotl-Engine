@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 
 class GeometryBatch;
 class ComponentMeshRenderer;
@@ -12,9 +11,9 @@ public:
 	BatchManager();
 	~BatchManager();
 
-	void AddComponent(const std::shared_ptr<ComponentMeshRenderer>& newComponent);
+	void AddComponent(ComponentMeshRenderer* newComponent);
 private:
-	const std::shared_ptr<GeometryBatch>& CheckBatchCompatibility(const std::shared_ptr<ComponentMeshRenderer>& newComponent);
+	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
 
-	std::vector<std::shared_ptr<GeometryBatch>> geometryBatches;
+	std::vector<GeometryBatch*> geometryBatches;
 };

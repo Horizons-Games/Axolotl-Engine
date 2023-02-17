@@ -111,7 +111,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (resourceMesh)
 	{
-		SetMesh(resourceMesh->GetUID());
+		SetMesh(resourceMesh);
 	}
 	else
 	{
@@ -121,7 +121,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		{
 			uidMesh = App->resources->ImportResource(path);
 			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-			SetMesh(resourceMesh->GetUID());
+			SetMesh(resourceMesh);
 		}
 	}
 }

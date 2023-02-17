@@ -163,7 +163,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 		ComponentMeshRenderer* meshRenderer =
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
-		meshRenderer->SetMesh(mesh->GetUID());
+		meshRenderer->SetMesh(mesh);
 		batchManager->AddComponent(meshRenderer);
 	}
 }
@@ -425,7 +425,7 @@ void Scene::InitNewEmptyScene()
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
-	batchManager = std::make_shared<BatchManager>();
+	batchManager = new BatchManager();
 
 	InitLights();
 }

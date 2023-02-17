@@ -2,7 +2,6 @@
 
 #include "FileSystem/UniqueID.h"
 
-#include <memory>
 #include <vector>
 
 class ComponentMeshRenderer;
@@ -15,21 +14,28 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
-	void AddComponentMeshRenderer(const std::shared_ptr<ComponentMeshRenderer>& newComponent);
+	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
 	void Draw();
 
-	const std::weak_ptr<ResourceMesh>& GetMesh(const UID meshUID) const;
+	const int GetFlags() const;
 
 private:
-	void AddUniqueComponent(const std::weak_ptr<ResourceMesh>& resourceMesh);
-	const std::shared_ptr<GameObject>& GetComponentOwner(const std::weak_ptr<ResourceMesh>& resourceMesh);
-	bool isUniqueResourceMesh(const std::weak_ptr<ResourceMesh>& resourceMesh);
+	void AddUniqueComponent(ResourceMesh* resourceMesh);
+	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh);
+	bool isUniqueResourceMesh(const ResourceMesh* resourceMesh);
 
-	std::vector<std::shared_ptr<ComponentMeshRenderer>> components;
-	std::vector<std::weak_ptr<ResourceMesh>> uniqueComponents;
+	std::vector<ComponentMeshRenderer*> components;
+	std::vector<ResourceMesh*> uniqueComponents;
 
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
+
+	int flags = 0;;
 };
+
+inline const int GeometryBatch::GetFlags() const
+{
+	return flags;
+}
