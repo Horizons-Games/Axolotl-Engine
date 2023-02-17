@@ -167,7 +167,7 @@ bool ModuleRender::Start()
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
 	if (resourceSkybox)
 	{
-		skybox = std::make_shared<Skybox>(resourceSkybox);
+		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
 	return true;
 }
@@ -197,17 +197,16 @@ update_status ModuleRender::Update()
 	if (skybox)
 	{
 		skybox->Draw();
-
 	}
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
-	AddToRenderList(App->scene->GetSelectedGameObject().lock());
+	AddToRenderList(App->scene->GetSelectedGameObject());
 
-	for (std::weak_ptr<GameObject> gameObject : gameObjectsToDraw)
+	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
-		if (!gameObject.expired() && gameObject.lock()->IsActive())
-			gameObject.lock()->Draw();
+		if (gameObject != nullptr && gameObject->IsActive())
+			gameObject->Draw();
 	}
 
 	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
@@ -304,22 +303,22 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
+void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		std::list<std::weak_ptr<GameObject>> gameObjectsToRender = quadtree->GetGameObjects();
+		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
-			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)
+			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (std::weak_ptr<GameObject> gameObject : gameObjectsToRender)  //We draw all these objects
+			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
 				gameObjectsToDraw.push_back(gameObject);
 			}
@@ -338,10 +337,10 @@ void ModuleRender::FillRenderList(const std::shared_ptr<Quadtree>& quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject)
+void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
-	std::shared_ptr<ComponentBoundingBoxes> boxes =
-		std::static_pointer_cast<ComponentBoundingBoxes>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+	ComponentBoundingBoxes* boxes =
+		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
@@ -349,14 +348,14 @@ void ModuleRender::AddToRenderList(const std::shared_ptr<GameObject>& gameObject
 
 	if (!gameObject->GetChildren().empty())
 	{
-		for (std::weak_ptr<GameObject> children : gameObject->GetChildren())
+		for (GameObject* children : gameObject->GetChildren())
 		{
-			AddToRenderList(children.lock());
+			AddToRenderList(children);
 		}
 	}
 }
 
-void ModuleRender::DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree)
+void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
 	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
 	else

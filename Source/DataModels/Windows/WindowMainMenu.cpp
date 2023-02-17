@@ -6,15 +6,14 @@
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Pre-SuperAwesomeEngine/Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::shared_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
+WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
 {
 	about = std::make_unique<WindowAbout>();
 	
-	nWindows = editorWindows.size();
-	for (std::shared_ptr<EditorWindow> window : editorWindows)
+	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
 	{
-		windowNames.push_back(window->GetName());
-		windowsEnabled.push_back(true);
+		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair(window->GetName(), true);
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);
 	}
 }
 
@@ -39,11 +38,9 @@ void WindowMainMenu::DrawWindowsMenu()
 {
 	if (ImGui::BeginMenu("Windows"))
 	{
-		for (int i = 0; i < nWindows; ++i)
+		for (std::pair<std::string, bool>& windowNameAndEnabled : windowNamesAndEnabled)
 		{
-			bool windowEnabled = IsWindowEnabled(i);
-			ImGui::MenuItem(windowNames[i].c_str(), NULL, &windowEnabled);
-			SetWindowEnabled(i, windowEnabled);
+			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second);
 		}
 		ImGui::EndMenu();
 	}

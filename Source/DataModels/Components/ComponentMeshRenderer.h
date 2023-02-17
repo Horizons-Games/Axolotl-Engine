@@ -16,32 +16,29 @@ class WindowMeshInput;
 class ComponentMeshRenderer : public Component
 {
 public:
-	ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentMeshRenderer(const bool active, GameObject* owner);
 	~ComponentMeshRenderer() override;
 
 	void Update() override;
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetMesh(UID meshUID);
+	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	UID GetMeshUID() const;
-	std::weak_ptr<ResourceMesh> GetMesh() const;
+	std::shared_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
-	UID meshUID;
-	//std::weak_ptr<ResourceMesh> mesh;
-	std::unique_ptr<GeometryBatch> batch;
-	std::unique_ptr<WindowMeshInput> inputMesh;
+	std::shared_ptr<ResourceMesh> mesh;
+
+	WindowMeshInput* inputMesh;
 };
 
-inline std::weak_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
+inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return batch->GetMesh(meshUID);
 }
@@ -53,5 +50,5 @@ inline UID ComponentMeshRenderer::GetMeshUID() const
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
-	return !batch->GetMesh(meshUID).expired();
+	return mesh != nullptr;
 }

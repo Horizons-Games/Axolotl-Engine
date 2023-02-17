@@ -26,13 +26,26 @@ void WindowScene::DrawWindowContents()
 
 void WindowScene::ManageResize()
 {
-	ImVec2 availableRegion = ImGui::GetContentRegionAvail();
-	bool widthChanged = previousWidht != availableRegion.x;
-	bool heightChanged = previousHeight != availableRegion.y;
+	auto viewportOffset = ImGui::GetCursorPos(); // include tab bar
+	
+	availableRegion = ImGui::GetContentRegionAvail();
+	bool widthChanged = currentWidth != availableRegion.x;
+	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
 		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
-		previousWidht = availableRegion.x;
-		previousHeight = availableRegion.y;
+		currentWidth = availableRegion.x;
+		currentHeight = availableRegion.y;
 	}
+	
+	auto windowSize = ImGui::GetWindowSize();
+
+	ImVec2 minBounds = ImGui::GetWindowPos();
+	minBounds.x += viewportOffset.x;
+	minBounds.y += viewportOffset.y;
+	
+	ImVec2 maxBounds = { minBounds.x + windowSize.x, minBounds.y + windowSize.y};
+	
+	viewportBounds[0] = { minBounds.x, minBounds.y };
+	viewportBounds[1] = { maxBounds.x, maxBounds.y };
 }

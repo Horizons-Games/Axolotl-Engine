@@ -5,7 +5,6 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleEngineCamera.h"
-#include "ModuleTexture.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -17,6 +16,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
@@ -41,18 +41,20 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;     // Prevent mouse flickering
+
 	io.Fonts->AddFontDefault();
 	static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
-	windows.push_back(std::make_shared<WindowConsole>());
-	windows.push_back(scene = std::make_shared<WindowScene>());
-	windows.push_back(std::make_shared<WindowConfiguration>());
-	windows.push_back(std::make_shared<WindowInspector>());
-	windows.push_back(std::make_shared<WindowHierarchy>());
-	windows.push_back(std::make_shared<WindowEditorControl>());
-	windows.push_back(std::make_shared<WindowFileBrowser>());
+	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
+	windows.push_back(std::make_unique<WindowConfiguration>());
+	windows.push_back(std::make_unique<WindowInspector>());
+	windows.push_back(std::make_unique<WindowHierarchy>());
+	windows.push_back(std::make_unique<WindowEditorControl>());
+	windows.push_back(std::make_unique<WindowFileBrowser>());
+	windows.push_back(std::make_unique<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
@@ -72,7 +74,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	lines.clear();
 	windows.clear();
 
 	return true;
@@ -109,6 +110,9 @@ update_status ModuleEditor::Update()
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
 	ImGui::End();
+
+	//disable ALT key triggering nav menu
+	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {

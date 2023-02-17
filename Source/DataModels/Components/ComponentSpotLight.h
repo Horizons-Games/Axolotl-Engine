@@ -10,16 +10,15 @@ class ComponentSpotLight : public ComponentLight
 {
 public:
 	ComponentSpotLight();
-	ComponentSpotLight(const std::shared_ptr<GameObject>& parent);
+	ComponentSpotLight(GameObject* parent);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 					   const float3& color, float intensity);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
-					   const float3& color, float intensity, const std::shared_ptr<GameObject>& parent);
+					   const float3& color, float intensity, GameObject* parent);
 
 	~ComponentSpotLight() {};
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

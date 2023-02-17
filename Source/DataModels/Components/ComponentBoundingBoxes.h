@@ -11,10 +11,9 @@ class Json;
 class ComponentBoundingBoxes : public Component
 {
 public:
-	ComponentBoundingBoxes(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentBoundingBoxes(const bool active, GameObject* owner);
 
 	void Update() override;
-	void Display() override;
 
 	void CalculateBoundingBoxes();
 	void Draw() override;
@@ -24,7 +23,7 @@ public:
 
 	void Encapsule(const vec* Vertices, unsigned numVertices);
 
-	const AABB& GetLocalABB();
+	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
 	const bool isDrawBoundingBoxes();
@@ -36,6 +35,8 @@ private:
 	AABB encapsuledAABB;
 	OBB objectOBB;
 	bool drawBoundingBoxes;
+
+	friend class WindowComponentBoundingBoxes;
 };
 
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
@@ -44,7 +45,7 @@ inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numV
 	//localAABB.Enclose(Vertices, numVertices);
 }
 
-inline const AABB& ComponentBoundingBoxes::GetLocalABB()
+inline const AABB& ComponentBoundingBoxes::GetLocalAABB()
 {
 	CalculateBoundingBoxes();
 	return localAABB;
