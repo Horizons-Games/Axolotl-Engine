@@ -94,6 +94,14 @@ void GameObject::Draw() const
 	}
 }
 
+void GameObject::DrawHighlight() const
+{
+	std::vector<ComponentMeshRenderer*> meshes = GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+	for (ComponentMeshRenderer* mesh : meshes) {
+		mesh->DrawHighlight();
+	}
+}
+
 void GameObject::SaveOptions(Json& meta)
 {
 	meta["name"] = name.c_str();

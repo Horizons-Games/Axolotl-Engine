@@ -29,6 +29,7 @@ public:
 
 	void Update();
 	void Draw() const;
+	void DrawHighlight() const;
 
 	void InitNewEmptyGameObject();
 

@@ -133,6 +133,8 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	glDisable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
@@ -163,7 +165,8 @@ bool ModuleRender::Start()
 #else
 	UID skyboxUID = App->resources->GetSkyBoxResource();
 #endif
-	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
+		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
@@ -181,10 +184,11 @@ update_status ModuleRender::PreUpdate()
 
 	glViewport(0, 0, width, height);
 
-	glClearColor(this->backgroundColor.x, this->backgroundColor.y, 
-				 this->backgroundColor.z, this->backgroundColor.w);
+	glClearColor(backgroundColor.x, backgroundColor.y, 
+				 backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glStencilMask(0x00); // disable writing to the stencil buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	return UPDATE_CONTINUE;
 }
@@ -198,15 +202,29 @@ update_status ModuleRender::Update()
 
 	gameObjectsToDraw.clear();
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
-	AddToRenderList(App->scene->GetSelectedGameObject());
+	if (goSelected->IsActive()) {
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		goSelected->Draw();
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glStencilMask(0x00); // disable writing to the stencil buffer
+		glDisable(GL_DEPTH_TEST);
+		goSelected->DrawHighlight();
+		glStencilFunc(GL_ALWAYS, 0, 0xFF);
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
 			gameObject->Draw();
 	}
+
+	AddToRenderList(goSelected);
 
 	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
@@ -341,8 +359,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
+	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) {
+		gameObjectsToDraw.push_back(gameObject);
+	}
 	
 
 	if (!gameObject->GetChildren().empty())
