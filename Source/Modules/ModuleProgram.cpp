@@ -10,14 +10,14 @@ ModuleProgram::~ModuleProgram(){}
 bool ModuleProgram::Start()
 {
 	Programs.reserve((int)ProgramType::SKYBOX + 1);
-	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
-	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
+	Programs.push_back(std::unique_ptr<Program>(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default")));
+	Programs.push_back(std::unique_ptr<Program>(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox")));
 
 	return true;
-}
+}	
 
 
-std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+Program* ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
 	std::string programName)
 {
 	unsigned vertexShader =
@@ -30,7 +30,7 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 		return nullptr;
 	}
 
-	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader,
+	Program* program = new Program(vertexShader, fragmentShader,
 		vtxShaderFileName, frgShaderFileName, programName);
 
 	if (program->GetId() == 0)
@@ -46,8 +46,13 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 
 void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
 	std::string programName)
-{
-	Programs[programType] = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
+{	
+	Program* program = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
+
+	if (program)
+	{
+		Programs[programType] = std::unique_ptr<Program>(program);
+	}
 }
 
 bool ModuleProgram::CleanUp()

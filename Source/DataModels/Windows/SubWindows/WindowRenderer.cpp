@@ -29,7 +29,7 @@ void WindowRenderer::DrawWindowContents()
 		fragmentShaderBuffer.resize((int)ProgramType::SKYBOX + 1);
 		for (int i = 0; i <= (int)ProgramType::SKYBOX; i++)
 		{
-			std::shared_ptr<Program> program = App->program->GetProgram((ProgramType)i).lock();
+			Program* program = App->program->GetProgram((ProgramType)i);
 			if (program)
 			{
 				vertexShaderBuffers[i] = program->GetVertexShaderFileName();
@@ -41,7 +41,7 @@ void WindowRenderer::DrawWindowContents()
 
 	for (int i = 0; i <= (int)ProgramType::SKYBOX; i++)
 	{
-		std::shared_ptr<Program> program = App->program->GetProgram((ProgramType)i).lock();
+		Program* program = App->program->GetProgram((ProgramType)i);
 		if (program)
 		{
 			std::string vertexShaderLabel = program->GetProgramName() + " vertex shader";
@@ -67,6 +67,7 @@ void WindowRenderer::DrawWindowContents()
 					&& ff.good())
 				{
 					App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+					initialized = false;
 				}
 				else
 				{

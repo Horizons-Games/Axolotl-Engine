@@ -16,7 +16,7 @@ public:
 
 	bool Start() override;
 
-	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+	Program* CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
 		std::string programName);
 
 	void UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
@@ -24,20 +24,20 @@ public:
 
 	bool CleanUp() override;
 
-	const std::weak_ptr<Program> GetProgram(ProgramType type) const;
+	Program* GetProgram(ProgramType type) const;
 
 private:
 
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
-	std::vector<std::shared_ptr<Program> > Programs;
+	std::vector<std::unique_ptr<Program> > Programs;
 	std::string RootPath = "Lib/Shaders/";
 };
 
-inline const std::weak_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
+inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
-	return Programs[(int)type];
+	return Programs[(int)type].get();
 }
 
 

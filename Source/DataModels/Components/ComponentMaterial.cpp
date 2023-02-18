@@ -34,7 +34,7 @@ void ComponentMaterial::Update()
 
 void ComponentMaterial::Draw()
 {
-	std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::MESHSHADER).lock();
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	if (program)
 	{
 		program->Activate();

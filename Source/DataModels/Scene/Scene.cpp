@@ -196,7 +196,7 @@ void Scene::RemoveCamera(const GameObject* cameraGameObject)
 
 void Scene::GenerateLights()
 {
-	std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::MESHSHADER).lock();
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
 	if (program)
 	{
