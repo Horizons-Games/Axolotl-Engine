@@ -16,9 +16,6 @@ public:
 
 	bool Start() override;
 
-	Program* CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
-		std::string programName);
-
 	void UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
 		std::string programName);
 
@@ -27,6 +24,8 @@ public:
 	Program* GetProgram(ProgramType type) const;
 
 private:
+	std::unique_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+		std::string programName);
 
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
