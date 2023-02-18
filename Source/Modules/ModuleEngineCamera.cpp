@@ -383,7 +383,7 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	float radius = boundingSphere.r;
 	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum.HorizontalFov();
-	float camDistance = radius / (float)(sin(fov / 2.0));
+	float camDistance = radius / sin(fov / 2.0f);
 	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
 	//position = boundingSphere.pos - (camDirection * camDistance);
