@@ -370,6 +370,7 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="DataModels\Batch\BatchFlags.h" />
     <ClInclude Include="DataModels\Batch\BatchManager.h" />
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="DataModels\Components\Component.h" />

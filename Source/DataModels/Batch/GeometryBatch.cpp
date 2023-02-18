@@ -8,8 +8,11 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceMesh.h"
+#include "DataModels/Batch/BatchFlags.h"
 
 #include <gl/glew.h>
+
+
 
 GeometryBatch::GeometryBatch()
 {
@@ -28,13 +31,13 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		if (components.empty())
 		{
 			if(!newComponent->GetMesh()->GetNormals().empty())
-				flags << 0x00000001;
+				flags << HAS_NORMALS;
 
 			if (!newComponent->GetMesh()->GetTextureCoords().empty())
-				flags << 0x00000002;
+				flags << HAS_TEXTURE_COORDINATES;
 
 			if (!newComponent->GetMesh()->GetTangents().empty())
-				flags << 0x00000003;
+				flags << HAS_TANGENTS;
 		}
 
 		AddUniqueComponent(newComponent->GetMesh().get());

@@ -936,6 +936,9 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>Source\DataModels\Batch</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchFlags.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
