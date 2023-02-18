@@ -9,7 +9,7 @@ ModuleProgram::~ModuleProgram(){}
 
 bool ModuleProgram::Start()
 {
-	Programs.reserve((int)ProgramType::SKYBOX + 1);
+	Programs.reserve((int)ProgramType::PROGRAM_TYPE_SIZE);
 	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
 

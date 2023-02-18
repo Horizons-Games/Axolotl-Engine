@@ -25,9 +25,9 @@ void WindowRenderer::DrawWindowContents()
 {
 	if (!initialized)
 	{
-		vertexShaderBuffers.resize((int)ProgramType::SKYBOX + 1);
-		fragmentShaderBuffer.resize((int)ProgramType::SKYBOX + 1);
-		for (int i = 0; i <= (int)ProgramType::SKYBOX; i++)
+		vertexShaderBuffers.resize((int)ProgramType::PROGRAM_TYPE_SIZE);
+		fragmentShaderBuffer.resize((int)ProgramType::PROGRAM_TYPE_SIZE);
+		for (int i = 0; i < (int)ProgramType::PROGRAM_TYPE_SIZE; i++)
 		{
 			Program* program = App->program->GetProgram((ProgramType)i);
 			if (program)
@@ -39,7 +39,7 @@ void WindowRenderer::DrawWindowContents()
 		initialized = true;
 	}
 
-	for (int i = 0; i <= (int)ProgramType::SKYBOX; i++)
+	for (int i = 0; i < (int)ProgramType::PROGRAM_TYPE_SIZE; i++)
 	{
 		Program* program = App->program->GetProgram((ProgramType)i);
 		if (program)

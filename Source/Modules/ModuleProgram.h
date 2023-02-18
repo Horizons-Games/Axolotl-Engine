@@ -5,7 +5,8 @@ class Program;
 
 enum class ProgramType {
 	MESHSHADER,
-	SKYBOX
+	SKYBOX,
+	PROGRAM_TYPE_SIZE
 };
 
 class ModuleProgram : public Module
