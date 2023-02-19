@@ -7,7 +7,6 @@
 
 #include <memory>
 
-// Should this exist??
 struct OptionsMesh
 {
 };
