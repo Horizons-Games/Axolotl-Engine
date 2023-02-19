@@ -14,8 +14,9 @@
 #include "ModuleEngineCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes)
+Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
 {
+    this->skyboxRes = skyboxRes;
     std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
     if (skyboxAsShared)
     {

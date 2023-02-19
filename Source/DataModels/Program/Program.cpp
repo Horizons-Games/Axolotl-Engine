@@ -3,8 +3,9 @@
 #include "Globals.h"
 #include "GL/glew.h"
 
-Program::Program(unsigned vertexShader, unsigned fragmentShader) : id(glCreateProgram())
+Program::Program(unsigned vertexShader, unsigned fragmentShader)
 {
+	id = glCreateProgram();
 	glAttachShader(id, vertexShader);
 	glAttachShader(id, fragmentShader);
 	glLinkProgram(id);
