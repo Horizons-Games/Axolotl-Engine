@@ -63,7 +63,7 @@ private:
 
 	GLuint frameBuffer = 0;
 	GLuint renderedTexture = 0;
-	GLuint depthRenderBuffer = 0;
+	GLuint depthStencilRenderbuffer = 0;
 
 	std::string vertexShader = "default_vertex.glsl";
 	std::string fragmentShader = "default_fragment.glsl";

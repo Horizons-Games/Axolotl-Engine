@@ -112,9 +112,9 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	this->context = SDL_GL_CreateContext(App->window->GetWindow());
+	context = SDL_GL_CreateContext(App->window->GetWindow());
 
-	this->backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
+	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
 	GLenum err = glewInit();
 	ENGINE_LOG("glew error %s", glewGetErrorString(err));
@@ -132,17 +132,19 @@ bool ModuleRender::Init()
 	glDebugMessageCallback(&OurOpenGLErrorFunction, nullptr); 
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
-	glEnable(GL_DEPTH_TEST); // Enable depth test
+	glEnable(GL_DEPTH_TEST);	// Enable depth test
 	glEnable(GL_STENCIL_TEST);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CCW); // Front faces will be counter clockwise
+	glStencilOp(GL_KEEP,		// stencil fail
+				GL_KEEP,		// stencil pass, depth fail
+				GL_REPLACE);	// stencil pass, depth pass
+	glDisable(GL_CULL_FACE);	// Enable cull backward faces
+	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
 
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
-	glGenRenderbuffers(1, &depthRenderBuffer);
+	glGenRenderbuffers(1, &depthStencilRenderbuffer);
 
 	std::pair<int, int> windowSize = App->window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -187,9 +189,9 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-	glStencilMask(0x00); // disable writing to the stencil buffer
+	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
+	glStencilMask(0x00); // disable writing to the stencil buffer
 	return UPDATE_CONTINUE;
 }
 
@@ -204,24 +206,31 @@ update_status ModuleRender::Update()
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
-	if (goSelected->IsActive()) {
+	bool isRoot = goSelected->GetParent() == nullptr;
+
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+
+	if (isRoot) 
+	{
+		gameObjectsToDraw.push_back(goSelected);
+	}
+	for (const GameObject* gameObject : gameObjectsToDraw)
+	{
+		if (gameObject != nullptr && gameObject->IsActive())
+			gameObject->Draw();
+	}
+
+	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	{
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 		glStencilMask(0xFF); // enable writing to the stencil buffer
-		goSelected->Draw();
+		goSelected->DrawSelected();
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glStencilMask(0x00); // disable writing to the stencil buffer
 		glDisable(GL_DEPTH_TEST);
 		goSelected->DrawHighlight();
 		glStencilFunc(GL_ALWAYS, 0, 0xFF);
 		glEnable(GL_DEPTH_TEST);
-	}
-
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
-
-	for (const GameObject* gameObject : gameObjectsToDraw)
-	{
-		if (gameObject != nullptr && gameObject->IsActive())
-			gameObject->Draw();
 	}
 
 	AddToRenderList(goSelected);
@@ -274,10 +283,15 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
+
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

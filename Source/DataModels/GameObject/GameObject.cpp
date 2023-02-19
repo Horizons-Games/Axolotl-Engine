@@ -94,8 +94,31 @@ void GameObject::Draw() const
 	}
 }
 
-void GameObject::DrawHighlight() const
+void GameObject::DrawSelected()
 {
+	for (std::unique_ptr<GameObject>& child : children) //TODO Cambiar a iterativo
+	{
+		if (child.get()->IsActive()) {
+			child.get()->DrawSelected();
+		}
+	}
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->GetActive())
+		{
+			component->Draw();
+		}
+	}
+}
+
+void GameObject::DrawHighlight()
+{
+	for (std::unique_ptr<GameObject>& child : children) //TODO Cambiar a iterativo
+	{
+		if (child.get()->IsActive()) {
+			child.get()->DrawHighlight();
+		}
+	}
 	std::vector<ComponentMeshRenderer*> meshes = GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
 	for (ComponentMeshRenderer* mesh : meshes) {
 		mesh->DrawHighlight();
