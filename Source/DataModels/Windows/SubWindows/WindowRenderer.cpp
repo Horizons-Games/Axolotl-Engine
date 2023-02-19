@@ -12,9 +12,8 @@
 
 int WindowRenderer::bufferSize = 128;
 
-WindowRenderer::WindowRenderer() : SubWindow("Renderer")
+WindowRenderer::WindowRenderer() : SubWindow("Renderer"), initialized(false)
 {
-	initialized = false;
 }
 
 WindowRenderer::~WindowRenderer()

@@ -6,9 +6,9 @@
 
 Program::Program(unsigned vertexShader, unsigned fragmentShader,
 	const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName) :
-	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName), programName(programName)
+	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName), programName(programName),
+	id(glCreateProgram())
 {
-	id = glCreateProgram();
 	glAttachShader(id, vertexShader);
 	glAttachShader(id, fragmentShader);
 	glLinkProgram(id);
