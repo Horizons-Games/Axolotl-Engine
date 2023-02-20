@@ -50,19 +50,6 @@ public:
 	Frustum* GetFrustum();
 
 	void ApplyRotation(const float3x3& rotationMatrix);
-
-	void Move();
-	void KeyboardRotate();
-	void Rotate();
-	void ApplyRotation(const float3x3& rotationMatrix);
-	void FreeLook();
-	void UnlimitedCursor();
-	void Run();
-	void Walk();
-	void Zoom();
-	void Focus(const OBB& obb);
-	void Focus(GameObject* gameObject);
-	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
@@ -106,7 +93,7 @@ protected:
 		const LineSegment& ray);
 
 	CameraType type;
-	Frustum* frustum;
+	std::unique_ptr <Frustum> frustum;
 
 	float3 position;
 
@@ -133,9 +120,9 @@ protected:
 
 
 inline Camera::Camera(const CameraType type)
-	: type(type)
+	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
 {
-	frustum = new Frustum();
+	frustum = std::make_unique <Frustum>();
 }
 
 inline CameraType Camera::GetType()
@@ -145,7 +132,7 @@ inline CameraType Camera::GetType()
 
 inline Frustum* Camera::GetFrustum()
 {
-	return this->frustum;
+	return this->frustum.get();
 }
 
 const std::string GetNameByCameraType(CameraType type)

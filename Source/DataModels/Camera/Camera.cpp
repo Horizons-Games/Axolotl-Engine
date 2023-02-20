@@ -161,12 +161,14 @@ void Camera::SetOrientation(const float3& orientation)
 void Camera::SetLookAt(const float3& lookAt)
 {
 	float3 direction = lookAt - position;
+	Quat finalRotation = Quat::LookAt(frustum->Front(), direction.Normalized(), frustum->Up(), float3::unitY);
+	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime() * rotationSpeed);
+	//currentRotation = rotation
+	if (nextRotation.Equals(Quat::identity)) isFocusing = false;
 
-	float3x3 rotationMatrix = float3x3::LookAt(
-		frustum->Front().Normalized(), direction.Normalized(), frustum->Up(), float3::unitY
-	);
-
+	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
+
 }
 
 void Camera::SetMoveSpeed(float speed)

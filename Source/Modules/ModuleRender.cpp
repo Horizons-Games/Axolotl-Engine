@@ -218,7 +218,7 @@ update_status ModuleRender::Update()
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
 	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
-	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);ç
+	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
 #endif // ENGINE
 
 	return UPDATE_CONTINUE;
