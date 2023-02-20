@@ -5,13 +5,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "ModuleDebugDraw.h"
-
-#include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-#include "FileSystem/Json.h"
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false)
