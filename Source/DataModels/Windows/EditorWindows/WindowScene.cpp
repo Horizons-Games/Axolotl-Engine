@@ -6,7 +6,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleRender.h"
-#include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleCamera.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene")
 {
@@ -33,7 +33,7 @@ void WindowScene::ManageResize()
 	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->engineCamera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 	}

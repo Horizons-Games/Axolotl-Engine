@@ -1,69 +1,41 @@
 #pragma once
-#pragma warning (disable: 26495)
 
-#include "Module.h"
-#include "ModuleDebugDraw.h"
+#include <string>
+#include "Geometry/Frustum.h"
 
 #include <memory>
 #include <map>
 
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
 
-#define DEFAULT_MOVE_SPEED 9.f
-#define DEFAULT_ROTATION_DEGREE 30
-#define DEFAULT_ROTATION_SPEED 5.f
-#define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
-#define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE 0
-#define DEFAULT_FRUSTUM_OFFSET 1.f
-#define DEFAULT_FRUSTUM_DISTANCE 20000.f
+enum EFrustumMode { normalFrustum, offsetFrustum, noFrustum };
 
-#define ORBIT_SPEED_MULTIPLIER 2.f
+enum class CameraType { UNKNOWN , C_ENGINE, C_GOD, C_GAMEOBJECT };
 
-#define MAX_MOUSE_SPEED_MODIFIER 5.f
-#define MAX_HFOV 120
-#define MAX_VFOV 85
-#define MAX_FRUSTUM 2.f
+const static std::string GetNameByCameraType(CameraType type);
+const static CameraType GetCameraTypeByName(const std::string& name);
 
-#define MIN_HFOV 60
-#define MIN_VFOV 34
-#define MIN_FRUSTUM -2.f
-
-enum EFrustumMode
-{
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
-};
 
 class GameObject;
 class WindowScene;
 
-class ModuleEngineCamera : public Module
+class Camera
 {
 public:
-	ModuleEngineCamera();
-	~ModuleEngineCamera() override;
+	Camera(const CameraType type);
+	virtual ~Camera();
 
-	bool Init() override;
-	bool Start() override;
+	virtual bool Init() = 0;
+	virtual bool Start() = 0;
 
-	update_status Update();
+	virtual bool Update() = 0; // Abstract because each Camera will perform its own Update
 
-	void Move();
-	void KeyboardRotate();
+	CameraType GetType();
+	Frustum* GetFrustum();
+
 	void ApplyRotation(const float3x3& rotationMatrix);
-	void FreeLook();
-	void Run();
-	void Walk();
-	void Zoom();
-	void Focus(const OBB& obb);
-	void Focus(GameObject* gameObject);
-	void Orbit(const OBB& obb);
-	
+
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
 	bool IsInsideOffset(const OBB& obb);
@@ -96,15 +68,17 @@ public:
 	float GetViewPlaneDistance() const;
 	int	GetFrustumMode() const;
 	const float3& GetPosition() const;
-	
-private:
+
+protected:
+
 	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
-	
+
 	void CalculateHittedGameObjects(const LineSegment& ray);
 	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
-								  const LineSegment& ray);
+		const LineSegment& ray);
 
-	Frustum frustum;
+	CameraType type;
+	Frustum* frustum;
 
 	float3 position;
 
@@ -124,18 +98,67 @@ private:
 	math::Plane offsetFrustumPlanes[6];
 };
 
-inline const float3& ModuleEngineCamera::GetPosition() const
+
+inline Camera::Camera(const CameraType type)
+	: type(type)
+{
+	frustum = new Frustum();
+}
+
+inline CameraType Camera::GetType()
+{
+	return this->type;
+}
+
+inline Frustum* Camera::GetFrustum()
+{
+	return this->frustum;
+}
+
+const std::string GetNameByCameraType(CameraType type)
+{
+	switch (type)
+	{
+	case CameraType::C_ENGINE:
+		return "Camera_Engine";
+		break;
+	case CameraType::C_GOD:
+		return "Camera_God";
+		break;
+	case CameraType::C_GAMEOBJECT:
+		return "Camera_GameObject";
+		break;
+	default:
+		assert(false && "Wrong camera type introduced");
+		return "";
+	}
+}
+
+const CameraType GetCameraTypeByName(const std::string& typeName)
+{
+	if (typeName == "Camera_Engine")
+		return CameraType::C_ENGINE;
+	if (typeName == "Camera_God")
+		return CameraType::C_GOD;
+	if (typeName == "Camera_GameObject")
+		return CameraType::C_GAMEOBJECT;
+	return CameraType::UNKNOWN;
+}
+
+
+inline const float3& Camera::GetPosition() const
 {
 	return position;
 }
 
-inline float ModuleEngineCamera::GetViewPlaneDistance() const
+inline float Camera::GetViewPlaneDistance() const
 {
 	return viewPlaneDistance;
 }
 
-inline void ModuleEngineCamera::SetViewPlaneDistance(float distance)
+inline void Camera::SetViewPlaneDistance(float distance)
 {
 	viewPlaneDistance = distance;
-	frustum.SetViewPlaneDistances(0.1f, distance);
+	frustum->SetViewPlaneDistances(0.1f, distance);
 }
+

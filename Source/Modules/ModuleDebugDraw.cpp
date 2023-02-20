@@ -8,7 +8,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 

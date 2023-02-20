@@ -11,7 +11,7 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "DataModels/Program/Program.h"
 
 Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
@@ -33,8 +33,8 @@ void Skybox::Draw()
     {
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetCamera()->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
         std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
         if (skyboxAsShared)

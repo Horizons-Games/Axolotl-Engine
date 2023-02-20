@@ -9,7 +9,7 @@ class ModuleInput;
 class ModuleProgram;
 class ModuleDebugDraw;
 class ModuleEditor;
-class ModuleEngineCamera;
+class ModuleCamera;
 class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
@@ -40,7 +40,7 @@ public:
 	ModuleProgram* program;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
-	ModuleEngineCamera* engineCamera;
+	ModuleCamera* engineCamera;
 	ModuleResources* resources;
 private:
 	std::vector<std::unique_ptr<Module> > modules;

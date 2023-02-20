@@ -6,7 +6,7 @@
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
@@ -23,7 +23,7 @@ Application::Application()
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
-	modules.push_back(std::unique_ptr<ModuleEngineCamera>(engineCamera = new ModuleEngineCamera()));
+	modules.push_back(std::unique_ptr<ModuleCamera>(engineCamera = new ModuleCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
 	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));

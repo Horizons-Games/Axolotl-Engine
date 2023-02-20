@@ -330,6 +330,10 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Camera\Camera.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraEngine.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraGameObject.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
@@ -394,7 +398,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
     <ClCompile Include="Modules\ModuleEditor.cpp" />
-    <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
+    <ClCompile Include="Modules\ModuleCamera.cpp" />
     <ClCompile Include="Modules\ModuleInput.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
@@ -499,6 +503,10 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="DataModels\Camera\Camera.h" />
+    <ClInclude Include="DataModels\Camera\CameraEngine.h" />
+    <ClInclude Include="DataModels\Camera\CameraGameObject.h" />
+    <ClInclude Include="DataModels\Camera\CameraGod.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
@@ -571,7 +579,7 @@
     <ClInclude Include="Modules\Module.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h" />
     <ClInclude Include="Modules\ModuleEditor.h" />
-    <ClInclude Include="Modules\ModuleEngineCamera.h" />
+    <ClInclude Include="Modules\ModuleCamera.h" />
     <ClInclude Include="Modules\ModuleInput.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />

@@ -6,7 +6,7 @@
 #include "DataModels/Resources/ResourceModel.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
@@ -214,8 +214,8 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetViewMatrix(),
-	App->engineCamera->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
+	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return UPDATE_CONTINUE;
 }
@@ -242,7 +242,7 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->SetAspectRatio(float(width) / height);
+	App->engineCamera->GetCamera()->SetAspectRatio(float(width) / height);
 	App->editor->Resized();
 }
 
@@ -305,7 +305,7 @@ void ModuleRender::UpdateProgram()
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
+	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
 		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
@@ -342,7 +342,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
+	if (App->engineCamera->GetCamera()->IsInside(boxes->GetEncapsuledAABB())
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
 	
 

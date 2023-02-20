@@ -7,7 +7,7 @@
 
 #include "Application.h"
 
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
@@ -50,8 +50,8 @@ void ComponentMeshRenderer::Draw()
 		}
 
 		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
