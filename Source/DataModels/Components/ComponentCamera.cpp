@@ -55,7 +55,10 @@ void ComponentCamera::Update()
 
 void ComponentCamera::Draw()
 {
-	if(drawFrustum) App->debug->DrawFrustum(frustum);
+#ifdef ENGINE
+	if(drawFrustum)
+		App->debug->DrawFrustum(frustum);
+#endif // ENGINE
 }
 
 void ComponentCamera::SaveOptions(Json& meta)

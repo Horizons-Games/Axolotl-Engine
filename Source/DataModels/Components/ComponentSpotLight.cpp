@@ -42,6 +42,7 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 void ComponentSpotLight::Draw()
 {
+#ifdef ENGINE
 	if (this->GetActive())
 	{
 		ComponentTransform* transform =
@@ -54,6 +55,7 @@ void ComponentSpotLight::Draw()
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
+#endif // ENGINE
 }
 
 void ComponentSpotLight::SaveOptions(Json& meta)

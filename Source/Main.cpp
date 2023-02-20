@@ -14,7 +14,9 @@ enum main_states
 };
 
 std::unique_ptr<Application> App;
+#ifdef ENGINE
 std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
+#endif // ENGINE
 
 int main(int argc, char ** argv)
 {

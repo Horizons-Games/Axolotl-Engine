@@ -5,7 +5,9 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifdef ENGINE
 #include "imgui_impl_sdl.h"
+#endif // ENGINE
 
 ModuleInput::ModuleInput()
 {}
@@ -24,6 +26,25 @@ bool ModuleInput::Init()
         ENGINE_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+
+    freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
+    orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
+    moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
+    zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
+    freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
+    orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
+    moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
+    zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
+
+    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
+                    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
+    this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                    (defaultCursor.get());
+
 
 	return ret;
 }
@@ -64,7 +85,9 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#endif // ENGINE
 
         switch (sdlEvent.type)
         {

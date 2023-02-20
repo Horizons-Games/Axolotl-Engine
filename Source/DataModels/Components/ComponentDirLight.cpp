@@ -34,6 +34,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameO
 
 void ComponentDirLight::Draw()
 {
+#ifdef ENGINE
 	if (this->GetActive())
 	{
 		ComponentTransform* transform =
@@ -62,6 +63,7 @@ void ComponentDirLight::Draw()
 			dd::arrow(from, to, dd::colors::White, 0.05f);
 		}
 	}
+#endif // ENGINE
 }
 
 void ComponentDirLight::SaveOptions(Json& meta)

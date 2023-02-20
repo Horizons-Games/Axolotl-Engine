@@ -187,9 +187,6 @@
     <ClCompile Include="Modules\ModuleWindow.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
@@ -402,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraGod.cpp">
       <Filter>Source\DataModels\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -708,12 +708,6 @@
     <ClInclude Include="Modules\ModuleWindow.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\Window.h">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClInclude>
@@ -947,6 +941,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraGameObject.h">
       <Filter>Source\DataModels\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\Window.h">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
