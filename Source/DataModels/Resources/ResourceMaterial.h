@@ -11,7 +11,10 @@ struct OptionsMaterial
 class ResourceMaterial : public Resource
 {
 public:
-	ResourceMaterial(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceMaterial(UID resourceUID, 
+					const std::string& fileName, 
+					const std::string& assetsPath, 
+					const std::string& libraryPath);
 	~ResourceMaterial() override;
 
 	ResourceType GetType() const override;
@@ -95,7 +98,7 @@ inline ResourceMaterial::ResourceMaterial(UID resourceUID,
 
 inline ResourceMaterial::~ResourceMaterial()
 {
-	this->Unload();
+	Unload();
 }
 
 inline ResourceType ResourceMaterial::GetType() const
@@ -105,47 +108,47 @@ inline ResourceType ResourceMaterial::GetType() const
 
 inline UID& ResourceMaterial::GetDiffuseUID()
 {
-	return this->diffuseUID;
+	return diffuseUID;
 }
 
 inline UID& ResourceMaterial::GetNormalUID()
 {
-	return this->normalUID;
+	return normalUID;
 }
 
 inline UID& ResourceMaterial::GetOcclusionrUID()
 {
-	return this->occlusionUID;
+	return occlusionUID;
 }
 
 inline UID& ResourceMaterial::GetSpecularUID()
 {
-	return this->specularUID;
+	return specularUID;
 }
 
 inline float3& ResourceMaterial::GetDiffuseColor()
 {
-	return this->diffuseColor;
+	return diffuseColor;
 }
 
 inline float3& ResourceMaterial::GetSpecularColor()
 {
-	return this->specularColor;
+	return specularColor;
 }
 
 inline float& ResourceMaterial::GetShininess()
 {
-	return this->shininess;
+	return shininess;
 }
 
 inline float& ResourceMaterial::GetNormalStrength()
 {
-	return this->normalStrength;
+	return normalStrength;
 }
 
 inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline bool ResourceMaterial::haveDiffuse()
@@ -176,25 +179,25 @@ inline bool ResourceMaterial::HaveShininessAlpha()
 inline void ResourceMaterial::SetDiffuseUID(UID& diffuseUID)
 {
 	this->diffuseUID = diffuseUID;
-	this->hasDiffuse = true;
+	hasDiffuse = true;
 }
 
 inline void ResourceMaterial::SetNormalUID(UID& normalUID)
 {
 	this->normalUID = normalUID;
-	this->hasNormal = true;
+	hasNormal = true;
 }
 
 inline void ResourceMaterial::SetOcclusionUID(UID& occlusionUID)
 {
 	this->occlusionUID = occlusionUID;
-	this->occlusionUID = true;
+	occlusionUID = true;
 }
 
 inline void ResourceMaterial::SetSpecularUID(UID& specularUID)
 {
 	this->specularUID = specularUID;
-	this->hasSpecular = true;
+	hasSpecular = true;
 }
 
 inline void ResourceMaterial::SetDiffuseColor(float3& diffuseColor)

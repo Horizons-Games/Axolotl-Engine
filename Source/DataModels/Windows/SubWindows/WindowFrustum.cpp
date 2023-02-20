@@ -31,7 +31,8 @@ void WindowFrustum::DrawWindowContents()
 	}
 
 	float vFrustum = App->engineCamera->GetFrustumOffset();
-	if (ImGui::SliderFloat("Offset", &vFrustum, MIN_FRUSTUM, MAX_FRUSTUM, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
+	if (ImGui::SliderFloat("Offset", &vFrustum, MIN_FRUSTUM, MAX_FRUSTUM, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
+	{
 		App->engineCamera->SetFrustumOffset(vFrustum);
 	}
 
@@ -42,13 +43,16 @@ void WindowFrustum::DrawWindowContents()
 	}
 
 	int quadrantCapacity = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetQuadrantCapacity();
-	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) 
+	{
 		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
 	float minQuadrantSideSize = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetMinQuadrantSideSize();
-	if (ImGui::SliderFloat("Minimum quadrant side size", &minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
+	if (ImGui::SliderFloat("Minimum quadrant side size", 
+		&minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
+	{
 		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetMinQuadrantSideSize(minQuadrantSideSize);
 		//TODO save values for future executions
 	}

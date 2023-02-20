@@ -93,7 +93,7 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 
 ModuleRender::ModuleRender()
 {
-	this->context = nullptr;
+	context = nullptr;
 }
 
 ModuleRender::~ModuleRender()
@@ -112,9 +112,9 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	this->context = SDL_GL_CreateContext(App->window->GetWindow());
+	context = SDL_GL_CreateContext(App->window->GetWindow());
 
-	this->backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
+	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
 	GLenum err = glewInit();
 	ENGINE_LOG("glew error %s", glewGetErrorString(err));
@@ -163,7 +163,8 @@ bool ModuleRender::Start()
 #else
 	UID skyboxUID = App->resources->GetSkyBoxResource();
 #endif
-	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
+		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
@@ -183,8 +184,8 @@ update_status ModuleRender::PreUpdate()
 
 	glViewport(0, 0, width, height);
 
-	glClearColor(this->backgroundColor.x, this->backgroundColor.y, 
-				 this->backgroundColor.z, this->backgroundColor.w);
+	glClearColor(backgroundColor.x, backgroundColor.y, 
+				 backgroundColor.z, backgroundColor.w);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -232,9 +233,9 @@ bool ModuleRender::CleanUp()
 {
 	ENGINE_LOG("Destroying renderer");
 
-	SDL_GL_DeleteContext(this->context);
+	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &vbo);
 	
 	return true;
 }
@@ -277,7 +278,7 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	std::string format = modelPath.substr(modelPath.size() - 3);
 	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
 
-	if (std::find(this->modelTypes.begin(), this->modelTypes.end(), format) != this->modelTypes.end())
+	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
 	{
 		valid = true;
 	}
@@ -291,8 +292,8 @@ void ModuleRender::UpdateProgram()
 	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
+	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
@@ -341,8 +342,11 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB()) 
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) gameObjectsToDraw.push_back(gameObject);
+	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+	{
+		gameObjectsToDraw.push_back(gameObject);
+	}
 	
 
 	if (!gameObject->GetChildren().empty())
@@ -356,7 +360,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
-	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	if (quadtree->IsLeaf())
+	{
+		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	}
 	else
 	{
 		DrawQuadtree(quadtree->GetBackLeftNode());

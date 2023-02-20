@@ -12,9 +12,9 @@ WindowComponentAmbient::WindowComponentAmbient(ComponentAmbient* component) :
 
 void WindowComponentAmbient::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentAmbient* asAmbient = static_cast<ComponentAmbient*>(this->component);
+	ComponentAmbient* asAmbient = static_cast<ComponentAmbient*>(component);
 
 	if (asAmbient)
 	{

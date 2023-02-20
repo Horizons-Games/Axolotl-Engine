@@ -44,7 +44,7 @@ inline ResourceScene::ResourceScene(UID resourceUID,
 
 inline ResourceScene::~ResourceScene()
 {
-	this->Unload();
+	Unload();
 }
 
 inline ResourceType ResourceScene::GetType() const
@@ -54,5 +54,5 @@ inline ResourceType ResourceScene::GetType() const
 
 inline std::shared_ptr<OptionsScene>& ResourceScene::GetOptions()
 {
-	this->options;
+	return options;
 }
