@@ -31,13 +31,13 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		if (components.empty())
 		{
 			if(!newComponent->GetMesh()->GetNormals().empty())
-				flags << HAS_NORMALS;
+				flags |= HAS_NORMALS;
 
 			if (!newComponent->GetMesh()->GetTextureCoords().empty())
-				flags << HAS_TEXTURE_COORDINATES;
+				flags |= HAS_TEXTURE_COORDINATES;
 
 			if (!newComponent->GetMesh()->GetTangents().empty())
-				flags << HAS_TANGENTS;
+				flags |= HAS_TANGENTS;
 		}
 
 		AddUniqueComponent(newComponent->GetMesh().get());

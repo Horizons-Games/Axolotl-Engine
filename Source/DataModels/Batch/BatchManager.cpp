@@ -41,17 +41,17 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	int flags = 0;
 
 	if (!newComponent->GetMesh()->GetNormals().empty())
-		flags << HAS_NORMALS;
+		flags |= HAS_NORMALS;
 
 	if (!newComponent->GetMesh()->GetTextureCoords().empty())
-		flags << HAS_TEXTURE_COORDINATES;
+		flags |= HAS_TEXTURE_COORDINATES;
 
 	if (!newComponent->GetMesh()->GetTangents().empty())
-		flags << HAS_TANGENTS;
+		flags |= HAS_TANGENTS;
 
 	for (GeometryBatch* geometryBatch : geometryBatches)
 	{
-		if (!(geometryBatch->GetFlags() ^ flags))
+		if (geometryBatch->GetFlags() == flags)
 			return geometryBatch;
 	}
 	return nullptr;
