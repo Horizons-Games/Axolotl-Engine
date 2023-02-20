@@ -4,9 +4,9 @@
 #include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
-#include "ComponentTransform.h"
 
 #define COMPONENT_CAMERA "Camera"
+
 enum ECameraFrustumMode
 {
 	normalFrustum,
@@ -15,6 +15,7 @@ enum ECameraFrustumMode
 };
 
 class Json;
+class ComponentTransform;
 
 class ComponentCamera : public Component
 {
