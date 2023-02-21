@@ -121,12 +121,12 @@ inline void ModuleInput::SetMousePositionY(int mouseY)
 
 inline void ModuleInput::SetMouseMotionX(float posX)
 {
-	this->mouseMotion.x = posX;
+	mouseMotion.x = posX;
 }
 
 inline void ModuleInput::SetMouseMotionY(float posY)
 {
-	this->mouseMotion.y = posY;
+	mouseMotion.y = posY;
 }
 
 inline void ModuleInput::SetFreeLookCursor()

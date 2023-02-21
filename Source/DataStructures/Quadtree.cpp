@@ -39,13 +39,22 @@ void Quadtree::Add(const GameObject* gameObject)
 {
 	assert(gameObject != nullptr);
 
-	if (!InQuadrant(gameObject) && !isFreezed && parent == nullptr) ExpandToFit(gameObject);
-	else if (!InQuadrant(gameObject)) return;
+	if (!InQuadrant(gameObject) && !isFreezed && parent == nullptr)
+	{
+		ExpandToFit(gameObject);
+	}
+	else if (!InQuadrant(gameObject))
+	{
+		return;
+	}
 	else
 	{
 		if (IsLeaf())
 		{
-			if (gameObjects.size() < quadrantCapacity) gameObjects.push_back(gameObject);
+			if (gameObjects.size() < quadrantCapacity)
+			{
+				gameObjects.push_back(gameObject);
+			}
 			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
 			{
 				gameObjects.push_back(gameObject);
@@ -64,8 +73,14 @@ void Quadtree::Add(const GameObject* gameObject)
 			bool inBackRight = backRightNode->InQuadrant(gameObject);
 			bool inBackLeft = backLeftNode->InQuadrant(gameObject);
 
-			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft) gameObjects.push_back(gameObject);
-			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft) gameObjects.push_back(gameObject);
+			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft)
+			{
+				gameObjects.push_back(gameObject);
+			}
+			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft)
+			{
+				gameObjects.push_back(gameObject);
+			}
 			else
 			{
 				frontRightNode->Add(gameObject);
@@ -137,15 +152,28 @@ void Quadtree::Remove(const GameObject* gameObject)
 		}
 		else {
 			frontRightNode->Remove(gameObject);
-			if (!IsLeaf()) frontLeftNode->Remove(gameObject);
-			if (!IsLeaf()) backRightNode->Remove(gameObject);
-			if (!IsLeaf()) backLeftNode->Remove(gameObject);
+			if (!IsLeaf())
+			{
+				frontLeftNode->Remove(gameObject);
+			}
+			
+			if (!IsLeaf())
+			{
+				backRightNode->Remove(gameObject);
+			}
+			
+			if (!IsLeaf())
+			{
+				backLeftNode->Remove(gameObject);
+			}
 
 			if (IsLeaf())
 			{
-				if (parent != nullptr) parent->OptimizeParentObjects();
+				if (parent != nullptr)
+				{
+					parent->OptimizeParentObjects();
+				}
 			}
-
 		}
 	}
 	else if (IsLeaf())
@@ -164,9 +192,20 @@ void Quadtree::Remove(const GameObject* gameObject)
 	else
 	{
 		frontRightNode->Remove(gameObject);
-		if (!IsLeaf()) frontLeftNode->Remove(gameObject);
-		if (!IsLeaf()) backRightNode->Remove(gameObject);
-		if (!IsLeaf()) backLeftNode->Remove(gameObject);
+		if (!IsLeaf()) 
+		{ 
+			frontLeftNode->Remove(gameObject); 
+		}
+		
+		if (!IsLeaf())
+		{
+			backRightNode->Remove(gameObject);
+		}
+		
+		if (!IsLeaf())
+		{
+			backLeftNode->Remove(gameObject);
+		}
 
 		if (IsLeaf())
 		{
@@ -244,16 +283,19 @@ void Quadtree::Subdivide()
 		
 		frontRightNode = std::make_unique<Quadtree>(quadrantBoundingBox, this);
 	}
+	
 	if (frontLeftNode == nullptr)
 	{
 		quadrantBoundingBox.SetFromCenterAndSize(newCenterFrontLeft, newSize);
 		frontLeftNode = std::make_unique<Quadtree>(quadrantBoundingBox, this);
 	}
+	
 	if (backRightNode == nullptr)
 	{
 		quadrantBoundingBox.SetFromCenterAndSize(newCenterBackRight, newSize);
 		backRightNode = std::make_unique<Quadtree>(quadrantBoundingBox, this);
 	}
+	
 	if (backLeftNode == nullptr)
 	{
 		quadrantBoundingBox.SetFromCenterAndSize(newCenterBackLeft, newSize);
@@ -303,19 +345,25 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 	float3 gameObjectPosition = boxes->GetEncapsuledAABB().CenterPoint();
 
-	float quadTreeMaxX = this->boundingBox.MaxX();
-	float quadTreeMaxY = this->boundingBox.MaxY();
-	float quadTreeMaxZ = this->boundingBox.MaxZ();
-	float quadTreeMinX = this->boundingBox.MinX();
-	float quadTreeMinY = this->boundingBox.MinY();
-	float quadTreeMinZ = this->boundingBox.MinZ();
+	float quadTreeMaxX = boundingBox.MaxX();
+	float quadTreeMaxY = boundingBox.MaxY();
+	float quadTreeMaxZ = boundingBox.MaxZ();
+	float quadTreeMinX = boundingBox.MinX();
+	float quadTreeMinY = boundingBox.MinY();
+	float quadTreeMinZ = boundingBox.MinZ();
 	float3 newMaxPoint = GetBoundingBox().maxPoint;
 	float3 newMinPoint = GetBoundingBox().minPoint;
 
 	if (gameObjectPosition.y > quadTreeMaxY || gameObjectPosition.y < quadTreeMinY)
 	{
-		if (gameObjectPosition.y < quadTreeMinY) newMinPoint.y = gameObjectPosition.y - boxes->GetEncapsuledAABB().Size().y;
-		else newMaxPoint.y = gameObjectPosition.y + boxes->GetEncapsuledAABB().Size().y;
+		if (gameObjectPosition.y < quadTreeMinY)
+		{
+			newMinPoint.y = gameObjectPosition.y - boxes->GetEncapsuledAABB().Size().y;
+		}
+		else
+		{
+			newMaxPoint.y = gameObjectPosition.y + boxes->GetEncapsuledAABB().Size().y;
+		}
 		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
 	}
 
@@ -374,8 +422,8 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 		}
 		newRootQuadTree->Subdivide();
 		App->scene->GetLoadedScene()->SetSceneQuadTree(std::move(newRootQuadTree));
-		this->parent = App->scene->GetLoadedScene()->GetSceneQuadTree();
-		this->parent->Add(gameObject); 
+		parent = App->scene->GetLoadedScene()->GetSceneQuadTree();
+		parent->Add(gameObject); 
 	}
 	else
 	{
@@ -393,10 +441,10 @@ void Quadtree::AdjustHeightToNodes(float minY, float maxY)
 	SetBoundingBox(newAABB);
 	if (!IsLeaf())
 	{
-		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
-		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
-		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
-		this->frontRightNode->AdjustHeightToNodes(minY, maxY);
+		frontRightNode->AdjustHeightToNodes(minY, maxY);
+		frontRightNode->AdjustHeightToNodes(minY, maxY);
+		frontRightNode->AdjustHeightToNodes(minY, maxY);
+		frontRightNode->AdjustHeightToNodes(minY, maxY);
 	}
 
 }
@@ -426,7 +474,10 @@ void Quadtree::ResetChildren()
 
 void Quadtree::AddGameObjectAndChildren(const GameObject* gameObject)
 {
-	if (gameObject->GetParent() == nullptr) return;
+	if (gameObject->GetParent() == nullptr)
+	{
+		return;
+	}
 	std::list<const GameObject*> familyObjects = {};
 	std::list<const GameObject*> objects = GetAllGameObjects(gameObject);
 	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());
@@ -439,7 +490,10 @@ void Quadtree::AddGameObjectAndChildren(const GameObject* gameObject)
 
 void Quadtree::RemoveGameObjectAndChildren(const GameObject* gameObject)
 {
-	if (gameObject == nullptr || gameObject->GetParent() == nullptr) return;
+	if (gameObject == nullptr || gameObject->GetParent() == nullptr)
+	{
+		return;
+	}
 	Remove(gameObject);
 
 	if (!gameObject->GetChildren().empty())
