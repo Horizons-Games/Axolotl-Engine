@@ -1,15 +1,11 @@
-#include "Application.h"
 #include "ModuleScene.h"
-#include "ModuleRender.h"
-#include "DataStructures/Quadtree.h"
 
-#include "GameObject/GameObject.h"
+#include "Application.h"
+#include "ModuleRender.h"
+
 #include "Scene/Scene.h"
 
-#include <assert.h>
-
 #include "FileSystem/ModuleFileSystem.h"
-#include "Components/Component.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 

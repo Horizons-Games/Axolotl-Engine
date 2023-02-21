@@ -6,7 +6,6 @@
 #include <map>
 #include <thread>
 
-#include "FileSystem/UniqueID.h"
 #include "DataModels/Resources/Resource.h"
 
 class ModelImporter;
