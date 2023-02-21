@@ -105,7 +105,7 @@ void ComponentTransform::CalculateMatrices()
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
 		globalPos = globalMatrix.TranslatePart();
-		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
+		globalRot = globalMatrix.RotatePart();
 		globalSca = globalMatrix.GetScale();
 	}
 }
