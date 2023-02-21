@@ -1,11 +1,7 @@
 #pragma once
 
 #include "../FileSystem/UniqueID.h"
-
-#include "Geometry/OBB.h"
 #include "Geometry/AABB.h"
-
-#include <memory>
 
 struct PointLight
 {
