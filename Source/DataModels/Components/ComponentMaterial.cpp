@@ -20,6 +20,18 @@
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
+	const unsigned program = App->program->GetProgram();
+
+	glGenBuffers(1, &uboDiffuse);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDiffuse);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(unsigned int), nullptr, GL_STATIC_DRAW);
+
+	const unsigned bindingDiffuse = 5;
+	const unsigned uniformBlockIxDiffuse = glGetUniformBlockIndex(program, "diffuse_map");
+	glUniformBlockBinding(program, uniformBlockIxDiffuse, bindingDiffuse);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDiffuse, uboDiffuse, 0, sizeof(unsigned int));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -55,9 +67,15 @@ void ComponentMaterial::Draw()
 			}
 
 			glUniform1i(8, 1); //has_diffuse_map
+			
 			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1i(5, texture->GetGlTexture()); //diffuse_map
+			//glUniform1i(5, texture->GetGlTexture());
+			
+			glBindBuffer(GL_UNIFORM_BUFFER, uboDiffuse);
+			unsigned int text = texture->GetGlTexture();
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(unsigned int), &text);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		}
 		else
 		{
