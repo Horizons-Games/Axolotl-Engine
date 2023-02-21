@@ -10,6 +10,7 @@
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 
+#include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
 
@@ -115,21 +116,41 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	switch (type)
 	{
 	case ResourceType::Model:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceModel>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::Texture:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceTexture>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::Mesh:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceMesh>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
-		break;
-	case ResourceType::Scene:
+#endif // ENGINE
+	case ResourceType::Scene: //TODO
+#ifdef ENGINE
+		return nullptr;
+#else
+		return nullptr;
+#endif // ENGINE
 	case ResourceType::Material:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceMaterial>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::SkyBox:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceSkyBox>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	default:
 		return nullptr;
 	}
