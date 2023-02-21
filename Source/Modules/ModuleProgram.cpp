@@ -49,22 +49,22 @@ bool ModuleProgram::CleanUp()
 
 void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
 {
-	this->program = glCreateProgram();
-	glAttachShader(this->program, vtxShader);
-	glAttachShader(this->program, frgShader);
-	glLinkProgram(this->program);
+	program = glCreateProgram();
+	glAttachShader(program, vtxShader);
+	glAttachShader(program, frgShader);
+	glLinkProgram(program);
 
 	int res;
-	glGetProgramiv(this->program, GL_LINK_STATUS, &res);
+	glGetProgramiv(program, GL_LINK_STATUS, &res);
 	if (res == GL_FALSE)
 	{
 		int len = 0;
-		glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &len);
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
 		if (len > 0)
 		{
 			int written = 0;
 			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(this->program, len, &written, info);
+			glGetProgramInfoLog(program, len, &written, info);
 			ENGINE_LOG("Program Log Info: %s", info);
 			free(info);
 		}

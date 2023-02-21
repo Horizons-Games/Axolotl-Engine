@@ -56,18 +56,26 @@ update_status ModuleInput::Update()
     
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
         if (keysState[i] == KeyState::DOWN)
+        {
             keysState[i] = KeyState::REPEAT;
+        }
 
         if (keysState[i] == KeyState::UP)
+        {
             keysState[i] = KeyState::IDLE;
+        }
     }
 
     for (int i = 0; i < NUM_MOUSEBUTTONS; ++i) {
         if (mouseButtonState[i] == KeyState::DOWN)
+        {
             mouseButtonState[i] = KeyState::REPEAT;
+        }
 
         if (mouseButtonState[i] == KeyState::UP)
+        {
             mouseButtonState[i] = KeyState::IDLE;
+        }
     }
 
     SDL_PumpEvents();

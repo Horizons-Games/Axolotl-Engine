@@ -33,19 +33,23 @@ void WindowFPS::DrawWindowContents()
 	sprintf_s(currentTime, 25, "Milliseconds %.1f", timeHist[currentTimeIndex]);
 	ImGui::PlotHistogram("##milliseconds", &timeHist[0], timeCaptures, 0, currentTime, 0.0f, 40.0f, ImVec2(310, 100));
 		
-	if (currentFpsIndex < fpsCaptures - 1) {
+	if (currentFpsIndex < fpsCaptures - 1) 
+	{
 		++currentFpsIndex;
 	}
-	else {
+	else 
+	{
 		//remove the first element and increase the size of the vector back
 		fpsHist.erase(fpsHist.begin());
 		fpsHist.push_back(0);
 	}
 
-	if (currentTimeIndex < timeCaptures - 1) {
+	if (currentTimeIndex < timeCaptures - 1) 
+	{
 		++currentTimeIndex;
 	}
-	else {
+	else 
+	{
 		//remove the first element and increase the size of the vector back
 		timeHist.erase(timeHist.begin());
 		timeHist.push_back(0);

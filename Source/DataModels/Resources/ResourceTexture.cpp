@@ -5,7 +5,7 @@
 
 void ResourceTexture::InternalLoad()
 {
-	this->CreateTexture();
+	CreateTexture();
 }
 
 void ResourceTexture::InternalUnload()
