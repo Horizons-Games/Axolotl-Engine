@@ -16,6 +16,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
@@ -40,6 +41,8 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;     // Prevent mouse flickering
+
 	io.Fonts->AddFontDefault();
 	static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
@@ -108,6 +111,9 @@ update_status ModuleEditor::Update()
 	ImGui::DockSpace(dockSpaceId);
 	ImGui::End();
 
+	//disable ALT key triggering nav menu
+	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
+
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
@@ -145,5 +151,5 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
-	return this->scene->IsFocused();
+	return scene->IsFocused();
 }

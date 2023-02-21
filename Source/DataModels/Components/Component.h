@@ -61,13 +61,17 @@ inline void Component::Init()
 inline void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
+	{
 		active = true;
+	}
 }
 
 inline void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
+	{
 		active = false;
+	}
 }
 
 inline void Component::Draw()
@@ -76,17 +80,17 @@ inline void Component::Draw()
 
 inline bool Component::GetActive()
 {
-	return this->active;
+	return active;
 }
 
 inline ComponentType Component::GetType()
 {
-	return this->type;
+	return type;
 }
 
 inline GameObject* Component::GetOwner()
 {
-	return this->owner;
+	return owner;
 }
 
 inline bool Component::GetCanBeRemoved()
@@ -100,22 +104,16 @@ const std::string GetNameByType(ComponentType type)
 	{
 	case ComponentType::MATERIAL:
 		return "Component_Material";
-		break;
 	case ComponentType::MESHRENDERER:
 		return "Component_MeshRenderer";
-		break;
 	case ComponentType::TRANSFORM:
 		return "Component_Transform";
-		break;
 	case ComponentType::LIGHT:
 		return "Component_Light";
-		break;
 	case ComponentType::CAMERA:
 		return "Component_Camera";
-		break;
 	case ComponentType::BOUNDINGBOX:
 		return "Component_Bounding";
-		break;
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -125,16 +123,34 @@ const std::string GetNameByType(ComponentType type)
 const ComponentType GetTypeByName(const std::string& typeName)
 {
 	if (typeName == "Component_Material")
+	{
 		return ComponentType::MATERIAL;
+	}
+
 	if (typeName == "Component_MeshRenderer")
+	{
 		return ComponentType::MESHRENDERER;
+	}
+
 	if (typeName == "Component_Transform")
+	{
 		return ComponentType::TRANSFORM;
+	}
+
 	if (typeName == "Component_Light")
+	{
 		return ComponentType::LIGHT;
+	}
+
 	if (typeName == "Component_Camera")
+	{
 		return ComponentType::CAMERA;
+	}
+
 	if (typeName == "Component_Bounding")
+	{
 		return ComponentType::BOUNDINGBOX;
+	}
+	
 	return ComponentType::UNKNOWN;
 }

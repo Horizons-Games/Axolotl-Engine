@@ -51,12 +51,18 @@ void ComponentCamera::Update()
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
 
-	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
+	if (frustumMode == ECameraFrustumMode::offsetFrustum)
+	{
+		UpdateFrustumOffset();
+	}
 }
 
 void ComponentCamera::Draw()
 {
-	if(drawFrustum) App->debug->DrawFrustum(frustum);
+	if (drawFrustum) 
+	{
+		App->debug->DrawFrustum(frustum);
+	}
 }
 
 void ComponentCamera::SaveOptions(Json& meta)
@@ -98,8 +104,16 @@ void ComponentCamera::UpdateFrustumOffset()
 
 bool ComponentCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
+	if (frustumMode == noFrustum)
+	{
+		return false;
+	}
+
+	if (frustumMode == offsetFrustum)
+	{
+		return IsInsideOffset(obb);
+	}
+
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 
@@ -117,7 +131,11 @@ bool ComponentCamera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -139,7 +157,11 @@ bool ComponentCamera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;

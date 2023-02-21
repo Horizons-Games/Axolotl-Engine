@@ -144,7 +144,8 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 	for (unsigned i = 0; i < numFaces; ++i)
 	{
 		// Retrieve the triangles from the vertices adapted to the model matrix
-		triangles.push_back(Triangle(vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
+		triangles.push_back(Triangle(
+			vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
 	}
 
 	return triangles;

@@ -60,7 +60,6 @@ WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 		ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ICON_IGFD_BOOKMARK);
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByTypeFile | IGFD_FileStyleByContainedInFullName, ".git",
 		ImVec4(0.5f, 0.8f, 0.5f, 0.9f), ICON_IGFD_SAVE);
-
 }
 
 void WindowFileBrowser::DrawWindowContents()

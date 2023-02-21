@@ -9,6 +9,7 @@
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
+#include "Math/Quat.h"
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
 
@@ -16,6 +17,7 @@
 #define DEFAULT_ROTATION_DEGREE 30
 #define DEFAULT_ROTATION_SPEED 5.f
 #define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
+#define DEFAULT_MOUSE_ZOOM_SPEED 2.f
 #define DEFAULT_SHIFT_ACCELERATION 2.f
 #define DEFAULT_FRUSTUM_MODE 0
 #define DEFAULT_FRUSTUM_OFFSET 1.f
@@ -55,8 +57,10 @@ public:
 
 	void Move();
 	void KeyboardRotate();
+	void Rotate();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
+	void UnlimitedCursor();
 	void Run();
 	void Walk();
 	void Zoom();
@@ -110,7 +114,7 @@ private:
 
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
-
+	Quat currentRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;
@@ -122,6 +126,11 @@ private:
 	int frustumMode;
 
 	math::Plane offsetFrustumPlanes[6];
+	bool mouseWarped;
+	bool focusFlag;
+	bool isFocusing;
+	int lastMouseX, lastMouseY;
+	int mouseState;
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const

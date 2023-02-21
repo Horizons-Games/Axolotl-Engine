@@ -37,10 +37,25 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 		delete[] pathPointer;
 	}
 
-	if(resourceTexture[0] != 0) resource->SetDiffuseUID(resourceTexture[0]);
-	if(resourceTexture[1] != 0) resource->SetNormalUID(resourceTexture[1]);
-	if(resourceTexture[2] != 0) resource->SetOcclusionUID(resourceTexture[2]);
-	if(resourceTexture[3] != 0) resource->SetSpecularUID(resourceTexture[3]);
+	if (resourceTexture[0] != 0)
+	{
+		resource->SetDiffuseUID(resourceTexture[0]);
+	}
+	
+	if (resourceTexture[1] != 0)
+	{
+		resource->SetNormalUID(resourceTexture[1]);
+	}
+	
+	if (resourceTexture[2] != 0)
+	{
+		resource->SetOcclusionUID(resourceTexture[2]);
+	}
+	
+	if (resourceTexture[3] != 0)
+	{
+		resource->SetSpecularUID(resourceTexture[3]);
+	}
 
 	char* buffer{};
 	unsigned int size;
@@ -96,10 +111,25 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
-	if(texturesUIDs[0] != 0) resource->SetDiffuseUID(texturesUIDs[0]);
-	if(texturesUIDs[1] != 0) resource->SetNormalUID(texturesUIDs[1]);
-	if(texturesUIDs[2] != 0) resource->SetOcclusionUID(texturesUIDs[2]);
-	if(texturesUIDs[3] != 0) resource->SetSpecularUID(texturesUIDs[3]);
+	if (texturesUIDs[0] != 0)
+	{
+		resource->SetDiffuseUID(texturesUIDs[0]);
+	}
+	
+	if (texturesUIDs[1] != 0)
+	{
+		resource->SetNormalUID(texturesUIDs[1]);
+	}
+	
+	if (texturesUIDs[2] != 0)
+	{
+		resource->SetOcclusionUID(texturesUIDs[2]);
+	}
+	
+	if (texturesUIDs[3] != 0)
+	{
+		resource->SetSpecularUID(texturesUIDs[3]);
+	}
 
 	fileBuffer += sizeof(texturesUIDs);
 
