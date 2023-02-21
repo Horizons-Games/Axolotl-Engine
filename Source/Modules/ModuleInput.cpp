@@ -136,8 +136,6 @@ update_status ModuleInput::Update()
         case SDL_DROPFILE:
             char* droppedFilePath = sdlEvent.drop.file;
 
-            /*if (App->renderer->IsSupportedPath(droppedFilePath))
-                App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
             std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
             App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
@@ -145,8 +143,6 @@ update_status ModuleInput::Update()
             break;
         }
 
-        //SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
-	    //SDL_GetMouseState(&mousePosX, &mousePosY);
     }
 
     return status;

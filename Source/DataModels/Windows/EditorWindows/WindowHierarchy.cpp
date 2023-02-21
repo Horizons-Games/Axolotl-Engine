@@ -88,23 +88,24 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
 
-        /*
+        //TODO: make this work
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
-            std::vector<std::weak_ptr<GameObject> > parentsChildren = gameObject->GetParent().lock()->GetChildren();
-
+            std::vector<GameObject* > parentsChildren = gameObject->GetParent()->GetChildren();
 
             if (ImGui::MenuItem("Move Up"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[0].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    for (std::vector<GameObject*>::iterator it = std::begin(parentsChildren);
+                        it != std::end(parentsChildren);
+                        ++it)
                     {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
+                        if ((*it) == gameObject)
                         {
-                            std::iter_swap(parentsChildren[i - 1].lock(), parentsChildren[i].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i - 1].lock());
+                            std::iter_swap(it - 1, it);
+                            App->scene->SetSelectedGameObject(*(it - 1));
                             break;
                         }
                     }
@@ -113,23 +114,23 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
+                    for (std::vector<GameObject*>::iterator it = std::begin(parentsChildren);
+                        it != std::end(parentsChildren);
+                        ++it)
                     {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
+                        if ((*it) == gameObject)
                         {
-                            std::iter_swap(parentsChildren[i].lock(), parentsChildren[i + 1].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i + 1].lock());
+                            std::iter_swap(it, it + 1);
+                            App->scene->SetSelectedGameObject(*(it + 1));
                             break;
                         }
                     }
                 }
             }
         }
-        */
-
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())

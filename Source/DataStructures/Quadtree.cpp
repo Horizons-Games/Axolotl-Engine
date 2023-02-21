@@ -94,7 +94,6 @@ void Quadtree::Add(const GameObject* gameObject)
 
 void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
 {
-	//familyGameObjects.splice(familyGameObjects.end(), gameObjects);
 	for (const GameObject* gameObject : gameObjects)
 	{
 		familyGameObjects.push_back(gameObject);
@@ -108,7 +107,6 @@ void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
 		{
 			familyGameObjects.push_back(gameObject);
 		}
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);  //O(1) complexity
 
 		std::list<const GameObject*> familyGameObjectsChildFL;
 		frontLeftNode->GetFamilyObjects(familyGameObjectsChildFL);
@@ -116,8 +114,6 @@ void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
 		{
 			familyGameObjects.push_back(gameObject);
 		}
-		//frontLeftNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
 		std::list<const GameObject*> familyGameObjectsChildBR;
 		backRightNode->GetFamilyObjects(familyGameObjectsChildBR);
@@ -125,8 +121,6 @@ void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
 		{
 			familyGameObjects.push_back(gameObject);
 		}
-		//backRightNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
 		std::list<const GameObject*> familyGameObjectsChildBL;
 		backLeftNode->GetFamilyObjects(familyGameObjectsChildBL);
@@ -134,8 +128,6 @@ void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
 		{
 			familyGameObjects.push_back(gameObject);
 		}
-		//backLeftNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 	}
 }
 
@@ -376,7 +368,6 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
 
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			//std::unique_ptr<A> uniquePtr = std::unique_ptr<A>(rawPointer);
 			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
 			newRootQuadTree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
@@ -386,7 +377,7 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
 			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); //std::unique_ptr<Quadtree>(this);
+			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
 		}
 		else if (gameObjectPosition.z > quadTreeMaxZ && gameObjectPosition.x < quadTreeMinX)
 		{

@@ -66,13 +66,6 @@ bool ModuleEngineCamera::Init()
 
 bool ModuleEngineCamera::Start()
 {
-	// When the bounding boxes scale correctly with the models, uncomment this if
-	/*
-	if (!App->scene->GetRoot()->GetChildren().empty())
-		Focus(((ComponentBoundingBoxes*)App->scene->GetRoot()->GetChildren()[0]
-			->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
-	*/
-
 	return true;
 }
 
@@ -771,8 +764,8 @@ void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 			ComponentBoundingBoxes* componentBoundingBox =
 				static_cast<ComponentBoundingBoxes*>
 				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
-
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+			// ray vs. AABB
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); 
 
 			if (hit && currentGameObject->IsActive())
 			{
@@ -781,7 +774,6 @@ void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
 		}
 	}
 
-	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
 	SetNewSelectedGameObject(hittedGameObjects, ray);
 }
 
