@@ -1,7 +1,5 @@
 #include "WindowRenderer.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "Modules/ModuleRender.h"
 

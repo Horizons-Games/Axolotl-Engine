@@ -2,8 +2,6 @@
 
 #include "SubWindow.h"
 
-#include <string>
-
 class WindowHardware : public SubWindow
 {
 public:

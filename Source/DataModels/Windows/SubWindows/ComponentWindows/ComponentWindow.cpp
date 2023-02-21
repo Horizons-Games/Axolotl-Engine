@@ -1,7 +1,5 @@
 #include "ComponentWindow.h"
 
-#include <sstream>
-
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
@@ -15,9 +13,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentLight.h"
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentCamera.h"
