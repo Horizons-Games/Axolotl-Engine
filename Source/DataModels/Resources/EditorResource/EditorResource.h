@@ -9,13 +9,13 @@
 template<typename R>
 class EditorResource : public R
 {
+public:
 	EditorResource(UID resourceUID,
 				   const std::string& fileName,
 				   const std::string& assetsPath,
 				   const std::string& libraryPath);
 	virtual ~EditorResource() override;
 
-public:
 	bool ToDelete() const;
 
 	void MarkToDelete();

@@ -55,7 +55,7 @@ class ResourceTexture : public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceTexture() override;
+	virtual ~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 

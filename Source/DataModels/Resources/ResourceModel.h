@@ -13,7 +13,7 @@ class ResourceModel : public Resource
 {
 public:
 	ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceModel() override;
+	virtual ~ResourceModel() override;
 
 	ResourceType GetType() const override;
 
