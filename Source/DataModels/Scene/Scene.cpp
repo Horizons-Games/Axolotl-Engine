@@ -42,7 +42,9 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 	for (GameObject* gameObject : gameObjects)
 	{
 		if (gameObject)
+		{
 			sceneQuadTree->Add(gameObject);
+		}
 	}
 }
 

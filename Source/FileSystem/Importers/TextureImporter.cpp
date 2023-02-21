@@ -60,7 +60,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
-	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), 
+		DirectX::DDS_FLAGS_NONE, path);
 
 	GLint internalFormat;
 	GLenum format, type;

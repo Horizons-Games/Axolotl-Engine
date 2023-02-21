@@ -54,7 +54,10 @@ struct OptionsTexture
 class ResourceTexture : public Resource
 {
 public:
-	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceTexture(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceTexture() override;
 
 	ResourceType GetType() const override;
@@ -146,7 +149,7 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 
 inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

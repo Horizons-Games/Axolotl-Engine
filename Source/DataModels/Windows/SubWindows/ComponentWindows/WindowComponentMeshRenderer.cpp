@@ -20,9 +20,9 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(this->component);
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
 	{

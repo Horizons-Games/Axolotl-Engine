@@ -30,7 +30,7 @@
 
 ComponentWindow::~ComponentWindow()
 {
-	this->component = nullptr;
+	component = nullptr;
 }
 
 std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Component* component)
@@ -50,7 +50,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 		case ComponentType::BOUNDINGBOX:
 			return std::make_unique<WindowComponentBoundingBoxes>(static_cast<ComponentBoundingBoxes*>(component));
 		case ComponentType::LIGHT:
-		{
+		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
@@ -66,7 +66,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			default:
 				return std::make_unique<WindowComponentLight>(asLight);
 			}
-		}
+		
 		}
 	}
 	return nullptr;
@@ -115,7 +115,7 @@ void ComponentWindow::DrawDeleteComponent()
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}
-			this->component = nullptr;
+			component = nullptr;
 		}
 	}
 }

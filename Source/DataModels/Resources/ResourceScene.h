@@ -39,5 +39,5 @@ inline ResourceType ResourceScene::GetType() const
 
 inline std::shared_ptr<OptionsScene>& ResourceScene::GetOptions()
 {
-	this->options;
+	return options;
 }

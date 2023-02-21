@@ -10,7 +10,10 @@ struct OptionsSkyBox
 class ResourceSkyBox : public Resource
 {
 public:
-	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceSkyBox(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;

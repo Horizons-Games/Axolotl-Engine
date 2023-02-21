@@ -18,9 +18,9 @@ WindowComponentSpotLight::~WindowComponentSpotLight()
 
 void WindowComponentSpotLight::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentSpotLight* asSpotLight = static_cast<ComponentSpotLight*>(this->component);
+	ComponentSpotLight* asSpotLight = static_cast<ComponentSpotLight*>(component);
 
 	if (asSpotLight)
 	{

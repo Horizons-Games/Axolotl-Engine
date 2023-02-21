@@ -57,7 +57,8 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 {
 	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
 
-	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() + sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() + sizeof(UID) 
+		* (unsigned int)resource->GetNumMaterials();
 
 	char* cursor = new char[size]{};
 
@@ -108,7 +109,8 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 }
 
 
-void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource)
+void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
+	std::shared_ptr<ResourceModel>& resource)
 {
 	ENGINE_LOG("---- Loading Materials ----");
 
@@ -163,7 +165,8 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		unsigned int size = 0;
 
 		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
-		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
+		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i)
+			+ MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 		UID resourceMaterial = App->resources->ImportResource(materialPath);
@@ -215,13 +218,19 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 				ENGINE_LOG("Texture not found!");
 			}
 			else
+			{
 				dataBuffer = TEXTURES_PATH + name;
+			}
 		}
 		else
+		{
 			dataBuffer = path + name;
+		}
 	}
 	else
+	{
 		dataBuffer = std::string(file.data);
+	}
 
 }
 
