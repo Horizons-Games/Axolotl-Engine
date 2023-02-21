@@ -924,6 +924,9 @@
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
       <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h">
+      <Filter>Source\DataModels\Resources\EditorResource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1018,6 +1021,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
       <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources\EditorResource">
+      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
