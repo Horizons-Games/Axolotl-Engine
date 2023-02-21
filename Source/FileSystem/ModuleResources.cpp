@@ -174,6 +174,7 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 	App->fileSystem->Delete(libPath.c_str());
 
 	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
+	std::static_pointer_cast<EditorResource<Resource>>(resToDelete)->MarkToDelete();
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
@@ -372,17 +373,17 @@ void ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		CreateAssetAndLibFolders();
-		std::vector<UID> toRemove;
-		std::vector<std::shared_ptr<Resource> > toImport;
-		std::vector<std::shared_ptr<Resource> > toCreateLib;
-		std::vector<std::shared_ptr<Resource> > toCreateMeta;
+		std::vector<std::shared_ptr<EditorResource<Resource>>> toRemove;
+		std::vector<std::shared_ptr<Resource>> toImport;
+		std::vector<std::shared_ptr<Resource>> toCreateLib;
+		std::vector<std::shared_ptr<Resource>> toCreateMeta;
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
 			if (it->second->GetType() != ResourceType::Mesh &&
 				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
-				toRemove.push_back(it->first);
+				toRemove.push_back(std::static_pointer_cast<EditorResource<Resource>>(it->second));
 			}
 			else 
 			{
@@ -416,17 +417,17 @@ void ModuleResources::MonitorResources()
 			}
 		}
 		//Remove resources
-		for (UID resUID : toRemove)
+		for (std::shared_ptr<EditorResource<Resource>> resource : toRemove)
 		{
-			DeleteResource(resUID);
-
+			resource->MarkToDelete(); //not working :)
+			DeleteResource(resource->GetUID());
 		}
 		//Import resources
-		for (std::shared_ptr<Resource> resource : toImport)
+		for (std::shared_ptr<Resource>& resource : toImport)
 		{
 			AddResource(resource, resource->GetAssetsPath());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateLib)
+		for (std::shared_ptr<Resource>& resource : toCreateLib)
 		{
 			if (resource->GetType() == ResourceType::Material) 
 			{
@@ -435,7 +436,7 @@ void ModuleResources::MonitorResources()
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateMeta)
+		for (const std::shared_ptr<Resource>& resource : toCreateMeta)
 		{
 			CreateMetaFileOfResource(resource);
 		}
