@@ -24,7 +24,6 @@ ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 
 ComponentMaterial::~ComponentMaterial()
 {
-	UnloadTextures();
 }
 
 void ComponentMaterial::Update()
@@ -169,7 +168,8 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 
 	if(resourceMaterial)
 	{

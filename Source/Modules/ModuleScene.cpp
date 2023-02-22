@@ -51,8 +51,6 @@ update_status ModuleScene::Update()
 
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
-	//SaveSceneToJson("AuxScene");
-
 	return UPDATE_CONTINUE;
 }
 
@@ -162,7 +160,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
+	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-20000, -1000, -20000), 
+		float3(20000, 1000, 20000))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -195,7 +194,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				//sceneToLoad->FillQuadtree(loadedObjects);
 			}
 		}
 		else
@@ -213,7 +211,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	loadedScene->SetSceneCameras(loadedObjects);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-	//sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	loadedScene->InitLights();
 

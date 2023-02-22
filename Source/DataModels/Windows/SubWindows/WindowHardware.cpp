@@ -161,17 +161,60 @@ void WindowHardware::GetCPUinfo()
 
 void WindowHardware::GetCaps()
 {
-	if (SDL_Has3DNow()) sprintf_s(caps, 75, "%s3DNow, ", caps);
-	if (SDL_HasAltiVec()) sprintf_s(caps, 75, "%sAltiVec, ", caps);
-	if (SDL_HasAVX()) sprintf_s(caps, 75, "%sAVX, ", caps);
-	if (SDL_HasAVX2()) sprintf_s(caps, 75, "%sAVX2, ", caps);
-	if (SDL_HasMMX()) sprintf_s(caps, 75, "%sMMX, ", caps);
-	if (SDL_HasRDTSC()) sprintf_s(caps, 75, "%sRDTSC, ", caps);
-	if (SDL_HasSSE()) sprintf_s(caps, 75, "%sSSE, ", caps);
-	if (SDL_HasSSE2()) sprintf_s(caps, 75, "%sSSE2, ", caps);
-	if (SDL_HasSSE3()) sprintf_s(caps, 75, "%sSSE3, ", caps);
-	if (SDL_HasSSE41()) sprintf_s(caps, 75, "%sSSE41, ", caps);
-	if (SDL_HasSSE42()) sprintf_s(caps, 75, "%sSSE42, ", caps);
+	if (SDL_Has3DNow())
+	{
+		sprintf_s(caps, 75, "%s3DNow, ", caps);
+	}
+	
+	if (SDL_HasAltiVec())
+	{
+		sprintf_s(caps, 75, "%sAltiVec, ", caps);
+	}
+	
+	if (SDL_HasAVX())
+	{
+		sprintf_s(caps, 75, "%sAVX, ", caps);
+	}
+	
+	if (SDL_HasAVX2())
+	{
+		sprintf_s(caps, 75, "%sAVX2, ", caps);
+	}
+	
+	if (SDL_HasMMX())
+	{
+		sprintf_s(caps, 75, "%sMMX, ", caps);
+	}
+	
+	if (SDL_HasRDTSC())
+	{
+		sprintf_s(caps, 75, "%sRDTSC, ", caps);
+	}
+	
+	if (SDL_HasSSE())
+	{
+		sprintf_s(caps, 75, "%sSSE, ", caps);
+	}
+	
+	if (SDL_HasSSE2())
+	{
+		sprintf_s(caps, 75, "%sSSE2, ", caps);
+	}
+	
+	if (SDL_HasSSE3())
+	{
+		sprintf_s(caps, 75, "%sSSE3, ", caps);
+	}
+	
+	if (SDL_HasSSE41())
+	{
+		sprintf_s(caps, 75, "%sSSE41, ", caps);
+	}
+	
+	if (SDL_HasSSE42())
+	{
+		printf_s(caps, 75, "%sSSE42, ", caps);
+	}
 }
 
 void WindowHardware::GetGPUinfo()

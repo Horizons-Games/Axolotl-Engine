@@ -89,7 +89,7 @@ inline bool ModuleWindow::IsWindowDesktopFullscreen() const
 
 inline float ModuleWindow::GetBrightness() const
 {
-	return this->brightness;
+	return brightness;
 }
 
 inline SDL_Window* ModuleWindow::GetWindow() const
@@ -99,6 +99,6 @@ inline SDL_Window* ModuleWindow::GetWindow() const
 
 inline bool ModuleWindow::IsFlagSet(SDL_WindowFlags flag) const
 {
-	Uint32 windowFlags = SDL_GetWindowFlags(this->GetWindow());
+	Uint32 windowFlags = SDL_GetWindowFlags(GetWindow());
 	return windowFlags & flag;
 }
