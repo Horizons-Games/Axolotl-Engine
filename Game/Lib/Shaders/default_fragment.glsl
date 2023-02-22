@@ -5,13 +5,12 @@ struct Material {
     vec3 specular_color;        //location 4
     float shininess;            //location 5
     float normal_strength;      //location 6
-    vec3 ambient;               //location 7
     
-    int has_diffuse_map;        //location 8
-    int has_specular_map;       //location 9
-    int shininess_alpha;        //location 10
-    int has_shininess_map;      //location 11
-    bool has_normal_map;        //location 12
+    int has_diffuse_map;        //location 7
+    int has_specular_map;       //location 8
+    int shininess_alpha;        //location 9
+    int has_shininess_map;      //location 10
+    bool has_normal_map;        //location 11
 };
 
 struct PointLight
