@@ -166,7 +166,8 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 
 	if(resourceMaterial)
 	{

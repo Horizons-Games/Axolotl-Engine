@@ -146,5 +146,5 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
-	return this->scene->IsFocused();
+	return scene->IsFocused();
 }

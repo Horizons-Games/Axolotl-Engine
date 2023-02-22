@@ -23,7 +23,9 @@ void WindowEditorControl::DrawWindowContents()
 
     float off = (avail - size) * 0.47f;
     if (off > 0.0f)
+    {
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
+    }
 
     if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
     {
