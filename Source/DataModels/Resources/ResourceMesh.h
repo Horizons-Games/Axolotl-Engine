@@ -5,8 +5,6 @@
 
 #include "Math/float3.h"
 
-#include <memory>
-
 
 struct OptionsMesh
 {
