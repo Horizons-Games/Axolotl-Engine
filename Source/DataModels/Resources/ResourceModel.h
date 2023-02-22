@@ -9,7 +9,7 @@ struct OptionsModel
 {
 };
 
-class ResourceModel : public Resource
+class ResourceModel : virtual public Resource
 {
 public:
 	ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

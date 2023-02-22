@@ -7,7 +7,7 @@ struct OptionsScene
 {
 };
 
-class ResourceScene : public Resource
+class ResourceScene : virtual public Resource
 {
 public:
 	ResourceScene(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

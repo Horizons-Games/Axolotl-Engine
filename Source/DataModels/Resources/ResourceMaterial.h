@@ -8,7 +8,7 @@ struct OptionsMaterial
 {
 };
 
-class ResourceMaterial : public Resource
+class ResourceMaterial : virtual public Resource
 {
 public:
 	ResourceMaterial(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

@@ -7,7 +7,7 @@ struct OptionsSkyBox
 {
 };
 
-class ResourceSkyBox : public Resource
+class ResourceSkyBox : virtual public Resource
 {
 public:
 	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

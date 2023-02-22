@@ -927,6 +927,9 @@
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h">
       <Filter>Source\DataModels\Resources\EditorResource</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h">
+      <Filter>Source\DataModels\Resources\EditorResource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

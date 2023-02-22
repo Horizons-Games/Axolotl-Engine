@@ -51,7 +51,7 @@ struct OptionsTexture
 	{}
 };
 
-class ResourceTexture : public Resource
+class ResourceTexture : virtual public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);

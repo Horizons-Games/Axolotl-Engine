@@ -2,12 +2,13 @@
 
 #include <string>
 
+#include "Resources/EditorResource/EditorResourceInterface.h"
 #include "Resources/Resource.h"
 
 //ideally this template should be safeguarded like in GameObject::GetComponentByType
 //but I had some issues and I don't want to waste time on it
-template<typename R>
-class EditorResource : public R
+template<typename R = Resource>
+class EditorResource : public R, public EditorResourceInterface
 {
 public:
 	EditorResource(UID resourceUID,
@@ -16,9 +17,9 @@ public:
 				   const std::string& libraryPath);
 	virtual ~EditorResource() override;
 
-	bool ToDelete() const;
+	bool ToDelete() const override;
 
-	void MarkToDelete();
+	void MarkToDelete() override;
 
 private:
 	bool toDelete;
@@ -29,6 +30,7 @@ inline EditorResource<R>::EditorResource(UID resourceUID,
 										 const std::string& fileName,
 										 const std::string& assetsPath,
 										 const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath),
 	R(resourceUID, fileName, assetsPath, libraryPath),
 	toDelete(false)
 {

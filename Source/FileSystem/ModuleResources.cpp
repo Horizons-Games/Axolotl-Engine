@@ -174,12 +174,11 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 	App->fileSystem->Delete(libPath.c_str());
 
 	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
-	std::static_pointer_cast<EditorResource<Resource>>(resToDelete)->MarkToDelete();
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
 		{
-			std::shared_ptr<ResourceModel> modelToDelete = std::static_pointer_cast<ResourceModel>(resToDelete);
+			std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
 			for (UID meshUID : modelToDelete->GetMeshesUIDs())
 			{
 				DeleteResource(meshUID);
@@ -373,7 +372,7 @@ void ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		CreateAssetAndLibFolders();
-		std::vector<std::shared_ptr<EditorResource<Resource>>> toRemove;
+		std::vector<std::shared_ptr<EditorResourceInterface>> toRemove;
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
@@ -383,7 +382,7 @@ void ModuleResources::MonitorResources()
 			if (it->second->GetType() != ResourceType::Mesh &&
 				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
-				toRemove.push_back(std::static_pointer_cast<EditorResource<Resource>>(it->second));
+				toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(it->second));
 			}
 			else 
 			{
@@ -417,9 +416,9 @@ void ModuleResources::MonitorResources()
 			}
 		}
 		//Remove resources
-		for (std::shared_ptr<EditorResource<Resource>> resource : toRemove)
+		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
 		{
-			resource->MarkToDelete(); //not working :)
+			resource->MarkToDelete();
 			DeleteResource(resource->GetUID());
 		}
 		//Import resources
