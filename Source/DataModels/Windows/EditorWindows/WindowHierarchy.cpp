@@ -1,14 +1,10 @@
 #include "WindowHierarchy.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
-
-#include <assert.h>
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);

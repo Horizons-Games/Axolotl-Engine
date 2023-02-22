@@ -1,5 +1,4 @@
 #include "WindowTextureInput.h"
-#include "imgui.h"
 
 #include "Components/ComponentMaterial.h"
 #include "Resources/ResourceMaterial.h"

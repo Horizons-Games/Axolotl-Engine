@@ -1,7 +1,5 @@
 #include "WindowAbout.h"
 
-#include "imgui.h"
-
 WindowAbout::WindowAbout() : EditorWindow("About")
 {
 }

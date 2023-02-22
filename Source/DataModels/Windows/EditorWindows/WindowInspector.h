@@ -7,7 +7,6 @@
 #include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "ImporterWindows/WindowSaveScene.h"
 // --
-#include <memory>
 
 class Model;
 class GameObject;
