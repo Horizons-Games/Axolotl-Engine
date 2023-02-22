@@ -1,6 +1,5 @@
 #include "TextureImporter.h"
 
-#include "EngineLog.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 

@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "EngineLog.h"
 #include "FileSystem/Json.h"
 
 void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox> resource)
