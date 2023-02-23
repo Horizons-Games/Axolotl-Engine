@@ -92,15 +92,17 @@ void ComponentMeshRenderer::DrawHighlight()
 		}
 
 		float scale = 10.1f;
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
 		std::shared_ptr<Program> programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared.get()->GetId();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
-		const float4x4& model =
+		float4x4 model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-		model.Scale(scale, scale, scale);
+		model = model.UniformScale(1.1, boundingBox->GetObjectOBB().CenterPoint()) * model;
 		GLint programInUse;
 		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
