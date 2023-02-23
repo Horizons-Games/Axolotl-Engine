@@ -6,10 +6,6 @@
 
 #include "Timer/Timer.h"
 
-std::future<UID> futureResourceUID;
-
-Timer timer;
-
 void WindowFileBrowser::DrawWindowContents()
 {
 	//WindowImporter
@@ -72,10 +68,10 @@ void WindowFileBrowser::DoThisIfOk()
 void WindowFileBrowser::ImportResourceWithLoadingWindow()
 {
 	winLoading->Draw(isLoading);
-	if (futureResourceUID._Is_ready() && timer.Read() > 1000)
+	if (futureResourceUID._Is_ready() && timer->Read() > 1000)
 	{
 		isLoading = false;
-		timer.Stop();
+		timer->Stop();
 		this->ImportResourceAsync(filePathName);
 	}
 }
@@ -91,7 +87,8 @@ UID WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 	}
 	else
 	{
-		timer.Start();
+		timer = std::make_unique<Timer>();
+		timer->Start();
 		ENGINE_LOG("Not Loaded");
 		return NULL;
 	}

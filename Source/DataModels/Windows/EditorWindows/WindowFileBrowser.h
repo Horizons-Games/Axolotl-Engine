@@ -1,9 +1,13 @@
 #pragma once
 #include "EditorWindow.h"
 
+#include <future>
+
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "FontIcons/CustomFont.h"
 #include "DataModels/Windows/EditorWindows/WindowLoading.h"
+
+class Timer;
 
 class WindowFileBrowser : public EditorWindow
 {
@@ -13,9 +17,6 @@ public:
 	void DrawWindowContents() override;
 	virtual void DoThisIfOk();
 	virtual void Browser();
-	virtual void ImportResourceWithLoadingWindow();
-	bool isLoading = false;
-	std::string filePathName;
 	
 protected:
 	unsigned long long ImportResourceAsync(const std::string& filePath);
@@ -34,14 +35,23 @@ protected:
 	bool showFileDialog = false;
 
 private:
+	void ImportResourceWithLoadingWindow();
+
 	std::unique_ptr<WindowLoading> winLoading;
+	std::future<unsigned long long> futureResourceUID;
+	std::unique_ptr<Timer> timer;
+	bool isLoading = false;
+	std::string filePathName;
 };
 
 inline ImVec2 WindowFileBrowser::GetStartingSize() const
 {
 	return ImVec2(900, 250);
 }
-inline WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"), winLoading(std::make_unique<WindowLoading>())
+inline WindowFileBrowser::WindowFileBrowser() :
+	EditorWindow("File Browser"),
+	winLoading(std::make_unique<WindowLoading>()),
+	timer(nullptr)
 {
 	title = ICON_IGFD_FOLDER " Import Asset";
 	dialogName = "Choose File";
