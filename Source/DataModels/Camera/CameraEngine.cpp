@@ -57,7 +57,10 @@ bool CameraEngine::Init()
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
 
-	if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
 
 	return true;
 }
@@ -170,7 +173,10 @@ bool CameraEngine::Update()
 
 			KeyboardRotate();
 
-			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+			if (frustumMode == EFrustumMode::offsetFrustum)
+			{
+				RecalculateOffsetPlanes();
+			}
 		}
 	}
 

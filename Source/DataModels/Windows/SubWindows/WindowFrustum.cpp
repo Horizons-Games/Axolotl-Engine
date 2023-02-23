@@ -24,10 +24,10 @@ void WindowFrustum::DrawWindowContents()
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum"};
 
-	int currentFrustum = App->engineCamera->GetCamera()->GetFrustumMode();
+	int currentFrustum = (int)App->engineCamera->GetCamera()->GetFrustumMode();
 	if (ImGui::ListBox("Frustum Mode\n(single select)", &currentFrustum, listbox_items, IM_ARRAYSIZE(listbox_items), 3))
 	{
-		App->engineCamera->GetCamera()->SetFrustumMode(currentFrustum);
+		App->engineCamera->GetCamera()->SetFrustumMode((EFrustumMode)currentFrustum);
 	}
 
 	float vFrustum = App->engineCamera->GetCamera()->GetFrustumOffset();

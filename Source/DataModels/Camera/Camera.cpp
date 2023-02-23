@@ -39,8 +39,14 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 
 bool Camera::IsInside(const AABB& aabb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(aabb);
+	if (frustumMode == EFrustumMode::noFrustum)
+	{
+		return false;
+	}
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		return IsInsideOffset(aabb);
+	}
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 
@@ -66,8 +72,14 @@ bool Camera::IsInside(const AABB& aabb)
 
 bool Camera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
+	if (frustumMode == EFrustumMode::noFrustum) 
+	{
+		return false;
+	} 
+	if (frustumMode == EFrustumMode::offsetFrustum) 
+	{
+		return IsInsideOffset(obb);
+	}
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 
@@ -187,7 +199,7 @@ void Camera::SetFrustumOffset(float offset)
 }
 
 
-void Camera::SetFrustumMode(int mode)
+void Camera::SetFrustumMode(EFrustumMode mode)
 {
 	frustumMode = mode;
 }
@@ -242,7 +254,7 @@ float Camera::GetFrustumOffset() const
 	return frustumOffset;
 }
 
-int Camera::GetFrustumMode() const
+EFrustumMode Camera::GetFrustumMode() const
 {
 	return frustumMode;
 }

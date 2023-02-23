@@ -9,7 +9,13 @@
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
 
-enum EFrustumMode { normalFrustum, offsetFrustum, noFrustum };
+enum class EFrustumMode 
+{ 
+	normalFrustum, 
+	offsetFrustum, 
+	noFrustum 
+};
+
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
@@ -26,10 +32,12 @@ enum EFrustumMode { normalFrustum, offsetFrustum, noFrustum };
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 
-enum class CameraType { UNKNOWN , C_ENGINE, C_GOD, C_GAMEOBJECT };
-
-const static std::string GetNameByCameraType(CameraType type);
-const static CameraType GetCameraTypeByName(const std::string& name);
+enum class CameraType 
+{ 
+	C_ENGINE, 
+	C_GOD, 
+	C_GAMEOBJECT 
+};
 
 
 class GameObject;
@@ -66,7 +74,7 @@ public:
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
-	void SetFrustumMode(int mode);
+	void SetFrustumMode(EFrustumMode mode);
 	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
@@ -81,7 +89,7 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
-	int	GetFrustumMode() const;
+	EFrustumMode GetFrustumMode() const;
 	const float3& GetPosition() const;
 
 protected:
@@ -108,7 +116,7 @@ protected:
 	float frustumOffset;
 	float viewPlaneDistance;
 
-	int frustumMode;
+	EFrustumMode frustumMode;
 
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped;
@@ -133,36 +141,6 @@ inline CameraType Camera::GetType()
 inline Frustum* Camera::GetFrustum()
 {
 	return this->frustum.get();
-}
-
-const std::string GetNameByCameraType(CameraType type)
-{
-	switch (type)
-	{
-	case CameraType::C_ENGINE:
-		return "Camera_Engine";
-		break;
-	case CameraType::C_GOD:
-		return "Camera_God";
-		break;
-	case CameraType::C_GAMEOBJECT:
-		return "Camera_GameObject";
-		break;
-	default:
-		assert(false && "Wrong camera type introduced");
-		return "";
-	}
-}
-
-const CameraType GetCameraTypeByName(const std::string& typeName)
-{
-	if (typeName == "Camera_Engine")
-		return CameraType::C_ENGINE;
-	if (typeName == "Camera_God")
-		return CameraType::C_GOD;
-	if (typeName == "Camera_GameObject")
-		return CameraType::C_GAMEOBJECT;
-	return CameraType::UNKNOWN;
 }
 
 
