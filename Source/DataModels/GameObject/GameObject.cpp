@@ -31,15 +31,15 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name)
 	uid = UniqueID::GenerateUID();
 
 	this->parent = parent;
-	assert(this->parent);
+	assert(parent);
 
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
-	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
+	active = (parent->IsEnabled() && parent->IsActive());
 }
 
 GameObject::~GameObject()
 {
-	std::vector<ComponentLight*> lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
 	for (ComponentLight* light : lights)
 	{
@@ -214,7 +214,7 @@ void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 
-	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
+	if (IsADescendant(newParent) ||				// Avoid dragging parent GameObjects into their descendants
 		newParent->IsAChild(this))				// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
@@ -224,7 +224,7 @@ void GameObject::SetParent(GameObject* newParent)
 	parent = newParent;
 	parent->AddChild(std::move(pointerToThis));
 
-	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
+	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
 
 void GameObject::AddChild(std::unique_ptr<GameObject> child)
@@ -233,7 +233,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 
 	if (!IsAChild(child.get()))
 	{
-		child->active = (this->IsActive() && this->IsEnabled());
+		child->active = (IsActive() && IsEnabled());
 		children.push_back(std::move(child));
 	}
 }
@@ -272,7 +272,7 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 
 void GameObject::Enable()
 {
-	assert(this->parent != nullptr);
+	assert(parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -285,7 +285,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	assert(this->parent != nullptr);
+	assert(parent != nullptr);
 
 	enabled = false;
 	active = false;
@@ -313,7 +313,7 @@ void GameObject::DeactivateChildren()
 
 void GameObject::ActivateChildren()
 {
-	active = (this->parent->IsActive() && this->parent->IsEnabled());
+	active = (parent->IsActive() && parent->IsEnabled());
 
 	if (children.empty())
 	{
@@ -478,7 +478,9 @@ bool GameObject::IsAChild(const GameObject* child)
 	for (std::unique_ptr<GameObject>& gameObject : children)
 	{
 		if (gameObject.get() == child)
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -491,7 +493,9 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		if (child.get() == descendant || child->IsADescendant(descendant))
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -501,7 +505,7 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
-	for (std::unique_ptr<GameObject>& children : this->children)
+	for (std::unique_ptr<GameObject>& children : children)
 	{
 		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());

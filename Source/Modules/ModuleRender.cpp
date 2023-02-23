@@ -19,6 +19,8 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
 
+#include "optick.h"
+
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
@@ -93,7 +95,7 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 
 ModuleRender::ModuleRender()
 {
-	this->context = nullptr;
+	context = nullptr;
 }
 
 ModuleRender::~ModuleRender()
@@ -197,6 +199,8 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
+
 	if (skybox)
 	{
 		skybox->Draw();
@@ -259,9 +263,9 @@ bool ModuleRender::CleanUp()
 {
 	ENGINE_LOG("Destroying renderer");
 
-	SDL_GL_DeleteContext(this->context);
+	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &vbo);
 	
 	return true;
 }
@@ -309,7 +313,7 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	std::string format = modelPath.substr(modelPath.size() - 3);
 	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
 
-	if (std::find(this->modelTypes.begin(), this->modelTypes.end(), format) != this->modelTypes.end())
+	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
 	{
 		valid = true;
 	}
@@ -319,12 +323,10 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
-	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
+	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
@@ -374,7 +376,8 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB())) {
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+	{
 		gameObjectsToDraw.push_back(gameObject);
 	}
 	
@@ -390,7 +393,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
-	if (quadtree->IsLeaf()) App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	if (quadtree->IsLeaf())
+	{
+		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+	}
 	else
 	{
 		DrawQuadtree(quadtree->GetBackLeftNode());

@@ -40,7 +40,6 @@ public:
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(const GameObject* gameObject);
 
-	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
@@ -59,6 +58,7 @@ private:
 	const std::vector<std::string> modelTypes = { "FBX" };
 
 	//should this be here?
+	//Note (David Martin): Nope, but at 14/2 still alive
 	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer = 0;

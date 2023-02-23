@@ -12,7 +12,10 @@ struct OptionsModel
 class ResourceModel : public Resource
 {
 public:
-	ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceModel(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceModel() override;
 
 	ResourceType GetType() const override;
@@ -56,7 +59,7 @@ inline ResourceModel::ResourceModel(UID resourceUID,
 
 inline ResourceModel::~ResourceModel()
 {
-	this->Unload();
+	Unload();
 }
 
 inline ResourceType ResourceModel::GetType() const
@@ -86,7 +89,7 @@ inline const std::vector<UID>& ResourceModel::GetMaterialsUIDs() const
 
 inline std::shared_ptr<OptionsModel>& ResourceModel::GetOptions()
 {
-	this->options;
+	return options;
 }
 
 inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
@@ -102,11 +105,11 @@ inline void ResourceModel::SetNumMaterials(const unsigned int numMaterials)
 inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
 {
 	this->meshesUIDs = meshesUIDs;
-	this->numMeshes = meshesUIDs.size();
+	numMeshes = meshesUIDs.size();
 }
 
 inline void ResourceModel::SetMaterialsUIDs(const std::vector<UID>& materialsUIDs)
 {
 	this->materialsUIDs = materialsUIDs;
-	this->numMaterials = materialsUIDs.size();
+	numMaterials = materialsUIDs.size();
 }

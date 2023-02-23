@@ -34,8 +34,10 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	if (this->IsMeshLoaded())
+	if (IsMeshLoaded())
+	{
 		mesh->Unload();
+	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -134,7 +136,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(this->IsMeshLoaded())
+	if (IsMeshLoaded())
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -143,7 +145,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
 
-	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -176,7 +177,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 {
 	mesh = newMesh;
 
-	if (this->IsMeshLoaded())
+	if (IsMeshLoaded())
 	{
 		mesh->Load();
 		ComponentBoundingBoxes* boundingBox =

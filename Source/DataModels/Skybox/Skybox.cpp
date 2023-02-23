@@ -50,6 +50,5 @@ void Skybox::Draw()
             program->Deactivate();
             glDepthMask(GL_TRUE);
         }
-        
     }
 }
