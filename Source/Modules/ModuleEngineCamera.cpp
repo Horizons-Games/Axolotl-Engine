@@ -26,6 +26,8 @@
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
+#include "optick.h"
+
 ModuleEngineCamera::ModuleEngineCamera() : mouseWarped(false), focusFlag(false), isFocusing(false)
 {};
 
@@ -71,6 +73,8 @@ bool ModuleEngineCamera::Start()
 
 update_status ModuleEngineCamera::Update()
 {
+	OPTICK_CATEGORY("UpdateCamera", Optick::Category::Camera);
+
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 
