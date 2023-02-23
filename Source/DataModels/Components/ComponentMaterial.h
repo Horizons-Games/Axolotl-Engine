@@ -73,10 +73,6 @@ private:
 	UID specularUID = 0;
 	//All this
 
-	unsigned uboDiffuse = 0;
-	unsigned uboSpecular = 0;
-	unsigned uboNormal = 0;
-
 	friend class WindowComponentMaterial;
 };
 
