@@ -11,7 +11,7 @@ class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
-class ModuleEngineCamera;
+class ModuleCamera;
 #ifdef ENGINE
 class ModuleEditor;
 class ModuleDebugDraw;
@@ -41,7 +41,7 @@ public:
 	ModuleInput* input;
 	ModuleProgram* program;
 	ModuleResources* resources;
-	ModuleEngineCamera* engineCamera;
+	ModuleCamera* engineCamera;
 #ifdef ENGINE
 	ModuleEditor* editor;
 	ModuleDebugDraw* debug;

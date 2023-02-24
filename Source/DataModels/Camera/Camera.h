@@ -1,11 +1,20 @@
 #pragma once
-#pragma warning (disable: 26495)
 
-#include "Module.h"
-#include "ModuleDebugDraw.h"
+#include <string>
+#include "Geometry/Frustum.h"
 
 #include <memory>
 #include <map>
+
+#include "Geometry/Plane.h"
+#include "Geometry/LineSegment.h"
+
+enum class EFrustumMode 
+{ 
+	normalFrustum, 
+	offsetFrustum, 
+	noFrustum 
+};
 
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
@@ -23,50 +32,32 @@
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 
-#define ORBIT_SPEED_MULTIPLIER 2.f
-
-#define MAX_MOUSE_SPEED_MODIFIER 5.f
-#define MAX_HFOV 120
-#define MAX_VFOV 85
-#define MAX_FRUSTUM 2.f
-
-#define MIN_HFOV 60
-#define MIN_VFOV 34
-#define MIN_FRUSTUM -2.f
-
-enum EFrustumMode
-{
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
+enum class CameraType 
+{ 
+	C_ENGINE, 
+	C_GOD, 
+	C_GAMEOBJECT 
 };
+
 
 class GameObject;
 class WindowScene;
 
-class ModuleEngineCamera : public Module
+class Camera
 {
 public:
-	ModuleEngineCamera();
-	~ModuleEngineCamera() override;
+	Camera(const CameraType type);
+	virtual ~Camera();
 
-	bool Init() override;
-	bool Start() override;
+	virtual bool Init() = 0;
+	virtual bool Start() = 0;
 
-	update_status Update();
+	virtual bool Update() = 0; // Abstract because each Camera will perform its own Update
 
-	void Move();
-	void KeyboardRotate();
-	void Rotate();
+	CameraType GetType();
+	Frustum* GetFrustum();
+
 	void ApplyRotation(const float3x3& rotationMatrix);
-	void FreeLook();
-	void UnlimitedCursor();
-	void Run();
-	void Walk();
-	void Zoom();
-	void Focus(const OBB& obb);
-	void Focus(GameObject* gameObject);
-	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
@@ -83,7 +74,7 @@ public:
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
-	void SetFrustumMode(int mode);
+	void SetFrustumMode(EFrustumMode mode);
 	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
@@ -98,17 +89,19 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
-	int	GetFrustumMode() const;
+	EFrustumMode GetFrustumMode() const;
 	const float3& GetPosition() const;
-	
-private:
+
+protected:
+
 	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
-	
+
 	void CalculateHittedGameObjects(const LineSegment& ray);
 	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
-								  const LineSegment& ray);
+		const LineSegment& ray);
 
-	Frustum frustum;
+	CameraType type;
+	std::unique_ptr <Frustum> frustum;
 
 	float3 position;
 
@@ -123,7 +116,7 @@ private:
 	float frustumOffset;
 	float viewPlaneDistance;
 
-	int frustumMode;
+	EFrustumMode frustumMode;
 
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped;
@@ -133,18 +126,37 @@ private:
 	int mouseState;
 };
 
-inline const float3& ModuleEngineCamera::GetPosition() const
+
+inline Camera::Camera(const CameraType type)
+	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+{
+	frustum = std::make_unique <Frustum>();
+}
+
+inline CameraType Camera::GetType()
+{
+	return this->type;
+}
+
+inline Frustum* Camera::GetFrustum()
+{
+	return this->frustum.get();
+}
+
+
+inline const float3& Camera::GetPosition() const
 {
 	return position;
 }
 
-inline float ModuleEngineCamera::GetViewPlaneDistance() const
+inline float Camera::GetViewPlaneDistance() const
 {
 	return viewPlaneDistance;
 }
 
-inline void ModuleEngineCamera::SetViewPlaneDistance(float distance)
+inline void Camera::SetViewPlaneDistance(float distance)
 {
 	viewPlaneDistance = distance;
-	frustum.SetViewPlaneDistances(0.1f, distance);
+	frustum->SetViewPlaneDistances(0.1f, distance);
 }
+

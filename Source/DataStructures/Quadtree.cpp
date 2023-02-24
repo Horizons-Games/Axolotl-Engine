@@ -10,7 +10,6 @@
 #include "geometry/OBB.h"
 #include "geometry/AABB.h"
 
-#include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include <list>
