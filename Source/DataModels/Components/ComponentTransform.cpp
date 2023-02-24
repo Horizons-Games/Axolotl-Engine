@@ -77,7 +77,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
 	pos.x = (float) meta["localPos_X"];

@@ -9,9 +9,9 @@ WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
 
 void WindowComponentCamera::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentCamera* asCamera = static_cast<ComponentCamera*>(this->component);
+	ComponentCamera* asCamera = static_cast<ComponentCamera*>(component);
 
 	if (asCamera)
 	{

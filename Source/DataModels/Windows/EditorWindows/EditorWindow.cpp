@@ -14,7 +14,7 @@ void EditorWindow::Draw(bool& enabled)
 	{
 		if (ImGui::Begin(name.c_str(), &enabled, flags))
 		{
-			ImGui::SetWindowSize(name.c_str(), this->GetStartingSize(), ImGuiCond_Once);
+			ImGui::SetWindowSize(name.c_str(), GetStartingSize(), ImGuiCond_Once);
 
 			DrawWindowContents();
 			focused = ImGui::IsWindowFocused();

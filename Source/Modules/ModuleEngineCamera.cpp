@@ -26,6 +26,8 @@
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
+#include "optick.h"
+
 ModuleEngineCamera::ModuleEngineCamera() : mouseWarped(false), focusFlag(false), isFocusing(false)
 {};
 
@@ -56,25 +58,23 @@ bool ModuleEngineCamera::Init()
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 
-	if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+	if (frustumMode == offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
 
 	return true;
 }
 
 bool ModuleEngineCamera::Start()
 {
-	// When the bounding boxes scale correctly with the models, uncomment this if
-	/*
-	if (!App->scene->GetRoot()->GetChildren().empty())
-		Focus(((ComponentBoundingBoxes*)App->scene->GetRoot()->GetChildren()[0]
-			->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB());
-	*/
-
 	return true;
 }
 
 update_status ModuleEngineCamera::Update()
 {
+	OPTICK_CATEGORY("UpdateCamera", Optick::Category::Camera);
+
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 
@@ -85,16 +85,23 @@ update_status ModuleEngineCamera::Update()
 		//We block everything on while Focus (slerp) to avoid camera problems
 		if (isFocusing)
 		{
-			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
+			if (focusFlag)
+			{
+				Focus(App->scene->GetSelectedGameObject());
+			}
 			Rotate();
 		}
 		else
 		{
 			//Shift speed
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+			{
 				Run();
+			}
 			else
+			{
 				Walk();
+			}
 
 			// --RAYCAST CALCULATION-- //
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
@@ -169,7 +176,10 @@ update_status ModuleEngineCamera::Update()
 
 			KeyboardRotate();
 
-			if (frustumMode == offsetFrustum) RecalculateOffsetPlanes();
+			if (frustumMode == offsetFrustum)
+			{
+				RecalculateOffsetPlanes();
+			}
 		}
 	}
 
@@ -185,9 +195,14 @@ void ModuleEngineCamera::Move()
 	{
 		moveSpeed += App->input->GetMouseWheel().y;
 		if (moveSpeed < 1.0f)
+		{
 			moveSpeed = 1.0f;
+		}
+		
 		if (moveSpeed > 900.0f)
+		{
 			moveSpeed = 900.0f;
+		}
 	}
 
 	//Forward
@@ -257,15 +272,19 @@ void ModuleEngineCamera::KeyboardRotate()
 	if (App->input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
 	{
 		focusFlag = false;
-		if (rotationAngle + rotationSpeed * acceleration < 180) 
+		if (rotationAngle + rotationSpeed * acceleration < 180)
+		{
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
 	{
 		focusFlag = false;
-		if (rotationAngle - rotationSpeed * acceleration > 0) 
+		if (rotationAngle - rotationSpeed * acceleration > 0)
+		{
 			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
@@ -366,15 +385,13 @@ void ModuleEngineCamera::Zoom()
 	{
 		float zoomSpeed = App->input->GetMouseWheel().y * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position += frustum.Front().Normalized() *
-			zoomSpeed * deltaTime;
+		position += frustum.Front().Normalized() * zoomSpeed * deltaTime;
 	}
 	else
 	{
 		float zoomSpeed = App->input->GetMouseMotion().x * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position += frustum.Front().Normalized() *
-			zoomSpeed * deltaTime;
+		position += frustum.Front().Normalized() * zoomSpeed * deltaTime;
 	}
 	SetPosition(position);
 }
@@ -384,7 +401,10 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
-	if (boundingSphere.r < 1.f) radius = 1.f;
+	if (boundingSphere.r < 1.f)
+	{
+		radius = 1.f;
+	}
 	float fov = frustum.HorizontalFov();
 	float camDistance = radius / sin(fov / 2.0f);
 	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
@@ -435,8 +455,14 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 bool ModuleEngineCamera::IsInside(const AABB& aabb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(aabb);
+	if (frustumMode == noFrustum)
+	{
+		return false;
+	}
+	if (frustumMode == offsetFrustum)
+	{
+		return IsInsideOffset(aabb);
+	}
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 
@@ -454,7 +480,10 @@ bool ModuleEngineCamera::IsInside(const AABB& aabb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -462,8 +491,15 @@ bool ModuleEngineCamera::IsInside(const AABB& aabb)
 
 bool ModuleEngineCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
+	if (frustumMode == noFrustum)
+	{
+		return false;
+	}
+	
+	if (frustumMode == offsetFrustum)
+	{
+		return IsInsideOffset(obb);
+	}
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 	
@@ -481,7 +517,10 @@ bool ModuleEngineCamera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 	
 	return true;
@@ -503,7 +542,10 @@ bool ModuleEngineCamera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -544,6 +586,7 @@ void ModuleEngineCamera::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), width - 1, mouseY);
 		mouseWarped = true;
 	}
+	
 	if (mouseX >= width - 1)
 	{
 		lastMouseX = 0;
@@ -551,6 +594,7 @@ void ModuleEngineCamera::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), 0, mouseY);
 		mouseWarped = true;
 	}
+	
 	if (mouseY <= 0)
 	{
 		lastMouseX = mouseX;
@@ -558,6 +602,7 @@ void ModuleEngineCamera::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, height - 1);
 		mouseWarped = true;
 	}
+	
 	if (mouseY >= height - 1)
 	{
 		lastMouseX = mouseX;
@@ -607,7 +652,10 @@ void ModuleEngineCamera::SetLookAt(const float3& lookAt)
 	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime()*rotationSpeed);
 	//currentRotation = rotation
 
-	if (nextRotation.Equals(Quat::identity)) isFocusing = false;
+	if (nextRotation.Equals(Quat::identity))
+	{
+		isFocusing = false;
+	}
 
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	
@@ -774,8 +822,15 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
 
-				if (!hit) continue;
-				if (thisDistance >= minCurrentDistance) continue;
+				if (!hit)
+				{
+					continue;
+				}
+				
+				if (thisDistance >= minCurrentDistance)
+				{
+					continue;
+				}
 
 				// Only save a gameObject when any of its triangles is hit 
 				// and it is the nearest triangle to the frustum
