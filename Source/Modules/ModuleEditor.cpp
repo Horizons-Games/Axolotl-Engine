@@ -91,14 +91,14 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
 
-	update_status status = UPDATE_CONTINUE;
+	update_status status = update_status::UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
@@ -149,7 +149,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::Resized()

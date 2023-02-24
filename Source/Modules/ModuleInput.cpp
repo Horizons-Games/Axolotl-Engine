@@ -54,7 +54,7 @@ update_status ModuleInput::Update()
 {
     OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
 
-    update_status status = UPDATE_CONTINUE;
+    update_status status = update_status::UPDATE_CONTINUE;
 
     mouseMotion = float2::zero;
     mouseWheelScrolled = false;
@@ -89,7 +89,7 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        status = UPDATE_STOP;
+        status = update_status::UPDATE_STOP;
     }
 
     SDL_Event sdlEvent;
@@ -101,7 +101,7 @@ update_status ModuleInput::Update()
         switch (sdlEvent.type)
         {
         case SDL_QUIT:
-            return UPDATE_STOP;
+            return update_status::UPDATE_STOP;
         
         case SDL_WINDOWEVENT:
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||

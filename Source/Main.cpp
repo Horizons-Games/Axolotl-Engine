@@ -4,7 +4,7 @@
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2main.lib" )
 
-enum main_states
+enum class main_states
 {
 	MAIN_CREATION,  
 	MAIN_INIT,
@@ -20,66 +20,66 @@ std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
 int main(int argc, char ** argv)
 {
 	int mainReturn = EXIT_FAILURE;
-	main_states state = MAIN_CREATION;
+	main_states state = main_states::MAIN_CREATION;
 
-	while (state != MAIN_EXIT)
+	while (state != main_states::MAIN_EXIT)
 	{
 		OPTICK_FRAME("MainThread");
 
 		switch (state)
 		{
-		case MAIN_CREATION:
+		case main_states::MAIN_CREATION:
 
 			ENGINE_LOG("Application Creation --------------");
 			App = std::make_unique<Application>();
-			state = MAIN_INIT;
+			state = main_states::MAIN_INIT;
 			break;
 
-		case MAIN_INIT:
+		case main_states::MAIN_INIT:
 			ENGINE_LOG("Application Init --------------");
 			if (App->Init() == false)
 			{
 				ENGINE_LOG("Application Init exits with error -----");
-				state = MAIN_EXIT;
+				state = main_states::MAIN_EXIT;
 			}
 			else
 			{
-				state = MAIN_START;
+				state = main_states::MAIN_START;
 			}
 
 			break;
 
-		case MAIN_START:
+		case main_states::MAIN_START:
 
 			ENGINE_LOG("Application Start --------------");
 			if (App->Start() == false)
 			{
 				ENGINE_LOG("Application Start exits with error -----");
-				state = MAIN_EXIT;
+				state = main_states::MAIN_EXIT;
 			}
 			else
 			{
-				state = MAIN_UPDATE;
+				state = main_states::MAIN_UPDATE;
 			}
 
 			break;
 
-		case MAIN_UPDATE:
+		case main_states::MAIN_UPDATE:
 		{
-			int updateReturn = App->Update();
+			update_status updateReturn = App->Update();
 
-			if (updateReturn == UPDATE_ERROR)
+			if (updateReturn == update_status::UPDATE_ERROR)
 			{
 				ENGINE_LOG("Application Update exits with error -----");
-				state = MAIN_EXIT;
+				state = main_states::MAIN_EXIT;
 			}
 
-			if (updateReturn == UPDATE_STOP)
-				state = MAIN_FINISH;
+			if (updateReturn == update_status::UPDATE_STOP)
+				state = main_states::MAIN_FINISH;
 		}
 			break;
 
-		case MAIN_FINISH:
+		case main_states::MAIN_FINISH:
 
 			ENGINE_LOG("Application CleanUp --------------");
 			if (App->CleanUp() == false)
@@ -89,7 +89,7 @@ int main(int argc, char ** argv)
 			else
 				mainReturn = EXIT_SUCCESS;
 
-			state = MAIN_EXIT;
+			state = main_states::MAIN_EXIT;
 
 			break;
 		}

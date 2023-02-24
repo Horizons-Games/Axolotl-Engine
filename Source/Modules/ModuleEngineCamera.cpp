@@ -180,7 +180,7 @@ update_status ModuleEngineCamera::Update()
 		}
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEngineCamera::Move()

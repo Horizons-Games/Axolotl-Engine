@@ -51,7 +51,7 @@ update_status ModuleScene::Update()
 
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)

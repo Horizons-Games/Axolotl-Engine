@@ -6,7 +6,7 @@
 
 #define GLSL_VERSION "#version 440"
 
-enum update_status
+enum class update_status
 {
 	UPDATE_CONTINUE = 1,
 	UPDATE_STOP,
