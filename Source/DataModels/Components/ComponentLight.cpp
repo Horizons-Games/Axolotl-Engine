@@ -34,3 +34,45 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 ComponentLight::~ComponentLight()
 {
 }
+
+const std::string GetNameByLightType(LightType type)
+{
+	switch (type)
+	{
+	case LightType::DIRECTIONAL:
+		return "LightType_Directional";
+	case LightType::POINT:
+		return "LightType_Point";
+	case LightType::SPOT:
+		return "LightType_Spot";
+	case LightType::AMBIENT:
+		return "LightType_Ambient";
+	default:
+		assert(false && "Wrong light type introduced");
+		return "";
+	}
+}
+
+const LightType GetLightTypeByName(const std::string& typeName)
+{
+	if (typeName == "LightType_Directional")
+	{
+		return LightType::DIRECTIONAL;
+	}
+
+	if (typeName == "LightType_Point")
+	{
+		return LightType::POINT;
+	}
+
+	if (typeName == "LightType_Spot")
+	{
+		return LightType::SPOT;
+	}
+
+	if (typeName == "LightType_Ambient")
+	{
+		return LightType::AMBIENT;
+	}
+	return LightType::UNKNOWN;
+}

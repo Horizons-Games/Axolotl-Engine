@@ -97,12 +97,12 @@ void ComponentCamera::UpdateFrustumOffset()
 
 bool ComponentCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum)
+	if (frustumMode == ECameraFrustumMode::noFrustum)
 	{
 		return false;
 	}
 
-	if (frustumMode == offsetFrustum)
+	if (frustumMode == ECameraFrustumMode::offsetFrustum)
 	{
 		return IsInsideOffset(obb);
 	}

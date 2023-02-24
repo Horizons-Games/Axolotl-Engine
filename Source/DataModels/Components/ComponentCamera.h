@@ -7,7 +7,7 @@
 #include "ComponentTransform.h"
 
 #define COMPONENT_CAMERA "Camera"
-enum ECameraFrustumMode
+enum class ECameraFrustumMode
 {
 	normalFrustum,
 	offsetFrustum,
@@ -43,7 +43,7 @@ public:
 
 private:
 	Frustum frustum;
-	int frustumMode;
+	ECameraFrustumMode frustumMode;
 	float frustumOffset;
 	Plane offsetFrustumPlanes[6];
 	bool drawFrustum;
