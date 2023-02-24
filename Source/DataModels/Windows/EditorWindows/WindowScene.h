@@ -22,9 +22,9 @@ protected:
 private:
 	void ManageResize();
 
-	GLuint texture = 0;
-	float currentWidth = 0;
-	float currentHeight = 0;
+	GLuint texture;
+	float currentWidth;
+	float currentHeight;
 
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport

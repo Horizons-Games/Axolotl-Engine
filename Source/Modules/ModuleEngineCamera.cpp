@@ -403,7 +403,7 @@ void ModuleEngineCamera::Focus(const OBB &obb)
 		radius = 1.f;
 	}
 	float fov = frustum.HorizontalFov();
-	float camDistance = radius / sin(fov / 2.0);
+	float camDistance = radius / sin(fov / 2.0f);
 	vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
 	//position = boundingSphere.pos - (camDirection * camDistance);
@@ -570,8 +570,8 @@ void ModuleEngineCamera::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		App->input->SetMouseMotionX((float)(mouseX - lastMouseX));
+		App->input->SetMouseMotionY((float)(mouseY - lastMouseY));
 		mouseWarped = false;
 	}
 	int width, height;

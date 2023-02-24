@@ -10,6 +10,10 @@ WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
 {
 }
 
+WindowComponentDirLight::~WindowComponentDirLight()
+{
+}
+
 void WindowComponentDirLight::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();

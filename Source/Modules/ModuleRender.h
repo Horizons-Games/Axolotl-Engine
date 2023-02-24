@@ -53,18 +53,18 @@ private:
 	unsigned vbo;
 	
 	std::vector<const GameObject*> gameObjectsToDraw;
-	const std::vector<std::string> modelTypes = { "FBX" };
+	const std::vector<std::string> modelTypes;
 
 	//should this be here?
 	//Note (David Martin): Nope, but at 14/2 still alive
 	std::unique_ptr<Skybox> skybox;
 
-	GLuint frameBuffer = 0;
-	GLuint renderedTexture = 0;
-	GLuint depthRenderBuffer = 0;
+	GLuint frameBuffer;
+	GLuint renderedTexture;
+	GLuint depthRenderBuffer;
 
-	std::string vertexShader = "default_vertex.glsl";
-	std::string fragmentShader = "default_fragment.glsl";
+	std::string vertexShader;
+	std::string fragmentShader;
 
 	friend class ModuleEditor;
 };
