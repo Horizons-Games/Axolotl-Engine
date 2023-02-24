@@ -178,6 +178,8 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
+	gameObjectsToDraw.clear();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -200,8 +202,6 @@ update_status ModuleRender::Update()
 	{
 		skybox->Draw();
 	}
-
-	gameObjectsToDraw.clear();
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
