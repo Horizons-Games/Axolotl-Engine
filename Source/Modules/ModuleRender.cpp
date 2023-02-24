@@ -17,6 +17,8 @@
 #include "GameObject/GameObject.h"
 #include "Components/ComponentBoundingBoxes.h"
 
+#include "optick.h"
+
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
@@ -192,6 +194,8 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
+
 	if (skybox)
 	{
 		skybox->Draw();
