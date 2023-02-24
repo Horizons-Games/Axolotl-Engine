@@ -3,7 +3,8 @@
 
 class Program;
 
-enum class ProgramType {
+enum class ProgramType 
+{
 	MESHSHADER,
 	SKYBOX
 };
