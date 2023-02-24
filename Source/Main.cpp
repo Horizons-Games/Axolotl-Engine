@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "optick.h"
 
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2main.lib" )
@@ -23,6 +24,8 @@ int main(int argc, char ** argv)
 
 	while (state != MAIN_EXIT)
 	{
+		OPTICK_FRAME("MainThread");
+
 		switch (state)
 		{
 		case MAIN_CREATION:
@@ -93,5 +96,7 @@ int main(int argc, char ** argv)
 	}
 
 	ENGINE_LOG("Bye :)\n");
+	OPTICK_SHUTDOWN();
+
 	return mainReturn;
 }

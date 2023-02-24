@@ -43,7 +43,6 @@ private:
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
-	//localAABB.Enclose(Vertices, numVertices);
 }
 
 inline const AABB& ComponentBoundingBoxes::GetLocalAABB()

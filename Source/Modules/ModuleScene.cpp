@@ -13,6 +13,8 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
+#include "optick.h"
+
 ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
 }
@@ -45,9 +47,9 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update()
 {
-	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 
-	//SaveSceneToJson("AuxScene");
+	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return UPDATE_CONTINUE;
 }
@@ -192,7 +194,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				//sceneToLoad->FillQuadtree(loadedObjects);
 			}
 		}
 		else
@@ -210,7 +211,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	loadedScene->SetSceneCameras(loadedObjects);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-	//sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	loadedScene->InitLights();
 
