@@ -21,18 +21,15 @@
 
 #include <assert.h>
 
-GameObject::GameObject(const char* name) : name(name) // Root constructor
+// Root constructor
+GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
+	active(true), parent(nullptr)
 {
-	uid = UniqueID::GenerateUID();
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name)
+GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
+	uid(UniqueID::GenerateUID()), enabled(true), active(true)
 {
-	uid = UniqueID::GenerateUID();
-
-	this->parent = parent;
-	assert(parent);
-
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
 	active = (parent->IsEnabled() && parent->IsActive());
 }

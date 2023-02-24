@@ -6,6 +6,13 @@
 #include <cstdio>
 #include "zip.h"
 
+ModuleFileSystem::ModuleFileSystem()
+{
+}
+
+ModuleFileSystem::~ModuleFileSystem()
+{
+}
 
 bool ModuleFileSystem::Init()
 {

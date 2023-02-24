@@ -8,7 +8,7 @@ class WindowComponentCamera : public ComponentWindow
 {
 public:
 	WindowComponentCamera(ComponentCamera* component);
-	~WindowComponentCamera() override = default;
+	~WindowComponentCamera() override;
 
 protected:
 	void DrawWindowContents() override;

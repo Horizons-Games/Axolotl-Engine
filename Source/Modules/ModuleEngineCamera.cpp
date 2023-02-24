@@ -573,8 +573,9 @@ void ModuleEngineCamera::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX((float)mouseX - lastMouseX);
-		App->input->SetMouseMotionY((float)mouseY - lastMouseY);
+		App->input->SetMouseMotionX((float)(mouseX - lastMouseX));
+		App->input->SetMouseMotionY((float)(mouseY - lastMouseY));
+
 		mouseWarped = false;
 	}
 	int width, height;

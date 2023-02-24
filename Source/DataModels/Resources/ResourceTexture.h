@@ -90,31 +90,17 @@ protected:
 private:
 	void CreateTexture();
 
-	unsigned int glTexture = 0;
-	unsigned int width = 0;
-	unsigned int height = 0;
-	unsigned int format = 0;
-	unsigned int internalFormat = 0;
-	unsigned int imageType = 0;
+	unsigned int glTexture;
+	unsigned int width;
+	unsigned int height;
+	unsigned int format;
+	unsigned int internalFormat;
+	unsigned int imageType;
 	std::vector<uint8_t> pixels;
-	unsigned int pixelsSize = 0;
+	unsigned int pixelsSize;
 
 	std::shared_ptr<OptionsTexture> options;
 };
-
-inline ResourceTexture::ResourceTexture(UID resourceUID,
-										const std::string& fileName,
-										const std::string& assetsPath,
-										const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsTexture>();
-}
-
-inline ResourceTexture::~ResourceTexture()
-{
-	Unload();
-}
 
 inline ResourceType ResourceTexture::GetType() const
 {

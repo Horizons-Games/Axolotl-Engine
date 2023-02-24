@@ -7,6 +7,10 @@ WindowComponentLight::WindowComponentLight(ComponentLight* component) :
 {
 }
 
+WindowComponentLight::~WindowComponentLight()
+{
+}
+
 void WindowComponentLight::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
