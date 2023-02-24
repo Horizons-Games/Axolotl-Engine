@@ -10,6 +10,10 @@ WindowComponentAmbient::WindowComponentAmbient(ComponentAmbient* component) :
 {
 }
 
+WindowComponentAmbient::~WindowComponentAmbient()
+{
+}
+
 void WindowComponentAmbient::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();

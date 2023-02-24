@@ -7,6 +7,10 @@ WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(ComponentBoundingBoxe
 {
 }
 
+WindowComponentBoundingBoxes::~WindowComponentBoundingBoxes()
+{
+}
+
 void WindowComponentBoundingBoxes::DrawWindowContents()
 {
 	ComponentBoundingBoxes* asBB = static_cast<ComponentBoundingBoxes*>(component);

@@ -88,7 +88,7 @@ private:
 	UID skybox;
 	
 	std::thread monitorThread;
-	bool monitorResources = false;
+	bool monitorResources;
 };
 
 inline bool ModuleResources::CleanUp()

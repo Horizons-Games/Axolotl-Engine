@@ -8,7 +8,7 @@ class WindowComponentBoundingBoxes : public ComponentWindow
 {
 public:
 	WindowComponentBoundingBoxes(ComponentBoundingBoxes* component);
-	~WindowComponentBoundingBoxes() override = default;
+	~WindowComponentBoundingBoxes() override;
 
 protected:
 	void DrawWindowContents() override;

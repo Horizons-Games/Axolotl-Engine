@@ -57,18 +57,18 @@ private:
 
 	std::shared_ptr<ResourceMaterial> material;
 
-	float3 diffuseColor = float3(1.0, 1.0, 0.0);
-	float3 specularColor = float3(0.5, 0.5, 0.5);
-	float shininess = 512.f;
-	float normalStrength = 1.0f;
+	float3 diffuseColor;
+	float3 specularColor;
+	float shininess;
+	float normalStrength;
 
-	bool hasShininessAlpha = false;
+	bool hasShininessAlpha;
 
 	//Auxiliar UIDs
-	UID diffuseUID = 0;
-	UID normalUID = 0;
-	UID occlusionUID = 0;
-	UID specularUID = 0;
+	UID diffuseUID;
+	UID normalUID;
+	UID occlusionUID;
+	UID specularUID;
 	//All this
 
 	friend class WindowComponentMaterial;

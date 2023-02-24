@@ -25,6 +25,10 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameO
 {
 }
 
+ComponentDirLight::~ComponentDirLight()
+{
+}
+
 void ComponentDirLight::Draw()
 {
 	if (GetActive())

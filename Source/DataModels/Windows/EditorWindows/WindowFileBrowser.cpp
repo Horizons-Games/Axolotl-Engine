@@ -61,6 +61,10 @@ WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 		ImVec4(0.5f, 0.8f, 0.5f, 0.9f), ICON_IGFD_SAVE);
 }
 
+WindowFileBrowser::~WindowFileBrowser()
+{
+}
+
 void WindowFileBrowser::DrawWindowContents()
 {
 	//WindowImporter

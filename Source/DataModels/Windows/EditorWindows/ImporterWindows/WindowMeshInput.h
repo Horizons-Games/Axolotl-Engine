@@ -8,7 +8,8 @@ class WindowMeshInput :
 {
 public:
 	WindowMeshInput(ComponentMeshRenderer* componentMesh);
-	~WindowMeshInput() = default;
+	~WindowMeshInput();
+
 	void DoThisIfOk() override;
 
 private:

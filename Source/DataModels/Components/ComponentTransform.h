@@ -53,14 +53,14 @@ public:
 								   bool rotationModified);
 
 private:
-	float3 pos = float3::zero;
-	Quat rot = Quat::identity;
-	float3 sca = float3::one;
+	float3 pos;
+	Quat rot;
+	float3 sca;
 
-	float3 rotXYZ = float3::zero;
+	float3 rotXYZ;
 
-	float4x4 localMatrix = float4x4::identity;
-	float4x4 globalMatrix = float4x4::identity;
+	float4x4 localMatrix;
+	float4x4 globalMatrix;
 };
 
 inline const float3& ComponentTransform::GetPosition() const

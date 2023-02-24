@@ -8,11 +8,11 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector")
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
+	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
-	loadScene = std::make_unique<WindowLoadScene>();
-	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -21,10 +21,8 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	//TODO: REMOVE AFTER, HERE WE GO
 	DrawButtomsSaveAndLoad();
 	ImGui::Separator();
-	//
 
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 

@@ -9,8 +9,8 @@ class aiString;
 class ModelImporter : public Importer<ResourceModel>
 {
 public:
-    ModelImporter() = default;
-    ~ModelImporter() = default;
+    ModelImporter();
+    ~ModelImporter();
 
     void Import(const char* filePath, std::shared_ptr<ResourceModel> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource) override;

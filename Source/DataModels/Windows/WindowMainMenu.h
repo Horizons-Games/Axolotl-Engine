@@ -26,7 +26,7 @@ private:
 
 	std::unique_ptr<WindowAbout> about;
 	
-	bool showAbout = false;
+	bool showAbout;
 	
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
 };

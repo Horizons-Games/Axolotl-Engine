@@ -26,9 +26,13 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 
-ModuleEditor::ModuleEditor() {}
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+{
+}
 
-ModuleEditor::~ModuleEditor() {}
+ModuleEditor::~ModuleEditor() 
+{
+}
 
 bool ModuleEditor::Init()
 {

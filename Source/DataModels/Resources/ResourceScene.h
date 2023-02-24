@@ -18,34 +18,19 @@ public:
 	void SaveOptions(Json& meta) override {};
 	void LoadOptions(Json& meta) override {};
 
-	//Gets
+	//Getters
 
 	std::shared_ptr<OptionsScene>& GetOptions();
 
-	//Sets
+	//Setters
 
 protected:
 	void InternalLoad() override {};
 	void InternalUnload() override {};
+
 private:
-
-
 	std::shared_ptr<OptionsScene> options;
 };
-
-inline ResourceScene::ResourceScene(UID resourceUID,
-	const std::string& fileName,
-	const std::string& assetsPath,
-	const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsScene>();
-}
-
-inline ResourceScene::~ResourceScene()
-{
-	Unload();
-}
 
 inline ResourceType ResourceScene::GetType() const
 {

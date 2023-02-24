@@ -17,9 +17,13 @@ const std::string ModuleResources::libraryFolder = "Lib/";
 
 //creator and destructor can't be inlined
 //because we are using unique pointers with forward declarations
-ModuleResources::ModuleResources() = default;
+ModuleResources::ModuleResources() : monitorResources (false)
+{
+}
 
-ModuleResources::~ModuleResources() = default;
+ModuleResources::~ModuleResources()
+{
+}
 
 bool ModuleResources::Start()
 {

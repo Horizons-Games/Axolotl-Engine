@@ -57,18 +57,18 @@ private:
 	std::list<const GameObject*> gameObjects;
 	AABB boundingBox;
 
-	int quadrantCapacity = QUADRANT_CAPACITY;
-	float minQuadrantSideSize = MIN_CUBE_SIZE;
-	float minQuadrantDiagonalSquared = 3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE; // D^2 = 3C^2
+	int quadrantCapacity;
+	float minQuadrantSideSize;
+	float minQuadrantDiagonalSquared;
 
 	Quadtree* parent;
 
-	std::unique_ptr<Quadtree> frontRightNode = nullptr;
-	std::unique_ptr<Quadtree> frontLeftNode = nullptr;
-	std::unique_ptr<Quadtree> backRightNode = nullptr;
-	std::unique_ptr<Quadtree> backLeftNode = nullptr;
+	std::unique_ptr<Quadtree> frontRightNode;
+	std::unique_ptr<Quadtree> frontLeftNode;
+	std::unique_ptr<Quadtree> backRightNode;
+	std::unique_ptr<Quadtree> backLeftNode;
 
-	bool isFreezed = false;
+	bool isFreezed;
 };
 
 inline bool Quadtree::IsFreezed() const

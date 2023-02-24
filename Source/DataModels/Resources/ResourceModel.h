@@ -47,20 +47,6 @@ private:
 	std::shared_ptr<OptionsModel> options;
 };
 
-inline ResourceModel::ResourceModel(UID resourceUID,
-									const std::string& fileName,
-									const std::string& assetsPath,
-									const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsModel>();
-}
-
-inline ResourceModel::~ResourceModel()
-{
-	Unload();
-}
-
 inline ResourceType ResourceModel::GetType() const
 {
 	return ResourceType::Model;

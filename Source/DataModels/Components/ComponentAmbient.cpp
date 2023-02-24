@@ -20,6 +20,10 @@ ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) :
 {
 }
 
+ComponentAmbient::~ComponentAmbient()
+{
+}
+
 void ComponentAmbient::SaveOptions(Json& meta)
 {
 	// Do not delete these

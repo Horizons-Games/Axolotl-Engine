@@ -5,6 +5,14 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
+SkyBoxImporter::SkyBoxImporter()
+{
+}
+
+SkyBoxImporter::~SkyBoxImporter()
+{
+}
+
 void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox> resource)
 {
 	char* bufferFile;

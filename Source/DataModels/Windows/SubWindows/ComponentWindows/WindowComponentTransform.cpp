@@ -12,6 +12,10 @@ WindowComponentTransform::WindowComponentTransform(ComponentTransform* component
 {
 }
 
+WindowComponentTransform::~WindowComponentTransform()
+{
+}
+
 void WindowComponentTransform::DrawWindowContents()
 {
 	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
