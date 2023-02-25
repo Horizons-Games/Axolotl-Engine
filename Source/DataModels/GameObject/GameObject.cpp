@@ -20,6 +20,7 @@
 #include "FileSystem/Json.h"
 
 #include <assert.h>
+#include <queue>
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
@@ -93,32 +94,47 @@ void GameObject::Draw() const
 
 void GameObject::DrawSelected()
 {
-	for (std::unique_ptr<GameObject>& child : children) //TODO Cambiar a iterativo
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
 	{
-		if (child.get()->IsActive()) {
-			child.get()->DrawSelected();
-		}
-	}
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
 		{
-			component->Draw();
+			if (child->IsActive()) {
+				gameObjectQueue.push(child);
+			}
+		}
+		for (const std::unique_ptr<Component>& component : currentGo->components)
+		{
+			if (component->GetActive())
+			{
+				component->Draw();
+			}
 		}
 	}
 }
 
 void GameObject::DrawHighlight()
 {
-	for (std::unique_ptr<GameObject>& child : children) //TODO Cambiar a iterativo
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
 	{
-		if (child.get()->IsActive()) {
-			child.get()->DrawHighlight();
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsActive()) {
+				gameObjectQueue.push(child);
+			}
 		}
-	}
-	std::vector<ComponentMeshRenderer*> meshes = GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-	for (ComponentMeshRenderer* mesh : meshes) {
-		mesh->DrawHighlight();
+		std::vector<ComponentMeshRenderer*> meshes = 
+			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes) {
+			mesh->DrawHighlight();
+		}
 	}
 }
 
