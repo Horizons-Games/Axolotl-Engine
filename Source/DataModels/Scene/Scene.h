@@ -17,7 +17,7 @@ class Scene
 {
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 
 	UID GetUID() const;
 

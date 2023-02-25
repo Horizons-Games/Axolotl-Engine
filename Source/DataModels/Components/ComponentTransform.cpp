@@ -20,6 +20,10 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 {
 }
 
+ComponentTransform::~ComponentTransform()
+{
+}
+
 void ComponentTransform::Update()
 {
 	CalculateLocalMatrix();

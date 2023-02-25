@@ -21,7 +21,7 @@ public:
 	ComponentPointLight(float radius, const float3& color, float intensity,
 						GameObject* parent);
 
-	~ComponentPointLight();
+	~ComponentPointLight() override;
 
 	void Draw() override;
 

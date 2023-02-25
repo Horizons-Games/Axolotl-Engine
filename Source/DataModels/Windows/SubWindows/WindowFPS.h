@@ -8,7 +8,7 @@ class WindowFPS : public SubWindow
 {
 public:
 	WindowFPS();
-	~WindowFPS();
+	~WindowFPS() override;
 
 protected:
 	void DrawWindowContents() override;
