@@ -94,7 +94,7 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthRenderBuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
 
@@ -135,10 +135,6 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST);	// Enable depth test
-	glEnable(GL_STENCIL_TEST);
-	glStencilOp(GL_KEEP,		// stencil fail
-				GL_KEEP,		// stencil pass, depth fail
-				GL_REPLACE);	// stencil pass, depth pass
 	glDisable(GL_CULL_FACE);	// Enable cull backward faces
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
@@ -193,7 +189,6 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
 	return UPDATE_CONTINUE;
@@ -228,23 +223,26 @@ update_status ModuleRender::Update()
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
-		glEnable(GL_STENCIL_TEST);   // Nos aseguramos que está habilitado
+		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 		glStencilMask(0xFF); // enable writing to the stencil buffer
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); // Aquí tienes dos opciones, o no deshabilitas depth_test cuando llamas a DrawHighLight o, si lo haces, el segundo parámetro debería ser GL_REPLACE (mi código no deshabilita el depth_test)
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 		goSelected->DrawSelected();
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-		glLineWidth(25);   // Esto es un truco que te permite no escalar el modelo cuando llamas a DrawHighlight, consiste en pintar lineas en vez de triangulos con un ancho grande que generará el Highlight
-		glPolygonMode(GL_FRONT, GL_LINE); // Pintamos lineas en vez de triangulos
-		goSelected->DrawHighlight();  // DrawHighlight sin escalas
-		glPolygonMode(GL_FRONT, GL_FILL); // Volvemos a pintar trinagulos
-		glLineWidth(1);  // Las Lineas vuelven a su tamaño original
+		glLineWidth(25);
+		glPolygonMode(GL_FRONT, GL_LINE);
+		goSelected->DrawHighlight();
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
 	}
 
 	AddToRenderList(goSelected);
 
-	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	if (App->debug->IsShowingBoundingBoxes())
+	{
+		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	}
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);

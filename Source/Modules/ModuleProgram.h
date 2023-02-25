@@ -34,7 +34,7 @@ public:
 
 private:
 	unsigned program;
-	std::vector<std::shared_ptr<Program> > Programs;
+	std::vector<std::shared_ptr<Program> > programs;
 };
 
 inline const unsigned ModuleProgram::GetProgram() const

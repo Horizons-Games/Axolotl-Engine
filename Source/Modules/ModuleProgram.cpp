@@ -3,7 +3,7 @@
 #include "DataModels/Program/Program.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram() : program (0), rootPath ("Lib/Shaders/")
+ModuleProgram::ModuleProgram() : program (0)
 {
 }
 
@@ -13,10 +13,10 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
-	Programs.reserve((int)ProgramType::SKYBOX + 1);
-	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
-	Programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl"));
-	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
+	programs.reserve((int)ProgramType::SKYBOX + 1);
+	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
+	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl"));
+	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
 
 	return true;
 }
