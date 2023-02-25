@@ -219,12 +219,13 @@ void main()
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
+    vec4 gammaCorrection = vec4(2.2);
 
 	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
         textureMat = texture(diffuse_map, TexCoord).rgb; 
     }
-    textureMat = pow(textureMat, vec3(2.2));
+    textureMat = pow(textureMat, gammaCorrection.rgb);
     
 	if (material.has_normal_map)
 	{
@@ -241,7 +242,7 @@ void main()
     if (material.has_specular_map == 1) {
         specularMat = vec4(texture(specular_map, TexCoord));
     }
-    specularMat = pow(specularMat, vec4(2.2));
+    specularMat = pow(specularMat, gammaCorrection);
 
     vec3 f0 =  specularMat.rgb;
 
