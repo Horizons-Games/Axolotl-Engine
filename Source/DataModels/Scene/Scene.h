@@ -5,22 +5,10 @@
 #include "Geometry/OBB.h"
 #include "Geometry/AABB.h"
 
+#include "Components/ComponentPointLight.h"
+#include "Components/ComponentSpotLight.h"
+
 #include <memory>
-
-struct PointLight
-{
-	float4 position;
-	float4 color;
-};
-
-struct SpotLight
-{
-	float4 position;
-	float4 color;
-	float3 aim;
-	float innerAngle = 0.0f;
-	float outAngle = 0.0f;
-};
 
 class GameObject;
 class Quadtree;
@@ -76,25 +64,25 @@ public:
 private:
 	void RemoveCamera(const GameObject* cameraGameObject);
 
-	UID uid = 0;
-	std::unique_ptr<GameObject> root = nullptr;
+	UID uid;
+	std::unique_ptr<GameObject> root;
 
-	std::vector<GameObject*> sceneGameObjects = {};
-	std::vector<GameObject*> sceneCameras = {};
+	std::vector<GameObject*> sceneGameObjects;
+	std::vector<GameObject*> sceneCameras;
 
-	GameObject* ambientLight = nullptr;
-	GameObject* directionalLight = nullptr;
+	GameObject* ambientLight;
+	GameObject* directionalLight;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
 
-	unsigned uboAmbient = 0;
-	unsigned uboDirectional = 0;
-	unsigned ssboPoint = 0;
-	unsigned ssboSpot = 0;
+	unsigned uboAmbient;
+	unsigned uboDirectional;
+	unsigned ssboPoint;
+	unsigned ssboSpot;
 	
-	AABB rootQuadtreeAABB = AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000));
-	std::unique_ptr<Quadtree> sceneQuadTree = nullptr;
+	AABB rootQuadtreeAABB;
+	std::unique_ptr<Quadtree> sceneQuadTree;
 };
 
 inline UID Scene::GetUID() const

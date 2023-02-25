@@ -23,7 +23,7 @@ private:
 
 	std::string FormatVersion(unsigned int major, unsigned int minor, unsigned int patch) const;
 
-	bool versionsSet = false;
+	bool versionsSet;
 	std::string glewVersion;
 	std::string openGLVersion;
 	std::string glslVersion;

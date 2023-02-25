@@ -17,6 +17,14 @@ void myCallback(const char* msg, char* userData) {
 	ENGINE_LOG("[assimp] %s", msg);
 }
 
+ModelImporter::ModelImporter()
+{
+}
+
+ModelImporter::~ModelImporter()
+{
+}
+
 void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> resource)
 {
 	struct aiLogStream stream;

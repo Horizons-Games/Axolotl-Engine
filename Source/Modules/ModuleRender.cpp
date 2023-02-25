@@ -19,6 +19,8 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
 
+#include "optick.h"
+
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
@@ -91,9 +93,9 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 	};
 }
 
-ModuleRender::ModuleRender()
+ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
+	depthRenderBuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
-	context = nullptr;
 }
 
 ModuleRender::~ModuleRender()
@@ -194,6 +196,8 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
+	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
+
 	if (skybox)
 	{
 		skybox->Draw();

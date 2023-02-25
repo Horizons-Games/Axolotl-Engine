@@ -49,11 +49,11 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 
-	float2 mouseWheel = float2::zero;
-	float2 mouseMotion = float2::zero;
+	float2 mouseWheel;
+	float2 mouseMotion;
 
-	int mousePosX = 0;
-	int mousePosY = 0;
+	int mousePosX;
+	int mousePosY;
 
 	bool mouseWheelScrolled;
 

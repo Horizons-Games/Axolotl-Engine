@@ -15,6 +15,8 @@
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
+#include "optick.h"
+
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
@@ -29,9 +31,13 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 
-ModuleEditor::ModuleEditor() {}
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+{
+}
 
-ModuleEditor::~ModuleEditor() {}
+ModuleEditor::~ModuleEditor() 
+{
+}
 
 bool ModuleEditor::Init()
 {
@@ -90,6 +96,8 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
+	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+
 	update_status status = UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();

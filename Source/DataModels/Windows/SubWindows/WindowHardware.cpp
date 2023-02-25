@@ -7,7 +7,7 @@
 #include "SDL.h"
 #include "assimp/version.h"
 
-WindowHardware::WindowHardware() : SubWindow("Hardware")
+WindowHardware::WindowHardware() : SubWindow("Hardware"), versionsSet(false)
 {
 	GetCPUinfo();
 	GetCaps();
