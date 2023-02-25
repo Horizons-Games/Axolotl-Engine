@@ -753,14 +753,6 @@ bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windo
 
 		float width = windowScene->GetAvailableRegion().x;
 		float height = windowScene->GetAvailableRegion().y;
-		if (currentGameObject)
-		{
-			float nearDistance, farDistance;
-			ComponentBoundingBoxes* componentBoundingBox =
-				static_cast<ComponentBoundingBoxes*>
-				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
-			// ray vs. AABB
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); 
 
 		float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
 		float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;

@@ -226,15 +226,18 @@ update_status ModuleRender::Update()
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
+		glEnable(GL_STENCIL_TEST);   // Nos aseguramos que está habilitado
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); // Aquí tienes dos opciones, o no deshabilitas depth_test cuando llamas a DrawHighLight o, si lo haces, el segundo parámetro debería ser GL_REPLACE (mi código no deshabilita el depth_test)
 		goSelected->DrawSelected();
+
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-		glStencilMask(0x00); // disable writing to the stencil buffer
-		glDisable(GL_DEPTH_TEST);
-		goSelected->DrawHighlight();
-		glStencilFunc(GL_ALWAYS, 0, 0xFF);
-		glEnable(GL_DEPTH_TEST);
+		glLineWidth(25);   // Esto es un truco que te permite no escalar el modelo cuando llamas a DrawHighlight, consiste en pintar lineas en vez de triangulos con un ancho grande que generará el Highlight
+		glPolygonMode(GL_FRONT, GL_LINE); // Pintamos lineas en vez de triangulos
+		goSelected->DrawHighlight();  // DrawHighlight sin escalas
+		glPolygonMode(GL_FRONT, GL_FILL); // Volvemos a pintar trinagulos
+		glLineWidth(1);  // Las Lineas vuelven a su tamaño original
 	}
 
 	AddToRenderList(goSelected);

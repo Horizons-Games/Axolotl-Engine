@@ -101,10 +101,9 @@ void ComponentMeshRenderer::DrawHighlight()
 		unsigned program = programShared.get()->GetId();
 		const float4x4& view = App->engineCamera->GetViewMatrix();
 		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
-		float4x4 model =
+		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-		model = model.UniformScale(1.1, boundingBox->GetObjectOBB().CenterPoint()) * model;
 		GLint programInUse;
 		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
