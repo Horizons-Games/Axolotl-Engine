@@ -3,9 +3,13 @@
 #include "DataModels/Program/Program.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram(){}
-ModuleProgram::~ModuleProgram(){}
+ModuleProgram::ModuleProgram() : program (0), rootPath ("Lib/Shaders/")
+{
+}
 
+ModuleProgram::~ModuleProgram()
+{
+}
 
 bool ModuleProgram::Start()
 {

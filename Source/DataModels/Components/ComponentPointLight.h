@@ -4,6 +4,12 @@
 
 #define COMPONENT_POINTLIGHT "PointLight"
 
+struct PointLight
+{
+	float4 position;
+	float4 color;
+};
+
 class Json;
 
 class ComponentPointLight : public ComponentLight
@@ -27,7 +33,7 @@ public:
 	void SetRadius(float radius);
 
 private:
-	float radius = 1.0f;
+	float radius;
 };
 
 inline float ComponentPointLight::GetRadius() const

@@ -7,6 +7,10 @@ WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
 {
 }
 
+WindowComponentCamera::~WindowComponentCamera()
+{
+}
+
 void WindowComponentCamera::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();

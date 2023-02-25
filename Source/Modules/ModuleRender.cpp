@@ -93,9 +93,9 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 	};
 }
 
-ModuleRender::ModuleRender()
+ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
+	depthRenderBuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
-	context = nullptr;
 }
 
 ModuleRender::~ModuleRender()
@@ -181,6 +181,8 @@ bool ModuleRender::Start()
 update_status ModuleRender::PreUpdate()
 {
 	int width, height;
+
+	gameObjectsToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 

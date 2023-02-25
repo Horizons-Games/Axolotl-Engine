@@ -28,7 +28,7 @@ public:
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
-	const unsigned& GetProgram() const { return program; }
+	const unsigned GetProgram() const;
 	const std::shared_ptr<Program> GetProgram(ProgramType type) const;
 
 
@@ -37,9 +37,12 @@ private:
 	std::vector<std::shared_ptr<Program> > Programs;
 };
 
-inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
+inline const unsigned ModuleProgram::GetProgram() const
 {
-	return Programs[(int)type];
+	return program;
 }
 
-
+inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
+{
+	return programs[(int)type];
+}

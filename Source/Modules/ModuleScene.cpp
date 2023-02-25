@@ -15,7 +15,7 @@
 
 #include "optick.h"
 
-ModuleScene::ModuleScene()
+ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
 }
 

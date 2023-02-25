@@ -1,6 +1,6 @@
 #include "ModuleWindow.h"
 
-ModuleWindow::ModuleWindow()
+ModuleWindow::ModuleWindow() : fullscreen (false), brightness (0.0f)
 {
 }
 
