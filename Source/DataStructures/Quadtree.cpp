@@ -242,7 +242,8 @@ void Quadtree::SmartRemove()
 	{
 		gameObjects.clear();
 		gameObjects.splice(gameObjects.end(), familyObjects);
-		ResetChildren();
+		//this causes a crash, need to find why
+		//ResetChildren();
 	}
 }
 
