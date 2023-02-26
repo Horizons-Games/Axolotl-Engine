@@ -28,10 +28,12 @@
 
 #ifdef ENGINE
 #include "Camera/CameraEngine.h"
+#endif // ENGINE
+#ifdef GAMEMODE
 #include "Camera/CameraGod.h"
+#endif // GAMEMODE
 
 
-#include "Camera/CameraGod.h"
 
 ModuleCamera::ModuleCamera() {};
 
