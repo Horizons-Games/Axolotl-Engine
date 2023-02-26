@@ -21,10 +21,7 @@ public:
 	CameraEngine();
 	virtual ~CameraEngine() override;
 
-	bool Init() override;
-	bool Start() override;
 	bool Update() override;
-
 
 	void Move();
 	void KeyboardRotate();

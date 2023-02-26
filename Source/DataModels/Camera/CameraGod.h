@@ -9,8 +9,6 @@ class CameraGod : public  Camera
 	CameraGod();
 	virtual ~CameraGod() override;
 
-	bool Init() override;
-	bool Start() override;
 	bool Update() override;
 
 	void Move();

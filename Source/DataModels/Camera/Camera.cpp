@@ -33,6 +33,43 @@ Camera::~Camera()
 {
 }
 
+bool Camera::Init()
+{
+	int w, h;
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	aspectRatio = float(w) / h;
+
+	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
+	frustum->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	frustum->SetViewPlaneDistances(0.1f, viewPlaneDistance);
+	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
+
+	acceleration = DEFAULT_SHIFT_ACCELERATION;
+	moveSpeed = DEFAULT_MOVE_SPEED;
+	rotationSpeed = DEFAULT_ROTATION_SPEED;
+	mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
+	frustumMode = DEFAULT_FRUSTUM_MODE;
+	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
+
+	position = float3(0.f, 2.f, 5.f);
+
+	frustum->SetPos(position);
+	frustum->SetFront(-float3::unitZ);
+	frustum->SetUp(float3::unitY);
+
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
+
+	return true;
+}
+
+bool Camera::Start()
+{
+	return true;
+}
+
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
 {
 	vec oldFront = frustum->Front().Normalized();

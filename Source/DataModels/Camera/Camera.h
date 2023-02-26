@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
-#include "Geometry/Frustum.h"
-
 #include <memory>
 #include <map>
 
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
+#include "Geometry/Frustum.h"
+#include "Math/float4x4.h"
+#include "Math/Quat.h"
 
 enum class EFrustumMode 
 { 
@@ -15,12 +16,6 @@ enum class EFrustumMode
 	offsetFrustum, 
 	noFrustum 
 };
-
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
-#include "Math/Quat.h"
-#include "Geometry/Plane.h"
-#include "Geometry/LineSegment.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
 #define DEFAULT_ROTATION_DEGREE 30
@@ -48,8 +43,8 @@ public:
 	Camera(const CameraType type);
 	virtual ~Camera();
 
-	virtual bool Init() = 0;
-	virtual bool Start() = 0;
+	virtual bool Init();
+	virtual bool Start();
 
 	virtual bool Update() = 0; // Abstract because each Camera will perform its own Update
 
