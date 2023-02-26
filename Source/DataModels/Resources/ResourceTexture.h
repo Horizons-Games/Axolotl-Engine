@@ -81,6 +81,17 @@ public:
 	void SetPixels(std::vector<uint8_t>& pixels);
 	void SetPixelsSize(unsigned int pixelsSize);
 
+	void SetMinFilter(TextureMinFilter filter);
+	void SetMagFilter(TextureMagFilter filter);
+	void SetWrap(TextureWrap wrap);
+
+	TextureMinFilter GetMinFilter() const;
+	TextureMagFilter GetMagFilter() const;
+	TextureWrap GetWrap() const;
+
+public: 
+	//carga<Texture> texture;
+
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
@@ -97,6 +108,10 @@ private:
 	unsigned int pixelsSize = 0;
 
 	std::shared_ptr<OptionsTexture> options;
+
+	TextureMinFilter min_filter = TextureMinFilter::NEAREST_MIPMAP_LINEAR;
+	TextureMagFilter mag_filter = TextureMagFilter::LINEAR;
+	TextureWrap texture_wrap = TextureWrap::REPEAT;
 };
 
 inline ResourceTexture::ResourceTexture(UID resourceUID,
@@ -197,3 +212,5 @@ inline void ResourceTexture::SetPixelsSize(unsigned int pixelsSize)
 {
 	this->pixelsSize = pixelsSize;
 }
+
+
