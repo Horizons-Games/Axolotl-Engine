@@ -16,6 +16,7 @@ class MaterialImporter;
 class SkyBoxImporter;
 
 class ResourceMaterial;
+class EditorResourceInterface;
 
 enum class ResourceType;
 
@@ -50,7 +51,8 @@ private:
 												   const std::string& libraryPath,
 												   ResourceType type);
 	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
-	void DeleteResource(UID uidToDelete);
+	//I wont guard this with #ifdef beacuse this needs to go on a different Module that will only exist in ENGINE
+	void DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete);
 
 	//create resources from binaries
 	void LoadResourceStored(const char* filePath);

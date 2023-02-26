@@ -166,14 +166,15 @@ void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std
 	resources.insert({ uid, resource });
 }
 
-void ModuleResources::DeleteResource(UID uidToDelete)
+void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete)
 {
-	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
-	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
+	resToDelete->MarkToDelete();
+
+	std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
 	App->fileSystem->Delete(metaPath.c_str());
 	App->fileSystem->Delete(libPath.c_str());
 
-	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
@@ -181,7 +182,7 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 			std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
 			for (UID meshUID : modelToDelete->GetMeshesUIDs())
 			{
-				DeleteResource(meshUID);
+				DeleteResource(std::dynamic_pointer_cast<EditorResourceInterface>(resources[meshUID]));
 			}
 		}
 		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
@@ -190,7 +191,7 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 		}
 	}
 
-	resources.erase(uidToDelete);
+	resources.erase(resToDelete->GetUID());
 }
 
 void ModuleResources::LoadResourceStored(const char* filePath)
@@ -418,8 +419,7 @@ void ModuleResources::MonitorResources()
 		//Remove resources
 		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
 		{
-			resource->MarkToDelete();
-			DeleteResource(resource->GetUID());
+			DeleteResource(resource);
 		}
 		//Import resources
 		for (std::shared_ptr<Resource>& resource : toImport)
