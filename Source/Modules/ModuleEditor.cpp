@@ -19,6 +19,7 @@
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
+#include <ImGui/ImGuizmo.h>
 
 #include <FontIcons/CustomFont.cpp>
 #include <GL/glew.h>
@@ -57,6 +58,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
+	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
+
 	return true;
 }
 
@@ -84,6 +87,9 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
+
+	ImGuizmo::BeginFrame();
+	ImGuizmo::Enable(true);
 	
 	return UPDATE_CONTINUE;
 }

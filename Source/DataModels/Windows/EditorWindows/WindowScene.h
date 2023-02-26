@@ -4,6 +4,8 @@
 
 #include "GL/glew.h"
 
+#include "ImGui/ImGuizmo.h"
+
 class WindowScene : public EditorWindow
 {
 public:
@@ -21,10 +23,14 @@ protected:
 
 private:
 	void ManageResize();
+	void DrawGuizmo();
 
 	GLuint texture = 0;
 	float currentWidth = 0;
 	float currentHeight = 0;
+
+	ImGuizmo::OPERATION gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
+	ImGuizmo::MODE gizmoCurrentMode = ImGuizmo::LOCAL;
 
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport

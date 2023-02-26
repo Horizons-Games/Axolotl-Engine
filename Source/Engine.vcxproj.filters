@@ -391,6 +391,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -923,6 +926,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
+      <Filter>External\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

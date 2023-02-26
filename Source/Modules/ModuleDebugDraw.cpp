@@ -617,7 +617,7 @@ update_status ModuleDebugDraw::Update()
     ComponentTransform* selectedTransform =
         static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
-    DrawTransform(selectedTransform);
+    //DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
     return UPDATE_CONTINUE;
