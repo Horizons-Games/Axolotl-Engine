@@ -29,8 +29,8 @@ private:
 	float currentWidth;
 	float currentHeight;
 
-	ImGuizmo::OPERATION gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
-	ImGuizmo::MODE gizmoCurrentMode = ImGuizmo::LOCAL;
+	ImGuizmo::OPERATION gizmoCurrentOperation;
+	ImGuizmo::MODE gizmoCurrentMode;
 
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport

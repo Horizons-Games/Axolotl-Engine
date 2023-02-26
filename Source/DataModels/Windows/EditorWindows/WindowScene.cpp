@@ -15,7 +15,8 @@
 #include "Components/ComponentTransform.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
-	currentWidth(0), currentHeight(0)
+	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
+	gizmoCurrentMode(ImGuizmo::MODE::WORLD)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_MenuBar;
 }
@@ -40,6 +41,7 @@ void WindowScene::DrawGuizmo()
 
 	ImGui::BeginMenuBar();
 
+	ImGui::Text("Operation type:");
 	if (ImGui::RadioButton("Translate", gizmoCurrentOperation == ImGuizmo::OPERATION::TRANSLATE))
 	{
 		gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
@@ -53,7 +55,21 @@ void WindowScene::DrawGuizmo()
 		gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
 	}
 
-	ImGui::Dummy(ImVec2(10.0f, 0.0f)); ImGui::SameLine();
+	ImGui::Dummy(ImVec2(10.0f, 0.0f));
+
+	ImGui::Text("Mode:");
+	if (ImGui::RadioButton("Local", gizmoCurrentMode == ImGuizmo::LOCAL))
+	{
+		gizmoCurrentMode = ImGuizmo::MODE::LOCAL;
+
+	}
+	if (ImGui::RadioButton("World", gizmoCurrentMode == ImGuizmo::WORLD))
+	{
+		gizmoCurrentMode = ImGuizmo::MODE::WORLD;
+
+	}
+
+	ImGui::Dummy(ImVec2(10.0f, 0.0f));
 	ImGui::Text("Mouse coords X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 
 	ImGui::EndMenuBar();
