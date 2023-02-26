@@ -28,7 +28,7 @@ enum class EFrustumMode
 #define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
 #define DEFAULT_MOUSE_ZOOM_SPEED 2.f
 #define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE 0
+#define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 
@@ -38,7 +38,6 @@ enum class CameraType
 	C_GOD, 
 	C_GAMEOBJECT 
 };
-
 
 class GameObject;
 class WindowScene;
@@ -126,7 +125,6 @@ protected:
 	int mouseState;
 };
 
-
 inline Camera::Camera(const CameraType type)
 	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
 {
@@ -143,7 +141,6 @@ inline Frustum* Camera::GetFrustum()
 	return this->frustum.get();
 }
 
-
 inline const float3& Camera::GetPosition() const
 {
 	return position;
@@ -159,4 +156,3 @@ inline void Camera::SetViewPlaneDistance(float distance)
 	viewPlaneDistance = distance;
 	frustum->SetViewPlaneDistances(0.1f, distance);
 }
-

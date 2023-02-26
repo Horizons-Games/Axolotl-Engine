@@ -2,19 +2,6 @@
 
 #include "Camera.h"
 
-#include "Math/float4x4.h"
-#include "Geometry/Plane.h"
-#include "Geometry/LineSegment.h"
-
-#define DEFAULT_MOVE_SPEED 9.f
-#define DEFAULT_ROTATION_DEGREE 30
-#define DEFAULT_ROTATION_SPEED 5.f
-#define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
-#define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
-#define DEFAULT_FRUSTUM_OFFSET 1.f
-#define DEFAULT_FRUSTUM_DISTANCE 20000.f
-
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
 #define MAX_MOUSE_SPEED_MODIFIER 5.f

@@ -290,7 +290,6 @@ void CameraEngine::KeyboardRotate()
 	ApplyRotation(rotationDeltaMatrix);
 }
 
-
 void CameraEngine::FreeLook()
 {
 	float deltaTime = App->GetDeltaTime();
@@ -391,7 +390,6 @@ void CameraEngine::Focus(GameObject* gameObject)
 	Focus(minimalAABB);
 }
 
-
 void CameraEngine::Orbit(const OBB& obb)
 {
 
@@ -449,7 +447,6 @@ void CameraEngine::UnlimitedCursor()
 		mouseWarped = true;
 	}
 }
-
 
 void CameraEngine::Rotate()
 {
