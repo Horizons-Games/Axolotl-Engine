@@ -921,6 +921,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Source\DataModels\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1015,6 +1018,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
       <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Commands">
+      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
