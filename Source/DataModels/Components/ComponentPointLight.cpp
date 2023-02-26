@@ -12,26 +12,24 @@
 
 #include "debugdraw.h"
 
-ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true) 
+ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true), radius (1.0f)
 {
 }
 
 ComponentPointLight::ComponentPointLight(GameObject* parent) :
-	ComponentLight(LightType::SPOT, parent, true)
+	ComponentLight(LightType::SPOT, parent, true), radius(1.0f)
 {
 }
 
 ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity) :
-	ComponentLight(LightType::POINT, color, intensity, true)
+	ComponentLight(LightType::POINT, color, intensity, true), radius(radius)
 {
-	this->radius = radius;
 }
 
 ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity,
 											GameObject* parent) :
-	ComponentLight(LightType::POINT, color, intensity, parent, true)
+	ComponentLight(LightType::POINT, color, intensity, parent, true), radius(radius)
 {
-	this->radius = radius;
 }
 
 ComponentPointLight::~ComponentPointLight()
@@ -40,10 +38,10 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw()
 {
-	if (this->GetActive())
+	if (GetActive())
 	{
 		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(this->GetOwner()
+			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();

@@ -12,11 +12,15 @@ WindowComponentPointLight::WindowComponentPointLight(ComponentPointLight* compon
 {
 }
 
+WindowComponentPointLight::~WindowComponentPointLight()
+{
+}
+
 void WindowComponentPointLight::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentPointLight* asPointLight = static_cast<ComponentPointLight*>(this->component);
+	ComponentPointLight* asPointLight = static_cast<ComponentPointLight*>(component);
 
 	if (asPointLight)
 	{

@@ -8,6 +8,18 @@
 #include "Math/float4.h"
 #include "Geometry/Triangle.h"
 
+ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
+	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
+	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), materialIndex(0),
+	options(std::make_shared<OptionsMesh>())
+{
+}
+
+ResourceMesh::~ResourceMesh()
+{
+	Unload();
+}
+
 void ResourceMesh::InternalLoad()
 {
 	CreateVBO();
@@ -144,7 +156,8 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 	for (unsigned i = 0; i < numFaces; ++i)
 	{
 		// Retrieve the triangles from the vertices adapted to the model matrix
-		triangles.push_back(Triangle(vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
+		triangles.push_back(Triangle(
+			vertices[facesIndices[i][0]], vertices[facesIndices[i][1]], vertices[facesIndices[i][2]]));
 	}
 
 	return triangles;

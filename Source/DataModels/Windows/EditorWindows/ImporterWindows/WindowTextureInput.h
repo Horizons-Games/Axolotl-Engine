@@ -11,6 +11,7 @@ class WindowTextureInput :
 public:
 	WindowTextureInput(ComponentMaterial* material, TextureType textureType);
 	~WindowTextureInput();
+
 	void DoThisIfOk() override;
 
 private:

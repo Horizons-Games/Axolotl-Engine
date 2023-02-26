@@ -26,7 +26,8 @@ bool Json::fromBuffer(char*& buffer)
 void Json::toBuffer(rapidjson::StringBuffer& buffer)
 {
 	buffer.Clear();
-	rapidjson::PrettyWriter<rapidjson::StringBuffer, rapidjson::UTF8<>, rapidjson::UTF8<>, rapidjson::CrtAllocator > writer(buffer);
+	rapidjson::PrettyWriter<rapidjson::StringBuffer, rapidjson::UTF8<>, rapidjson::UTF8<>, 
+		rapidjson::CrtAllocator > writer(buffer);
 	document.Accept(writer);
 }
 

@@ -102,9 +102,11 @@ public:
 	const float3& GetPosition() const;
 	
 private:
-	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
 	
 	void CalculateHitGameObjects(const LineSegment& ray);
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray);
 	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
 								  const LineSegment& ray);
 

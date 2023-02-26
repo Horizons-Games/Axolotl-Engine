@@ -81,7 +81,7 @@ update_status Application::Update()
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	this->deltaTime = (appTimer->Read() - ms) / 1000.0f;
+	deltaTime = (appTimer->Read() - ms) / 1000.0f;
 
 	return ret;
 }

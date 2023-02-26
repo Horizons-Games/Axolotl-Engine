@@ -10,16 +10,19 @@
 #include "DataModels/Resources/ResourceMesh.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("MESH RENDERER", component)
+	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component))
 {
-	inputMesh = std::make_unique<WindowMeshInput>(component);
+}
+
+WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
+{
 }
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(this->component);
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
 	{

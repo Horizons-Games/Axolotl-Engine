@@ -13,9 +13,13 @@ WindowComponentTransform::WindowComponentTransform(ComponentTransform* component
 {
 }
 
+WindowComponentTransform::~WindowComponentTransform()
+{
+}
+
 void WindowComponentTransform::DrawWindowContents()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{
@@ -163,7 +167,7 @@ void WindowComponentTransform::DrawTransformTable()
 
 void WindowComponentTransform::UpdateComponentTransform()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{
@@ -179,9 +183,20 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0) currentScale.x = 0.0001f;
-			if (currentScale.y <= 0) currentScale.y = 0.0001f;
-			if (currentScale.z <= 0) currentScale.z = 0.0001f;
+			if (currentScale.x <= 0)
+			{
+				currentScale.x = 0.0001f;
+			}
+			
+			if (currentScale.y <= 0)
+			{
+				currentScale.y = 0.0001f;
+			}
+			
+			if (currentScale.z <= 0) 
+			{ 
+				currentScale.z = 0.0001f; 
+			}
 
 			asTransform->SetScale(currentScale);
 		}
@@ -193,7 +208,7 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 void WindowComponentTransform::UpdateLights()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{

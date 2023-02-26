@@ -32,12 +32,16 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameO
 {
 }
 
+ComponentDirLight::~ComponentDirLight()
+{
+}
+
 void ComponentDirLight::Draw()
 {
-	if (this->GetActive())
+	if (GetActive())
 	{
 		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(this->GetOwner()
+			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();

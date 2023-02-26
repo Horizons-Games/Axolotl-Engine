@@ -25,9 +25,9 @@ private:
 	void ManageResize();
 	void DrawGuizmo();
 
-	GLuint texture = 0;
-	float currentWidth = 0;
-	float currentHeight = 0;
+	GLuint texture;
+	float currentWidth;
+	float currentHeight;
 
 	ImGuizmo::OPERATION gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
 	ImGuizmo::MODE gizmoCurrentMode = ImGuizmo::LOCAL;

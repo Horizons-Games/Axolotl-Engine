@@ -10,11 +10,15 @@ WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
 {
 }
 
+WindowComponentDirLight::~WindowComponentDirLight()
+{
+}
+
 void WindowComponentDirLight::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentDirLight* asDirLight = static_cast<ComponentDirLight*>(this->component);
+	ComponentDirLight* asDirLight = static_cast<ComponentDirLight*>(component);
 
 	if (asDirLight)
 	{
