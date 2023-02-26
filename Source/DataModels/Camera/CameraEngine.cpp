@@ -35,17 +35,15 @@ CameraEngine::~CameraEngine()
 
 bool CameraEngine::Update()
 {
+#ifdef ENGINE
+
 
 	projectionMatrix = frustum->ProjectionMatrix();
 	viewMatrix = frustum->ViewMatrix();
 
 	App->input->SetDefaultCursor();
 
-#ifdef ENGINE
 	bool sceneFocused = App->editor->IsSceneFocused();
-#else
-	bool sceneFocused = true;
-#endif // ENGINE
 
 	if (sceneFocused)
 	{
@@ -63,7 +61,6 @@ bool CameraEngine::Update()
 			else
 				Walk();
 
-#ifdef ENGINE
 			//this should probably be encapsulated in a method, or moved to the Physics part of the Engine
 			// --RAYCAST CALCULATION-- //
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE
@@ -74,7 +71,6 @@ bool CameraEngine::Update()
 				CalculateHittedGameObjects(ray);
 			}
 			// --RAYCAST CALCULATION-- //
-#endif // ENGINE
 
 			//Move and rotate with right buttons and ASDWQE
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
@@ -143,6 +139,7 @@ bool CameraEngine::Update()
 		}
 	}
 
+#endif // ENGINE
 	return UPDATE_CONTINUE;
 }
 

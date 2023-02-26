@@ -13,14 +13,15 @@ CameraGod::~CameraGod()
 {
 }
 
-bool CameraGod::Start()
-{
-	return true;
-}
-
 bool CameraGod::Update()
 {
-	return false;
+	projectionMatrix = frustum->ProjectionMatrix();
+	viewMatrix = frustum->ViewMatrix();
+
+	App->input->SetDefaultCursor();
+
+	Move();
+	return UPDATE_CONTINUE;
 }
 
 void CameraGod::Move()

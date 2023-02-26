@@ -26,7 +26,12 @@
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
+#ifdef ENGINE
 #include "Camera/CameraEngine.h"
+#endif // 
+
+
+#include "Camera/CameraGod.h"
 
 ModuleCamera::ModuleCamera() {};
 
@@ -35,10 +40,13 @@ ModuleCamera::~ModuleCamera() {
 
 bool ModuleCamera::Init()
 {
+
+#ifdef ENGINE
 	camera = std::make_unique <CameraEngine>();
+#else
+	camera = std::make_unique <CameraGod>();
+#endif // ENGINE
 	camera->Init();
-	/*Moved to CameraEngine
-	*/
 	return true;
 }
 
@@ -52,6 +60,5 @@ bool ModuleCamera::Start()
 update_status ModuleCamera::Update()
 {
 	camera->Update();
-	/*Code Moved to CameraEngine*/
 	return UPDATE_CONTINUE;
 }

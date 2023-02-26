@@ -6,6 +6,7 @@ class GameObject;
 
 class CameraGod : public  Camera
 {
+public:
 	CameraGod();
 	virtual ~CameraGod() override;
 
