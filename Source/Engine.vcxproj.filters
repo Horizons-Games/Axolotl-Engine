@@ -391,6 +391,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleCommand.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">

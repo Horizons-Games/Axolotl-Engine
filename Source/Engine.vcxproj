@@ -261,6 +261,7 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModuleCommand.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
     <ClCompile Include="Modules\ModuleEditor.cpp" />
     <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
