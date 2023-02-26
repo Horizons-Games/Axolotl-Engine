@@ -24,11 +24,7 @@ public:
 	bool Update() override;
 
 	void Move();
-	void KeyboardRotate();
-	void FreeLook();
 	void UnlimitedCursor();
-	void Run();
-	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
 	void Focus(GameObject* gameObject);

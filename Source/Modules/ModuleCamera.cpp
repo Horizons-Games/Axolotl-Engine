@@ -27,6 +27,7 @@
 #include "Geometry/Triangle.h"
 
 #include "Camera/CameraEngine.h"
+#include "Camera/CameraGod.h"
 
 ModuleCamera::ModuleCamera() {};
 
@@ -35,7 +36,13 @@ ModuleCamera::~ModuleCamera() {
 
 bool ModuleCamera::Init()
 {
-	camera = std::make_unique <CameraEngine>();
+	#ifdef ENGINE
+		camera = std::make_unique <CameraEngine>();
+	#endif // ENGINE
+	#ifdef GAMEMODE
+		camera = std::make_unique <CameraGod>();
+	#endif // GAMEMODE
+
 	camera->Init();
 	/*Moved to CameraEngine
 	*/

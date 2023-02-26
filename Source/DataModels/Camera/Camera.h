@@ -53,6 +53,12 @@ public:
 
 	void ApplyRotation(const float3x3& rotationMatrix);
 	
+	void Run();
+	void Walk();
+	void KeyboardRotate();
+	void FreeLook();
+
+
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
 	bool IsInsideOffset(const OBB& obb);

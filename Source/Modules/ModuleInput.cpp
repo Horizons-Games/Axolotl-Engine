@@ -27,24 +27,29 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
-    freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
-    orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
-    moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
-    zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
-    freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
-    orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
-    moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
-    zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
+    #ifdef ENGINE
+        freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
+        orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
+        moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
+        zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
+        freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
+        orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
+        moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
+        zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
 
-    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
-                    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
-    this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (defaultCursor.get());
+        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
+                        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
+        this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (defaultCursor.get());
 
+    #endif // ENGINE
+    #ifdef GAMEMODE
+        SDL_ShowCursor(SDL_DISABLE);
+    #endif // GAMEMODE
 
 	return ret;
 }
