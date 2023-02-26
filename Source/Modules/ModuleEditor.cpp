@@ -117,6 +117,29 @@ update_status ModuleEditor::Update()
 	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
+	static bool first_time = true;
+	if (first_time)
+	{
+		first_time = false;
+
+		ImGui::DockBuilderRemoveNode(dockSpaceId); // clear any previous layout
+		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
+		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
+
+		ImGuiID dock_id_up = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.07f, nullptr, &dockSpaceId);
+		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
+		ImGuiID dock_id_down = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
+		ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
+		ImGui::DockBuilderDockWindow("Console", dock_id_down);
+		ImGui::DockBuilderDockWindow("File Browser", dock_id_down);
+		ImGui::DockBuilderDockWindow("Configuration", dock_id_right);
+		ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
+		ImGui::DockBuilderDockWindow("Editor Control", dock_id_up);
+		ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
+		ImGui::DockBuilderDockWindow("Scene", dockSpaceId);
+		ImGui::DockBuilderFinish(dockSpaceId);
+	}
+
 	ImGui::End();
 
 	//disable ALT key triggering nav menu
