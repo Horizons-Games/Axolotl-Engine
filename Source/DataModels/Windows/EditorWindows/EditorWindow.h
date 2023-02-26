@@ -16,7 +16,6 @@ public:
 protected:
 	EditorWindow(const std::string& name);
 	virtual void DrawWindowContents() = 0;
-	virtual ImVec2 GetStartingSize() const = 0; 
 
 	ImGuiWindowFlags flags;
 
