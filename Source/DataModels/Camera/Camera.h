@@ -125,12 +125,6 @@ protected:
 	int mouseState;
 };
 
-inline Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
-{
-	frustum = std::make_unique <Frustum>();
-}
-
 inline CameraType Camera::GetType()
 {
 	return this->type;
@@ -151,8 +145,83 @@ inline float Camera::GetViewPlaneDistance() const
 	return viewPlaneDistance;
 }
 
+inline void Camera::SetMoveSpeed(float speed)
+{
+	moveSpeed = speed;
+}
+
+inline void Camera::SetRotationSpeed(float speed)
+{
+	rotationSpeed = speed;
+}
+
+inline void Camera::SetFrustumOffset(float offset)
+{
+	frustumOffset = offset;
+}
+
+inline void Camera::SetFrustumMode(EFrustumMode mode)
+{
+	frustumMode = mode;
+}
+
 inline void Camera::SetViewPlaneDistance(float distance)
 {
 	viewPlaneDistance = distance;
 	frustum->SetViewPlaneDistances(0.1f, distance);
+}
+
+inline const float4x4& Camera::GetProjectionMatrix() const
+{
+	return projectionMatrix;
+}
+
+inline const float4x4& Camera::GetViewMatrix() const
+{
+	return viewMatrix;
+}
+
+inline float Camera::GetHFOV() const
+{
+	return math::RadToDeg(frustum->HorizontalFov());
+}
+
+inline float Camera::GetVFOV() const
+{
+	return math::RadToDeg(frustum->VerticalFov());
+}
+
+inline float Camera::GetZNear() const
+{
+	return frustum->NearPlaneDistance();
+}
+
+inline float Camera::GetZFar() const
+{
+	return frustum->FarPlaneDistance();
+}
+
+inline float Camera::GetMoveSpeed() const
+{
+	return moveSpeed;
+}
+
+inline float Camera::GetRotationSpeed() const
+{
+	return rotationSpeed;
+}
+
+inline float Camera::GetDistance(const float3& point) const
+{
+	return frustum->Pos().Distance(point);
+}
+
+inline float Camera::GetFrustumOffset() const
+{
+	return frustumOffset;
+}
+
+inline EFrustumMode Camera::GetFrustumMode() const
+{
+	return frustumMode;
 }

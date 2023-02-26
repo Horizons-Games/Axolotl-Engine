@@ -13,7 +13,6 @@ class CameraGod : public  Camera
 	bool Start() override;
 	bool Update() override;
 
-
 	void Move();
 	void KeyboardRotate();
 	void FreeLook();

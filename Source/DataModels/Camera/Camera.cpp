@@ -3,8 +3,6 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
-#include "ModuleEditor.h"
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
@@ -19,10 +17,17 @@
 
 #include "Windows/EditorWindows/WindowScene.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
-#include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
+
+Camera::Camera(const CameraType type)
+	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+{
+	frustum = std::make_unique <Frustum>();
+}
 
 Camera::~Camera()
 {
@@ -181,82 +186,6 @@ void Camera::SetLookAt(const float3& lookAt)
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
 
-}
-
-void Camera::SetMoveSpeed(float speed)
-{
-	moveSpeed = speed;
-}
-
-void Camera::SetRotationSpeed(float speed)
-{
-	rotationSpeed = speed;
-}
-
-void Camera::SetFrustumOffset(float offset)
-{
-	frustumOffset = offset;
-}
-
-
-void Camera::SetFrustumMode(EFrustumMode mode)
-{
-	frustumMode = mode;
-}
-
-const float4x4& Camera::GetProjectionMatrix() const
-{
-	return projectionMatrix;
-}
-
-const float4x4& Camera::GetViewMatrix() const
-{
-	return viewMatrix;
-}
-
-float Camera::GetHFOV() const
-{
-	return math::RadToDeg(frustum->HorizontalFov());
-}
-
-float Camera::GetVFOV() const
-{
-	return math::RadToDeg(frustum->VerticalFov());
-}
-
-float Camera::GetZNear() const
-{
-	return frustum->NearPlaneDistance();
-}
-
-float Camera::GetZFar() const
-{
-	return frustum->FarPlaneDistance();
-}
-
-float Camera::GetMoveSpeed() const
-{
-	return moveSpeed;
-}
-
-float Camera::GetRotationSpeed() const
-{
-	return rotationSpeed;
-}
-
-float Camera::GetDistance(const float3& point) const
-{
-	return frustum->Pos().Distance(point);
-}
-
-float Camera::GetFrustumOffset() const
-{
-	return frustumOffset;
-}
-
-EFrustumMode Camera::GetFrustumMode() const
-{
-	return frustumMode;
 }
 
 LineSegment Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
