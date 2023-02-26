@@ -5,7 +5,7 @@ class WindowSaveScene : public WindowFileBrowser
 {
 public:
 	WindowSaveScene();
-	~WindowSaveScene();
+	~WindowSaveScene() override;
 
 	void DoThisIfOk() override;
 };

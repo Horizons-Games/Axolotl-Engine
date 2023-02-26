@@ -7,7 +7,7 @@
 class EditorWindow : public Window
 {
 public:
-	~EditorWindow();
+	virtual ~EditorWindow() override;
 
 	void Draw(bool& enabled) override;
 

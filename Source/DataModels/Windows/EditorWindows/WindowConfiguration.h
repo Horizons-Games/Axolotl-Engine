@@ -11,7 +11,7 @@ class WindowConfiguration : public EditorWindow
 {
 public:
 	WindowConfiguration();
-	~WindowConfiguration();
+	~WindowConfiguration() override;
 
 protected:
 	void DrawWindowContents() override;

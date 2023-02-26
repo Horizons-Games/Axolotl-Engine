@@ -8,7 +8,7 @@ class WindowMaterialInput : public WindowFileBrowser
 {
 public:
 	WindowMaterialInput(ComponentMaterial* componentMaterial);
-	~WindowMaterialInput();
+	~WindowMaterialInput() override;
 
 	void DoThisIfOk() override;
 

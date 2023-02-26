@@ -6,7 +6,7 @@ class MeshImporter : public Importer<ResourceMesh>
 {
 public:
     MeshImporter();
-    ~MeshImporter();
+    ~MeshImporter() override;
 
     void Import(const char* filePath, std::shared_ptr<ResourceMesh> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource) override;
