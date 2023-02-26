@@ -437,6 +437,7 @@
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ModuleCommand.h" />
     <ClInclude Include="Modules\Module.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h" />
     <ClInclude Include="Modules\ModuleEditor.h" />

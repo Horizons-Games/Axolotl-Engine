@@ -924,6 +924,9 @@
     <ClInclude Include="Command.h">
       <Filter>Source\DataModels\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCommand.h">
+      <Filter>Source\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
