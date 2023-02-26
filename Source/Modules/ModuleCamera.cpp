@@ -26,7 +26,11 @@
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
+#ifdef ENGINE
 #include "Camera/CameraEngine.h"
+#include "Camera/CameraGod.h"
+
+
 #include "Camera/CameraGod.h"
 
 ModuleCamera::ModuleCamera() {};
@@ -44,8 +48,6 @@ bool ModuleCamera::Init()
 	#endif // GAMEMODE
 
 	camera->Init();
-	/*Moved to CameraEngine
-	*/
 	return true;
 }
 
@@ -59,6 +61,5 @@ bool ModuleCamera::Start()
 update_status ModuleCamera::Update()
 {
 	camera->Update();
-	/*Code Moved to CameraEngine*/
 	return UPDATE_CONTINUE;
 }

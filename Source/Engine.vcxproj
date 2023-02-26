@@ -358,7 +358,10 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
-    <ClCompile Include="DataModels\Camera\CameraEngine.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraGameObject.cpp" />
     <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
@@ -684,7 +687,10 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
-    <ClInclude Include="DataModels\Camera\CameraEngine.h" />
+    <ClInclude Include="DataModels\Camera\CameraEngine.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraGameObject.h" />
     <ClInclude Include="DataModels\Camera\CameraGod.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
