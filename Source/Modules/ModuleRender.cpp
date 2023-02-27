@@ -287,12 +287,12 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
-	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
+	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
+	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 

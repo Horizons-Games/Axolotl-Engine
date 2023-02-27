@@ -11,6 +11,7 @@ bool ModuleFileSystem::Init()
 {
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
+    PHYSFS_mount("..", nullptr, 0);
     PHYSFS_setWriteDir(".");
 #if defined(GAME)
     if (!Exists("Assets.zip"))
