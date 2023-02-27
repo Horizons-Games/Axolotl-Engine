@@ -597,15 +597,17 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
-		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
-		if (resource)
+
+		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		if (assetTime <= libTime)
 		{
-			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
-			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath()+ GENERAL_BINARY_EXTENSION).c_str());
-			if (assetTime <= libTime)
+
+			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+			if (resource)
 			{
 				resources.insert({ resource->GetUID(), resource });
-				return std::dynamic_pointer_cast<R>(resource);
+				return std::move(std::dynamic_pointer_cast<R>(resource));
 			}
 		}
 	}
@@ -628,12 +630,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
-		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
-		if (resource)
+		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		if (assetTime <= libTime)
 		{
-			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
-			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
-			if (assetTime <= libTime)
+
+			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+			if (resource)
 			{
 				resources.insert({ resource->GetUID(), resource });
 				return std::move(std::dynamic_pointer_cast<R>(resource));
