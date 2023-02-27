@@ -82,14 +82,14 @@ UID WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 
 	if (!isLoading)
 	{
-		ENGINE_LOG("Loaded");
+		ENGINE_LOG("Resource loaded succesfully");
 		return futureResourceUID.get();
 	}
 	else
 	{
 		timer = std::make_unique<Timer>();
 		timer->Start();
-		ENGINE_LOG("Not Loaded");
+		ENGINE_LOG("Started loading resource");
 		return NULL;
 	}
 }

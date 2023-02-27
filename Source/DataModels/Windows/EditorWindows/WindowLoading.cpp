@@ -17,7 +17,6 @@ void WindowLoading::DrawWindowContents()
 	ImGui::SetWindowCollapsed(false);
 	ImGui::SetWindowFocus();
 	
-	ENGINE_LOG("Entra");
 	ImGui::TextUnformatted("Loading...");
 	DrawSpinner("##spinner", 15, 6, col);
 }
