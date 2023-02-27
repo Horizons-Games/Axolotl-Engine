@@ -10,7 +10,7 @@ class WindowMeshInput :
 {
 public:
 	WindowMeshInput(ComponentMeshRenderer* componentMesh);
-	~WindowMeshInput();
+	~WindowMeshInput() override;
 
 	void DoThisIfOk() override;
 
