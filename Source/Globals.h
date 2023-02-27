@@ -65,3 +65,8 @@ enum class TextureType
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
 #define GENERAL_BINARY_EXTENSION ".bin"
+
+// QuadTree standard -------
+#define QUADTREE_INITIAL_SIZE 200
+#define QUADTREE_INITIAL_ALTITUDE 1000
+

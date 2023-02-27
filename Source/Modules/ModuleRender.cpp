@@ -341,6 +341,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
+	if (gameObject->GetParent() == nullptr)
+	{
+		return;
+	}
+
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
