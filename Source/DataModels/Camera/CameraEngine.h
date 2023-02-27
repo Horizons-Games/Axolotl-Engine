@@ -2,17 +2,6 @@
 
 #include "Camera.h"
 
-#define ORBIT_SPEED_MULTIPLIER 2.f
-
-#define MAX_MOUSE_SPEED_MODIFIER 5.f
-#define MAX_HFOV 120
-#define MAX_VFOV 85
-#define MAX_FRUSTUM 2.f
-
-#define MIN_HFOV 60
-#define MIN_VFOV 34
-#define MIN_FRUSTUM -2.f
-
 class GameObject;
 
 class CameraEngine : public  Camera

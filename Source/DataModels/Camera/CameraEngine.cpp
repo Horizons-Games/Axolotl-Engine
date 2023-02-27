@@ -35,9 +35,6 @@ CameraEngine::~CameraEngine()
 
 bool CameraEngine::Update()
 {
-#ifdef ENGINE
-
-
 	projectionMatrix = frustum->ProjectionMatrix();
 	viewMatrix = frustum->ViewMatrix();
 
@@ -139,29 +136,30 @@ bool CameraEngine::Update()
 		}
 	}
 
-#endif // ENGINE
 	return UPDATE_CONTINUE;
 }
 
 void CameraEngine::Move()
 {
-	float deltaTime = App->GetDeltaTime();
-
 	//Increase/decrease camera velocity with mouse wheel
 	if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KeyState::IDLE)
 	{
 		moveSpeed += App->input->GetMouseWheel().y;
 		if (moveSpeed < 1.0f)
+		{
 			moveSpeed = 1.0f;
+		}
 		if (moveSpeed > 900.0f)
+		{
 			moveSpeed = 900.0f;
+		}
 	}
 
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position += frustum->Front().Normalized() *
-			moveSpeed * acceleration * deltaTime;
+			moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
@@ -169,45 +167,44 @@ void CameraEngine::Move()
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position += -(frustum->Front().Normalized()) *
-			moveSpeed * acceleration * deltaTime;
+			moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position += -(frustum->WorldRight()) * moveSpeed * acceleration * deltaTime;
+		position += -(frustum->WorldRight()) * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
 	//Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position += frustum->WorldRight() * moveSpeed * acceleration * deltaTime;
+		position += frustum->WorldRight() * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
 	//Up
 	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
-		position += frustum->Up() * moveSpeed * acceleration * deltaTime;
+		position += frustum->Up() * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
 	//Down
 	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
-		position += -(frustum->Up()) * moveSpeed * acceleration * deltaTime;
+		position += -(frustum->Up()) * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
 	//Move UP/DOWN and RIGHT/LEFT with mid mouse button
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 	{
-		float deltaTime = App->GetDeltaTime();
 		float mouseSpeedPercentage = 0.05f;
-		float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-		float yrel = App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+		float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * App->GetDeltaTime();
+		float yrel = App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * App->GetDeltaTime();
 
 		position += (frustum->WorldRight()) * xrel;
 		position += (frustum->Up()) * yrel;
@@ -217,20 +214,19 @@ void CameraEngine::Move()
 
 void CameraEngine::Zoom()
 {
-	float deltaTime = App->GetDeltaTime();
 	if (App->input->IsMouseWheelScrolled())
 	{
 		float zoomSpeed = App->input->GetMouseWheel().y * DEFAULT_MOUSE_ZOOM_SPEED;
 
 		position += frustum->Front().Normalized() *
-			zoomSpeed * deltaTime;
+			zoomSpeed * App->GetDeltaTime();
 	}
 	else
 	{
 		float zoomSpeed = App->input->GetMouseMotion().x * DEFAULT_MOUSE_ZOOM_SPEED;
 
 		position += frustum->Front().Normalized() *
-			zoomSpeed * deltaTime;
+			zoomSpeed * App->GetDeltaTime();
 	}
 	SetPosition(position);
 }
@@ -338,9 +334,8 @@ void CameraEngine::Rotate()
 
 	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
 
-	float deltaTime = App->GetDeltaTime();
-	Quat pitchQuat(frustum->WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
-	Quat yawQuat(float3::unitY, yaw * deltaTime * rotationSpeed * acceleration);
+	Quat pitchQuat(frustum->WorldRight(), pitch * App->GetDeltaTime() * rotationSpeed * acceleration);
+	Quat yawQuat(float3::unitY, yaw * App->GetDeltaTime() * rotationSpeed * acceleration);
 
 	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
 	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);

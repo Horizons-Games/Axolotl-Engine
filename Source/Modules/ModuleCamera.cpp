@@ -29,9 +29,7 @@
 #ifdef ENGINE
 #include "Camera/CameraEngine.h"
 #endif // ENGINE
-#ifdef GAMEMODE
 #include "Camera/CameraGod.h"
-#endif // GAMEMODE
 
 
 
@@ -44,8 +42,7 @@ bool ModuleCamera::Init()
 {
 	#ifdef ENGINE
 		camera = std::make_unique <CameraEngine>();
-	#endif // ENGINE
-	#ifdef GAMEMODE
+	#else // ENGINE
 		camera = std::make_unique <CameraGod>();
 	#endif // GAMEMODE
 
