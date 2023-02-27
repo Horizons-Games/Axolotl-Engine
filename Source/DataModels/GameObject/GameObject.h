@@ -60,6 +60,9 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
+	void MoveUpChild(GameObject* childToMove);
+	void MoveDownChild(GameObject* childToMove);
+
 private:
 	bool IsAChild(const GameObject* child);
 	bool IsADescendant(const GameObject* descendant);

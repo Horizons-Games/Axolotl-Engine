@@ -18,7 +18,7 @@ class WindowInspector : public EditorWindow
 {
 public:
 	WindowInspector();
-	~WindowInspector();
+	~WindowInspector() override;
 
 protected:
 	void DrawWindowContents() override;

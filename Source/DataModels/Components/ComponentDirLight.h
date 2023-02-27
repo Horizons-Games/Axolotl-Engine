@@ -13,7 +13,7 @@ public:
 	ComponentDirLight(GameObject* parent);
 	ComponentDirLight(const float3& color, float intensity);
 	ComponentDirLight(const float3& color, float intensity, GameObject* parent);
-	~ComponentDirLight();
+	~ComponentDirLight() override;
 
 	void Draw() override;
 

@@ -12,7 +12,7 @@ class ModuleScene : public Module
 {
 public:
 	ModuleScene();
-	~ModuleScene();
+	~ModuleScene() override;
 
 	bool Init() override;
 	bool Start() override;

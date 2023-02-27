@@ -12,7 +12,7 @@ public:
 	ComponentAmbient(GameObject* parent);
 	ComponentAmbient(const float3& color);
 	ComponentAmbient(const float3& color, GameObject* parent);
-	~ComponentAmbient();
+	~ComponentAmbient() override;
 
 	void Draw() override {};
 

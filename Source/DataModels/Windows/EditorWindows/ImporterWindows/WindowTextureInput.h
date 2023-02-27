@@ -8,7 +8,7 @@ class WindowTextureInput :
 {
 public:
 	WindowTextureInput(ComponentMaterial* material, TextureType textureType);
-	~WindowTextureInput();
+	~WindowTextureInput() override;
 
 	void DoThisIfOk() override;
 

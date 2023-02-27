@@ -473,3 +473,33 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 	}
 	return familyObjects;
 }
+
+void GameObject::MoveUpChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it - 1, it);
+			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			break;
+		}
+	}
+}
+
+void GameObject::MoveDownChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it, it + 1);
+			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			break;
+		}
+	}
+}

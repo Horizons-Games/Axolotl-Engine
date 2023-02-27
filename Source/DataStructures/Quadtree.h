@@ -1,7 +1,9 @@
 #pragma once
 #include <list>
 #include <MathGeoLib/Include/Geometry/AABB.h>
+
 #include "Globals.h"
+#include "Geometry/LineSegment.h"
 
 class GameObject;
 
@@ -51,6 +53,9 @@ public:
 	void SetBoundingBox(AABB boundingBox);
 
 	std::list<const GameObject*> GetAllGameObjects(const GameObject* gameObject);
+
+	// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
+	void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 
 private:
 

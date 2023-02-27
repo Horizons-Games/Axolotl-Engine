@@ -107,8 +107,11 @@ update_status ModuleEngineCamera::Update()
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
-				LineSegment ray = CreateRaycastFromMousePosition(windowScene);
-				CalculateHittedGameObjects(ray);
+				LineSegment ray;
+				if (CreateRaycastFromMousePosition(windowScene, ray))
+				{
+					CalculateHitGameObjects(ray);
+				}
 			}
 			// --RAYCAST CALCULATION-- //
 
@@ -571,6 +574,7 @@ void ModuleEngineCamera::UnlimitedCursor()
 	{
 		App->input->SetMouseMotionX((float)(mouseX - lastMouseX));
 		App->input->SetMouseMotionY((float)(mouseY - lastMouseY));
+
 		mouseWarped = false;
 	}
 	int width, height;
@@ -734,53 +738,60 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
-LineSegment ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
+bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
-	mousePositionInScene.x -= startPosScene.x;
-	mousePositionInScene.y -= startPosScene.y;
-
-	float width = windowScene->GetAvailableRegion().x;
-	float height = windowScene->GetAvailableRegion().y;
-
-	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
-	float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
-
-	return frustum.UnProjectLineSegment(normalizedX, normalizedY);
-}
-
-void ModuleEngineCamera::CalculateHittedGameObjects(const LineSegment& ray)
-{
-	std::vector<GameObject*> existingGameObjects =
-		App->scene->GetLoadedScene()->GetSceneGameObjects();
-	std::map<float, GameObject*> hittedGameObjects;
-
-	for (GameObject* currentGameObject : existingGameObjects)
+	if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x 
+		&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
 	{
-		if (currentGameObject)
-		{
-			float nearDistance, farDistance;
-			ComponentBoundingBoxes* componentBoundingBox =
-				static_cast<ComponentBoundingBoxes*>
-				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
-			// ray vs. AABB
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); 
+		mousePositionInScene.x -= startPosScene.x;
+		mousePositionInScene.y -= startPosScene.y;
 
-			if (hit && currentGameObject->IsActive())
-			{
-				hittedGameObjects[nearDistance] = currentGameObject;
-			}
-		}
+		float width = windowScene->GetAvailableRegion().x;
+		float height = windowScene->GetAvailableRegion().y;
+
+		float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+		float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
+		ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+
+		return true;
 	}
-
-	SetNewSelectedGameObject(hittedGameObjects, ray);
+	else
+	{
+		return false;
+	}
 }
 
-void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
+void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+	CalculateHitSelectedGo(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	
+	SetNewSelectedGameObject(hitGameObjects, ray);
+}
+
+void ModuleEngineCamera::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+{
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	float nearDistance, farDistance;
+	ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+		(selectedGo->GetComponent(ComponentType::BOUNDINGBOX));
+
+	bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+
+	if (hit && selectedGo->IsActive())
+	{
+		hitGameObjects[nearDistance] = selectedGo;
+	}
+}
+
+void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
 												  const LineSegment& ray)
 {
 	GameObject* newSelectedGameObject = nullptr;
@@ -789,26 +800,24 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObje
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
 
-	for (const std::pair<float, GameObject*>& hittedGameObject : hittedGameObjects)
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
-		GameObject* actualGameObject = hittedGameObject.second;
+		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
-			std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh();
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
-			if (!gameObjectMeshAsShared)
+			if (!goMeshAsShared)
 			{
 				continue;
 			}
 
-			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
 				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 			for (const Triangle& triangle : meshTriangles)
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
@@ -823,8 +832,9 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, GameObje
 					continue;
 				}
 
-				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-				newSelectedGameObject = actualGameObject;
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
 			}
 		}

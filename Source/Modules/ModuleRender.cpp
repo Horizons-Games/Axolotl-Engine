@@ -313,14 +313,20 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -345,7 +351,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
-		gameObjectsToDraw.push_back(gameObject);
+		if (gameObject->IsEnabled())
+		{
+			gameObjectsToDraw.push_back(gameObject);
+		}
 	}
 	
 

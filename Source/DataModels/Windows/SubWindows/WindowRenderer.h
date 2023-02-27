@@ -6,7 +6,7 @@ class WindowRenderer : public SubWindow
 {
 public:
 	WindowRenderer();
-	~WindowRenderer();
+	~WindowRenderer() override;
 
 protected:
 	void DrawWindowContents() override;
