@@ -85,7 +85,7 @@ private:
 	ResourceType GetTypeOfName(const std::string& typeName);
 	const std::string GetFolderOfType(ResourceType type);
 	const std::string CreateAssetsPath(const std::string& fileName, ResourceType type);
-	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
+	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
 
 	static const std::string assetsFolder;
 	static const std::string libraryFolder;
@@ -129,7 +129,7 @@ template<class R>
 inline const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
 {
 	auto it = resources.find(uid);
-	if (it != resources.end())
+	if (it != resources.end() && !(it->second).expired())
 	{
 		std::shared_ptr<Resource> shared = (it->second).lock();
 		return std::dynamic_pointer_cast<R>(shared);

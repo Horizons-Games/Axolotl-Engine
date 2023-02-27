@@ -83,7 +83,7 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 															 ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
-	const std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
+	const std::string libraryPath = CreateLibraryPath(uid, type);
 	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
 }
 
@@ -552,11 +552,11 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 	return assetsPath;
 }
 
-const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
+const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += fileName;
+	libraryPath += std::to_string(resourceUID);
 	return libraryPath;
 }
 
@@ -596,13 +596,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		//Si ese recurso tiene binarios y son nuevos los cargamos
 		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
-		std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
+		std::string libraryPath = CreateLibraryPath(uid, type);
 		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
 		if (resource)
 		{
 			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
 			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath()+ GENERAL_BINARY_EXTENSION).c_str());
-			if (assetTime < libTime)
+			if (assetTime <= libTime)
 			{
 				resources.insert({ resource->GetUID(), resource });
 				return std::dynamic_pointer_cast<R>(resource);
@@ -626,17 +626,17 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		UID uid = (UID)Json["UID"];
 		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
-		std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
+		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
 		if (resource)
 		{
 			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
 			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
-			if (assetTime < libTime)
+			if (assetTime <= libTime)
 			{
 				resources.insert({ resource->GetUID(), resource });
-				return std::dynamic_pointer_cast<R>(resource);
+				return std::move(std::dynamic_pointer_cast<R>(resource));
 			}
 		}
 	}
