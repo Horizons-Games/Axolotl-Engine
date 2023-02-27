@@ -40,6 +40,7 @@ public:
 	update_status Update();
 
 	Camera* GetCamera();
+	void ChangeCamera(CameraType newType);
 	
 private:
 	std::unique_ptr <Camera> camera;

@@ -60,5 +60,23 @@ bool ModuleCamera::Start()
 update_status ModuleCamera::Update()
 {
 	camera->Update();
+
+
 	return UPDATE_CONTINUE;
+}
+
+
+void ModuleCamera::ChangeCamera(CameraType newType)
+{
+	switch (newType)
+	{
+	case CameraType::C_GOD:
+		camera = std::make_unique <CameraGod>(std::move(camera));
+		break;
+	case CameraType::C_ENGINE:
+		camera = std::make_unique <CameraEngine>(std::move(camera));
+		break;
+
+	}
+	
 }

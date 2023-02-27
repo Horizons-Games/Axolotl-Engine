@@ -9,6 +9,11 @@ CameraGod::CameraGod()
 {
 }
 
+CameraGod::CameraGod(const std::unique_ptr<Camera>& camera)
+	: Camera(camera,CameraType::C_GOD)
+{
+}
+
 CameraGod::~CameraGod()
 {
 }

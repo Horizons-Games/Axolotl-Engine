@@ -8,6 +8,7 @@ class CameraEngine : public  Camera
 {
 public:
 	CameraEngine();
+	CameraEngine(const std::unique_ptr<Camera>& camera);
 	virtual ~CameraEngine() override;
 
 	bool Update() override;

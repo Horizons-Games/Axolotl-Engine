@@ -41,6 +41,7 @@ class Camera
 {
 public:
 	Camera(const CameraType type);
+	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
 	virtual ~Camera();
 
 	virtual bool Init();
