@@ -21,7 +21,7 @@ public:
 
 	std::shared_ptr<Resource>& GetDiffuse();
 	std::shared_ptr<Resource>& GetNormal();
-	std::shared_ptr<Resource>& GetOcclusionr();
+	std::shared_ptr<Resource>& GetOcclusion();
 	std::shared_ptr<Resource>& GetSpecular();
 	float3& GetDiffuseColor();
 	float3& GetSpecularColor();
@@ -37,10 +37,10 @@ public:
 	std::shared_ptr<OptionsMaterial>& GetOptions();
 
 	//Sets
-	void SetDiffuse(std::shared_ptr<Resource>& diffuse);
-	void SetNormal(std::shared_ptr<Resource>& normal);
-	void SetOcclusion(std::shared_ptr<Resource>& occlusion);
-	void SetSpecular(std::shared_ptr<Resource>& specular);
+	void SetDiffuse(const std::shared_ptr<Resource>& diffuse);
+	void SetNormal(const std::shared_ptr<Resource>& normal);
+	void SetOcclusion(const std::shared_ptr<Resource>& occlusion);
+	void SetSpecular(const std::shared_ptr<Resource>& specular);
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float& shininess);
@@ -100,7 +100,7 @@ inline std::shared_ptr<Resource>& ResourceMaterial::GetNormal()
 	return this->normal;
 }
 
-inline std::shared_ptr<Resource>& ResourceMaterial::GetOcclusionr()
+inline std::shared_ptr<Resource>& ResourceMaterial::GetOcclusion()
 {
 	return this->occlusion;
 }
@@ -160,22 +160,22 @@ inline bool ResourceMaterial::HaveShininessAlpha()
 	return shininessAlpha;  
 }
 
-inline void ResourceMaterial::SetDiffuse(std::shared_ptr<Resource>& diffuse)
+inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<Resource>& diffuse)
 {
 	this->diffuse = diffuse;
 }
 
-inline void ResourceMaterial::SetNormal(std::shared_ptr<Resource>& normal)
+inline void ResourceMaterial::SetNormal(const std::shared_ptr<Resource>& normal)
 {
 	this->normal = normal;
 }
 
-inline void ResourceMaterial::SetOcclusion(std::shared_ptr<Resource>& occlusion)
+inline void ResourceMaterial::SetOcclusion(const std::shared_ptr<Resource>& occlusion)
 {
 	this->occlusion = occlusion;
 }
 
-inline void ResourceMaterial::SetSpecular(std::shared_ptr<Resource>& specular)
+inline void ResourceMaterial::SetSpecular(const std::shared_ptr<Resource>& specular)
 {
 	this->specular = specular;
 }

@@ -33,8 +33,8 @@ public:
 	bool CleanUp() override;
 
 	//Create Bin and .meta from path
-	std::shared_ptr<Resource> ImportResource(const std::string& originalPath);
-	std::shared_ptr<Resource> ImportThread(const std::string& originalPath);
+	void ImportResource(const std::string& originalPath);
+	void ImportThread(const std::string& originalPath);
 
 	//request resource and Import if is necessary
 	const std::shared_ptr<Resource> RequestResource(const std::string assetPath);
@@ -62,7 +62,7 @@ private:
 	void DeleteResource(UID uidToDelete);
 
 	//create resources from binaries
-	void LoadResourceStored(const char* filePath);
+	std::shared_ptr<Resource> LoadResourceStored(const char* filePath, const char* fileNameToStore);
 	std::shared_ptr<Resource> ImportResourceFromLibrary(const std::string& libraryPath);
 
 	//importing: creation of binary and meta
@@ -77,8 +77,10 @@ private:
 	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
+	ResourceType FindTypeByFolder(const std::string& path);
+
 	//utility methods
-	ResourceType FindTypeByPath(const std::string& path);
+	ResourceType FindTypeByExtension(const std::string& path);
 	const std::string GetNameOfType(ResourceType type);
 	ResourceType GetTypeOfName(const std::string& typeName);
 	const std::string GetFolderOfType(ResourceType type);
@@ -118,48 +120,6 @@ inline const std::shared_ptr<Resource> ModuleResources::RequestResource(const st
 	return RequestResource<Resource>(assetPath);
 }
 
-template<class R>
-inline const std::shared_ptr<R> ModuleResources::RequestResource(const std::string assetPath)
-{
-	//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
-	std::string metaPath = assetPath + META_EXTENSION;
-	if (App->fileSystem->Exists(metaPath.c_str())) {
-		char* metaBuffer = {};
-		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-
-		rapidjson::Document doc;
-		Json Json(doc, doc);
-
-		Json.fromBuffer(metaBuffer);
-
-		UID uid = (UID)Json["UID"];
-
-		auto it = resources.find(uid);
-		if (it != resources.end())
-		{
-			return std::dynamic_pointer_cast<R>(resources.find(resourceUID)->second.lock());
-		}
-	}
-
-	//Si ese recurso tiene binarios y son nuevos los cargamos
-	std::shared_ptr<Resource> resource = ImportResourceFromLibrary(assetPath);
-	if (resource)
-	{
-		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = App->fileSystem->GetModificationDate(resource->GetLibraryPath().c_str());
-		if(assetTime < libTime) 
-		{
-			resources.insert({ resource->GetUID(), resource });
-			return std::dynamic_pointer_cast<R>(resource);
-		}
-	}
-
-	//Si ese recurso no tiene ninguna de las dos opciones lo volvemos a importar
-	resource = ImportResource(assetPath);
-	resources.insert({ resource->GetUID(), resource });
-	return std::dynamic_pointer_cast<R>(resource);
-}
-
 inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
 {
 	return SearchResource<Resource>(uid);
@@ -175,7 +135,5 @@ inline const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
 		return std::dynamic_pointer_cast<R>(shared);
 	}
 	
-
-
-	return std::shared_ptr<R>();
+	return std::dynamic_pointer_cast<R>(LoadResourceStored(LIB_FOLDER, std::to_string(uid).c_str()));
 }

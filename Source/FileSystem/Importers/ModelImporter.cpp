@@ -98,12 +98,12 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<UID> meshesUIDs(meshesPointer, meshesPointer + resource->GetNumMeshes());
 	std::vector<std::shared_ptr<Resource>> meshes;
 	meshes.reserve(resource->GetNumMeshes());
-	for (int i = 0; i < meshesUIDs.size(); i++) 
+	for (int i = 0; i < meshesUIDs.size(); i++)
 	{
 		meshes.push_back(App->resources->SearchResource<Resource>(meshesUIDs[i]));
 	}
 
-	//resource->SetMeshesUIDs(meshes);
+	resource->SetMeshes(meshes);
 
 	fileBuffer += bytes;
 
@@ -117,8 +117,10 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	materials.reserve(resource->GetNumMaterials());
 	for (int i = 0; i < materialsUIDs.size(); i++)
 	{
-		meshes.push_back(App->resources->SearchResource<Resource>(materialsUIDs[i]));
+		materials.push_back(App->resources->SearchResource<Resource>(materialsUIDs[i]));
 	}
+
+	resource->SetMaterials(materials);
 
 	delete[] materialsPointer;
 }

@@ -25,7 +25,7 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 		if (!path.empty()) 
 		{
-			resourceTexture.push_back(App->resources->ImportResource(path));
+			resourceTexture.push_back(App->resources->RequestResource(path));
 		}
 		else 
 		{
@@ -52,12 +52,12 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
 {
-    UID texturesUIDs[4] = 
-	{ 
-		resource->GetDiffuse()->GetUID(),
-		resource->GetNormal()->GetUID(),
-		resource->GetOcclusionr()->GetUID(),
-		resource->GetSpecular()->GetUID()
+	UID texturesUIDs[4] =
+	{
+		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
+		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
+		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
+		resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0
 	};
 
 	float3 colors[2] =
@@ -96,12 +96,10 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
-
-
-	/*if(texturesUIDs[0] != 0) resource->SetDiffuseUID(texturesUIDs[0]);
-	if(texturesUIDs[1] != 0) resource->SetNormalUID(texturesUIDs[1]);
-	if(texturesUIDs[2] != 0) resource->SetOcclusionUID(texturesUIDs[2]);
-	if(texturesUIDs[3] != 0) resource->SetSpecularUID(texturesUIDs[3]);*/
+	if(texturesUIDs[0] != 0) resource->SetDiffuse(App->resources->SearchResource(texturesUIDs[0]));
+	if(texturesUIDs[1] != 0) resource->SetNormal(App->resources->SearchResource(texturesUIDs[1]));
+	if(texturesUIDs[2] != 0) resource->SetOcclusion(App->resources->SearchResource(texturesUIDs[2]));
+	if(texturesUIDs[3] != 0) resource->SetSpecular(App->resources->SearchResource(texturesUIDs[3]));
 
 	fileBuffer += sizeof(texturesUIDs);
 

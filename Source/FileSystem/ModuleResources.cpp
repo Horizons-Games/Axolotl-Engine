@@ -42,13 +42,12 @@ bool ModuleResources::Start()
 }
 
 //Creates Binary and Meta from an Asset original path
-std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& originalPath)
+void ModuleResources::ImportResource(const std::string& originalPath)
 {
-	ResourceType type = FindTypeByPath(originalPath);
+	ResourceType type = FindTypeByExtension(originalPath);
 	if (type == ResourceType::Unknown)
 	{
 		ENGINE_LOG("Extension not supported");
-		return 0;
 	}
 	std::string fileName = App->fileSystem->GetFileName(originalPath);
 	std::string extension = App->fileSystem->GetFileExtension(originalPath);
@@ -63,14 +62,12 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(originalPath, importedRes, importedRes->GetType());
-
-	return importedRes;
 }
 
-std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& originalPath)
+void ModuleResources::ImportThread(const std::string& originalPath)
 {
-	std::promise<std::shared_ptr<Resource>> p;
-	std::future<std::shared_ptr<Resource>> f = p.get_future();
+	/*std::promise<void> p;
+	std::future<void> f = p.get_future();
 	std::thread importThread = std::thread(
 		[&]() 
 		{
@@ -78,7 +75,7 @@ std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& origi
 		}
 	);
 	importThread.detach();
-	return f.get();
+	return f.get();*/
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,
@@ -163,7 +160,7 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 	//resources.erase(uidToDelete);
 }
 
-void ModuleResources::LoadResourceStored(const char* filePath)
+std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePath, const char* fileNameToStore)
 {
 	std::vector<std::string> files = App->fileSystem->ListFiles(filePath);
 	for (size_t i = 0; i < files.size(); i++)
@@ -173,75 +170,64 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 		const char* file = path.c_str();
 		if (App->fileSystem->IsDirectory(file))
 		{
-			LoadResourceStored(file);
+			std::shared_ptr<Resource> resource = LoadResourceStored(file, fileNameToStore);
+			if (resource) return resource;
 		}
 		else 
 		{
-			if (App->fileSystem->GetFileExtension(path) != ".meta")
+			if (App->fileSystem->GetFileName(file) == fileNameToStore)
 			{
-				ImportResourceFromLibrary(file);
+				return ImportResourceFromLibrary(file);
 			}
 		}
 	}
+
+	return std::shared_ptr<Resource>();
 }
 
-std::shared_ptr<Resource> ModuleResources::ImportResourceFromLibrary(const std::string& assetPath)
+std::shared_ptr<Resource> ModuleResources::ImportResourceFromLibrary(const std::string& libPath)
 {
-	std::string metaPath = assetPath + META_EXTENSION;
-	
-	if (App->fileSystem->Exists(metaPath.c_str())){
-		char* metaBuffer = {};
-		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	std::string fileName = App->fileSystem->GetFileName(libPath);
+	UID uid = std::stoull(fileName.c_str(), NULL, 0);
+	ResourceType type = FindTypeByFolder(libPath);
 
-		rapidjson::Document doc;
-		Json Json(doc, doc);
+	if (type != ResourceType::Unknown && App->fileSystem->Exists(libPath.c_str()))
+	{
+		std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->fileSystem->GetPathWithoutExtension(libPath), type);
 
-		Json.fromBuffer(metaBuffer);
-
-		UID uid = (UID)Json["UID"];
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
-
-		std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
-
-		if (type != ResourceType::Unknown && App->fileSystem->Exists(libraryPath.c_str()))
+		if (resource != nullptr)
 		{
-			std::string fileName = App->fileSystem->GetFileName(assetPath);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, libraryPath, type);
-			
-			if (resource != nullptr);
+			char* binaryBuffer = {};
+			App->fileSystem->Load(libPath.c_str(), binaryBuffer);
+
+			switch (type)
 			{
-				char* binaryBuffer = {};
-				App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
-
-				switch (type)
-				{
-				case ResourceType::Model:
-					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
-					break;
-				case ResourceType::Texture:
-					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
-					break;
-				case ResourceType::Mesh:
-					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
-					break;
-				case ResourceType::Scene:
-					break;
-				case ResourceType::Material:
-					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
-					break;
-				case ResourceType::SkyBox:
-					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
-					skybox = uid;
-					break;
-				default:
-					break;
-				}
-
-				return resource;
+			case ResourceType::Model:
+				modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+				break;
+			case ResourceType::Texture:
+				textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
+				break;
+			case ResourceType::Mesh:
+				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+				break;
+			case ResourceType::Scene:
+				break;
+			case ResourceType::Material:
+				materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
+				break;
+			case ResourceType::SkyBox:
+				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+				skybox = uid;
+				break;
+			default:
+				break;
 			}
+
+			return resource;
 		}
 	}
-
+		
 	return std::shared_ptr<Resource>();
 }
 
@@ -298,15 +284,15 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 
 void ModuleResources::CreateAssetAndLibFolders()
 {
-	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
+	bool assetsFolderNotCreated = !App->fileSystem->Exists(ASSETS_PATH);
 	if (assetsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(assetsFolder.c_str());
+		App->fileSystem->CreateDirectoryA(ASSETS_PATH);
 	}
-	bool libraryFolderNotCreated = !App->fileSystem->Exists(libraryFolder.c_str());
+	bool libraryFolderNotCreated = !App->fileSystem->Exists(LIB_PATH);
 	if (libraryFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
+		App->fileSystem->CreateDirectoryA(LIB_PATH);
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill:
@@ -322,14 +308,14 @@ void ModuleResources::CreateAssetAndLibFolders()
 	{
 		std::string folderOfType = GetFolderOfType(type);
 
-		std::string assetsFolderOfType = assetsFolder + folderOfType;
+		std::string assetsFolderOfType = ASSETS_PATH + folderOfType;
 		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
 		if (assetsFolderOfTypeNotCreated)
 		{
 			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
 		}
 
-		std::string libraryFolderOfType = libraryFolder + folderOfType;
+		std::string libraryFolderOfType = LIB_PATH + folderOfType;
 		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
 		if (libraryFolderOfTypeNotCreated)
 		{
@@ -460,7 +446,21 @@ bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath
 	return false;
 }
 
-ResourceType ModuleResources::FindTypeByPath(const std::string& path)
+ResourceType ModuleResources::FindTypeByFolder(const std::string& path)
+{
+	std::string pathWithOutFile = App->fileSystem->GetPathWithoutFile(path);
+	std::string::size_type libPathPos = pathWithOutFile.find(LIB_PATH);
+	
+	if (libPathPos != std::string::npos) 
+	{
+		pathWithOutFile.erase(libPathPos, std::string(LIB_PATH).length());
+		pathWithOutFile.pop_back();
+	}
+
+	return GetTypeOfName(pathWithOutFile);
+}
+
+ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 {
 	std::string fileExtension = App->fileSystem->GetFileExtension(path);
 	std::string normalizedExtension = "";
@@ -559,3 +559,93 @@ const std::string ModuleResources::CreateLibraryPath(const std::string& fileName
 	libraryPath += fileName;
 	return libraryPath;
 }
+
+
+template<class R>
+const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path)
+{
+	ResourceType type = FindTypeByExtension(path);
+	if (type == ResourceType::Unknown)
+	{
+		ENGINE_LOG("Extension not supported");
+	}
+	std::string fileName = App->fileSystem->GetFileName(path);
+	std::string extension = App->fileSystem->GetFileExtension(path);
+	std::string assetPath = path;
+
+	assetPath = CreateAssetsPath(fileName + extension, type);
+	
+	std::string metaPath = assetPath + META_EXTENSION;
+	if (App->fileSystem->Exists(metaPath.c_str())) {
+		char* metaBuffer = {};
+		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+
+		rapidjson::Document doc;
+		Json Json(doc, doc);
+
+		Json.fromBuffer(metaBuffer);
+
+		UID uid = (UID)Json["UID"];
+		//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
+		auto it = resources.find(uid);
+		if (it != resources.end())
+		{
+			return std::dynamic_pointer_cast<R>(it->second.lock());
+		}
+
+		//Si ese recurso tiene binarios y son nuevos los cargamos
+		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
+
+		std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
+		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+		if (resource)
+		{
+			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
+			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath()+ GENERAL_BINARY_EXTENSION).c_str());
+			if (assetTime < libTime)
+			{
+				resources.insert({ resource->GetUID(), resource });
+				return std::dynamic_pointer_cast<R>(resource);
+			}
+		}
+	}
+
+	//Si ese recurso no tiene ninguna de las dos opciones lo volvemos a importar
+	ImportResource(assetPath);
+	metaPath = assetPath + META_EXTENSION;
+	if (App->fileSystem->Exists(metaPath.c_str())) {
+
+		char* metaBuffer = {};
+		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+
+		rapidjson::Document doc;
+		Json Json(doc, doc);
+
+		Json.fromBuffer(metaBuffer);
+
+		UID uid = (UID)Json["UID"];
+		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
+
+		std::string libraryPath = CreateLibraryPath(std::to_string(uid), type);
+
+		std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+		if (resource)
+		{
+			long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
+			long long libTime = App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
+			if (assetTime < libTime)
+			{
+				resources.insert({ resource->GetUID(), resource });
+				return std::dynamic_pointer_cast<R>(resource);
+			}
+		}
+	}
+	return std::shared_ptr<R>();
+}
+
+template const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath);
+template const std::shared_ptr<ResourceMaterial> ModuleResources::RequestResource(const std::string assetPath);
+template const std::shared_ptr<ResourceMesh> ModuleResources::RequestResource(const std::string assetPath);
+template const std::shared_ptr<ResourceModel> ModuleResources::RequestResource(const std::string assetPath);
+template const std::shared_ptr<ResourceSkyBox> ModuleResources::RequestResource(const std::string assetPath);
+template const std::shared_ptr<ResourceTexture> ModuleResources::RequestResource(const std::string assetPath);

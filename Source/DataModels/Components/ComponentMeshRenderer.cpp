@@ -42,7 +42,6 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-
 	if (mesh) //pointer not empty
 	{
 		if (!mesh->IsLoaded())
@@ -101,12 +100,12 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
 {
-	/*type = GetTypeByName(meta["type"]);
+	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
 	{
@@ -118,11 +117,10 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
 		if (resourceExists) 
 		{
-			uidMesh = App->resources->ImportResource(path)->GetUID();
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
+			resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
 			SetMesh(resourceMesh);
 		}
-	}*/
+	}
 }
 
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)

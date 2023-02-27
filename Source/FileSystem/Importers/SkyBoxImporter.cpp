@@ -29,7 +29,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 	for(int i = 0; i < facesPaths.size(); ++i)
 	{
-		std::shared_ptr<Resource> resourceTexture = App->resources->ImportResource(facesPaths[i]);
+		std::shared_ptr<Resource> resourceTexture = App->resources->RequestResource(facesPaths[i]);
 		faces[i] = resourceTexture->GetUID();
 	}
 
