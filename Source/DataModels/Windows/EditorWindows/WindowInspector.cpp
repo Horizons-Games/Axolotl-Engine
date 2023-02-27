@@ -4,7 +4,11 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "FileSystem/ModuleResources.h"
+
 #include "Scene/Scene.h"
+#include "DataModels/Resources/Resource.h"
+#include "DataModels/Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
@@ -26,54 +30,71 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	if (!resource.expired() && lastSelectedGameObject != App->scene->GetSelectedGameObject().lock())
+	{
+		resource = std::weak_ptr<Resource>();
+	}
+	
+	if (resource.expired())
+	{
+		InspectSelectedGameObject();
+	}
+	else
+	{
+		InspectSelectedResource();
+	}
+}
+
+void WindowInspector::InspectSelectedGameObject()
+{
 	//TODO: REMOVE AFTER, HERE WE GO
 	DrawButtomsSaveAndLoad();
 	ImGui::Separator();
 	//
 
-	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
+	lastSelectedGameObject = App->scene->GetSelectedGameObject().lock();
 
-	if (currentGameObject)
+	if (lastSelectedGameObject)
 	{
-		bool enable = currentGameObject->IsEnabled();
+		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 
-		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-			currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+			lastSelectedGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+			lastSelectedGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 		{
-			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
+			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
 		}
 	}
 	else
 	{
-		char* name = (char*)currentGameObject->GetName();
+		char* name = (char*)lastSelectedGameObject->GetName();
 		ImGui::InputText("##GameObject", name, 24);
 	}
 
-	if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
+	if (!lastSelectedGameObject->GetParent().lock()) // Keep the word Scene in the root
 	{
-		char* name = (char*)currentGameObject->GetName();
+		char* name = (char*)lastSelectedGameObject->GetName();
 		if (ImGui::InputText("##GameObject", name, 24))
 		{
 			std::string scene = " Scene";
 			std::string sceneName = name + scene;
-			currentGameObject->SetName(sceneName.c_str());
+			lastSelectedGameObject->SetName(sceneName.c_str());
 		}
-			
+
 	}
 	else
 	{
-		char* name = (char*)currentGameObject->GetName();
+		char* name = (char*)lastSelectedGameObject->GetName();
 		ImGui::InputText("##GameObject", name, 24);
 	}
 
 	ImGui::Separator();
 
 	if (WindowRightClick() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		currentGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
+		lastSelectedGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+		lastSelectedGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -106,7 +127,7 @@ void WindowInspector::DrawWindowContents()
 					AddComponentLight(LightType::POINT);
 				}
 			}
-			
+
 		}
 
 		else
@@ -117,21 +138,21 @@ void WindowInspector::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 
-	for (unsigned int i = 0; i < currentGameObject->GetComponents().size(); ++i)
+	for (unsigned int i = 0; i < lastSelectedGameObject->GetComponents().size(); ++i)
 	{
-		if (currentGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
+		if (lastSelectedGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
 		{
-			if (currentGameObject->GetComponents()[i]->GetCanBeRemoved())
+			if (lastSelectedGameObject->GetComponents()[i]->GetCanBeRemoved())
 			{
-				DrawChangeActiveComponentContent(i, currentGameObject->GetComponents()[i]);
+				DrawChangeActiveComponentContent(i, lastSelectedGameObject->GetComponents()[i]);
 				ImGui::SameLine();
-				if (DrawDeleteComponentContent(i, currentGameObject->GetComponents()[i]))
+				if (DrawDeleteComponentContent(i, lastSelectedGameObject->GetComponents()[i]))
 					break;
 				ImGui::SameLine();
 			}
 		}
 
-		currentGameObject->GetComponents()[i]->Display();
+		lastSelectedGameObject->GetComponents()[i]->Display();
 	}
 }
 
@@ -162,6 +183,109 @@ bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared
 	}
 
 	return false;
+}
+
+void WindowInspector::InspectSelectedResource()
+{
+	std::shared_ptr<Resource> resourceAsShared = resource.lock();
+	if (resourceAsShared)
+	{
+		resourceAsShared->Load();
+		//TODO When user select another resource Unload the last one
+
+		ImGui::Text(resourceAsShared->GetFileName().c_str());
+		switch (resourceAsShared->GetType())
+		{
+		case ResourceType::Texture:
+			DrawTextureOptions();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
+	std::shared_ptr<Resource> lastResource = this->resource.lock();
+	/*if (lastResource) //Unload of last resource
+	{
+		lastResource->Unload();
+	}*/
+
+	this->resource = resource;
+
+	std::shared_ptr<Resource> resourceAsShared = resource.lock();
+	if (resourceAsShared)
+	{
+		switch (resourceAsShared->GetType())
+		{
+		case ResourceType::Texture:
+			InitTextureImportOptions();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void WindowInspector::InitTextureImportOptions()
+{
+	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	flipVertical = resourceTexture->GetImportOptions()->flipVertical;
+	flipHorizontal = resourceTexture->GetImportOptions()->flipHorizontal;
+}
+
+void WindowInspector::DrawTextureOptions()
+{
+	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+
+	if (ImGui::BeginTable("table1", 2))
+	{
+		ImGui::TableNextColumn();
+		ImGui::Image((void*)resourceTexture->GetGlTexture(), ImVec2(100, 100));
+		ImGui::TableNextColumn();
+		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
+		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
+		ImGui::EndTable();
+	}
+	ImGui::Text("");
+	if (ImGui::CollapsingHeader("Import Options", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
+		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
+
+		ImGui::Text("");
+		ImGui::SameLine(ImGui::GetWindowWidth() - 110);
+		if (ImGui::Button("Revert"))
+		{
+			InitTextureImportOptions();
+		}
+		ImGui::SameLine(ImGui::GetWindowWidth() - 50);
+		if (ImGui::Button("Apply"))
+		{
+			resourceTexture->GetImportOptions()->flipVertical = flipVertical;
+			resourceTexture->GetImportOptions()->flipHorizontal = flipHorizontal;
+			resourceTexture->Unload();
+			resourceTexture->SetChanged(true);
+			App->resources->ReimportResource(resourceTexture->GetUID());
+		}
+	}
+	ImGui::Separator();
+	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		std::shared_ptr<LoadOptionsTexture> loadOptions = resourceTexture->GetLoadOptions();
+		ImGui::Checkbox("MipMap", &loadOptions->mipMap);
+
+		const char* minFilters[] = { "NEAREST", "LINEAR", "NEAREST_MIPMAP_NEAREST", "LINEAR_MIPMAP_NEAREST", "NEAREST_MIPMAP_LINEAR", "LINEAR_MIPMAP_LINEAR" };
+		ImGui::Combo("MinFilter", reinterpret_cast<int*>(&loadOptions->min), minFilters, IM_ARRAYSIZE(minFilters));
+
+		const char* magFilters[] = { "NEAREST", "LINEAR" };
+		ImGui::Combo("MagFilter", reinterpret_cast<int*>(&loadOptions->mag), magFilters, IM_ARRAYSIZE(magFilters));
+
+		const char* wrapFilters[] = { "REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE" };
+		ImGui::Combo("WrapFilterS", reinterpret_cast<int*>(&loadOptions->wrapS), wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		ImGui::Combo("WrapFilterT", reinterpret_cast<int*>(&loadOptions->wrapT), wrapFilters, IM_ARRAYSIZE(wrapFilters));
+	}
 }
 
 bool WindowInspector::MousePosIsInWindow()

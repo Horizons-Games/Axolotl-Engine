@@ -17,10 +17,6 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 
-//TODO REMOVE
-#include "Windows/EditorWindows/WindowInspectorResource.h"
-//
-
 #include <ImGui/imgui.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
@@ -54,14 +50,11 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(scene = std::make_shared<WindowScene>());
 	windows.push_back(std::make_shared<WindowConfiguration>());
-	windows.push_back(std::make_shared<WindowInspector>());
+	windows.push_back(inspector = std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
 	windows.push_back(std::make_shared<WindowEditorControl>());
 	windows.push_back(std::make_shared<WindowFileBrowser>());
 	windows.push_back(std::make_shared<WindowResources>());
-
-	//TODO sustitute with only one Inspector
-	windows.push_back(inspectorResources = std::make_shared<WindowInspectorResource>());
 
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
@@ -162,5 +155,5 @@ bool ModuleEditor::IsSceneFocused() const
 
 void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
 {
-	this->inspectorResources->SetResource(resource);
+	this->inspector->SetResource(resource);
 }

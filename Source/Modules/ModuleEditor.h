@@ -4,7 +4,7 @@
 class EditorWindow;
 class WindowMainMenu;
 class WindowScene;
-class WindowInspectorResource;
+class WindowInspector;
 class Resource;
 
 class ModuleEditor : public Module
@@ -31,9 +31,7 @@ private:
 	std::vector<std::shared_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::shared_ptr<WindowScene> scene = nullptr;
-
-	//TODO sustitute this with a unique inspector
-	std::shared_ptr<WindowInspectorResource> inspectorResources = nullptr;
+	std::shared_ptr<WindowInspector> inspector = nullptr;
 
 	bool windowResized = false;
 };

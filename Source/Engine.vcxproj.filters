@@ -364,9 +364,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspectorResource.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -871,9 +868,6 @@
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspectorResource.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
