@@ -68,6 +68,8 @@ WindowFileBrowser::~WindowFileBrowser()
 
 void WindowFileBrowser::DrawWindowContents()
 {
+	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
+
 	//WindowImporter
 	if (ImGui::Button(title.c_str()))
 	{
