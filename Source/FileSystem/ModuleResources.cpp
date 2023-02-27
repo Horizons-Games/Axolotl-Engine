@@ -588,7 +588,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		UID uid = (UID)Json["UID"];
 		//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
 		auto it = resources.find(uid);
-		if (it != resources.end())
+		if (it != resources.end() && !(it->second).expired())
 		{
 			return std::dynamic_pointer_cast<R>(it->second.lock());
 		}
