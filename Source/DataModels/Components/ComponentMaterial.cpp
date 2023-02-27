@@ -14,6 +14,7 @@
 
 #include <GL/glew.h>
 #include "imgui.h"
+#include "Pool.h"
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)

@@ -90,7 +90,7 @@ public:
 	TextureWrap GetWrap() const;
 
 public: 
-	//carga<Texture> texture;
+	Pool<Texture> textures;
 
 protected:
 	void InternalLoad() override;

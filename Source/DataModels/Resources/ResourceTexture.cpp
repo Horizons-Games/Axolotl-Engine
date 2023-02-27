@@ -50,7 +50,7 @@ void ResourceTexture::SetMinFilter(TextureMinFilter filter)
 {
 	for (ResourceTexture& texture : textures)
 	{
-		glBindTexture(GL_TEXTURE_2D, texture.gl_texture);
+		glBindTexture(GL_TEXTURE_2D, textures.gl_texture);
 		switch (filter)
 		{
 		case TextureMinFilter::NEAREST:
@@ -81,7 +81,7 @@ void ResourceTexture::SetMagFilter(TextureMagFilter filter)
 {
 	for (Texture& texture : textures)
 	{
-		glBindTexture(GL_TEXTURE_2D, texture.gl_texture);
+		glBindTexture(GL_TEXTURE_2D, textures.gl_texture);
 		switch (filter)
 		{
 		case TextureMagFilter::NEAREST:
@@ -100,7 +100,7 @@ void ResourceTexture::SetWrap(TextureWrap wrap)
 {
 	for (Texture& texture : textures)
 	{
-		glBindTexture(GL_TEXTURE_2D, texture.gl_texture);
+		glBindTexture(GL_TEXTURE_2D, textures.gl_texture);
 		switch (wrap)
 		{
 		case TextureWrap::REPEAT:
