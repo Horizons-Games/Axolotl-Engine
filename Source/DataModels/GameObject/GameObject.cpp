@@ -102,7 +102,8 @@ void GameObject::DrawSelected()
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
-			if (child->IsActive()) {
+			if (child->IsActive()) 
+			{
 				gameObjectQueue.push(child);
 			}
 		}
@@ -126,13 +127,15 @@ void GameObject::DrawHighlight()
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
-			if (child->IsActive()) {
+			if (child->IsActive()) 
+			{
 				gameObjectQueue.push(child);
 			}
 		}
 		std::vector<ComponentMeshRenderer*> meshes = 
 			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (ComponentMeshRenderer* mesh : meshes) {
+		for (ComponentMeshRenderer* mesh : meshes) 
+		{
 			mesh->DrawHighlight();
 		}
 	}
