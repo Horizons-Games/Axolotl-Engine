@@ -8,8 +8,6 @@
 #include "FileSystem/UniqueID.h"
 #include "Globals.h"
 
-#include <memory>
-
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceMaterial;

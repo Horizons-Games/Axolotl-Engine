@@ -1,19 +1,13 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Application.h"
 
-#include "math/float4x4.h"
-#include "math/float3.h"
-#include "geometry/OBB.h"
-#include "geometry/AABB.h"
-
-#include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-#include <list>
+
+#include <queue>
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr), isFreezed(false),
 	quadrantCapacity(QUADRANT_CAPACITY), minQuadrantSideSize(MIN_CUBE_SIZE), 
@@ -512,4 +506,47 @@ std::list<const GameObject*> Quadtree::GetAllGameObjects(const GameObject* gameO
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+{
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(this);
+
+	while (!quadtreeQueue.empty())
+	{
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
+
+		if (!ray.Intersects(currentQuadtree->boundingBox))
+		{
+			continue;
+		}
+
+		std::list<const GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
+
+		float nearDistance, farDistance;
+		for (const GameObject* gameObject : quadtreeGameObjects)
+		{
+			ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+				(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+
+			if (hit && gameObject->IsActive())
+			{
+				hitGameObjects[nearDistance] = gameObject;
+			}
+		}
+
+		if (currentQuadtree->IsLeaf()) 
+		{
+			continue;
+		}
+
+		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+	}
 }

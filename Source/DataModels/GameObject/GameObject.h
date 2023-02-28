@@ -1,12 +1,9 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
-#include <algorithm>
 #include <iterator>
 
 class Component;
@@ -62,6 +59,9 @@ public:
 	Component* GetComponent(ComponentType type) const;
 
 	std::list<GameObject*> GetGameObjectsInside();
+
+	void MoveUpChild(GameObject* childToMove);
+	void MoveDownChild(GameObject* childToMove);
 
 private:
 	bool IsAChild(const GameObject* child);

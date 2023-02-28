@@ -1,10 +1,8 @@
-#include "Application.h"
-#include "Globals.h"
-
 #include "ModuleEditor.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleEngineCamera.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -12,18 +10,15 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
-#include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include "optick.h"
 
-#include <ImGui/imgui.h>
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
 #include <FontIcons/CustomFont.cpp>
-#include <GL/glew.h>
 
 static bool cameraOpened = true;
 static bool configOpened = true;

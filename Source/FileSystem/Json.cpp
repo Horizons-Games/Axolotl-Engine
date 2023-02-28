@@ -8,6 +8,10 @@ Json::Json(rapidjson::Document& document, rapidjson::Value& value) : document(do
 {
 }
 
+Json::~Json()
+{
+}
+
 unsigned int Json::Size() const {
 	return value.IsArray() ? value.Size() : 0;
 }

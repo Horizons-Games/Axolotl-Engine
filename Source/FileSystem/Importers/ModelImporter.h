@@ -10,7 +10,7 @@ class ModelImporter : public Importer<ResourceModel>
 {
 public:
     ModelImporter();
-    ~ModelImporter();
+    ~ModelImporter() override;
 
     void Import(const char* filePath, std::shared_ptr<ResourceModel> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource) override;

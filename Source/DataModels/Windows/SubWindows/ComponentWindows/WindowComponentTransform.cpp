@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
-#include "DataModels/GameObject/GameObject.h"
 
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"

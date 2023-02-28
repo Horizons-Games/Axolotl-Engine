@@ -1,17 +1,11 @@
 #include "WindowInspector.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentBoundingBoxes.h"
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), 

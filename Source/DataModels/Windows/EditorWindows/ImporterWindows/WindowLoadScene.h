@@ -5,7 +5,7 @@ class WindowLoadScene : public WindowFileBrowser
 {
 public:
 	WindowLoadScene();
-	~WindowLoadScene();
+	~WindowLoadScene() override;
 
 	void DoThisIfOk() override;
 };

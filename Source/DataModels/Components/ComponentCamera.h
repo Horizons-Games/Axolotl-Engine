@@ -4,7 +4,6 @@
 #include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
-#include "ComponentTransform.h"
 
 #define COMPONENT_CAMERA "Camera"
 
@@ -20,6 +19,7 @@ const static std::string GetNameByFrustumMode(ECameraFrustumMode type);
 const static ECameraFrustumMode GetFrustumModeByName(const std::string& name);
 
 class Json;
+class ComponentTransform;
 
 class ComponentCamera : public Component
 {

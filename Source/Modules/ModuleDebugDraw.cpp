@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
@@ -8,7 +7,6 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "Modules/ModuleEngineCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 

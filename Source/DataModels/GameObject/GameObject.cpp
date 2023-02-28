@@ -3,7 +3,6 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
-#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
@@ -16,10 +15,6 @@
 #include "Modules/ModuleScene.h"
 
 #include "Scene/Scene.h"
-
-#include "FileSystem/Json.h"
-
-#include <assert.h>
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
@@ -477,4 +472,34 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void GameObject::MoveUpChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it - 1, it);
+			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			break;
+		}
+	}
+}
+
+void GameObject::MoveDownChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it, it + 1);
+			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			break;
+		}
+	}
 }

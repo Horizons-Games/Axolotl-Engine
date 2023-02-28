@@ -1,10 +1,9 @@
 #pragma warning (disable: 26495)
 
-#include "Globals.h"
+#include "ModuleRender.h"
+
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "DataModels/Resources/ResourceModel.h"
-#include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
@@ -16,7 +15,6 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
 
 #include "optick.h"
@@ -315,14 +313,20 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -347,7 +351,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
-		gameObjectsToDraw.push_back(gameObject);
+		if (gameObject->IsEnabled())
+		{
+			gameObjectsToDraw.push_back(gameObject);
+		}
 	}
 	
 

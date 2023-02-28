@@ -12,7 +12,7 @@ class ComponentBoundingBoxes : public Component
 {
 public:
 	ComponentBoundingBoxes(const bool active, GameObject* owner);
-	~ComponentBoundingBoxes();
+	~ComponentBoundingBoxes() override;
 
 	void Update() override;
 
