@@ -98,7 +98,7 @@ void GameObject::DrawSelected()
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
-			if (child->IsActive()) 
+			if (child->IsEnabled())
 			{
 				gameObjectQueue.push(child);
 			}
@@ -123,7 +123,7 @@ void GameObject::DrawHighlight()
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
-			if (child->IsActive()) 
+			if (child->IsEnabled())
 			{
 				gameObjectQueue.push(child);
 			}
