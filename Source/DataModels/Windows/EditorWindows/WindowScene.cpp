@@ -102,8 +102,6 @@ void WindowScene::DrawGuizmo()
 			GameObject* parent = focusedObject->GetParent();
 			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
 			float4x4 localMatrix;
-			float3 transform, scale;
-			Quat rotate;
 
 			if (parent != nullptr) {
 				const ComponentTransform* parentTransform = 
@@ -114,21 +112,20 @@ void WindowScene::DrawGuizmo()
 
 			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
 			
-			localMatrix.Decompose(transform, rotate, scale);
-
 			switch (gizmoCurrentOperation)
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
-				focusedTransform->SetPosition(transform);
+				focusedTransform->SetPosition(localMatrix.Col(3).xyz());
 				break;
 			case ImGuizmo::OPERATION::ROTATE:
-				focusedTransform->SetRotation(rotate);
+				focusedTransform->SetRotation(localMatrix.Col(2).xyz());
 				break;
 			case ImGuizmo::OPERATION::SCALE:
-				focusedTransform->SetScale(scale);
+				focusedTransform->SetScale(localMatrix.Col(1).xyz());
 				break;
 			}
 		}
+
 		float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
 		float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
 
@@ -157,9 +154,9 @@ void WindowScene::DrawGuizmo()
 					manipulatedViewMatrix = viewMat.InverseTransposed();;
 
 					App->engineCamera->GetFrustum()->SetFrame(
-						manipulatedViewMatrix.Col(3).xyz(),
-						-manipulatedViewMatrix.Col(2).xyz(),
-						manipulatedViewMatrix.Col(1).xyz()
+						manipulatedViewMatrix.Col(3).xyz(),  //position
+						-manipulatedViewMatrix.Col(2).xyz(), //rotation
+						manipulatedViewMatrix.Col(1).xyz()   //scale
 					);
 
 					manipulatedLastFrame = true;
@@ -170,8 +167,7 @@ void WindowScene::DrawGuizmo()
 					float3 position, scale;
 					Quat rotation;
 					
-					manipulatedViewMatrix.Decompose(position, rotation, scale);
-					App->engineCamera->SetPosition(position);
+					App->engineCamera->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
 				}
@@ -179,11 +175,6 @@ void WindowScene::DrawGuizmo()
 				ImGuizmo::Enable(true);
 			}
 		}
-		else
-		{
-			ImGuizmo::Enable(false);
-		}
-
 	}
 }
 
