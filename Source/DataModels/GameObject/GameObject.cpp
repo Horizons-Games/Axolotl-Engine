@@ -426,14 +426,11 @@ bool GameObject::RemoveComponent(const Component* component)
 
 Component* GameObject::GetComponent(ComponentType type) const
 {
-	if (!components.empty())
+	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
 	{
-		for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
+		if ((*it)->GetType() == type)
 		{
-			if ((*it)->GetType() == type)
-			{
-				return (*it).get();
-			}
+			return (*it).get();
 		}
 	}
 	
