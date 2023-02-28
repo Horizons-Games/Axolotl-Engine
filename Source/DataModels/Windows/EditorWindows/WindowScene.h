@@ -6,6 +6,11 @@
 
 #include "ImGui/ImGuizmo.h"
 
+#include "Math/float4x4.h"
+
+#define VIEW_MANIPULATE_SIZE 128
+#define VIEW_MANIPULATE_TOP_PADDING 35
+
 class WindowScene : public EditorWindow
 {
 public:
@@ -31,6 +36,9 @@ private:
 
 	ImGuizmo::OPERATION gizmoCurrentOperation;
 	ImGuizmo::MODE gizmoCurrentMode;
+
+	bool manipulatedLastFrame;
+	float4x4 manipulatedViewMatrix;
 
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport

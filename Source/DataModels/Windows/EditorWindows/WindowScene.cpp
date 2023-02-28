@@ -11,12 +11,13 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleEngineCamera.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
-	gizmoCurrentMode(ImGuizmo::MODE::WORLD)
+	gizmoCurrentMode(ImGuizmo::MODE::WORLD), manipulatedLastFrame(false)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_MenuBar;
 }
@@ -78,9 +79,11 @@ void WindowScene::DrawGuizmo()
 	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
 		ImVec2 windowPos = ImGui::GetWindowPos();
+		float windowWidth = (float)ImGui::GetWindowWidth();
+		float windowheight = (float)ImGui::GetWindowHeight();
 
 		ImGuizmo::SetDrawlist();
-		ImGuizmo::SetRect(windowPos.x, windowPos.y, (float)ImGui::GetWindowWidth(), (float)ImGui::GetWindowHeight());
+		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
 		math::float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
@@ -126,6 +129,61 @@ void WindowScene::DrawGuizmo()
 				break;
 			}
 		}
+		float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
+		float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
+
+		ImGuizmo::ViewManipulate(
+			viewMat.ptr(), 
+			App->engineCamera->GetDistance(
+			    float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
+			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
+			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
+			0x10101010);
+
+		if (ImGui::IsWindowFocused())
+		{
+			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
+				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE)
+			{
+				ImGuizmo::Enable(false);
+			}
+			else
+			{
+				if (io.MousePos.x <= viewManipulateRight &&
+					io.MousePos.x >= viewManipulateRight - VIEW_MANIPULATE_SIZE &&
+					io.MousePos.y >= viewManipulateTop &&
+					io.MousePos.y <= viewManipulateTop + VIEW_MANIPULATE_SIZE)
+				{
+					manipulatedViewMatrix = viewMat.InverseTransposed();;
+
+					App->engineCamera->GetFrustum()->SetFrame(
+						manipulatedViewMatrix.Col(3).xyz(),
+						-manipulatedViewMatrix.Col(2).xyz(),
+						manipulatedViewMatrix.Col(1).xyz()
+					);
+
+					manipulatedLastFrame = true;
+				}
+
+				else if (manipulatedLastFrame)
+				{
+					float3 position, scale;
+					Quat rotation;
+					
+					manipulatedViewMatrix.Decompose(position, rotation, scale);
+					App->engineCamera->SetPosition(position);
+
+					manipulatedLastFrame = false;
+				}
+
+				ImGuizmo::Enable(true);
+			}
+		}
+		else
+		{
+			ImGuizmo::Enable(false);
+		}
+
 	}
 }
 

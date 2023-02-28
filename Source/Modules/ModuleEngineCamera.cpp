@@ -739,6 +739,11 @@ int ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
+Frustum* ModuleEngineCamera::GetFrustum()
+{
+	return &this->frustum;
+}
+
 bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
 	// normalize the input to [-1, 1].
