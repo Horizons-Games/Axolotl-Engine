@@ -103,7 +103,7 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			// --RAYCAST CALCULATION-- //
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
