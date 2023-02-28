@@ -33,6 +33,15 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 	{
 		mesh->Unload();
 	}
+
+	delete localAABB;
+	localAABB = nullptr;
+
+	delete encapsuledAABB;
+	encapsuledAABB = nullptr;
+
+	delete objectOBB;
+	objectOBB = nullptr;
 }
 
 void ComponentMeshRenderer::Update()
