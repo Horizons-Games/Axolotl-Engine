@@ -34,7 +34,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                                 // that have the same name in the hierarchy window
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
     if (gameObject->GetChildren().empty())
     {
         flags |= ImGuiTreeNodeFlags_Leaf;
@@ -55,7 +55,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (child == App->scene->GetSelectedGameObject())
         {
-            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            ImGui::SetNextItemOpen(true);
         }
     }
 
@@ -63,7 +63,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
+    ImGui::PushID(gameObjectLabel);
+    if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1) || (ImGui::IsMouseClicked(1) && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
@@ -71,9 +72,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
-    ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
+
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
