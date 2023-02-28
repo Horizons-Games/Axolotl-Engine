@@ -16,9 +16,6 @@
 
 #include "Scene/Scene.h"
 
-#include "FileSystem/Json.h"
-
-#include <assert.h>
 #include <queue>
 
 // Root constructor
