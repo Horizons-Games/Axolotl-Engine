@@ -2,9 +2,6 @@
 
 #include "EditorWindow.h"
 
-#include <vector>
-#include <memory>
-
 class SubWindow;
 
 class WindowConfiguration : public EditorWindow

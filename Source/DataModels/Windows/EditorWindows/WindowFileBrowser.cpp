@@ -1,5 +1,4 @@
 #include "WindowFileBrowser.h"
-#include "imgui.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"

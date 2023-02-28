@@ -3,7 +3,6 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
-#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"

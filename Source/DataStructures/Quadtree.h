@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include <map>
-#include <memory>
 #include <MathGeoLib/Include/Geometry/AABB.h>
 
 #include "Globals.h"

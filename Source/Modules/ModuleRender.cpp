@@ -1,10 +1,9 @@
 #pragma warning (disable: 26495)
 
-#include "Globals.h"
+#include "ModuleRender.h"
+
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "DataModels/Resources/ResourceModel.h"
-#include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
@@ -16,7 +15,6 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
 
 #include "optick.h"

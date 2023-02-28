@@ -1,20 +1,12 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Application.h"
 
-#include "math/float4x4.h"
-#include "math/float3.h"
-#include "geometry/OBB.h"
-#include "geometry/AABB.h"
-
-#include "ModuleEngineCamera.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-#include <list>
+
 #include <queue>
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr), isFreezed(false),

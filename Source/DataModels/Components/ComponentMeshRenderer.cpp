@@ -10,22 +10,15 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
-#include "Scene/Scene.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
-#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
-
-#include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
-
-#include "Math/TransformOps.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)

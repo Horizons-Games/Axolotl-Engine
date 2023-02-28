@@ -1,8 +1,8 @@
 #pragma warning (disable: 26495)
 
-#include "Application.h"
-
 #include "ModuleEngineCamera.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
@@ -22,7 +22,6 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Math/float3x3.h"
-#include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
