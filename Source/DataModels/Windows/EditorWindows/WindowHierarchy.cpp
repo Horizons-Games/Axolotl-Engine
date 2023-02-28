@@ -63,7 +63,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    if (ImGui::IsItemClicked())
+    if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
@@ -74,11 +74,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        App->scene->GetLoadedScene()->GetSceneQuadTree()
-            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-        App->scene->SetSelectedGameObject(gameObject);
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
-
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
