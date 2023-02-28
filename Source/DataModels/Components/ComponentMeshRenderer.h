@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Components/Component.h"
+#include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
 
 #include <memory>
 
@@ -57,6 +59,26 @@ private:
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return mesh;
+}
+
+inline const AABB& ComponentMeshRenderer::GetLocalAABB()
+{
+	return *localAABB;
+}
+
+inline const AABB& ComponentMeshRenderer::GetEncapsuledAABB()
+{
+
+}
+
+inline const OBB& ComponentMeshRenderer::GetObjectOBB()
+{
+
+}
+
+inline const bool ComponentMeshRenderer::isDrawBoundingBoxes()
+{
+
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
