@@ -187,9 +187,9 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::Update()
@@ -248,7 +248,7 @@ update_status ModuleRender::Update()
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
 	App->engineCamera->GetProjectionMatrix(), w, h);
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()
@@ -257,7 +257,7 @@ update_status ModuleRender::PostUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()
