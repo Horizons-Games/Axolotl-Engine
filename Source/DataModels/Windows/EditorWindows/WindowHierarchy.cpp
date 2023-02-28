@@ -74,6 +74,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
+        App->scene->GetLoadedScene()->GetSceneQuadTree()
+            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+        App->scene->SetSelectedGameObject(gameObject);
+        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
@@ -112,8 +117,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             if (ImGui::MenuItem("Delete"))
             {
-                std::list<GameObject*> childGameObject = App->scene->GetSelectedGameObject()->GetGameObjectsInside();
-                if (std::find(childGameObject.begin(), childGameObject.end(), gameObject) == childGameObject.end())
+                if (gameObject == App->scene->GetSelectedGameObject())
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
