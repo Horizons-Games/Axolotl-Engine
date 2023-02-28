@@ -189,21 +189,6 @@ bool Quadtree::Remove(const GameObject* gameObject)
 
 }
 
-void Quadtree::OptimizeParentObjects()
-{
-	std::list<const GameObject*> familyObjects = {};
-	GetFamilyObjects(familyObjects);
-	if (familyObjects.size() <= quadrantCapacity)
-	{
-		gameObjects.clear();
-		gameObjects.splice(gameObjects.end(), familyObjects);
-		ResetChildren();
-		if (parent != nullptr)
-		{
-			parent->OptimizeParentObjects();
-		}
-	}
-}
 
 bool Quadtree::SmartRemove()
 {

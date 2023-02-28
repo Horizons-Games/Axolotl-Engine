@@ -24,7 +24,6 @@ public:
 	bool Remove(const GameObject* gameObject);
 	void RemoveGameObjectAndChildren(const GameObject* gameObject);
 	bool SmartRemove();
-	void OptimizeParentObjects();
 
 	void Subdivide();
 	void RedistributeGameObjects(const GameObject* gameObject);
