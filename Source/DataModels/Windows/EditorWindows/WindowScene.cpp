@@ -75,20 +75,20 @@ void WindowScene::DrawGuizmo()
 	ImGui::EndMenuBar();
 
 	const GameObject* focusedObject = App->scene->GetSelectedGameObject();
-	if (focusedObject != nullptr)
+	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
 		ImVec2 windowPos = ImGui::GetWindowPos();
-		float windowWidth = (float)ImGui::GetWindowWidth();
-		float windowHeight = (float)ImGui::GetWindowHeight();
 
 		ImGuizmo::SetDrawlist();
-		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowHeight);
+		ImGuizmo::SetRect(windowPos.x, windowPos.y, (float)ImGui::GetWindowWidth(), (float)ImGui::GetWindowHeight());
 		ImGuizmo::SetOrthographic(false);
 
 		math::float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
 		math::float4x4 projMat = App->engineCamera->GetProjectionMatrix().Transposed();
+
 		ComponentTransform* focusedTransform =
-			(ComponentTransform*)(focusedObject->GetComponent(ComponentType::TRANSFORM));
+			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
+
 		math::float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
 		ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
@@ -96,10 +96,22 @@ void WindowScene::DrawGuizmo()
 
 		if (ImGuizmo::IsUsing())
 		{
+			GameObject* parent = focusedObject->GetParent();
+			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
+			float4x4 localMatrix;
 			float3 transform, scale;
 			Quat rotate;
+
+			if (parent != nullptr) {
+				const ComponentTransform* parentTransform = 
+					static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+
+				inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
+			}
+
+			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
 			
-			modelMatrix.Transposed().Decompose(transform, rotate, scale);
+			localMatrix.Decompose(transform, rotate, scale);
 
 			switch (gizmoCurrentOperation)
 			{
