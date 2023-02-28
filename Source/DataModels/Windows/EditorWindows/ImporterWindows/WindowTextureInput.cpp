@@ -1,16 +1,12 @@
 #include "WindowTextureInput.h"
-#include "imgui.h"
 
 #include "Components/ComponentMaterial.h"
 #include "Resources/ResourceMaterial.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(ComponentMaterial* material,
-	TextureType textureType) :
-	WindowFileBrowser(),
-	materialComponent(material),
-	textureType(textureType)
+WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType textureType) :
+	WindowFileBrowser(), materialComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
 

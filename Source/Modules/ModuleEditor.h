@@ -27,10 +27,10 @@ public:
 
 private:
 	std::vector<std::unique_ptr<EditorWindow> > windows;
-	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-	WindowScene* scene = nullptr;
+	std::unique_ptr<WindowMainMenu> mainMenu;
+	WindowScene* scene;
 
-	bool windowResized = false;
+	bool windowResized;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

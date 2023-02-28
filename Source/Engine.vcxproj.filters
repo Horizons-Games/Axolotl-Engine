@@ -768,9 +768,6 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem\Data.h">
-      <Filter>Source\FileSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClInclude>

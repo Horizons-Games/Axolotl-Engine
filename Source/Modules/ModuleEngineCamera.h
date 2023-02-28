@@ -4,11 +4,8 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#include <memory>
 #include <map>
 
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
 #include "Math/Quat.h"
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
@@ -102,10 +99,12 @@ public:
 	const float3& GetPosition() const;
 	
 private:
-	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
 	
-	void CalculateHittedGameObjects(const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
+	void CalculateHitGameObjects(const LineSegment& ray);
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
 								  const LineSegment& ray);
 
 	Frustum frustum;

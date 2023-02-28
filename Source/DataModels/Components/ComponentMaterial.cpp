@@ -12,13 +12,14 @@
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner, true)
+	: Component(ComponentType::MATERIAL, active, owner, true),
+	diffuseColor(float3(1.0f, 1.0f, 0.0f)), specularColor(float3(0.5f, 0.5f, 0.5f)),
+	shininess(512.0f), normalStrength(1.0f), hasShininessAlpha(false),
+	diffuseUID(0), normalUID(0), occlusionUID(0), specularUID(0)
 {
 }
 
@@ -168,7 +169,8 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 
 	if(resourceMaterial)
 	{

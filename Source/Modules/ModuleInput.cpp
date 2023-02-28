@@ -6,12 +6,15 @@
 #include "Scene/Scene.h"
 
 #include "imgui_impl_sdl.h"
+#include "optick.h"
 
-ModuleInput::ModuleInput()
-{}
+ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
+{
+}
 
 ModuleInput::~ModuleInput()
-{}
+{
+}
 
 bool ModuleInput::Init()
 {
@@ -49,6 +52,8 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::Update()
 {
+    OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+
     update_status status = UPDATE_CONTINUE;
 
     mouseMotion = float2::zero;
@@ -56,18 +61,26 @@ update_status ModuleInput::Update()
     
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
         if (keysState[i] == KeyState::DOWN)
+        {
             keysState[i] = KeyState::REPEAT;
+        }
 
         if (keysState[i] == KeyState::UP)
+        {
             keysState[i] = KeyState::IDLE;
+        }
     }
 
     for (int i = 0; i < NUM_MOUSEBUTTONS; ++i) {
         if (mouseButtonState[i] == KeyState::DOWN)
+        {
             mouseButtonState[i] = KeyState::REPEAT;
+        }
 
         if (mouseButtonState[i] == KeyState::UP)
+        {
             mouseButtonState[i] = KeyState::IDLE;
+        }
     }
 
     SDL_PumpEvents();
@@ -128,8 +141,6 @@ update_status ModuleInput::Update()
         case SDL_DROPFILE:
             char* droppedFilePath = sdlEvent.drop.file;
 
-            /*if (App->renderer->IsSupportedPath(droppedFilePath))
-                App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
             std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
             App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
@@ -137,8 +148,6 @@ update_status ModuleInput::Update()
             break;
         }
 
-        //SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
-	    //SDL_GetMouseState(&mousePosX, &mousePosY);
     }
 
     return status;

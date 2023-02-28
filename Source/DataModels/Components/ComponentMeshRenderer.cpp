@@ -9,20 +9,15 @@
 
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
-#include "Scene/Scene.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
-#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
-
-#include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
@@ -31,8 +26,10 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	if (this->IsMeshLoaded())
+	if (IsMeshLoaded())
+	{
 		mesh->Unload();
+	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -42,7 +39,7 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	if (this->IsMeshLoaded()) //pointer not empty
+	if (IsMeshLoaded()) //pointer not empty
 	{
 		if (!mesh->IsLoaded())
 		{
@@ -88,7 +85,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(this->IsMeshLoaded())
+	if (IsMeshLoaded())
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -97,7 +94,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
 
-	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -129,7 +125,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 {
 	mesh = newMesh;
 
-	if (this->IsMeshLoaded())
+	if (IsMeshLoaded())
 	{
 		mesh->Load();
 		ComponentBoundingBoxes* boundingBox =
