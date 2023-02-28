@@ -17,6 +17,7 @@ public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	~ComponentMeshRenderer() override;
 
+	void CalculateBoundingBoxes();
 	void Update() override;
 
 	void Draw() override;
@@ -29,12 +30,28 @@ public:
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 
+	void Encapsule(const vec* Vertices, unsigned numVertices);
+
+	const AABB& GetLocalAABB();
+	const AABB& GetEncapsuledAABB();
+	const OBB& GetObjectOBB();
+	const bool isDrawBoundingBoxes();
+
+	void setDrawBoundingBoxes(bool newDraw);
+
 private:
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 
+	AABB* localAABB;
+	AABB* encapsuledAABB;
+	OBB* objectOBB;
+	bool drawBoundingBoxes;
+
 	WindowMeshInput* inputMesh;
+
+	friend class WindowComponentBoundingBoxes;
 };
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const

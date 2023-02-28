@@ -21,7 +21,9 @@
 #include "GL/glew.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true)
+	: Component(ComponentType::MESHRENDERER, active, owner, true),
+	localAABB(new AABB{{0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	drawBoundingBoxes(false)
 {
 }
 
