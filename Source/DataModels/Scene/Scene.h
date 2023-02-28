@@ -1,14 +1,10 @@
 #pragma once
 
 #include "../FileSystem/UniqueID.h"
-
-#include "Geometry/OBB.h"
 #include "Geometry/AABB.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-
-#include <memory>
 
 class GameObject;
 class Quadtree;

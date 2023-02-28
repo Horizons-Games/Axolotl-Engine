@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Windows/Window.h"
-
-#include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
 
 class WindowMainMenu : public Window

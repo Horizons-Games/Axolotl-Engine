@@ -4,11 +4,8 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#include <memory>
 #include <map>
 
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
 #include "Math/Quat.h"
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
