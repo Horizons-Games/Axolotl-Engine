@@ -479,7 +479,7 @@ Component* GameObject::GetComponent(ComponentType type) const
 			return (*it).get();
 		}
 	}
-
+	
 	return nullptr;
 }
 
