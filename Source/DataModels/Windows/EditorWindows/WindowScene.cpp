@@ -123,13 +123,13 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
-		math::float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
-		math::float4x4 projMat = App->engineCamera->GetProjectionMatrix().Transposed();
+		float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
+		float4x4 projMat = App->engineCamera->GetProjectionMatrix().Transposed();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
 
-		math::float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
+		float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
 		ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
 			(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
@@ -204,7 +204,8 @@ void WindowScene::DrawGuizmo()
 		if (ImGui::IsWindowFocused())
 		{
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
-				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE)
+				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE ||
+				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
 				ImGuizmo::Enable(false);
 			}
