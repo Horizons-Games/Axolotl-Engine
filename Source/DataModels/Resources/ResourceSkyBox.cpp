@@ -11,9 +11,9 @@ void ResourceSkyBox::InternalLoad()
     glGenTextures(1, &glTexture);
     glBindTexture(GL_TEXTURE_CUBE_MAP, glTexture);
 
-    for (int i = 0; i < texturesUIDs.size(); ++i)
+    for (int i = 0; i < textures.size(); ++i)
     {
-        std::shared_ptr<ResourceTexture> textI /*= App->resources->RequestResource(texturesUIDs[i])*/;
+        std::shared_ptr<ResourceTexture> textI = std::dynamic_pointer_cast<ResourceTexture>(textures[i]);
 
         if (textI)
         {
@@ -54,7 +54,7 @@ void ResourceSkyBox::InternalUnload()
         }
     }*/
     //this will keep the capacity to 6
-    texturesUIDs.clear();
+    textures.clear();
     glDeleteTextures(1, &glTexture);
     glTexture = 0;
 }
