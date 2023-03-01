@@ -13,6 +13,12 @@ class Json;
 enum class ComponentType;
 enum class LightType;
 
+enum class StateOfSelection
+{
+	NO_SELECTED,
+	SELECTED
+};
+
 class GameObject
 {
 public:
@@ -34,6 +40,7 @@ public:
 	UID GetUID() const;
 	const char* GetName() const;
 	GameObject* GetParent() const;
+	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 	const std::vector<Component*> GetComponents() const;
@@ -41,6 +48,7 @@ public:
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -74,6 +82,7 @@ private:
 	bool active;
 	std::string name;
 	std::vector<std::unique_ptr<Component>> components;
+	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
@@ -82,6 +91,11 @@ private:
 inline UID GameObject::GetUID() const
 {
 	return uid;
+}
+
+inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
+{
+	this->stateOfSelection = stateOfSelection;
 }
 
 inline bool GameObject::IsEnabled() const
@@ -102,6 +116,11 @@ inline void GameObject::SetName(const char* newName)
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline StateOfSelection GameObject::GetStateOfSelection() const
+{
+	return stateOfSelection;
 }
 
 inline bool GameObject::IsActive() const

@@ -44,27 +44,32 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
+    else
+    {
+        const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
+        for (GameObject* child : childrenList)
+        {
+            if (child == App->scene->GetSelectedGameObject()
+                && StateOfSelection::SELECTED == App->scene->GetSelectedGameObject()->GetStateOfSelection())
+            {
+                ImGui::SetNextItemOpen(true);
+            }
+        }
+    }
     
     if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
-    }
-
-    const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
-    for (GameObject* child : childrenList)
-    {
-        if (child == App->scene->GetSelectedGameObject())
-        {
-            ImGui::SetNextItemOpen(true);
-        }
-    }
+    }    
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
     ImGui::PushID(gameObjectLabel);
-    if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1) || (ImGui::IsMouseClicked(1) && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || 
+        (ImGui::IsMouseClicked(ImGuiMouseButton_Right) 
+            && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
