@@ -208,7 +208,9 @@ update_status ModuleRender::Update()
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
+		{
 			gameObject->Draw();
+		}
 	}
 
 	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
@@ -345,6 +347,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
+	assert(gameObject);
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 

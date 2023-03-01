@@ -104,18 +104,8 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
+	RemoveFatherAndChildren(gameObject);
 	gameObject->GetParent()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
-		it != sceneGameObjects.end();
-		++it)
-	{
-		if (*it == gameObject)
-		{
-			sceneGameObjects.erase(it);
-			return;
-		}
-	}
 }
 
 void Scene::ConvertModelIntoGameObject(const char* model)
@@ -176,7 +166,17 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void Scene::RemoveCamera(const GameObject* cameraGameObject)
+void Scene::RemoveFatherAndChildren(const GameObject* father)
+{
+	for (GameObject* child : father->GetChildren())
+	{
+		RemoveFatherAndChildren(child);
+	}
+	RemoveFromCamera(father);
+	RemoveFromScene(father);
+}
+
+void Scene::RemoveFromCamera(const GameObject* cameraGameObject)
 {
 	for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
 		it != sceneCameras.end(); ++it)
@@ -184,6 +184,19 @@ void Scene::RemoveCamera(const GameObject* cameraGameObject)
 		if (cameraGameObject == *it)
 		{
 			sceneCameras.erase(it);
+			return;
+		}
+	}
+}
+
+void Scene::RemoveFromScene(const GameObject* gameObject)
+{
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
+		it != sceneGameObjects.end(); ++it)
+	{
+		if (*it == gameObject)
+		{
+			sceneGameObjects.erase(it);
 			return;
 		}
 	}
