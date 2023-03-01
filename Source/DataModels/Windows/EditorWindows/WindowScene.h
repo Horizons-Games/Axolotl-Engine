@@ -37,8 +37,10 @@ private:
 	ImGuizmo::OPERATION gizmoCurrentOperation;
 	ImGuizmo::MODE gizmoCurrentMode;
 
+	bool useSnap;
 	bool manipulatedLastFrame;
 	float4x4 manipulatedViewMatrix;
+	float3 snap;
 
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport

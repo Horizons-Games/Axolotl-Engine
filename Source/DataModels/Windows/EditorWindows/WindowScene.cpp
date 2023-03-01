@@ -19,7 +19,7 @@
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
-	gizmoCurrentMode(ImGuizmo::MODE::WORLD), manipulatedLastFrame(false)
+	gizmoCurrentMode(ImGuizmo::MODE::LOCAL), manipulatedLastFrame(false), useSnap(false), snap(float3(1.f,1.f,1.f))
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_MenuBar;
 }
@@ -78,6 +78,36 @@ void WindowScene::DrawGuizmo()
 	ImGui::Separator();
 	ImGui::Dummy(ImVec2(5.0f, 0.0f));
 
+	ImGui::Text("Snap:");
+	if (ImGui::RadioButton("", useSnap))
+	{
+		useSnap = !useSnap;
+	};
+
+	if (ImGui::BeginMenu("Value menu"))
+	{
+		ImGui::Text("X:");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(50.f);
+		ImGui::InputFloat("##XSnap", &snap[0]);
+
+		ImGui::Text("Y:");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(50.f);
+		ImGui::InputFloat("##YSnap", &snap[1]);
+
+		ImGui::Text("Z:");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(50.f);
+		ImGui::InputFloat("##ZSNap", &snap[2]);
+
+		ImGui::EndMenu();
+	}
+
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
+	ImGui::Separator();
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
+
 	ImGui::Text("Mouse coords X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 
 	ImGui::EndMenuBar();
@@ -102,7 +132,7 @@ void WindowScene::DrawGuizmo()
 		math::float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
 		ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
-			(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr());
+			(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
 
 		if (ImGuizmo::IsUsing())
 		{
