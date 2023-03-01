@@ -1,4 +1,4 @@
-#version 440
+#version 460
 
 struct Material {
     vec3 diffuse_color;
@@ -62,6 +62,10 @@ struct Light {
 
 //out vec4 color;
 
+//readonly layout(std430, binding = 11) buffer Materials {
+// Material materials[];
+//};
+
 uniform Material material;
 uniform Light light;
 
@@ -73,6 +77,7 @@ in vec3 ViewPos;
 in vec2 TexCoord;
 
 out vec4 outColor;
+//out int flat instance_index;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
@@ -214,6 +219,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
   
 void main()
 {
+
+    //Material material = materials[instance_index];
+
 	vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);

@@ -44,7 +44,8 @@ private:
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 	unsigned int indirectBuffer = 0;
-	Command command[100];
+	std::vector<Command> command;
+	//Command command[100];
 
 	int flags = 0;;
 };
