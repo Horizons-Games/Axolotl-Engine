@@ -3,7 +3,16 @@
 #include <string>
 #include <assert.h>
 
-enum class ComponentType { UNKNOWN, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
+enum class ComponentType 
+{
+	UNKNOWN, 
+	MATERIAL, 
+	MESHRENDERER, 
+	TRANSFORM, 
+	LIGHT, 
+	CAMERA, 
+	BOUNDINGBOX 
+};
 
 const static std::string GetNameByType(ComponentType type);
 const static ComponentType GetTypeByName(const std::string& name);
