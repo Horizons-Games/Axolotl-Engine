@@ -119,7 +119,8 @@ void ComponentTransform::CalculateGlobalMatrix()
 	{
 		ComponentTransform* parentTransform =
 			static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-
+		
+		//parentTransform->CalculateGlobalMatrix();
 		globalMatrix = parentTransform->globalMatrix * localMatrix;
 	}
 	else

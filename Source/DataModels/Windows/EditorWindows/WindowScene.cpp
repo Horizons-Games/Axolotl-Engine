@@ -100,6 +100,8 @@ void WindowScene::DrawGuizmo()
 		if (ImGuizmo::IsUsing())
 		{
 			GameObject* parent = focusedObject->GetParent();
+			float3 postion, scale;
+			Quat rotation;
 			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
 			float4x4 localMatrix;
 
@@ -111,17 +113,18 @@ void WindowScene::DrawGuizmo()
 			}
 
 			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
+			localMatrix.Decompose(postion, rotation, scale);
 			
 			switch (gizmoCurrentOperation)
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
-				focusedTransform->SetPosition(localMatrix.Col(3).xyz());
+				focusedTransform->SetPosition(postion);
 				break;
 			case ImGuizmo::OPERATION::ROTATE:
-				focusedTransform->SetRotation(localMatrix.Col(2).xyz());
+				focusedTransform->SetRotation(rotation);
 				break;
 			case ImGuizmo::OPERATION::SCALE:
-				focusedTransform->SetScale(localMatrix.Col(1).xyz());
+				focusedTransform->SetScale(scale);
 				break;
 			}
 		}
