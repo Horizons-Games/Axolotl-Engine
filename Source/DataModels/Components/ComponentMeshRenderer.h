@@ -2,6 +2,10 @@
 
 #include "Components/Component.h"
 
+#include "FileSystem/UniqueID.h"
+#include "Batch/GeometryBatch.h"
+
+
 #include <memory>
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
@@ -27,20 +31,22 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	std::shared_ptr<ResourceMesh> GetMesh() const;
+	const std::shared_ptr<ResourceMesh> GetMesh() const;
 
 private:
 	bool IsMeshLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 
+	GeometryBatch* batch;
 	WindowMeshInput* inputMesh;
 };
 
-inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
+inline const std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return mesh;
 }
+
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {

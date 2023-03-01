@@ -13,6 +13,7 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
+#include "DataModels/Batch/BatchManager.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/ComponentBoundingBoxes.h"

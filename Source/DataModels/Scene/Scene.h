@@ -8,6 +8,7 @@
 
 class GameObject;
 class Quadtree;
+class BatchManager;
 
 class Scene
 {
@@ -79,6 +80,8 @@ private:
 	
 	AABB rootQuadtreeAABB;
 	std::unique_ptr<Quadtree> sceneQuadTree;
+
+	BatchManager* batchManager;
 };
 
 inline UID Scene::GetUID() const

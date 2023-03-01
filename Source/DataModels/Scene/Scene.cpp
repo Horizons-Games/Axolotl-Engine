@@ -17,6 +17,9 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "DataModels/Batch/BatchManager.h"
+
+#include <GL/glew.h>
 
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
@@ -159,6 +162,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
+		batchManager->AddComponent(meshRenderer);
 	}
 }
 
@@ -418,6 +422,8 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	batchManager = new BatchManager();
 
 	InitLights();
 }

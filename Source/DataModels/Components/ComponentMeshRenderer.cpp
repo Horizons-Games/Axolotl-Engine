@@ -164,7 +164,6 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		}
 	}
 }
-
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;

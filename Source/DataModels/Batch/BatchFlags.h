@@ -1,0 +1,8 @@
+#pragma once
+
+typedef enum
+{
+	HAS_NORMALS = 0x00000001,
+	HAS_TEXTURE_COORDINATES = 0x00000002,
+	HAS_TANGENTS = 0x00000004
+} BatchFlags;

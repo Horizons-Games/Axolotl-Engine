@@ -391,6 +391,12 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -921,6 +927,15 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchFlags.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1015,6 +1030,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
       <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Batch">
+      <UniqueIdentifier>{de8a0a28-49fb-4d87-8b8d-0e083c862509}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
