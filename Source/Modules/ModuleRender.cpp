@@ -117,6 +117,8 @@ bool ModuleRender::Init()
 
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
+	batchManager = new BatchManager();
+
 	GLenum err = glewInit();
 	ENGINE_LOG("glew error %s", glewGetErrorString(err));
 	// � check for errors

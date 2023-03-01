@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include <DataModels/Batch/BatchManager.h>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -51,6 +52,8 @@ private:
 
 	void* context;
 	float4 backgroundColor;
+
+	BatchManager* batchManager;
 
 	unsigned vbo;
 	
