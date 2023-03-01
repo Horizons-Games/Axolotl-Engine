@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include <map>
-#include <memory>
 #include <MathGeoLib/Include/Geometry/AABB.h>
 
 #include "Globals.h"
@@ -21,10 +20,9 @@ public:
 
 	void Add(const GameObject* gameObject);
 	void AddGameObjectAndChildren(const GameObject* gameObject);
-	void Remove(const GameObject* gameObject);
+	bool Remove(const GameObject* gameObject);
 	void RemoveGameObjectAndChildren(const GameObject* gameObject);
-	void SmartRemove();
-	void OptimizeParentObjects();
+	bool SmartRemove();
 
 	void Subdivide();
 	void RedistributeGameObjects(const GameObject* gameObject);

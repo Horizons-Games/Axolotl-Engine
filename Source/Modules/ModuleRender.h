@@ -63,7 +63,7 @@ private:
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
-	GLuint depthRenderBuffer;
+	GLuint depthStencilRenderbuffer;
 
 	std::string vertexShader;
 	std::string fragmentShader;

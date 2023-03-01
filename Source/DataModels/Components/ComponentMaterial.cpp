@@ -12,8 +12,6 @@
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
 

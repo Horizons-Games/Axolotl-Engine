@@ -8,7 +8,8 @@
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
-enum class KeyState {
+enum class KeyState 
+{
 	IDLE,
 	DOWN,
 	UP,

@@ -2,8 +2,6 @@
 
 #include "WindowScene.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "Scene/Scene.h"
 

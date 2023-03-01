@@ -1,12 +1,6 @@
 #include "ComponentAmbient.h"
 
-#include "Application.h"
-
-#include "Scene/Scene.h"
-
 #include "../Modules/ModuleScene.h"
-
-#include "FileSystem/Json.h"
 
 ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {

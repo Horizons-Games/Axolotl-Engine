@@ -10,9 +10,6 @@
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 
-#include "Resources/ResourceSkyBox.h"
-#include "Resources/ResourceMaterial.h"
-
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";

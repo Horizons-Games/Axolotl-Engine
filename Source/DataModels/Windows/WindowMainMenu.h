@@ -1,15 +1,12 @@
 #pragma once
 
-#include "Windows/Window.h"
-
-#include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
 
 class WindowMainMenu : public Window
 {
 public:
 	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow> >& editorWindows);
-	~WindowMainMenu();
+	~WindowMainMenu() override;
 
 	static const std::string repositoryLink;
 

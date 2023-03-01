@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "EngineLog.h"
 #include "FileSystem/Json.h"
 
 SkyBoxImporter::SkyBoxImporter()

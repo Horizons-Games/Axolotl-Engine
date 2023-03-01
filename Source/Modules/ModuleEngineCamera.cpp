@@ -1,8 +1,8 @@
 #pragma warning (disable: 26495)
 
-#include "Application.h"
-
 #include "ModuleEngineCamera.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
@@ -22,7 +22,6 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Math/float3x3.h"
-#include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
 
@@ -49,7 +48,7 @@ bool ModuleEngineCamera::Init()
 	moveSpeed = DEFAULT_MOVE_SPEED;
 	rotationSpeed = DEFAULT_ROTATION_SPEED;
 	mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
-	frustumMode = DEFAULT_FRUSTUM_MODE;
+	frustumMode = static_cast<EFrustumMode>(DEFAULT_FRUSTUM_MODE);
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
@@ -58,7 +57,7 @@ bool ModuleEngineCamera::Init()
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 
-	if (frustumMode == offsetFrustum)
+	if (frustumMode == EFrustumMode::OFFSETFRUSTUM)
 	{
 		RecalculateOffsetPlanes();
 	}
@@ -104,7 +103,7 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			// --RAYCAST CALCULATION-- //
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE 
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
@@ -176,14 +175,14 @@ update_status ModuleEngineCamera::Update()
 
 			KeyboardRotate();
 
-			if (frustumMode == offsetFrustum)
+			if (frustumMode == EFrustumMode::OFFSETFRUSTUM)
 			{
 				RecalculateOffsetPlanes();
 			}
 		}
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEngineCamera::Move()
@@ -455,11 +454,11 @@ void ModuleEngineCamera::Orbit(const OBB& obb)
 
 bool ModuleEngineCamera::IsInside(const AABB& aabb)
 {
-	if (frustumMode == noFrustum)
+	if (frustumMode == EFrustumMode::NOFRUSTUM)
 	{
 		return false;
 	}
-	if (frustumMode == offsetFrustum)
+	if (frustumMode == EFrustumMode::OFFSETFRUSTUM)
 	{
 		return IsInsideOffset(aabb);
 	}
@@ -491,12 +490,12 @@ bool ModuleEngineCamera::IsInside(const AABB& aabb)
 
 bool ModuleEngineCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum)
+	if (frustumMode == EFrustumMode::NOFRUSTUM)
 	{
 		return false;
 	}
 	
-	if (frustumMode == offsetFrustum)
+	if (frustumMode == EFrustumMode::OFFSETFRUSTUM)
 	{
 		return IsInsideOffset(obb);
 	}
@@ -679,7 +678,7 @@ void ModuleEngineCamera::SetFrustumOffset(float offset)
 }
 
 
-void ModuleEngineCamera::SetFrustumMode(int mode)
+void ModuleEngineCamera::SetFrustumMode(EFrustumMode mode)
 {
 	frustumMode = mode;
 }
@@ -734,7 +733,7 @@ float ModuleEngineCamera::GetFrustumOffset() const
 	return frustumOffset;
 }
 
-int ModuleEngineCamera::GetFrustumMode() const
+EFrustumMode ModuleEngineCamera::GetFrustumMode() const
 {
 	return frustumMode;
 }

@@ -6,7 +6,7 @@ class SkyBoxImporter : public Importer<ResourceSkyBox>
 {
 public:
     SkyBoxImporter();
-    ~SkyBoxImporter();
+    ~SkyBoxImporter() override;
 
     void Import(const char* filePath, std::shared_ptr<ResourceSkyBox> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox> resource) override;

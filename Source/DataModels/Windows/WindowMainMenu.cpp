@@ -1,6 +1,5 @@
 #include "WindowMainMenu.h"
 
-#include "imgui.h"
 #include "SDL.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";

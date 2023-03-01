@@ -15,7 +15,7 @@ class WindowScene : public EditorWindow
 {
 public:
 	WindowScene();
-	~WindowScene();
+	~WindowScene() override;
 
 	ImVec2 GetStartPos() const;
 	ImVec2 GetEndPos() const;
