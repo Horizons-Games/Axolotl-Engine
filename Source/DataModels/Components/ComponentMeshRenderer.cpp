@@ -3,7 +3,7 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
-#include "ComponentBoundingBoxes.h"
+//#include "ComponentBoundingBoxes.h"
 #include "Program/Program.h"
 
 #include "Application.h"
@@ -22,7 +22,7 @@
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true),
-	localAABB(new AABB{{0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	localAABB(new AABB({0, 0, 0}, {0, 0, 0})), encapsuledAABB(localAABB), objectOBB(new OBB(*localAABB)),
 	drawBoundingBoxes(false)
 {
 }
@@ -42,6 +42,15 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 	delete objectOBB;
 	objectOBB = nullptr;
+}
+
+void ComponentMeshRenderer::CalculateBoundingBoxes()
+{
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	objectOBB->SetFrom(*localAABB);
+	objectOBB->Transform(transform->GetGlobalMatrix());
+	encapsuledAABB = &objectOBB->MinimalEnclosingAABB();
 }
 
 void ComponentMeshRenderer::Update()
