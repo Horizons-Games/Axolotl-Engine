@@ -1,7 +1,7 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "Application.h"
 
 #include "ModuleScene.h"
@@ -200,10 +200,10 @@ bool Quadtree::SmartRemove()
 
 bool Quadtree::InQuadrant(const GameObject* gameObject)
 {
-	ComponentBoundingBoxes* boxes =
-		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+	ComponentMeshRenderer* meshRenderer =
+		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	
-	AABB objectAABB = boxes->GetEncapsuledAABB();
+	AABB objectAABB = meshRenderer->GetEncapsuledAABB();
 	return boundingBox.minPoint.x <= objectAABB.maxPoint.x&&
 		boundingBox.minPoint.y <= objectAABB.maxPoint.y&&
 		boundingBox.minPoint.z <= objectAABB.maxPoint.z&&
@@ -293,9 +293,9 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 {
 	ComponentTransform* gameObjectTransform =
 		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-	ComponentBoundingBoxes* boxes =
-		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
-	float3 gameObjectPosition = boxes->GetEncapsuledAABB().CenterPoint();
+	ComponentMeshRenderer* meshRenderer =
+		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+	float3 gameObjectPosition = meshRenderer->GetEncapsuledAABB().CenterPoint();
 
 	float quadTreeMaxX = boundingBox.MaxX();
 	float quadTreeMaxY = boundingBox.MaxY();
@@ -310,11 +310,11 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 	{
 		if (gameObjectPosition.y < quadTreeMinY)
 		{
-			newMinPoint.y = gameObjectPosition.y - boxes->GetEncapsuledAABB().Size().y;
+			newMinPoint.y = gameObjectPosition.y - meshRenderer->GetEncapsuledAABB().Size().y;
 		}
 		else
 		{
-			newMaxPoint.y = gameObjectPosition.y + boxes->GetEncapsuledAABB().Size().y;
+			newMaxPoint.y = gameObjectPosition.y + meshRenderer->GetEncapsuledAABB().Size().y;
 		}
 		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
 	}
@@ -488,10 +488,10 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 		float nearDistance, farDistance;
 		for (const GameObject* gameObject : quadtreeGameObjects)
 		{
-			ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
-				(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+			ComponentMeshRenderer* meshRenderer =
+				static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+			bool hit = ray.Intersects(meshRenderer->GetEncapsuledAABB(), nearDistance, farDistance);
 
 			if (hit && gameObject->IsActive())
 			{

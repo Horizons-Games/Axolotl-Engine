@@ -88,3 +88,8 @@ inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
 	return mesh != nullptr;
 }
+
+inline void ComponentMeshRenderer::setDrawBoundingBoxes(bool newDraw)
+{
+	drawBoundingBoxes = newDraw;
+}

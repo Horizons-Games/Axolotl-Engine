@@ -15,7 +15,7 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "optick.h"
 
@@ -384,11 +384,11 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	ComponentBoundingBoxes* boxes =
-		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+	ComponentMeshRenderer* meshRenderer =
+		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+	if (App->engineCamera->IsInside(meshRenderer->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(meshRenderer->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
