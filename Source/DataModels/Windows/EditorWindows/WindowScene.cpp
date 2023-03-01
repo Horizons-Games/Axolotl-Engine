@@ -5,6 +5,7 @@
 #include "imgui.h"
 
 #include "Application.h"
+#include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
@@ -14,6 +15,7 @@
 #include "Modules/ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLight.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
@@ -56,7 +58,9 @@ void WindowScene::DrawGuizmo()
 		gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
 	}
 
-	ImGui::Dummy(ImVec2(10.0f, 0.0f));
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
+	ImGui::Separator();
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
 
 	ImGui::Text("Mode:");
 	if (ImGui::RadioButton("Local", gizmoCurrentMode == ImGuizmo::LOCAL))
@@ -70,7 +74,10 @@ void WindowScene::DrawGuizmo()
 
 	}
 
-	ImGui::Dummy(ImVec2(10.0f, 0.0f));
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
+	ImGui::Separator();
+	ImGui::Dummy(ImVec2(5.0f, 0.0f));
+
 	ImGui::Text("Mouse coords X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 
 	ImGui::EndMenuBar();
@@ -106,7 +113,7 @@ void WindowScene::DrawGuizmo()
 			float4x4 localMatrix;
 
 			if (parent != nullptr) {
-				const ComponentTransform* parentTransform = 
+				const ComponentTransform* parentTransform =
 					static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
 				inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
@@ -114,7 +121,7 @@ void WindowScene::DrawGuizmo()
 
 			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
 			localMatrix.Decompose(postion, rotation, scale);
-			
+
 			switch (gizmoCurrentOperation)
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
@@ -127,15 +134,39 @@ void WindowScene::DrawGuizmo()
 				focusedTransform->SetScale(scale);
 				break;
 			}
+
+			for (Component* component : focusedObject->GetComponents())
+			{
+				if (component->GetType() == ComponentType::LIGHT)
+				{
+					Scene* scene = App->scene->GetLoadedScene();
+					const ComponentLight* light = (ComponentLight*)component;
+
+					switch (light->GetLightType())
+					{
+					case LightType::DIRECTIONAL:
+						scene->RenderDirectionalLight();
+						break;
+					case LightType::SPOT:
+						scene->UpdateSceneSpotLights();
+						scene->RenderSpotLights();
+						break;
+					case LightType::POINT:
+						scene->UpdateScenePointLights();
+						scene->RenderPointLights();
+						break;
+					}
+				}
+			}
 		}
 
 		float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
 		float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
 
 		ImGuizmo::ViewManipulate(
-			viewMat.ptr(), 
+			viewMat.ptr(),
 			App->engineCamera->GetDistance(
-			    float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
+				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
 			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
 			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
 			0x10101010);
@@ -169,7 +200,7 @@ void WindowScene::DrawGuizmo()
 				{
 					float3 position, scale;
 					Quat rotation;
-					
+
 					App->engineCamera->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
