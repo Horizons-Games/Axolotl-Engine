@@ -37,7 +37,7 @@ public:
 	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes();
+	const bool isDrawBoundingBoxes() const;
 
 	void setDrawBoundingBoxes(bool newDraw);
 
@@ -63,22 +63,25 @@ inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 
 inline const AABB& ComponentMeshRenderer::GetLocalAABB()
 {
+	CalculateBoundingBoxes();
 	return *localAABB;
 }
 
 inline const AABB& ComponentMeshRenderer::GetEncapsuledAABB()
 {
-
+	CalculateBoundingBoxes();
+	return *encapsuledAABB;
 }
 
 inline const OBB& ComponentMeshRenderer::GetObjectOBB()
 {
-
+	CalculateBoundingBoxes();
+	return *objectOBB;
 }
 
-inline const bool ComponentMeshRenderer::isDrawBoundingBoxes()
+inline const bool ComponentMeshRenderer::isDrawBoundingBoxes() const
 {
-
+	return drawBoundingBoxes;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
