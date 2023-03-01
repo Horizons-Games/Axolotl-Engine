@@ -107,8 +107,6 @@ void ComponentMeshRenderer::DrawHighlight()
 		}
 
 		float scale = 10.1f;
-		ComponentBoundingBoxes* boundingBox =
-			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
 		std::shared_ptr<Program> programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared.get()->GetId();
@@ -192,8 +190,6 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (IsMeshLoaded())
 	{
 		mesh->Load();
-		ComponentBoundingBoxes* boundingBox =
-			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }
