@@ -158,16 +158,19 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-//#if !defined(GAME)
-//	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
-//#else
-//	UID skyboxUID = App->resources->GetSkyBoxResource();
-//#endif
-//	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID));
-//	if (resourceSkybox)
-//	{
-//		skybox = std::make_shared<Skybox>(resourceSkybox);
-//	}
+#if !defined(GAME)
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource("Assets/Skybox/skybox.sky"));
+#else
+	//TODO How do we get skybox in game mode?
+	//We need to store the UID in the JSONscene and then loaded when unserialize?
+	//So should this be moved to the scene?
+	// Search skybox on the lib folder and save the UID of skybox? Then should be only one in ALL the asset/Folder
+	//UID skyboxUID = App->resources->GetSkyBoxResource();
+#endif
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
 	return true;
 }
 

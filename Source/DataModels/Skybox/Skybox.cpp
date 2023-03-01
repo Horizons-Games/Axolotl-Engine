@@ -14,14 +14,10 @@
 #include "ModuleEngineCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
+Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes)
 {
     this->skyboxRes = skyboxRes;
-    std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
-    if (skyboxAsShared)
-    {
-        skyboxAsShared->Load();
-    }
+    skyboxRes->Load();
 }
 
 void Skybox::Draw()
@@ -36,13 +32,12 @@ void Skybox::Draw()
         program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
         program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
 
-        std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
-        if (skyboxAsShared)
+        if (skyboxRes)
         {
-            glBindVertexArray(skyboxAsShared->GetVAO());
+            glBindVertexArray(skyboxRes->GetVAO());
             glActiveTexture(GL_TEXTURE0);
 
-            glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxAsShared->GetGlTexture());
+            glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxRes->GetGlTexture());
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -50,6 +45,5 @@ void Skybox::Draw()
             program->Deactivate();
             glDepthMask(GL_TRUE);
         }
-        
     }
 }
