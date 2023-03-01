@@ -50,7 +50,7 @@ void ComponentMeshRenderer::CalculateBoundingBoxes()
 		static_cast<ComponentTransform*>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	objectOBB->SetFrom(*localAABB);
 	objectOBB->Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = &objectOBB->MinimalEnclosingAABB();
+	encapsuledAABB->SetFrom(objectOBB->MinimalEnclosingAABB());
 }
 
 void ComponentMeshRenderer::Update()
@@ -192,4 +192,9 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 		mesh->Load();
 		Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
+}
+
+void ComponentMeshRenderer::Encapsule(const vec* Vertices, unsigned numVertices)
+{
+	localAABB->SetFrom(localAABB->MinimalEnclosingAABB(Vertices, numVertices));
 }
