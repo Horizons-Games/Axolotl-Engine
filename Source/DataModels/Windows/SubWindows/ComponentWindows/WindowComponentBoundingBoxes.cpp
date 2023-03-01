@@ -1,8 +1,8 @@
 #include "WindowComponentBoundingBoxes.h"
 
-#include "DataModels/Components/ComponentBoundingBoxes.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
 
-WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(ComponentBoundingBoxes* component)
+WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(ComponentMeshRenderer* component)
 	: ComponentWindow("BOUNDING BOX", component)
 {
 }
@@ -13,7 +13,7 @@ WindowComponentBoundingBoxes::~WindowComponentBoundingBoxes()
 
 void WindowComponentBoundingBoxes::DrawWindowContents()
 {
-	ComponentBoundingBoxes* asBB = static_cast<ComponentBoundingBoxes*>(component);
+	ComponentMeshRenderer* asBB = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asBB)
 	{

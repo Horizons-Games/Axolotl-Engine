@@ -2,12 +2,12 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-class ComponentBoundingBoxes;
+class ComponentMeshRenderer;
 
 class WindowComponentBoundingBoxes : public ComponentWindow
 {
 public:
-	WindowComponentBoundingBoxes(ComponentBoundingBoxes* component);
+	WindowComponentBoundingBoxes(ComponentMeshRenderer* component);
 	~WindowComponentBoundingBoxes() override;
 
 protected:

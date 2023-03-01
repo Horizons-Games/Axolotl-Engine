@@ -4,7 +4,6 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
-#include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
@@ -372,12 +371,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_unique<ComponentLight>(true, this);
-			break;
-		}
-
-		case ComponentType::BOUNDINGBOX:
-		{
-			newComponent = std::make_unique<ComponentBoundingBoxes>(true, this);
 			break;
 		}
 
