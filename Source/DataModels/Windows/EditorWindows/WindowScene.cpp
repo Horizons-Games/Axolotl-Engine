@@ -36,6 +36,14 @@ void WindowScene::DrawWindowContents()
 	DrawGuizmo();
 }
 
+bool WindowScene::isMouseInsideManipulator(float x, float y) const
+{
+	return x <= viewportBounds[1].x						   &&
+		   x >= viewportBounds[1].x - VIEW_MANIPULATE_SIZE &&
+		   y >= viewportBounds[0].y						   &&
+		   y <= viewportBounds[0].y + VIEW_MANIPULATE_SIZE;
+}
+
 void WindowScene::DrawGuizmo()
 {
 	ImGuiIO& io = ImGui::GetIO();
@@ -209,10 +217,7 @@ void WindowScene::DrawGuizmo()
 			}
 			else
 			{
-				if (io.MousePos.x <= viewManipulateRight &&
-					io.MousePos.x >= viewManipulateRight - VIEW_MANIPULATE_SIZE &&
-					io.MousePos.y >= viewManipulateTop &&
-					io.MousePos.y <= viewManipulateTop + VIEW_MANIPULATE_SIZE)
+				if (isMouseInsideManipulator(io.MousePos.x, io.MousePos.y))
 				{
 					manipulatedViewMatrix = viewMat.InverseTransposed();;
 

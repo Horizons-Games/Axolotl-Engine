@@ -21,6 +21,8 @@ public:
 	ImVec2 GetEndPos() const;
 	ImVec2 GetAvailableRegion() const;
 
+	bool isMouseInsideManipulator(float x, float y) const;
+
 protected:
 	void DrawWindowContents() override;
 
