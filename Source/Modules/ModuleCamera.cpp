@@ -73,9 +73,11 @@ void ModuleCamera::ChangeCamera(CameraType newType)
 	case CameraType::C_GOD:
 		camera = std::make_unique <CameraGod>(std::move(camera));
 		break;
+#ifdef ENGINE
 	case CameraType::C_ENGINE:
 		camera = std::make_unique <CameraEngine>(std::move(camera));
 		break;
+#endif // ENGINE
 
 	}
 	
