@@ -10,10 +10,10 @@ class ComponentDirLight : public ComponentLight
 {
 public:
 	ComponentDirLight();
-	ComponentDirLight(const std::shared_ptr<GameObject>& parent);
+	ComponentDirLight(GameObject* parent);
 	ComponentDirLight(const float3& color, float intensity);
-	ComponentDirLight(const float3& color, float intensity, const std::shared_ptr<GameObject>& parent);
-	~ComponentDirLight() {};
+	ComponentDirLight(const float3& color, float intensity, GameObject* parent);
+	~ComponentDirLight() override;
 
 	void Draw() override;
 

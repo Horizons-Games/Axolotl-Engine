@@ -7,30 +7,36 @@ WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
 {
 }
 
+WindowComponentCamera::~WindowComponentCamera()
+{
+}
+
 void WindowComponentCamera::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentCamera* asCamera = static_cast<ComponentCamera*>(this->component);
+	ComponentCamera* asCamera = static_cast<ComponentCamera*>(component);
 
 	if (asCamera)
 	{
 		const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
 		bool drawFrustum = asCamera->IsDrawFrustum();
-		int frustumMode = asCamera->GetFrustumMode();
+		ECameraFrustumMode frustumMode = asCamera->GetFrustumMode();
+		int frustumModeAsNumber = static_cast<int>(frustumMode);
 		float frustumOffset = asCamera->GetFrustumOffset();
 
 		ImGui::Text("Draw Frustum"); ImGui::SameLine();
 		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
 
-		ImGui::ListBox("Frustum Mode\n(single select)", &frustumMode, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
+		ImGui::ListBox("Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::Separator();
 
 		asCamera->SetDrawFrustum(drawFrustum);
-		asCamera->SetFrustumMode(frustumMode);
+		ECameraFrustumMode newFrustumMode = static_cast<ECameraFrustumMode>(frustumModeAsNumber);
+		asCamera->SetFrustumMode(newFrustumMode);
 		asCamera->SetFrustumOffset(frustumOffset);
 	}
 }

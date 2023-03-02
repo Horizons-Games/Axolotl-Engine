@@ -4,7 +4,6 @@
 
 #include "Components/Component.h"
 
-#include "Math/float3.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
@@ -16,7 +15,8 @@ class ComponentLight;
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentTransform(const bool active, GameObject* owner);
+	~ComponentTransform() override;
 
 	void Update() override;
 
@@ -49,19 +49,19 @@ public:
 
 	void ResetGlobalMatrix();
 
-	void CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
 
 private:
-	float3 pos = float3::zero;
-	Quat rot = Quat::identity;
-	float3 sca = float3::one;
+	float3 pos;
+	Quat rot;
+	float3 sca;
 
-	float3 rotXYZ = float3::zero;
+	float3 rotXYZ;
 
-	float4x4 localMatrix = float4x4::identity;
-	float4x4 globalMatrix = float4x4::identity;
+	float4x4 localMatrix;
+	float4x4 globalMatrix;
 };
 
 inline const float3& ComponentTransform::GetPosition() const

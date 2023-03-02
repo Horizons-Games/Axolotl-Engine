@@ -5,16 +5,16 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "ModuleDebugDraw.h"
-
-#include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-#include "FileSystem/Json.h"
 
-#include "Math/float3x3.h"
+ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
+	: Component(ComponentType::TRANSFORM, active, owner, false), 
+	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
+	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+{
+}
 
-ComponentTransform::ComponentTransform(const bool active, const std::shared_ptr<GameObject>& owner)
-	: Component(ComponentType::TRANSFORM, active, owner, false)
+ComponentTransform::~ComponentTransform()
 {
 }
 
@@ -24,7 +24,7 @@ void ComponentTransform::Update()
 	CalculateGlobalMatrix();
 }
 
-void ComponentTransform::CalculateLightTransformed(const std::shared_ptr<ComponentLight>& lightComponent,
+void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified, 
 												   bool rotationModified)
 {
@@ -77,7 +77,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
 	pos.x = (float) meta["localPos_X"];
@@ -95,7 +94,7 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.z = (float) meta["localSca_Z"];
 
 	CalculateLocalMatrix();
-	if(!GetOwner().lock()->GetParent().expired()) 
+	if(GetOwner()->GetParent()) 
 		CalculateGlobalMatrix();
 }
 
@@ -108,14 +107,13 @@ void ComponentTransform::CalculateLocalMatrix()
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
-	std::shared_ptr<GameObject> parent = GetOwner().lock()->GetParent().lock();
+	const GameObject* parent = GetOwner()->GetParent();
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	std::shared_ptr<ComponentTransform> parentTransform =
-		std::static_pointer_cast<ComponentTransform>(parent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
 	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
 	GetLocalMatrix().Decompose(localPos, localRot, localSca);

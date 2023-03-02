@@ -8,7 +8,7 @@ class WindowComponentSpotLight : public ComponentWindow
 {
 public:
 	WindowComponentSpotLight(ComponentSpotLight* component);
-	~WindowComponentSpotLight() override = default;
+	~WindowComponentSpotLight() override;
 
 protected:
 	void DrawWindowContents() override;

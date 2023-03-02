@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
-#include "DataModels/GameObject/GameObject.h"
 
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"
@@ -13,9 +12,13 @@ WindowComponentTransform::WindowComponentTransform(ComponentTransform* component
 {
 }
 
+WindowComponentTransform::~WindowComponentTransform()
+{
+}
+
 void WindowComponentTransform::DrawWindowContents()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{
@@ -29,7 +32,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner().lock();
+		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)
@@ -163,7 +166,7 @@ void WindowComponentTransform::DrawTransformTable()
 
 void WindowComponentTransform::UpdateComponentTransform()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{
@@ -179,9 +182,20 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0) currentScale.x = 0.0001f;
-			if (currentScale.y <= 0) currentScale.y = 0.0001f;
-			if (currentScale.z <= 0) currentScale.z = 0.0001f;
+			if (currentScale.x <= 0)
+			{
+				currentScale.x = 0.0001f;
+			}
+			
+			if (currentScale.y <= 0)
+			{
+				currentScale.y = 0.0001f;
+			}
+			
+			if (currentScale.z <= 0) 
+			{ 
+				currentScale.z = 0.0001f; 
+			}
 
 			asTransform->SetScale(currentScale);
 		}
@@ -193,15 +207,15 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 void WindowComponentTransform::UpdateLights()
 {
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(this->component);
+	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
 
 	if (asTransform)
 	{
 		//Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
-			std::shared_ptr<Component> comp = asTransform->GetOwner().lock()->GetComponent(ComponentType::LIGHT);
-			std::shared_ptr<ComponentLight> lightComp = std::static_pointer_cast<ComponentLight>(comp);
+			Component* comp = asTransform->GetOwner()->GetComponent(ComponentType::LIGHT);
+			ComponentLight* lightComp = static_cast<ComponentLight*>(comp);
 
 			if (lightComp)
 			{

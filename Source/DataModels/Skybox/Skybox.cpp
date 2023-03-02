@@ -1,13 +1,8 @@
 #include "Skybox.h"
 
-#include <vector>
-#include <string>
-
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
@@ -16,8 +11,11 @@
 
 Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes)
 {
-    this->skyboxRes = skyboxRes;
     skyboxRes->Load();
+}
+
+Skybox::~Skybox()
+{
 }
 
 void Skybox::Draw()

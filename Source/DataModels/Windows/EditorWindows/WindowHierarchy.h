@@ -7,7 +7,7 @@ class WindowHierarchy : public EditorWindow
 {
 public:
 	WindowHierarchy();
-	~WindowHierarchy();
+	~WindowHierarchy() override;
 
 protected:
 	void DrawWindowContents() override;

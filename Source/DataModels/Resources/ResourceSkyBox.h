@@ -3,6 +3,8 @@
 #include "Resource.h"
 #include <memory>
 
+class ResourceTexture;
+
 struct OptionsSkyBox
 {
 };
@@ -10,7 +12,10 @@ struct OptionsSkyBox
 class ResourceSkyBox : public Resource
 {
 public:
-	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceSkyBox(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
@@ -22,10 +27,10 @@ public:
 	void CreateVAO();
 
 	unsigned int GetGlTexture() const;
-	const std::vector<std::shared_ptr<Resource>>& GetTextures() const;
+	const std::vector<std::shared_ptr<ResourceTexture>>& GetTextures() const;
 	std::unique_ptr<OptionsSkyBox>& GetOptions();
 
-	void SetTextures(const std::vector<std::shared_ptr<Resource>>& textures);
+	void SetTextures(const std::vector<std::shared_ptr<ResourceTexture>>& textures);
 
 	unsigned int GetVBO() const;
 	unsigned int GetVAO() const;
@@ -36,26 +41,12 @@ protected:
 
 private:
 	unsigned int glTexture = 0;
-	std::vector<std::shared_ptr<Resource>> textures;
+	std::vector<std::shared_ptr<ResourceTexture>> textures;
 	std::unique_ptr<OptionsSkyBox> options;
 
 	unsigned vbo;
 	unsigned vao;
 };
-
-inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
-	const std::string& fileName,
-	const std::string& assetsPath,
-	const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	options(std::make_unique<OptionsSkyBox>())
-{
-}
-
-inline ResourceSkyBox::~ResourceSkyBox()
-{
-	Unload();
-}
 
 inline ResourceType ResourceSkyBox::GetType() const
 {
@@ -67,7 +58,7 @@ inline unsigned int ResourceSkyBox::GetGlTexture() const
 	return glTexture;
 }
 
-inline const std::vector<std::shared_ptr<Resource>>& ResourceSkyBox::GetTextures() const
+inline const std::vector<std::shared_ptr<ResourceTexture>>& ResourceSkyBox::GetTextures() const
 {
 	return textures;
 }
@@ -77,7 +68,7 @@ inline std::unique_ptr<OptionsSkyBox>& ResourceSkyBox::GetOptions()
 	return options;
 }
 
-inline void ResourceSkyBox::SetTextures(const std::vector<std::shared_ptr<Resource>>& textures)
+inline void ResourceSkyBox::SetTextures(const std::vector<std::shared_ptr<ResourceTexture>>& textures)
 {
 	this->textures = textures;
 }

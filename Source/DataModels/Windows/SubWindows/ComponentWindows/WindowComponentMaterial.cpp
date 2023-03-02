@@ -12,24 +12,27 @@
 #include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
-	ComponentWindow("MATERIAL", component)
+	ComponentWindow("MATERIAL", component), 
+	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
+	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
 {
-	inputMaterial = std::make_unique<WindowMaterialInput>(component);
-	inputTextureDiffuse = std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE);
-	inputTextureNormal = std::make_unique<WindowTextureInput>(component, TextureType::NORMAL);
-	inputTextureSpecular = std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR);
+}
+
+WindowComponentMaterial::~WindowComponentMaterial()
+{
 }
 
 void WindowComponentMaterial::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
-		if (materialResource)
+		if (asMaterial->GetMaterial())
 		{
 			DrawSetMaterial();
 		}
@@ -42,11 +45,11 @@ void WindowComponentMaterial::DrawWindowContents()
 
 void WindowComponentMaterial::DrawSetMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
 		if (materialResource)
 		{
 			ImGui::Text("");
@@ -59,12 +62,16 @@ void WindowComponentMaterial::DrawSetMaterial()
 			static float3 colorDiffuse = asMaterial->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			{
 				asMaterial->SetDiffuseColor(colorDiffuse);
+			}
 
 			static float3 colorSpecular = asMaterial->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+			{
 				asMaterial->SetSpecularColor(colorSpecular);
+			}
 
 			ImGui::Text("");
 
@@ -86,17 +93,22 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				asMaterial->UnloadTextures();
 				
-				materialResource->SetDiffuse(std::shared_ptr<Resource>());
-				materialResource->SetNormal(std::shared_ptr<Resource>());
-				materialResource->SetOcclusion(std::shared_ptr<Resource>());
-				materialResource->SetSpecular(std::shared_ptr<Resource>());
+				materialResource->SetDiffuse(nullptr);
+				materialResource->SetNormal(nullptr);
+				materialResource->SetOcclusion(nullptr);
+				materialResource->SetSpecular(nullptr);
 				
 				materialResource->SetChanged(true);
 			}
 
-			ImGui::Checkbox("Use specular Alpha as shininess", &(asMaterial->hasShininessAlpha));
-			ImGui::SliderFloat("Shininess", &(asMaterial->shininess),
+			bool hasShininessAlpha = asMaterial->HasShininessAlpha();
+			ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
+			asMaterial->SetHasShininessAlpha(hasShininessAlpha);
+
+			float shininess = asMaterial->GetShininess();
+			ImGui::SliderFloat("Shininess", &shininess,
 				0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			asMaterial->SetShininess(shininess);
 			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
@@ -106,7 +118,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 			{
 				if (materialResource->GetDiffuse())
 				{
-					 texture = std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetDiffuse());
+					texture = materialResource->GetDiffuse();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -126,7 +138,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				{
 					asMaterial->UnloadTexture(TextureType::DIFFUSE);
 
-					materialResource->SetDiffuse(std::shared_ptr<Resource>());
+					materialResource->SetDiffuse(nullptr);
 				}
 			}
 
@@ -156,7 +168,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				{
 					asMaterial->UnloadTexture(TextureType::SPECULAR);
 
-					materialResource->SetSpecular(std::shared_ptr<Resource>());
+					materialResource->SetSpecular(nullptr);
 				}
 			}
 
@@ -166,8 +178,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 			bool showTextureBrowserNormal = true;
 			if (materialResource && materialResource->GetNormal())
 			{
-					texture =
-						std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetNormal());
+					texture = materialResource->GetNormal();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -186,11 +197,13 @@ void WindowComponentMaterial::DrawSetMaterial()
 				{
 					asMaterial->UnloadTexture(TextureType::NORMAL);
 
-					materialResource->SetNormal(std::shared_ptr<Resource>());
+					materialResource->SetNormal(nullptr);
 				}
 			}
-			ImGui::SliderFloat("Normal", &(asMaterial->normalStrength),
+			float normalStrength = asMaterial->GetNormalStrenght();
+			ImGui::SliderFloat("Normal", &normalStrength,
 				0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			asMaterial->SetNormalStrenght(normalStrength);
 
 			ImGui::Text("");
 		}
@@ -199,11 +212,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 void WindowComponentMaterial::DrawEmptyMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{
-		if (asMaterial->GetMaterial().expired())
+		if (asMaterial->GetMaterial() == nullptr)
 		{
 			inputMaterial->DrawWindowContents();
 		}

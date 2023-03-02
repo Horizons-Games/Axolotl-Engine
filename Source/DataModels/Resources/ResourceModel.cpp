@@ -3,6 +3,20 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceMesh.h"
+
+ResourceModel::ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
+	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
+	options(std::make_shared<OptionsModel>()), numMaterials(0), numMeshes(0)
+{
+}
+
+ResourceModel::~ResourceModel()
+{
+	this->Unload();
+}
+
 void ResourceModel::InternalLoad()
 {
 	for (std::shared_ptr<Resource> material : materials)

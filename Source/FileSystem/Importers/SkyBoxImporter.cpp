@@ -3,8 +3,16 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "EngineLog.h"
 #include "FileSystem/Json.h"
+#include "DataModels/Resources/ResourceTexture.h"
+
+SkyBoxImporter::SkyBoxImporter()
+{
+}
+
+SkyBoxImporter::~SkyBoxImporter()
+{
+}
 
 void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox> resource)
 {
@@ -25,11 +33,11 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	facesPaths[4] = Json["back"];
 	facesPaths[5] = Json["front"];
 
-	std::vector<std::shared_ptr<Resource>> faces(6);
+	std::vector<std::shared_ptr<ResourceTexture>> faces(6);
 
 	for(int i = 0; i < facesPaths.size(); ++i)
 	{
-		faces[i] = App->resources->RequestResource(facesPaths[i]);
+		faces[i] = App->resources->RequestResource<ResourceTexture>(facesPaths[i]);
 	}
 
 	resource->SetTextures(faces);
@@ -64,11 +72,11 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	unsigned int bytes = sizeof(UID) * 6;
 	memcpy(texturesPointer, fileBuffer, bytes);
 	std::vector<UID> texturesUIDs(texturesPointer, texturesPointer + 6);
-	std::vector<std::shared_ptr<Resource>> textures;
+	std::vector<std::shared_ptr<ResourceTexture>> textures;
 	textures.reserve(6);
 	for (int i = 0; i < texturesUIDs.size(); i++)
 	{
-		textures.push_back(App->resources->SearchResource<Resource>(texturesUIDs[i]));
+		textures.push_back(App->resources->SearchResource<ResourceTexture>(texturesUIDs[i]));
 	}
 
 	resource->SetTextures(textures);

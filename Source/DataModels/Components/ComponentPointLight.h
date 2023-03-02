@@ -4,18 +4,24 @@
 
 #define COMPONENT_POINTLIGHT "PointLight"
 
+struct PointLight
+{
+	float4 position;
+	float4 color;
+};
+
 class Json;
 
 class ComponentPointLight : public ComponentLight
 {
 public:
 	ComponentPointLight();
-	ComponentPointLight(const std::shared_ptr<GameObject>& parent);
+	ComponentPointLight(GameObject* parent);
 	ComponentPointLight(float radius, const float3& color, float intensity);
 	ComponentPointLight(float radius, const float3& color, float intensity,
-						const std::shared_ptr<GameObject>& parent);
+						GameObject* parent);
 
-	~ComponentPointLight();
+	~ComponentPointLight() override;
 
 	void Draw() override;
 
@@ -27,7 +33,7 @@ public:
 	void SetRadius(float radius);
 
 private:
-	float radius = 1.0f;
+	float radius;
 };
 
 inline float ComponentPointLight::GetRadius() const

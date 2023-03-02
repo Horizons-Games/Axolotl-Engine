@@ -11,7 +11,8 @@ class Json;
 class ComponentBoundingBoxes : public Component
 {
 public:
-	ComponentBoundingBoxes(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentBoundingBoxes(const bool active, GameObject* owner);
+	~ComponentBoundingBoxes() override;
 
 	void Update() override;
 
@@ -42,7 +43,6 @@ private:
 inline void ComponentBoundingBoxes::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
-	//localAABB.Enclose(Vertices, numVertices);
 }
 
 inline const AABB& ComponentBoundingBoxes::GetLocalAABB()

@@ -12,11 +12,15 @@ WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component
 {
 }
 
+WindowComponentSpotLight::~WindowComponentSpotLight()
+{
+}
+
 void WindowComponentSpotLight::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentSpotLight* asSpotLight = static_cast<ComponentSpotLight*>(this->component);
+	ComponentSpotLight* asSpotLight = static_cast<ComponentSpotLight*>(component);
 
 	if (asSpotLight)
 	{
@@ -43,15 +47,15 @@ void WindowComponentSpotLight::DrawWindowContents()
 					{
 						if (lightTypes[i] == "Point")
 						{
-							std::shared_ptr<ComponentPointLight> newPoint =
-								std::static_pointer_cast<ComponentPointLight>(asSpotLight->GetOwner().lock()
+							ComponentPointLight* newPoint =
+								static_cast<ComponentPointLight*>(asSpotLight->GetOwner()
 									->CreateComponentLight(LightType::POINT));
 
 							newPoint->SetColor(asSpotLight->GetColor());
 							newPoint->SetIntensity(asSpotLight->GetIntensity());
 							newPoint->SetRadius(asSpotLight->GetRadius());
 
-							asSpotLight->GetOwner().lock()->RemoveComponent(asSpotLight->shared_from_this() /*this MUST be removed once Scene is updated*/);
+							asSpotLight->GetOwner()->RemoveComponent(asSpotLight);
 
 							App->scene->GetLoadedScene()->UpdateScenePointLights();
 							App->scene->GetLoadedScene()->RenderPointLights();

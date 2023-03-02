@@ -12,19 +12,16 @@
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
 
-ComponentMaterial::ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner)
+ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
 
 ComponentMaterial::~ComponentMaterial()
 {
-	UnloadTextures();
 }
 
 void ComponentMaterial::Update()
@@ -45,10 +42,9 @@ void ComponentMaterial::Draw()
 
 	if(material) 
 	{
-		std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetDiffuse());
-
-		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
-					diffuseColor.x, diffuseColor.y, diffuseColor.z);
+		const float3& diffuseColor = material->GetDiffuseColor();
+		glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -56,17 +52,19 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
-			glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glUniform1i(7, 1); //has_diffuse_map
+			
+			glActiveTexture(GL_TEXTURE5);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
+			glUniform1i(7, 0); //has_diffuse_map
 		}
 
-		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetSpecular());
+		const float3& specularColor = material->GetSpecularColor();
+		glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -74,14 +72,13 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
-			glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glUniform1i(8, 1); //has_specular_map
+			glActiveTexture(GL_TEXTURE6);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
+			glUniform1i(8, 0); //has_specular_map
 		}
 
 		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
@@ -92,22 +89,18 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE7);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
-			glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
-
-			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+			glUniform1f(6, material->GetNormalStrength()); //normal_strength
+			glUniform1i(11, 1); //has_normal_map
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
+			glUniform1i(11, 0); //has_normal_map
 		}
 
-		glUniform3f(glGetUniformLocation(program, "material.specular_color"), 
-					specularColor.x, specularColor.y, specularColor.z);
-		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
+		glUniform1f(5, material->GetShininess()); //shininess
+		glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 
 		float3 viewPos = App->engineCamera->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
@@ -131,31 +124,17 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	}
 	meta["materialUID"] = (UID)uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
-
-	meta["diffuseColor_X"] = (float)diffuseColor.x;
-	meta["diffuseColor_Y"] = (float)diffuseColor.y;
-	meta["diffuseColor_Z"] = (float)diffuseColor.z;
-
-	meta["specularColor_X"] = (float)specularColor.x;
-	meta["specularColor_Y"] = (float)specularColor.y;
-	meta["specularColor_Z"] = (float)specularColor.z;
-
-	meta["shininess"] = (float)shininess;
-	meta["normalStrenght"] = (float)normalStrength;
-
-	meta["hasShininessAlpha"] = (bool)hasShininessAlpha;
 }
 
 void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
 												const char* field, 
-												const std::weak_ptr<ResourceTexture>& texturePtr)
+												const ResourceTexture* texturePtr)
 {
-	std::shared_ptr<ResourceTexture> textureAsShared = texturePtr.lock();
 	UID uidTexture = 0;
 
-	if (textureAsShared)
+	if (texturePtr)
 	{
-		uidTexture = textureAsShared->GetUID();
+		uidTexture = texturePtr->GetUID();
 	}
 	meta[field] = (UID)uidTexture;
 }
@@ -185,19 +164,6 @@ void ComponentMaterial::LoadOptions(Json& meta)
 			SetMaterial(resourceMaterial);
 		}
 	}
-
-	diffuseColor.x = (float)meta["diffuseColor_X"];
-	diffuseColor.y = (float)meta["diffuseColor_Y"];
-	diffuseColor.z = (float)meta["diffuseColor_Z"];
-
-	specularColor.x = (float)meta["specularColor_X"];
-	specularColor.y = (float)meta["specularColor_Y"];
-	specularColor.z = (float)meta["specularColor_Z"];
-
-	shininess = (float)meta["shininess"];
-	normalStrength = (float)meta["normalStrenght"];
-
-	hasShininessAlpha = (bool)meta["hasShininessAlpha"];
 }
 
 void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
@@ -214,25 +180,25 @@ void ComponentMaterial::UnloadTextures()
 {
 	if(material)
 	{
-		std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetDiffuse());
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+		texture = material->GetNormal();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetOcclusion());
+		texture = material->GetOcclusion();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetSpecular());
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
@@ -248,28 +214,28 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:
-			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetDiffuse());
+			texture = material->GetDiffuse();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::NORMAL:
-			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+			texture = material->GetNormal();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::OCCLUSION:
-			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetOcclusion());
+			texture = material->GetOcclusion();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::SPECULAR:
-			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetSpecular());
+			texture = material->GetSpecular();
 			if (texture)
 			{
 				texture->Unload();
@@ -277,4 +243,49 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 			break;
 		}
 	}
+}
+
+const float3& ComponentMaterial::GetDiffuseColor() const {
+	return material->GetDiffuseColor();
+}
+
+const float3& ComponentMaterial::GetSpecularColor() const {
+	return material->GetSpecularColor();
+}
+
+const float ComponentMaterial::GetShininess() const {
+	return material->GetShininess();
+}
+
+const float ComponentMaterial::GetNormalStrenght() const {
+	return material->GetNormalStrength();
+}
+
+const bool ComponentMaterial::HasShininessAlpha() const {
+	return material->HasShininessAlpha();
+}
+
+void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
+{
+	this->material->SetDiffuseColor(diffuseColor);
+}
+
+void ComponentMaterial::SetSpecularColor(float3& specularColor)
+{
+	this->material->SetSpecularColor(specularColor);
+}
+
+void ComponentMaterial::SetShininess(float shininess)
+{
+	this->material->SetShininess(shininess);
+}
+
+void ComponentMaterial::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
+{
+	this->material->SetShininess(hasShininessAlpha);
 }

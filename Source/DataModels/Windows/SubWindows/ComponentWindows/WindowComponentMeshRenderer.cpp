@@ -10,20 +10,23 @@
 #include "DataModels/Resources/ResourceMesh.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("MESH RENDERER", component)
+	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component))
 {
-	inputMesh = std::make_unique<WindowMeshInput>(component);
+}
+
+WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
+{
 }
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
-	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(this->component);
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
 	{
-		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh().lock();
+		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
@@ -71,7 +74,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		else if (ImGui::Button("Remove Mesh"))
 		{
 			meshAsShared->Unload();
-			asMeshRenderer->SetMesh(std::shared_ptr<ResourceMesh>());
+			asMeshRenderer->SetMesh(nullptr);
 		}
 
 		if (ImGui::BeginTable("##GeometryTable", 2))
@@ -80,12 +83,12 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumVertices() : 0);
+				meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+				meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}

@@ -1,16 +1,12 @@
 #include "WindowTextureInput.h"
-#include "imgui.h"
 
 #include "Components/ComponentMaterial.h"
 #include "Resources/ResourceMaterial.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(ComponentMaterial* material,
-	TextureType textureType) :
-	WindowFileBrowser(),
-	materialComponent(material),
-	textureType(textureType)
+WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType textureType) :
+	WindowFileBrowser(), materialComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
 
@@ -47,7 +43,7 @@ void WindowTextureInput::DoThisIfOk()
 		// std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		// UID uidTexture = App->resources->ImportResource(filePath);
 
-		// std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial().lock();
+		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial();
 
 		// if (materialAsShared)
 		// {

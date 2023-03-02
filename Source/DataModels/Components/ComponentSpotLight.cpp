@@ -1,51 +1,46 @@
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
-#include "ComponentPointLight.h"
-
-#include "Application.h"
-
-#include "../Modules/ModuleScene.h"
-
-#include "Scene/Scene.h"
 
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
 
-ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
+ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true),
+	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(const std::shared_ptr<GameObject>& parent) :
-	ComponentLight(LightType::SPOT, parent, true)
+ComponentSpotLight::ComponentSpotLight(GameObject* parent) :
+	ComponentLight(LightType::SPOT, parent, true),
+	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
 {
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity) :
-	ComponentLight(LightType::SPOT, color, intensity, true)
+	ComponentLight(LightType::SPOT, color, intensity, true),
+	radius(radius), innerAngle(innerAngle), outerAngle(outerAngle)
 {
-	this->radius = radius;
-	this->innerAngle = innerAngle;
-	this->outerAngle = outerAngle;
 }
 
 ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 									   const float3& color, float intensity,
-									   const std::shared_ptr<GameObject>& parent) :
-	ComponentLight(LightType::SPOT, color, intensity, parent, true)
+									   GameObject* parent) :
+	ComponentLight(LightType::SPOT, color, intensity, parent, true),
+	radius(radius), innerAngle(innerAngle), outerAngle(outerAngle)
 {
-	this->radius = radius;
-	this->innerAngle = innerAngle;
-	this->outerAngle = outerAngle;
+}
+
+ComponentSpotLight::~ComponentSpotLight()
+{
 }
 
 void ComponentSpotLight::Draw()
 {
-	if (this->GetActive())
+	if (GetActive())
 	{
-		std::shared_ptr<ComponentTransform> transform =
-			std::static_pointer_cast<ComponentTransform>(this->GetOwner().lock()
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM));
 
 		float3 position = transform->GetGlobalPosition();

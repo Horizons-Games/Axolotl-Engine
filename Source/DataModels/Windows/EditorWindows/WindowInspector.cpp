@@ -1,24 +1,18 @@
 #include "WindowInspector.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentBoundingBoxes.h"
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector")
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
+	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
-	loadScene = std::make_unique<WindowLoadScene>();
-	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -27,12 +21,10 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	//TODO: REMOVE AFTER, HERE WE GO
 	DrawButtomsSaveAndLoad();
 	ImGui::Separator();
-	//
 
-	std::shared_ptr<GameObject> currentGameObject = App->scene->GetSelectedGameObject().lock();
+	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 
 	if (currentGameObject)
 	{
@@ -45,28 +37,23 @@ void WindowInspector::DrawWindowContents()
 		{
 			(enable) ? currentGameObject->Enable() : currentGameObject->Disable();
 		}
-	}
-	else
-	{
-		char* name = (char*)currentGameObject->GetName();
-		ImGui::InputText("##GameObject", name, 24);
-	}
 
-	if (!currentGameObject->GetParent().lock()) // Keep the word Scene in the root
-	{
-		char* name = (char*)currentGameObject->GetName();
-		if (ImGui::InputText("##GameObject", name, 24))
+		if (currentGameObject->GetParent() == nullptr) // Keep the word Scene in the root
 		{
-			std::string scene = " Scene";
-			std::string sceneName = name + scene;
-			currentGameObject->SetName(sceneName.c_str());
+			char* name = (char*)currentGameObject->GetName();
+			if (ImGui::InputText("##GameObject", name, 24))
+			{
+				std::string scene = " Scene";
+				std::string sceneName = name + scene;
+				currentGameObject->SetName(sceneName.c_str());
+			}
+				
 		}
-			
-	}
-	else
-	{
-		char* name = (char*)currentGameObject->GetName();
-		ImGui::InputText("##GameObject", name, 24);
+		else
+		{
+			char* name = (char*)currentGameObject->GetName();
+			ImGui::InputText("##GameObject", name, 24);
+		}
 	}
 
 	ImGui::Separator();
@@ -127,9 +114,9 @@ void WindowInspector::DrawWindowContents()
 		{
 			windowsForComponentsOfSelectedObject.clear();
 
-			for (std::weak_ptr<Component> component : currentGameObject->GetComponents())
+			for (Component* component : currentGameObject->GetComponents())
 			{
-				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component.lock().get()));
+				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component));
 			}
 		}
 		for (int i = 0; i < windowsForComponentsOfSelectedObject.size(); ++i)
@@ -158,17 +145,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 // TODO: REMOVE

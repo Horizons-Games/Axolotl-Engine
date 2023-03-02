@@ -1,35 +1,36 @@
 #include "ComponentLight.h"
 
-ComponentLight::ComponentLight(const bool active, const std::shared_ptr<GameObject>& owner)
-	: Component(ComponentType::LIGHT, active, owner, true)
+ComponentLight::ComponentLight(const bool active, GameObject* owner)
+	: Component(ComponentType::LIGHT, active, owner, true),
+	color(float3(1.0f, 1.0f, 1.0f)), intensity(1.0f)
 {
 }
 
-ComponentLight::ComponentLight(LightType type, bool canBeRemoved) : Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
+ComponentLight::ComponentLight(LightType type, bool canBeRemoved) 
+	: Component(ComponentType::LIGHT, true, nullptr, canBeRemoved),
+	color(float3(1.0f, 1.0f, 1.0f)), intensity(1.0f), lightType(type)
 {
-	this->lightType = type;
 };
 
-ComponentLight::ComponentLight(LightType type, const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved) :
-	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
+ComponentLight::ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved) 
+	: Component(ComponentType::LIGHT, true, gameObject, canBeRemoved),
+	color(float3(1.0f, 1.0f, 1.0f)), intensity(1.0f), lightType(type)
 {
-	this->lightType = type;
 }
 
-ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved) :
-	Component(ComponentType::LIGHT, true, nullptr, canBeRemoved)
+ComponentLight::ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved) 
+	: Component(ComponentType::LIGHT, true, nullptr, canBeRemoved),
+	color(color), intensity(intensity), lightType(type)
 {
-	this->lightType = type;
-	this->color = color;
-	this->intensity = intensity;
 }
 
 ComponentLight::ComponentLight(LightType type, const float3& color, float intensity,
-							   const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved) :
-	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved)
+								GameObject* gameObject, bool canBeRemoved) :
+	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved),
+	color(color), intensity(intensity), lightType(type)
 {
-	this->lightType = type;
-	this->color = color;
-	this->intensity = intensity;
-	
+}
+
+ComponentLight::~ComponentLight()
+{
 }

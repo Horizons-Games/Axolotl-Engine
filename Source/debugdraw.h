@@ -3,9 +3,6 @@
 
 #pragma warning (disable: 26495)
 
-#include "Math/float3.h"
-#include "Math/float4x4.h"
-
 typedef math::float3 ddVec3;
 
 typedef const ddVec3& ddVec3_In;

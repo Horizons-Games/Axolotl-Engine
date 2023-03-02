@@ -4,19 +4,28 @@
 
 #define COMPONENT_SPOTLIGHT "SpotLight"
 
+struct SpotLight
+{
+	float4 position;
+	float4 color;
+	float3 aim;
+	float innerAngle = 0.0f;
+	float outAngle = 0.0f;
+};
+
 class Json;
 
 class ComponentSpotLight : public ComponentLight
 {
 public:
 	ComponentSpotLight();
-	ComponentSpotLight(const std::shared_ptr<GameObject>& parent);
+	ComponentSpotLight(GameObject* parent);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 					   const float3& color, float intensity);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
-					   const float3& color, float intensity, const std::shared_ptr<GameObject>& parent);
+					   const float3& color, float intensity, GameObject* parent);
 
-	~ComponentSpotLight() {};
+	~ComponentSpotLight() override;
 
 	void Draw() override;
 
@@ -32,9 +41,9 @@ public:
 	void SetOuterAngle(float angle);
 
 private:
-	float radius = 1.0f;
-	float innerAngle = 2.0f;
-	float outerAngle = 2.5f;
+	float radius;
+	float innerAngle;
+	float outerAngle;
 };
 
 inline float ComponentSpotLight::GetRadius() const

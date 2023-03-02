@@ -6,7 +6,6 @@
 #include <map>
 #include <thread>
 
-#include "FileSystem/UniqueID.h"
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"
@@ -100,7 +99,7 @@ private:
 	UID skybox;
 	
 	std::thread monitorThread;
-	bool monitorResources = false;
+	bool monitorResources;
 
 	friend class WindowResources;
 };

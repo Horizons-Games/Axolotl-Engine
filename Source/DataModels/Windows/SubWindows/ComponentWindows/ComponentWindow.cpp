@@ -1,7 +1,5 @@
 #include "ComponentWindow.h"
 
-#include <sstream>
-
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
@@ -15,9 +13,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentLight.h"
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentCamera.h"
@@ -30,7 +25,7 @@
 
 ComponentWindow::~ComponentWindow()
 {
-	this->component = nullptr;
+	component = nullptr;
 }
 
 std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Component* component)
@@ -50,7 +45,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 		case ComponentType::BOUNDINGBOX:
 			return std::make_unique<WindowComponentBoundingBoxes>(static_cast<ComponentBoundingBoxes*>(component));
 		case ComponentType::LIGHT:
-		{
+		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
@@ -66,7 +61,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			default:
 				return std::make_unique<WindowComponentLight>(asLight);
 			}
-		}
+		
 		}
 	}
 	return nullptr;
@@ -111,10 +106,11 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component->shared_from_this() /*this MUST be changed once all of scene is updated; the method should recieve a raw pointer*/))
+			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}
+			component = nullptr;
 		}
 	}
 }

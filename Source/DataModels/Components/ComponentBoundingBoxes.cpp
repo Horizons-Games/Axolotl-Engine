@@ -5,23 +5,23 @@
 
 #include "Application.h"
 #include "ModuleDebugDraw.h"
-#include "Modules/ModuleScene.h"
-#include "Scene/Scene.h"
 #include "FileSystem/Json.h"
 
-ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, const std::shared_ptr<GameObject>& owner)
-	: Component(ComponentType::BOUNDINGBOX, active, owner, false)
+ComponentBoundingBoxes::ComponentBoundingBoxes(bool active, GameObject* owner)
+	: Component(ComponentType::BOUNDINGBOX, active, owner, false),
+	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	drawBoundingBoxes(false)
 {
-	localAABB = { {0 ,0, 0}, {0, 0, 0} };
-	encapsuledAABB = localAABB;
-	objectOBB = { localAABB };
-	drawBoundingBoxes = false;
+}
+
+ComponentBoundingBoxes::~ComponentBoundingBoxes()
+{
 }
 
 void ComponentBoundingBoxes::CalculateBoundingBoxes() 
 {
-	std::shared_ptr<ComponentTransform> transform =
-		std::static_pointer_cast<ComponentTransform>((this)->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	objectOBB = OBB(localAABB);
 	objectOBB.Transform(transform->GetGlobalMatrix());
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
@@ -56,5 +56,8 @@ void ComponentBoundingBoxes::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
-	localAABB = { { (float)meta["AABBMin_X"], (float)meta["AABBMin_Y"], (float)meta["AABBMin_Z"] }, { (float)meta["AABBMax_X"], (float)meta["AABBMax_Y"], (float)meta["AABBMax_Z"] } };
+	localAABB = { 
+		{ (float)meta["AABBMin_X"], (float)meta["AABBMin_Y"], (float)meta["AABBMin_Z"] }, 
+		{ (float)meta["AABBMax_X"], (float)meta["AABBMax_Y"], (float)meta["AABBMax_Z"] } 
+	};
 }
