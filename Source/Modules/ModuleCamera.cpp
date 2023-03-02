@@ -53,5 +53,5 @@ update_status ModuleCamera::Update()
 {
 	camera->Update();
 	/*Code Moved to CameraEngine*/
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }

@@ -180,7 +180,7 @@ bool CameraEngine::Update()
 		}
 	}
 
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 void CameraEngine::Move()

@@ -28,7 +28,7 @@
 
 class GameObject;
 
-class CameraEngine : public  Camera
+class CameraEngine : public Camera
 {
 public:
 	CameraEngine();
@@ -37,7 +37,6 @@ public:
 	bool Init() override;
 	bool Start() override;
 	bool Update() override;
-
 
 	void Move();
 	void KeyboardRotate();

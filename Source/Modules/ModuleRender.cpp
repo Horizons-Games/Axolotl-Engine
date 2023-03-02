@@ -190,7 +190,7 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
 	return update_status::UPDATE_CONTINUE;
 }
@@ -222,7 +222,6 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 	}
 
-#ifdef ENGINE
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
 		glEnable(GL_STENCIL_TEST);
@@ -241,6 +240,7 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(goSelected);
 
+#ifdef ENGINE
 	if (App->debug->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
@@ -301,7 +301,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
 		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -394,7 +395,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
+	if (App->engineCamera->GetCamera()->IsInside(boxes->GetEncapsuledAABB())
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
@@ -415,6 +416,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
+#ifdef ENGINE
 	if (quadtree->IsLeaf())
 	{
 		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
