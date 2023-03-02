@@ -9,9 +9,9 @@
 #include "ModuleEngineCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes)
+Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes)
 {
-    skyboxRes->Load();
+    this->skyboxRes->Load();
 }
 
 Skybox::~Skybox()
