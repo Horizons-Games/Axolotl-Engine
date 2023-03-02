@@ -13,6 +13,7 @@ public:
 
 protected:
 	ComponentWindow(const std::string& name, Component* component);
+	void DrawWindowContents() override;
 	void DrawEnableAndDeleteComponent();
 
 	Component* component;

@@ -1,7 +1,6 @@
 #include "ComponentWindow.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
@@ -70,6 +69,17 @@ ComponentWindow::ComponentWindow(const std::string& name, Component* component) 
 	windowUUID(UniqueID::GenerateUUID())
 {
 	flags |= ImGuiTreeNodeFlags_DefaultOpen;
+}
+
+void ComponentWindow::DrawWindowContents()
+{
+	GameObject* go = component->GetOwner();
+
+	if (go)
+	{
+		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
+		ImGui::Checkbox("##Draw Bounding Box", &(go->drawBoundingBoxes));
+	}
 }
 
 void ComponentWindow::DrawEnableAndDeleteComponent()
