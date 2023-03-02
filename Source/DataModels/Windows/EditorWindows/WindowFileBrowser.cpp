@@ -1,5 +1,4 @@
 #include "WindowFileBrowser.h"
-#include "imgui.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
@@ -60,7 +59,10 @@ WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 		ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ICON_IGFD_BOOKMARK);
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByTypeFile | IGFD_FileStyleByContainedInFullName, ".git",
 		ImVec4(0.5f, 0.8f, 0.5f, 0.9f), ICON_IGFD_SAVE);
+}
 
+WindowFileBrowser::~WindowFileBrowser()
+{
 }
 
 void WindowFileBrowser::DrawWindowContents()
@@ -103,7 +105,6 @@ void WindowFileBrowser::Browser()
 		ImGuiFileDialogFlags_NoDialog |
 		ImGuiFileDialogFlags_DisableBookmarkMode |
 		ImGuiFileDialogFlags_DisableCreateDirectoryButton);
-		//ImGuiFileDialogFlags_ReadOnlyFileNameField
 	fileDialogBrowser.Display("embedded", ImGuiWindowFlags_NoCollapse, ImVec2(0, 0), ImVec2(0, 350));
 		
 	if (std::string::npos == fileDialogBrowser.GetCurrentPath().find("Assets"))

@@ -9,6 +9,7 @@ class Json
 {
 public:
 	Json(rapidjson::Document& document, rapidjson::Value& value);
+	~Json();
 
 	unsigned int Size() const;
 

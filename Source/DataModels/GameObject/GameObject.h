@@ -1,12 +1,9 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
-#include <algorithm>
 #include <iterator>
 
 class Component;
@@ -21,7 +18,6 @@ class GameObject
 public:
 	explicit GameObject(const char* name);
 	GameObject(const char* name, GameObject* parent);
-	//static GameObject* CreateGameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -29,6 +25,8 @@ public:
 
 	void Update();
 	void Draw() const;
+	void DrawSelected();
+	void DrawHighlight();
 
 	void InitNewEmptyGameObject();
 
@@ -64,20 +62,23 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
+	void MoveUpChild(GameObject* childToMove);
+	void MoveDownChild(GameObject* childToMove);
+
 private:
 	bool IsAChild(const GameObject* child);
 	bool IsADescendant(const GameObject* descendant);
 
 private:
-	UID uid = 0;
+	UID uid;
 
-	bool enabled = true;
-	bool active = true;
-	std::string name = "Empty";
-	std::vector<std::unique_ptr<Component>> components = {};
+	bool enabled;
+	bool active;
+	std::string name;
+	std::vector<std::unique_ptr<Component>> components;
 
-	GameObject* parent = nullptr;
-	std::vector<std::unique_ptr<GameObject>> children = {};
+	GameObject* parent;
+	std::vector<std::unique_ptr<GameObject>> children;
 };
 
 inline UID GameObject::GetUID() const

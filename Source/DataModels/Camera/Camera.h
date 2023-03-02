@@ -3,7 +3,6 @@
 #include <string>
 #include "Geometry/Frustum.h"
 
-#include <memory>
 #include <map>
 
 #include "Geometry/Plane.h"

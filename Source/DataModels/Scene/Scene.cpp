@@ -1,11 +1,9 @@
 #include "Scene.h"
+
 #include "Application.h"
 
-#include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
-
-#include "DataStructures/Quadtree.h"
 
 #include "FileSystem/ModuleResources.h"
 
@@ -13,19 +11,16 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 
-#include "GameObject/GameObject.h"
-
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMaterial.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
-#include <GL/glew.h>
-
-Scene::Scene()
+Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
+	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
+	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -40,7 +35,9 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 	for (GameObject* gameObject : gameObjects)
 	{
 		if (gameObject)
+		{
 			sceneQuadTree->Add(gameObject);
+		}
 	}
 }
 
@@ -133,10 +130,10 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
-	//Cargas ResourceMesh
-	//Miras el MaterialIndex y cargas el ResourceMaterial del vector de Model con indice materialIndex
-	//Cargas el ComponentMaterial con el ResourceMaterial
-	//Cargas el ComponentMesh con el ResourceMesh
+	// First load the ResourceMesh
+	// Then look MaterialIndex and load the ResourceMaterial of the Model vector with materialIndex's index
+	// Load the ComponentMaterial with the ResourceMaterial
+	// Load the ComponentMesh with the ResourceMesh
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{

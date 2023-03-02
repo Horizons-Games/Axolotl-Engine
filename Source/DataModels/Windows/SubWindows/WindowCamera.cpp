@@ -1,7 +1,5 @@
 #include "WindowCamera.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleRender.h"
@@ -49,5 +47,7 @@ void WindowCamera::DrawWindowContents()
 	static float4 color = App->renderer->GetBackgroundColor();
 	ImGui::Text("Background Color");
 	if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+	{
 		App->renderer->SetBackgroundColor(color);
+	}
 }

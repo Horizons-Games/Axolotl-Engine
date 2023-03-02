@@ -1,27 +1,26 @@
 #include "Skybox.h"
 
-#include <vector>
-#include <string>
-
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
+Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes),
+    skyboxUID(0ULL)
 {
-    this->skyboxRes = skyboxRes;
     std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
     if (skyboxAsShared)
     {
         skyboxAsShared->Load();
     }
+}
+
+Skybox::~Skybox()
+{
 }
 
 void Skybox::Draw()
@@ -50,6 +49,5 @@ void Skybox::Draw()
             program->Deactivate();
             glDepthMask(GL_TRUE);
         }
-        
     }
 }

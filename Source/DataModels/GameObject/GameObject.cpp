@@ -3,7 +3,6 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
-#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
@@ -17,29 +16,24 @@
 
 #include "Scene/Scene.h"
 
-#include "FileSystem/Json.h"
+#include <queue>
 
-#include <assert.h>
-
-GameObject::GameObject(const char* name) : name(name) // Root constructor
+// Root constructor
+GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
+	active(true), parent(nullptr)
 {
-	uid = UniqueID::GenerateUID();
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name)
+GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
+	uid(UniqueID::GenerateUID()), enabled(true), active(true)
 {
-	uid = UniqueID::GenerateUID();
-
-	this->parent = parent;
-	assert(this->parent);
-
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
-	this->active = (this->parent->IsEnabled() && this->parent->IsActive());
+	active = (parent->IsEnabled() && parent->IsActive());
 }
 
 GameObject::~GameObject()
 {
-	std::vector<ComponentLight*> lights = this->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
 	for (ComponentLight* light : lights)
 	{
@@ -90,6 +84,55 @@ void GameObject::Draw() const
 		if (component->GetActive())
 		{
 			component->Draw();
+		}
+	}
+}
+
+void GameObject::DrawSelected()
+{
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
+	{
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		for (const std::unique_ptr<Component>& component : currentGo->components)
+		{
+			if (component->GetActive())
+			{
+				component->Draw();
+			}
+		}
+	}
+}
+
+void GameObject::DrawHighlight()
+{
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
+	{
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		std::vector<ComponentMeshRenderer*> meshes = 
+			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes) 
+		{
+			mesh->DrawHighlight();
 		}
 	}
 }
@@ -183,7 +226,7 @@ void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 
-	if (this->IsADescendant(newParent) ||		// Avoid dragging parent GameObjects into their descendants
+	if (IsADescendant(newParent) ||				// Avoid dragging parent GameObjects into their descendants
 		newParent->IsAChild(this))				// Avoid dragging direct children into thier parent GameObjects
 	{
 		return;
@@ -193,7 +236,7 @@ void GameObject::SetParent(GameObject* newParent)
 	parent = newParent;
 	parent->AddChild(std::move(pointerToThis));
 
-	(parent->IsActive() && parent->IsEnabled()) ? this->ActivateChildren() : this->DeactivateChildren();
+	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
 
 void GameObject::AddChild(std::unique_ptr<GameObject> child)
@@ -202,7 +245,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 
 	if (!IsAChild(child.get()))
 	{
-		child->active = (this->IsActive() && this->IsEnabled());
+		child->active = (IsActive() && IsEnabled());
 		children.push_back(std::move(child));
 	}
 }
@@ -241,7 +284,7 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 
 void GameObject::Enable()
 {
-	assert(this->parent != nullptr);
+	assert(parent != nullptr);
 
 	enabled = true;
 	active = parent->IsActive();
@@ -254,7 +297,7 @@ void GameObject::Enable()
 
 void GameObject::Disable()
 {
-	assert(this->parent != nullptr);
+	assert(parent != nullptr);
 
 	enabled = false;
 	active = false;
@@ -282,7 +325,7 @@ void GameObject::DeactivateChildren()
 
 void GameObject::ActivateChildren()
 {
-	active = (this->parent->IsActive() && this->parent->IsEnabled());
+	active = (parent->IsActive() && parent->IsEnabled());
 
 	if (children.empty())
 	{
@@ -436,7 +479,7 @@ Component* GameObject::GetComponent(ComponentType type) const
 			return (*it).get();
 		}
 	}
-
+	
 	return nullptr;
 }
 
@@ -447,7 +490,9 @@ bool GameObject::IsAChild(const GameObject* child)
 	for (std::unique_ptr<GameObject>& gameObject : children)
 	{
 		if (gameObject.get() == child)
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -460,7 +505,9 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		if (child.get() == descendant || child->IsADescendant(descendant))
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -470,10 +517,40 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
-	for (std::unique_ptr<GameObject>& children : this->children)
+	for (std::unique_ptr<GameObject>& children : children)
 	{
 		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void GameObject::MoveUpChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it - 1, it);
+			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			break;
+		}
+	}
+}
+
+void GameObject::MoveDownChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it, it + 1);
+			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			break;
+		}
+	}
 }

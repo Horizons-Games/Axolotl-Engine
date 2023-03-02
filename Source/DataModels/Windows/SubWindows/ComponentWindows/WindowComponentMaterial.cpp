@@ -12,19 +12,23 @@
 #include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
-	ComponentWindow("MATERIAL", component)
+	ComponentWindow("MATERIAL", component), 
+	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
+	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
 {
-	inputMaterial = std::make_unique<WindowMaterialInput>(component);
-	inputTextureDiffuse = std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE);
-	inputTextureNormal = std::make_unique<WindowTextureInput>(component, TextureType::NORMAL);
-	inputTextureSpecular = std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR);
+}
+
+WindowComponentMaterial::~WindowComponentMaterial()
+{
 }
 
 void WindowComponentMaterial::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{
@@ -41,7 +45,7 @@ void WindowComponentMaterial::DrawWindowContents()
 
 void WindowComponentMaterial::DrawSetMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{
@@ -58,12 +62,16 @@ void WindowComponentMaterial::DrawSetMaterial()
 			static float3 colorDiffuse = asMaterial->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			{
 				asMaterial->SetDiffuseColor(colorDiffuse);
+			}
 
 			static float3 colorSpecular = asMaterial->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+			{
 				asMaterial->SetSpecularColor(colorSpecular);
+			}
 
 			ImGui::Text("");
 
@@ -211,7 +219,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 void WindowComponentMaterial::DrawEmptyMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(this->component);
+	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
 	{

@@ -6,7 +6,6 @@
 #include <map>
 #include <thread>
 
-#include "FileSystem/UniqueID.h"
 #include "DataModels/Resources/Resource.h"
 
 class ModelImporter;
@@ -89,7 +88,7 @@ private:
 	UID skybox;
 	
 	std::thread monitorThread;
-	bool monitorResources = false;
+	bool monitorResources;
 };
 
 inline const std::weak_ptr<Resource> ModuleResources::RequestResource(UID uid)
