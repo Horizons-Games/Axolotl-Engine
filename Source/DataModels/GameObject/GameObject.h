@@ -93,9 +93,9 @@ private:
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
 
-	AABB* localAABB;
-	AABB* encapsuledAABB;
-	OBB* objectOBB;
+	AABB localAABB;
+	AABB encapsuledAABB;
+	OBB objectOBB;
 	bool drawBoundingBoxes;
 
 	friend class WindowComponentBoundingBoxes;
@@ -181,19 +181,19 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 inline const AABB& GameObject::GetLocalAABB()
 {
 	CalculateBoundingBoxes();
-	return *localAABB;
+	return localAABB;
 }
 
 inline const AABB& GameObject::GetEncapsuledAABB()
 {
 	CalculateBoundingBoxes();
-	return *encapsuledAABB;
+	return encapsuledAABB;
 }
 
 inline const OBB& GameObject::GetObjectOBB()
 {
 	CalculateBoundingBoxes();
-	return *objectOBB;
+	return objectOBB;
 }
 
 inline const bool GameObject::isDrawBoundingBoxes() const

@@ -19,13 +19,15 @@
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), parent(nullptr), localAABB(new AABB({0 ,0, 0}, {0, 0, 0})), encapsuledAABB(localAABB), 
-	objectOBB(new OBB(*localAABB)), drawBoundingBoxes(false)
+	active(true), parent(nullptr), localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), 
+	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true)
+	uid(UniqueID::GenerateUID()), enabled(true), active(true), 
+	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
+	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
 	active = (parent->IsEnabled() && parent->IsActive());
@@ -49,15 +51,6 @@ GameObject::~GameObject()
 		}
 	}
 	//
-
-	delete localAABB;
-	localAABB = nullptr;
-
-	delete encapsuledAABB;
-	encapsuledAABB = nullptr;
-
-	delete objectOBB;
-	objectOBB = nullptr;
 
 	components.clear();
 
@@ -232,7 +225,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 void GameObject::InitNewEmptyGameObject()
 {
 	CreateComponent(ComponentType::TRANSFORM);
-	CreateComponent(ComponentType::BOUNDINGBOX);
+	//CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -566,12 +559,12 @@ void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>((this)->GetComponent(ComponentType::TRANSFORM));
-	objectOBB->SetFrom(*localAABB);
-	objectOBB->Transform(transform->GetGlobalMatrix());
-	encapsuledAABB->SetFrom(objectOBB->MinimalEnclosingAABB());
+	objectOBB = localAABB;
+	objectOBB.Transform(transform->GetGlobalMatrix());
+	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
 void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
 {
-	localAABB->SetFrom(localAABB->MinimalEnclosingAABB(Vertices, numVertices));
+	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
 }
