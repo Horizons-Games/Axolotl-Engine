@@ -3,7 +3,6 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
-//#include "ComponentBoundingBoxes.h"
 #include "Program/Program.h"
 
 #include "Application.h"
@@ -170,8 +169,6 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (IsMeshLoaded())
 	{
 		mesh->Load();
-		ComponentBoundingBoxes* boundingBox =
-			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		this->GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }

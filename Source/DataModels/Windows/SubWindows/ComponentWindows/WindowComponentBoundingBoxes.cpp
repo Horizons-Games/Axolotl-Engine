@@ -1,8 +1,9 @@
 #include "WindowComponentBoundingBoxes.h"
 
-#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Components/Component.h"
+#include "DataModels/GameObject/GameObject.h"
 
-WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(ComponentMeshRenderer* component)
+WindowComponentBoundingBoxes::WindowComponentBoundingBoxes(Component* component)
 	: ComponentWindow("BOUNDING BOX", component)
 {
 }
@@ -13,11 +14,11 @@ WindowComponentBoundingBoxes::~WindowComponentBoundingBoxes()
 
 void WindowComponentBoundingBoxes::DrawWindowContents()
 {
-	ComponentMeshRenderer* asBB = static_cast<ComponentMeshRenderer*>(component);
+	GameObject* go = component->GetOwner();
 
-	if (asBB)
+	if (go)
 	{
 		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Bounding Box", &(asBB->drawBoundingBoxes));
+		ImGui::Checkbox("##Draw Bounding Box", &(go->drawBoundingBoxes));
 	}
 }

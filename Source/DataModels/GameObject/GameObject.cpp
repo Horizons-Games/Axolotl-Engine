@@ -33,6 +33,7 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
+	// This should not be here
 	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
 	for (ComponentLight* light : lights)
@@ -47,11 +48,22 @@ GameObject::~GameObject()
 			break;
 		}
 	}
-	
+	//
+
+	delete localAABB;
+	localAABB = nullptr;
+
+	delete encapsuledAABB;
+	encapsuledAABB = nullptr;
+
+	delete objectOBB;
+	objectOBB = nullptr;
+
 	components.clear();
 
 	children.clear();
 
+	// This should not be here
 	Scene* currentScene = App->scene->GetLoadedScene();
 
 	if (hadSpotLight)
@@ -64,6 +76,7 @@ GameObject::~GameObject()
 		currentScene->UpdateScenePointLights();
 		currentScene->RenderPointLights();
 	}
+	//
 }
 
 void GameObject::Update()

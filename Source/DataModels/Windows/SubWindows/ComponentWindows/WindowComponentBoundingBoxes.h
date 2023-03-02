@@ -7,7 +7,7 @@ class ComponentMeshRenderer;
 class WindowComponentBoundingBoxes : public ComponentWindow
 {
 public:
-	WindowComponentBoundingBoxes(ComponentMeshRenderer* component);
+	WindowComponentBoundingBoxes(Component* component);
 	~WindowComponentBoundingBoxes() override;
 
 protected:

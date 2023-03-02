@@ -16,7 +16,7 @@ public:
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool InQuadrant(const GameObject* gameObject);
+	bool InQuadrant(GameObject* gameObject);
 
 	void Add(const GameObject* gameObject);
 	void AddGameObjectAndChildren(const GameObject* gameObject);
@@ -27,7 +27,7 @@ public:
 	void Subdivide();
 	void RedistributeGameObjects(const GameObject* gameObject);
 
-	void ExpandToFit(const GameObject* gameObject);
+	void ExpandToFit(GameObject* gameObject);
 	void AdjustHeightToNodes(float minY, float maxY);
 
 	void ResetChildren();
@@ -59,7 +59,7 @@ public:
 
 private:
 
-	std::list<const GameObject*> gameObjects;
+	std::list<GameObject*> gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity;

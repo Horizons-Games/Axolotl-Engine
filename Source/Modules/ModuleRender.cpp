@@ -377,18 +377,15 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(const GameObject* gameObject)
+void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
 
-	ComponentMeshRenderer* meshRenderer =
-		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
-
-	if (App->engineCamera->IsInside(meshRenderer->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(meshRenderer->GetEncapsuledAABB()))
+	if (App->engineCamera->IsInside(gameObject->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
