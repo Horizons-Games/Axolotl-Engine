@@ -9,7 +9,9 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
@@ -43,7 +45,9 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+#endif // DEBUG
 
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
