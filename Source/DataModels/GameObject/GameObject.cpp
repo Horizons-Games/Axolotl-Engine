@@ -19,7 +19,8 @@
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), parent(nullptr)
+	active(true), parent(nullptr), localAABB(new AABB({0 ,0, 0}, {0, 0, 0})), encapsuledAABB(localAABB), 
+	objectOBB(new OBB(*localAABB)), drawBoundingBoxes(false)
 {
 }
 
@@ -546,4 +547,18 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 			break;
 		}
 	}
+}
+
+void GameObject::CalculateBoundingBoxes()
+{
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>((this)->GetComponent(ComponentType::TRANSFORM));
+	objectOBB->SetFrom(*localAABB);
+	objectOBB->Transform(transform->GetGlobalMatrix());
+	encapsuledAABB->SetFrom(objectOBB->MinimalEnclosingAABB());
+}
+
+void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
+{
+	localAABB->SetFrom(localAABB->MinimalEnclosingAABB(Vertices, numVertices));
 }
