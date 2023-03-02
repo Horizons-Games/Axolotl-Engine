@@ -25,14 +25,20 @@ bool ModuleCommand::Cleanup()
 
 void ModuleCommand::Undo()
 {
-	if (commandListIterator == commandList.begin()) return;
+	if (commandListIterator == commandList.begin())
+	{
+		return;
+	}
 	--commandListIterator;
 	*commandListIterator = commandListIterator->get()->Execute();
 }
 
 void ModuleCommand::Redo()
 {
-	if (commandListIterator == commandList.end()) return;
+	if (commandListIterator == commandList.end())
+	{
+		return;
+	}
 	*commandListIterator = commandListIterator->get()->Execute();
 	++commandListIterator;
 }

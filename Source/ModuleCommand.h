@@ -33,6 +33,11 @@ void ModuleCommand::CreateAndExecuteCommand(Args&& ...args)
 	std::unique_ptr<Command> command = std::make_unique<C>(std::forward<Args>(args)...);
 	commandList.emplace(commandListIterator, command->Execute());
 	if (commandListIterator != std::end(commandList))
+	{
 		commandListIterator = commandList.erase(commandListIterator, std::end(commandList));
-	if (commandList.size() > commandLimit) commandList.erase(std::begin(commandList));
+	}
+	if (commandList.size() > commandLimit)
+	{
+		commandList.erase(std::begin(commandList));
+	}
 }

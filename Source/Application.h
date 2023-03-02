@@ -14,6 +14,7 @@ class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
+class ModuleCommand;
 
 class Application
 {
@@ -42,6 +43,7 @@ public:
 	ModuleEditor* editor;
 	ModuleEngineCamera* engineCamera;
 	ModuleResources* resources;
+	ModuleCommand* command;
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;

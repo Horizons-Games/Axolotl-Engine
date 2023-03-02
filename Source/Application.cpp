@@ -10,6 +10,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleCommand.h"
 
 
 constexpr int FRAMES_BUFFER = 50;
@@ -18,6 +19,7 @@ Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
+	modules.push_back(std::unique_ptr<ModuleCommand>(command = new ModuleCommand()));
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
