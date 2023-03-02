@@ -1,7 +1,6 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Application.h"
 
 #include "ModuleScene.h"

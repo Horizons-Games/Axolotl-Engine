@@ -15,7 +15,6 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentMeshRenderer.h"
 
 #include "optick.h"
 
