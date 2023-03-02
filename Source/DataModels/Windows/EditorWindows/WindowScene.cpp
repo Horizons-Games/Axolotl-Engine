@@ -92,29 +92,45 @@ void WindowScene::DrawGuizmo()
 
 	if (ImGui::BeginMenu("Value menu"))
 	{
-		ImGui::Text("X:");
-		ImGui::SameLine();
-		ImGui::PushItemWidth(50.f);
-		ImGui::InputFloat("##XSnap", &snap[0]);
+		switch(gizmoCurrentOperation)
+		{
+		case ImGuizmo::OPERATION::TRANSLATE:
+			ImGui::Text("X:");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(50.f);
+			ImGui::InputFloat("##XSnap", &snap[0]);
 
-		ImGui::Text("Y:");
-		ImGui::SameLine();
-		ImGui::PushItemWidth(50.f);
-		ImGui::InputFloat("##YSnap", &snap[1]);
+			ImGui::Text("Y:");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(50.f);
+			ImGui::InputFloat("##YSnap", &snap[1]);
 
-		ImGui::Text("Z:");
-		ImGui::SameLine();
-		ImGui::PushItemWidth(50.f);
-		ImGui::InputFloat("##ZSNap", &snap[2]);
+			ImGui::Text("Z:");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(50.f);
+			ImGui::InputFloat("##ZSNap", &snap[2]);
+
+			break;
+
+		case ImGuizmo::OPERATION::ROTATE:
+			ImGui::Text("Amount:");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(50.f);
+			ImGui::InputFloat("##XSnap", &snap[0]);
+
+			break;
+
+		case ImGuizmo::OPERATION::SCALE:
+			ImGui::Text("Amount:");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(50.f);
+			ImGui::InputFloat("##XSnap", &snap[0]);
+
+			break;
+		}
 
 		ImGui::EndMenu();
 	}
-
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-	ImGui::Separator();
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-
-	ImGui::Text("Mouse coords X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 
 	ImGui::EndMenuBar();
 

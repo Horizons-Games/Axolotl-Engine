@@ -740,7 +740,7 @@ EFrustumMode ModuleEngineCamera::GetFrustumMode() const
 
 Frustum* ModuleEngineCamera::GetFrustum()
 {
-	return &this->frustum;
+	return &frustum;
 }
 
 bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
@@ -750,8 +750,8 @@ bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windo
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
-
-	if (!windowScene->isMouseInsideManipulator(mousePositionInScene.x, mousePositionInScene.y))
+	
+	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePositionInScene.x, mousePositionInScene.y))
 	{
 		if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x
 			&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
@@ -770,10 +770,7 @@ bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windo
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }
 
