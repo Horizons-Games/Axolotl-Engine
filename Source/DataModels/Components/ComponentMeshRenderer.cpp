@@ -21,9 +21,7 @@
 #include "GL/glew.h"
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true),
-	localAABB(new AABB({0, 0, 0}, {0, 0, 0})), encapsuledAABB(localAABB), objectOBB(new OBB(*localAABB)),
-	drawBoundingBoxes(false)
+	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
@@ -33,24 +31,6 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 	{
 		mesh->Unload();
 	}
-
-	delete localAABB;
-	localAABB = nullptr;
-
-	delete encapsuledAABB;
-	encapsuledAABB = nullptr;
-
-	delete objectOBB;
-	objectOBB = nullptr;
-}
-
-void ComponentMeshRenderer::CalculateBoundingBoxes()
-{
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>((this)->GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	objectOBB->SetFrom(*localAABB);
-	objectOBB->Transform(transform->GetGlobalMatrix());
-	encapsuledAABB->SetFrom(objectOBB->MinimalEnclosingAABB());
 }
 
 void ComponentMeshRenderer::Update()
@@ -190,11 +170,8 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (IsMeshLoaded())
 	{
 		mesh->Load();
-		Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
-}
-
-void ComponentMeshRenderer::Encapsule(const vec* Vertices, unsigned numVertices)
-{
-	localAABB->SetFrom(localAABB->MinimalEnclosingAABB(Vertices, numVertices));
 }

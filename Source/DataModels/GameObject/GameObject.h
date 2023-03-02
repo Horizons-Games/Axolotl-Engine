@@ -79,6 +79,11 @@ private:
 
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
+
+	AABB* localAABB;
+	AABB* encapsuledAABB;
+	OBB* objectOBB;
+	bool drawBoundingBoxes;
 };
 
 inline UID GameObject::GetUID() const
