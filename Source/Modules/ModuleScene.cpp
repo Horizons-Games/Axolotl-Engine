@@ -159,9 +159,10 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
+	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->LoadOptions(Json);
+
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
