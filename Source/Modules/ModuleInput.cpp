@@ -46,8 +46,7 @@ bool ModuleInput::Init()
         this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
                         (defaultCursor.get());
 
-    #endif // ENGINE
-    #ifdef GAMEMODE
+    #else  // ENGINE
         SDL_ShowCursor(SDL_DISABLE);
     #endif // GAMEMODE
 

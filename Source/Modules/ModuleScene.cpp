@@ -33,12 +33,12 @@ bool ModuleScene::Start()
 	{
 		loadedScene = CreateEmptyScene();
 	}
-#else
+#else //ENGINE
 	if (loadedScene == nullptr)
 	{
 		LoadSceneFromJson("Lib/Scenes/Final_Scene_Lights_mini_Lights.axolotl");
 	}
-#endif
+#endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
