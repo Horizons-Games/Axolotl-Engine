@@ -3,8 +3,8 @@
 
 layout(location = 1) uniform mat4 view;
 layout(location = 2) uniform mat4 model;
-//layout(location = 2) uniform buffer Transforms mat4 model[];
 layout(location = 0) uniform mat4 proj;
+//layout(location = 2) uniform buffer Transforms mat4 model[];
 
 //layout(std140, row_major, binding = 0) uniform Camera {
 // mat4 proj;

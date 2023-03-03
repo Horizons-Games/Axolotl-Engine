@@ -38,7 +38,7 @@ private:
 	bool isUniqueResourceMesh(const ResourceMesh* resourceMesh);
 
 	std::vector<ComponentMeshRenderer*> components;
-	std::vector<ResourceMesh*> uniqueComponents;
+	std::vector<ResourceMesh*> resourceMeshes;
 
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
