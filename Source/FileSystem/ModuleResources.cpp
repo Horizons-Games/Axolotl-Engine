@@ -10,6 +10,10 @@
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 
+#include "Resources/EditorResource/EditorResource.h"
+#include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceMaterial.h"
+
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";
@@ -116,21 +120,41 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	switch (type)
 	{
 	case ResourceType::Model:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceModel>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::Texture:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceTexture>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::Mesh:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceMesh>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
-		break;
-	case ResourceType::Scene:
+#endif // ENGINE
+	case ResourceType::Scene: //TODO
+#ifdef ENGINE
+		return nullptr;
+#else
+		return nullptr;
+#endif // ENGINE
 	case ResourceType::Material:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceMaterial>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	case ResourceType::SkyBox:
+#ifdef ENGINE
+		return std::make_shared<EditorResource<ResourceSkyBox>>(uid, fileName, assetsPath, libraryPath);
+#else
 		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
-		break;
+#endif // ENGINE
 	default:
 		return nullptr;
 	}
@@ -146,22 +170,23 @@ void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std
 	resources.insert({ uid, resource });
 }
 
-void ModuleResources::DeleteResource(UID uidToDelete)
+void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete)
 {
-	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
-	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
+	resToDelete->MarkToDelete();
+
+	std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
 	App->fileSystem->Delete(metaPath.c_str());
 	App->fileSystem->Delete(libPath.c_str());
 
-	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
 		{
-			std::shared_ptr<ResourceModel> modelToDelete = std::static_pointer_cast<ResourceModel>(resToDelete);
+			std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
 			for (UID meshUID : modelToDelete->GetMeshesUIDs())
 			{
-				DeleteResource(meshUID);
+				DeleteResource(std::dynamic_pointer_cast<EditorResourceInterface>(resources[meshUID]));
 			}
 		}
 		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
@@ -170,7 +195,7 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 		}
 	}
 
-	resources.erase(uidToDelete);
+	resources.erase(resToDelete->GetUID());
 }
 
 void ModuleResources::LoadResourceStored(const char* filePath)
@@ -353,17 +378,17 @@ void ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		CreateAssetAndLibFolders();
-		std::vector<UID> toRemove;
-		std::vector<std::shared_ptr<Resource> > toImport;
-		std::vector<std::shared_ptr<Resource> > toCreateLib;
-		std::vector<std::shared_ptr<Resource> > toCreateMeta;
+		std::vector<std::shared_ptr<EditorResourceInterface>> toRemove;
+		std::vector<std::shared_ptr<Resource>> toImport;
+		std::vector<std::shared_ptr<Resource>> toCreateLib;
+		std::vector<std::shared_ptr<Resource>> toCreateMeta;
 		std::map<UID, std::shared_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
 			if (it->second->GetType() != ResourceType::Mesh &&
 				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
 			{
-				toRemove.push_back(it->first);
+				toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(it->second));
 			}
 			else 
 			{
@@ -397,17 +422,16 @@ void ModuleResources::MonitorResources()
 			}
 		}
 		//Remove resources
-		for (UID resUID : toRemove)
+		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
 		{
-			DeleteResource(resUID);
-
+			DeleteResource(resource);
 		}
 		//Import resources
-		for (std::shared_ptr<Resource> resource : toImport)
+		for (std::shared_ptr<Resource>& resource : toImport)
 		{
 			AddResource(resource, resource->GetAssetsPath());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateLib)
+		for (std::shared_ptr<Resource>& resource : toCreateLib)
 		{
 			if (resource->GetType() == ResourceType::Material) 
 			{
@@ -416,7 +440,7 @@ void ModuleResources::MonitorResources()
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateMeta)
+		for (const std::shared_ptr<Resource>& resource : toCreateMeta)
 		{
 			CreateMetaFileOfResource(resource);
 		}

@@ -9,14 +9,14 @@ struct OptionsMesh
 {
 };
 
-class ResourceMesh : public Resource
+class ResourceMesh : virtual public Resource
 {
 public:
 	ResourceMesh(UID resourceUID, 
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
-	~ResourceMesh() override;
+	virtual ~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
