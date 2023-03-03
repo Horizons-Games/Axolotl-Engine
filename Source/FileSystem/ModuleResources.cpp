@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "ModuleFileSystem.h"
-#include "Json.h"
 
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
@@ -560,96 +559,3 @@ const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceTy
 	libraryPath += std::to_string(resourceUID);
 	return libraryPath;
 }
-
-
-template<class R>
-const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path)
-{
-	ResourceType type = FindTypeByExtension(path);
-	if (type == ResourceType::Unknown)
-	{
-		ENGINE_LOG("Extension not supported");
-	}
-	std::string fileName = App->fileSystem->GetFileName(path);
-	std::string extension = App->fileSystem->GetFileExtension(path);
-	std::string assetPath = path;
-
-	assetPath = CreateAssetsPath(fileName + extension, type);
-	
-	std::string metaPath = assetPath + META_EXTENSION;
-	if (App->fileSystem->Exists(metaPath.c_str())) {
-		char* metaBuffer = {};
-		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-
-		rapidjson::Document doc;
-		Json Json(doc, doc);
-
-		Json.fromBuffer(metaBuffer);
-
-		UID uid = (UID)Json["UID"];
-		//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
-		auto it = resources.find(uid);
-		if (it != resources.end() && !(it->second).expired())
-		{
-			return std::dynamic_pointer_cast<R>(it->second.lock());
-		}
-
-		//Si ese recurso tiene binarios y son nuevos los cargamos
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
-
-		std::string libraryPath = CreateLibraryPath(uid, type);
-
-		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
-		if (assetTime <= libTime)
-		{
-
-			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
-			if (resource)
-			{
-				resources.insert({ resource->GetUID(), resource });
-				return std::move(std::dynamic_pointer_cast<R>(resource));
-			}
-		}
-	}
-
-	//Si ese recurso no tiene ninguna de las dos opciones lo volvemos a importar
-	ImportResource(assetPath);
-	metaPath = assetPath + META_EXTENSION;
-	if (App->fileSystem->Exists(metaPath.c_str())) {
-
-		char* metaBuffer = {};
-		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-
-		rapidjson::Document doc;
-		Json Json(doc, doc);
-
-		Json.fromBuffer(metaBuffer);
-
-		UID uid = (UID)Json["UID"];
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
-
-		std::string libraryPath = CreateLibraryPath(uid, type);
-
-		long long assetTime = App->fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
-		if (assetTime <= libTime)
-		{
-
-			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
-			if (resource)
-			{
-				resources.insert({ resource->GetUID(), resource });
-				return std::move(std::dynamic_pointer_cast<R>(resource));
-			}
-		}
-	}
-	return std::shared_ptr<R>();
-}
-
-template const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath);
-template const std::shared_ptr<ResourceMaterial> ModuleResources::RequestResource(const std::string assetPath);
-template const std::shared_ptr<ResourceMesh> ModuleResources::RequestResource(const std::string assetPath);
-template const std::shared_ptr<ResourceModel> ModuleResources::RequestResource(const std::string assetPath);
-template const std::shared_ptr<ResourceSkyBox> ModuleResources::RequestResource(const std::string assetPath);
-template const std::shared_ptr<ResourceTexture> ModuleResources::RequestResource(const std::string assetPath);
