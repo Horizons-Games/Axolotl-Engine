@@ -1,10 +1,14 @@
 #pragma once
 #include "Module.h"
 
+constexpr auto ROOTPATH = "Lib/Shaders/";
+
 class Program;
 
-enum class ProgramType {
+enum class ProgramType 
+{
 	MESHSHADER,
+	HIGHLIGHT,
 	SKYBOX
 };
 
@@ -25,19 +29,21 @@ public:
 	char* LoadShaderSource(const char* shaderFileName);
 	unsigned CompileShader(unsigned type, const char* source);
 
-	const unsigned& GetProgram() const { return program; }
+	const unsigned GetProgram() const;
 	const std::shared_ptr<Program> GetProgram(ProgramType type) const;
 
 
 private:
 	unsigned program;
-	std::vector<std::shared_ptr<Program> > Programs;
-	std::string RootPath = "Lib/Shaders/";
+	std::vector<std::shared_ptr<Program> > programs;
 };
+
+inline const unsigned ModuleProgram::GetProgram() const
+{
+	return program;
+}
 
 inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
 {
-	return Programs[(int)type];
+	return programs[(int)type];
 }
-
-

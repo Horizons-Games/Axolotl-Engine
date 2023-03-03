@@ -4,7 +4,7 @@
 
 class GameObject;
 
-class CameraEngine : public  Camera
+class CameraEngine : public Camera
 {
 public:
 	CameraEngine();

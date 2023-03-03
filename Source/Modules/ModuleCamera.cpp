@@ -61,8 +61,7 @@ update_status ModuleCamera::Update()
 {
 	camera->Update();
 
-
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 

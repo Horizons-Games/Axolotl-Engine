@@ -8,12 +8,17 @@
 #ifdef ENGINE
 #include "imgui_impl_sdl.h"
 #endif // ENGINE
+#ifdef DEBUG
+#include "optick.h"
+#endif // DEBUG
 
-ModuleInput::ModuleInput()
-{}
+ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
+{
+}
 
 ModuleInput::~ModuleInput()
-{}
+{
+}
 
 bool ModuleInput::Init()
 {
@@ -55,25 +60,37 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::Update()
 {
-    update_status status = UPDATE_CONTINUE;
+#ifdef DEBUG
+    OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
+
+    update_status status = update_status::UPDATE_CONTINUE;
 
     mouseMotion = float2::zero;
     mouseWheelScrolled = false;
     
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
         if (keysState[i] == KeyState::DOWN)
+        {
             keysState[i] = KeyState::REPEAT;
+        }
 
         if (keysState[i] == KeyState::UP)
+        {
             keysState[i] = KeyState::IDLE;
+        }
     }
 
     for (int i = 0; i < NUM_MOUSEBUTTONS; ++i) {
         if (mouseButtonState[i] == KeyState::DOWN)
+        {
             mouseButtonState[i] = KeyState::REPEAT;
+        }
 
         if (mouseButtonState[i] == KeyState::UP)
+        {
             mouseButtonState[i] = KeyState::IDLE;
+        }
     }
 
     SDL_PumpEvents();
@@ -82,7 +99,7 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        status = UPDATE_STOP;
+        status = update_status::UPDATE_STOP;
     }
 
     SDL_Event sdlEvent;
@@ -96,7 +113,7 @@ update_status ModuleInput::Update()
         switch (sdlEvent.type)
         {
         case SDL_QUIT:
-            return UPDATE_STOP;
+            return update_status::UPDATE_STOP;
         
         case SDL_WINDOWEVENT:
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
@@ -136,8 +153,6 @@ update_status ModuleInput::Update()
         case SDL_DROPFILE:
             char* droppedFilePath = sdlEvent.drop.file;
 
-            /*if (App->renderer->IsSupportedPath(droppedFilePath))
-                App->renderer->LoadModel(droppedFilePath);*/
             std::string dropFilePath(droppedFilePath);
             std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
             App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
@@ -145,8 +160,6 @@ update_status ModuleInput::Update()
             break;
         }
 
-        //SDL_GetGlobalMouseState(&mousePosX, &mousePosY);
-	    //SDL_GetMouseState(&mousePosX, &mousePosY);
     }
 
     return status;

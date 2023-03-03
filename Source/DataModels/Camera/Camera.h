@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include "Geometry/Frustum.h"
 #include <map>
 
 #include "Geometry/Plane.h"

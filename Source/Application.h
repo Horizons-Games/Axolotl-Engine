@@ -58,7 +58,7 @@ extern std::unique_ptr<Application> App;
 
 inline void Application::SetMaxFrameRate(int maxFrames)
 {
-	this->maxFramerate = maxFrames;
+	maxFramerate = maxFrames;
 }
 
 inline int Application::GetMaxFrameRate() const

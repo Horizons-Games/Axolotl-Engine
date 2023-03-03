@@ -7,9 +7,13 @@ WindowComponentLight::WindowComponentLight(ComponentLight* component) :
 {
 }
 
+WindowComponentLight::~WindowComponentLight()
+{
+}
+
 void WindowComponentLight::DrawWindowContents()
 {
-	this->DrawEnableAndDeleteComponent();
+	DrawEnableAndDeleteComponent();
 
 	ImGui::Text("This is a basic light");
 }

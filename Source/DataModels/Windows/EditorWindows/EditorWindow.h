@@ -7,7 +7,7 @@
 class EditorWindow : public Window
 {
 public:
-	~EditorWindow();
+	virtual ~EditorWindow() override;
 
 	void Draw(bool& enabled) override;
 
@@ -18,10 +18,10 @@ protected:
 	virtual void DrawWindowContents() = 0;
 	virtual ImVec2 GetStartingSize() const = 0; 
 
-	ImGuiWindowFlags flags = ImGuiWindowFlags_None;
+	ImGuiWindowFlags flags;
 
 private:
-	bool focused = false;
+	bool focused;
 };
 
 inline bool EditorWindow::IsFocused() const

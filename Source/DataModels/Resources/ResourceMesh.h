@@ -5,9 +5,6 @@
 
 #include "Math/float3.h"
 
-#include <memory>
-
-
 struct OptionsMesh
 {
 };
@@ -15,7 +12,10 @@ struct OptionsMesh
 class ResourceMesh : public Resource
 {
 public:
-	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceMesh(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceMesh() override;
 
 	ResourceType GetType() const override;
@@ -60,15 +60,15 @@ private:
 	void CreateEBO();
 	void CreateVAO();
 
-	unsigned int vbo = 0;
-	unsigned int ebo = 0;
-	unsigned int vao = 0;
+	unsigned int vbo;
+	unsigned int ebo;
+	unsigned int vao;
 
 	//parameters for buffer object creation
-	unsigned int numVertices = 0;
-	unsigned int numFaces = 0;
-	unsigned int numIndexes = 0;
-	unsigned int materialIndex = 0;
+	unsigned int numVertices;
+	unsigned int numFaces;
+	unsigned int numIndexes;
+	unsigned int materialIndex;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
@@ -77,20 +77,6 @@ private:
 
 	std::shared_ptr<OptionsMesh> options;
 };
-
-inline ResourceMesh::ResourceMesh(UID resourceUID,
-								  const std::string& fileName,
-								  const std::string& assetsPath,
-								  const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsMesh>();
-}
-
-inline ResourceMesh::~ResourceMesh()
-{
-	Unload();
-}
 
 inline ResourceType ResourceMesh::GetType() const
 {
