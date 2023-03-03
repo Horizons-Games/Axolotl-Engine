@@ -19,7 +19,7 @@
 #include "Components/ComponentTransform.h"
 
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
-	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
+	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
@@ -36,7 +36,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 	{
 		if (gameObject)
 		{
-			sceneQuadTree->Add(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
 	}
 }
@@ -73,11 +73,11 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
-	if (!sceneQuadTree->InQuadrant(gameObject))
+	if (!rootQuadtree->InQuadrant(gameObject))
 	{
-		if (!sceneQuadTree->IsFreezed())
+		if (!rootQuadtree->IsFreezed())
 		{
-			sceneQuadTree->ExpandToFit(gameObject);
+			rootQuadtree->ExpandToFit(gameObject);
 			FillQuadtree(sceneGameObjects);
 		}
 		else
@@ -87,7 +87,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	}
 	else
 	{
-		sceneQuadTree->Add(gameObject);
+		rootQuadtree->Add(gameObject);
 	}
 
 	return gameObject;
@@ -411,7 +411,7 @@ void Scene::InitNewEmptyScene()
 
 	sceneGameObjects.push_back(root.get());
 
-	sceneQuadTree = std::make_unique<Quadtree>(rootQuadtreeAABB);
+	rootQuadtree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
 	ambientLight = CreateGameObject("Ambient_Light", root.get());
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
@@ -435,14 +435,14 @@ void Scene::InitLights()
 	RenderSpotLights();
 }
 
-void Scene::SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree)
+void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
-	sceneQuadTree = std::move(quadtree);
+	rootQuadtree = std::move(quadtree);
 }
 
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 {
-	return std::move(sceneQuadTree);
+	return std::move(rootQuadtree);
 }
 
 void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
