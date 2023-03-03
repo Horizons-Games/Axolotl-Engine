@@ -2,8 +2,6 @@
 
 #include "Windows/SubWindows/SubWindow.h"
 
-#include "FileSystem/UniqueID.h"
-
 class Component;
 
 class ComponentWindow : public SubWindow

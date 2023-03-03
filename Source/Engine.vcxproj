@@ -177,14 +177,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
@@ -193,14 +193,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
@@ -357,6 +357,10 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Camera\Camera.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraEngine.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraGameObject.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
@@ -517,7 +521,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
+    <ClCompile Include="Modules\ModuleCamera.cpp" />
     <ClCompile Include="Modules\ModuleInput.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
@@ -679,6 +683,10 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="DataModels\Camera\Camera.h" />
+    <ClInclude Include="DataModels\Camera\CameraEngine.h" />
+    <ClInclude Include="DataModels\Camera\CameraGameObject.h" />
+    <ClInclude Include="DataModels\Camera\CameraGod.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
@@ -837,7 +845,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EngineLog.h" />
-    <ClInclude Include="FileSystem\Data.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
@@ -858,7 +865,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleEngineCamera.h" />
+    <ClInclude Include="Modules\ModuleCamera.h" />
     <ClInclude Include="Modules\ModuleInput.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />

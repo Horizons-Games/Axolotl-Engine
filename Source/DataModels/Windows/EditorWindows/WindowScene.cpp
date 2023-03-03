@@ -2,13 +2,12 @@
 
 #include "WindowScene.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "Modules/ModuleRender.h"
-#include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleCamera.h"
 
-WindowScene::WindowScene() : EditorWindow("Scene")
+WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
+	currentWidth(0), currentHeight(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs;
 }
@@ -33,7 +32,7 @@ void WindowScene::ManageResize()
 	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->engineCamera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 	}

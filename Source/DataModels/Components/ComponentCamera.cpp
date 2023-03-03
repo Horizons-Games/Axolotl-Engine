@@ -12,33 +12,27 @@
 #include "FileSystem/Json.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner, false)
+	: Component(ComponentType::CAMERA, active, owner, false),
+	frustumOffset(1.0f), drawFrustum(true), frustumMode(ECameraFrustumMode::NORMALFRUSTUM),
+	// PlaceHolder get position from component transform
+	trans(static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM)))
 {
-	frustumOffset = 1;
-	drawFrustum = true;
-	frustumMode = ECameraFrustumMode::normalFrustum;
-
 	float aspectRatio = 16.f / 9.f;
 
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 2000.f);
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
-
-	//Position PlaceHolder get position from component transform
-	trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	
 	frustum.SetPos(trans->GetPosition());
 	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
-
 	UpdateFrustumOffset();
 }
 
 ComponentCamera::~ComponentCamera()
 {
-
 }
 
 void ComponentCamera::Update()
@@ -49,8 +43,10 @@ void ComponentCamera::Update()
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 
-
-	if (frustumMode == ECameraFrustumMode::offsetFrustum) UpdateFrustumOffset();
+	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
+	{
+		UpdateFrustumOffset();
+	}
 }
 
 void ComponentCamera::Draw()
@@ -70,7 +66,7 @@ void ComponentCamera::SaveOptions(Json& meta)
 
 	meta["frustumOfset"] = (float)frustumOffset;
 	meta["drawFrustum"] = (bool)drawFrustum;
-	meta["frustumMode"] = (int)frustumMode;
+	meta["frustumMode"] = GetNameByFrustumMode(frustumMode).c_str();
 }
 
 void ComponentCamera::LoadOptions(Json& meta)
@@ -82,7 +78,7 @@ void ComponentCamera::LoadOptions(Json& meta)
 
 	frustumOffset = (float)meta["frustumOfset"];
 	drawFrustum = (bool)meta["drawFrustum"];
-	frustumMode = (int)meta["frustumMode"];
+	frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
 void ComponentCamera::UpdateFrustumOffset()
@@ -100,8 +96,16 @@ void ComponentCamera::UpdateFrustumOffset()
 
 bool ComponentCamera::IsInside(const OBB& obb)
 {
-	if (frustumMode == noFrustum) return false;
-	if (frustumMode == offsetFrustum) return IsInsideOffset(obb);
+	if (frustumMode == ECameraFrustumMode::NOFRUSTUM)
+	{
+		return false;
+	}
+
+	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
+	{
+		return IsInsideOffset(obb);
+	}
+
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
 
@@ -119,7 +123,11 @@ bool ComponentCamera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -141,7 +149,11 @@ bool ComponentCamera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		
+		if (!onPlane)
+		{
+			return false;
+		}
 	}
 
 	return true;

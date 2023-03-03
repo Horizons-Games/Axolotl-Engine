@@ -1,10 +1,8 @@
-#include "Application.h"
-#include "Globals.h"
-
 #include "ModuleEditor.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleEngineCamera.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -12,16 +10,17 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
-#include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
-#include <ImGui/imgui.h>
+#ifdef DEBUG
+#include "optick.h"
+#endif // DEBUG
+
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
 #include <FontIcons/CustomFont.cpp>
-#include <GL/glew.h>
 
 static bool cameraOpened = true;
 static bool configOpened = true;
@@ -29,9 +28,13 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 
-ModuleEditor::ModuleEditor() {}
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+{
+}
 
-ModuleEditor::~ModuleEditor() {}
+ModuleEditor::~ModuleEditor() 
+{
+}
 
 bool ModuleEditor::Init()
 {
@@ -85,12 +88,16 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
-	update_status status = UPDATE_CONTINUE;
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+#endif // DEBUG
+
+	update_status status = update_status::UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
@@ -141,7 +148,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::Resized()
@@ -151,5 +158,5 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
-	return this->scene->IsFocused();
+	return scene->IsFocused();
 }

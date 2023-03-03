@@ -5,15 +5,13 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include <GL/glew.h>
 
@@ -22,7 +20,10 @@
 #endif // ENGINE
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner, true)
+	: Component(ComponentType::MATERIAL, active, owner, true),
+	diffuseColor(float3(1.0f, 1.0f, 0.0f)), specularColor(float3(0.5f, 0.5f, 0.5f)),
+	shininess(512.0f), normalStrength(1.0f), hasShininessAlpha(false),
+	diffuseUID(0), normalUID(0), occlusionUID(0), specularUID(0)
 {
 }
 
@@ -57,11 +58,9 @@ void ComponentMaterial::Draw()
 
 	if(material) 
 	{
+		glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
 		std::shared_ptr<ResourceTexture> texture = App->resources->
 										RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
-
-		glUniform3f(glGetUniformLocation(program, "material.diffuse_color"), 
-					diffuseColor.x, diffuseColor.y, diffuseColor.z);
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -69,16 +68,17 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 1);
-			glUniform1i(glGetUniformLocation(program, "material.diffuse_map"), texture->GetGlTexture());
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glUniform1i(7, 1); //has_diffuse_map
+			
+			glActiveTexture(GL_TEXTURE5);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_diffuse_map"), 0);
+			glUniform1i(7, 0); //has_diffuse_map
 		}
 
+		glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
 		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
 		if (texture)
 		{
@@ -87,14 +87,13 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 1);
-			glUniform1i(glGetUniformLocation(program, "material.specular_map"), texture->GetGlTexture());
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glUniform1i(8, 1); //has_specular_map
+			glActiveTexture(GL_TEXTURE6);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_specular_map"), 0);
+			glUniform1i(8, 0); //has_specular_map
 		}
 
 		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
@@ -105,24 +104,20 @@ void ComponentMaterial::Draw()
 				texture->Load();
 			}
 
-			glActiveTexture(GL_TEXTURE0 + texture->GetGlTexture());
+			glActiveTexture(GL_TEXTURE7);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1i(glGetUniformLocation(program, "material.normal_map"), texture->GetGlTexture());
-			glUniform1f(glGetUniformLocation(program, "material.normal_strength"), normalStrength);
-
-			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 1);
+			glUniform1f(6, normalStrength); //normal_strength
+			glUniform1i(11, 1); //has_normal_map
 		}
 		else
 		{
-			glUniform1i(glGetUniformLocation(program, "material.has_normal_map"), 0);
+			glUniform1i(11, 0); //has_normal_map
 		}
 
-		glUniform3f(glGetUniformLocation(program, "material.specular_color"), 
-					specularColor.x, specularColor.y, specularColor.z);
-		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-		glUniform1f(glGetUniformLocation(program, "material.shininess_alpha"), hasShininessAlpha);
+		glUniform1f(5, shininess); //shininess
+		glUniform1f(9, hasShininessAlpha); //shininess_alpha
 
-		float3 viewPos = App->engineCamera->GetPosition();
+		float3 viewPos = App->engineCamera->GetCamera()->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
 }
@@ -181,7 +176,8 @@ void ComponentMaterial::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
+	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
 
 	if(resourceMaterial)
 	{

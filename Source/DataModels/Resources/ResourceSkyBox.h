@@ -10,7 +10,10 @@ struct OptionsSkyBox
 class ResourceSkyBox : virtual public Resource
 {
 public:
-	ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceSkyBox(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	virtual ~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
@@ -42,21 +45,6 @@ private:
 	unsigned vbo;
 	unsigned vao;
 };
-
-inline ResourceSkyBox::ResourceSkyBox(UID resourceUID,
-	const std::string& fileName,
-	const std::string& assetsPath,
-	const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	texturesUIDs(6),
-	options(std::make_shared<OptionsSkyBox>())
-{
-}
-
-inline ResourceSkyBox::~ResourceSkyBox()
-{
-	Unload();
-}
 
 inline ResourceType ResourceSkyBox::GetType() const
 {

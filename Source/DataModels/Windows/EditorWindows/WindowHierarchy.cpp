@@ -1,14 +1,10 @@
 #include "WindowHierarchy.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
-
-#include <assert.h>
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -87,49 +83,29 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-
-        /*
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
-            std::vector<std::weak_ptr<GameObject> > parentsChildren = gameObject->GetParent().lock()->GetChildren();
-
+            GameObject* selectedParent = gameObject->GetParent();
+            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
 
             if (ImGui::MenuItem("Move Up"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[0].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
-                    {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
-                        {
-                            std::iter_swap(parentsChildren[i - 1].lock(), parentsChildren[i].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i - 1].lock());
-                            break;
-                        }
-                    }
+                    selectedParent->MoveUpChild(gameObject);
                 }
             }
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
-                    {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
-                        {
-                            std::iter_swap(parentsChildren[i].lock(), parentsChildren[i + 1].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i + 1].lock());
-                            break;
-                        }
-                    }
+                    selectedParent->MoveDownChild(gameObject);
                 }
             }
         }
-        */
-
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
@@ -140,7 +116,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject->GetParent());
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                        RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
                 App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
@@ -171,7 +148,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* draggedGameObject =
                 App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
             if (draggedGameObject)
+            {
                 draggedGameObject->SetParent(gameObject);
+            }
         }
 
         ImGui::EndDragDropTarget();

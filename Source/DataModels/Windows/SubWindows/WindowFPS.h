@@ -2,22 +2,20 @@
 
 #include "SubWindow.h"
 
-#include <vector>
-
 class WindowFPS : public SubWindow
 {
 public:
 	WindowFPS();
-	~WindowFPS();
+	~WindowFPS() override;
 
 protected:
 	void DrawWindowContents() override;
 
 private:
-	int fpsCaptures = 100;
-	int timeCaptures = 100;
-	int currentFpsIndex = 0;
-	int currentTimeIndex = 0;
+	int fpsCaptures;
+	int timeCaptures;
+	int currentFpsIndex;
+	int currentTimeIndex;
 	std::vector<float> fpsHist;
 	std::vector<float> timeHist;
 };

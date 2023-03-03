@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
@@ -8,7 +7,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 
@@ -620,7 +619,7 @@ update_status ModuleDebugDraw::Update()
     DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
-    return UPDATE_CONTINUE;
+    return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height)

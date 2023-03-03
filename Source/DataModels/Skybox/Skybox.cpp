@@ -1,27 +1,26 @@
 #include "Skybox.h"
 
-#include <vector>
-#include <string>
-
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes)
+Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes),
+    skyboxUID(0ULL)
 {
-    this->skyboxRes = skyboxRes;
     std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
     if (skyboxAsShared)
     {
         skyboxAsShared->Load();
     }
+}
+
+Skybox::~Skybox()
+{
 }
 
 void Skybox::Draw()
@@ -33,8 +32,8 @@ void Skybox::Draw()
     {
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetCamera()->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
         std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
         if (skyboxAsShared)
@@ -50,6 +49,5 @@ void Skybox::Draw()
             program->Deactivate();
             glDepthMask(GL_TRUE);
         }
-        
     }
 }

@@ -1,19 +1,19 @@
-#include "Application.h"
 #include "ModuleScene.h"
-#include "ModuleRender.h"
-#include "DataStructures/Quadtree.h"
 
-#include "GameObject/GameObject.h"
+#include "Application.h"
+#include "ModuleRender.h"
+
 #include "Scene/Scene.h"
 
-#include <assert.h>
-
 #include "FileSystem/ModuleFileSystem.h"
-#include "Components/Component.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
-ModuleScene::ModuleScene()
+#ifdef DEBUG
+#include "optick.h"
+#endif // DEBUG
+
+ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
 }
 
@@ -45,11 +45,13 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update()
 {
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+#endif // DEBUG
+
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
-	//SaveSceneToJson("AuxScene");
-
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
@@ -158,7 +160,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000))));
+	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
+		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -191,7 +194,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			if (!sceneQuadtree->IsFreezed())
 			{
 				sceneQuadtree->ExpandToFit(obj);
-				//sceneToLoad->FillQuadtree(loadedObjects);
 			}
 		}
 		else
@@ -209,7 +211,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	loadedScene->SetSceneCameras(loadedObjects);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-	//sceneToLoad->SetSceneQuadTree(sceneQuadtree);
 
 	loadedScene->InitLights();
 
