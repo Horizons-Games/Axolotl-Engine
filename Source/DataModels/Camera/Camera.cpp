@@ -3,8 +3,6 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
-#include "ModuleEditor.h"
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
@@ -19,13 +17,86 @@
 
 #include "Windows/EditorWindows/WindowScene.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Math/float3x3.h"
 #include "Math/Quat.h"
-#include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
+
+Camera::Camera(const CameraType type)
+	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+{
+	frustum = std::make_unique <Frustum>();
+}
+
+Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
+	: type(type),
+	position(camera->position),
+	projectionMatrix(camera->projectionMatrix),
+	viewMatrix(camera->viewMatrix),
+	currentRotation(camera->currentRotation),
+	aspectRatio(camera->aspectRatio),
+	acceleration(camera->acceleration),
+	moveSpeed(camera->moveSpeed),
+	rotationSpeed(camera->rotationSpeed),
+	mouseSpeedModifier(camera->mouseSpeedModifier),
+	frustumOffset(camera->frustumOffset),
+	viewPlaneDistance(camera->viewPlaneDistance),
+	frustumMode(camera->frustumMode),
+	mouseWarped(camera->mouseWarped),
+	focusFlag(camera->focusFlag),
+	isFocusing(camera->isFocusing),
+	lastMouseX(camera->lastMouseX),
+	lastMouseY(camera->lastMouseY),
+	mouseState(camera->mouseState),
+	frustum(std::move(camera->frustum))
+{
+	//frustum = std::make_unique <Frustum>();
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
+}
 
 Camera::~Camera()
 {
+}
+
+bool Camera::Init()
+{
+	int w, h;
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	aspectRatio = float(w) / h;
+
+	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
+	frustum->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	frustum->SetViewPlaneDistances(0.1f, viewPlaneDistance);
+	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
+
+	acceleration = DEFAULT_SHIFT_ACCELERATION;
+	moveSpeed = DEFAULT_MOVE_SPEED;
+	rotationSpeed = DEFAULT_ROTATION_SPEED;
+	mouseSpeedModifier = DEFAULT_MOUSE_SPEED_MODIFIER;
+	frustumMode = DEFAULT_FRUSTUM_MODE;
+	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
+
+	position = float3(0.f, 2.f, 5.f);
+
+	frustum->SetPos(position);
+	frustum->SetFront(-float3::unitZ);
+	frustum->SetUp(float3::unitY);
+
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
+
+	return true;
+}
+
+bool Camera::Start()
+{
+	return true;
 }
 
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
@@ -35,6 +106,82 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 
 	frustum->SetFront(rotationMatrix.MulDir(oldFront));
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
+}
+
+void Camera::Run()
+{
+	acceleration = DEFAULT_SHIFT_ACCELERATION;
+}
+
+void Camera::Walk()
+{
+	acceleration = 1.f;
+}
+
+void Camera::KeyboardRotate()
+{
+	float yaw = 0.f, pitch = 0.f;
+
+	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	{
+		if (rotationAngle + rotationSpeed * acceleration < 180)
+			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
+	{
+		if (rotationAngle - rotationSpeed * acceleration > 0)
+			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
+		yaw = math::DegToRad(DEFAULT_ROTATION_DEGREE);
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
+		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
+
+	float deltaTime = App->GetDeltaTime();
+	Quat pitchQuat(frustum->WorldRight(), pitch * deltaTime * rotationSpeed * acceleration);
+	Quat yawQuat(float3::unitY, yaw * deltaTime * rotationSpeed * acceleration);
+
+	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
+	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
+	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
+
+	ApplyRotation(rotationDeltaMatrix);
+}
+
+void Camera::FreeLook()
+{
+	float deltaTime = App->GetDeltaTime();
+	float mouseSpeedPercentage = 0.05f;
+	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+
+	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
+	float3x3 y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
+	float3x3 xy = x * y;
+
+	vec oldUp = frustum->Up().Normalized();
+	vec oldFront = frustum->Front().Normalized();
+
+	float3 newUp = xy.MulDir(oldUp);
+
+	if (newUp.y > 0.f)
+	{
+		frustum->SetUp(xy.MulDir(oldUp));
+		frustum->SetFront(xy.MulDir(oldFront));
+	}
+	else
+	{
+		y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), 0);
+		xy = x * y;
+
+		frustum->SetUp(xy.MulDir(oldUp));
+		frustum->SetFront(xy.MulDir(oldFront));
+	}
 }
 
 bool Camera::IsInside(const AABB& aabb)
@@ -181,82 +328,6 @@ void Camera::SetLookAt(const float3& lookAt)
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
 
-}
-
-void Camera::SetMoveSpeed(float speed)
-{
-	moveSpeed = speed;
-}
-
-void Camera::SetRotationSpeed(float speed)
-{
-	rotationSpeed = speed;
-}
-
-void Camera::SetFrustumOffset(float offset)
-{
-	frustumOffset = offset;
-}
-
-
-void Camera::SetFrustumMode(EFrustumMode mode)
-{
-	frustumMode = mode;
-}
-
-const float4x4& Camera::GetProjectionMatrix() const
-{
-	return projectionMatrix;
-}
-
-const float4x4& Camera::GetViewMatrix() const
-{
-	return viewMatrix;
-}
-
-float Camera::GetHFOV() const
-{
-	return math::RadToDeg(frustum->HorizontalFov());
-}
-
-float Camera::GetVFOV() const
-{
-	return math::RadToDeg(frustum->VerticalFov());
-}
-
-float Camera::GetZNear() const
-{
-	return frustum->NearPlaneDistance();
-}
-
-float Camera::GetZFar() const
-{
-	return frustum->FarPlaneDistance();
-}
-
-float Camera::GetMoveSpeed() const
-{
-	return moveSpeed;
-}
-
-float Camera::GetRotationSpeed() const
-{
-	return rotationSpeed;
-}
-
-float Camera::GetDistance(const float3& point) const
-{
-	return frustum->Pos().Distance(point);
-}
-
-float Camera::GetFrustumOffset() const
-{
-	return frustumOffset;
-}
-
-EFrustumMode Camera::GetFrustumMode() const
-{
-	return frustumMode;
 }
 
 LineSegment Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene)

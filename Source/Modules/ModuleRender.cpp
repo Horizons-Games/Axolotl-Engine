@@ -165,11 +165,12 @@ bool ModuleRender::Start()
 	//we really need to remove this :)
 #ifdef ENGINE
 	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
-#else
+#else //ENGINE
 	UID skyboxUID = App->resources->GetSkyBoxResource();
 #endif
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
 		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
