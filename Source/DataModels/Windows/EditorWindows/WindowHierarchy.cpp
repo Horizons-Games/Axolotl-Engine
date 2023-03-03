@@ -1,14 +1,10 @@
 #include "WindowHierarchy.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
-
-#include <assert.h>
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -87,28 +83,17 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-
-        //TODO: make this work
         
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
-            std::vector<GameObject* > parentsChildren = gameObject->GetParent()->GetChildren();
+            GameObject* selectedParent = gameObject->GetParent();
+            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
 
             if (ImGui::MenuItem("Move Up"))
             {
                 if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
-                    for (std::vector<GameObject*>::iterator it = std::begin(parentsChildren);
-                        it != std::end(parentsChildren);
-                        ++it)
-                    {
-                        if ((*it) == gameObject)
-                        {
-                            std::iter_swap(it - 1, it);
-                            App->scene->SetSelectedGameObject(*(it - 1));
-                            break;
-                        }
-                    }
+                    selectedParent->MoveUpChild(gameObject);
                 }
             }
 
@@ -116,17 +101,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
-                    for (std::vector<GameObject*>::iterator it = std::begin(parentsChildren);
-                        it != std::end(parentsChildren);
-                        ++it)
-                    {
-                        if ((*it) == gameObject)
-                        {
-                            std::iter_swap(it, it + 1);
-                            App->scene->SetSelectedGameObject(*(it + 1));
-                            break;
-                        }
-                    }
+                    selectedParent->MoveDownChild(gameObject);
                 }
             }
         }

@@ -1,7 +1,5 @@
 #include "WindowFPS.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 
 WindowFPS::WindowFPS() : SubWindow("FPS"), 

@@ -6,7 +6,7 @@ class SceneImporter : public Importer<ResourceScene>
 {
 public:
     SceneImporter();
-    ~SceneImporter();
+    ~SceneImporter() override;
 
     void Import(const char* filePath, std::shared_ptr<ResourceScene> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceScene> resource) override;

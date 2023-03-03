@@ -1,8 +1,10 @@
 #pragma once
 #include <list>
-#include <memory>
+#include <map>
 #include <MathGeoLib/Include/Geometry/AABB.h>
+
 #include "Globals.h"
+#include "Geometry/LineSegment.h"
 
 class GameObject;
 
@@ -18,10 +20,9 @@ public:
 
 	void Add(const GameObject* gameObject);
 	void AddGameObjectAndChildren(const GameObject* gameObject);
-	void Remove(const GameObject* gameObject);
+	bool Remove(const GameObject* gameObject);
 	void RemoveGameObjectAndChildren(const GameObject* gameObject);
-	void SmartRemove();
-	void OptimizeParentObjects();
+	bool SmartRemove();
 
 	void Subdivide();
 	void RedistributeGameObjects(const GameObject* gameObject);
@@ -52,6 +53,9 @@ public:
 	void SetBoundingBox(AABB boundingBox);
 
 	std::list<const GameObject*> GetAllGameObjects(const GameObject* gameObject);
+
+	// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
+	void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 
 private:
 

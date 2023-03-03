@@ -7,8 +7,6 @@
 #include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "ImporterWindows/WindowSaveScene.h"
 
-#include <memory>
-
 class Model;
 class GameObject;
 class Component;
@@ -20,7 +18,7 @@ class WindowInspector : public EditorWindow
 {
 public:
 	WindowInspector();
-	~WindowInspector();
+	~WindowInspector() override;
 
 protected:
 	void DrawWindowContents() override;

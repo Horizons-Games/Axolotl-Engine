@@ -1,10 +1,8 @@
-#include "Application.h"
-#include "Globals.h"
-
 #include "ModuleEditor.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleEngineCamera.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
@@ -13,18 +11,15 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
-#include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 
 #include "optick.h"
 
-#include <ImGui/imgui.h>
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
 #include <FontIcons/CustomFont.cpp>
-#include <GL/glew.h>
 
 static bool cameraOpened = true;
 static bool configOpened = true;
@@ -92,14 +87,14 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
 
-	update_status status = UPDATE_CONTINUE;
+	update_status status = update_status::UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
@@ -174,7 +169,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::Resized()

@@ -1,7 +1,5 @@
 #include "WindowEditorControl.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleScene.h"
 

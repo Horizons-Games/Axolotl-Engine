@@ -6,7 +6,7 @@ class WindowConsole : public EditorWindow
 {
 public:
 	WindowConsole();
-	~WindowConsole();
+	~WindowConsole() override;
 
 protected:
 	void DrawWindowContents() override;

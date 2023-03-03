@@ -3,7 +3,6 @@
 #include "../Components/ComponentTransform.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
-#include "../Components/ComponentLight.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
@@ -17,9 +16,7 @@
 
 #include "Scene/Scene.h"
 
-#include "FileSystem/Json.h"
-
-#include <assert.h>
+#include <queue>
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
@@ -87,6 +84,55 @@ void GameObject::Draw() const
 		if (component->GetActive())
 		{
 			component->Draw();
+		}
+	}
+}
+
+void GameObject::DrawSelected()
+{
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
+	{
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		for (const std::unique_ptr<Component>& component : currentGo->components)
+		{
+			if (component->GetActive())
+			{
+				component->Draw();
+			}
+		}
+	}
+}
+
+void GameObject::DrawHighlight()
+{
+	std::queue<const GameObject*> gameObjectQueue;
+	gameObjectQueue.push(this);
+	while (!gameObjectQueue.empty())
+	{
+		const GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		std::vector<ComponentMeshRenderer*> meshes = 
+			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes) 
+		{
+			mesh->DrawHighlight();
 		}
 	}
 }
@@ -433,7 +479,7 @@ Component* GameObject::GetComponent(ComponentType type) const
 			return (*it).get();
 		}
 	}
-
+	
 	return nullptr;
 }
 
@@ -477,4 +523,34 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void GameObject::MoveUpChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it - 1, it);
+			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			break;
+		}
+	}
+}
+
+void GameObject::MoveDownChild(GameObject* childToMove)
+{
+	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
+		it != std::end(children);
+		++it)
+	{
+		if ((*it).get() == childToMove)
+		{
+			std::iter_swap(it, it + 1);
+			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			break;
+		}
+	}
 }

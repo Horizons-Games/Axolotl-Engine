@@ -44,6 +44,8 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+
 private:
 	void UpdateProgram();
 
@@ -61,7 +63,7 @@ private:
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
-	GLuint depthRenderBuffer;
+	GLuint depthStencilRenderbuffer;
 
 	std::string vertexShader;
 	std::string fragmentShader;
@@ -94,3 +96,7 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 	return fragmentShader;
 }
 
+inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
+{
+	return gameObjectsToDraw;
+}

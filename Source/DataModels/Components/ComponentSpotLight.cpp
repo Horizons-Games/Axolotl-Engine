@@ -1,12 +1,5 @@
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
-#include "ComponentPointLight.h"
-
-#include "Application.h"
-
-#include "../Modules/ModuleScene.h"
-
-#include "Scene/Scene.h"
 
 #include "FileSystem/Json.h"
 
