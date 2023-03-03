@@ -4,6 +4,11 @@
 #include "Components/ComponentBoundingBoxes.h"
 #include "Application.h"
 
+#include "math/float4x4.h"
+#include "math/float3.h"
+#include "geometry/OBB.h"
+#include "geometry/AABB.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 

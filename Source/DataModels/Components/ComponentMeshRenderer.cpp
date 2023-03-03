@@ -8,7 +8,7 @@
 
 #include "Application.h"
 
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -46,8 +46,8 @@ void ComponentMeshRenderer::Draw()
 		}
 
 		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -90,8 +90,8 @@ void ComponentMeshRenderer::DrawHighlight()
 		std::shared_ptr<Program> programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared.get()->GetId();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

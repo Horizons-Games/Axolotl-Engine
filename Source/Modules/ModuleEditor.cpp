@@ -13,7 +13,9 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
@@ -93,7 +95,9 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+#endif // DEBUG
 
 	update_status status = update_status::UPDATE_CONTINUE;
 

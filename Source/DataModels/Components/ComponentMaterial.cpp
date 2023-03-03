@@ -5,7 +5,7 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
@@ -102,7 +102,7 @@ void ComponentMaterial::Draw()
 		glUniform1f(5, material->GetShininess()); //shininess
 		glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 
-		float3 viewPos = App->engineCamera->GetPosition();
+		float3 viewPos = App->engineCamera->GetCamera()->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
 }

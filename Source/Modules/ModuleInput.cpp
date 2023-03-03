@@ -5,8 +5,12 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifdef ENGINE
 #include "imgui_impl_sdl.h"
+#endif // ENGINE
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
 {
@@ -52,7 +56,9 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::Update()
 {
+#ifdef DEBUG
     OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
 
     update_status status = update_status::UPDATE_CONTINUE;
 
@@ -96,7 +102,9 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#endif // ENGINE
 
         switch (sdlEvent.type)
         {

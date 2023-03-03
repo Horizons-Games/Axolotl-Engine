@@ -24,7 +24,6 @@ enum class TextureType
 // Application -------------
 #define TITLE "Axolotl Engine"
 #define VERSION "1.0.0"
-//#define GAME
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 

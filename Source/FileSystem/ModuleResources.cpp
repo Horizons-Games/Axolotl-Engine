@@ -35,9 +35,19 @@ bool ModuleResources::Start()
 
 	CreateAssetAndLibFolders();
 
-#if !defined(GAME)
+#ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 #endif
+	return true;
+}
+
+bool ModuleResources::CleanUp()
+{
+#ifdef ENGINE
+	monitorResources = false;
+	monitorThread.join();
+#endif
+	resources.clear();
 	return true;
 }
 

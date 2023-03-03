@@ -105,16 +105,6 @@ private:
 	friend class WindowResources;
 };
 
-inline bool ModuleResources::CleanUp()
-{
-#if !defined(GAME)
-	monitorResources = false;
-	monitorThread.join();
-#endif
-	resources.clear();
-	return true;
-}
-
 inline const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath)
 {
 	return RequestResource<Resource>(assetPath);

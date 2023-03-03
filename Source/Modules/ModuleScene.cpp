@@ -9,7 +9,9 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
@@ -26,7 +28,7 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-#if !defined(GAME)
+#ifdef ENGINE
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
@@ -43,7 +45,9 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+#endif // DEBUG
 
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
@@ -127,7 +131,7 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
-#if !defined(GAME)
+#ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());

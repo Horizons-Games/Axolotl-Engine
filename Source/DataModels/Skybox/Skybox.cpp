@@ -6,7 +6,7 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "DataModels/Program/Program.h"
 
 Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes)
@@ -28,8 +28,8 @@ void Skybox::Draw()
 
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetCamera()->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
         glBindVertexArray(skyboxRes->GetVAO());
         glActiveTexture(GL_TEXTURE0);
