@@ -261,7 +261,7 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 
 void ModuleResources::ReimportResource(UID resourceUID)
 {
-	std::shared_ptr<Resource> resource = resources[resourceUID];
+	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
