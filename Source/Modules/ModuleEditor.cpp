@@ -1,11 +1,8 @@
-#include "Application.h"
-#include "Globals.h"
-
 #include "ModuleEditor.h"
+
+#include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleEngineCamera.h"
-#include "ModuleTexture.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -13,16 +10,18 @@
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
-#include "Windows/EditorWindows/WindowFileBrowser.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 
-#include <ImGui/imgui.h>
+#ifdef DEBUG
+#include "optick.h"
+#endif // DEBUG
+
+#include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
 
 #include <FontIcons/CustomFont.cpp>
-#include <GL/glew.h>
 
 static bool cameraOpened = true;
 static bool configOpened = true;
@@ -30,9 +29,13 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 
-ModuleEditor::ModuleEditor() {}
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+{
+}
 
-ModuleEditor::~ModuleEditor() {}
+ModuleEditor::~ModuleEditor() 
+{
+}
 
 bool ModuleEditor::Init()
 {
@@ -42,13 +45,15 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;     // Prevent mouse flickering
+
 	io.Fonts->AddFontDefault();
 	static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
 	windows.push_back(std::make_shared<WindowConsole>());
-	windows.push_back(scene = std::make_shared<WindowScene>());
+	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_shared<WindowConfiguration>());
 	windows.push_back(inspector = std::make_shared<WindowInspector>());
 	windows.push_back(std::make_shared<WindowHierarchy>());
@@ -75,7 +80,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	lines.clear();
 	windows.clear();
 
 	return true;
@@ -87,12 +91,16 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
-	update_status status = UPDATE_CONTINUE;
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+#endif // DEBUG
+
+	update_status status = update_status::UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
@@ -112,6 +120,9 @@ update_status ModuleEditor::Update()
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
 	ImGui::End();
+
+	//disable ALT key triggering nav menu
+	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
@@ -140,7 +151,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::Resized()
@@ -150,7 +161,7 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
-	return this->scene->IsFocused();
+	return scene->IsFocused();
 }
 
 void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const

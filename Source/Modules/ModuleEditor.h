@@ -23,6 +23,8 @@ public:
 
 	void Resized();
 
+	const WindowScene* GetScene() const;
+
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 
@@ -33,6 +35,11 @@ private:
 	std::shared_ptr<WindowScene> scene = nullptr;
 	std::shared_ptr<WindowInspector> inspector = nullptr;
 
-	bool windowResized = false;
+	WindowScene* scene;
+	bool windowResized;
 };
 
+inline const WindowScene* ModuleEditor::GetScene() const
+{
+	return scene;
+}

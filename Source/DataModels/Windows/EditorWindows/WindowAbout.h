@@ -6,7 +6,7 @@ class WindowAbout : public EditorWindow
 {
 public:
 	WindowAbout();
-	~WindowAbout();
+	~WindowAbout() override;
 
 protected:
 	void DrawWindowContents() override;

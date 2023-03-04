@@ -1,15 +1,12 @@
 #pragma once
 
-#include "Windows/Window.h"
-
-#include "EditorWindows/EditorWindow.h"
 #include "EditorWindows/WindowAbout.h"
 
 class WindowMainMenu : public Window
 {
 public:
-	WindowMainMenu(const std::vector<std::shared_ptr<EditorWindow> >& editorWindows);
-	~WindowMainMenu();
+	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow> >& editorWindows);
+	~WindowMainMenu() override;
 
 	static const std::string repositoryLink;
 
@@ -29,19 +26,17 @@ private:
 
 	std::unique_ptr<WindowAbout> about;
 	
-	bool showAbout = false;
+	bool showAbout;
 	
-	size_t nWindows;
-	std::vector<std::string> windowNames;
-	std::vector<bool> windowsEnabled;
+	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
 {
-	return windowsEnabled[windowIndex];
+	return windowNamesAndEnabled[windowIndex].second;
 }
 
 inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool enabled)
 {
-	windowsEnabled[windowIndex] = enabled;
+	windowNamesAndEnabled[windowIndex].second = enabled;
 }

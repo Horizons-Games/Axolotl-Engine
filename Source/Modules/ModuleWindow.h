@@ -11,7 +11,7 @@ class ModuleWindow : public Module
 {
 public:
 	ModuleWindow();
-	virtual ~ModuleWindow();
+	~ModuleWindow() override;
 
 	bool Init() override;
 	bool CleanUp() override;
@@ -45,24 +45,16 @@ private:
 			SDL_DestroyWindow(window);
 		}
 	};
-	//SDL_Surface is also incomplete
-	struct SDLSurfaceDestroyer
-	{
-		void operator()(SDL_Surface* surface) const
-		{
-			SDL_FreeSurface(surface);
-		}
-	};
 
 	//The window we'll be rendering to
 	std::unique_ptr<SDL_Window, SDLWindowDestroyer> window;
 
 	//The surface contained by the window
-	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> screenSurface;
+	SDL_Surface* screenSurface;
 
 	//whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
 	//this is because both flags are set at the same time, so it's impossible to differentiate otherwise
-	bool fullscreen = false;
+	bool fullscreen;
 
 	float brightness;
 };
@@ -89,7 +81,7 @@ inline bool ModuleWindow::IsWindowDesktopFullscreen() const
 
 inline float ModuleWindow::GetBrightness() const
 {
-	return this->brightness;
+	return brightness;
 }
 
 inline SDL_Window* ModuleWindow::GetWindow() const
@@ -99,6 +91,6 @@ inline SDL_Window* ModuleWindow::GetWindow() const
 
 inline bool ModuleWindow::IsFlagSet(SDL_WindowFlags flag) const
 {
-	Uint32 windowFlags = SDL_GetWindowFlags(this->GetWindow());
+	Uint32 windowFlags = SDL_GetWindowFlags(GetWindow());
 	return windowFlags & flag;
 }

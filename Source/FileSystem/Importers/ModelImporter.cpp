@@ -6,6 +6,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "DataModels/Resources/ResourceMesh.h"
+#include "DataModels/Resources/ResourceMaterial.h"
 
 #include "Math/float3.h"
 
@@ -15,6 +17,14 @@
 
 void myCallback(const char* msg, char* userData) {
 	ENGINE_LOG("[assimp] %s", msg);
+}
+
+ModelImporter::ModelImporter()
+{
+}
+
+ModelImporter::~ModelImporter()
+{
 }
 
 void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> resource)
@@ -49,9 +59,10 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 {
 	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
 
-	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() + sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() +
+		sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 
-	char* cursor = new char[size]{};
+	char* cursor = new char[size] {};
 
 	fileBuffer = cursor;
 
@@ -60,13 +71,25 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
+	std::vector<UID> meshesUIDs;
+	meshesUIDs.reserve(resource->GetNumMeshes());
+	for (int i = 0; i < resource->GetNumMeshes(); i++)
+	{
+		meshesUIDs.push_back(resource->GetMeshes()[i]->GetUID());
+	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
-	memcpy(cursor, &(resource->GetMeshesUIDs()[0]), bytes);
+	memcpy(cursor, &(meshesUIDs[0]), bytes);
 
 	cursor += bytes;
 
+	std::vector<UID> materialsUIDs;
+	materialsUIDs.reserve(resource->GetNumMaterials());
+	for (int i = 0; i < resource->GetNumMaterials(); i++)
+	{
+		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
+	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
-	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
+	memcpy(cursor, &(materialsUIDs[0]), bytes);
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
@@ -83,8 +106,15 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
-	std::vector<UID> meshes(meshesPointer, meshesPointer + resource->GetNumMeshes());
-	resource->SetMeshesUIDs(meshes);
+	std::vector<UID> meshesUIDs(meshesPointer, meshesPointer + resource->GetNumMeshes());
+	std::vector<std::shared_ptr<ResourceMesh>> meshes;
+	meshes.reserve(resource->GetNumMeshes());
+	for (int i = 0; i < meshesUIDs.size(); i++)
+	{
+		meshes.push_back(App->resources->SearchResource<ResourceMesh>(meshesUIDs[i]));
+	}
+
+	resource->SetMeshes(meshes);
 
 	fileBuffer += bytes;
 
@@ -93,19 +123,28 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
-	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
-	resource->SetMaterialsUIDs(materials);
+	std::vector<UID> materialsUIDs(materialsPointer, materialsPointer + resource->GetNumMaterials());
+	std::vector<std::shared_ptr<ResourceMaterial>> materials;
+	materials.reserve(resource->GetNumMaterials());
+	for (int i = 0; i < materialsUIDs.size(); i++)
+	{
+		materials.push_back(App->resources->SearchResource<ResourceMaterial>(materialsUIDs[i]));
+	}
+
+	resource->SetMaterials(materials);
 
 	delete[] materialsPointer;
 }
 
 
-void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource)
+void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
+	std::shared_ptr<ResourceModel>& resource)
 {
 	ENGINE_LOG("---- Loading Materials ----");
 
-	std::vector<UID> materialsUIDs;
-	materialsUIDs.reserve(scene->mNumMaterials);
+	std::vector<std::shared_ptr<ResourceMaterial>> materials;
+
+	materials.reserve(scene->mNumMaterials);
 
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
@@ -155,22 +194,24 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath, 
 		unsigned int size = 0;
 
 		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
-		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
+		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i)
+			+ MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
-		UID resourceMaterial = App->resources->ImportResource(materialPath);
-		materialsUIDs.push_back(resourceMaterial);
-
+		std::shared_ptr<ResourceMaterial> resourceMaterial =
+			App->resources->RequestResource<ResourceMaterial>(materialPath);
+		materials.push_back(resourceMaterial);
+		
 		delete fileBuffer;
 	}
 
-	resource->SetMaterialsUIDs(materialsUIDs);
+	resource->SetMaterials(materials);
 }
 
 void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource)
 {
-	std::vector<UID> meshesUIDs;
-	meshesUIDs.reserve(scene->mNumMeshes);
+	std::vector<std::shared_ptr<ResourceMesh>> meshes;
+	meshes.reserve(scene->mNumMeshes);
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
@@ -182,10 +223,10 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
 		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		UID resourceMesh = App->resources->ImportResource(meshPath);
-		meshesUIDs.push_back(resourceMesh);
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(meshPath);
+		meshes.push_back(resourceMesh);
 	}
-	resource->SetMeshesUIDs(meshesUIDs);
+	resource->SetMeshes(meshes);
 }
 
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
@@ -207,13 +248,19 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 				ENGINE_LOG("Texture not found!");
 			}
 			else
+			{
 				dataBuffer = TEXTURES_PATH + name;
+			}
 		}
 		else
+		{
 			dataBuffer = path + name;
+		}
 	}
 	else
+	{
 		dataBuffer = std::string(file.data);
+	}
 
 }
 

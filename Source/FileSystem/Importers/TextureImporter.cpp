@@ -1,6 +1,5 @@
 #include "TextureImporter.h"
 
-#include "EngineLog.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
@@ -10,6 +9,14 @@
 #include <DirectXTex/DirectXTex.h>
 
 #define DDS_TEXTURE_EXTENSION ".dds"
+
+TextureImporter::TextureImporter()
+{
+}
+
+TextureImporter::~TextureImporter()
+{
+}
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {

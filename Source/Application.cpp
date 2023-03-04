@@ -4,32 +4,34 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
-#include "ModuleDebugDraw.h"
-#include "ModuleEditor.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
-
+#ifdef ENGINE
+#include "ModuleDebugDraw.h"
+#include "ModuleEditor.h"
+#endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
 
 Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
-	modules.push_back(window = std::make_shared<ModuleWindow>());
-	modules.push_back(editor = std::make_shared<ModuleEditor>());
-	modules.push_back(input = std::make_shared<ModuleInput>());
-	modules.push_back(program = std::make_shared<ModuleProgram>()); 
-	modules.push_back(fileSystem = std::make_shared<ModuleFileSystem>());
-	modules.push_back(resources = std::make_shared<ModuleResources>());
-	modules.push_back(engineCamera = std::make_shared<ModuleEngineCamera>());
-	modules.push_back(scene = std::make_shared<ModuleScene>());
-	modules.push_back(renderer = std::make_shared<ModuleRender>());
-	modules.push_back(debug = std::make_shared<ModuleDebugDraw>());
-
-
-
+	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
+#ifdef ENGINE
+	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
+#endif // ENGINE
+	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
+	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
+	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
+	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
+	modules.push_back(std::unique_ptr<ModuleCamera>(engineCamera = new ModuleCamera()));
+	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
+	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
+#ifdef ENGINE
+	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
+#endif // ENGINE
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
 }
@@ -65,15 +67,15 @@ update_status Application::Update()
 {
 	float ms = appTimer->Read();
 
-	update_status ret = UPDATE_CONTINUE;
+	update_status ret = update_status::UPDATE_CONTINUE;
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PreUpdate();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->Update();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PostUpdate();
 
 	float dt = (appTimer->Read() - ms) / 1000.0f;
@@ -83,7 +85,7 @@ update_status Application::Update()
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	this->deltaTime = (appTimer->Read() - ms) / 1000.0f;
+	deltaTime = (appTimer->Read() - ms) / 1000.0f;
 
 	return ret;
 }

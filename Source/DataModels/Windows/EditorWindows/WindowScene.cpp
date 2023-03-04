@@ -2,13 +2,12 @@
 
 #include "WindowScene.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "Modules/ModuleRender.h"
-#include "Modules/ModuleEngineCamera.h"
+#include "Modules/ModuleCamera.h"
 
-WindowScene::WindowScene() : EditorWindow("Scene")
+WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
+	currentWidth(0), currentHeight(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs;
 }
@@ -26,13 +25,26 @@ void WindowScene::DrawWindowContents()
 
 void WindowScene::ManageResize()
 {
-	ImVec2 availableRegion = ImGui::GetContentRegionAvail();
-	bool widthChanged = previousWidht != availableRegion.x;
-	bool heightChanged = previousHeight != availableRegion.y;
+	auto viewportOffset = ImGui::GetCursorPos(); // include tab bar
+	
+	availableRegion = ImGui::GetContentRegionAvail();
+	bool widthChanged = currentWidth != availableRegion.x;
+	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		App->engineCamera->SetAspectRatio(availableRegion.x / availableRegion.y);
-		previousWidht = availableRegion.x;
-		previousHeight = availableRegion.y;
+		App->engineCamera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
+		currentWidth = availableRegion.x;
+		currentHeight = availableRegion.y;
 	}
+	
+	auto windowSize = ImGui::GetWindowSize();
+
+	ImVec2 minBounds = ImGui::GetWindowPos();
+	minBounds.x += viewportOffset.x;
+	minBounds.y += viewportOffset.y;
+	
+	ImVec2 maxBounds = { minBounds.x + windowSize.x, minBounds.y + windowSize.y};
+	
+	viewportBounds[0] = { minBounds.x, minBounds.y };
+	viewportBounds[1] = { maxBounds.x, maxBounds.y };
 }

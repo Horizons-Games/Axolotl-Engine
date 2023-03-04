@@ -1,17 +1,25 @@
 #include "ModuleProgram.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include "DataModels/Program/Program.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram(){}
-ModuleProgram::~ModuleProgram(){}
+ModuleProgram::ModuleProgram() : program (0)
+{
+}
 
+ModuleProgram::~ModuleProgram()
+{
+}
 
 bool ModuleProgram::Start()
 {
-	Programs.reserve((int)ProgramType::SKYBOX + 1);
-	Programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
-	Programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
+	programs.reserve((int)ProgramType::SKYBOX + 1);
+	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
+	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl"));
+	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
 
 	return true;
 }
@@ -19,8 +27,8 @@ bool ModuleProgram::Start()
 
 std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName)
 {
-	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((RootPath + vtxShaderFileName).c_str()));
-	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((RootPath + frgShaderFileName).c_str()));
+	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((ROOTPATH + vtxShaderFileName).c_str()));
+	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((ROOTPATH + frgShaderFileName).c_str()));
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{
@@ -49,22 +57,22 @@ bool ModuleProgram::CleanUp()
 
 void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
 {
-	this->program = glCreateProgram();
-	glAttachShader(this->program, vtxShader);
-	glAttachShader(this->program, frgShader);
-	glLinkProgram(this->program);
+	program = glCreateProgram();
+	glAttachShader(program, vtxShader);
+	glAttachShader(program, frgShader);
+	glLinkProgram(program);
 
 	int res;
-	glGetProgramiv(this->program, GL_LINK_STATUS, &res);
+	glGetProgramiv(program, GL_LINK_STATUS, &res);
 	if (res == GL_FALSE)
 	{
 		int len = 0;
-		glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &len);
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
 		if (len > 0)
 		{
 			int written = 0;
 			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(this->program, len, &written, info);
+			glGetProgramInfoLog(program, len, &written, info);
 			ENGINE_LOG("Program Log Info: %s", info);
 			free(info);
 		}
@@ -75,20 +83,8 @@ void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
 
 char* ModuleProgram::LoadShaderSource(const char* shaderFileName)
 {
-	char* data = nullptr;
-	FILE* file = nullptr;
-	fopen_s(&file, shaderFileName, "rb");
-	if (file)
-	{
-		fseek(file, 0, SEEK_END);
-		int size = ftell(file);
-		data = (char*)malloc(size + 1);
-		fseek(file, 0, SEEK_SET);
-		fread(data, 1, size, file);
-		data[size] = 0;
-		fclose(file);
-	}
-
+	char* data;
+	App->fileSystem->Load(shaderFileName, data);
 	return data;
 }
 

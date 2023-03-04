@@ -6,7 +6,7 @@
 
 #define GLSL_VERSION "#version 440"
 
-enum update_status
+enum class update_status
 {
 	UPDATE_CONTINUE = 1,
 	UPDATE_STOP,
@@ -24,7 +24,6 @@ enum class TextureType
 // Application -------------
 #define TITLE "Axolotl Engine"
 #define VERSION "1.0.0"
-//#define GAME
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 
@@ -44,6 +43,11 @@ enum class TextureType
 #define BRIGHTNESS 1.0f
 
 // Paths -------------------
+
+#define ASSETS_FOLDER "Assets"
+#define LIB_FOLDER "Lib"
+#define ASSETS_PATH "Assets/"
+#define LIB_PATH "Lib/"
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
@@ -65,3 +69,8 @@ enum class TextureType
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"
 #define GENERAL_BINARY_EXTENSION ".bin"
+
+// QuadTree standard -------
+#define QUADTREE_INITIAL_SIZE 200
+#define QUADTREE_INITIAL_ALTITUDE 1000
+

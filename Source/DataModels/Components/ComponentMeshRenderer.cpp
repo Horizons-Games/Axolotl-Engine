@@ -4,39 +4,35 @@
 
 #include "ComponentTransform.h"
 #include "ComponentBoundingBoxes.h"
+#include "Program/Program.h"
 
 #include "Application.h"
 
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
-#include "Scene/Scene.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
-#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
-#include "imgui.h"
 
-#include "Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
+#ifdef ENGINE
+#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#endif // ENGINE
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, const std::shared_ptr<GameObject>& owner)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
-	inputMesh = std::make_unique<WindowMeshInput>(this);
 }
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (meshAsShared)
-		mesh.lock()->Unload();
+	if (mesh)
+		mesh->Unload();
 }
 
 void ComponentMeshRenderer::Update()
@@ -46,21 +42,27 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	//lock it so it does not expire during this block
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (meshAsShared) //pointer not empty
+	//this should be in an EditorComponent class, or something of the like
+	//but for now have it here
+#ifdef ENGINE
+	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
 	{
-		if (!meshAsShared->IsLoaded())
+		mesh = nullptr;
+	}
+#endif // ENGINE
+
+	if (this->IsMeshLoaded()) //pointer not empty
+	{
+		if (!mesh->IsLoaded())
 		{
-			meshAsShared->Load();
+			mesh->Load();
 		}
 
 		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
-			std::static_pointer_cast<ComponentTransform>(GetOwner().lock()
+			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		GLint programInUse;
@@ -71,14 +73,14 @@ void ComponentMeshRenderer::Draw()
 			glUseProgram(program);
 		}
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(meshAsShared->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshAsShared->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, meshAsShared->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
@@ -86,77 +88,46 @@ void ComponentMeshRenderer::Draw()
 	}
 }
 
-void ComponentMeshRenderer::Display()
+void ComponentMeshRenderer::DrawHighlight()
 {
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
-	if (ImGui::CollapsingHeader("MESH RENDERER", ImGuiTreeNodeFlags_DefaultOpen))
+	if (IsMeshLoaded()) //pointer not empty
 	{
-		static char* meshPath = (char*)("unknown");
-
-		if (meshAsShared)
-			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
-		else
-			meshPath = (char*)("unknown");
-
-		ImGui::InputText("##Mesh path", meshPath, 128);
-
-		if (ImGui::BeginDragDropTarget())
+		if (!mesh->IsLoaded())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
-			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-
-				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
-
-				if (newMesh)
-				{
-					meshAsShared->Unload();
-					SetMesh(newMesh);
-				}
-			}
-
-			ImGui::EndDragDropTarget();
-		}
-		ImGui::SameLine();
-
-		bool showMeshBrowser;
-
-		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
-
-		if (showMeshBrowser)
-		{
-			inputMesh->DrawWindowContents();
-		}
-		else
-		{
-			if (ImGui::Button("Remove Mesh"))
-			{
-				meshAsShared->Unload();
-				mesh = std::weak_ptr<ResourceMesh>();
-			}
+			mesh->Load();
 		}
 
-		if (ImGui::BeginTable("##GeometryTable", 2))
-		{
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of vertices: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumVertices() : 0);
-			ImGui::TableNextColumn();
-			ImGui::Text("Number of triangles: ");
-			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared.get()->GetNumFaces() : 0); // faces = triangles
+		float scale = 10.1f;
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		std::shared_ptr<Program> programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
+		assert(programShared);
+		unsigned program = programShared.get()->GetId();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+		const float4x4& model =
+			static_cast<ComponentTransform*>(GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		GLint programInUse;
+		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-			ImGui::EndTable();
+		if (program != programInUse)
+		{
+			glUseProgram(program);
 		}
+
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
-	ImGui::Separator();
 }
 
 void ComponentMeshRenderer::SaveOptions(Json& meta)
@@ -165,21 +136,17 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
-
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(meshAsShared)
+	if(mesh)
 	{
-		uidMesh = meshAsShared->GetUID();
-		assetPath = meshAsShared->GetAssetsPath();
+		uidMesh = mesh->GetUID();
+		assetPath = mesh->GetAssetsPath();
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
-
-	//meta["mesh"] = (std::weak_ptr<ResourceMesh>) mesh;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -188,37 +155,36 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
+#ifdef ENGINE
+	std::string path = meta["assetPathMesh"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
+		if (resourceMesh)
+		{
+			SetMesh(resourceMesh);
+		}
+	}
+#else
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->SearchResource<ResourceMesh>(uidMesh);
 	if (resourceMesh)
 	{
 		SetMesh(resourceMesh);
 	}
-	else
-	{
-		std::string path = meta["assetPathMesh"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-			SetMesh(resourceMesh);
-		}
-	}
+#endif
 }
 
-void ComponentMeshRenderer::SetMesh(const std::weak_ptr<ResourceMesh>& newMesh)
+void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
-	std::shared_ptr<ResourceMesh> meshAsShared = mesh.lock();
 
-
-	if (meshAsShared)
+	if (mesh)
 	{
-		meshAsShared->Load();
-		std::shared_ptr<ComponentBoundingBoxes> boundingBox =
-			std::static_pointer_cast<ComponentBoundingBoxes>(GetOwner().lock()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(meshAsShared->GetVertices().data(), meshAsShared->GetNumVertices());
+		mesh->Load();
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }

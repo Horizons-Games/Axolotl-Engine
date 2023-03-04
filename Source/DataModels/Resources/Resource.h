@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "FileSystem/UniqueID.h"
 
 class Json;
@@ -42,7 +41,10 @@ public:
 
 
 protected:
-	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	Resource(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
@@ -60,12 +62,12 @@ private:
 
 inline bool Resource::IsLoaded() const
 {
-	return this->loaded;
+	return loaded;
 }
 
 inline bool Resource::IsChanged() const
 {
-	return this->changed;
+	return changed;
 }
 
 inline void Resource::SetChanged(bool changed)
@@ -78,7 +80,10 @@ inline bool Resource::ChildChanged() const
 	return false;
 }
 
-inline Resource::Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath):
+inline Resource::Resource(	UID resourceUID, 
+							const std::string& fileName, 
+							const std::string& assetsPath, 
+							const std::string& libraryPath):
 	uid(resourceUID),
 	fileName(fileName),
 	assetsPath(assetsPath),
@@ -110,7 +115,7 @@ inline void Resource::Load()
 {
 	if (!loaded || ChildChanged())
 	{
-		this->InternalLoad();
+		InternalLoad();
 		loaded = true;
 	}
 }
@@ -119,7 +124,7 @@ inline void Resource::Unload()
 {
 	if (loaded)
 	{
-		this->InternalUnload();
+		InternalUnload();
 		loaded = false;
 	}
 }

@@ -3,11 +3,9 @@
 #include "EditorWindow.h"
 
 #include "FileSystem/UniqueID.h"
-// TODO: REMOVE
+
 #include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "ImporterWindows/WindowSaveScene.h"
-// --
-#include <memory>
 
 class Model;
 class GameObject;
@@ -15,12 +13,13 @@ class Component;
 class ComponentCamera;
 class Resource;
 enum class LightType;
+class ComponentWindow;
 
 class WindowInspector : public EditorWindow
 {
 public:
 	WindowInspector();
-	~WindowInspector();
+	~WindowInspector() override;
 
 	void SetResource(const std::weak_ptr<Resource>& resource);
 
@@ -46,10 +45,10 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 
-	// TODO: REMOVE
-	bool showSaveScene = true;
-	bool showLoadScene = true;
 	void DrawButtomsSaveAndLoad();
+
+	bool showSaveScene;
+	bool showLoadScene;
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 	// --
@@ -60,6 +59,9 @@ private:
 	//Texture
 	bool flipVertical;
 	bool flipHorizontal;
+
+	UID lastSelectedObjectUID;
+	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
 };
 
 inline ImVec2 WindowInspector::GetStartingSize() const

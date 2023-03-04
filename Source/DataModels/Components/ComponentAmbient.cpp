@@ -1,20 +1,12 @@
 #include "ComponentAmbient.h"
 
-#include "Application.h"
-
-#include "Scene/Scene.h"
-
 #include "../Modules/ModuleScene.h"
-
-#include "FileSystem/Json.h"
-
-#include "imgui.h"
 
 ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(const std::shared_ptr<GameObject>& parent) :
+ComponentAmbient::ComponentAmbient(GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, parent, false)
 {
 }
@@ -23,32 +15,13 @@ ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightTy
 {
 }
 
-ComponentAmbient::ComponentAmbient(const float3& color, const std::shared_ptr<GameObject>& parent) :
+ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
 {
 }
 
-void ComponentAmbient::Display()
+ComponentAmbient::~ComponentAmbient()
 {
-	if (ImGui::CollapsingHeader("AMBIENT LIGHT", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-
-		if (ImGui::BeginTable("AmbientLightTable", 2))
-		{
-			ImGui::TableNextColumn();
-						
-			ImGui::Text("Color"); 
-			ImGui::SameLine();
-
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
-			{
-				App->scene->GetLoadedScene()->RenderAmbientLight();
-			}
-			ImGui::EndTable();
-		}
-	}
-	ImGui::Separator();
 }
 
 void ComponentAmbient::SaveOptions(Json& meta)

@@ -1,7 +1,5 @@
 #include "WindowInspector.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleScene.h"
 #include "FileSystem/ModuleResources.h"
@@ -10,18 +8,15 @@
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentBoundingBoxes.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector")
+#include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
+
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
+	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
-	loadScene = std::make_unique<WindowLoadScene>();
-	saveScene = std::make_unique<WindowSaveScene>();
 }
 
 WindowInspector::~WindowInspector()
@@ -50,7 +45,6 @@ void WindowInspector::InspectSelectedGameObject()
 	//TODO: REMOVE AFTER, HERE WE GO
 	DrawButtomsSaveAndLoad();
 	ImGui::Separator();
-	//
 
 	lastSelectedGameObject = App->scene->GetSelectedGameObject().lock();
 
@@ -101,22 +95,21 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		std::shared_ptr<GameObject> go = App->scene->GetSelectedGameObject().lock();
-		if (go)
+		if (lastSelectedGameObject)
 		{
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
 			}
 
-			if (!go->GetComponent(ComponentType::MATERIAL)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MATERIAL)) {
 				if (ImGui::MenuItem("Create Material Component"))
 				{
 					AddComponentMaterial();
 				}
 			}
 
-			if (!go->GetComponent(ComponentType::LIGHT)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
 					AddComponentLight(LightType::SPOT);
@@ -136,6 +129,31 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 
 		ImGui::EndPopup();
+	}
+
+	if (lastSelectedGameObject)
+	{
+		//if the selected game object has changed
+		//or number of components is different
+		//create the windows again
+		if (lastSelectedGameObject->GetUID() != lastSelectedObjectUID
+			|| lastSelectedGameObject->GetComponents().size() != windowsForComponentsOfSelectedObject.size())
+		{
+			windowsForComponentsOfSelectedObject.clear();
+
+			for (Component* component : lastSelectedGameObject->GetComponents())
+			{
+				windowsForComponentsOfSelectedObject.push_back(ComponentWindow::CreateWindowForComponent(component));
+			}
+		}
+		for (int i = 0; i < windowsForComponentsOfSelectedObject.size(); ++i)
+		{
+			if (windowsForComponentsOfSelectedObject[i])
+			{
+				windowsForComponentsOfSelectedObject[i]->Draw();
+			}
+		}
+		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
 
 	for (unsigned int i = 0; i < lastSelectedGameObject->GetComponents().size(); ++i)
@@ -176,13 +194,13 @@ bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared
 	{
 		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
 		{
-			assert(false && "Trying to delete a non-existing component");
+			if (windowsForComponentsOfSelectedObject[i])
+			{
+				windowsForComponentsOfSelectedObject[i]->Draw();
+			}
 		}
-
-		return true;
+		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
-
-	return false;
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -207,10 +225,10 @@ void WindowInspector::InspectSelectedResource()
 
 void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
 	std::shared_ptr<Resource> lastResource = this->resource.lock();
-	/*if (lastResource) //Unload of last resource
+	if (lastResource) //Unload of last resource
 	{
 		lastResource->Unload();
-	}*/
+	}
 
 	this->resource = resource;
 
@@ -303,17 +321,17 @@ bool WindowInspector::WindowRightClick()
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MESHRENDERER);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentMaterial()
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponent(ComponentType::MATERIAL);
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject().lock()->CreateComponentLight(type);
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 // TODO: REMOVE

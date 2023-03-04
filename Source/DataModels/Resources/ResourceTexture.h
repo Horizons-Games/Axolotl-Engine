@@ -3,7 +3,8 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression {
+enum class TextureCompression 
+{
 	NONE,
 	DXT1,
 	DXT3,
@@ -11,7 +12,8 @@ enum class TextureCompression {
 	BC7
 };
 
-enum class TextureMinFilter {
+enum class TextureMinFilter 
+{
 	NEAREST,
 	LINEAR,
 	NEAREST_MIPMAP_NEAREST,
@@ -20,12 +22,14 @@ enum class TextureMinFilter {
 	LINEAR_MIPMAP_LINEAR
 };
 
-enum class TextureMagFilter {
+enum class TextureMagFilter 
+{
 	NEAREST,
 	LINEAR
 };
 
-enum class TextureWrap {
+enum class TextureWrap 
+{
 	REPEAT,
 	CLAMP_TO_EDGE,
 	CLAMP_TO_BORDER,
@@ -61,11 +65,14 @@ struct ImportOptionsTexture
 	{}
 };
 
-class ResourceTexture : public Resource
+class ResourceTexture : virtual public Resource
 {
 public:
-	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceTexture() override;
+	ResourceTexture(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
+	virtual ~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 
@@ -111,16 +118,11 @@ private:
 	unsigned int internalFormat = 0;
 	unsigned int imageType = 0;
 	std::vector<uint8_t> pixels;
-	unsigned int pixelsSize = 0;
+	unsigned int pixelsSize;
 
 	std::shared_ptr<LoadOptionsTexture> loadOptions;
 	std::shared_ptr<ImportOptionsTexture> importOptions;
 };
-
-inline ResourceTexture::~ResourceTexture()
-{
-	this->Unload();
-}
 
 inline ResourceType ResourceTexture::GetType() const
 {
