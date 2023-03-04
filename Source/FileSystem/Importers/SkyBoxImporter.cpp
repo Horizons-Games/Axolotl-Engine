@@ -74,7 +74,7 @@ void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*
 	{
 #ifdef ENGINE
 		//Update Meta
-		Json jsonTexture = meta["TexturesPaths"];
+		Json jsonTexture = meta["TexturesAssetPaths"];
 		jsonTexture[i] = resource->GetTextures()[i]->GetAssetsPath().c_str();
 #endif
 		texturesUIDs.push_back(resource->GetTextures()[i]->GetUID());
@@ -107,7 +107,7 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	textures.reserve(size);
 
 #ifdef  ENGINE
-	Json jsonTextures = meta["TexturesPaths"];
+	Json jsonTextures = meta["TexturesAssetPaths"];
 	for (int i = 0; i < size; i++)
 	{
 		std::string texturePath = jsonTextures[i];
