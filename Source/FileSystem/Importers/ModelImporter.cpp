@@ -57,6 +57,17 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
+#ifdef ENGINE
+	//Update Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+#endif
+
 	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
 
 	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() +
@@ -75,6 +86,10 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	meshesUIDs.reserve(resource->GetNumMeshes());
 	for (int i = 0; i < resource->GetNumMeshes(); i++)
 	{
+#ifdef ENGINE
+		Json jsonMeshes = meta["MeshesAssetPaths"];
+		jsonMeshes[i] = resource->GetMeshes()[i]->GetAssetsPath().c_str();
+#endif
 		meshesUIDs.push_back(resource->GetMeshes()[i]->GetUID());
 	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
@@ -86,14 +101,35 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	materialsUIDs.reserve(resource->GetNumMaterials());
 	for (int i = 0; i < resource->GetNumMaterials(); i++)
 	{
+#ifdef ENGINE
+		Json jsonMeshes = meta["MatAssetPaths"];
+		meta[i] = resource->GetMaterials()[i]->GetAssetsPath().c_str();
+#endif
 		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
 	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(cursor, &(materialsUIDs[0]), bytes);
+
+#ifdef ENGINE
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+#endif
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
 {
+#ifdef ENGINE
+	//Update Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+#endif
+
 	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
 	memcpy(header, fileBuffer, bytes);
@@ -103,37 +139,54 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	fileBuffer += bytes;
 
+	std::vector<std::shared_ptr<ResourceMesh>> meshes;
+	meshes.reserve(resource->GetNumMeshes());
+
+	std::vector<std::shared_ptr<ResourceMaterial>> materials;
+	materials.reserve(resource->GetNumMaterials());
+
+#ifdef  ENGINE
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	for (int i = 0; i < resource->GetNumMeshes(); i++)
+	{
+		std::string meshPath = jsonMeshes[i];
+		meshes.push_back
+		(App->resources->RequestResource<ResourceMesh>(meshPath));
+	}
+
+	Json jsonMat = meta["MatAssetPaths"];
+	for (int i = 0; i < resource->GetNumMaterials(); i++)
+	{
+		std::string matPath = jsonMat[i];
+		materials.push_back
+		(App->resources->RequestResource<ResourceMaterial>(matPath));
+	}
+#else
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
 	std::vector<UID> meshesUIDs(meshesPointer, meshesPointer + resource->GetNumMeshes());
-	std::vector<std::shared_ptr<ResourceMesh>> meshes;
-	meshes.reserve(resource->GetNumMeshes());
+	delete[] meshesPointer;
 	for (int i = 0; i < meshesUIDs.size(); i++)
 	{
 		meshes.push_back(App->resources->SearchResource<ResourceMesh>(meshesUIDs[i]));
 	}
 
-	resource->SetMeshes(meshes);
-
 	fileBuffer += bytes;
-
-	delete[] meshesPointer;
 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materialsUIDs(materialsPointer, materialsPointer + resource->GetNumMaterials());
-	std::vector<std::shared_ptr<ResourceMaterial>> materials;
-	materials.reserve(resource->GetNumMaterials());
+	delete[] materialsPointer;
 	for (int i = 0; i < materialsUIDs.size(); i++)
 	{
 		materials.push_back(App->resources->SearchResource<ResourceMaterial>(materialsUIDs[i]));
 	}
+#endif
 
+	resource->SetMeshes(meshes);
 	resource->SetMaterials(materials);
-
-	delete[] materialsPointer;
 }
 
 
