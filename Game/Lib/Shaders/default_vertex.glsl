@@ -4,7 +4,6 @@
 layout(location = 1) uniform mat4 view;
 layout(location = 2) uniform mat4 model;
 layout(location = 0) uniform mat4 proj;
-//layout(location = 2) uniform buffer Transforms mat4 model[];
 
 //layout(std140, row_major, binding = 0) uniform Camera {
 // mat4 proj;
@@ -13,8 +12,6 @@ layout(location = 0) uniform mat4 proj;
 //readonly layout(std430, row_major, binding = 10) buffer Transforms {
 // mat4 models[];
 //};
-
-//layout(location = 2) uniform mat4 models[];
 
 uniform vec3 viewPos;
 

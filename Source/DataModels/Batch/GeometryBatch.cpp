@@ -46,7 +46,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
-void GeometryBatch::Draw()
+void GeometryBatch::BindBatch()
 {
 	unsigned int resourceMesheIndex = 0;
 	command.clear();
@@ -85,8 +85,6 @@ void GeometryBatch::Draw()
 				
 			//do a for for all the instaces existing
 			command[resourceMesheIndex].count = resourceMeshe->GetNumIndexes();// Number of indices in the mesh
-			command[resourceMesheIndex].instanceCount = 1;
-			command[resourceMesheIndex].firstIndex = 0;
 			command[resourceMesheIndex].baseVertex = resourceMeshe->GetNumVertices();
 			command[resourceMesheIndex].baseInstance = resourceMesheIndex;
 			resourceMesheIndex++;
@@ -100,14 +98,11 @@ void GeometryBatch::Draw()
 			glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
 
 
-			glBindVertexArray(0);
+			//glBindVertexArray(0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
-	//use multi draw to combine with the batch method
-	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMesheIndex, 0);
-
 }
 
 void GeometryBatch::AddUniqueComponent(ResourceMesh* resourceMesh)
