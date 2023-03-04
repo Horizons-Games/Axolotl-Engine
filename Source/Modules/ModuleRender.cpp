@@ -14,9 +14,11 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "DataModels/Batch/BatchManager.h"
+#include "DataModels/Batch/GeometryBatch.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/ComponentBoundingBoxes.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "optick.h"
 
@@ -216,6 +218,21 @@ update_status ModuleRender::Update()
 	{
 		gameObjectsToDraw.push_back(goSelected);
 	}
+
+	for (const GameObject* gameObject : gameObjectsToDraw)
+	{
+		std::vector<ComponentMeshRenderer*> meshes = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes) 
+		{
+			batchManager->AddComponent(mesh);
+		}
+	}
+
+	for (GeometryBatch* batch : batchManager->GetBatches())
+	{
+		batchManager->DrawBatch(batch);
+	}
+
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())

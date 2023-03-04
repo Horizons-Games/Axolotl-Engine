@@ -12,8 +12,8 @@ class GameObject;
 struct Command
 {
 	GLuint  count; // Number of indices in the mesh
-	GLuint  instanceCount = 1; // Number of instances to render
-	GLuint  firstIndex = 0; // Index offset in the EBO
+	GLuint  instanceCount; // Number of instances to render
+	GLuint  firstIndex; // Index offset in the EBO
 	GLuint  baseVertex; // Vertex offset in the VBO
 	GLuint  baseInstance; // Instance Index
 };
@@ -46,10 +46,9 @@ private:
 	unsigned int vao = 0;
 	unsigned int indirectBuffer = 0;
 	unsigned int resourceMesheIndex;
-	std::vector<Command> command;
-	//Command command[100];
+	std::vector<Command> commands;
 
-	int flags = 0;;
+	int flags = 0;
 };
 
 inline const int GeometryBatch::GetFlags() const

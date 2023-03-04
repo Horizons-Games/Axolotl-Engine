@@ -48,17 +48,18 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::BindBatch()
 {
-	unsigned int resourceMesheIndex = 0;
-	command.clear();
-	command.reserve(components.size());//need to verify the size if it's matching with uniqueComponent
-	for (ResourceMesh* resourceMeshe : resourceMeshes)
+	//command.reserve(components.size());//need to verify the size if it's matching with uniqueComponent
+	unsigned int resourceMeshIndex = 0;
+	commands.clear();
+	
+	for (ResourceMesh* resourceMesh : resourceMeshes)
 	{
-		if (resourceMeshe) //pointer not empty
+		if (resourceMesh) //pointer not empty
 		{
-			if (!resourceMeshe->IsLoaded())
+			if (!resourceMesh->IsLoaded())
 			{
 				//gen ebo vbo and vao buffers
-				resourceMeshe->Load();
+				resourceMesh->Load();
 				if (indirectBuffer == 0) {
 					glGenBuffers(1, &indirectBuffer);//
 				}
@@ -68,7 +69,7 @@ void GeometryBatch::BindBatch()
 			const float4x4& view = App->engineCamera->GetViewMatrix();
 			const float4x4& proj = App->engineCamera->GetProjectionMatrix();
 			const float4x4& model =
-				static_cast<ComponentTransform*>(GetComponentOwner(resourceMeshe)
+				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 			GLint programInUse;
@@ -84,15 +85,14 @@ void GeometryBatch::BindBatch()
 			glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 				
 			//do a for for all the instaces existing
-			command[resourceMesheIndex].count = resourceMeshe->GetNumIndexes();// Number of indices in the mesh
-			command[resourceMesheIndex].baseVertex = resourceMeshe->GetNumVertices();
-			command[resourceMesheIndex].baseInstance = resourceMesheIndex;
-			resourceMesheIndex++;
+			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), resourceMeshIndex };
+			commands.push_back(newCommand);
+			resourceMeshIndex++;
 
 			//send to gpu
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(command),&command[0], GL_STATIC_DRAW);
-			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(command), command, GL_DYNAMIC_DRAW);
+			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands),&commands[0], GL_STATIC_DRAW);
+			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
 
 			//send in the shader
 			glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
