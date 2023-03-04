@@ -225,7 +225,6 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 void GameObject::InitNewEmptyGameObject()
 {
 	CreateComponent(ComponentType::TRANSFORM);
-	//CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
