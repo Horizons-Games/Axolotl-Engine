@@ -52,6 +52,17 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*& fileBuffer, unsigned int& size)
 {
+#ifdef ENGINE
+	//Open Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+#endif
+
 	size = sizeof(UID) * resource->GetTextures().size();
 	char* cursor = new char[size] {};
 	fileBuffer = cursor;
@@ -61,25 +72,60 @@ void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*
 	texturesUIDs.reserve(resource->GetTextures().size());
 	for(int i = 0; i < resource->GetTextures().size(); i++) 
 	{
+#ifdef ENGINE
+		//Update Meta
+		Json jsonTexture = meta["TexturesPaths"];
+		jsonTexture[i] = resource->GetTextures()[i]->GetAssetsPath().c_str();
+#endif
 		texturesUIDs.push_back(resource->GetTextures()[i]->GetUID());
 	}
 	memcpy(cursor, &(texturesUIDs[0]), bytes);
+
+#ifdef ENGINE
+	//Save Meta
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+#endif
 }
 
 void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox> resource)
 {
-	UID* texturesPointer = new UID[6];
-	unsigned int bytes = sizeof(UID) * 6;
-	memcpy(texturesPointer, fileBuffer, bytes);
-	std::vector<UID> texturesUIDs(texturesPointer, texturesPointer + 6);
+#ifdef ENGINE
+	//Open Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+#endif
+
+	int size = 6;
 	std::vector<std::shared_ptr<ResourceTexture>> textures;
-	textures.reserve(6);
+	textures.reserve(size);
+
+#ifdef  ENGINE
+	Json jsonTextures = meta["TexturesPaths"];
+	for (int i = 0; i < size; i++)
+	{
+		std::string texturePath = jsonTextures[i];
+		textures.push_back
+		(App->resources->RequestResource<ResourceTexture>(texturePath));
+	}
+#else
+	UID* texturesPointer = new UID[size];
+	unsigned int bytes = sizeof(UID) * size;
+	memcpy(texturesPointer, fileBuffer, bytes);
+	std::vector<UID> texturesUIDs(texturesPointer, texturesPointer + size);
+	delete[] texturesPointer;
 	for (int i = 0; i < texturesUIDs.size(); i++)
 	{
-		textures.push_back(App->resources->SearchResource<ResourceTexture>(texturesUIDs[i]));
+		textures.push_back
+		(App->resources->SearchResource<ResourceTexture>(texturesUIDs[i]));
 	}
+#endif
 
 	resource->SetTextures(textures);
-
-	delete[] texturesPointer;
 }
