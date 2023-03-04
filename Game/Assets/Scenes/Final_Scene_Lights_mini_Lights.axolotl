@@ -19,20 +19,6 @@
                 "localSca_Y": 1.0,
                 "localSca_Z": 1.0
             }
-        },
-        {
-            "Component": {
-                "type": "Component_Bounding",
-                "active": true,
-                "owner": true,
-                "removed": false,
-                "AABBMin_X": 0.0,
-                "AABBMin_Y": 0.0,
-                "AABBMin_Z": 0.0,
-                "AABBMax_X": 0.0,
-                "AABBMax_Y": 0.0,
-                "AABBMax_Z": 0.0
-            }
         }
     ],
     "Childrens": [
@@ -57,20 +43,6 @@
                             "localSca_X": 0.0010000000474974514,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     },
                     {
@@ -115,20 +87,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
                             "type": "Component_Light",
                             "active": true,
                             "owner": true,
@@ -166,20 +124,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -204,20 +148,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -304.3537902832031,
-                                        "AABBMin_Y": -2.836273193359375,
-                                        "AABBMin_Z": -298.99072265625,
-                                        "AABBMax_X": 304.3538818359375,
-                                        "AABBMax_Y": 1054.16357421875,
-                                        "AABBMax_Z": 298.99072265625
                                     }
                                 },
                                 {
@@ -278,20 +208,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -316,20 +232,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 2083.0595703125,
-                                        "AABBMin_Y": -1.4380022287368775,
-                                        "AABBMin_Z": -766.2251586914063,
-                                        "AABBMax_X": 2422.88232421875,
-                                        "AABBMax_Y": 337.6552734375,
-                                        "AABBMax_Z": -634.7769775390625
                                     }
                                 },
                                 {
@@ -390,20 +292,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 2147.897705078125,
-                                        "AABBMin_Y": -1.6269073486328126,
-                                        "AABBMin_Z": -880.9620971679688,
-                                        "AABBMax_X": 2391.114990234375,
-                                        "AABBMax_Y": 168.3026885986328,
-                                        "AABBMax_Z": -719.1163330078125
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Material",
                                         "active": true,
                                         "owner": true,
@@ -460,20 +348,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -498,20 +372,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -40.650142669677737,
-                                        "AABBMin_Y": -42.938323974609378,
-                                        "AABBMin_Z": -4940.123046875,
-                                        "AABBMax_X": 4940.4892578125,
-                                        "AABBMax_Y": -15.8513822555542,
-                                        "AABBMax_Z": -18.5028076171875
                                     }
                                 },
                                 {
@@ -572,20 +432,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -40.650142669677737,
-                                        "AABBMin_Y": -2359.530029296875,
-                                        "AABBMin_Z": -4940.123046875,
-                                        "AABBMax_X": 4940.4892578125,
-                                        "AABBMax_Y": -42.9381103515625,
-                                        "AABBMax_Z": -18.5028076171875
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Material",
                                         "active": true,
                                         "owner": true,
@@ -638,20 +484,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -82.52242279052735,
-                                        "AABBMin_Y": -63.307151794433597,
-                                        "AABBMin_Z": -4958.263671875,
-                                        "AABBMax_X": 4956.6884765625,
-                                        "AABBMax_Y": 7.684663772583008,
-                                        "AABBMax_Z": 68.612060546875
                                     }
                                 },
                                 {
@@ -712,20 +544,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -750,20 +568,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -282.92962646484377,
-                                        "AABBMin_Y": -3.433213233947754,
-                                        "AABBMin_Z": -4941.87255859375,
-                                        "AABBMax_X": 4941.87158203125,
-                                        "AABBMax_Y": 4161.3056640625,
-                                        "AABBMax_Z": 72.7421875
                                     }
                                 },
                                 {
@@ -824,20 +628,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -41.0417366027832,
-                                        "AABBMin_Y": 463.11578369140627,
-                                        "AABBMin_Z": -4832.98291015625,
-                                        "AABBMax_X": 4823.857421875,
-                                        "AABBMax_Y": 3459.12744140625,
-                                        "AABBMax_Z": 42.344749450683597
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Material",
                                         "active": true,
                                         "owner": true,
@@ -894,20 +684,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -932,20 +708,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -601.1292724609375,
-                                        "AABBMin_Y": 0.6881561279296875,
-                                        "AABBMin_Z": -593.8424072265625,
-                                        "AABBMax_X": 601.1292724609375,
-                                        "AABBMax_Y": 1367.788818359375,
-                                        "AABBMax_Z": 373.50982666015627
                                     }
                                 },
                                 {
@@ -1006,20 +768,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1044,20 +792,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 3069.349365234375,
-                                        "AABBMin_Y": -1.03948974609375,
-                                        "AABBMin_Z": -1541.6727294921876,
-                                        "AABBMax_X": 3469.510009765625,
-                                        "AABBMax_Y": 229.81710815429688,
-                                        "AABBMax_Z": -977.926025390625
                                     }
                                 },
                                 {
@@ -1118,20 +852,6 @@
                             "localSca_Y": 0.0020000000949949028,
                             "localSca_Z": 0.0020000000949949028
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1156,20 +876,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -102.79621887207031,
-                                        "AABBMin_Y": -0.00004348754737293348,
-                                        "AABBMin_Z": -324.2380676269531,
-                                        "AABBMax_X": 102.79621887207031,
-                                        "AABBMax_Y": 186.87110900878907,
-                                        "AABBMax_Z": 324.2380676269531
                                     }
                                 },
                                 {
@@ -1230,20 +936,6 @@
                             "localSca_Y": 0.003000000026077032,
                             "localSca_Z": 0.003000000026077032
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1268,20 +960,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -32.89970779418945,
-                                        "AABBMin_Y": 12.014476776123047,
-                                        "AABBMin_Z": -38.15906524658203,
-                                        "AABBMax_X": -24.022411346435548,
-                                        "AABBMax_Y": 54.90476608276367,
-                                        "AABBMax_Z": 101.53285217285156
                                     }
                                 },
                                 {
@@ -1342,20 +1020,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -89.48932647705078,
-                                        "AABBMin_Y": -0.032199859619140628,
-                                        "AABBMin_Z": -62.85764694213867,
-                                        "AABBMax_X": 30.660633087158204,
-                                        "AABBMax_Y": 131.46469116210938,
-                                        "AABBMax_Z": 29.071054458618165
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Material",
                                         "active": true,
                                         "owner": true,
@@ -1412,20 +1076,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1450,20 +1100,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -290.029052734375,
-                                        "AABBMin_Y": -0.6617431640625,
-                                        "AABBMin_Z": -286.1816711425781,
-                                        "AABBMax_X": 128.22744750976563,
-                                        "AABBMax_Y": 164.53408813476563,
-                                        "AABBMax_Z": 327.0084228515625
                                     }
                                 },
                                 {
@@ -1524,20 +1160,6 @@
                             "localSca_Y": 0.0020000000949949028,
                             "localSca_Z": 0.0020000000949949028
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1562,20 +1184,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -100.39217376708985,
-                                        "AABBMin_Y": 0.159271240234375,
-                                        "AABBMin_Z": -1452.52197265625,
-                                        "AABBMax_X": 34.399322509765628,
-                                        "AABBMax_Y": 147.80194091796876,
-                                        "AABBMax_Z": -1297.49609375
                                     }
                                 },
                                 {
@@ -1636,20 +1244,6 @@
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1674,20 +1268,6 @@
                                         "localSca_X": 2.0,
                                         "localSca_Y": 2.0,
                                         "localSca_Z": 2.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -76.11719512939453,
-                                        "AABBMin_Y": -0.33393901586532595,
-                                        "AABBMin_Z": -35.7611083984375,
-                                        "AABBMax_X": 76.11719512939453,
-                                        "AABBMax_Y": 148.1706085205078,
-                                        "AABBMax_Z": 37.818817138671878
                                     }
                                 },
                                 {
@@ -1748,20 +1328,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": -36.64348220825195,
-                                        "AABBMin_Y": 88.54938507080078,
-                                        "AABBMin_Z": 8.420677185058594,
-                                        "AABBMax_X": 36.64433670043945,
-                                        "AABBMax_Y": 108.35282135009766,
-                                        "AABBMax_Z": 26.694358825683595
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Material",
                                         "active": true,
                                         "owner": true,
@@ -1818,20 +1384,6 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -1856,20 +1408,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
                                     }
                                 },
                                 {
@@ -1917,20 +1455,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Light",
                                         "active": false,
                                         "owner": true,
@@ -1974,20 +1498,6 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "owner": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ],
                 "Childrens": [
@@ -2012,20 +1522,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
                                     }
                                 },
                                 {
@@ -2071,20 +1567,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Light",
                                         "active": false,
                                         "owner": true,
@@ -2126,20 +1608,6 @@
                                 },
                                 {
                                     "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
-                                    }
-                                },
-                                {
-                                    "Component": {
                                         "type": "Component_Light",
                                         "active": false,
                                         "owner": true,
@@ -2177,20 +1645,6 @@
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
-                                    }
-                                },
-                                {
-                                    "Component": {
-                                        "type": "Component_Bounding",
-                                        "active": true,
-                                        "owner": true,
-                                        "removed": false,
-                                        "AABBMin_X": 0.0,
-                                        "AABBMin_Y": 0.0,
-                                        "AABBMin_Z": 0.0,
-                                        "AABBMax_X": 0.0,
-                                        "AABBMax_Y": 0.0,
-                                        "AABBMax_Z": 0.0
                                     }
                                 },
                                 {

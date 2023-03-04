@@ -98,7 +98,7 @@ private:
 	OBB objectOBB;
 	bool drawBoundingBoxes;
 
-	friend class ComponentWindow;
+	friend class WindowInspector;
 };
 
 inline UID GameObject::GetUID() const

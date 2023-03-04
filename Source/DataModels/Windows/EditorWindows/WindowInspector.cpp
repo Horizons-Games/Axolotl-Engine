@@ -30,6 +30,8 @@ void WindowInspector::DrawWindowContents()
 	{
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
+		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
+		ImGui::Checkbox("##Draw Bounding Box", &(currentGameObject->drawBoundingBoxes));
 
 		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
 			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&

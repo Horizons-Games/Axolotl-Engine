@@ -73,13 +73,7 @@ ComponentWindow::ComponentWindow(const std::string& name, Component* component) 
 
 void ComponentWindow::DrawWindowContents()
 {
-	GameObject* go = component->GetOwner();
 
-	if (go)
-	{
-		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
-		ImGui::Checkbox("##Draw Bounding Box", &(go->drawBoundingBoxes));
-	}
 }
 
 void ComponentWindow::DrawEnableAndDeleteComponent()
