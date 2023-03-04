@@ -153,10 +153,10 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		if (assetTime <= libTime)
 		{
 
-			std::string fileName = App->fileSystem->GetFileName(libPath);
+			std::string fileName = App->fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libPath);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, App->fileSystem->GetPathWithoutExtension(libPath), type);
+			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, libraryPath, type);
 			
 			ImportResourceFromLibrary(resource);
 
@@ -190,7 +190,12 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = App->fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			UID uid = std::stoull(fileName.c_str(), NULL, 0);
+			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, libraryPath, type);
+
+			ImportResourceFromLibrary(resource);
 			if (resource)
 			{
 				resources.insert({ resource->GetUID(), resource });
