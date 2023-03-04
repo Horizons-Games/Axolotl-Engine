@@ -47,8 +47,6 @@ public:
 	template<class R = Resource>
 	const std::shared_ptr<R> SearchResource(UID uid);
 
-	const UID GetSkyBoxResource();
-
 private:
 	//resource creation and deletition
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName,
@@ -65,7 +63,7 @@ private:
 
 	//create resources from binaries
 	std::shared_ptr<Resource> LoadResourceStored(const char* filePath, const char* fileNameToStore);
-	std::shared_ptr<Resource> ImportResourceFromLibrary(const std::string& libraryPath);
+	void ImportResourceFromLibrary(std::shared_ptr<Resource>& resource);
 
 	//importing: creation of binary and meta
 	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
@@ -99,8 +97,6 @@ private:
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
 
-	UID skybox;
-	
 	std::thread monitorThread;
 	bool monitorResources;
 
@@ -110,24 +106,6 @@ private:
 inline const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath)
 {
 	return RequestResource<Resource>(assetPath);
-}
-
-inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
-{
-	return SearchResource<Resource>(uid);
-}
-
-template<class R>
-const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
-{
-	auto it = resources.find(uid);
-	if (it != resources.end() && !(it->second).expired())
-	{
-		std::shared_ptr<Resource> shared = (it->second).lock();
-		return std::dynamic_pointer_cast<R>(shared);
-	}
-	
-	return std::dynamic_pointer_cast<R>(LoadResourceStored(LIB_FOLDER, std::to_string(uid).c_str()));
 }
 
 template<class R>
@@ -155,14 +133,15 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		Json.fromBuffer(metaBuffer);
 
 		UID uid = (UID)Json["UID"];
-		//Si ese recurso ya esta en el map porque otro componente lo usa lo devolvemos
+
+		//If that resource is already on the map because another component uses it, we return it
 		auto it = resources.find(uid);
 		if (it != resources.end() && !(it->second).expired())
 		{
 			return std::dynamic_pointer_cast<R>(it->second.lock());
 		}
 
-		//Si ese recurso tiene binarios y son nuevos los cargamos
+		//If that resource has binaries and they are new, we load them
 		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
@@ -172,7 +151,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		if (assetTime <= libTime)
 		{
 
-			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = App->fileSystem->GetFileName(libPath);
+			UID uid = std::stoull(fileName.c_str(), NULL, 0);
+			ResourceType type = FindTypeByFolder(libPath);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, App->fileSystem->GetPathWithoutExtension(libPath), type);
+			
+			ImportResourceFromLibrary(resource);
+
 			if (resource)
 			{
 				resources.insert({ resource->GetUID(), resource });
@@ -181,7 +166,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 
-	//Si ese recurso no tiene ninguna de las dos opciones lo volvemos a importar
+	//If that resource does not have any of the two options, we will import it again
 	ImportResource(assetPath);
 	metaPath = assetPath + META_EXTENSION;
 	if (App->fileSystem->Exists(metaPath.c_str())) {
@@ -203,7 +188,6 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		long long libTime = App->fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-
 			std::shared_ptr<Resource> resource = ImportResourceFromLibrary(libraryPath + GENERAL_BINARY_EXTENSION);
 			if (resource)
 			{
@@ -211,6 +195,30 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 				return std::move(std::dynamic_pointer_cast<R>(resource));
 			}
 		}
+	}
+	return nullptr;
+}
+
+inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
+{
+	return SearchResource<Resource>(uid);
+}
+
+template<class R>
+const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
+{
+	auto it = resources.find(uid);
+	if (it != resources.end() && !(it->second).expired())
+	{
+		std::shared_ptr<Resource> shared = (it->second).lock();
+		return std::move(std::dynamic_pointer_cast<R>(shared));
+	}
+
+	std::shared_ptr<Resource> shared = LoadResourceStored(LIB_FOLDER, std::to_string(uid).c_str());
+	if(shared)
+	{
+		resources.insert({ shared->GetUID(), shared });
+		return std::move(std::dynamic_pointer_cast<R>(shared));
 	}
 	return nullptr;
 }

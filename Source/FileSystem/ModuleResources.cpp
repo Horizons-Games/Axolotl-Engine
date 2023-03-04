@@ -205,30 +205,33 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 		{
 			if (App->fileSystem->GetFileName(file) == fileNameToStore)
 			{
-				return ImportResourceFromLibrary(file);
+				std::string fileName = App->fileSystem->GetFileName(file);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(file);
+				std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->fileSystem->GetPathWithoutExtension(file), type);
+
+				ImportResourceFromLibrary(resource);
+
+				return resource;
 			}
 		}
 	}
 
-	return std::shared_ptr<Resource>();
+	return nullptr;
 }
 
-std::shared_ptr<Resource> ModuleResources::ImportResourceFromLibrary(const std::string& libPath)
+void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resource)
 {
-	std::string fileName = App->fileSystem->GetFileName(libPath);
-	UID uid = std::stoull(fileName.c_str(), NULL, 0);
-	ResourceType type = FindTypeByFolder(libPath);
+	std::string libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
 
-	if (type != ResourceType::Unknown && App->fileSystem->Exists(libPath.c_str()))
+	if (resource->GetType() != ResourceType::Unknown && App->fileSystem->Exists(libPath.c_str()))
 	{
-		std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->fileSystem->GetPathWithoutExtension(libPath), type);
-
 		if (resource != nullptr)
 		{
 			char* binaryBuffer = {};
 			App->fileSystem->Load(libPath.c_str(), binaryBuffer);
 
-			switch (type)
+			switch (resource->GetType())
 			{
 			case ResourceType::Model:
 				modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
@@ -246,22 +249,14 @@ std::shared_ptr<Resource> ModuleResources::ImportResourceFromLibrary(const std::
 				break;
 			case ResourceType::SkyBox:
 				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
-				skybox = uid;
 				break;
 			default:
 				break;
 			}
-
-			return resource;
+			return;
 		}
 	}
-		
-	return std::shared_ptr<Resource>();
-}
-
-const UID ModuleResources::GetSkyBoxResource()
-{
-	return skybox;
+	resource = nullptr;
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
