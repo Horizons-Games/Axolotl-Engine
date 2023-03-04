@@ -25,7 +25,7 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	if (!resource.expired() && lastSelectedGameObject != App->scene->GetSelectedGameObject().lock())
+	if (!resource.expired() && lastSelectedGameObject != App->scene->GetSelectedGameObject())
 	{
 		resource = std::weak_ptr<Resource>();
 	}
@@ -46,7 +46,7 @@ void WindowInspector::InspectSelectedGameObject()
 	DrawButtomsSaveAndLoad();
 	ImGui::Separator();
 
-	lastSelectedGameObject = App->scene->GetSelectedGameObject().lock();
+	lastSelectedGameObject = App->scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
 	{
@@ -66,7 +66,7 @@ void WindowInspector::InspectSelectedGameObject()
 		ImGui::InputText("##GameObject", name, 24);
 	}
 
-	if (!lastSelectedGameObject->GetParent().lock()) // Keep the word Scene in the root
+	if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 	{
 		char* name = (char*)lastSelectedGameObject->GetName();
 		if (ImGui::InputText("##GameObject", name, 24))
@@ -156,51 +156,6 @@ void WindowInspector::InspectSelectedGameObject()
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
 
-	for (unsigned int i = 0; i < lastSelectedGameObject->GetComponents().size(); ++i)
-	{
-		if (lastSelectedGameObject->GetComponents()[i]->GetType() != ComponentType::TRANSFORM)
-		{
-			if (lastSelectedGameObject->GetComponents()[i]->GetCanBeRemoved())
-			{
-				DrawChangeActiveComponentContent(i, lastSelectedGameObject->GetComponents()[i]);
-				ImGui::SameLine();
-				if (DrawDeleteComponentContent(i, lastSelectedGameObject->GetComponents()[i]))
-					break;
-				ImGui::SameLine();
-			}
-		}
-
-		lastSelectedGameObject->GetComponents()[i]->Display();
-	}
-}
-
-void WindowInspector::DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textActive = new char[30];
-	sprintf(textActive, "##Enabled #%d", labelNum);
-
-	bool enable = component->GetActive();
-	ImGui::Checkbox(textActive, &enable);
-
-	(enable) ? component->Enable() : component->Disable();
-}
-
-bool WindowInspector::DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component)
-{
-	char* textRemove = new char[30];
-	sprintf(textRemove, "Remove Comp. ##%d", labelNum);
-
-	if (ImGui::Button(textRemove, ImVec2(90, 20)))
-	{
-		if (!App->scene->GetSelectedGameObject().lock()->RemoveComponent(component))
-		{
-			if (windowsForComponentsOfSelectedObject[i])
-			{
-				windowsForComponentsOfSelectedObject[i]->Draw();
-			}
-		}
-		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
-	}
 }
 
 void WindowInspector::InspectSelectedResource()

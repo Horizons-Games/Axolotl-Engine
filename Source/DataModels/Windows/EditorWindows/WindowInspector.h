@@ -30,8 +30,6 @@ protected:
 
 private:
 	void InspectSelectedGameObject();
-	void DrawChangeActiveComponentContent(int labelNum, const std::shared_ptr<Component>& component);
-	bool DrawDeleteComponentContent(int labelNum, const std::shared_ptr<Component>& component);
 	
 	void InspectSelectedResource();
 	void InitTextureImportOptions();
@@ -52,7 +50,7 @@ private:
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 	// --
-	std::shared_ptr<GameObject> lastSelectedGameObject = nullptr;
+	GameObject* lastSelectedGameObject = nullptr;
 	std::weak_ptr<Resource> resource;
 
 	//Import Options (Move this to another class? Probably)

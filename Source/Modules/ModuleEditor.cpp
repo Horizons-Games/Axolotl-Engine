@@ -52,15 +52,14 @@ bool ModuleEditor::Init()
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
-	windows.push_back(std::make_shared<WindowConsole>());
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
-	windows.push_back(std::make_shared<WindowConfiguration>());
-	windows.push_back(inspector = std::make_shared<WindowInspector>());
-	windows.push_back(std::make_shared<WindowHierarchy>());
-	windows.push_back(std::make_shared<WindowEditorControl>());
-	windows.push_back(std::make_shared<WindowFileBrowser>());
-	windows.push_back(std::make_shared<WindowResources>());
-
+	windows.push_back(std::make_unique<WindowConfiguration>());
+	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
+	windows.push_back(std::make_unique<WindowHierarchy>());
+	windows.push_back(std::make_unique<WindowEditorControl>());
+	windows.push_back(std::make_unique<WindowFileBrowser>());
+	windows.push_back(std::make_unique<WindowConsole>());
+	//windows.push_back(std::make_unique<WindowResources>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;

@@ -29,12 +29,10 @@ public:
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 
 private:
-	std::vector<std::string> lines;
-	std::vector<std::shared_ptr<EditorWindow> > windows;
+	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-	std::shared_ptr<WindowScene> scene = nullptr;
-	std::shared_ptr<WindowInspector> inspector = nullptr;
 
+	WindowInspector* inspector;
 	WindowScene* scene;
 	bool windowResized;
 };
