@@ -17,31 +17,24 @@ void WindowResources::DrawWindowContents()
 	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : App->resources->resources)
 	{
 		std::shared_ptr<Resource> mapEntryAsShared = mapEntry.second.lock();
-
-		if (mapEntryAsShared->IsLoaded())
+		
+		if (mapEntryAsShared) 
 		{
-			loadedResources.push_back(mapEntry.first);
-		}
-		else
-		{
-			unloadedResources.push_back(mapEntry.first);
+			if (mapEntryAsShared->IsLoaded())
+			{
+				loadedResources.push_back(mapEntry.first);
+			}
 		}
 	}
 
-	if (ImGui::BeginTable("Resources", 2))
+	if (ImGui::BeginTable("Resources", 1))
 	{
 		ImGui::TableSetupColumn("Loaded", ImGuiTableColumnFlags_None);
-		ImGui::TableSetupColumn("Unloaded", ImGuiTableColumnFlags_None);
 		ImGui::TableHeadersRow();
 
 		ImGui::TableNextColumn();
 
 		DrawResourceTable("LoadedResources", loadedResources, resourcesToDelete);
-
-		ImGui::TableNextColumn();
-		ImGui::SameLine();
-
-		DrawResourceTable("UnloadedResources", unloadedResources, resourcesToDelete);
 
 		ImGui::EndTable();
 	}
