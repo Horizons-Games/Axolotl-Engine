@@ -1,20 +1,16 @@
-#version 460
+#version 440
 
 struct Material {
-    vec3 diffuse_color;
-    sampler2D diffuse_map;
-    vec3 specular_color;
-    sampler2D specular_map;
-    float shininess;
-    sampler2D normal_map;
-    float normal_strength;
-    vec3 ambient;
+    vec3 diffuse_color;         //location 3
+    vec3 specular_color;        //location 4
+    float shininess;            //location 5
+    float normal_strength;      //location 6
     
-    int has_diffuse_map;
-    int has_specular_map;
-    int shininess_alpha;
-    int has_shininess_map;
-    bool has_normal_map;
+    int has_diffuse_map;        //location 7
+    int has_specular_map;       //location 8
+    int shininess_alpha;        //location 9
+    int has_shininess_map;      //location 10
+    bool has_normal_map;        //location 11
 };
 
 struct PointLight
@@ -60,13 +56,11 @@ struct Light {
     vec3 color;
 };
 
-//out vec4 color;
+layout(location = 3) uniform Material material; // 0-9
+layout(binding = 5) uniform sampler2D diffuse_map;
+layout(binding = 6) uniform sampler2D specular_map;
+layout(binding = 7) uniform sampler2D normal_map;
 
-//readonly layout(std430, binding = 11) buffer Materials {
-// Material materials[];
-//};
-
-uniform Material material;
 uniform Light light;
 
 in vec3 fragTangent;
@@ -77,7 +71,6 @@ in vec3 ViewPos;
 in vec2 TexCoord;
 
 out vec4 outColor;
-//out int flat instance_index;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
@@ -90,6 +83,12 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+}
+
+vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
+{
+    vec3 kD = vec3(1.0) - f0;
+    return kD * texDiffuse;
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
@@ -108,8 +107,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
 
     vec3 numerator = (shininess + 2) * fresnel * spec;
     vec3 specular = numerator / 2;
-    vec3 kD = vec3(1.0) - specular;
-    vec3 diffuse = kD * texDiffuse;
+    vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
     vec3 Lo = (diffuse + specular) * Li * dotNL;
 
@@ -146,8 +144,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
 
         vec3 numerator = (shininess + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
         Lo += (diffuse + specular) * Li * dotNL;
     }
@@ -208,8 +205,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
 
         vec3 numerator = (shininess + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 diffuse = calculDiffuse(f0, texDiffuse);
             
         Lo += (diffuse + specular) * Li * dotNL;
     }
@@ -219,24 +215,22 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
   
 void main()
 {
-
-    //Material material = materials[instance_index];
-
 	vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
+    vec4 gammaCorrection = vec4(2.2);
 
 	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(material.diffuse_map, TexCoord).rgb; 
-        textureMat = pow(textureMat, vec3(2.2));
+        textureMat = texture(diffuse_map, TexCoord).rgb; 
     }
+    textureMat = pow(textureMat, gammaCorrection.rgb);
     
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -246,9 +240,9 @@ void main()
     //fresnel
     vec4 specularMat =  vec4(material.specular_color, 0.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(material.specular_map, TexCoord));
-        specularMat = pow(specularMat, vec4(2.2));
+        specularMat = vec4(texture(specular_map, TexCoord));
     }
+    specularMat = pow(specularMat, gammaCorrection);
 
     vec3 f0 =  specularMat.rgb;
 
@@ -279,5 +273,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 2.0);
+    outColor = vec4(color, 1.0);
 }
