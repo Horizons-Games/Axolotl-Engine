@@ -386,7 +386,7 @@ void ModuleResources::MonitorResources()
 						toCreateLib.push_back(resource);
 						resource->SetChanged(false);
 					}
-					if (!App->fileSystem->Exists((resource->GetLibraryPath() + META_EXTENSION).c_str()))
+					if (!App->fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
 					{
 						toCreateMeta.push_back(resource);
 					}
@@ -397,7 +397,7 @@ void ModuleResources::MonitorResources()
 						long long assetTime =
 							App->fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
 						long long libTime =
-							App->fileSystem->GetModificationDate((resource->GetLibraryPath() + META_EXTENSION).c_str());
+							App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
 						if (assetTime > libTime)
 						{
 							toImport.push_back(resource);
