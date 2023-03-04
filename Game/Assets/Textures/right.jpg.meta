@@ -1,6 +1,8 @@
 {
-    "UID": 7529850889908968922,
+    "UID": 7615321980581118520,
     "Type": "Textures",
+    "flipVertical": true,
+    "flipHorizontal": false,
     "min": 5,
     "mag": 1,
     "wrapS": 0,

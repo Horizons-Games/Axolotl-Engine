@@ -4,11 +4,13 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #include "ModuleEditor.h"
 
 void WindowResources::DrawWindowContents()
 {
-	std::vector<UID> loadedResources, unloadedResources, resourcesToDelete;
+	std::vector<UID> loadedResources, unloadedResources;
+	std::vector<std::shared_ptr<EditorResourceInterface>> resourcesToDelete;
 
 	//in theory, since mapEntry is a reference to the one in the resources map,
 	//it should not increase reference count while iterating since it's not a new pointer
@@ -44,7 +46,7 @@ void WindowResources::DrawWindowContents()
 		ImGui::EndTable();
 	}
 
-	for (UID uidToDelete : resourcesToDelete)
+	for (const std::shared_ptr<EditorResourceInterface>& uidToDelete : resourcesToDelete)
 	{
 		App->resources->DeleteResource(uidToDelete);
 	}
@@ -52,7 +54,7 @@ void WindowResources::DrawWindowContents()
 
 void WindowResources::DrawResourceTable(const std::string& tableName,
 										const std::vector<UID>& resourcesUIDs,
-										std::vector<UID>& resourcesToDelete)
+										std::vector<std::shared_ptr<EditorResourceInterface>>& resourcesToDelete)
 {
 	if (ImGui::BeginTable(tableName.c_str(), 1))
 	{
@@ -60,14 +62,15 @@ void WindowResources::DrawResourceTable(const std::string& tableName,
 		{
 			ImGui::TableNextRow();
 			ImGui::TableNextColumn();
-			//DrawResource(App->resources->RequestResource(resUID), resourcesToDelete);
+			DrawResource(App->resources->SearchResource(resUID), resourcesToDelete);
 		}
 
 		ImGui::EndTable();
 	}
 }
 
-void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource, std::vector<UID>& resourcesToDelete)
+void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource,
+								   std::vector<std::shared_ptr<EditorResourceInterface>>& resourcesToDelete)
 {
 	long referenceCountBeforeLock = resource.use_count();
 	std::shared_ptr<Resource> asShared = resource.lock();
@@ -107,7 +110,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource, std:
 			}
 			if (ImGui::MenuItem(("Delete resource##" + uidString).c_str()))
 			{
-				resourcesToDelete.push_back(asShared->GetUID());
+				resourcesToDelete.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(asShared));
 			}
 			ImGui::EndPopup();
 		}
