@@ -52,11 +52,11 @@ void Quadtree::Add(GameObject* gameObject)
 		{
 			if (gameObjects.size() < quadrantCapacity)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else
 			{
@@ -74,11 +74,11 @@ void Quadtree::Add(GameObject* gameObject)
 
 			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else
 			{
@@ -91,41 +91,41 @@ void Quadtree::Add(GameObject* gameObject)
 	}
 }
 
-void Quadtree::GetFamilyObjects(std::list<GameObject*>& familyGameObjects)
+void Quadtree::GetFamilyObjects(std::set<GameObject*>& familyGameObjects)
 {
 	for (GameObject* gameObject : gameObjects)
 	{
-		familyGameObjects.push_back(gameObject);
+		familyGameObjects.insert(gameObject);
 	}
 
 	if (!IsLeaf())
 	{
-		std::list<GameObject*> familyGameObjectsChildFR;
+		std::set<GameObject*> familyGameObjectsChildFR;
 		frontRightNode->GetFamilyObjects(familyGameObjectsChildFR);
 		for (GameObject* gameObject : familyGameObjectsChildFR)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
 
-		std::list<GameObject*> familyGameObjectsChildFL;
+		std::set<GameObject*> familyGameObjectsChildFL;
 		frontLeftNode->GetFamilyObjects(familyGameObjectsChildFL);
 		for (GameObject* gameObject : familyGameObjectsChildFL)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
 
-		std::list<GameObject*> familyGameObjectsChildBR;
+		std::set<GameObject*> familyGameObjectsChildBR;
 		backRightNode->GetFamilyObjects(familyGameObjectsChildBR);
 		for (GameObject* gameObject : familyGameObjectsChildBR)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
 
-		std::list<GameObject*> familyGameObjectsChildBL;
+		std::set<GameObject*> familyGameObjectsChildBL;
 		backLeftNode->GetFamilyObjects(familyGameObjectsChildBL);
 		for (GameObject* gameObject : familyGameObjectsChildBL)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
 	}
 }
@@ -135,7 +135,7 @@ bool Quadtree::Remove(const GameObject* gameObject)
 	bool removed = false;
 	if ((!IsLeaf() && !gameObjects.empty()))
 	{
-		std::list<GameObject*>::iterator it =
+		std::set<GameObject*>::iterator it =
 			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
 		if (it != gameObjects.end())
 		{
@@ -156,7 +156,7 @@ bool Quadtree::Remove(const GameObject* gameObject)
 	}
 	else if (IsLeaf())
 	{
-		std::list<GameObject*>::iterator it =
+		std::set<GameObject*>::iterator it =
 			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
 		if (it != gameObjects.end())
 		{
@@ -184,13 +184,12 @@ bool Quadtree::Remove(const GameObject* gameObject)
 bool Quadtree::SmartRemove()
 {
 	bool childrensDeleted = false;
-	std::list<GameObject*> familyObjects = {};
+	std::set<GameObject*> familyObjects = {};
 	GetFamilyObjects(familyObjects);
 	if (familyObjects.size() <= quadrantCapacity)
 	{
 		gameObjects.clear();
-		gameObjects.splice(gameObjects.end(), familyObjects);
-		//this causes a crash, need to find why
+		gameObjects = familyObjects;
 		ResetChildren();
 		childrensDeleted = true;
 	}
@@ -254,9 +253,9 @@ void Quadtree::Subdivide()
 void Quadtree::RedistributeGameObjects(GameObject* gameObject)
 {
 	// GameObject redistribution part
-	gameObjects.push_back(gameObject);
+	gameObjects.insert(gameObject);
 
-	for (std::list<GameObject*>::iterator it = std::begin(gameObjects); it != std::end(gameObjects);)
+	for (std::set<GameObject*>::iterator it = std::begin(gameObjects); it != std::end(gameObjects);)
 	{
 		if (*it)
 		{
@@ -477,7 +476,7 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 			continue;
 		}
 
-		std::list<GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
+		std::set<GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
 
 		float nearDistance, farDistance;
 		for (GameObject* gameObject : quadtreeGameObjects)
