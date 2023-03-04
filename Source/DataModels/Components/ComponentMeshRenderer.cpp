@@ -155,23 +155,25 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
+#ifdef ENGINE
+	std::string path = meta["assetPathMesh"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
+		if (resourceMesh)
+		{
+			SetMesh(resourceMesh);
+		}
+	}
+#else
 	UID uidMesh = meta["meshUID"];
 	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->SearchResource<ResourceMesh>(uidMesh);
-
 	if (resourceMesh)
 	{
 		SetMesh(resourceMesh);
 	}
-	else
-	{
-		std::string path = meta["assetPathMesh"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
-			SetMesh(resourceMesh);
-		}
-	}
+#endif
 }
 
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)

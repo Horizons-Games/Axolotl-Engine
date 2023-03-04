@@ -158,25 +158,25 @@ void ComponentMaterial::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
-
+#ifdef ENGINE
+	std::string path = meta["assetPathMaterial"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
+		if (resourceMaterial)
+		{
+			SetMaterial(resourceMaterial);
+		}
+	}
+#else
 	UID uidMaterial = meta["materialUID"];
-
 	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
-
 	if(resourceMaterial)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	else 
-	{
-		std::string path = meta["assetPathMaterial"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
-			SetMaterial(resourceMaterial);
-		}
-	}
+#endif
 }
 
 void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
