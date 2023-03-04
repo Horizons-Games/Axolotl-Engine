@@ -15,6 +15,10 @@
 
 #include <GL/glew.h>
 
+#ifdef ENGINE
+#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#endif // ENGINE
+
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
 {
@@ -39,6 +43,15 @@ void ComponentMaterial::Draw()
 	{
 		glUseProgram(program);
 	}
+
+	//this should be in an EditorComponent class, or something of the like
+	//but for now have it here
+#ifdef ENGINE
+	if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+	{
+		material = nullptr;
+	}
+#endif // ENGINE
 
 	if(material) 
 	{

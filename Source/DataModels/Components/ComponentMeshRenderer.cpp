@@ -20,6 +20,10 @@
 
 #include "GL/glew.h"
 
+#ifdef ENGINE
+#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#endif // ENGINE
+
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
@@ -38,7 +42,16 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	if (mesh) //pointer not empty
+	//this should be in an EditorComponent class, or something of the like
+	//but for now have it here
+#ifdef ENGINE
+	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
+	{
+		mesh = nullptr;
+	}
+#endif // ENGINE
+
+	if (this->IsMeshLoaded()) //pointer not empty
 	{
 		if (!mesh->IsLoaded())
 		{
