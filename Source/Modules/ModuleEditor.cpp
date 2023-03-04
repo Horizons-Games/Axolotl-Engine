@@ -54,12 +54,12 @@ bool ModuleEditor::Init()
 
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
-	windows.push_back(std::make_unique<WindowInspector>());
+	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	//windows.push_back(std::make_shared<WindowResources>());
+	//windows.push_back(std::make_unique<WindowResources>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	return true;
@@ -161,4 +161,9 @@ void ModuleEditor::Resized()
 bool ModuleEditor::IsSceneFocused() const
 {
 	return scene->IsFocused();
+}
+
+void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
+{
+	this->inspector->SetResource(resource);
 }

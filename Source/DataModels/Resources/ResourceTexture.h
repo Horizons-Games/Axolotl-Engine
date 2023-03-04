@@ -37,8 +37,7 @@ enum class TextureWrap
 	MIRROR_CLAMP_TO_EDGE
 };
 
-
-struct OptionsTexture
+struct LoadOptionsTexture
 {
 	TextureMinFilter min;
 	TextureMagFilter mag;
@@ -46,12 +45,23 @@ struct OptionsTexture
 	TextureWrap wrapT;
 	bool mipMap;
 
-	OptionsTexture() :
+	LoadOptionsTexture() :
 		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
 		mag(TextureMagFilter::LINEAR),
 		wrapS(TextureWrap::REPEAT),
 		wrapT(TextureWrap::REPEAT),
 		mipMap(true)
+	{}
+};
+
+struct ImportOptionsTexture
+{
+	bool flipVertical;
+	bool flipHorizontal;
+
+	ImportOptionsTexture() :
+		flipVertical(true),
+		flipHorizontal(false)
 	{}
 };
 
@@ -78,7 +88,8 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
-	std::shared_ptr<OptionsTexture>& GetOptions();
+	std::shared_ptr<ImportOptionsTexture>& GetImportOptions();
+	std::shared_ptr<LoadOptionsTexture>& GetLoadOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -94,16 +105,23 @@ protected:
 private:
 	void CreateTexture();
 
-	unsigned int glTexture;
-	unsigned int width;
-	unsigned int height;
-	unsigned int format;
-	unsigned int internalFormat;
-	unsigned int imageType;
+	int GetMagFilterEquivalence(TextureMagFilter filter);
+
+	int GetMinFilterEquivalence(TextureMinFilter filter);
+
+	int GetWrapFilterEquivalence(TextureWrap filter);
+
+	unsigned int glTexture = 0;
+	unsigned int width = 0;
+	unsigned int height = 0;
+	unsigned int format = 0;
+	unsigned int internalFormat = 0;
+	unsigned int imageType = 0;
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize;
 
-	std::shared_ptr<OptionsTexture> options;
+	std::shared_ptr<LoadOptionsTexture> loadOptions;
+	std::shared_ptr<ImportOptionsTexture> importOptions;
 };
 
 inline ResourceType ResourceTexture::GetType() const
@@ -151,9 +169,14 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 	return pixelsSize;
 }
 
-inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
+inline std::shared_ptr<ImportOptionsTexture>& ResourceTexture::GetImportOptions()
 {
-	return options;
+	return this->importOptions;
+}
+
+inline std::shared_ptr<LoadOptionsTexture>& ResourceTexture::GetLoadOptions()
+{
+	return this->loadOptions;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

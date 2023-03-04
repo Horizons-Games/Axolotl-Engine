@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleEditor.h"
 
 void WindowResources::DrawWindowContents()
 {
@@ -113,7 +114,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource, std:
 
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 		{
-			//TODO: resource options
+			App->editor->SetResourceOnInspector(resource);
 		}
 	}
 }

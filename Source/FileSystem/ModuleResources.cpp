@@ -12,6 +12,7 @@
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 
 #include <future>
 
@@ -256,7 +257,13 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			return;
 		}
 	}
-	resource = nullptr;
+}
+
+void ModuleResources::ReimportResource(UID resourceUID)
+{
+	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
+	CreateMetaFileOfResource(resource);
+	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
 
 void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)

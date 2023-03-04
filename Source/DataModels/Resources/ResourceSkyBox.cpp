@@ -24,23 +24,14 @@ void ResourceSkyBox::InternalLoad()
 
     for (int i = 0; i < textures.size(); ++i)
     {
-        std::shared_ptr<ResourceTexture> textI = std::dynamic_pointer_cast<ResourceTexture>(textures[i]);
+        std::shared_ptr<ResourceTexture> textI = textures[i];
 
         if (textI)
         {
             textI->Load();
             std::vector<uint8_t> aux = textI->GetPixels();
-            if (i != 2 && i != 3)
-            {
-                std::reverse(aux.begin(), aux.end());
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, GL_ABGR_EXT, textI->GetImageType(), &(aux[0]));
-            }
-            else
-            {
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
-            }
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
+                textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
         }
 
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -62,6 +53,19 @@ void ResourceSkyBox::InternalUnload()
     glTexture = 0;
 }
 
+bool ResourceSkyBox::ChildChanged() const
+{
+    bool result = false;
+    for (std::shared_ptr<ResourceTexture> texture : textures)
+    {
+        if (texture && texture->IsChanged())
+        {
+            result = true;
+            texture->SetChanged(false);
+        }
+    }
+    return result;
+}
 
 
 void ResourceSkyBox::LoadVBO()
