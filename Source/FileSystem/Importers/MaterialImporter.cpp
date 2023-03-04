@@ -152,11 +152,11 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	std::string assetPath = meta["DiffuseAssetPath"];
 	if (assetPath != "") resource->SetDiffuse(App->resources->RequestResource<ResourceTexture>(assetPath));
-	std::string assetPath = meta["NormalAssetPath"];
+	assetPath = meta["NormalAssetPath"];
 	if (assetPath != "") resource->SetNormal(App->resources->RequestResource<ResourceTexture>(assetPath));
-	std::string assetPath = meta["OcclusionAssetPath"];
+	assetPath = meta["OcclusionAssetPath"];
 	if (assetPath != "") resource->SetOcclusion(App->resources->RequestResource<ResourceTexture>(assetPath));
-	std::string assetPath = meta["SpecularAssetPath"];
+	assetPath = meta["SpecularAssetPath"];
 	if (assetPath != "") resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));
 #else
 	
