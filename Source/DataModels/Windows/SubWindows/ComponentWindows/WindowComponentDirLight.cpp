@@ -39,7 +39,13 @@ void WindowComponentDirLight::DrawWindowContents()
 			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 8.0f))
 			{
 				if (intensity > 8.0f)
+				{
 					intensity = 8.0f;
+				}
+				else if (intensity < 0.0f)
+				{
+					intensity = 0.0f;
+				}
 
 				asDirLight->SetIntensity(intensity);
 				modified = true;
