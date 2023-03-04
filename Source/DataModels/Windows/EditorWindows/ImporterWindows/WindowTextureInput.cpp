@@ -2,6 +2,7 @@
 
 #include "Components/ComponentMaterial.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
@@ -40,29 +41,28 @@ void WindowTextureInput::DoThisIfOk()
 {
 	if (materialComponent)
 	{
-		// std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		// UID uidTexture = App->resources->ImportResource(filePath);
+		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(filePath);
+		
+		std::shared_ptr<ResourceMaterial> material = materialComponent->GetMaterial();
 
-		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial();
-
-		// if (materialAsShared)
-		// {
-		// 	switch (textureType)
-		// 	{
-		// 	case TextureType::DIFFUSE:
-		// 		materialAsShared->SetDiffuseUID(uidTexture);
-		// 		break;
-		// 	case TextureType::NORMAL:
-		// 		materialAsShared->SetNormalUID(uidTexture);
-		// 		break;
-		// 	case TextureType::OCCLUSION:
-		// 		break;
-		// 	case TextureType::SPECULAR:
-		// 		materialAsShared->SetSpecularUID(uidTexture);
-		// 		break;
-		// 	}
-
-		// 	materialAsShared->SetChanged(true);
-		// }
+		if (material)
+		{
+			switch (textureType)
+			{
+			case TextureType::DIFFUSE:
+				material->SetDiffuse(texture);
+				break;
+			case TextureType::NORMAL:
+				material->SetNormal(texture);
+				break;
+			case TextureType::OCCLUSION:
+				break;
+			case TextureType::SPECULAR:
+				material->SetSpecular(texture);
+				break;
+			}
+			material->SetChanged(true);
+		}
 	}
 }

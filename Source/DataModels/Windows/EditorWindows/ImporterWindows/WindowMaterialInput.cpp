@@ -22,9 +22,8 @@ void WindowMaterialInput::DoThisIfOk()
 {
 	if (componentMaterial)
 	{
-		// std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		// UID uidMaterial = App->resources->ImportResource(filePath);
-		// std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
-		// componentMaterial->SetMaterial(material);
+		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		std::shared_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(filePath);
+		componentMaterial->SetMaterial(material);
 	}
 }
