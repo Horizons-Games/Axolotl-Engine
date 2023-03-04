@@ -3,7 +3,8 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression {
+enum class TextureCompression 
+{
 	NONE,
 	DXT1,
 	DXT3,
@@ -11,7 +12,8 @@ enum class TextureCompression {
 	BC7
 };
 
-enum class TextureMinFilter {
+enum class TextureMinFilter 
+{
 	NEAREST,
 	LINEAR,
 	NEAREST_MIPMAP_NEAREST,
@@ -20,12 +22,14 @@ enum class TextureMinFilter {
 	LINEAR_MIPMAP_LINEAR
 };
 
-enum class TextureMagFilter {
+enum class TextureMagFilter 
+{
 	NEAREST,
 	LINEAR
 };
 
-enum class TextureWrap {
+enum class TextureWrap 
+{
 	REPEAT,
 	CLAMP_TO_EDGE,
 	CLAMP_TO_BORDER,
@@ -54,7 +58,10 @@ struct OptionsTexture
 class ResourceTexture : public Resource
 {
 public:
-	ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	ResourceTexture(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 	~ResourceTexture() override;
 
 	ResourceType GetType() const override;
@@ -87,31 +94,17 @@ protected:
 private:
 	void CreateTexture();
 
-	unsigned int glTexture = 0;
-	unsigned int width = 0;
-	unsigned int height = 0;
-	unsigned int format = 0;
-	unsigned int internalFormat = 0;
-	unsigned int imageType = 0;
+	unsigned int glTexture;
+	unsigned int width;
+	unsigned int height;
+	unsigned int format;
+	unsigned int internalFormat;
+	unsigned int imageType;
 	std::vector<uint8_t> pixels;
-	unsigned int pixelsSize = 0;
+	unsigned int pixelsSize;
 
 	std::shared_ptr<OptionsTexture> options;
 };
-
-inline ResourceTexture::ResourceTexture(UID resourceUID,
-										const std::string& fileName,
-										const std::string& assetsPath,
-										const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsTexture>();
-}
-
-inline ResourceTexture::~ResourceTexture()
-{
-	this->Unload();
-}
 
 inline ResourceType ResourceTexture::GetType() const
 {
@@ -160,7 +153,7 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 
 inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

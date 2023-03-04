@@ -63,15 +63,15 @@ update_status Application::Update()
 {
 	float ms = appTimer->Read();
 
-	update_status ret = UPDATE_CONTINUE;
+	update_status ret = update_status::UPDATE_CONTINUE;
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PreUpdate();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->Update();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PostUpdate();
 
 	float dt = (appTimer->Read() - ms) / 1000.0f;
@@ -81,7 +81,7 @@ update_status Application::Update()
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	this->deltaTime = (appTimer->Read() - ms) / 1000.0f;
+	deltaTime = (appTimer->Read() - ms) / 1000.0f;
 
 	return ret;
 }

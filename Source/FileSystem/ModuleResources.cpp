@@ -10,9 +10,6 @@
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 
-#include "Resources/ResourceSkyBox.h"
-#include "Resources/ResourceMaterial.h"
-
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";
@@ -20,9 +17,13 @@ const std::string ModuleResources::libraryFolder = "Lib/";
 
 //creator and destructor can't be inlined
 //because we are using unique pointers with forward declarations
-ModuleResources::ModuleResources() = default;
+ModuleResources::ModuleResources() : monitorResources (false)
+{
+}
 
-ModuleResources::~ModuleResources() = default;
+ModuleResources::~ModuleResources()
+{
+}
 
 bool ModuleResources::Start()
 {
@@ -63,7 +64,7 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 
 	UID uid;
 
-	if (!this->ExistsResourceWithAssetsPath(assetsPath, uid))
+	if (!ExistsResourceWithAssetsPath(assetsPath, uid))
 	{
 		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 		AddResource(importedRes, originalPath);
@@ -206,7 +207,8 @@ void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
 			std::string fileName = App->fileSystem->GetFileName(libraryPathWithoutExtension);
 			std::string assetsPath = CreateAssetsPath(fileName, type);
 			assetsPath = App->fileSystem->GetPathWithExtension(assetsPath);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetsPath, libraryPathWithoutExtension, type);
+			std::shared_ptr<Resource> resource = 
+				CreateResourceOfType(uid, fileName, assetsPath, libraryPathWithoutExtension, type);
 			
 			if (resource != nullptr)
 			{

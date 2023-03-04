@@ -12,10 +12,12 @@ class Skybox
 
 public:
 	Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes);
+	~Skybox();
+
 	void Draw();
 
 private:
 	std::weak_ptr<ResourceSkyBox> skyboxRes;
 
-	UID skyboxUID = 0ULL;
+	UID skyboxUID;
 };

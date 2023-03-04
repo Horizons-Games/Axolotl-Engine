@@ -5,8 +5,8 @@
 class MaterialImporter : public Importer<ResourceMaterial>
 {
 public:
-    MaterialImporter() = default;
-    ~MaterialImporter() = default;
+    MaterialImporter();
+    ~MaterialImporter() override;
 
     void Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource) override;

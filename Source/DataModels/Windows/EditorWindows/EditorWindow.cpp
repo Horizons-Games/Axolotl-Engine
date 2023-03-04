@@ -1,6 +1,7 @@
 #include "EditorWindow.h"
 
-EditorWindow::EditorWindow(const std::string& name) : Window(name)
+EditorWindow::EditorWindow(const std::string& name) : Window(name), flags(ImGuiWindowFlags_None),
+	focused(false)
 {
 }
 
@@ -14,7 +15,7 @@ void EditorWindow::Draw(bool& enabled)
 	{
 		if (ImGui::Begin(name.c_str(), &enabled, flags))
 		{
-			ImGui::SetWindowSize(name.c_str(), this->GetStartingSize(), ImGuiCond_Once);
+			ImGui::SetWindowSize(name.c_str(), GetStartingSize(), ImGuiCond_Once);
 
 			DrawWindowContents();
 			focused = ImGui::IsWindowFocused();
