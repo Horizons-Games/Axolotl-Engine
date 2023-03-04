@@ -75,6 +75,26 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
 {
+#ifdef ENGINE
+	//Open Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+
+	meta["DiffuseAssetPath"] = resource->GetDiffuse() ? resource->GetDiffuse()->GetAssetsPath().c_str() : "";
+	meta["NormalAssetPath"] = resource->GetNormal() ? resource->GetNormal()->GetAssetsPath().c_str() : "";
+	meta["OcclusionAssetPath"] = resource->GetOcclusion() ? resource->GetOcclusion()->GetAssetsPath().c_str() : "";
+	meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
+
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+#endif
+
 	UID texturesUIDs[4] =
 	{
 		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
@@ -116,28 +136,36 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
+
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
-	if (texturesUIDs[0] != 0)
-	{
-		resource->SetDiffuse(App->resources->SearchResource<ResourceTexture>(texturesUIDs[0]));
-	}
+#ifdef ENGINE
+	//Open Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+
+	std::string assetPath = meta["DiffuseAssetPath"];
+	if (assetPath != "") resource->SetDiffuse(App->resources->RequestResource<ResourceTexture>(assetPath));
+	std::string assetPath = meta["NormalAssetPath"];
+	if (assetPath != "") resource->SetNormal(App->resources->RequestResource<ResourceTexture>(assetPath));
+	std::string assetPath = meta["OcclusionAssetPath"];
+	if (assetPath != "") resource->SetOcclusion(App->resources->RequestResource<ResourceTexture>(assetPath));
+	std::string assetPath = meta["SpecularAssetPath"];
+	if (assetPath != "") resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));
+#else
 	
-	if (texturesUIDs[1] != 0)
-	{
-		resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
-	}
-	
-	if (texturesUIDs[2] != 0)
-	{
-		resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
-	}
-	
-	if (texturesUIDs[3] != 0)
-	{
-		resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
-	}
+	if (texturesUIDs[0] != 0) resource->SetDiffuse(App->resources->SearchResource<ResourceTexture>(texturesUIDs[0]));
+	if (texturesUIDs[1] != 0) resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
+	if (texturesUIDs[2] != 0) resource->SetOcclusion(App->resources->SearchResource<ResourceTexture>(texturesUIDs[2]));
+	if (texturesUIDs[3] != 0) resource->SetSpecular(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
+
+#endif
 
 	fileBuffer += sizeof(texturesUIDs);
 
