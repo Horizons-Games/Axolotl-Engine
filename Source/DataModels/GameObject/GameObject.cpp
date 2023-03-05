@@ -20,7 +20,7 @@
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), parent(nullptr)
+	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
 {
 }
 
