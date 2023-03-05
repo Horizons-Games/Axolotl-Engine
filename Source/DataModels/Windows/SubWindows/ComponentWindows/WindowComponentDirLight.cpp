@@ -6,7 +6,7 @@
 #include "DataModels/Components/ComponentDirLight.h"
 
 WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
-	ComponentWindow("DIRECTIONAL LIGHT", component)
+	WindowComponentLight("DIRECTIONAL LIGHT", component)
 {
 }
 
@@ -36,11 +36,11 @@ void WindowComponentDirLight::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asDirLight->GetIntensity();
-			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 8.0f))
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, max_intensity))
 			{
-				if (intensity > 8.0f)
+				if (intensity > max_intensity)
 				{
-					intensity = 8.0f;
+					intensity = max_intensity;
 				}
 				else if (intensity < 0.0f)
 				{
