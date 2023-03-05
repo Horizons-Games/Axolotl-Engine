@@ -14,6 +14,6 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	const static float max_intensity;
+	constexpr static float max_intensity = 5000.0f;
 };
 

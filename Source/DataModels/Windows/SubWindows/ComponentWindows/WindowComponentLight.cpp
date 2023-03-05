@@ -2,7 +2,7 @@
 
 #include "DataModels/Components/ComponentLight.h"
 
-const float WindowComponentLight::max_intensity = 5000.0f;
+constexpr float WindowComponentLight::max_intensity;
 
 WindowComponentLight::WindowComponentLight(ComponentLight* component) :
 	ComponentWindow("BASIC LIGHT", component)
