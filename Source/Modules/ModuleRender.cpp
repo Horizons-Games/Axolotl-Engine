@@ -207,7 +207,7 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 
 	if (isRoot) 
 	{
@@ -239,7 +239,7 @@ update_status ModuleRender::Update()
 
 	if (App->debug->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+		DrawQuadtree(App->scene->GetLoadedScene()->GetRootQuadtree());
 	}
 
 	int w, h;

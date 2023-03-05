@@ -181,10 +181,9 @@ bool Quadtree::Remove(const GameObject* gameObject)
 
 }
 
-
 bool Quadtree::SmartRemove()
 {
-	bool childrensDeleted = false;
+	bool childrenDeleted = false;
 	std::list<const GameObject*> familyObjects = {};
 	GetFamilyObjects(familyObjects);
 	if (familyObjects.size() <= quadrantCapacity)
@@ -193,9 +192,9 @@ bool Quadtree::SmartRemove()
 		gameObjects.splice(gameObjects.end(), familyObjects);
 		//this causes a crash, need to find why
 		ResetChildren();
-		childrensDeleted = true;
+		childrenDeleted = true;
 	}
-	return childrensDeleted;
+	return childrenDeleted;
 }
 
 bool Quadtree::InQuadrant(const GameObject* gameObject)
@@ -297,18 +296,18 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 	float3 gameObjectPosition = boxes->GetEncapsuledAABB().CenterPoint();
 
-	float quadTreeMaxX = boundingBox.MaxX();
-	float quadTreeMaxY = boundingBox.MaxY();
-	float quadTreeMaxZ = boundingBox.MaxZ();
-	float quadTreeMinX = boundingBox.MinX();
-	float quadTreeMinY = boundingBox.MinY();
-	float quadTreeMinZ = boundingBox.MinZ();
+	float quadtreeMaxX = boundingBox.MaxX();
+	float quadtreeMaxY = boundingBox.MaxY();
+	float quadtreeMaxZ = boundingBox.MaxZ();
+	float quadtreeMinX = boundingBox.MinX();
+	float quadtreeMinY = boundingBox.MinY();
+	float quadtreeMinZ = boundingBox.MinZ();
 	float3 newMaxPoint = GetBoundingBox().maxPoint;
 	float3 newMinPoint = GetBoundingBox().minPoint;
 
-	if (gameObjectPosition.y > quadTreeMaxY || gameObjectPosition.y < quadTreeMinY)
+	if (gameObjectPosition.y > quadtreeMaxY || gameObjectPosition.y < quadtreeMinY)
 	{
-		if (gameObjectPosition.y < quadTreeMinY)
+		if (gameObjectPosition.y < quadtreeMinY)
 		{
 			newMinPoint.y = gameObjectPosition.y - boxes->GetEncapsuledAABB().Size().y;
 		}
@@ -321,59 +320,59 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 
 	if (!InQuadrant(gameObject))
 	{
-		std::unique_ptr<Quadtree> newRootQuadTree = nullptr;
-		if (gameObjectPosition.x > quadTreeMaxX && gameObjectPosition.z > quadTreeMaxZ)
+		std::unique_ptr<Quadtree> newRootQuadtree = nullptr;
+		if (gameObjectPosition.x > quadtreeMaxX && gameObjectPosition.z > quadtreeMaxZ)
 		{
-			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMaxPoint.x = quadtreeMinX + ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMaxPoint.z = quadtreeMinZ + ((quadtreeMaxZ - quadtreeMinZ) * 2);
 
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
-		else if (gameObjectPosition.x < quadTreeMinX && gameObjectPosition.z < quadTreeMinZ)
+		else if (gameObjectPosition.x < quadtreeMinX && gameObjectPosition.z < quadtreeMinZ)
 		{
-			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMinPoint.x = quadtreeMaxX - ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMinPoint.z = quadtreeMaxZ - ((quadtreeMaxZ - quadtreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
 		}
-		else if (gameObjectPosition.z > quadTreeMaxZ && gameObjectPosition.x < quadTreeMinX)
+		else if (gameObjectPosition.z > quadtreeMaxZ && gameObjectPosition.x < quadtreeMinX)
 		{
-			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMinPoint.x = quadtreeMaxX - ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMaxPoint.z = quadtreeMinZ + ((quadtreeMaxZ - quadtreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
-		else if (gameObjectPosition.z < quadTreeMinZ && gameObjectPosition.x > quadTreeMaxX)
+		else if (gameObjectPosition.z < quadtreeMinZ && gameObjectPosition.x > quadtreeMaxX)
 		{
-			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMaxPoint.x = quadtreeMinX + ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMinPoint.z = quadtreeMaxZ - ((quadtreeMaxZ - quadtreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->backLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->backLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
-		else if (gameObjectPosition.x > quadTreeMaxX || gameObjectPosition.z > quadTreeMaxZ)
+		else if (gameObjectPosition.x > quadtreeMaxX || gameObjectPosition.z > quadtreeMaxZ)
 		{
-			newMaxPoint.x = quadTreeMinX + ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMaxPoint.x = quadtreeMinX + ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMaxPoint.z = quadtreeMinZ + ((quadtreeMaxZ - quadtreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->backLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->backLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
-		else if (gameObjectPosition.x < quadTreeMinX || gameObjectPosition.z < quadTreeMinZ)
+		else if (gameObjectPosition.x < quadtreeMinX || gameObjectPosition.z < quadtreeMinZ)
 		{
-			newMinPoint.x = quadTreeMaxX - ((quadTreeMaxX - quadTreeMinX) * 2);
-			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
+			newMinPoint.x = quadtreeMaxX - ((quadtreeMaxX - quadtreeMinX) * 2);
+			newMinPoint.z = quadtreeMaxZ - ((quadtreeMaxZ - quadtreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->frontRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
+			newRootQuadtree = std::make_unique<Quadtree>(newAABB);
+			newRootQuadtree->frontRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
-		newRootQuadTree->Subdivide();
-		App->scene->GetLoadedScene()->SetSceneQuadTree(std::move(newRootQuadTree));
-		parent = App->scene->GetLoadedScene()->GetSceneQuadTree();
+		newRootQuadtree->Subdivide();
+		App->scene->GetLoadedScene()->SetRootQuadtree(std::move(newRootQuadtree));
+		parent = App->scene->GetLoadedScene()->GetRootQuadtree();
 		parent->Add(gameObject); 
 	}
 	else
@@ -434,7 +433,7 @@ void Quadtree::AddGameObjectAndChildren(const GameObject* gameObject)
 	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());
 	for (const GameObject* children : familyObjects)
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->Add(children);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->Add(children);
 	}
 }
 
@@ -509,4 +508,37 @@ void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitG
 		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
 		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
 	}
+}
+
+void Quadtree::SaveOptions(Json& meta) {
+	Json jsonQuadtree = meta["Quadtree"];
+	Json jsonBoundingBox = jsonQuadtree["BoundingBox"];
+
+	Json jsonMinPoint = jsonBoundingBox["MinPoint"];
+	jsonMinPoint["x"] = boundingBox.minPoint.x;
+	jsonMinPoint["y"] = boundingBox.minPoint.y;
+	jsonMinPoint["z"] = boundingBox.minPoint.z;
+
+	Json jsonMaxPoint = jsonBoundingBox["MaxPoint"];
+	jsonMaxPoint["x"] = boundingBox.maxPoint.x;
+	jsonMaxPoint["y"] = boundingBox.maxPoint.y;
+	jsonMaxPoint["z"] = boundingBox.maxPoint.z;
+}
+
+void Quadtree::LoadOptions(Json& meta) {
+	Json jsonQuadtree = meta["Quadtree"];
+	Json jsonBoundingBox = jsonQuadtree["BoundingBox"];
+
+	Json jsonMinPoint = jsonBoundingBox["MinPoint"];
+	float minPointX = static_cast<float>(jsonMinPoint["x"]);
+	float minPointY = static_cast<float>(jsonMinPoint["y"]);
+	float minPointZ = static_cast<float>(jsonMinPoint["z"]);
+
+	Json jsonMaxPoint = jsonBoundingBox["MaxPoint"];
+	float maxPointX =  static_cast<float>(jsonMaxPoint["x"]);
+	float maxPointY =  static_cast<float>(jsonMaxPoint["y"]);
+	float maxPointZ =  static_cast<float>(jsonMaxPoint["z"]);
+
+	AABB boundingBox = AABB(float3(minPointX, minPointY, minPointZ), float3(maxPointX, maxPointY, maxPointZ));
+	SetBoundingBox(boundingBox);
 }

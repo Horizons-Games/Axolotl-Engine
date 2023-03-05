@@ -7,6 +7,7 @@
 #include "Geometry/LineSegment.h"
 
 class GameObject;
+class Json;
 
 class Quadtree
 {
@@ -34,6 +35,9 @@ public:
 
 	const std::list<const GameObject*>& GetGameObjects() const;
 	void GetFamilyObjects(std::list<const GameObject*>& familyGameObjects);
+
+	void SaveOptions(Json& meta);
+	void LoadOptions(Json& meta);
 
 	const Quadtree* GetFrontRightNode() const;
 	const Quadtree* GetFrontLeftNode() const;

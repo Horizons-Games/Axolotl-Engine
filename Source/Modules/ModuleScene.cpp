@@ -115,6 +115,9 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	root->SetName(App->fileSystem->GetFileName(name).c_str());
 	root->SaveOptions(jsonScene);
 
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->SaveOptions(jsonScene);
+
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
@@ -156,16 +159,17 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
-	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
+	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->LoadOptions(Json);
+
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
 	{
-		sceneQuadtree = loadedScene->GetSceneQuadTree();
+		rootQuadtree = loadedScene->GetRootQuadtree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
 		if (!camerasOfObj.empty())
 		{
@@ -185,20 +189,20 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 			}
 		}
 		//Quadtree treatment
-		if (!sceneQuadtree->InQuadrant(obj))
+		if (!rootQuadtree->InQuadrant(obj))
 		{
-			if (!sceneQuadtree->IsFreezed())
+			if (!rootQuadtree->IsFreezed())
 			{
-				sceneQuadtree->ExpandToFit(obj);
+				rootQuadtree->ExpandToFit(obj);
 			}
 		}
 		else
 		{
-			sceneQuadtree->Add(obj);
+			rootQuadtree->Add(obj);
 		}
 	}
 
-	App->renderer->FillRenderList(sceneQuadtree);
+	App->renderer->FillRenderList(rootQuadtree);
 
 	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();

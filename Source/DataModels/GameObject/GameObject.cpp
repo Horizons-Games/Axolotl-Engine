@@ -152,11 +152,11 @@ void GameObject::SaveOptions(Json& meta)
 		components[i]->SaveOptions(jsonComponent);
 	}
 
-	Json jsonChildrens = meta["Childrens"];
+	Json jsonChildren = meta["Children"];
 
 	for (int i = 0; i < children.size(); ++i)
 	{
-		Json jsonGameObject = jsonChildrens[i]["GameObject"];
+		Json jsonGameObject = jsonChildren[i]["GameObject"];
 
 		children[i]->SaveOptions(jsonGameObject);
 	}
@@ -199,15 +199,15 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 		}
 	}
 
-	Json jsonChildrens = meta["Childrens"];
+	Json jsonChildren = meta["Children"];
 
-	int size = jsonChildrens.Size();
+	int size = jsonChildren.Size();
 
-	if (jsonChildrens.Size() != 0) 
+	if (jsonChildren.Size() != 0) 
 	{
-		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
+		for (unsigned int i = 0; i < jsonChildren.Size(); ++i)
 		{
-			Json jsonGameObject = jsonChildrens[i]["GameObject"];
+			Json jsonGameObject = jsonChildren[i]["GameObject"];
 			std::string name = jsonGameObject["name"];
 
 			GameObject* gameObject = new GameObject(name.c_str(), this);
