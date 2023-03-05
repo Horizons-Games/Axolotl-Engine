@@ -123,9 +123,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	resourceModel->Load();
 
-	std::string modelName = model;
-	size_t last_slash = modelName.find_last_of('/');
-	modelName = modelName.substr(last_slash + 1, modelName.size());
+	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
