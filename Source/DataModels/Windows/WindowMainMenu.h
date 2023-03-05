@@ -26,10 +26,11 @@ private:
 
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
-
 	std::unique_ptr<WindowAbout> about;
 
 	bool showAbout;
+
+	ImGuiFileDialog fileDialogImporter;
 	
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
 };

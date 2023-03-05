@@ -1,5 +1,9 @@
 #include "WindowMainMenu.h"
 
+#include "Application.h"
+#include "ModuleScene.h"
+#include "DataModels/Scene/Scene.h"
+
 #include "SDL.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
@@ -39,10 +43,19 @@ void WindowMainMenu::DrawFileMenu()
 
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::MenuItem("New Scene"))
+		if (ImGui::Button(ICON_IGFD_FILE " New Scene"))
 		{
+			//std::unique_ptr<Scene> scene = std::make_unique<Scene>();
+			//scene->InitNewEmptyScene();
+			//App->scene->SetLoadedScene(std::move(scene));
 		}
 		loadScene->DrawWindowContents();
+		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
+		{
+			std::string filePathName = fileDialogImporter.GetCurrentFileName();
+			if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
+			else saveScene->SaveAsWindow();
+		}
 		saveScene->DrawWindowContents();
 		if (ImGui::MenuItem("Exit"))
 		{

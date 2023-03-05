@@ -2,6 +2,10 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "ModuleScene.h"
+#include "DataModels/Scene/Scene.h"
+#include "DataModels/GameObject/GameObject.h"
 
 WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 	title(ICON_IGFD_FOLDER " Import Asset"),
@@ -65,10 +69,34 @@ WindowFileBrowser::~WindowFileBrowser()
 {
 }
 
+void WindowFileBrowser::SaveAsWindow()
+{
+	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
+	std::string sceneName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+	if (!App->fileSystem->Exists(("Assets/Scenes/" + sceneName + SCENE_EXTENSION).c_str()))
+	{
+		Uint32 flags = ImGuiFileDialogFlags_Modal;
+		if (isSave)
+		{
+			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
+		}
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(),
+			"", 1, nullptr, flags);
+	}
+	if (fileDialogImporter.Display("ChooseFileDlgKey"))
+	{
+		if (fileDialogImporter.IsOk())
+		{
+			DoThisIfOk();
+		}
+		fileDialogImporter.Close();
+	}
+
+}
+
 void WindowFileBrowser::DrawWindowContents()
 {
 	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
-
 	if (ImGui::Button(title.c_str()))
 	{
 		Uint32 flags = ImGuiFileDialogFlags_Modal;
