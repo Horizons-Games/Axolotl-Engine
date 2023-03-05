@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
@@ -86,14 +87,14 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
 
-	update_status status = UPDATE_CONTINUE;
+	update_status status = update_status::UPDATE_CONTINUE;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
@@ -112,6 +113,30 @@ update_status ModuleEditor::Update()
 	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
+
+	static bool firstTime = true;
+	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	{
+		firstTime = false;
+
+		ImGui::DockBuilderRemoveNode(dockSpaceId); // clear any previous layout
+		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
+		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
+
+		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceId);
+		ImGuiID dockIdRight = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
+		ImGuiID dockIdDown = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
+		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
+		ImGui::DockBuilderDockWindow("Console", dockIdDown);
+		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
+		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
+		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
+		ImGui::DockBuilderDockWindow("Hierarchy", dockIdLeft);
+		ImGui::DockBuilderDockWindow("Scene", dockSpaceId);
+		ImGui::DockBuilderFinish(dockSpaceId);
+	}
+
 	ImGui::End();
 
 	//disable ALT key triggering nav menu
@@ -144,7 +169,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::Resized()

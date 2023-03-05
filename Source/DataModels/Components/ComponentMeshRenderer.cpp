@@ -4,6 +4,7 @@
 
 #include "ComponentTransform.h"
 #include "ComponentBoundingBoxes.h"
+#include "Program/Program.h"
 
 #include "Application.h"
 
@@ -61,9 +62,9 @@ void ComponentMeshRenderer::Draw()
 			glUseProgram(program);
 		}
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -71,6 +72,48 @@ void ComponentMeshRenderer::Draw()
 		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+}
+
+void ComponentMeshRenderer::DrawHighlight()
+{
+	if (IsMeshLoaded()) //pointer not empty
+	{
+		if (!mesh->IsLoaded())
+		{
+			mesh->Load();
+		}
+
+		float scale = 10.1f;
+		ComponentBoundingBoxes* boundingBox =
+			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
+		Program* programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
+		assert(programShared);
+		unsigned program = programShared->GetId();
+		const float4x4& view = App->engineCamera->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& model =
+			static_cast<ComponentTransform*>(GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		GLint programInUse;
+		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+		if (program != programInUse)
+		{
+			glUseProgram(program);
+		}
+
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}

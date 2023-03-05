@@ -20,6 +20,7 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

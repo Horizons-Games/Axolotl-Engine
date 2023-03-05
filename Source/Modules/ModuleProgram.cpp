@@ -1,9 +1,11 @@
 #include "ModuleProgram.h"
 
 #include "DataModels/Program/Program.h"
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram() : program (0), rootPath ("Lib/Shaders/")
+ModuleProgram::ModuleProgram() : program (0)
 {
 }
 
@@ -15,13 +17,14 @@ bool ModuleProgram::Start()
 {
 	programs.reserve((int)ProgramType::SKYBOX + 1);
 	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
+	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl"));
 	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
 
 	return true;
 }
 
 
-std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName)
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName)
 {
 	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
 	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
@@ -31,7 +34,7 @@ std::shared_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 		return nullptr;
 	}
 
-	std::shared_ptr<Program> program = std::make_shared<Program>(vertexShader, fragmentShader);
+	std::unique_ptr<Program> program = std::make_unique<Program>(vertexShader, fragmentShader);
 
 	if (program->GetId() == 0)
 	{
@@ -51,7 +54,7 @@ bool ModuleProgram::CleanUp()
 	return true;
 }
 
-void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
+void ModuleProgram::CreateProgram(unsigned int vtxShader, unsigned int frgShader)
 {
 	program = glCreateProgram();
 	glAttachShader(program, vtxShader);
@@ -77,29 +80,19 @@ void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
 	glDeleteShader(frgShader);
 }
 
-char* ModuleProgram::LoadShaderSource(const char* shaderFileName)
+std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data = nullptr;
-	FILE* file = nullptr;
-	fopen_s(&file, shaderFileName, "rb");
-	if (file)
-	{
-		fseek(file, 0, SEEK_END);
-		int size = ftell(file);
-		data = (char*)malloc(size + 1);
-		fseek(file, 0, SEEK_SET);
-		fread(data, 1, size, file);
-		data[size] = 0;
-		fclose(file);
-	}
+	App->fileSystem->Load(shaderFileName.c_str(), data);
 
 	return data;
 }
 
-unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
+unsigned ModuleProgram::CompileShader(unsigned type, const std::string& source)
 {
+	const char* sourceAsCharLValue = source.c_str();
 	unsigned shaderID = glCreateShader(type);
-	glShaderSource(shaderID, 1, &source, 0);
+	glShaderSource(shaderID, 1, &sourceAsCharLValue, 0);
 	glCompileShader(shaderID);
 
 	int res = GL_FALSE;

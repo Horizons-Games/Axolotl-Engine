@@ -3,7 +3,8 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression {
+enum class TextureCompression 
+{
 	NONE,
 	DXT1,
 	DXT3,
@@ -11,7 +12,8 @@ enum class TextureCompression {
 	BC7
 };
 
-enum class TextureMinFilter {
+enum class TextureMinFilter 
+{
 	NEAREST,
 	LINEAR,
 	NEAREST_MIPMAP_NEAREST,
@@ -20,12 +22,14 @@ enum class TextureMinFilter {
 	LINEAR_MIPMAP_LINEAR
 };
 
-enum class TextureMagFilter {
+enum class TextureMagFilter 
+{
 	NEAREST,
 	LINEAR
 };
 
-enum class TextureWrap {
+enum class TextureWrap 
+{
 	REPEAT,
 	CLAMP_TO_EDGE,
 	CLAMP_TO_BORDER,
