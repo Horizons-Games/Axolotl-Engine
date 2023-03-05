@@ -344,7 +344,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
+		const std::set<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)

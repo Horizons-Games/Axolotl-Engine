@@ -33,7 +33,7 @@ void ComponentMaterial::Update()
 
 void ComponentMaterial::Draw()
 {
-	unsigned int program = App->program->GetProgram();
+	const unsigned int program = App->program->GetProgram();
 
 	GLint programInUse;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
