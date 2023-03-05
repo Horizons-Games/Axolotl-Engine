@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <set>
 #include <map>
 #include <MathGeoLib/Include/Geometry/AABB.h>
 
@@ -33,8 +34,8 @@ public:
 
 	void ResetChildren();
 
-	const std::list<const GameObject*>& GetGameObjects() const;
-	void GetFamilyObjects(std::list<const GameObject*>& familyGameObjects);
+	const std::set<const GameObject*>& GetGameObjects() const;
+	void GetFamilyObjects(std::set<const GameObject*>& familyGameObjects);
 
 	void SaveOptions(Json& meta);
 	void LoadOptions(Json& meta);
@@ -63,7 +64,7 @@ public:
 
 private:
 
-	std::list<const GameObject*> gameObjects;
+	std::set<const GameObject*> gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity;
@@ -110,7 +111,7 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::list<const GameObject*>& Quadtree::GetGameObjects() const
+inline const std::set<const GameObject*>& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }
