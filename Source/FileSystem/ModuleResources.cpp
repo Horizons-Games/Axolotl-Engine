@@ -57,7 +57,7 @@ bool ModuleResources::CleanUp()
 }
 
 //Creates Binary and Meta from an Asset original path
-void ModuleResources::ImportResource(const std::string& originalPath)
+std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& originalPath)
 {
 	ResourceType type = FindTypeByExtension(originalPath);
 	if (type == ResourceType::Unknown)
@@ -77,12 +77,13 @@ void ModuleResources::ImportResource(const std::string& originalPath)
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(originalPath, importedRes, importedRes->GetType());
+	return importedRes;
 }
 
-void ModuleResources::ImportThread(const std::string& originalPath)
+std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& originalPath)
 {
-	/*std::promise<void> p;
-	std::future<void> f = p.get_future();
+	std::promise<std::shared_ptr<Resource>> p;
+	std::future<std::shared_ptr<Resource>> f = p.get_future();
 	std::thread importThread = std::thread(
 		[&]() 
 		{
@@ -90,7 +91,7 @@ void ModuleResources::ImportThread(const std::string& originalPath)
 		}
 	);
 	importThread.detach();
-	return f.get();*/
+	return f.get();
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,

@@ -34,8 +34,8 @@ public:
 	bool CleanUp() override;
 
 	//Create Bin and .meta from path
-	void ImportResource(const std::string& originalPath);
-	void ImportThread(const std::string& originalPath);
+	std::shared_ptr<Resource> ImportResource(const std::string& originalPath);
+	std::shared_ptr<Resource> ImportThread(const std::string& originalPath);
 
 	//request resource and Import if is necessary
 	const std::shared_ptr<Resource> RequestResource(const std::string assetPath);

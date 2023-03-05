@@ -252,7 +252,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceMaterial> resourceMaterial =
-			App->resources->RequestResource<ResourceMaterial>(materialPath);
+			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->ImportResource(materialPath));
 		materials.push_back(resourceMaterial);
 		
 		delete fileBuffer;
@@ -276,7 +276,7 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
 		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(meshPath);
+		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
 		meshes.push_back(resourceMesh);
 	}
 	resource->SetMeshes(meshes);

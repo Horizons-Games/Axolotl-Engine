@@ -33,9 +33,9 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 		if (!path.empty()) 
 		{
-			resourceTexture.push_back(App->resources->RequestResource<ResourceTexture>(path));
+			resourceTexture.push_back(std::dynamic_pointer_cast<ResourceTexture>(App->resources->ImportResource(path)));
 		}
-		else 
+		else
 		{
 			resourceTexture.push_back(0);
 		}

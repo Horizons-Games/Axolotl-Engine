@@ -37,7 +37,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 	for(int i = 0; i < facesPaths.size(); ++i)
 	{
-		faces[i] = App->resources->RequestResource<ResourceTexture>(facesPaths[i]);
+		faces[i] = std::dynamic_pointer_cast<ResourceTexture>(App->resources->ImportResource(facesPaths[i]));
 	}
 
 	resource->SetTextures(faces);
