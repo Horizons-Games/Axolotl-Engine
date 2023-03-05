@@ -403,9 +403,7 @@
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
       <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -954,9 +952,7 @@
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h">
       <Filter>Source\DataModels\Resources\EditorResource</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
