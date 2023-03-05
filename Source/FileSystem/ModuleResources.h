@@ -156,7 +156,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::string fileName = App->fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			
 			ImportResourceFromLibrary(resource);
 
@@ -193,7 +193,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::string fileName = App->fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 
 			ImportResourceFromLibrary(resource);
 			if (resource)
