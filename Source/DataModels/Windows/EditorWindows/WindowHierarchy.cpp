@@ -4,6 +4,7 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "ModuleInput.h"
 #include "GameObject/GameObject.h"
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -69,6 +70,23 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+    }
+
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+    {
+        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+        {
+            if (gameObject == App->scene->GetSelectedGameObject())
+            {
+                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                            // change the focus to its parent
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                    RemoveGameObjectAndChildren(gameObject->GetParent());
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+            }
+        }
     }
 
     ImGui::PushID(gameObjectLabel);
