@@ -1,6 +1,8 @@
 #pragma once
 
 #include "EditorWindows/WindowAbout.h"
+#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 
 class WindowMainMenu : public Window
 {
@@ -16,16 +18,17 @@ public:
 	void SetWindowEnabled(int windowIndex, bool enabled);
 
 private:
-	void DrawWindowsMenu();
-	void DrawAbout();
-	
-	void DrawGithubLink() const;
-	void DrawExit() const;
+	void DrawWindowMenu();
+	void DrawFileMenu();
+	void DrawHelpMenu();
 
 	static bool defaultEnabled;
 
+	std::unique_ptr<WindowLoadScene> loadScene;
+	std::unique_ptr<WindowSaveScene> saveScene;
+
 	std::unique_ptr<WindowAbout> about;
-	
+
 	bool showAbout;
 	
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;

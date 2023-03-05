@@ -8,9 +8,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
-	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -21,9 +19,6 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	DrawButtomsSaveAndLoad();
-	ImGui::Separator();
-
 	GameObject* currentGameObject = App->scene->GetSelectedGameObject();
 
 	if (currentGameObject)
@@ -156,12 +151,4 @@ void WindowInspector::AddComponentMaterial()
 void WindowInspector::AddComponentLight(LightType type)
 {
 	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
-}
-
-// TODO: REMOVE
-void WindowInspector::DrawButtomsSaveAndLoad()
-{
-	loadScene->DrawWindowContents();
-	ImGui::SameLine();
-	saveScene->DrawWindowContents();
 }

@@ -69,7 +69,6 @@ void WindowFileBrowser::DrawWindowContents()
 {
 	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
 
-	//WindowImporter
 	if (ImGui::Button(title.c_str()))
 	{
 		Uint32 flags = ImGuiFileDialogFlags_Modal;
@@ -80,22 +79,16 @@ void WindowFileBrowser::DrawWindowContents()
 		fileDialogImporter.OpenDialog("ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(),
 			"", 1, nullptr, flags);
 	}
-	// display
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
 	{
-
-		// action if OK
 		if (fileDialogImporter.IsOk())
 		{
 			DoThisIfOk();
 		}
-
-		// close
 		fileDialogImporter.Close();
 	}
-	//End of Window importer
 	
-	if(title == ICON_IGFD_FOLDER " Import Asset")
+	if (title == ICON_IGFD_FOLDER " Import Asset")
 	{
 		Browser();
 	}
