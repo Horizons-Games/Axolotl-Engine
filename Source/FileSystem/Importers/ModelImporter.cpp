@@ -102,8 +102,8 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	for (int i = 0; i < resource->GetNumMaterials(); i++)
 	{
 #ifdef ENGINE
-		Json jsonMeshes = meta["MatAssetPaths"];
-		meta[i] = resource->GetMaterials()[i]->GetAssetsPath().c_str();
+		Json jsonMat = meta["MatAssetPaths"];
+		jsonMat[i] = resource->GetMaterials()[i]->GetAssetsPath().c_str();
 #endif
 		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
 	}
