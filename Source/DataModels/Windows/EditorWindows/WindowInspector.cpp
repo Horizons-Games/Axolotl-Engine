@@ -37,6 +37,12 @@ void WindowInspector::DrawWindowContents()
 		if (currentGameObject->drawBoundingBoxes)
 		{
 			App->debug->DrawBoundingBox(currentGameObject->GetObjectOBB());
+				
+			for (GameObject* child : currentGameObject->GetChildren())
+			{
+				child->setDrawBoundingBoxes(true);
+				App->debug->DrawBoundingBox(child->GetObjectOBB());
+			}
 		}
 
 		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
