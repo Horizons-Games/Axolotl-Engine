@@ -26,8 +26,6 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override;
-
 private:
 	void ManageResize();
 	void DrawGuizmo();
@@ -47,11 +45,6 @@ private:
 	ImVec2 availableRegion;
 	ImVec2 viewportBounds[2]; // [0] minViewport, [1] maxViewport
 };
-
-inline ImVec2 WindowScene::GetStartingSize() const
-{
-	return ImVec2(900, 250);
-}
 
 inline ImVec2 WindowScene::GetStartPos() const
 {
