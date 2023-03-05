@@ -71,11 +71,6 @@ ComponentWindow::ComponentWindow(const std::string& name, Component* component) 
 	flags |= ImGuiTreeNodeFlags_DefaultOpen;
 }
 
-void ComponentWindow::DrawWindowContents()
-{
-
-}
-
 void ComponentWindow::DrawEnableAndDeleteComponent()
 {
 	DrawEnableComponent();

@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleDebugDraw.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentLight.h"
@@ -32,6 +33,11 @@ void WindowInspector::DrawWindowContents()
 		ImGui::Checkbox("Enable", &enable);
 		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
 		ImGui::Checkbox("##Draw Bounding Box", &(currentGameObject->drawBoundingBoxes));
+
+		if (currentGameObject->drawBoundingBoxes)
+		{
+			App->debug->DrawBoundingBox(currentGameObject->GetObjectOBB());
+		}
 
 		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
 			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
