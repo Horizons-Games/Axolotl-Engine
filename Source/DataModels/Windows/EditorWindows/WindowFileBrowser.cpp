@@ -106,6 +106,11 @@ void WindowFileBrowser::DrawWindowContents()
 	}
 
 	ImportResourceWithLoadingWindow();
+
+	if (futureResourceUID.valid() && !isLoading)
+	{
+		GetResourceAfterImport();
+	}
 }
 
 void WindowFileBrowser::Browser()
@@ -136,24 +141,19 @@ void WindowFileBrowser::ImportResourceWithLoadingWindow()
 	{
 		isLoading = false;
 		timer->Stop();
-		this->ImportResourceAsync(filePathName);
+		ENGINE_LOG("Resource loaded succesfully");
 	}
 }
 
-UID WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
+void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 {
 	futureResourceUID = App->resources->ImportThread(filePath);
 
-	if (!isLoading)
-	{
-		ENGINE_LOG("Resource loaded succesfully");
-		return futureResourceUID.get();
-	}
-	else
-	{
-		timer = std::make_unique<Timer>();
-		timer->Start();
-		ENGINE_LOG("Started loading resource");
-		return NULL;
-	}
+	timer = std::make_unique<Timer>();
+	timer->Start();
+	ENGINE_LOG("Started loading resource");
+}
+
+void WindowFileBrowser::GetResourceAfterImport()
+{
 }

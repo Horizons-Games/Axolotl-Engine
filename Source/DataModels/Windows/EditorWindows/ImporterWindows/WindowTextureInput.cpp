@@ -41,8 +41,15 @@ void WindowTextureInput::DoThisIfOk()
 	if (materialComponent)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		UID uidTexture = this->ImportResourceAsync(filePath);
+		this->ImportResourceAsync(filePath);
+	}
+}
 
+void WindowTextureInput::GetResourceAfterImport()
+{
+	if (materialComponent && this->futureResourceUID.valid())
+	{
+		UID uidTexture = this->futureResourceUID.get();
 		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial();
 
 		if (materialAsShared)

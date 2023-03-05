@@ -19,7 +19,8 @@ public:
 	virtual void Browser();
 	
 protected:
-	unsigned long long ImportResourceAsync(const std::string& filePath);
+	void ImportResourceAsync(const std::string& filePath);
+	virtual void GetResourceAfterImport();
 
 	bool isSave = false;
 	std::string dialogName;
@@ -30,13 +31,14 @@ protected:
 
 	ImGuiFileDialog fileDialogBrowser;
 	ImGuiFileDialog fileDialogImporter;
+	
 	bool showFileDialog = false;
+	std::future<unsigned long long> futureResourceUID;
 
 private:
 	void ImportResourceWithLoadingWindow();
 
 	std::unique_ptr<WindowLoading> winLoading;
-	std::future<unsigned long long> futureResourceUID;
 	std::unique_ptr<Timer> timer;
 	bool isLoading;
 	std::string filePathName;

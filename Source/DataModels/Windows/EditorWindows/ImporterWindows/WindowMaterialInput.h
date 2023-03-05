@@ -12,6 +12,9 @@ public:
 
 	void DoThisIfOk() override;
 
+protected:
+	void GetResourceAfterImport() override;
+
 private:
 	ComponentMaterial* componentMaterial;
 

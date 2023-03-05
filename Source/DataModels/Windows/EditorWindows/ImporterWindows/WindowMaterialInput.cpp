@@ -23,7 +23,15 @@ void WindowMaterialInput::DoThisIfOk()
 	if (componentMaterial)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		UID uidMaterial = this->ImportResourceAsync(filePath);
+		this->ImportResourceAsync(filePath);
+	}
+}
+
+void WindowMaterialInput::GetResourceAfterImport()
+{
+	if (componentMaterial && this->futureResourceUID.valid())
+	{
+		UID uidMaterial = this->futureResourceUID.get();
 		std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
 		componentMaterial->SetMaterial(material.lock() /*TODO: change with filesystem rework*/);
 	}

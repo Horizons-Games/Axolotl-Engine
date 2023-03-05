@@ -23,7 +23,15 @@ void WindowMeshInput::DoThisIfOk()
 	if (componentMesh)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		UID uidMesh = this->ImportResourceAsync(filePath);
+		this->ImportResourceAsync(filePath);
+	}
+}
+
+void WindowMeshInput::GetResourceAfterImport()
+{
+	if (componentMesh && this->futureResourceUID.valid())
+	{
+		UID uidMesh = this->futureResourceUID.get();
 		std::weak_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
 		componentMesh->SetMesh(mesh.lock() /*TODO: change with filesystem rework*/);
 	}
