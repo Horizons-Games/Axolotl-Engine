@@ -11,6 +11,7 @@ WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 	startPath("."),
 	isLoading(false),
 	timer(nullptr),
+	winLoading(std::make_unique<WindowLoading>()),
 	browserPath(fileDialogBrowser.GetCurrentPath() + "Assets")
 {
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)",

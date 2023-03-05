@@ -13,7 +13,6 @@ WindowLoading::~WindowLoading()
 void WindowLoading::DrawWindowContents()
 {
 	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());
-	ImGui::SetWindowSize(this->GetStartingSize());
 	ImGui::SetWindowCollapsed(false);
 	ImGui::SetWindowFocus();
 	
