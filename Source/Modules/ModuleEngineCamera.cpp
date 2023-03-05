@@ -839,6 +839,7 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 		App->scene->GetLoadedScene()->GetSceneQuadTree()
 			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject); 
+		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

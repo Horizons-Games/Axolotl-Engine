@@ -19,8 +19,9 @@
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), parent(nullptr), localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), 
-	objectOBB({ localAABB }), drawBoundingBoxes(false)
+	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
+	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
+	drawBoundingBoxes(false)
 {
 }
 
