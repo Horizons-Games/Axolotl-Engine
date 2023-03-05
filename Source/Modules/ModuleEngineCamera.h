@@ -4,16 +4,17 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#include <memory>
+#include <map>
 
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
+#include "Math/Quat.h"
 #include "Geometry/Plane.h"
+#include "Geometry/LineSegment.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
 #define DEFAULT_ROTATION_DEGREE 30
 #define DEFAULT_ROTATION_SPEED 5.f
 #define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
+#define DEFAULT_MOUSE_ZOOM_SPEED 2.f
 #define DEFAULT_SHIFT_ACCELERATION 2.f
 #define DEFAULT_FRUSTUM_MODE 0
 #define DEFAULT_FRUSTUM_OFFSET 1.f
@@ -30,14 +31,15 @@
 #define MIN_VFOV 34
 #define MIN_FRUSTUM -2.f
 
-enum EFrustumMode
+enum class EFrustumMode
 {
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
+	NORMALFRUSTUM,
+	OFFSETFRUSTUM,
+	NOFRUSTUM
 };
 
 class GameObject;
+class WindowScene;
 
 class ModuleEngineCamera : public Module
 {
@@ -52,13 +54,15 @@ public:
 
 	void Move();
 	void KeyboardRotate();
+	void Rotate();
 	void ApplyRotation(const float3x3& rotationMatrix);
 	void FreeLook();
+	void UnlimitedCursor();
 	void Run();
 	void Walk();
 	void Zoom();
 	void Focus(const OBB& obb);
-	void Focus(const std::shared_ptr<GameObject>& gameObject);
+	void Focus(GameObject* gameObject);
 	void Orbit(const OBB& obb);
 	
 	bool IsInside(const OBB& obb);
@@ -76,7 +80,7 @@ public:
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
-	void SetFrustumMode(int mode);
+	void SetFrustumMode(EFrustumMode mode);
 	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
@@ -91,23 +95,41 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
-	int	GetFrustumMode() const;
+	EFrustumMode GetFrustumMode() const;
 	const float3& GetPosition() const;
 	
 private:
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
+	
+	void CalculateHitGameObjects(const LineSegment& ray);
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
+								  const LineSegment& ray);
+
 	Frustum frustum;
+
 	float3 position;
+
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
+	Quat currentRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;
 	float rotationSpeed;
 	float mouseSpeedModifier;
 	float frustumOffset;
-	int frustumMode;
 	float viewPlaneDistance;
+
+	EFrustumMode frustumMode;
+
 	math::Plane offsetFrustumPlanes[6];
+	bool mouseWarped;
+	bool focusFlag;
+	bool isFocusing;
+	int lastMouseX, lastMouseY;
+	int mouseState;
 };
 
 inline const float3& ModuleEngineCamera::GetPosition() const

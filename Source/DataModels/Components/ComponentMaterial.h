@@ -8,8 +8,6 @@
 #include "FileSystem/UniqueID.h"
 #include "Globals.h"
 
-#include <memory>
-
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceMaterial;
@@ -19,19 +17,18 @@ class Json;
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentMaterial(bool active, GameObject* owner);
 	~ComponentMaterial() override;
 
 	void Update() override;
 
 	void Draw() override;
-	void Display() override;
 
 	void SaveOptions(Json& meta) override;
-	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const std::weak_ptr<ResourceTexture>& texturePtr);
+	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const ResourceTexture* texturePtr);
 	void LoadOptions(Json& meta) override;
 
-	void SetMaterial(const std::weak_ptr<ResourceMaterial>& newMaterial);
+	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseUID(UID& diffuseUID);
 	void SetNormalUID(UID& normalUID);
 	void SetOcclusionUID(UID& occlusionUID);
@@ -42,7 +39,7 @@ public:
 	void SetNormalStrenght(float normalStrength);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
-	std::weak_ptr<ResourceMaterial> GetMaterial() const;
+	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const UID& GetDiffuseUID() const;
 	const UID& GetNormalUID() const;
 	const UID& GetOcclusionUID() const;
@@ -57,30 +54,24 @@ private:
 
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
-	void DisplaySetMaterial();
-	void DisplayEmptyMaterial();
 
-	std::weak_ptr<ResourceMaterial> material;
+	std::shared_ptr<ResourceMaterial> material;
 
-	float3 diffuseColor = float3(1.0, 1.0, 0.0);
-	float3 specularColor = float3(0.5, 0.5, 0.5);
-	float shininess = 512.f;
-	float normalStrength = 1.0f;
+	float3 diffuseColor;
+	float3 specularColor;
+	float shininess;
+	float normalStrength;
 
-	bool hasShininessAlpha = false;
-
-	std::unique_ptr<WindowMaterialInput> inputMaterial;
-
-	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
-	std::unique_ptr<WindowTextureInput> inputTextureNormal;
-	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+	bool hasShininessAlpha;
 
 	//Auxiliar UIDs
-	UID diffuseUID = 0;
-	UID normalUID = 0;
-	UID occlusionUID = 0;
-	UID specularUID = 0;
+	UID diffuseUID;
+	UID normalUID;
+	UID occlusionUID;
+	UID specularUID;
 	//All this
+
+	friend class WindowComponentMaterial;
 };
 
 inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
@@ -108,7 +99,7 @@ inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 	this->hasShininessAlpha = hasShininessAlpha;
 }
 
-inline std::weak_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
+inline std::shared_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
 {
 	return material;
 }

@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
@@ -7,7 +6,7 @@
 #include "GL/glew.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
+#include "Modules/ModuleScene.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 
@@ -612,14 +611,14 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    std::shared_ptr<GameObject> selectedGameObject = App->scene->GetSelectedGameObject().lock();
-    std::shared_ptr<ComponentTransform> selectedTransform =
-        std::static_pointer_cast<ComponentTransform>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
+    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
+    ComponentTransform* selectedTransform =
+        static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
     DrawTransform(selectedTransform);
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 
-    return UPDATE_CONTINUE;
+    return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height)
@@ -631,7 +630,7 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
-void ModuleDebugDraw::DrawTransform(const std::shared_ptr<ComponentTransform>& transform)
+void ModuleDebugDraw::DrawTransform(const ComponentTransform* transform)
 {
     float4x4 transformDrawPosition = float4x4::FromTRS((float3)transform->GetGlobalPosition(), 
                                                             Quat::identity, float3(0.5f, 0.5f, 0.5f));

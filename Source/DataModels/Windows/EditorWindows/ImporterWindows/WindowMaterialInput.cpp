@@ -5,10 +5,26 @@
 #include "Resources/ResourceMaterial.h"
 #include "Components/ComponentMaterial.h"
 
+WindowMaterialInput::WindowMaterialInput(ComponentMaterial* componentMaterial) :
+	WindowFileBrowser(), componentMaterial(componentMaterial)
+{
+	dialogName = "Select Material";
+	title = "Load Material";
+	filters = MATERIAL_EXTENSION;
+	startPath = "Assets/Materials";
+}
+
+WindowMaterialInput::~WindowMaterialInput()
+{
+}
+
 void WindowMaterialInput::DoThisIfOk()
 {
-	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	UID uidMaterial = this->ImportResourceAsync(filePath);
-	std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
-	componentMaterial->SetMaterial(material);
+	if (componentMaterial)
+	{
+		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		UID uidMaterial = this->ImportResourceAsync(filePath);
+		std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
+		componentMaterial->SetMaterial(material.lock() /*TODO: change with filesystem rework*/);
+	}
 }

@@ -5,10 +5,26 @@
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceMesh.h"
 
+WindowMeshInput::WindowMeshInput(ComponentMeshRenderer* componentMesh) :
+	WindowFileBrowser(), componentMesh(componentMesh)
+{
+	dialogName = "Select Mesh";
+	title = "Load Mesh";
+	filters = MESH_EXTENSION;
+	startPath = "Assets/Meshes";
+}
+
+WindowMeshInput::~WindowMeshInput()
+{
+}
+
 void WindowMeshInput::DoThisIfOk()
 {
-	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	UID uidMesh = this->ImportResourceAsync(filePath);
-	std::weak_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
-	componentMesh->SetMesh(mesh);
+	if (componentMesh)
+	{
+		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		UID uidMesh = this->ImportResourceAsync(filePath);
+		std::weak_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
+		componentMesh->SetMesh(mesh.lock() /*TODO: change with filesystem rework*/);
+	}
 }
