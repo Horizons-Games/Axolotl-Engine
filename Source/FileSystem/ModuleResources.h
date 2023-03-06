@@ -30,7 +30,7 @@ public:
 	~ModuleResources() override;
 
 	//inherited methods from Module
-	bool Start() override;
+	bool Init() override;
 	bool CleanUp() override;
 
 	//Create Bin and .meta from path

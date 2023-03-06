@@ -957,6 +957,9 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
+    <ClInclude Include="CollectionAwareDeleter.h">
+      <Filter>Source\Auxiliar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1057,6 +1060,9 @@
     </Filter>
     <Filter Include="Source\DataModels\Resources\EditorResource">
       <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Auxiliar">
+      <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

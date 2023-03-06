@@ -17,9 +17,6 @@ protected:
 	ImVec2 GetStartingSize() const override;
 
 private:
-	void DrawResourceTable(const std::string& tableName,
-						   const std::vector<unsigned long long>& resourcesUIDs,
-						   std::vector<std::shared_ptr<EditorResourceInterface>>& resourcesToDelete);
 	void DrawResource(const std::weak_ptr<Resource>& resource,
 					  std::vector<std::shared_ptr<EditorResourceInterface>>& resourcesToDelete);
 };
