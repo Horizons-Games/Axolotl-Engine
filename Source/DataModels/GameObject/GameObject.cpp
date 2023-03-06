@@ -12,6 +12,7 @@
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
 
 #include "Scene/Scene.h"
 
@@ -82,6 +83,8 @@ void GameObject::Update()
 			component->Update();
 		}
 	}
+
+	if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
 }
 
 void GameObject::Draw() const

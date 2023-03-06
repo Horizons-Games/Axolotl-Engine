@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "ModuleDebugDraw.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentLight.h"
@@ -11,7 +10,7 @@
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
 	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -32,17 +31,17 @@ void WindowInspector::DrawWindowContents()
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 		ImGui::Text("Draw Bounding Box"); ImGui::SameLine();
+
 		ImGui::Checkbox("##Draw Bounding Box", &(currentGameObject->drawBoundingBoxes));
 
-		if (currentGameObject->drawBoundingBoxes)
+		if (currentGameObject->drawBoundingBoxes != bbDrawn)
 		{
-			App->debug->DrawBoundingBox(currentGameObject->GetObjectOBB());
-				
 			for (GameObject* child : currentGameObject->GetChildren())
 			{
-				child->setDrawBoundingBoxes(true);
-				App->debug->DrawBoundingBox(child->GetObjectOBB());
+				child->setDrawBoundingBoxes(currentGameObject->drawBoundingBoxes);
 			}
+
+			bbDrawn = currentGameObject->drawBoundingBoxes;
 		}
 
 		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
