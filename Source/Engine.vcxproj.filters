@@ -957,7 +957,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="CollectionAwareDeleter.h">
+    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
       <Filter>Source\Auxiliar</Filter>
     </ClInclude>
   </ItemGroup>

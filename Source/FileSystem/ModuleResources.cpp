@@ -14,7 +14,7 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 
-#include "CollectionAwareDeleter.h"
+#include "Auxiliar/CollectionAwareDeleter.h"
 
 #include <future>
 

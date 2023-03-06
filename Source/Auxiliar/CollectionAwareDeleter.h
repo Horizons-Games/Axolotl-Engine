@@ -15,7 +15,15 @@ public:
 	CollectionAwareDeleter() = default;
 	~CollectionAwareDeleter() = default;
 
+	void AddCollection(std::vector<Pointer*>& vector);
+	void AddCollection(std::map<MapKey, Pointer*>& map);
+	void AddCollection(std::set<Pointer*> set);
+	void AddCollection(std::list<Pointer*> list);
+
+	void AddCollection(std::vector<std::weak_ptr<Pointer>> vector);
 	void AddCollection(std::map<MapKey, std::weak_ptr<Pointer>>& map);
+	void AddCollection(std::set<std::weak_ptr<Pointer>> set);
+	void AddCollection(std::list<std::weak_ptr<Pointer>> list);
 
 	void operator() (Pointer* p)
 	{
@@ -117,7 +125,49 @@ private:
 };
 
 template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::vector<Pointer*>& vector)
+{
+	rawVectors.push_back(vector);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::map<MapKey, Pointer*>& map)
+{
+	rawMaps.push_back(map);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::set<Pointer*> set)
+{
+	rawSets.push_back(set);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::list<Pointer*> list)
+{
+	rawLists.push_back(list);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::vector<std::weak_ptr<Pointer>> vector)
+{
+	weakVectors.push_back(vector);
+}
+
+template<typename Pointer, typename MapKey>
 inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::map<MapKey, std::weak_ptr<Pointer>>& map)
 {
 	weakMaps.push_back(map);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::set<std::weak_ptr<Pointer>> set)
+{
+	weakSets.push_back(set);
+}
+
+template<typename Pointer, typename MapKey>
+inline void CollectionAwareDeleter<Pointer, MapKey>::AddCollection(std::list<std::weak_ptr<Pointer>> list)
+{
+	weakLists.push_back(list);
 }

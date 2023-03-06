@@ -691,7 +691,7 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="CollectionAwareDeleter.h" />
+    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
