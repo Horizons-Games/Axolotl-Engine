@@ -164,13 +164,13 @@ bool ModuleRender::Start()
 
 	//we really need to remove this :)
 #ifdef ENGINE
-	/*std::shared_ptr<ResourceSkyBox> resourceSkybox =
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
 		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
 
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
-	}*/
+	}
 #else
 	//TODO How do we get skybox in game mode?
 	//We need to store the UID in the JSONscene and then loaded when unserialize?
