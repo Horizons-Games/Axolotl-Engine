@@ -9,7 +9,6 @@
 
 void WindowResources::DrawWindowContents()
 {
-	std::vector<UID> loadedResources, unloadedResources;
 	std::vector<std::shared_ptr<EditorResourceInterface>> resourcesToDelete;
 
 	//in theory, since mapEntry is a reference to the one in the resources map,
@@ -20,45 +19,13 @@ void WindowResources::DrawWindowContents()
 		
 		if (mapEntryAsShared) 
 		{
-			if (mapEntryAsShared->IsLoaded())
-			{
-				loadedResources.push_back(mapEntry.first);
-			}
+			DrawResource(mapEntryAsShared, resourcesToDelete);
 		}
-	}
-
-	if (ImGui::BeginTable("Resources", 1))
-	{
-		ImGui::TableSetupColumn("Loaded", ImGuiTableColumnFlags_None);
-		ImGui::TableHeadersRow();
-
-		ImGui::TableNextColumn();
-
-		DrawResourceTable("LoadedResources", loadedResources, resourcesToDelete);
-
-		ImGui::EndTable();
 	}
 
 	for (const std::shared_ptr<EditorResourceInterface>& uidToDelete : resourcesToDelete)
 	{
 		App->resources->DeleteResource(uidToDelete);
-	}
-}
-
-void WindowResources::DrawResourceTable(const std::string& tableName,
-										const std::vector<UID>& resourcesUIDs,
-										std::vector<std::shared_ptr<EditorResourceInterface>>& resourcesToDelete)
-{
-	if (ImGui::BeginTable(tableName.c_str(), 1))
-	{
-		for (UID resUID : resourcesUIDs)
-		{
-			ImGui::TableNextRow();
-			ImGui::TableNextColumn();
-			DrawResource(App->resources->SearchResource(resUID), resourcesToDelete);
-		}
-
-		ImGui::EndTable();
 	}
 }
 
@@ -80,7 +47,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource,
 		ImGui::TextUnformatted(("MetaPath: " + asShared->GetLibraryPath() + META_EXTENSION).c_str());
 		//a bit yucky I guess
 		ImGui::TextUnformatted(("Resource type: " + App->resources->GetNameOfType(asShared->GetType())).c_str());
-		ImGui::TextUnformatted(("Reference count (should be 1): " + std::to_string(referenceCountBeforeLock)).c_str());
+		ImGui::TextUnformatted(("Reference count: " + std::to_string(referenceCountBeforeLock)).c_str());
 
 		ImGui::Separator();
 

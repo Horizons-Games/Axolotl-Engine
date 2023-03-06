@@ -14,6 +14,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 
+#include "CollectionAwareDeleter.h"
+
 #include <future>
 
 const std::string ModuleResources::assetsFolder = "Assets/";
@@ -29,7 +31,7 @@ ModuleResources::~ModuleResources()
 {
 }
 
-bool ModuleResources::Start()
+bool ModuleResources::Init()
 {
 	monitorResources = true;
 	modelImporter = std::make_unique<ModelImporter>();
@@ -109,47 +111,52 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 																const std::string& libraryPath,
 																ResourceType type)
 {
+#ifdef ENGINE
+	std::shared_ptr<EditorResourceInterface> res = nullptr;
 	switch (type)
 	{
 	case ResourceType::Model:
-#ifdef ENGINE
-		return std::make_shared<EditorResource<ResourceModel>>(uid, fileName, assetsPath, libraryPath);
-#else
-		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
-#endif // ENGINE
+		res = std::shared_ptr<EditorResource<ResourceModel>>(new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	case ResourceType::Texture:
-#ifdef ENGINE
-		return std::make_shared<EditorResource<ResourceTexture>>(uid, fileName, assetsPath, libraryPath);
-#else
-		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
-#endif // ENGINE
+		res = std::shared_ptr<EditorResource<ResourceTexture>>(new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	case ResourceType::Mesh:
-#ifdef ENGINE
-		return std::make_shared<EditorResource<ResourceMesh>>(uid, fileName, assetsPath, libraryPath);
-#else
-		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
-#endif // ENGINE
+		res = std::shared_ptr<EditorResource<ResourceMesh>>(new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	case ResourceType::Scene: //TODO
-#ifdef ENGINE
 		return nullptr;
-#else
-		return nullptr;
-#endif // ENGINE
 	case ResourceType::Material:
-#ifdef ENGINE
-		return std::make_shared<EditorResource<ResourceMaterial>>(uid, fileName, assetsPath, libraryPath);
-#else
-		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
-#endif // ENGINE
+		res = std::shared_ptr<EditorResource<ResourceMaterial>>(new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	case ResourceType::SkyBox:
-#ifdef ENGINE
-		return std::make_shared<EditorResource<ResourceSkyBox>>(uid, fileName, assetsPath, libraryPath);
-#else
-		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
-#endif // ENGINE
+		res = std::shared_ptr<EditorResource<ResourceSkyBox>>(new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	default:
 		return nullptr;
 	}
+
+	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
+	return res;
+#else
+	switch (type)
+	{
+	case ResourceType::Model:
+		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Texture:
+		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Mesh:
+		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Scene: //TODO
+		return nullptr;
+	case ResourceType::Material:
+		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::SkyBox:
+		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+	default:
+		return nullptr;
+	}
+#endif // ENGINE
 }
 
 void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath)
