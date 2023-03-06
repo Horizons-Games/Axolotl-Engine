@@ -16,16 +16,16 @@ void WindowCamera::DrawWindowContents()
 {
 	ModuleEngineCamera* engineCamera = App->GetModuleEngineCamera();
 	
-	float hFov = App->engineCamera->GetHFOV();
+	float hFov = engineCamera->GetHFOV();
 	if (ImGui::SliderFloat("Horizontal FOV", &hFov, MIN_HFOV, MAX_HFOV, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->engineCamera->SetHFOV(math::DegToRad(hFov));
+		engineCamera->SetHFOV(math::DegToRad(hFov));
 	}
 
-	float vFov = App->engineCamera->GetVFOV();
+	float vFov = engineCamera->GetVFOV();
 	if (ImGui::SliderFloat("Vertical FOV", &vFov, MIN_VFOV, MAX_VFOV, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->engineCamera->SetVFOV(math::DegToRad(vFov));
+		engineCamera->SetVFOV(math::DegToRad(vFov));
 	}
 
 	float nearDistance = engineCamera->GetZNear();
@@ -36,7 +36,7 @@ void WindowCamera::DrawWindowContents()
 		ImGui::SliderFloat("Z far", &farDistance, 500.f, 20000.f, "%0.f", ImGuiSliderFlags_AlwaysClamp);
 	if (nearDistanceChanged || farDistanceChanged) 
 	{
-		App->engineCamera->SetPlaneDistance(nearDistance, farDistance);
+		engineCamera->SetPlaneDistance(nearDistance, farDistance);
 	}
 
 	float movementSpeed = engineCamera->GetMoveSpeed();
@@ -45,19 +45,19 @@ void WindowCamera::DrawWindowContents()
 	if (ImGui::SliderFloat("Movement Speed", &movementSpeed,
 		DEFAULT_MOVE_SPEED, DEFAULT_MOVE_SPEED * 100.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
 	{
-		App->engineCamera->SetMoveSpeed(movementSpeed);
+		engineCamera->SetMoveSpeed(movementSpeed);
 	}
 	
 	if (ImGui::SliderFloat("Rotation Speed", &rotationSpeed,
 		DEFAULT_ROTATION_SPEED, DEFAULT_ROTATION_SPEED * 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
 	{
-		App->engineCamera->SetRotationSpeed(rotationSpeed);
+		engineCamera->SetRotationSpeed(rotationSpeed);
 	}
 
-	static float4 color = App->GetModuleRender()->GetBackgroundColor();
+	color = App->GetModuleRender()->GetBackgroundColor();
 	ImGui::Text("Background Color");
 	if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 	{
-		App->renderer->SetBackgroundColor(color);
+		App->GetModuleRender()->SetBackgroundColor(color);
 	}
 }

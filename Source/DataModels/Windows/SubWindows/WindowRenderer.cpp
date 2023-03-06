@@ -6,7 +6,8 @@
 int WindowRenderer::bufferSize = 128;
 
 WindowRenderer::WindowRenderer() : SubWindow("Renderer"),
-	vertexShaderBuffer(App->renderer->GetVertexShader()), fragmentShaderBuffer(App->renderer->GetFragmentShader())
+	vertexShaderBuffer(App->GetModuleRender()->GetVertexShader()),
+	fragmentShaderBuffer(App->GetModuleRender()->GetFragmentShader())
 {
 }
 

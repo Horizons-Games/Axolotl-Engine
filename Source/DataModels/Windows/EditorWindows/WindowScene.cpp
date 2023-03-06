@@ -134,7 +134,7 @@ void WindowScene::DrawGuizmo()
 
 	ImGui::EndMenuBar();
 
-	const GameObject* focusedObject = App->scene->GetSelectedGameObject();
+	const GameObject* focusedObject = App->GetModuleScene()->GetSelectedGameObject();
 	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
 		ImVec2 windowPos = ImGui::GetWindowPos();
@@ -145,8 +145,8 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
-		float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
-		float4x4 projMat = App->engineCamera->GetProjectionMatrix().Transposed();
+		float4x4 viewMat = App->GetModuleEngineCamera()->GetViewMatrix().Transposed();
+		float4x4 projMat = App->GetModuleEngineCamera()->GetProjectionMatrix().Transposed();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
@@ -191,7 +191,7 @@ void WindowScene::DrawGuizmo()
 			{
 				if (component->GetType() == ComponentType::LIGHT)
 				{
-					Scene* scene = App->scene->GetLoadedScene();
+					Scene* scene = App->GetModuleScene()->GetLoadedScene();
 					const ComponentLight* light = (ComponentLight*)component;
 
 					switch (light->GetLightType())
@@ -217,7 +217,7 @@ void WindowScene::DrawGuizmo()
 
 		ImGuizmo::ViewManipulate(
 			viewMat.ptr(),
-			App->engineCamera->GetDistance(
+			App->GetModuleEngineCamera()->GetDistance(
 				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
 			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
 			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
@@ -225,9 +225,9 @@ void WindowScene::DrawGuizmo()
 
 		if (ImGui::IsWindowFocused())
 		{
-			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
-				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE ||
-				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			if (App->GetModuleInput()->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
+				App->GetModuleInput()->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE ||
+				App->GetModuleInput()->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
 				ImGuizmo::Enable(false);
 			}
@@ -237,7 +237,7 @@ void WindowScene::DrawGuizmo()
 				{
 					manipulatedViewMatrix = viewMat.InverseTransposed();;
 
-					App->engineCamera->GetFrustum()->SetFrame(
+					App->GetModuleEngineCamera()->GetFrustum()->SetFrame(
 						manipulatedViewMatrix.Col(3).xyz(),  //position
 						-manipulatedViewMatrix.Col(2).xyz(), //rotation
 						manipulatedViewMatrix.Col(1).xyz()   //scale
@@ -251,7 +251,7 @@ void WindowScene::DrawGuizmo()
 					float3 position, scale;
 					Quat rotation;
 
-					App->engineCamera->SetPosition(manipulatedViewMatrix.Col(3).xyz());
+					App->GetModuleEngineCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
 				}

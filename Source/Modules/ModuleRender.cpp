@@ -112,7 +112,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	context = SDL_GL_CreateContext(App->window->GetWindow());
+	context = SDL_GL_CreateContext(App->GetModuleWindow()->GetWindow());
 
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
@@ -164,7 +164,7 @@ bool ModuleRender::Start()
 	UID skyboxUID = App->GetModuleResources()->GetSkyBoxResource();
 #endif
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
-		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+		App->GetModuleResources()->RequestResource<ResourceSkyBox>(skyboxUID).lock();
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
@@ -203,11 +203,11 @@ update_status ModuleRender::Update()
 
 	gameObjectsToDraw.clear();
 
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
+	GameObject* goSelected = App->GetModuleScene()->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	FillRenderList(App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree());
 
 	if (isRoot) 
 	{
@@ -239,9 +239,9 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(goSelected);
 
-	if (App->debug->IsShowingBoundingBoxes())
+	if (App->GetModuleDebugDraw()->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+		DrawQuadtree(App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree());
 	}
 
 	int w, h;
@@ -328,10 +328,10 @@ void ModuleRender::UpdateProgram()
 {
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
-	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+	App->GetModuleFileSystem()->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
+	App->GetModuleFileSystem()->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
+	unsigned vertexShader = App->GetModuleProgram()->CompileShader(GL_VERTEX_SHADER, vertexSource);
+	unsigned fragmentShader = App->GetModuleProgram()->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
 	delete vertexSource;
 	delete fragmentSource;
@@ -389,8 +389,8 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+	if (App->GetModuleEngineCamera()->IsInside(boxes->GetEncapsuledAABB())
+		|| App->GetModuleScene()->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
@@ -412,7 +412,7 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
 	if (quadtree->IsLeaf())
 	{
-		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+		App->GetModuleDebugDraw()->DrawBoundingBox(quadtree->GetBoundingBox());
 	}
 	else
 	{

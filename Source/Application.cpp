@@ -90,8 +90,10 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (auto it = std::rbegin(modules); it != std::rend(modules) && ret == UPDATE_CONTINUE; ++it)
+	for (auto it = std::rbegin(modules); it != std::rend(modules) && ret; ++it)
+	{
 		ret = (*it).second->CleanUp();
+	}
 
 	return ret;
 }

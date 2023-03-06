@@ -86,14 +86,14 @@ update_status ModuleEngineCamera::Update()
 		{
 			if (focusFlag)
 			{
-				Focus(App->scene->GetSelectedGameObject());
+				Focus(App->GetModuleScene()->GetSelectedGameObject());
 			}
 			Rotate();
 		}
 		else
 		{
 			//Shift speed
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+			if (App->GetModuleInput()->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 			{
 				Run();
 			}
@@ -103,10 +103,10 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			// --RAYCAST CALCULATION-- //
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
-				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+			if (App->GetModuleInput()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
+				App->GetModuleInput()->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
-				const WindowScene* windowScene = App->editor->GetScene();
+				const WindowScene* windowScene = App->GetModuleEditor()->GetScene();
 				LineSegment ray;
 				if (CreateRaycastFromMousePosition(windowScene, ray))
 				{
@@ -575,8 +575,8 @@ void ModuleEngineCamera::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX((float)(mouseX - lastMouseX));
-		App->input->SetMouseMotionY((float)(mouseY - lastMouseY));
+		App->GetModuleInput()->SetMouseMotionX((float)(mouseX - lastMouseX));
+		App->GetModuleInput()->SetMouseMotionY((float)(mouseY - lastMouseY));
 
 		mouseWarped = false;
 	}
@@ -752,7 +752,7 @@ bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windo
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
-	float2 mousePositionInScene = App->input->GetMousePosition();
+	float2 mousePositionInScene = App->GetModuleInput()->GetMousePosition();
 	
 	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePositionInScene.x, mousePositionInScene.y))
 	{
@@ -782,14 +782,15 @@ void ModuleEngineCamera::CalculateHitGameObjects(const LineSegment& ray)
 	std::map<float, const GameObject*> hitGameObjects;
 
 	CalculateHitSelectedGo(hitGameObjects, ray);
-	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
 	
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
 
-void ModuleEngineCamera::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+void ModuleEngineCamera::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
+												const LineSegment& ray)
 {
-	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	GameObject* selectedGo = App->GetModuleScene()->GetSelectedGameObject();
 	float nearDistance, farDistance;
 	ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
 		(selectedGo->GetComponent(ComponentType::BOUNDINGBOX));
@@ -853,10 +854,10 @@ void ModuleEngineCamera::SetNewSelectedGameObject(const std::map<float, const Ga
 
 	if (newSelectedGameObject != nullptr)
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()
-			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject); 
-		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
+		App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()
+			->AddGameObjectAndChildren(App->GetModuleScene()->GetSelectedGameObject());
+		App->GetModuleScene()->SetSelectedGameObject(newSelectedGameObject);
+		App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->GetModuleScene()->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

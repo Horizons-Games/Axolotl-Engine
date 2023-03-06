@@ -121,7 +121,7 @@ update_status ModuleEditor::Update()
 	ImGui::DockSpace(dockSpaceId);
 
 	static bool firstTime = true;
-	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	if (firstTime && !App->GetModuleFileSystem()->Exists("imgui.ini"))
 	{
 		firstTime = false;
 

@@ -336,7 +336,7 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
 			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
+			newRootQuadTree->frontLeftNode = App->GetModuleScene()->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
 		}
 		else if (gameObjectPosition.z > quadTreeMaxZ && gameObjectPosition.x < quadTreeMinX)
 		{
@@ -371,8 +371,8 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newRootQuadTree->frontRightNode = App->GetModuleScene()->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
 		newRootQuadTree->Subdivide();
-		App->scene->GetLoadedScene()->SetSceneQuadTree(std::move(newRootQuadTree));
-		parent = App->scene->GetLoadedScene()->GetSceneQuadTree();
+		App->GetModuleScene()->GetLoadedScene()->SetSceneQuadTree(std::move(newRootQuadTree));
+		parent = App->GetModuleScene()->GetLoadedScene()->GetSceneQuadTree();
 		parent->Add(gameObject); 
 	}
 	else

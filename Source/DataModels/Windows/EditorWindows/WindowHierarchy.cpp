@@ -50,8 +50,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
         for (GameObject* child : childrenList)
         {
-            if (child == App->scene->GetSelectedGameObject()
-                && StateOfSelection::SELECTED == App->scene->GetSelectedGameObject()->GetStateOfSelection())
+            if (child == App->GetModuleScene()->GetSelectedGameObject()
+                && StateOfSelection::SELECTED == App->GetModuleScene()->GetSelectedGameObject()->GetStateOfSelection())
             {
                 ImGui::SetNextItemOpen(true);
             }
@@ -91,7 +91,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 App->GetModuleScene()->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
         
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
+        // The root can't be neither deleted nor moved up/down
+        if (gameObject != App->GetModuleScene()->GetLoadedScene()->GetRoot())
         {
             GameObject* selectedParent = gameObject->GetParent();
             std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();

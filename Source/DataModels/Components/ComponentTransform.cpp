@@ -106,7 +106,7 @@ void ComponentTransform::CalculateLocalMatrix()
 void ComponentTransform::CalculateGlobalMatrix()
 {
 	const GameObject* parent = GetOwner()->GetParent();
-	const GameObject* root = App->scene->GetLoadedScene()->GetRoot();
+	const GameObject* root = App->GetModuleScene()->GetLoadedScene()->GetRoot();
 
 	assert(parent);
 

@@ -89,11 +89,11 @@ void ComponentMeshRenderer::DrawHighlight()
 		float scale = 10.1f;
 		ComponentBoundingBoxes* boundingBox =
 			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-		Program* programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
+		Program* programShared = App->GetModuleProgram()->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared->GetId();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->GetModuleEngineCamera()->GetViewMatrix();
+		const float4x4& proj = App->GetModuleEngineCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

@@ -165,7 +165,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 		char* fileBuffer{};
 		unsigned int size = 0;
 
-		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
+		App->GetModuleFileSystem()->SaveInfoMaterial(pathTextures, fileBuffer, size);
 		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i)
 			+ MATERIAL_EXTENSION;
 

@@ -19,7 +19,7 @@ void WindowWindow::DrawWindowContents()
 		ImGui::SliderFloat("##bright", &brightness, .25f, 1.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 	if (brightnessChanged)
 	{
-		App->window->SetBrightness(brightness);
+		App->GetModuleWindow()->SetBrightness(brightness);
 	}
 
 	std::pair<int, int> windowDimensions;
@@ -32,7 +32,7 @@ void WindowWindow::DrawWindowContents()
 		ImGui::SliderInt("##height", &windowDimensions.second, 360, 1080, "%d", ImGuiSliderFlags_AlwaysClamp);
 	if (widthChanged || heighChanged)
 	{
-		App->window->SetWindowSize(windowDimensions.first, windowDimensions.second);
+		App->GetModuleWindow()->SetWindowSize(windowDimensions.first, windowDimensions.second);
 	}
 
 	bool fullscreen = App->GetModuleWindow()->IsWindowFullscreen();
