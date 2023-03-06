@@ -59,8 +59,6 @@ public:
 
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
-	void RemoveFromCamera(const GameObject* cameraGameObject);
-	void RemoveFromScene(const GameObject* gameObject);
 
 	UID uid;
 	std::unique_ptr<GameObject> root;

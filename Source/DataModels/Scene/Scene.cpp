@@ -172,29 +172,25 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 	{
 		RemoveFatherAndChildren(child);
 	}
-	RemoveFromCamera(father);
-	RemoveFromScene(father);
-}
 
-void Scene::RemoveFromCamera(const GameObject* cameraGameObject)
-{
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
-		it != sceneCameras.end(); ++it)
+	Component* component = father->GetComponent(ComponentType::CAMERA);
+	if (component)
 	{
-		if (cameraGameObject == *it)
+		for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
+			it != sceneCameras.end(); ++it)
 		{
-			sceneCameras.erase(it);
-			return;
+			if (father == *it)
+			{
+				sceneCameras.erase(it);
+				return;
+			}
 		}
 	}
-}
 
-void Scene::RemoveFromScene(const GameObject* gameObject)
-{
 	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
 		it != sceneGameObjects.end(); ++it)
 	{
-		if (*it == gameObject)
+		if (*it == father)
 		{
 			sceneGameObjects.erase(it);
 			return;
