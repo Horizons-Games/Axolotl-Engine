@@ -3,12 +3,15 @@
 #include "WindowScene.h"
 
 #include "Application.h"
-#include "Scene/Scene.h"
-
-#include "GameObject/GameObject.h"
 
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleCamera.h"
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleInput.h"
+
+#include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
+#include "Components/ComponentTransform.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
@@ -140,8 +143,8 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
-		float4x4 viewMat = App->engineCamera->GetViewMatrix().Transposed();
-		float4x4 projMat = App->engineCamera->GetProjectionMatrix().Transposed();
+		float4x4 viewMat = App->engineCamera->GetCamera()->GetViewMatrix().Transposed();
+		float4x4 projMat = App->engineCamera->GetCamera()->GetProjectionMatrix().Transposed();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
@@ -212,7 +215,7 @@ void WindowScene::DrawGuizmo()
 
 		ImGuizmo::ViewManipulate(
 			viewMat.ptr(),
-			App->engineCamera->GetDistance(
+			App->engineCamera->GetCamera()->GetDistance(
 				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
 			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
 			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
@@ -232,7 +235,7 @@ void WindowScene::DrawGuizmo()
 				{
 					manipulatedViewMatrix = viewMat.InverseTransposed();;
 
-					App->engineCamera->GetFrustum()->SetFrame(
+					App->engineCamera->GetCamera()->GetFrustum()->SetFrame(
 						manipulatedViewMatrix.Col(3).xyz(),  //position
 						-manipulatedViewMatrix.Col(2).xyz(), //rotation
 						manipulatedViewMatrix.Col(1).xyz()   //scale
@@ -246,7 +249,7 @@ void WindowScene::DrawGuizmo()
 					float3 position, scale;
 					Quat rotation;
 
-					App->engineCamera->SetPosition(manipulatedViewMatrix.Col(3).xyz());
+					App->engineCamera->GetCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
 				}

@@ -86,7 +86,7 @@ void ModuleProgram::CreateProgram(unsigned int vtxShader, unsigned int frgShader
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data;
-	App->fileSystem->Load(shaderFileName, data);
+	App->fileSystem->Load(shaderFileName.c_str(), data);
 	return data;
 }
 

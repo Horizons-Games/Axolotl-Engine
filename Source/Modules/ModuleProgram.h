@@ -35,7 +35,7 @@ private:
 
 	unsigned int program;
 	std::vector<std::unique_ptr<Program> > programs;
-	std::string rootPath = "../Source/Shaders/";
+	std::string rootPath = "Source/Shaders/";
 };
 
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
