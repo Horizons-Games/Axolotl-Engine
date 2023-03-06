@@ -126,7 +126,7 @@ void ComponentTransform::CalculateGlobalMatrix()
 	SetGlobalMatrix(globalMatrix);
 }
 
-const float3& ComponentTransform::GetGlobalPosition() const
+const float3 ComponentTransform::GetGlobalPosition() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;
@@ -135,7 +135,7 @@ const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-const Quat& ComponentTransform::GetGlobalRotation() const
+const Quat ComponentTransform::GetGlobalRotation() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;
@@ -144,7 +144,7 @@ const Quat& ComponentTransform::GetGlobalRotation() const
 	return globalRot;
 }
 
-const float3& ComponentTransform::GetGlobalScale() const
+const float3 ComponentTransform::GetGlobalScale() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;
