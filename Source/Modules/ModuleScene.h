@@ -2,9 +2,6 @@
 
 #include "Module.h"
 
-#include <memory>
-
-#include "../FileSystem/UniqueID.h"
 #include "FileSystem/Json.h"
 
 class GameObject;
@@ -15,7 +12,7 @@ class ModuleScene : public Module
 {
 public:
 	ModuleScene();
-	~ModuleScene();
+	~ModuleScene() override;
 
 	bool Init() override;
 	bool Start() override;
@@ -40,8 +37,8 @@ private:
 	void SetSceneFromJson(Json& Json);
 
 private:
-	std::unique_ptr<Scene> loadedScene = nullptr;
-	GameObject* selectedGameObject = nullptr;
+	std::unique_ptr<Scene> loadedScene;
+	GameObject* selectedGameObject;
 
 	//to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;

@@ -5,16 +5,16 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "ModuleDebugDraw.h"
-
-#include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-#include "FileSystem/Json.h"
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner, false)
+	: Component(ComponentType::TRANSFORM, active, owner, false), 
+	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
+	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+{
+}
+
+ComponentTransform::~ComponentTransform()
 {
 }
 
@@ -47,7 +47,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
 	pos.x = (float) meta["localPos_X"];

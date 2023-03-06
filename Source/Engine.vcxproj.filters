@@ -391,6 +391,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -762,9 +765,6 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem\Data.h">
-      <Filter>Source\FileSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
       <Filter>External\ImGuiFileDialog</Filter>
     </ClInclude>
@@ -923,6 +923,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
+      <Filter>External\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

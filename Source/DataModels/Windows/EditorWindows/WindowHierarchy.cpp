@@ -1,14 +1,11 @@
 #include "WindowHierarchy.h"
 
-#include "imgui.h"
-
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "ModuleInput.h"
 #include "GameObject/GameObject.h"
-
-#include <assert.h>
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -38,7 +35,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                                 // that have the same name in the hierarchy window
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
 
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
     if (gameObject->GetChildren().empty())
     {
         flags |= ImGuiTreeNodeFlags_Leaf;
@@ -48,26 +45,32 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
+    else
+    {
+        const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
+        for (GameObject* child : childrenList)
+        {
+            if (child == App->scene->GetSelectedGameObject()
+                && StateOfSelection::SELECTED == App->scene->GetSelectedGameObject()->GetStateOfSelection())
+            {
+                ImGui::SetNextItemOpen(true);
+            }
+        }
+    }
     
     if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
-    }
-
-    const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
-    for (GameObject* child : childrenList)
-    {
-        if (child == App->scene->GetSelectedGameObject())
-        {
-            flags |= ImGuiTreeNodeFlags_DefaultOpen;
-        }
-    }
+    }    
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    if (ImGui::IsItemClicked())
+    ImGui::PushID(gameObjectLabel);
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || 
+        (ImGui::IsMouseClicked(ImGuiMouseButton_Right) 
+            && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
@@ -75,9 +78,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
-    ImGui::PushID(gameObjectLabel);
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
+
         if (ImGui::MenuItem("Create child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
@@ -87,49 +90,29 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-
-        /*
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
-            std::vector<std::weak_ptr<GameObject> > parentsChildren = gameObject->GetParent().lock()->GetChildren();
-
+            GameObject* selectedParent = gameObject->GetParent();
+            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
 
             if (ImGui::MenuItem("Move Up"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[0].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
-                    {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
-                        {
-                            std::iter_swap(parentsChildren[i - 1].lock(), parentsChildren[i].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i - 1].lock());
-                            break;
-                        }
-                    }
+                    selectedParent->MoveUpChild(gameObject);
                 }
             }
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1].lock() != gameObject)
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
-                    for (int i = 0; i < parentsChildren.size(); ++i)
-                    {
-                        std::shared_ptr<GameObject> asShared = parentsChildren[i].lock();
-                        if (asShared && asShared == gameObject)
-                        {
-                            std::iter_swap(parentsChildren[i].lock(), parentsChildren[i + 1].lock());
-                            App->scene->SetSelectedGameObject(parentsChildren[i + 1].lock());
-                            break;
-                        }
-                    }
+                    selectedParent->MoveDownChild(gameObject);
                 }
             }
         }
-        */
-
+        
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())

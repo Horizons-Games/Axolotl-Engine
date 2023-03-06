@@ -11,7 +11,7 @@ class ModuleWindow : public Module
 {
 public:
 	ModuleWindow();
-	virtual ~ModuleWindow();
+	~ModuleWindow() override;
 
 	bool Init() override;
 	bool CleanUp() override;
@@ -62,7 +62,7 @@ private:
 
 	//whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
 	//this is because both flags are set at the same time, so it's impossible to differentiate otherwise
-	bool fullscreen = false;
+	bool fullscreen;
 
 	float brightness;
 };

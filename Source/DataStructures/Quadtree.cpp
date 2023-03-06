@@ -1,26 +1,26 @@
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
-#include "Components/Component.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Application.h"
 
-#include "math/float4x4.h"
-#include "math/float3.h"
-#include "geometry/OBB.h"
-#include "geometry/AABB.h"
-
-#include "ModuleEngineCamera.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-#include <list>
 
-Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr)
+#include <queue>
+
+Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr), isFreezed(false),
+	quadrantCapacity(QUADRANT_CAPACITY), minQuadrantSideSize(MIN_CUBE_SIZE), 
+	minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+	frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
 {
 }
 
 Quadtree::Quadtree(const AABB& boundingBox, Quadtree* parent) :
-	boundingBox(boundingBox), parent(parent)
+	boundingBox(boundingBox), parent(parent), isFreezed(false),
+	quadrantCapacity(QUADRANT_CAPACITY), minQuadrantSideSize(MIN_CUBE_SIZE),
+	minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+	frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
 {
 }
 
@@ -53,11 +53,11 @@ void Quadtree::Add(const GameObject* gameObject)
 		{
 			if (gameObjects.size() < quadrantCapacity)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else
 			{
@@ -75,11 +75,11 @@ void Quadtree::Add(const GameObject* gameObject)
 
 			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft)
 			{
-				gameObjects.push_back(gameObject);
+				gameObjects.insert(gameObject);
 			}
 			else
 			{
@@ -92,158 +92,109 @@ void Quadtree::Add(const GameObject* gameObject)
 	}
 }
 
-void Quadtree::GetFamilyObjects(std::list<const GameObject*>& familyGameObjects)
+void Quadtree::GetFamilyObjects(std::set<const GameObject*>& familyGameObjects)
 {
-	//familyGameObjects.splice(familyGameObjects.end(), gameObjects);
 	for (const GameObject* gameObject : gameObjects)
 	{
-		familyGameObjects.push_back(gameObject);
+		familyGameObjects.insert(gameObject);
 	}
 
 	if (!IsLeaf())
 	{
-		std::list<const GameObject*> familyGameObjectsChildFR;
+		std::set<const GameObject*> familyGameObjectsChildFR;
 		frontRightNode->GetFamilyObjects(familyGameObjectsChildFR);
 		for (const GameObject* gameObject : familyGameObjectsChildFR)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);  //O(1) complexity
 
-		std::list<const GameObject*> familyGameObjectsChildFL;
+		std::set<const GameObject*> familyGameObjectsChildFL;
 		frontLeftNode->GetFamilyObjects(familyGameObjectsChildFL);
 		for (const GameObject* gameObject : familyGameObjectsChildFL)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
-		//frontLeftNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
-		std::list<const GameObject*> familyGameObjectsChildBR;
+		std::set<const GameObject*> familyGameObjectsChildBR;
 		backRightNode->GetFamilyObjects(familyGameObjectsChildBR);
 		for (const GameObject* gameObject : familyGameObjectsChildBR)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
-		//backRightNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 
-		std::list<const GameObject*> familyGameObjectsChildBL;
+		std::set<const GameObject*> familyGameObjectsChildBL;
 		backLeftNode->GetFamilyObjects(familyGameObjectsChildBL);
 		for (const GameObject* gameObject : familyGameObjectsChildBL)
 		{
-			familyGameObjects.push_back(gameObject);
+			familyGameObjects.insert(gameObject);
 		}
-		//backLeftNode->GetFamilyObjects(familyGameObjects);
-		//familyGameObjects.splice(familyGameObjects.end(), familyGameObjects);
 	}
 }
 
-void Quadtree::Remove(const GameObject* gameObject)
+bool Quadtree::Remove(const GameObject* gameObject)
 {
+	bool removed = false;
 	if ((!IsLeaf() && !gameObjects.empty()))
 	{
-		std::list<const GameObject*>::iterator it =
+		std::set<const GameObject*>::iterator it =
 			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
 		if (it != gameObjects.end())
 		{
 			gameObjects.erase(it);
-			SmartRemove();
+			removed = SmartRemove();
 		}
 		else {
-			frontRightNode->Remove(gameObject);
-			if (!IsLeaf())
-			{
-				frontLeftNode->Remove(gameObject);
-			}
-			
-			if (!IsLeaf())
-			{
-				backRightNode->Remove(gameObject);
-			}
-			
-			if (!IsLeaf())
-			{
-				backLeftNode->Remove(gameObject);
-			}
+			bool childrenRemovedObject = frontRightNode->Remove(gameObject);
+			childrenRemovedObject += frontLeftNode->Remove(gameObject);
+			childrenRemovedObject += backRightNode->Remove(gameObject);
+			childrenRemovedObject += backLeftNode->Remove(gameObject);
 
-			if (IsLeaf())
+			if (childrenRemovedObject)
 			{
-				if (parent != nullptr)
-				{
-					parent->OptimizeParentObjects();
-				}
+				removed = SmartRemove();
 			}
 		}
 	}
 	else if (IsLeaf())
 	{
-		std::list<const GameObject*>::iterator it =
+		std::set<const GameObject*>::iterator it =
 			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
 		if (it != gameObjects.end())
 		{
 			gameObjects.erase(it);
-			if (parent != nullptr)
-			{
-				parent->SmartRemove();
-			}
+			removed = true;
 		}
 	}
 	else
 	{
-		frontRightNode->Remove(gameObject);
-		if (!IsLeaf()) 
-		{ 
-			frontLeftNode->Remove(gameObject); 
-		}
-		
-		if (!IsLeaf())
-		{
-			backRightNode->Remove(gameObject);
-		}
-		
-		if (!IsLeaf())
-		{
-			backLeftNode->Remove(gameObject);
-		}
+		bool childrenRemovedObject = frontRightNode->Remove(gameObject);
+		childrenRemovedObject += frontLeftNode->Remove(gameObject);
+		childrenRemovedObject += backRightNode->Remove(gameObject);
+		childrenRemovedObject += backLeftNode->Remove(gameObject);
 
-		if (IsLeaf())
+		if (childrenRemovedObject)
 		{
-			if (parent != nullptr)
-			{
-				parent->OptimizeParentObjects();
-			}
+			removed = SmartRemove();
 		}
 	}
+	return removed;
 
 }
 
-void Quadtree::OptimizeParentObjects()
+
+bool Quadtree::SmartRemove()
 {
-	std::list<const GameObject*> familyObjects = {};
+	bool childrensDeleted = false;
+	std::set<const GameObject*> familyObjects = {};
 	GetFamilyObjects(familyObjects);
 	if (familyObjects.size() <= quadrantCapacity)
 	{
 		gameObjects.clear();
-		gameObjects.splice(gameObjects.end(), familyObjects);
+		gameObjects = familyObjects;
 		ResetChildren();
-		if (parent != nullptr)
-		{
-			parent->OptimizeParentObjects();
-		}
+		childrensDeleted = true;
 	}
-}
-
-void Quadtree::SmartRemove()
-{
-	std::list<const GameObject*> familyObjects = {};
-	GetFamilyObjects(familyObjects);
-	if (familyObjects.size() <= quadrantCapacity)
-	{
-		gameObjects.clear();
-		gameObjects.splice(gameObjects.end(), familyObjects);
-		ResetChildren();
-	}
+	return childrensDeleted;
 }
 
 bool Quadtree::InQuadrant(const GameObject* gameObject)
@@ -306,9 +257,9 @@ void Quadtree::Subdivide()
 void Quadtree::RedistributeGameObjects(const GameObject* gameObject)
 {
 	// GameObject redistribution part
-	gameObjects.push_back(gameObject);
+	gameObjects.insert(gameObject);
 
-	for (std::list<const GameObject*>::iterator it = std::begin(gameObjects); it != std::end(gameObjects);)
+	for (std::set<const GameObject*>::iterator it = std::begin(gameObjects); it != std::end(gameObjects);)
 	{
 		if (*it)
 		{
@@ -376,7 +327,6 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newMaxPoint.z = quadTreeMinZ + ((quadTreeMaxZ - quadTreeMinZ) * 2);
 
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
-			//std::unique_ptr<A> uniquePtr = std::unique_ptr<A>(rawPointer);
 			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
 			newRootQuadTree->backRightNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree();
 		}
@@ -386,7 +336,7 @@ void Quadtree::ExpandToFit(const GameObject* gameObject)
 			newMinPoint.z = quadTreeMaxZ - ((quadTreeMaxZ - quadTreeMinZ) * 2);
 			AABB newAABB = AABB(newMinPoint, newMaxPoint);
 			newRootQuadTree = std::make_unique<Quadtree>(newAABB);
-			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); //std::unique_ptr<Quadtree>(this);
+			newRootQuadTree->frontLeftNode = App->scene->GetLoadedScene()->GiveOwnershipOfQuadtree(); 
 		}
 		else if (gameObjectPosition.z > quadTreeMaxZ && gameObjectPosition.x < quadTreeMinX)
 		{
@@ -494,7 +444,6 @@ void Quadtree::RemoveGameObjectAndChildren(const GameObject* gameObject)
 	{
 		return;
 	}
-	Remove(gameObject);
 
 	if (!gameObject->GetChildren().empty())
 	{
@@ -503,6 +452,7 @@ void Quadtree::RemoveGameObjectAndChildren(const GameObject* gameObject)
 			RemoveGameObjectAndChildren(children);
 		}
 	}
+	Remove(gameObject);
 }
 
 std::list<const GameObject*> Quadtree::GetAllGameObjects(const GameObject* gameObject)
@@ -515,4 +465,47 @@ std::list<const GameObject*> Quadtree::GetAllGameObjects(const GameObject* gameO
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+{
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(this);
+
+	while (!quadtreeQueue.empty())
+	{
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
+
+		if (!ray.Intersects(currentQuadtree->boundingBox))
+		{
+			continue;
+		}
+
+		std::set<const GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
+
+		float nearDistance, farDistance;
+		for (const GameObject* gameObject : quadtreeGameObjects)
+		{
+			ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+				(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
+
+			if (hit && gameObject->IsActive())
+			{
+				hitGameObjects[nearDistance] = gameObject;
+			}
+		}
+
+		if (currentQuadtree->IsLeaf()) 
+		{
+			continue;
+		}
+
+		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+	}
 }

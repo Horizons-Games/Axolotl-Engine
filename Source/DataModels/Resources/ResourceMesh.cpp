@@ -5,8 +5,19 @@
 #include "GL/glew.h"
 #include "Math/float2.h"
 #include "Math/float4x4.h"
-#include "Math/float4.h"
 #include "Geometry/Triangle.h"
+
+ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
+	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
+	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), materialIndex(0),
+	options(std::make_shared<OptionsMesh>())
+{
+}
+
+ResourceMesh::~ResourceMesh()
+{
+	Unload();
+}
 
 void ResourceMesh::InternalLoad()
 {

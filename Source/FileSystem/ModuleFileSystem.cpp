@@ -2,10 +2,15 @@
 
 #include "ModuleFileSystem.h"
 #include "physfs.h"
-#include <iostream>
-#include <cstdio>
 #include "zip.h"
 
+ModuleFileSystem::ModuleFileSystem()
+{
+}
+
+ModuleFileSystem::~ModuleFileSystem()
+{
+}
 
 bool ModuleFileSystem::Init()
 {

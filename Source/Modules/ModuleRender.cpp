@@ -1,10 +1,9 @@
 #pragma warning (disable: 26495)
 
-#include "Globals.h"
+#include "ModuleRender.h"
+
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "DataModels/Resources/ResourceModel.h"
-#include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEngineCamera.h"
 #include "ModuleProgram.h"
@@ -16,8 +15,9 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentBoundingBoxes.h"
+
+#include "optick.h"
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -91,9 +91,9 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 	};
 }
 
-ModuleRender::ModuleRender()
+ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
+	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
-	context = nullptr;
 }
 
 ModuleRender::~ModuleRender()
@@ -132,15 +132,15 @@ bool ModuleRender::Init()
 	glDebugMessageCallback(&OurOpenGLErrorFunction, nullptr); 
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
-	glEnable(GL_DEPTH_TEST); // Enable depth test
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CCW); // Front faces will be counter clockwise
+	glEnable(GL_DEPTH_TEST);	// Enable depth test
+	glDisable(GL_CULL_FACE);	// Enable cull backward faces
+	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
 
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
-	glGenRenderbuffers(1, &depthRenderBuffer);
+	glGenRenderbuffers(1, &depthStencilRenderbuffer);
 
 	std::pair<int, int> windowSize = App->window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -187,29 +187,60 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	return UPDATE_CONTINUE;
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00); // disable writing to the stencil buffer
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::Update()
 {
+	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
+
 	if (skybox)
 	{
 		skybox->Draw();
 	}
 
+	gameObjectsToDraw.clear();
+
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
+
+	bool isRoot = goSelected->GetParent() == nullptr;
+
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
-	AddToRenderList(App->scene->GetSelectedGameObject());
-
+	if (isRoot) 
+	{
+		gameObjectsToDraw.push_back(goSelected);
+	}
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
 			gameObject->Draw();
 	}
 
-	if(App->debug->IsShowingBoundingBoxes())DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	{
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		goSelected->DrawSelected();
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glLineWidth(25);
+		glPolygonMode(GL_FRONT, GL_LINE);
+		goSelected->DrawHighlight();
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
+	}
+
+	AddToRenderList(goSelected);
+
+	if (App->debug->IsShowingBoundingBoxes())
+	{
+		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	}
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
@@ -217,7 +248,7 @@ update_status ModuleRender::Update()
 	App->debug->Draw(App->engineCamera->GetViewMatrix(),
 	App->engineCamera->GetProjectionMatrix(), w, h);
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()
@@ -226,7 +257,7 @@ update_status ModuleRender::PostUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()
@@ -257,10 +288,15 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
+
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -288,8 +324,6 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
-	//const char* vertexSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Lib/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
 	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
@@ -308,19 +342,25 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
+		const std::set<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				gameObjectsToDraw.push_back(gameObject);
+				if (gameObject->IsEnabled())
+				{
+					gameObjectsToDraw.push_back(gameObject);
+				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -339,13 +379,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
+	if (gameObject->GetParent() == nullptr)
+	{
+		return;
+	}
+
 	ComponentBoundingBoxes* boxes =
 		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
 	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
 		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
-		gameObjectsToDraw.push_back(gameObject);
+		if (gameObject->IsEnabled())
+		{
+			gameObjectsToDraw.push_back(gameObject);
+		}
 	}
 	
 

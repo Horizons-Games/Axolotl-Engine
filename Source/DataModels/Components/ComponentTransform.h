@@ -4,7 +4,6 @@
 
 #include "Components/Component.h"
 
-#include "Math/float3.h"
 #include "Math/float4x4.h"
 
 #define COMPONENT_TRANSFORM "Transform"
@@ -16,6 +15,7 @@ class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
+	~ComponentTransform() override;
 
 	void Update() override;
 
@@ -48,17 +48,14 @@ public:
 								   bool rotationModified);
 	
 private:
-	float3 pos = float3::zero;
-	float4x4 rot = float4x4::identity;
-	float3 rotXYZ = float3::zero;
-	float3 sca = float3::one;
+	float3 pos;
+	float4x4 rot;
+	float3 sca;
 
-	float4x4 localMatrix = float4x4::identity;
-	float4x4 globalMatrix = float4x4::identity;
+	float3 rotXYZ;
 
-	float3 globalPos = float3::zero;
-	float4x4 globalRot = float4x4::identity;
-	float3 globalSca = float3::one;
+	float4x4 localMatrix;
+	float4x4 globalMatrix;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
@@ -81,12 +78,12 @@ inline const float3& ComponentTransform::GetScale() const
 	return sca;
 }
 
-inline const float3& ComponentTransform::GetLocalForward() const
+inline const float3 ComponentTransform::GetLocalForward() const
 {
 	return localMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalForward() const
+inline const float3 ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
 }

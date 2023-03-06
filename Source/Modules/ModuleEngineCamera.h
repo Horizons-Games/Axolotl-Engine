@@ -4,11 +4,8 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#include <memory>
 #include <map>
 
-#include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
 #include "Math/Quat.h"
 #include "Geometry/Plane.h"
 #include "Geometry/LineSegment.h"
@@ -34,11 +31,11 @@
 #define MIN_VFOV 34
 #define MIN_FRUSTUM -2.f
 
-enum EFrustumMode
+enum class EFrustumMode
 {
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
+	NORMALFRUSTUM,
+	OFFSETFRUSTUM,
+	NOFRUSTUM
 };
 
 class GameObject;
@@ -83,7 +80,7 @@ public:
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
-	void SetFrustumMode(int mode);
+	void SetFrustumMode(EFrustumMode mode);
 	void SetViewPlaneDistance(float distance);
 
 	const float4x4& GetProjectionMatrix() const;
@@ -98,14 +95,17 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
-	int	GetFrustumMode() const;
+	EFrustumMode GetFrustumMode() const;
+	Frustum* GetFrustum();
 	const float3& GetPosition() const;
 	
 private:
-	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
 	
-	void CalculateHittedGameObjects(const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
+	void CalculateHitGameObjects(const LineSegment& ray);
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects,
 								  const LineSegment& ray);
 
 	Frustum frustum;
@@ -123,7 +123,7 @@ private:
 	float frustumOffset;
 	float viewPlaneDistance;
 
-	int frustumMode;
+	EFrustumMode frustumMode;
 
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped;

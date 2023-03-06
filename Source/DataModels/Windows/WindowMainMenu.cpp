@@ -1,18 +1,20 @@
 #include "WindowMainMenu.h"
 
-#include "imgui.h"
 #include "SDL.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : Window("Main Menu")
+WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : 
+	Window("Main Menu"), showAbout(false)
 {
 	about = std::make_unique<WindowAbout>();
 	
 	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
 	{
-		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair(window->GetName(), true);
+			std::pair<std::string, bool> windowNameAndEnabled;
+			if (window->GetName() == "Configuration") windowNameAndEnabled = std::make_pair(window->GetName(), false);
+			else windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
 		windowNamesAndEnabled.push_back(windowNameAndEnabled);
 	}
 }
@@ -29,7 +31,6 @@ void WindowMainMenu::Draw(bool& enabled)
 		DrawAbout();
 		DrawGithubLink();
 		DrawExit();
-		
 	}
 	ImGui::EndMainMenuBar();
 }

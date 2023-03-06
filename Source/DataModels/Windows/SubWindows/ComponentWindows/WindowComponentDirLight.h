@@ -1,14 +1,14 @@
 #pragma once
 
-#include "ComponentWindow.h"
+#include "WindowComponentLight.h"
 
 class ComponentDirLight;
 
-class WindowComponentDirLight : public ComponentWindow
+class WindowComponentDirLight : public WindowComponentLight
 {
 public:
 	WindowComponentDirLight(ComponentDirLight* component);
-	~WindowComponentDirLight() override = default;
+	~WindowComponentDirLight() override;
 
 protected:
 	void DrawWindowContents() override;

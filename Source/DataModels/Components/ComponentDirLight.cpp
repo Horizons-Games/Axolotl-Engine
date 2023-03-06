@@ -1,17 +1,10 @@
 #include "ComponentDirLight.h"
+
 #include "ComponentTransform.h"
-
-#include "Application.h"
-
-#include "../Modules/ModuleScene.h"
-
-#include "Scene/Scene.h"
 
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
-
-#include "GL/glew.h"
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false) 
 {
@@ -29,6 +22,10 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
+{
+}
+
+ComponentDirLight::~ComponentDirLight()
 {
 }
 
