@@ -30,6 +30,7 @@ void WindowInspector::DrawWindowContents()
 	{
 		bool enable = currentGameObject->IsEnabled();
 		ImGui::Checkbox("Enabled", &enable);
+		ImGui::SameLine();
 
 		if (currentGameObject != App->scene->GetLoadedScene()->GetRoot() &&
 			currentGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
