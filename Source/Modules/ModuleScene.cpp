@@ -204,7 +204,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	selectedGameObject = loadedScene->GetRoot();
 
 	loadedScene->SetSceneGameObjects(loadedObjects);
-	loadedScene->SetSceneCameras(loadedObjects);
+	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 
