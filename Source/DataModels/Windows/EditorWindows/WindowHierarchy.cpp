@@ -78,62 +78,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
-    if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
-    {
-
-        if (ImGui::MenuItem("Create child"))
-        {
-            App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
-        }
-        if (ImGui::MenuItem("Create camera"))
-        {
-            GameObject* newCamera =
-                App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
-        }
-        
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
-        {
-            GameObject* selectedParent = gameObject->GetParent();
-            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
-
-            if (ImGui::MenuItem("Move Up"))
-            {
-                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
-                {
-                    selectedParent->MoveUpChild(gameObject);
-                }
-            }
-
-            if (ImGui::MenuItem("Move Down"))
-            {
-                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
-                {
-                    selectedParent->MoveDownChild(gameObject);
-                }
-            }
-        }
-        
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
-            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
-        {
-            if (ImGui::MenuItem("Delete"))
-            {
-                GameObject* selectedGo = App->scene->GetSelectedGameObject();
-                if (gameObject == selectedGo || gameObject->IsADescendant(selectedGo))
-                {
-                    App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-                                                                                // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->
-                        RemoveGameObjectAndChildren(gameObject->GetParent());
-                }
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
-                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
-            }
-        }
-
-        ImGui::EndPopup();
-    }
+    DrawPopupMenu(gameObject);
     ImGui::PopID();
 
     if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
@@ -172,5 +117,65 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         }
 
         ImGui::TreePop();
+    }
+}
+
+void WindowHierarchy::DrawPopupMenu(GameObject* gameObject)
+{
+    if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
+    {
+
+        if (ImGui::MenuItem("Create child"))
+        {
+            App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
+        }
+        if (ImGui::MenuItem("Create camera"))
+        {
+            GameObject* newCamera =
+                App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+        }
+
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
+        {
+            GameObject* selectedParent = gameObject->GetParent();
+            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
+
+            if (ImGui::MenuItem("Move Up"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
+                {
+                    selectedParent->MoveUpChild(gameObject);
+                }
+            }
+
+            if (ImGui::MenuItem("Move Down"))
+            {
+                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
+                {
+                    selectedParent->MoveDownChild(gameObject);
+                }
+            }
+        }
+
+        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+            gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+            gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+        {
+            if (ImGui::MenuItem("Delete"))
+            {
+                GameObject* selectedGo = App->scene->GetSelectedGameObject();
+                if (gameObject == selectedGo || gameObject->IsADescendant(selectedGo))
+                {
+                    App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                                // change the focus to its parent
+                    App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                        RemoveGameObjectAndChildren(gameObject->GetParent());
+                }
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+            }
+        }
+
+        ImGui::EndPopup();
     }
 }
