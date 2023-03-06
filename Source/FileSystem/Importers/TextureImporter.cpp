@@ -189,7 +189,16 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 		resource->GetPixelsSize()
 	};
 
-	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize();
+	unsigned int options[5] =
+	{
+		static_cast<int>(resource->GetLoadOptions().min),
+		static_cast<int>(resource->GetLoadOptions().mag),
+		static_cast<int>(resource->GetLoadOptions().wrapS),
+		static_cast<int>(resource->GetLoadOptions().wrapT),
+		resource->GetLoadOptions().mipMap
+	};
+
+	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize() + sizeof(options);
 
 	char* cursor = new char[size];
 
@@ -202,6 +211,11 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 
 	bytes = sizeof(unsigned char) * resource->GetPixelsSize();
 	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(options);
+	memcpy(cursor, options, bytes);
 }
 
 void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
@@ -223,5 +237,16 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 	std::vector<unsigned char> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
 	resource->SetPixels(pixels);
 
+	fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
+
 	delete[] pixelsPointer;
+
+	unsigned int options[5];
+	memcpy(options, fileBuffer, sizeof(options));
+
+	resource->GetLoadOptions().min = (TextureMinFilter)options[0];
+	resource->GetLoadOptions().mag = (TextureMagFilter)options[1];
+	resource->GetLoadOptions().wrapS = (TextureWrap)options[2];
+	resource->GetLoadOptions().wrapT = (TextureWrap)options[3];
+	resource->GetLoadOptions().mipMap = options[4];
 }
