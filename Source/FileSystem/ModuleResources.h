@@ -170,7 +170,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	}
 
 	//If that resource does not have any of the two options, we will import it again
-	ImportResource(assetPath);
+	ImportResource(path);
 	metaPath = assetPath + META_EXTENSION;
 	if (App->fileSystem->Exists(metaPath.c_str())) {
 
