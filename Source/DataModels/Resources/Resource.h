@@ -31,13 +31,14 @@ public:
 
 	void Load();
 	void Unload();
-	virtual void SaveOptions(Json& meta) = 0;
-	virtual void LoadOptions(Json& meta) = 0;
+	virtual void SaveImporterOptions(Json& meta) = 0;
+	virtual void LoadImporterOptions(Json& meta) = 0;
 
 	bool IsLoaded() const;
 
 	bool IsChanged() const;
 	void SetChanged(bool changed);
+	void SetUID(UID uid);
 
 
 protected:
@@ -73,6 +74,11 @@ inline bool Resource::IsChanged() const
 inline void Resource::SetChanged(bool changed)
 {
 	this->changed = changed;
+}
+
+inline void Resource::SetUID(UID uid)
+{
+	this->uid = uid;
 }
 
 inline bool Resource::ChildChanged() const

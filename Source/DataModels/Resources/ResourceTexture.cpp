@@ -25,28 +25,16 @@ void ResourceTexture::InternalUnload()
 	glTexture = 0;
 }
 
-void ResourceTexture::SaveOptions(Json& meta)
+void ResourceTexture::SaveImporterOptions(Json& meta)
 {
 	meta["flipVertical"] = importOptions.flipVertical;
 	meta["flipHorizontal"] = importOptions.flipHorizontal;
-
-	meta["min"] = (int) loadOptions.min;
-	meta["mag"] = (int) loadOptions.mag;
-	meta["wrapS"] = (int) loadOptions.wrapS;
-	meta["wrapT"] = (int) loadOptions.wrapT;
-	meta["mipMap"] = loadOptions.mipMap;
 }
 
-void ResourceTexture::LoadOptions(Json& meta)
+void ResourceTexture::LoadImporterOptions(Json& meta)
 {
 	importOptions.flipVertical = meta["flipVertical"];
 	importOptions.flipHorizontal = meta["flipHorizontal"];
-
-	loadOptions.min = (TextureMinFilter)(int)meta["min"];
-	loadOptions.mag = (TextureMagFilter)(int)meta["mag"];
-	loadOptions.wrapS = (TextureWrap)(int)meta["wrapS"];
-	loadOptions.wrapT = (TextureWrap)(int)meta["wrapT"];
-	loadOptions.mipMap = meta["mipMap"];
 }
 
 void ResourceTexture::CreateTexture()

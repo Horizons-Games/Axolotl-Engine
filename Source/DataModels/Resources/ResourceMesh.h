@@ -20,8 +20,8 @@ public:
 
 	ResourceType GetType() const override;
 
-	void SaveOptions(Json& meta) override {};
-	void LoadOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override {};
 
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
