@@ -274,7 +274,7 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
 
-void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
+void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)
 {
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	rapidjson::Document doc;
@@ -286,7 +286,8 @@ void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& 
 		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 		meta.fromBuffer(metaBuffer);
 		delete metaBuffer;
-		resource->SetUID(meta["UID"]);
+		resource = CreateResourceOfType(meta["UID"],resource->GetFileName(),resource->GetAssetsPath(),
+			CreateLibraryPath(meta["UID"],resource->GetType()),resource->GetType());
 		resource->LoadImporterOptions(meta);
 	}
 	else
@@ -444,7 +445,7 @@ void ModuleResources::MonitorResources()
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
-		for (const std::shared_ptr<Resource>& resource : toCreateMeta)
+		for (std::shared_ptr<Resource>& resource : toCreateMeta)
 		{
 			CreateMetaFileOfResource(resource);
 		}

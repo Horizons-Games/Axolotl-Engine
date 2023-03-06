@@ -68,7 +68,7 @@ private:
 	void ImportResourceFromLibrary(std::shared_ptr<Resource>& resource);
 
 	//importing: creation of binary and meta
-	void CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource);
+	void CreateMetaFileOfResource(std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath,
 								  std::shared_ptr<Resource>& resource,
 								  ResourceType type);
