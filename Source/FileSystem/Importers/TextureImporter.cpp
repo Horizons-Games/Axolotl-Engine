@@ -22,7 +22,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 {
 	ENGINE_LOG("Import texture from %s", filePath);
 
-	std::shared_ptr<ImportOptionsTexture> options = resource->GetImportOptions();
+	ImportOptionsTexture options = resource->GetImportOptions();
 
 	std::string narrowString(filePath);
 	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
@@ -43,21 +43,21 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
 
 			imgResult = &img;
-			if(options->flipVertical && options->flipHorizontal)
+			if(options.flipVertical && options.flipHorizontal)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
 
 				if (!FAILED(result)) imgResult = &flippedImg;
 			}
-			else if (options->flipVertical)
+			else if (options.flipVertical)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 
 				if(!FAILED(result)) imgResult = &flippedImg;
 			}
-			else if (options->flipHorizontal)
+			else if (options.flipHorizontal)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
@@ -68,21 +68,21 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		else
 		{
 			imgResult = &img;
-			if (options->flipVertical && options->flipHorizontal)
+			if (options.flipVertical && options.flipHorizontal)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
 
 				if (!FAILED(result)) imgResult = &flippedImg;
 			}
-			else if (options->flipVertical)
+			else if (options.flipVertical)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 
 				if (!FAILED(result)) imgResult = &flippedImg;
 			}
-			else if (options->flipHorizontal)
+			else if (options.flipHorizontal)
 			{
 				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
@@ -98,21 +98,21 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 		imgResult = &dcmprsdImg;
 
-		if (options->flipVertical && options->flipHorizontal)
+		if (options.flipVertical && options.flipHorizontal)
 		{
 			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
 				DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
 
 			if (!FAILED(result)) imgResult = &flippedImg;
 		}
-		else if (options->flipVertical)
+		else if (options.flipVertical)
 		{
 			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
 				dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 			
 			if (!FAILED(result)) imgResult = &flippedImg;
 		}
-		else if (options->flipHorizontal)
+		else if (options.flipHorizontal)
 		{
 			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(), dcmprsdImg.GetMetadata(),
 				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);

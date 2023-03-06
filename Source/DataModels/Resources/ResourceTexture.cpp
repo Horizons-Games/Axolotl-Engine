@@ -5,8 +5,7 @@
 
 ResourceTexture::ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	glTexture(0), width(0), height(0), format(0), internalFormat(0), imageType(0), pixelsSize(0),
-	importOptions(std::make_shared<ImportOptionsTexture>()),loadOptions(std::make_shared<LoadOptionsTexture>())
+	glTexture(0), width(0), height(0), format(0), internalFormat(0), imageType(0), pixelsSize(0)
 {
 }
 
@@ -28,26 +27,26 @@ void ResourceTexture::InternalUnload()
 
 void ResourceTexture::SaveOptions(Json& meta)
 {
-	meta["flipVertical"] = importOptions->flipVertical;
-	meta["flipHorizontal"] = importOptions->flipHorizontal;
+	meta["flipVertical"] = importOptions.flipVertical;
+	meta["flipHorizontal"] = importOptions.flipHorizontal;
 
-	meta["min"] = (int) loadOptions->min;
-	meta["mag"] = (int) loadOptions->mag;
-	meta["wrapS"] = (int) loadOptions->wrapS;
-	meta["wrapT"] = (int) loadOptions->wrapT;
-	meta["mipMap"] = loadOptions->mipMap;
+	meta["min"] = (int) loadOptions.min;
+	meta["mag"] = (int) loadOptions.mag;
+	meta["wrapS"] = (int) loadOptions.wrapS;
+	meta["wrapT"] = (int) loadOptions.wrapT;
+	meta["mipMap"] = loadOptions.mipMap;
 }
 
 void ResourceTexture::LoadOptions(Json& meta)
 {
-	importOptions->flipVertical = meta["flipVertical"];
-	importOptions->flipHorizontal = meta["flipHorizontal"];
+	importOptions.flipVertical = meta["flipVertical"];
+	importOptions.flipHorizontal = meta["flipHorizontal"];
 
-	loadOptions->min = (TextureMinFilter)(int)meta["min"];
-	loadOptions->mag = (TextureMagFilter)(int)meta["mag"];
-	loadOptions->wrapS = (TextureWrap)(int)meta["wrapS"];
-	loadOptions->wrapT = (TextureWrap)(int)meta["wrapT"];
-	loadOptions->mipMap = meta["mipMap"];
+	loadOptions.min = (TextureMinFilter)(int)meta["min"];
+	loadOptions.mag = (TextureMagFilter)(int)meta["mag"];
+	loadOptions.wrapS = (TextureWrap)(int)meta["wrapS"];
+	loadOptions.wrapT = (TextureWrap)(int)meta["wrapT"];
+	loadOptions.mipMap = meta["mipMap"];
 }
 
 void ResourceTexture::CreateTexture()
@@ -55,16 +54,16 @@ void ResourceTexture::CreateTexture()
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilterEquivalence(loadOptions->mag));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilterEquivalence(loadOptions.mag));
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilterEquivalence(loadOptions->min));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilterEquivalence(loadOptions.min));
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapFilterEquivalence(loadOptions->wrapS));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapFilterEquivalence(loadOptions->wrapT));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapFilterEquivalence(loadOptions.wrapS));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapFilterEquivalence(loadOptions.wrapT));
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 
-	if(loadOptions->mipMap) glGenerateMipmap(GL_TEXTURE_2D);
+	if(loadOptions.mipMap) glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 int ResourceTexture::GetMagFilterEquivalence(TextureMagFilter filter) 

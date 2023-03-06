@@ -8,7 +8,7 @@
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
     const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-    textures(6), options(std::make_unique<OptionsSkyBox>()), vbo(0), vao(0)
+    textures(6), vbo(0), vao(0)
 {
 }
 

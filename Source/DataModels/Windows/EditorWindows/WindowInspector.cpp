@@ -204,8 +204,8 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
 void WindowInspector::InitTextureImportOptions()
 {
 	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
-	flipVertical = resourceTexture->GetImportOptions()->flipVertical;
-	flipHorizontal = resourceTexture->GetImportOptions()->flipHorizontal;
+	flipVertical = resourceTexture->GetImportOptions().flipVertical;
+	flipHorizontal = resourceTexture->GetImportOptions().flipHorizontal;
 }
 
 void WindowInspector::DrawTextureOptions()
@@ -236,8 +236,8 @@ void WindowInspector::DrawTextureOptions()
 		ImGui::SameLine(ImGui::GetWindowWidth() - 50);
 		if (ImGui::Button("Apply"))
 		{
-			resourceTexture->GetImportOptions()->flipVertical = flipVertical;
-			resourceTexture->GetImportOptions()->flipHorizontal = flipHorizontal;
+			resourceTexture->GetImportOptions().flipVertical = flipVertical;
+			resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
 			resourceTexture->Unload();
 			resourceTexture->SetChanged(true);
 			App->resources->ReimportResource(resourceTexture->GetUID());

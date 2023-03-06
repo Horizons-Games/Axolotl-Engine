@@ -8,7 +8,7 @@
 
 ResourceModel::ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	options(std::make_shared<OptionsModel>()), numMaterials(0), numMeshes(0)
+	numMaterials(0), numMeshes(0)
 {
 }
 
