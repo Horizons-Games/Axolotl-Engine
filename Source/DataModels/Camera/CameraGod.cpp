@@ -20,40 +20,44 @@ CameraGod::~CameraGod()
 
 bool CameraGod::Update()
 {
-	projectionMatrix = frustum->ProjectionMatrix();
-	viewMatrix = frustum->ViewMatrix();
-
-	//Shift speed
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	if (App->input->GetInFocus())
 	{
-		Run();
-	}
-	else
-	{
-		Walk();
-	}
-	//Move and rotate with right buttons and ASDWQE
-	int mouseX, mouseY;
-	SDL_GetMouseState(&mouseX, &mouseY);
-	App->input->SetMouseMotionX(mouseX - lastMouseX);
-	App->input->SetMouseMotionY(mouseY - lastMouseY);
-
-	int width, height;
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);
-
-	lastMouseX = width / 2;
-	lastMouseY = height / 2;
-
-	Move();
-	FreeLook();
 
 
-	KeyboardRotate();
+		projectionMatrix = frustum->ProjectionMatrix();
+		viewMatrix = frustum->ViewMatrix();
 
-	if (frustumMode == EFrustumMode::offsetFrustum)
-	{
-		RecalculateOffsetPlanes();
+		//Shift speed
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		{
+			Run();
+		}
+		else
+		{
+			Walk();
+		}
+		//Move and rotate with right buttons and ASDWQE
+		int mouseX, mouseY;
+		SDL_GetMouseState(&mouseX, &mouseY);
+		App->input->SetMouseMotionX(mouseX - lastMouseX);
+		App->input->SetMouseMotionY(mouseY - lastMouseY);
+
+		int width, height;
+		SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+		SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);
+
+		lastMouseX = width / 2;
+		lastMouseY = height / 2;
+
+		Move();
+		FreeLook();
+
+		KeyboardRotate();
+
+		if (frustumMode == EFrustumMode::offsetFrustum)
+		{
+			RecalculateOffsetPlanes();
+		}
 	}
 
 	return true;

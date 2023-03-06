@@ -122,6 +122,14 @@ update_status ModuleInput::Update()
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
             }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
+            {
+                inFocus = false;
+            }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+            {
+                inFocus = true;
+            }
 
             break;
 
