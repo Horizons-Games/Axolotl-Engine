@@ -96,6 +96,7 @@ public:
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
 	EFrustumMode GetFrustumMode() const;
+	Frustum* GetFrustum();
 	const float3& GetPosition() const;
 	
 private:

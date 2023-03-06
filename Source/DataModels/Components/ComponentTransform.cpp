@@ -100,30 +100,31 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 void ComponentTransform::CalculateLocalMatrix()
 {
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
-
-	SetLocalMatrix(localMatrix);
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
 }
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
 	const GameObject* parent = GetOwner()->GetParent();
+	const GameObject* root = App->scene->GetLoadedScene()->GetRoot();
+
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
-	GetLocalMatrix().Decompose(localPos, localRot, localSca);
-
-	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
-
-	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-	SetGlobalMatrix(globalMatrix);
+	if (parent != root)
+	{
+		ComponentTransform* parentTransform =
+			static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		
+		//parentTransform->CalculateGlobalMatrix();
+		globalMatrix = parentTransform->globalMatrix * localMatrix;
+	}
+	else
+	{
+		globalMatrix = localMatrix;
+	}
 }
 
 const float3 ComponentTransform::GetGlobalPosition() const

@@ -103,8 +103,8 @@ update_status ModuleEngineCamera::Update()
 			}
 
 			// --RAYCAST CALCULATION-- //
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN
-				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
+				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
 				LineSegment ray;
@@ -738,6 +738,11 @@ EFrustumMode ModuleEngineCamera::GetFrustumMode() const
 	return frustumMode;
 }
 
+Frustum* ModuleEngineCamera::GetFrustum()
+{
+	return &frustum;
+}
+
 bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
 	// normalize the input to [-1, 1].
@@ -745,23 +750,26 @@ bool ModuleEngineCamera::CreateRaycastFromMousePosition(const WindowScene* windo
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
-	if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x 
-		&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
+	
+	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePositionInScene.x, mousePositionInScene.y))
 	{
-		mousePositionInScene.x -= startPosScene.x;
-		mousePositionInScene.y -= startPosScene.y;
+		if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x
+			&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
+		{
+			mousePositionInScene.x -= startPosScene.x;
+			mousePositionInScene.y -= startPosScene.y;
 
-		float width = windowScene->GetAvailableRegion().x;
-		float height = windowScene->GetAvailableRegion().y;
+			float width = windowScene->GetAvailableRegion().x;
+			float height = windowScene->GetAvailableRegion().y;
 
-		float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
-		float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
-		ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+			float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+			float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
 
-		return true;
-	}
-	else
-	{
+
+			ray = frustum.UnProjectLineSegment(normalizedX, normalizedY);
+
+			return true;
+		}
 		return false;
 	}
 }
