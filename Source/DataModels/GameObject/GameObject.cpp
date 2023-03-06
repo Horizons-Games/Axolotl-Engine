@@ -24,9 +24,9 @@ GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID
 {
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true)
+GameObject::GameObject(const char* name, GameObject* parent) : GameObject(name)
 {
+	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
 	active = (parent->IsEnabled() && parent->IsActive());
 }
@@ -140,6 +140,7 @@ void GameObject::DrawHighlight()
 void GameObject::SaveOptions(Json& meta)
 {
 	meta["name"] = name.c_str();
+	meta["uid"] = uid;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 
@@ -152,11 +153,9 @@ void GameObject::SaveOptions(Json& meta)
 		components[i]->SaveOptions(jsonComponent);
 	}
 
-	Json jsonChildren = meta["Children"];
-
 	for (int i = 0; i < children.size(); ++i)
 	{
-		Json jsonGameObject = jsonChildren[i]["GameObject"];
+		Json jsonGameObject = jsonComponents[i]["GameObject"];
 
 		children[i]->SaveOptions(jsonGameObject);
 	}
@@ -166,7 +165,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 {
 	loadedObjects.push_back(this);
 
-	uid = UniqueID::GenerateUID();
+	uid = meta["uid"];
 	name = meta["name"];
 	enabled = (bool) meta["enabled"];
 	active = (bool) meta["active"];
