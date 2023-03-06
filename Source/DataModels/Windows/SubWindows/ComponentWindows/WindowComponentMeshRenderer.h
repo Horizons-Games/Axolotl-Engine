@@ -9,7 +9,7 @@ class WindowComponentMeshRenderer : public ComponentWindow
 {
 public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
-	~WindowComponentMeshRenderer() override = default;
+	~WindowComponentMeshRenderer() override;
 
 protected:
 	void DrawWindowContents() override;

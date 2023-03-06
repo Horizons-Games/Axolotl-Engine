@@ -4,7 +4,6 @@
 
 #include "Components/Component.h"
 
-#include "Math/float3.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
@@ -17,6 +16,7 @@ class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
+	~ComponentTransform() override;
 
 	void Update() override;
 
@@ -24,14 +24,14 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	const float3& GetPosition() const;
-	const float3& GetGlobalPosition() const;
+	const float3 GetGlobalPosition() const;
 	const Quat& GetRotation() const;
 	const float3& GetRotationXYZ() const;
-	const Quat& GetGlobalRotation() const;
+	const Quat GetGlobalRotation() const;
 	const float3& GetScale() const;
-	const float3& GetLocalForward() const;
-	const float3& GetGlobalForward() const;
-	const float3& GetGlobalScale() const;
+	const float3 GetLocalForward() const;
+	const float3 GetGlobalForward() const;
+	const float3 GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
@@ -54,14 +54,14 @@ public:
 								   bool rotationModified);
 
 private:
-	float3 pos = float3::zero;
-	Quat rot = Quat::identity;
-	float3 sca = float3::one;
+	float3 pos;
+	Quat rot;
+	float3 sca;
 
-	float3 rotXYZ = float3::zero;
+	float3 rotXYZ;
 
-	float4x4 localMatrix = float4x4::identity;
-	float4x4 globalMatrix = float4x4::identity;
+	float4x4 localMatrix;
+	float4x4 globalMatrix;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
@@ -84,12 +84,12 @@ inline const float3& ComponentTransform::GetScale() const
 	return sca;
 }
 
-inline const float3& ComponentTransform::GetLocalForward() const
+inline const float3 ComponentTransform::GetLocalForward() const
 {
 	return localMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalForward() const
+inline const float3 ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
 }

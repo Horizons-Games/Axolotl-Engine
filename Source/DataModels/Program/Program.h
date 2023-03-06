@@ -4,6 +4,8 @@ class Program
 
 public:
 	Program(unsigned vertexShader, unsigned fragmentShader);
+	~Program();
+
 	void Activate();
 	void Deactivate();
 	void CleanUp();
@@ -11,6 +13,7 @@ public:
 	void BindUniformFloat3(const char* name, const float* data);
 	void BindUniformFloat(const char* name, const float* data);
 	void BindUniformBool(const char* name, bool value);
+
 	const unsigned& GetId() const;
 
 private:

@@ -1,6 +1,5 @@
 #include "TextureImporter.h"
 
-#include "EngineLog.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
@@ -8,6 +7,14 @@
 #include <DirectXTex/DirectXTex.h>
 
 #define DDS_TEXTURE_EXTENSION ".dds"
+
+TextureImporter::TextureImporter()
+{
+}
+
+TextureImporter::~TextureImporter()
+{
+}
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
@@ -52,7 +59,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
-	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), 
+		DirectX::DDS_FLAGS_NONE, path);
 
 	GLint internalFormat;
 	GLenum format, type;

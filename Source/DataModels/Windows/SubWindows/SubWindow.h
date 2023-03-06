@@ -15,7 +15,7 @@ protected:
 	SubWindow(const std::string& name);
 	virtual void DrawWindowContents() = 0;
 
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
+	ImGuiTreeNodeFlags flags;
 
 private:
 	static bool defaultEnabled;

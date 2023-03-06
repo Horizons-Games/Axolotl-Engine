@@ -1,12 +1,6 @@
 #include "ComponentAmbient.h"
 
-#include "Application.h"
-
-#include "Scene/Scene.h"
-
 #include "../Modules/ModuleScene.h"
-
-#include "FileSystem/Json.h"
 
 ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
@@ -23,6 +17,10 @@ ComponentAmbient::ComponentAmbient(const float3& color) : ComponentLight(LightTy
 
 ComponentAmbient::ComponentAmbient(const float3& color, GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, color, 1.0f, parent, false)
+{
+}
+
+ComponentAmbient::~ComponentAmbient()
 {
 }
 

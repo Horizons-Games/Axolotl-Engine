@@ -10,7 +10,7 @@ class WindowComponentTransform : public ComponentWindow
 {
 public:
 	WindowComponentTransform(ComponentTransform* component);
-	~WindowComponentTransform() override = default;
+	~WindowComponentTransform() override;
 
 protected:
 	void DrawWindowContents() override;

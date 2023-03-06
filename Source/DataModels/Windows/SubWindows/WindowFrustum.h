@@ -6,7 +6,7 @@ class WindowFrustum : public SubWindow
 {
 public:
 	WindowFrustum();
-	~WindowFrustum();
+	~WindowFrustum() override;
 
 protected:
 	void DrawWindowContents() override;

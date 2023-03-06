@@ -5,16 +5,16 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
-#include "ModuleDebugDraw.h"
-
-#include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-#include "FileSystem/Json.h"
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner, false)
+	: Component(ComponentType::TRANSFORM, active, owner, false), 
+	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
+	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+{
+}
+
+ComponentTransform::~ComponentTransform()
 {
 }
 
@@ -77,7 +77,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
-	//owner = (GameObject*) meta["owner"];
 	canBeRemoved = (bool) meta["removed"];
 
 	pos.x = (float) meta["localPos_X"];
@@ -101,33 +100,34 @@ void ComponentTransform::LoadOptions(Json& meta)
 
 void ComponentTransform::CalculateLocalMatrix()
 {
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
-
-	SetLocalMatrix(localMatrix);
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
 }
 
 void ComponentTransform::CalculateGlobalMatrix()
 {
 	const GameObject* parent = GetOwner()->GetParent();
+	const GameObject* root = App->scene->GetLoadedScene()->GetRoot();
+
 	assert(parent);
 
 	float3 parentPos, parentSca, localPos, localSca;
 	Quat parentRot, localRot;
 
-	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
-	GetLocalMatrix().Decompose(localPos, localRot, localSca);
-
-	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
-
-	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-	SetGlobalMatrix(globalMatrix);
+	if (parent != root)
+	{
+		ComponentTransform* parentTransform =
+			static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		
+		//parentTransform->CalculateGlobalMatrix();
+		globalMatrix = parentTransform->globalMatrix * localMatrix;
+	}
+	else
+	{
+		globalMatrix = localMatrix;
+	}
 }
 
-const float3& ComponentTransform::GetGlobalPosition() const
+const float3 ComponentTransform::GetGlobalPosition() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;
@@ -136,7 +136,7 @@ const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-const Quat& ComponentTransform::GetGlobalRotation() const
+const Quat ComponentTransform::GetGlobalRotation() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;
@@ -145,7 +145,7 @@ const Quat& ComponentTransform::GetGlobalRotation() const
 	return globalRot;
 }
 
-const float3& ComponentTransform::GetGlobalScale() const
+const float3 ComponentTransform::GetGlobalScale() const
 {
 	float3 globalPos, globalSca;
 	Quat globalRot;

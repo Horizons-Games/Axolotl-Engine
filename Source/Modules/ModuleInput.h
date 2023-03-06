@@ -8,7 +8,8 @@
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
-enum class KeyState {
+enum class KeyState 
+{
 	IDLE,
 	DOWN,
 	UP,
@@ -49,11 +50,11 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 
-	float2 mouseWheel = float2::zero;
-	float2 mouseMotion = float2::zero;
+	float2 mouseWheel;
+	float2 mouseMotion;
 
-	int mousePosX = 0;
-	int mousePosY = 0;
+	int mousePosX;
+	int mousePosY;
 
 	bool mouseWheelScrolled;
 
@@ -121,12 +122,12 @@ inline void ModuleInput::SetMousePositionY(int mouseY)
 
 inline void ModuleInput::SetMouseMotionX(float posX)
 {
-	this->mouseMotion.x = posX;
+	mouseMotion.x = posX;
 }
 
 inline void ModuleInput::SetMouseMotionY(float posY)
 {
-	this->mouseMotion.y = posY;
+	mouseMotion.y = posY;
 }
 
 inline void ModuleInput::SetFreeLookCursor()

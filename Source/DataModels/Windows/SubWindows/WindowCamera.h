@@ -6,7 +6,7 @@ class WindowCamera : public SubWindow
 {
 public:
 	WindowCamera();
-	~WindowCamera();
+	~WindowCamera() override;
 
 protected:
 	void DrawWindowContents() override;

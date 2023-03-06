@@ -27,5 +27,7 @@ WindowConfiguration::~WindowConfiguration()
 void WindowConfiguration::DrawWindowContents()
 {
 	for (int i = 0; i < collapsingSubWindows.size(); ++i)
+	{
 		collapsingSubWindows[i]->Draw();
+	}
 }

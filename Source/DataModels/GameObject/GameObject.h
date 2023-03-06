@@ -1,12 +1,9 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
-#include <algorithm>
 #include <iterator>
 
 class Component;
@@ -16,12 +13,17 @@ class Json;
 enum class ComponentType;
 enum class LightType;
 
+enum class StateOfSelection
+{
+	NO_SELECTED,
+	SELECTED
+};
+
 class GameObject
 {
 public:
 	explicit GameObject(const char* name);
 	GameObject(const char* name, GameObject* parent);
-	//static GameObject* CreateGameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -29,6 +31,8 @@ public:
 
 	void Update();
 	void Draw() const;
+	void DrawSelected();
+	void DrawHighlight();
 
 	void InitNewEmptyGameObject();
 
@@ -38,13 +42,18 @@ public:
 	UID GetUID() const;
 	const char* GetName() const;
 	GameObject* GetParent() const;
+
+	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
+
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
+
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -64,25 +73,35 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-private:
-	bool IsAChild(const GameObject* child);
+	void MoveUpChild(GameObject* childToMove);
+	void MoveDownChild(GameObject* childToMove);
+
 	bool IsADescendant(const GameObject* descendant);
 
 private:
-	UID uid = 0;
+	bool IsAChild(const GameObject* child);
 
-	bool enabled = true;
-	bool active = true;
-	std::string name = "Empty";
-	std::vector<std::unique_ptr<Component>> components = {};
+private:
+	UID uid;
 
-	GameObject* parent = nullptr;
-	std::vector<std::unique_ptr<GameObject>> children = {};
+	bool enabled;
+	bool active;
+	std::string name;
+	std::vector<std::unique_ptr<Component>> components;
+	StateOfSelection stateOfSelection;
+
+	GameObject* parent;
+	std::vector<std::unique_ptr<GameObject>> children;
 };
 
 inline UID GameObject::GetUID() const
 {
 	return uid;
+}
+
+inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
+{
+	this->stateOfSelection = stateOfSelection;
 }
 
 inline bool GameObject::IsEnabled() const
@@ -103,6 +122,11 @@ inline void GameObject::SetName(const char* newName)
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline StateOfSelection GameObject::GetStateOfSelection() const
+{
+	return stateOfSelection;
 }
 
 inline bool GameObject::IsActive() const

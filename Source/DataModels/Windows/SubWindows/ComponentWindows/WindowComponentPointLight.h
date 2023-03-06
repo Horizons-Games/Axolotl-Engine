@@ -1,14 +1,14 @@
 #pragma once
 
-#include "ComponentWindow.h"
+#include "WindowComponentLight.h"
 
 class ComponentPointLight;
 
-class WindowComponentPointLight : public ComponentWindow
+class WindowComponentPointLight : public WindowComponentLight
 {
 public:
 	WindowComponentPointLight(ComponentPointLight* component);
-	~WindowComponentPointLight() override = default;
+	~WindowComponentPointLight() override;
 
 protected:
 	void DrawWindowContents() override;

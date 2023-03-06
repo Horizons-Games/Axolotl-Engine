@@ -1,8 +1,7 @@
 #include "Timer.h"
 
-Timer::Timer()
+Timer::Timer() : startTick(0), stopTick(0), stopped(false)
 {
-	stopped = false;
 }
 
 Timer::~Timer()
@@ -18,7 +17,7 @@ float Timer::Read()
 {
 	if (stopped)
 	{
-		return (float)startTick - stopTick;
+		return (float)(startTick - stopTick);
 	}
 
 	return (float)(SDL_GetTicks() - startTick);

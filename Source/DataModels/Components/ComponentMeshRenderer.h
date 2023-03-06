@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Components/Component.h"
-#include "FileSystem/UniqueID.h"
 
 #include <memory>
 
@@ -21,6 +20,7 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

@@ -6,7 +6,7 @@ class WindowWindow : public SubWindow
 {
 public:
 	WindowWindow();
-	~WindowWindow();
+	~WindowWindow() override;
 
 protected:
 	void DrawWindowContents() override;

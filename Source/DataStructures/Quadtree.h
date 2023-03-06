@@ -1,8 +1,11 @@
 #pragma once
 #include <list>
-#include <memory>
+#include <set>
+#include <map>
 #include <MathGeoLib/Include/Geometry/AABB.h>
+
 #include "Globals.h"
+#include "Geometry/LineSegment.h"
 
 class GameObject;
 
@@ -18,10 +21,9 @@ public:
 
 	void Add(const GameObject* gameObject);
 	void AddGameObjectAndChildren(const GameObject* gameObject);
-	void Remove(const GameObject* gameObject);
+	bool Remove(const GameObject* gameObject);
 	void RemoveGameObjectAndChildren(const GameObject* gameObject);
-	void SmartRemove();
-	void OptimizeParentObjects();
+	bool SmartRemove();
 
 	void Subdivide();
 	void RedistributeGameObjects(const GameObject* gameObject);
@@ -31,8 +33,8 @@ public:
 
 	void ResetChildren();
 
-	const std::list<const GameObject*>& GetGameObjects() const;
-	void GetFamilyObjects(std::list<const GameObject*>& familyGameObjects);
+	const std::set<const GameObject*>& GetGameObjects() const;
+	void GetFamilyObjects(std::set<const GameObject*>& familyGameObjects);
 
 	const Quadtree* GetFrontRightNode() const;
 	const Quadtree* GetFrontLeftNode() const;
@@ -53,23 +55,26 @@ public:
 
 	std::list<const GameObject*> GetAllGameObjects(const GameObject* gameObject);
 
+	// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
+	void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+
 private:
 
-	std::list<const GameObject*> gameObjects;
+	std::set<const GameObject*> gameObjects;
 	AABB boundingBox;
 
-	int quadrantCapacity = QUADRANT_CAPACITY;
-	float minQuadrantSideSize = MIN_CUBE_SIZE;
-	float minQuadrantDiagonalSquared = 3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE; // D^2 = 3C^2
+	int quadrantCapacity;
+	float minQuadrantSideSize;
+	float minQuadrantDiagonalSquared;
 
 	Quadtree* parent;
 
-	std::unique_ptr<Quadtree> frontRightNode = nullptr;
-	std::unique_ptr<Quadtree> frontLeftNode = nullptr;
-	std::unique_ptr<Quadtree> backRightNode = nullptr;
-	std::unique_ptr<Quadtree> backLeftNode = nullptr;
+	std::unique_ptr<Quadtree> frontRightNode;
+	std::unique_ptr<Quadtree> frontLeftNode;
+	std::unique_ptr<Quadtree> backRightNode;
+	std::unique_ptr<Quadtree> backLeftNode;
 
-	bool isFreezed = false;
+	bool isFreezed;
 };
 
 inline bool Quadtree::IsFreezed() const
@@ -102,7 +107,7 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::list<const GameObject*>& Quadtree::GetGameObjects() const
+inline const std::set<const GameObject*>& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }
