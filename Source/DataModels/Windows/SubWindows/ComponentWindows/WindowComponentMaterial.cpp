@@ -209,8 +209,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 					asMaterial->normalUID = 0;
 				}
 			}
-			ImGui::SliderFloat("Normal", &(asMaterial->normalStrength),
-				0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			ImGui::DragFloat("Normal Strength", &(asMaterial->normalStrength), 
+				0.01f, 0.0001f, std::numeric_limits<float>::max());
 
 			ImGui::Text("");
 		}
