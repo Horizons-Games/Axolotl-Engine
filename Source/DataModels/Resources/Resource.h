@@ -38,7 +38,6 @@ public:
 
 	bool IsChanged() const;
 	void SetChanged(bool changed);
-	void SetUID(UID uid);
 
 
 protected:
@@ -74,11 +73,6 @@ inline bool Resource::IsChanged() const
 inline void Resource::SetChanged(bool changed)
 {
 	this->changed = changed;
-}
-
-inline void Resource::SetUID(UID uid)
-{
-	this->uid = uid;
 }
 
 inline bool Resource::ChildChanged() const
