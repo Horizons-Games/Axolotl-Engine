@@ -7,10 +7,14 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+#include "Math/float3x3.h"
+#include "Math/Quat.h"
+
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
-	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
-	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
+	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
 {
 }
 
@@ -66,21 +70,21 @@ void ComponentTransform::LoadOptions(Json& meta)
 	CalculateMatrices();
 }
 
-const float3& ComponentTransform::GetGlobalPosition()
+const float3& ComponentTransform::GetGlobalPosition() const
 {
 	//UpdateTransformMatrices();
 
 	return globalPos;
 }
 
-const float4x4& ComponentTransform::GetGlobalRotation()
+const float4x4& ComponentTransform::GetGlobalRotation() const
 {
 	//UpdateTransformMatrices();
 
 	return globalRot;
 }
 
-const float3& ComponentTransform::GetGlobalScale()
+const float3& ComponentTransform::GetGlobalScale() const
 {
 	//UpdateTransformMatrices();
 
@@ -104,7 +108,7 @@ void ComponentTransform::CalculateMatrices()
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
 		globalPos = globalMatrix.TranslatePart();
-		globalRot = globalMatrix.RotatePart();
+		globalRot = globalMatrix.RotatePart().ToQuat().ToFloat4x4();
 		globalSca = globalMatrix.GetScale();
 	}
 }
