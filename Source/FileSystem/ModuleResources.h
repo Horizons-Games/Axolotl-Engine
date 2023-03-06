@@ -130,11 +130,12 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
-		Json Json(doc, doc);
+		Json meta(doc, doc);
 
-		Json.fromBuffer(metaBuffer);
+		meta.fromBuffer(metaBuffer);
+		delete metaBuffer;
 
-		UID uid = (UID)Json["UID"];
+		UID uid = (UID)meta["UID"];
 
 		//If that resource is already on the map because another component uses it, we return it
 		auto it = resources.find(uid);
@@ -144,7 +145,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 
 		//If that resource has binaries and they are new, we load them
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
+		ResourceType type = GetTypeOfName(std::string(meta["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
@@ -177,12 +178,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
-		Json Json(doc, doc);
+		Json meta(doc, doc);
 
-		Json.fromBuffer(metaBuffer);
+		meta.fromBuffer(metaBuffer);
+		delete metaBuffer;
 
-		UID uid = (UID)Json["UID"];
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
+		UID uid = (UID)meta["UID"];
+		ResourceType type = GetTypeOfName(std::string(meta["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
