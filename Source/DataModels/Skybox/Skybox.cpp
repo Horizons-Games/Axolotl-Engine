@@ -21,8 +21,8 @@ Skybox::~Skybox()
 void Skybox::Draw()
 {
 
-    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
-    if (program && skyboxRes)
+    Program* program = App->program->GetProgram(ProgramType::SKYBOX);
+    if (program && skyboxRes) 
     {
         skyboxRes->Load();
         glDepthMask(GL_FALSE);

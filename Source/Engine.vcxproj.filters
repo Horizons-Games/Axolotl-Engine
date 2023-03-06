@@ -406,6 +406,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -959,6 +962,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
       <Filter>Source\Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
+      <Filter>External\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

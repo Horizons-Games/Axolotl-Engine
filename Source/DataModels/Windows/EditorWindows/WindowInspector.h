@@ -26,8 +26,6 @@ public:
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override;
-
 private:
 	void InspectSelectedGameObject();
 	
@@ -69,8 +67,3 @@ private:
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
 };
-
-inline ImVec2 WindowInspector::GetStartingSize() const
-{
-	return ImVec2(900, 250);
-}

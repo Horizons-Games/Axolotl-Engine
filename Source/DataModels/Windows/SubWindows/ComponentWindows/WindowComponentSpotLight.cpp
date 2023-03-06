@@ -8,7 +8,7 @@
 #include "DataModels/Components/ComponentPointLight.h"
 
 WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component) :
-	ComponentWindow("SPOT LIGHT", component)
+	WindowComponentLight("SPOT LIGHT", component)
 {
 }
 
@@ -78,8 +78,17 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asSpotLight->GetIntensity();
-			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, max_intensity))
 			{
+				if (intensity > max_intensity)
+				{
+					intensity = max_intensity;
+				}
+				else if (intensity < 0.0f)
+				{
+					intensity = 0.0f;
+				}
+
 				asSpotLight->SetIntensity(intensity);
 				modified = true;
 			}
