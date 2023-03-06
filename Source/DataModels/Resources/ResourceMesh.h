@@ -37,7 +37,7 @@ public:
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
-	std::shared_ptr<OptionsMesh>& GetOptions();
+	OptionsMesh& GetOptions();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
@@ -75,7 +75,7 @@ private:
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
 
-	std::shared_ptr<OptionsMesh> options;
+	OptionsMesh options;
 };
 
 inline ResourceType ResourceMesh::GetType() const
@@ -143,7 +143,7 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
-inline std::shared_ptr<OptionsMesh>& ResourceMesh::GetOptions()
+inline OptionsMesh& ResourceMesh::GetOptions()
 {
 	return options;
 }

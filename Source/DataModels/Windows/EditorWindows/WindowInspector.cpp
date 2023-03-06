@@ -246,18 +246,18 @@ void WindowInspector::DrawTextureOptions()
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		std::shared_ptr<LoadOptionsTexture> loadOptions = resourceTexture->GetLoadOptions();
-		ImGui::Checkbox("MipMap", &loadOptions->mipMap);
+		LoadOptionsTexture loadOptions = resourceTexture->GetLoadOptions();
+		ImGui::Checkbox("MipMap", &loadOptions.mipMap);
 
 		const char* minFilters[] = { "NEAREST", "LINEAR", "NEAREST_MIPMAP_NEAREST", "LINEAR_MIPMAP_NEAREST", "NEAREST_MIPMAP_LINEAR", "LINEAR_MIPMAP_LINEAR" };
-		ImGui::Combo("MinFilter", reinterpret_cast<int*>(&loadOptions->min), minFilters, IM_ARRAYSIZE(minFilters));
+		ImGui::Combo("MinFilter", reinterpret_cast<int*>(&loadOptions.min), minFilters, IM_ARRAYSIZE(minFilters));
 
 		const char* magFilters[] = { "NEAREST", "LINEAR" };
-		ImGui::Combo("MagFilter", reinterpret_cast<int*>(&loadOptions->mag), magFilters, IM_ARRAYSIZE(magFilters));
+		ImGui::Combo("MagFilter", reinterpret_cast<int*>(&loadOptions.mag), magFilters, IM_ARRAYSIZE(magFilters));
 
 		const char* wrapFilters[] = { "REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE" };
-		ImGui::Combo("WrapFilterS", reinterpret_cast<int*>(&loadOptions->wrapS), wrapFilters, IM_ARRAYSIZE(wrapFilters));
-		ImGui::Combo("WrapFilterT", reinterpret_cast<int*>(&loadOptions->wrapT), wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		ImGui::Combo("WrapFilterS", reinterpret_cast<int*>(&loadOptions.wrapS), wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		ImGui::Combo("WrapFilterT", reinterpret_cast<int*>(&loadOptions.wrapT), wrapFilters, IM_ARRAYSIZE(wrapFilters));
 	}
 }
 

@@ -38,7 +38,7 @@ public:
 	bool HasSpecular();
 	bool HasShininessAlpha();
 
-	std::shared_ptr<OptionsMaterial>& GetOptions();
+	OptionsMaterial& GetOptions();
 
 	//Sets
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
@@ -68,7 +68,7 @@ private:
 
 	bool shininessAlpha;
 
-	std::shared_ptr<OptionsMaterial> options;
+	OptionsMaterial options;
 };
 
 inline ResourceType ResourceMaterial::GetType() const
@@ -116,7 +116,7 @@ inline float& ResourceMaterial::GetNormalStrength()
 	return normalStrength;
 }
 
-inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
+inline OptionsMaterial& ResourceMaterial::GetOptions()
 {
 	return options;
 }

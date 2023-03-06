@@ -30,7 +30,7 @@ public:
 	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
 	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
 
-	std::shared_ptr<OptionsModel>& GetOptions();
+	OptionsModel& GetOptions();
 
 	void SetNumMeshes(const unsigned int numMeshes);
 	void SetNumMaterials(const unsigned int numMaterials);
@@ -48,7 +48,7 @@ private:
 	std::vector<std::shared_ptr<ResourceMesh>> meshes;
 	std::vector<std::shared_ptr<ResourceMaterial>> materials;
 
-	std::shared_ptr<OptionsModel> options;
+	OptionsModel options;
 };
 
 inline ResourceType ResourceModel::GetType() const
@@ -76,7 +76,7 @@ inline const std::vector<std::shared_ptr<ResourceMaterial>>& ResourceModel::GetM
 	return materials;
 }
 
-inline std::shared_ptr<OptionsModel>& ResourceModel::GetOptions()
+inline OptionsModel& ResourceModel::GetOptions()
 {
 	return options;
 }

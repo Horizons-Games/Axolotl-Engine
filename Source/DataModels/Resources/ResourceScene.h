@@ -20,7 +20,7 @@ public:
 
 	//Getters
 
-	std::shared_ptr<OptionsScene>& GetOptions();
+	OptionsScene& GetOptions();
 
 	//Setters
 
@@ -29,7 +29,7 @@ protected:
 	void InternalUnload() override {};
 
 private:
-	std::shared_ptr<OptionsScene> options;
+	OptionsScene options;
 };
 
 inline ResourceType ResourceScene::GetType() const
@@ -37,7 +37,7 @@ inline ResourceType ResourceScene::GetType() const
 	return ResourceType::Scene;
 }
 
-inline std::shared_ptr<OptionsScene>& ResourceScene::GetOptions()
+inline OptionsScene& ResourceScene::GetOptions()
 {
 	return options;
 }

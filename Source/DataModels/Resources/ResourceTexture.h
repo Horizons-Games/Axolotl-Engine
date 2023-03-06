@@ -88,8 +88,8 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
-	std::shared_ptr<ImportOptionsTexture>& GetImportOptions();
-	std::shared_ptr<LoadOptionsTexture>& GetLoadOptions();
+	ImportOptionsTexture& GetImportOptions();
+	LoadOptionsTexture& GetLoadOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -120,8 +120,8 @@ private:
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize;
 
-	std::shared_ptr<LoadOptionsTexture> loadOptions;
-	std::shared_ptr<ImportOptionsTexture> importOptions;
+	LoadOptionsTexture loadOptions;
+	ImportOptionsTexture importOptions;
 };
 
 inline ResourceType ResourceTexture::GetType() const
@@ -169,12 +169,12 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 	return pixelsSize;
 }
 
-inline std::shared_ptr<ImportOptionsTexture>& ResourceTexture::GetImportOptions()
+inline ImportOptionsTexture& ResourceTexture::GetImportOptions()
 {
 	return this->importOptions;
 }
 
-inline std::shared_ptr<LoadOptionsTexture>& ResourceTexture::GetLoadOptions()
+inline LoadOptionsTexture& ResourceTexture::GetLoadOptions()
 {
 	return this->loadOptions;
 }

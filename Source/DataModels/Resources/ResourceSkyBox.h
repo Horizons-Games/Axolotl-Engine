@@ -28,7 +28,7 @@ public:
 
 	unsigned int GetGlTexture() const;
 	const std::vector<std::shared_ptr<ResourceTexture>>& GetTextures() const;
-	std::unique_ptr<OptionsSkyBox>& GetOptions();
+	OptionsSkyBox& GetOptions();
 
 	void SetTextures(const std::vector<std::shared_ptr<ResourceTexture>>& textures);
 
@@ -44,7 +44,7 @@ protected:
 private:
 	unsigned int glTexture = 0;
 	std::vector<std::shared_ptr<ResourceTexture>> textures;
-	std::unique_ptr<OptionsSkyBox> options;
+	OptionsSkyBox options;
 
 	unsigned vbo;
 	unsigned vao;
@@ -65,7 +65,7 @@ inline const std::vector<std::shared_ptr<ResourceTexture>>& ResourceSkyBox::GetT
 	return textures;
 }
 
-inline std::unique_ptr<OptionsSkyBox>& ResourceSkyBox::GetOptions()
+inline OptionsSkyBox& ResourceSkyBox::GetOptions()
 {
 	return options;
 }
