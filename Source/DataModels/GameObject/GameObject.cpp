@@ -84,11 +84,15 @@ void GameObject::Update()
 		}
 	}
 
-	if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
+	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
 }
 
 void GameObject::Draw() const
 {
+	if (drawBoundingBoxes)
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
@@ -119,6 +123,10 @@ void GameObject::DrawSelected()
 			{
 				component->Draw();
 			}
+		}
+		if (currentGo->drawBoundingBoxes)
+		{
+			App->debug->DrawBoundingBox(currentGo->objectOBB);
 		}
 	}
 }

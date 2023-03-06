@@ -38,7 +38,10 @@ void WindowInspector::DrawWindowContents()
 		{
 			for (GameObject* child : currentGameObject->GetChildren())
 			{
-				child->setDrawBoundingBoxes(currentGameObject->drawBoundingBoxes);
+				if (child->drawBoundingBoxes == bbDrawn)
+				{
+					child->setDrawBoundingBoxes(!bbDrawn);
+				}
 			}
 
 			bbDrawn = currentGameObject->drawBoundingBoxes;
