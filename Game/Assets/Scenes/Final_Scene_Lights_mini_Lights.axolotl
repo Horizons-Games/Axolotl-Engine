@@ -7,7 +7,6 @@
             "Component": {
                 "type": "Component_Transform",
                 "active": true,
-                "owner": true,
                 "removed": false,
                 "localPos_X": 0.0,
                 "localPos_Y": 0.0,
@@ -32,7 +31,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -49,7 +47,6 @@
                         "Component": {
                             "type": "Component_Light",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "color_light_X": 0.0,
                             "color_light_Y": 0.0,
@@ -72,11 +69,10 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 1.7801225185394288,
+                            "localPos_Y": 3.1074092388153078,
+                            "localPos_Z": -3.4524455070495607,
                             "localRot_X": -2.0999999046325685,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -89,7 +85,6 @@
                         "Component": {
                             "type": "Component_Light",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
@@ -112,11 +107,10 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 0.4000000059604645,
+                            "localPos_X": 0.4799383580684662,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -0.335365355014801,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -137,10 +131,9 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 0.4000000059604645,
-                                        "localPos_Y": 0.0,
+                                        "localPos_X": 0.400146484375,
+                                        "localPos_Y": 0.00002980232056870591,
                                         "localPos_Z": -0.5,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
@@ -154,7 +147,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 1930396126295481169,
                                         "assetPathMaterial": "Assets/Materials/Dollhouse_0.mat",
@@ -173,7 +165,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 2677368248472277506,
                                         "assetPathMesh": "Assets/Meshes/Dollhouse_0.mesh"
@@ -196,7 +187,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": -0.4000000059604645,
                             "localPos_Y": 1.3700000047683716,
@@ -221,7 +211,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -238,7 +227,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 14936340336540137571,
                                         "assetPathMaterial": "Assets/Materials/Clock_0.mat",
@@ -257,7 +245,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 4620592160726720681,
                                         "assetPathMesh": "Assets/Meshes/Clock_0.mesh"
@@ -277,7 +264,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -294,7 +280,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 10764349633326842470,
                                         "assetPathMaterial": "Assets/Materials/Clock_1.mat",
@@ -313,7 +298,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 17045942348431877040,
                                         "assetPathMesh": "Assets/Meshes/Clock_1.mesh"
@@ -336,7 +320,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -361,7 +344,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -378,7 +360,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 282804551845868375,
                                         "assetPathMaterial": "Assets/Materials/Floor_0.mat",
@@ -397,7 +378,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 4026429750188889803,
                                         "assetPathMesh": "Assets/Meshes/Floor_0.mesh"
@@ -417,7 +397,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -434,7 +413,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 282804551845868375,
                                         "assetPathMaterial": "Assets/Materials/Floor_0.mat",
@@ -453,7 +431,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 3170269832477494031,
                                         "assetPathMesh": "Assets/Meshes/Floor_1.mesh"
@@ -473,7 +450,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -490,7 +466,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 282804551845868375,
                                         "assetPathMaterial": "Assets/Materials/Floor_0.mat",
@@ -509,7 +484,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 13431632907607649354,
                                         "assetPathMesh": "Assets/Meshes/Floor_2.mesh"
@@ -532,7 +506,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -557,7 +530,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -574,7 +546,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 11809559784222784863,
                                         "assetPathMaterial": "Assets/Materials/Wall_0.mat",
@@ -593,7 +564,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 14262722261770438965,
                                         "assetPathMesh": "Assets/Meshes/Wall_0.mesh"
@@ -613,7 +583,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
@@ -630,7 +599,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 1961106869890793529,
                                         "assetPathMaterial": "Assets/Materials/Wall_1.mat",
@@ -649,7 +617,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 4953237233625971904,
                                         "assetPathMesh": "Assets/Meshes/Wall_1.mesh"
@@ -672,11 +639,10 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 0.4564743638038635,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -4.131972312927246,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -697,7 +663,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.4000000059604645,
                                         "localPos_Y": 0.0,
@@ -714,7 +679,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 401699368669229610,
                                         "assetPathMaterial": "Assets/Materials/Drawers_0.mat",
@@ -733,7 +697,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 18010142446313621780,
                                         "assetPathMesh": "Assets/Meshes/Drawers_0.mesh"
@@ -756,7 +719,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -781,11 +743,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
-                                        "localPos_Z": 0.0,
+                                        "localPos_Z": 120.41702270507813,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -798,7 +759,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 2796607416192213283,
                                         "assetPathMaterial": "Assets/Materials/Firetruck_0.mat",
@@ -817,7 +777,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 8137390554016953595,
                                         "assetPathMesh": "Assets/Meshes/Firetruck_0.mesh"
@@ -840,14 +799,13 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 1.0,
+                            "localPos_X": 3.1805577278137209,
                             "localPos_Y": 0.0,
-                            "localPos_Z": -1.187999963760376,
-                            "localRot_X": 0.0,
-                            "localRot_Y": -149.5,
-                            "localRot_Z": 0.0,
+                            "localPos_Z": -3.0483291149139406,
+                            "localRot_X": -180.0,
+                            "localRot_Y": -44.821495056152347,
+                            "localRot_Z": -180.0,
                             "localSca_X": 0.0020000000949949028,
                             "localSca_Y": 0.0020000000949949028,
                             "localSca_Z": 0.0020000000949949028
@@ -865,11 +823,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 2.0,
-                                        "localPos_Y": 0.0,
-                                        "localPos_Z": -2.0,
+                                        "localPos_X": -46.35888671875,
+                                        "localPos_Y": -0.0000018626450355441194,
+                                        "localPos_Z": 116.438232421875,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -882,7 +839,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 504889599896973022,
                                         "assetPathMaterial": "Assets/Materials/Hearse_0.mat",
@@ -901,7 +857,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 11534016845416029466,
                                         "assetPathMesh": "Assets/Meshes/Hearse_0.mesh"
@@ -924,11 +879,10 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": -0.2630000114440918,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 1.5,
+                            "localPos_X": 0.7735568284988403,
+                            "localPos_Y": -0.000003181889496772783,
+                            "localPos_Z": -1.8380835056304932,
                             "localRot_X": 0.0,
                             "localRot_Y": 140.0,
                             "localRot_Z": 0.0,
@@ -949,7 +903,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 1.0,
                                         "localPos_Y": 0.0,
@@ -966,7 +919,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 11984537516436003840,
                                         "assetPathMaterial": "Assets/Materials/Player_0.mat",
@@ -985,7 +937,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 16674224333489577728,
                                         "assetPathMesh": "Assets/Meshes/Player_0.mesh"
@@ -1005,11 +956,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 1.0,
+                                        "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
-                                        "localPos_Z": -3.0,
+                                        "localPos_Z": 0.0,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -1022,7 +972,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 6095873543622787844,
                                         "assetPathMaterial": "Assets/Materials/Player_1.mat",
@@ -1041,7 +990,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 12132089223877980186,
                                         "assetPathMesh": "Assets/Meshes/Player_1.mesh"
@@ -1064,11 +1012,10 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 3.847764015197754,
+                            "localPos_Y": -0.0007430237019434571,
+                            "localPos_Z": -2.282200336456299,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -1089,11 +1036,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 1.0,
                                         "localPos_Y": 0.0,
-                                        "localPos_Z": -2.5999999046325685,
+                                        "localPos_Z": -2.6015625,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -1106,7 +1052,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 13970317792987517093,
                                         "assetPathMaterial": "Assets/Materials/Robot_0.mat",
@@ -1125,7 +1070,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 12868569866445907475,
                                         "assetPathMesh": "Assets/Meshes/Robot_0.mesh"
@@ -1148,7 +1092,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.07100000232458115,
                             "localPos_Y": 0.0,
@@ -1173,9 +1116,8 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 2.0,
+                                        "localPos_X": 1007.324951171875,
                                         "localPos_Y": 0.0,
                                         "localPos_Z": 0.0,
                                         "localRot_X": 0.0,
@@ -1190,7 +1132,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 8316083559531675640,
                                         "assetPathMaterial": "Assets/Materials/SpinningTop_0.mat",
@@ -1209,7 +1150,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 13673542342751740382,
                                         "assetPathMesh": "Assets/Meshes/SpinningTop_0.mesh"
@@ -1232,14 +1172,13 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.3610000014305115,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": 1.7365565299987794,
+                            "localPos_Y": 0.005120024085044861,
+                            "localPos_Z": -1.2245501279830933,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 31.452390670776368,
+                            "localRot_Z": -180.0,
                             "localSca_X": 0.0010000000474974514,
                             "localSca_Y": 0.0010000000474974514,
                             "localSca_Z": 0.0010000000474974514
@@ -1257,11 +1196,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 3.0,
+                                        "localPos_X": 0.0,
                                         "localPos_Y": 0.0,
-                                        "localPos_Z": -3.0,
+                                        "localPos_Z": 0.0,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -1274,7 +1212,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 16658430486443951029,
                                         "assetPathMaterial": "Assets/Materials/Zombunny_0.mat",
@@ -1293,7 +1230,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 7848508003409857603,
                                         "assetPathMesh": "Assets/Meshes/Zombunny_0.mesh"
@@ -1313,7 +1249,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 3.0,
                                         "localPos_Y": 0.0,
@@ -1330,7 +1265,6 @@
                                     "Component": {
                                         "type": "Component_Material",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "materialUID": 2010313748147615343,
                                         "assetPathMaterial": "Assets/Materials/Zombunny_1.mat",
@@ -1349,7 +1283,6 @@
                                     "Component": {
                                         "type": "Component_MeshRenderer",
                                         "active": true,
-                                        "owner": true,
                                         "removed": true,
                                         "meshUID": 17314999261736855181,
                                         "assetPathMesh": "Assets/Meshes/Zombunny_1.mesh"
@@ -1372,7 +1305,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -1397,11 +1329,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 2.799999952316284,
-                                        "localPos_Y": 0.10000000149011612,
-                                        "localPos_Z": -3.5,
+                                        "localPos_X": 2.8048324584960939,
+                                        "localPos_Y": 0.09891734272241593,
+                                        "localPos_Z": -3.5448665618896486,
                                         "localRot_X": 184.89999389648438,
                                         "localRot_Y": -72.19999694824219,
                                         "localRot_Z": 0.0,
@@ -1414,7 +1345,6 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 0.9803921580314636,
                                         "color_light_Y": 0.10092270374298096,
@@ -1422,7 +1352,7 @@
                                         "intensity": 1.0,
                                         "lightType": "LightType_Spot",
                                         "radius": 5.0,
-                                        "innerAngle": 0.30000001192092898,
+                                        "innerAngle": 0.2199999988079071,
                                         "outerAngle": 0.30000001192092898
                                     }
                                 }
@@ -1440,14 +1370,13 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 2.7249999046325685,
-                                        "localPos_Y": 0.0,
-                                        "localPos_Z": -3.700000047683716,
-                                        "localRot_X": 180.0,
-                                        "localRot_Y": 24.524999618530275,
-                                        "localRot_Z": 0.0,
+                                        "localPos_X": 2.7827770709991457,
+                                        "localPos_Y": 0.10174863040447235,
+                                        "localPos_Z": -3.529492139816284,
+                                        "localRot_X": -179.99998474121095,
+                                        "localRot_Y": -14.98759937286377,
+                                        "localRot_Z": -9.166490483325518e-12,
                                         "localSca_X": 1.0,
                                         "localSca_Y": 1.0,
                                         "localSca_Z": 1.0
@@ -1457,16 +1386,15 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 0.48615914583206179,
                                         "color_light_Y": 1.0,
                                         "color_light_Z": 0.029411792755126954,
                                         "intensity": 1.0,
                                         "lightType": "LightType_Spot",
-                                        "radius": 5.0,
+                                        "radius": 5.139999866485596,
                                         "innerAngle": 0.28999999165534975,
-                                        "outerAngle": 0.6000000238418579
+                                        "outerAngle": 0.30000001192092898
                                     }
                                 }
                             ],
@@ -1486,7 +1414,6 @@
                         "Component": {
                             "type": "Component_Transform",
                             "active": true,
-                            "owner": true,
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
@@ -1511,7 +1438,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.6499999761581421,
                                         "localPos_Y": 0.5249999761581421,
@@ -1528,7 +1454,6 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 0.9313725233078003,
                                         "color_light_Y": 0.9313725233078003,
@@ -1552,11 +1477,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 3.25,
-                                        "localPos_Y": 0.125,
-                                        "localPos_Z": -1.4249999523162842,
+                                        "localPos_X": 3.212022542953491,
+                                        "localPos_Y": 0.06277386099100113,
+                                        "localPos_Z": -1.3964087963104249,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -1569,7 +1493,6 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 0.019463688135147096,
                                         "color_light_Y": 0.0,
@@ -1593,11 +1516,10 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
-                                        "localPos_X": 3.2249999046325685,
-                                        "localPos_Y": -0.07500000298023224,
-                                        "localPos_Z": -1.4249999523162842,
+                                        "localPos_X": 3.2205240726470949,
+                                        "localPos_Y": 0.11001481860876084,
+                                        "localPos_Z": -1.303275227546692,
                                         "localRot_X": 0.0,
                                         "localRot_Y": 0.0,
                                         "localRot_Z": 0.0,
@@ -1610,7 +1532,6 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 0.6127451062202454,
                                         "color_light_Y": 0.024029217660427095,
@@ -1634,7 +1555,6 @@
                                     "Component": {
                                         "type": "Component_Transform",
                                         "active": true,
-                                        "owner": true,
                                         "removed": false,
                                         "localPos_X": 0.4749999940395355,
                                         "localPos_Y": 1.375,
@@ -1651,7 +1571,6 @@
                                     "Component": {
                                         "type": "Component_Light",
                                         "active": false,
-                                        "owner": true,
                                         "removed": true,
                                         "color_light_X": 1.0,
                                         "color_light_Y": 1.0,

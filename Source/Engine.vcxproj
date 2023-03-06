@@ -150,6 +150,7 @@
     <ClCompile Include="..\External\FontIcons\CustomFont.cpp" />
     <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp" />
     <ClCompile Include="..\External\ImGui\imgui.cpp" />
+    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp" />
     <ClCompile Include="..\External\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\External\ImGui\imgui_draw.cpp" />
     <ClCompile Include="..\External\ImGui\imgui_impl_opengl3.cpp" />
@@ -283,6 +284,7 @@
     <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h" />
     <ClInclude Include="..\External\ImGui\imconfig.h" />
     <ClInclude Include="..\External\ImGui\imgui.h" />
+    <ClInclude Include="..\External\ImGui\ImGuizmo.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_opengl3.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_sdl.h" />
