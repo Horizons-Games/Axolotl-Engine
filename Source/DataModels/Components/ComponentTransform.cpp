@@ -8,7 +8,6 @@
 #include "Scene/Scene.h"
 
 #include "Math/float3x3.h"
-#include "Math/Quat.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
@@ -108,7 +107,7 @@ void ComponentTransform::CalculateMatrices()
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
 		globalPos = globalMatrix.TranslatePart();
-		globalRot = globalMatrix.RotatePart().ToQuat().ToFloat4x4();
+		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
 		globalSca = globalMatrix.GetScale();
 	}
 }
