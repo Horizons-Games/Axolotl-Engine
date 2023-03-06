@@ -33,6 +33,7 @@ private:
 	
 	void InspectSelectedResource();
 	void InitTextureImportOptions();
+	void InitTextureLoadOptions();
 	void DrawTextureOptions();
 	
 	void DrawTextureTable();
@@ -49,14 +50,21 @@ private:
 	bool showLoadScene;
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
-	// --
+
 	GameObject* lastSelectedGameObject = nullptr;
 	std::weak_ptr<Resource> resource;
 
-	//Import Options (Move this to another class? Probably)
+	//Options (Move this to another class? Probably)
 	//Texture
 	bool flipVertical;
 	bool flipHorizontal;
+
+	bool mipMap;
+	int min;
+	int mag;
+	int wrapS;
+	int wrapT;
+	//--
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;

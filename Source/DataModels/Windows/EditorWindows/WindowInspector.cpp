@@ -194,6 +194,7 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
 		{
 		case ResourceType::Texture:
 			InitTextureImportOptions();
+			InitTextureLoadOptions();
 			break;
 		default:
 			break;
@@ -206,6 +207,16 @@ void WindowInspector::InitTextureImportOptions()
 	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
 	flipVertical = resourceTexture->GetImportOptions().flipVertical;
 	flipHorizontal = resourceTexture->GetImportOptions().flipHorizontal;
+}
+
+void WindowInspector::InitTextureLoadOptions()
+{
+	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	mipMap = static_cast<int>(resourceTexture->GetLoadOptions().mipMap);
+	min = static_cast<int>(resourceTexture->GetLoadOptions().min);
+	mag = static_cast<int>(resourceTexture->GetLoadOptions().mag);
+	wrapS = static_cast<int>(resourceTexture->GetLoadOptions().wrapS);
+	wrapT = static_cast<int>(resourceTexture->GetLoadOptions().wrapT);
 }
 
 void WindowInspector::DrawTextureOptions()
@@ -226,38 +237,45 @@ void WindowInspector::DrawTextureOptions()
 	{
 		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
 		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
-
-		ImGui::Text("");
-		ImGui::SameLine(ImGui::GetWindowWidth() - 110);
-		if (ImGui::Button("Revert"))
-		{
-			InitTextureImportOptions();
-		}
-		ImGui::SameLine(ImGui::GetWindowWidth() - 50);
-		if (ImGui::Button("Apply"))
-		{
-			resourceTexture->GetImportOptions().flipVertical = flipVertical;
-			resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
-			resourceTexture->Unload();
-			resourceTexture->SetChanged(true);
-			App->resources->ReimportResource(resourceTexture->GetUID());
-		}
 	}
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		LoadOptionsTexture loadOptions = resourceTexture->GetLoadOptions();
-		ImGui::Checkbox("MipMap", &loadOptions.mipMap);
+		ImGui::Checkbox("MipMap", &mipMap);
 
 		const char* minFilters[] = { "NEAREST", "LINEAR", "NEAREST_MIPMAP_NEAREST", "LINEAR_MIPMAP_NEAREST", "NEAREST_MIPMAP_LINEAR", "LINEAR_MIPMAP_LINEAR" };
-		ImGui::Combo("MinFilter", reinterpret_cast<int*>(&loadOptions.min), minFilters, IM_ARRAYSIZE(minFilters));
+		ImGui::Combo("MinFilter", &min, minFilters, IM_ARRAYSIZE(minFilters));
 
 		const char* magFilters[] = { "NEAREST", "LINEAR" };
-		ImGui::Combo("MagFilter", reinterpret_cast<int*>(&loadOptions.mag), magFilters, IM_ARRAYSIZE(magFilters));
+		ImGui::Combo("MagFilter", &mag, magFilters, IM_ARRAYSIZE(magFilters));
 
 		const char* wrapFilters[] = { "REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE" };
-		ImGui::Combo("WrapFilterS", reinterpret_cast<int*>(&loadOptions.wrapS), wrapFilters, IM_ARRAYSIZE(wrapFilters));
-		ImGui::Combo("WrapFilterT", reinterpret_cast<int*>(&loadOptions.wrapT), wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		ImGui::Combo("WrapFilterS", &wrapS, wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		ImGui::Combo("WrapFilterT", &wrapT, wrapFilters, IM_ARRAYSIZE(wrapFilters));
+
+		
+	}
+	ImGui::Separator();
+	ImGui::Text("");
+	ImGui::SameLine(ImGui::GetWindowWidth() - 110);
+	if (ImGui::Button("Revert"))
+	{
+		InitTextureImportOptions();
+		InitTextureLoadOptions();
+	}
+	ImGui::SameLine(ImGui::GetWindowWidth() - 50);
+	if (ImGui::Button("Apply"))
+	{
+		resourceTexture->GetImportOptions().flipVertical = flipVertical;
+		resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
+		resourceTexture->GetLoadOptions().mipMap = mipMap;
+		resourceTexture->GetLoadOptions().min = (TextureMinFilter)min;
+		resourceTexture->GetLoadOptions().mag = (TextureMagFilter)mag;
+		resourceTexture->GetLoadOptions().wrapS = (TextureWrap)wrapS;
+		resourceTexture->GetLoadOptions().wrapT = (TextureWrap)wrapT;
+		resourceTexture->Unload();
+		resourceTexture->SetChanged(true);
+		App->resources->ReimportResource(resourceTexture->GetUID());
 	}
 }
 
