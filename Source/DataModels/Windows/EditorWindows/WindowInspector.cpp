@@ -164,7 +164,6 @@ void WindowInspector::InspectSelectedResource()
 	if (resourceAsShared)
 	{
 		resourceAsShared->Load();
-		//TODO When user select another resource Unload the last one
 
 		ImGui::Text(resourceAsShared->GetFileName().c_str());
 		switch (resourceAsShared->GetType())
@@ -179,11 +178,6 @@ void WindowInspector::InspectSelectedResource()
 }
 
 void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
-	std::shared_ptr<Resource> lastResource = this->resource.lock();
-	if (lastResource) //Unload of last resource
-	{
-		lastResource->Unload();
-	}
 
 	this->resource = resource;
 
