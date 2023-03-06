@@ -56,7 +56,7 @@ bool CameraGod::Update()
 		RecalculateOffsetPlanes();
 	}
 
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 void CameraGod::Move()

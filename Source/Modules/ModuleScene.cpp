@@ -6,8 +6,11 @@
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -32,6 +35,13 @@ bool ModuleScene::Start()
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
+	}
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
 #else //ENGINE
 	if (loadedScene == nullptr)

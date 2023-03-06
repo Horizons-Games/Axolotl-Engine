@@ -164,17 +164,20 @@ bool ModuleRender::Start()
 
 	//we really need to remove this :)
 #ifdef ENGINE
-	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
-#else //ENGINE
-	UID skyboxUID = App->resources->GetSkyBoxResource();
-#endif
-	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
-		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
 
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
+#else
+	//TODO How do we get skybox in game mode?
+	//We need to store the UID in the JSONscene and then loaded when unserialize?
+	//So should this be moved to the scene?
+	// Search skybox on the lib folder and save the UID of skybox? Then should be only one in ALL the asset/Folder
+	//UID skyboxUID = App->resources->GetSkyBoxResource();
+#endif
 	return true;
 }
 
@@ -337,10 +340,12 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
+	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
+	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 

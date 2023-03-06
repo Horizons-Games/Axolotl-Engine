@@ -43,6 +43,11 @@ enum class TextureType
 #define BRIGHTNESS 1.0f
 
 // Paths -------------------
+
+#define ASSETS_FOLDER "Assets"
+#define LIB_FOLDER "Lib"
+#define ASSETS_PATH "Assets/"
+#define LIB_PATH "Lib/"
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"

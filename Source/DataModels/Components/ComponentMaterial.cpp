@@ -20,10 +20,7 @@
 #endif // ENGINE
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner, true),
-	diffuseColor(float3(1.0f, 1.0f, 0.0f)), specularColor(float3(0.5f, 0.5f, 0.5f)),
-	shininess(512.0f), normalStrength(1.0f), hasShininessAlpha(false),
-	diffuseUID(0), normalUID(0), occlusionUID(0), specularUID(0)
+	: Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
 
@@ -58,9 +55,9 @@ void ComponentMaterial::Draw()
 
 	if(material) 
 	{
+		const float3& diffuseColor = material->GetDiffuseColor();
 		glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
-		std::shared_ptr<ResourceTexture> texture = App->resources->
-										RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -78,8 +75,9 @@ void ComponentMaterial::Draw()
 			glUniform1i(7, 0); //has_diffuse_map
 		}
 
+		const float3& specularColor = material->GetSpecularColor();
 		glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -96,7 +94,7 @@ void ComponentMaterial::Draw()
 			glUniform1i(8, 0); //has_specular_map
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
+		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -106,7 +104,7 @@ void ComponentMaterial::Draw()
 
 			glActiveTexture(GL_TEXTURE7);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1f(6, normalStrength); //normal_strength
+			glUniform1f(6, material->GetNormalStrength()); //normal_strength
 			glUniform1i(11, 1); //has_normal_map
 		}
 		else
@@ -114,8 +112,8 @@ void ComponentMaterial::Draw()
 			glUniform1i(11, 0); //has_normal_map
 		}
 
-		glUniform1f(5, shininess); //shininess
-		glUniform1f(9, hasShininessAlpha); //shininess_alpha
+		glUniform1f(5, material->GetShininess()); //shininess
+		glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 
 		float3 viewPos = App->engineCamera->GetCamera()->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
@@ -139,19 +137,6 @@ void ComponentMaterial::SaveOptions(Json& meta)
 	}
 	meta["materialUID"] = (UID)uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
-
-	meta["diffuseColor_X"] = (float)diffuseColor.x;
-	meta["diffuseColor_Y"] = (float)diffuseColor.y;
-	meta["diffuseColor_Z"] = (float)diffuseColor.z;
-
-	meta["specularColor_X"] = (float)specularColor.x;
-	meta["specularColor_Y"] = (float)specularColor.y;
-	meta["specularColor_Z"] = (float)specularColor.z;
-
-	meta["shininess"] = (float)shininess;
-	meta["normalStrenght"] = (float)normalStrength;
-
-	meta["hasShininessAlpha"] = (bool)hasShininessAlpha;
 }
 
 void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
@@ -173,74 +158,34 @@ void ComponentMaterial::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
-
+#ifdef ENGINE
+	std::string path = meta["assetPathMaterial"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
+		if (resourceMaterial)
+		{
+			SetMaterial(resourceMaterial);
+		}
+	}
+#else
 	UID uidMaterial = meta["materialUID"];
-
-	std::shared_ptr<ResourceMaterial> resourceMaterial = 
-		App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
-
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
 	if(resourceMaterial)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	else 
-	{
-		std::string path = meta["assetPathMaterial"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			uidMaterial = App->resources->ImportResource(path);
-			resourceMaterial = App->resources->RequestResource<ResourceMaterial>(uidMaterial).lock();
-			SetMaterial(resourceMaterial);
-		}
-	}
-
-	diffuseColor.x = (float)meta["diffuseColor_X"];
-	diffuseColor.y = (float)meta["diffuseColor_Y"];
-	diffuseColor.z = (float)meta["diffuseColor_Z"];
-
-	specularColor.x = (float)meta["specularColor_X"];
-	specularColor.y = (float)meta["specularColor_Y"];
-	specularColor.z = (float)meta["specularColor_Z"];
-
-	shininess = (float)meta["shininess"];
-	normalStrength = (float)meta["normalStrenght"];
-
-	hasShininessAlpha = (bool)meta["hasShininessAlpha"];
-}
-
-void ComponentMaterial::SetDiffuseUID(UID& diffuseUID)
-{
-	this->diffuseUID = diffuseUID;
-}
-
-void ComponentMaterial::SetNormalUID(UID& normalUID)
-{
-	this->normalUID = normalUID;
-}
-
-void ComponentMaterial::SetOcclusionUID(UID& occlusionUID)
-{
-	this->occlusionUID = occlusionUID;
-}
-
-void ComponentMaterial::SetSpecularUID(UID& specularUID)
-{
-	this->specularUID = specularUID;
+#endif
 }
 
 void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
 {
 	material = newMaterial;
-
 	
 	if (material)
 	{
 		material->Load();
-		diffuseUID = material->GetDiffuseUID();
-		normalUID = material->GetNormalUID();
-		occlusionUID = material->GetOcclusionrUID();
-		specularUID = material->GetSpecularUID();
 	}
 }
 
@@ -248,26 +193,25 @@ void ComponentMaterial::UnloadTextures()
 {
 	if(material)
 	{
-		std::shared_ptr<ResourceTexture> texture = App->resources->
-										RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
+		texture = material->GetNormal();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).lock();
+		texture = material->GetOcclusion();
 		if (texture)
 		{
 			texture->Unload();
 		}
 
-		texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
@@ -283,28 +227,28 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetDiffuseUID()).lock();
+			texture = material->GetDiffuse();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::NORMAL:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetNormalUID()).lock();
+			texture = material->GetNormal();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::OCCLUSION:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetOcclusionrUID()).lock();
+			texture = material->GetOcclusion();
 			if (texture)
 			{
 				texture->Unload();
 			}
 			break;
 		case TextureType::SPECULAR:
-			texture = App->resources->RequestResource<ResourceTexture>(material->GetSpecularUID()).lock();
+			texture = material->GetSpecular();
 			if (texture)
 			{
 				texture->Unload();
@@ -312,4 +256,49 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 			break;
 		}
 	}
+}
+
+const float3& ComponentMaterial::GetDiffuseColor() const {
+	return material->GetDiffuseColor();
+}
+
+const float3& ComponentMaterial::GetSpecularColor() const {
+	return material->GetSpecularColor();
+}
+
+const float ComponentMaterial::GetShininess() const {
+	return material->GetShininess();
+}
+
+const float ComponentMaterial::GetNormalStrenght() const {
+	return material->GetNormalStrength();
+}
+
+const bool ComponentMaterial::HasShininessAlpha() const {
+	return material->HasShininessAlpha();
+}
+
+void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
+{
+	this->material->SetDiffuseColor(diffuseColor);
+}
+
+void ComponentMaterial::SetSpecularColor(float3& specularColor)
+{
+	this->material->SetSpecularColor(specularColor);
+}
+
+void ComponentMaterial::SetShininess(float shininess)
+{
+	this->material->SetShininess(shininess);
+}
+
+void ComponentMaterial::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
+{
+	this->material->SetShininess(hasShininessAlpha);
 }

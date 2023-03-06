@@ -1,5 +1,8 @@
 #include "ModuleProgram.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include "DataModels/Program/Program.h"
 #include "GL/glew.h"
 
@@ -80,20 +83,8 @@ void ModuleProgram::CreateProgram(unsigned vtxShader, unsigned frgShader)
 
 char* ModuleProgram::LoadShaderSource(const char* shaderFileName)
 {
-	char* data = nullptr;
-	FILE* file = nullptr;
-	fopen_s(&file, shaderFileName, "rb");
-	if (file)
-	{
-		fseek(file, 0, SEEK_END);
-		int size = ftell(file);
-		data = (char*)malloc(size + 1);
-		fseek(file, 0, SEEK_SET);
-		fread(data, 1, size, file);
-		data[size] = 0;
-		fclose(file);
-	}
-
+	char* data;
+	App->fileSystem->Load(shaderFileName, data);
 	return data;
 }
 

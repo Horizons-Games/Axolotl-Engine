@@ -1,7 +1,7 @@
 #pragma once
 #include "Module.h"
 
-constexpr auto ROOTPATH = "Lib/Shaders/";
+constexpr auto ROOTPATH = "Source/Shaders/";
 
 class Program;
 
@@ -36,6 +36,7 @@ public:
 private:
 	unsigned program;
 	std::vector<std::shared_ptr<Program> > programs;
+	std::string rootPath = "../Source/Shaders/";
 };
 
 inline const unsigned ModuleProgram::GetProgram() const

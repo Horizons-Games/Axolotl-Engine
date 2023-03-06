@@ -58,7 +58,6 @@ private:
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
-	//Note (David Martin): Nope, but at 14/2 still alive
 	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer;

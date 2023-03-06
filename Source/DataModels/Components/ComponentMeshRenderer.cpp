@@ -31,10 +31,8 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	if (IsMeshLoaded())
-	{
+	if (mesh)
 		mesh->Unload();
-	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -141,7 +139,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if (IsMeshLoaded())
+	if(mesh)
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -149,7 +147,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
-
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -158,31 +155,32 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
+#ifdef ENGINE
+	std::string path = meta["assetPathMesh"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
+		if (resourceMesh)
+		{
+			SetMesh(resourceMesh);
+		}
+	}
+#else
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->SearchResource<ResourceMesh>(uidMesh);
 	if (resourceMesh)
 	{
 		SetMesh(resourceMesh);
 	}
-	else
-	{
-		std::string path = meta["assetPathMesh"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-			SetMesh(resourceMesh);
-		}
-	}
+#endif
 }
 
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
 
-	if (IsMeshLoaded())
+	if (mesh)
 	{
 		mesh->Load();
 		ComponentBoundingBoxes* boundingBox =
