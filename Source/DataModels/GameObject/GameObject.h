@@ -45,11 +45,14 @@ public:
 	UID GetUID() const;
 	const char* GetName() const;
 	GameObject* GetParent() const;
+
 	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
+
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
+
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
@@ -85,10 +88,10 @@ public:
 	const bool isDrawBoundingBoxes() const;
 
 	void setDrawBoundingBoxes(bool newDraw);
+	bool IsADescendant(const GameObject* descendant);
 
 private:
 	bool IsAChild(const GameObject* child);
-	bool IsADescendant(const GameObject* descendant);
 
 private:
 	UID uid;
