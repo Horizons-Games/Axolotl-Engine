@@ -69,27 +69,6 @@ void ComponentTransform::LoadOptions(Json& meta)
 	CalculateMatrices();
 }
 
-const float3& ComponentTransform::GetGlobalPosition() const
-{
-	//UpdateTransformMatrices();
-
-	return globalPos;
-}
-
-const float4x4& ComponentTransform::GetGlobalRotation() const
-{
-	//UpdateTransformMatrices();
-
-	return globalRot;
-}
-
-const float3& ComponentTransform::GetGlobalScale() const
-{
-	//UpdateTransformMatrices();
-
-	return globalSca;
-}
-
 void ComponentTransform::CalculateMatrices()
 {
 	localMatrix = float4x4::FromTRS(pos, rot, sca);

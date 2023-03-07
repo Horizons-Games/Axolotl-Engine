@@ -67,6 +67,11 @@ inline const float3& ComponentTransform::GetPosition() const
 	return pos;
 }
 
+inline const float3& ComponentTransform::GetGlobalPosition() const
+{
+	return globalPos;
+}
+
 inline const float4x4& ComponentTransform::GetRotation() const 
 {
 	return rot;
@@ -77,9 +82,19 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
+inline const float4x4& ComponentTransform::GetGlobalRotation() const
+{
+	return globalRot;
+}
+
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
+}
+
+inline const float3& ComponentTransform::GetGlobalScale() const
+{
+	return globalSca;
 }
 
 inline const float3& ComponentTransform::GetLocalForward() const
