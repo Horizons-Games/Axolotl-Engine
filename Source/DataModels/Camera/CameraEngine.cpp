@@ -65,7 +65,7 @@ bool CameraEngine::Update()
 
 			//this should probably be encapsulated in a method, or moved to the Physics part of the Engine
 			// --RAYCAST CALCULATION-- //
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN
 				&& App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
 				const WindowScene* windowScene = App->editor->GetScene();
