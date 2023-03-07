@@ -96,11 +96,11 @@ public:
 
 protected:
 
-	LineSegment CreateRaycastFromMousePosition(const WindowScene* windowScene);
+	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
 
-	void CalculateHittedGameObjects(const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
-		const LineSegment& ray);
+	void CalculateHitGameObjects(const LineSegment& ray);
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 
 	CameraType type;
 	std::unique_ptr <Frustum> frustum;
