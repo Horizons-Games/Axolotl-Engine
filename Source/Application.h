@@ -7,13 +7,15 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
 class ModuleProgram;
-class ModuleDebugDraw;
-class ModuleEditor;
-class ModuleEngineCamera;
 class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
+class ModuleCamera;
+#ifdef ENGINE
+class ModuleEditor;
+class ModuleDebugDraw;
+#endif //ENGINE
 
 class Application
 {
@@ -32,18 +34,20 @@ public:
 	float GetDeltaTime() const;
 
 public:
-	std::shared_ptr<ModuleScene> scene;
-	std::shared_ptr<ModuleFileSystem> fileSystem;
-	std::shared_ptr<ModuleRender> renderer;
-	std::shared_ptr<ModuleWindow> window;
-	std::shared_ptr<ModuleInput> input;
-	std::shared_ptr<ModuleProgram> program;
-	std::shared_ptr<ModuleDebugDraw> debug;
-	std::shared_ptr<ModuleEditor> editor;
-	std::shared_ptr<ModuleEngineCamera> engineCamera;
-	std::shared_ptr<ModuleResources> resources;
+	ModuleScene* scene;
+	ModuleFileSystem* fileSystem;
+	ModuleRender* renderer;
+	ModuleWindow* window;
+	ModuleInput* input;
+	ModuleProgram* program;
+	ModuleResources* resources;
+	ModuleCamera* engineCamera;
+#ifdef ENGINE
+	ModuleEditor* editor;
+	ModuleDebugDraw* debug;
+#endif // ENGINE
 private:
-	std::vector<std::shared_ptr<Module> > modules;
+	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;
@@ -54,7 +58,7 @@ extern std::unique_ptr<Application> App;
 
 inline void Application::SetMaxFrameRate(int maxFrames)
 {
-	this->maxFramerate = maxFrames;
+	maxFramerate = maxFrames;
 }
 
 inline int Application::GetMaxFrameRate() const

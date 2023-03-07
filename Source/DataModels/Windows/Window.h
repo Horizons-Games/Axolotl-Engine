@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Globals.h"
-#include <string>
 
 class Window
 {
 public:
-	~Window() {}
+	virtual ~Window() {}
 
 	virtual void Draw(bool& enabled) = 0;
 

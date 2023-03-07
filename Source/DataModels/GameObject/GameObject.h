@@ -1,11 +1,13 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
-#include <memory>
 
 #include "../../FileSystem/UniqueID.h"
+#include <memory>
+#include <iterator>
+
+#include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
 
 class Component;
 class ComponentMeshRenderer;
@@ -14,71 +16,111 @@ class Json;
 enum class ComponentType;
 enum class LightType;
 
-class GameObject : public std::enable_shared_from_this<GameObject>
+enum class StateOfSelection
+{
+	NO_SELECTED,
+	SELECTED
+};
+
+class GameObject
 {
 public:
 	explicit GameObject(const char* name);
-	static std::shared_ptr<GameObject> CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent);
+	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& json, std::vector<std::shared_ptr<GameObject> >& loadedObjects);
+	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
-	void Draw();
+	void Draw() const;
+	void DrawSelected();
+	void DrawHighlight();
 
 	void InitNewEmptyGameObject();
 
-	void AddChild(const std::shared_ptr<GameObject>& child);
-	void RemoveChild(const std::shared_ptr<GameObject>& child);
+	void AddChild(std::unique_ptr<GameObject> child);
+	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
 
 	UID GetUID() const;
 	const char* GetName() const;
-	const std::weak_ptr<GameObject>& GetParent() const;
-	std::vector<std::weak_ptr<GameObject> > GetChildren() const;
-	void SetChildren(const std::vector<std::weak_ptr<GameObject> >& children);
-	const std::vector<std::shared_ptr<Component> >& GetComponents() const;
-	void SetComponents(const std::vector<std::shared_ptr<Component> >& children);
-	template<class T>
-	const std::vector<std::shared_ptr<T>> GetComponentsByType(ComponentType type) const;
+	GameObject* GetParent() const;
+
+	StateOfSelection GetStateOfSelection() const;
+	const std::vector<GameObject*> GetChildren() const;
+	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
+
+	const std::vector<Component*> GetComponents() const;
+	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
+
+	template <typename T,
+		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
+	const std::vector<T*> GetComponentsByType(ComponentType type) const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
 
 	void SetName(const char* newName);
-	void SetParent(const std::weak_ptr<GameObject>& newParent);
+	void SetParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
 
-	std::shared_ptr<Component> CreateComponent(ComponentType type);
-	std::shared_ptr<Component> CreateComponentLight(LightType lightType);
-	bool RemoveComponent(const std::shared_ptr<Component>& component);
-	std::shared_ptr<Component> GetComponent(ComponentType type);
+	Component* CreateComponent(ComponentType type);
+	Component* CreateComponentLight(LightType lightType);
+	bool RemoveComponent(const Component* component);
+	Component* GetComponent(ComponentType type) const;
 
-	std::list<std::weak_ptr<GameObject> > GetGameObjectsInside();
+	std::list<GameObject*> GetGameObjectsInside();
+
+	void MoveUpChild(GameObject* childToMove);
+	void MoveDownChild(GameObject* childToMove);
+
+	void CalculateBoundingBoxes();
+	void Encapsule(const vec* Vertices, unsigned numVertices);
+
+	const AABB& GetLocalAABB();
+	const AABB& GetEncapsuledAABB();
+	const OBB& GetObjectOBB();
+	const bool isDrawBoundingBoxes() const;
+
+	void setDrawBoundingBoxes(bool newDraw);
+	bool IsADescendant(const GameObject* descendant);
 
 private:
-	bool IsAChild(const std::shared_ptr<GameObject>& child);
-	bool IsADescendant(const std::shared_ptr<GameObject>& child);
+	bool IsAChild(const GameObject* child);
 
 private:
-	UID uid = 0;
+	UID uid;
 
-	bool enabled = true;
-	bool active = true;
-	std::string name = "Empty";
-	std::vector<std::shared_ptr<Component> > components = {};
+	bool enabled;
+	bool active;
+	std::string name;
+	std::vector<std::unique_ptr<Component>> components;
+	StateOfSelection stateOfSelection;
 
-	std::shared_ptr<GameObject> parent = nullptr;
-	std::vector<std::shared_ptr<GameObject> > children = {};
+	GameObject* parent;
+	std::vector<std::unique_ptr<GameObject>> children;
+
+	AABB localAABB;
+	AABB encapsuledAABB;
+	OBB objectOBB;
+	bool drawBoundingBoxes;
+
+	friend class WindowInspector;
 };
 
 inline UID GameObject::GetUID() const
 {
 	return uid;
+}
+
+inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
+{
+	this->stateOfSelection = stateOfSelection;
 }
 
 inline bool GameObject::IsEnabled() const
@@ -96,9 +138,14 @@ inline void GameObject::SetName(const char* newName)
 	name = newName;
 }
 
-inline const std::weak_ptr<GameObject>& GameObject::GetParent() const
+inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline StateOfSelection GameObject::GetStateOfSelection() const
+{
+	return stateOfSelection;
 }
 
 inline bool GameObject::IsActive() const
@@ -106,44 +153,78 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline std::vector<std::weak_ptr<GameObject> > GameObject::GetChildren() const
+inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
-	std::vector<std::weak_ptr<GameObject> > weakChildren = {};
-	weakChildren.insert(weakChildren.end(), children.begin(), children.end());
-	return weakChildren;
+	std::vector<GameObject*> rawChildren;
+
+	if(!children.empty())
+		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
+			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
+
+	return rawChildren;
 }
 
-inline void GameObject::SetChildren(const std::vector<std::weak_ptr<GameObject> >& children)
+inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& children)
 {
 	this->children.clear();
-	for (std::weak_ptr<GameObject> newChild : children)
+	for (std::unique_ptr<GameObject>& newChild : children)
 	{
-		this->children.push_back(newChild.lock());
+		this->children.push_back(std::move(newChild));
 	}
 }
 
-inline const std::vector<std::shared_ptr<Component> >& GameObject::GetComponents() const
+inline const std::vector<Component*> GameObject::GetComponents() const
 {
-	return components;
+	std::vector<Component*> rawComponent;
+
+	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
+		[](const std::unique_ptr<Component>& c) { return c.get(); });
+
+	return rawComponent;
 }
 
-inline void GameObject::SetComponents(const std::vector<std::shared_ptr<Component> >& components)
+template <typename T,
+	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
+inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
-	this->components = components;
-}
+	std::vector<T*> components;
 
-template<class T>
-inline const std::vector<std::shared_ptr<T> > GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<std::shared_ptr<T> > components;
-
-	for (std::shared_ptr<Component> component : this->components)
+	for (const std::unique_ptr<Component>& component : this->components)
 	{
 		if (component->GetType() == type)
 		{
-			components.push_back(std::dynamic_pointer_cast<T>(component));
+			components.push_back(dynamic_cast<T*>(component.get()));
 		}
 	}
 
 	return components;
 }
+
+inline const AABB& GameObject::GetLocalAABB()
+{
+	CalculateBoundingBoxes();
+	return localAABB;
+}
+
+inline const AABB& GameObject::GetEncapsuledAABB()
+{
+	CalculateBoundingBoxes();
+	return encapsuledAABB;
+}
+
+inline const OBB& GameObject::GetObjectOBB()
+{
+	CalculateBoundingBoxes();
+	return objectOBB;
+}
+
+inline const bool GameObject::isDrawBoundingBoxes() const
+{
+	return drawBoundingBoxes;
+}
+
+inline void GameObject::setDrawBoundingBoxes(bool newDraw)
+{
+	drawBoundingBoxes = newDraw;
+}
+

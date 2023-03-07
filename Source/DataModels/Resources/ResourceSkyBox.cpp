@@ -6,31 +6,32 @@
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+ResourceSkyBox::ResourceSkyBox(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
+    const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
+    textures(6), vbo(0), vao(0)
+{
+}
+
+ResourceSkyBox::~ResourceSkyBox()
+{
+    Unload();
+}
+
 void ResourceSkyBox::InternalLoad()
 {
     glGenTextures(1, &glTexture);
     glBindTexture(GL_TEXTURE_CUBE_MAP, glTexture);
 
-    for (int i = 0; i < texturesUIDs.size(); ++i)
+    for (int i = 0; i < textures.size(); ++i)
     {
-        std::shared_ptr<ResourceTexture> textI =
-            std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(texturesUIDs[i]).lock());
+        std::shared_ptr<ResourceTexture> textI = textures[i];
 
         if (textI)
         {
             textI->Load();
             std::vector<uint8_t> aux = textI->GetPixels();
-            if (i != 2 && i != 3)
-            {
-                std::reverse(aux.begin(), aux.end());
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, GL_ABGR_EXT, textI->GetImageType(), &(aux[0]));
-            }
-            else
-            {
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
-                    textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
-            }
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
+                textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
         }
 
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -46,20 +47,25 @@ void ResourceSkyBox::InternalLoad()
 
 void ResourceSkyBox::InternalUnload()
 {
-    /*for (UID uid : texturesUIDs)
-    {
-        std::shared_ptr<Resource> texture = App->resources->RequestResource(uid).lock();
-        if (texture)
-        {
-            texture->Unload();
-        }
-    }*/
     //this will keep the capacity to 6
-    texturesUIDs.clear();
+    textures.clear();
     glDeleteTextures(1, &glTexture);
     glTexture = 0;
 }
 
+bool ResourceSkyBox::ChildChanged() const
+{
+    bool result = false;
+    for (std::shared_ptr<ResourceTexture> texture : textures)
+    {
+        if (texture && texture->IsChanged())
+        {
+            result = true;
+            texture->SetChanged(false);
+        }
+    }
+    return result;
+}
 
 
 void ResourceSkyBox::LoadVBO()

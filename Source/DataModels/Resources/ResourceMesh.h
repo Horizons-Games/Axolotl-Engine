@@ -5,23 +5,23 @@
 
 #include "Math/float3.h"
 
-#include <memory>
-
-
 struct OptionsMesh
 {
 };
 
-class ResourceMesh : public Resource
+class ResourceMesh : virtual public Resource
 {
 public:
-	ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	~ResourceMesh() override;
+	ResourceMesh(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
+	virtual ~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
-	void SaveOptions(Json& meta) override {};
-	void LoadOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override {};
 
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
@@ -37,7 +37,7 @@ public:
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
-	std::shared_ptr<OptionsMesh>& GetOptions();
+	OptionsMesh& GetOptions();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
@@ -49,6 +49,8 @@ public:
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
 
+	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
+
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
@@ -58,37 +60,23 @@ private:
 	void CreateEBO();
 	void CreateVAO();
 
-	unsigned int vbo = 0;
-	unsigned int ebo = 0;
-	unsigned int vao = 0;
+	unsigned int vbo;
+	unsigned int ebo;
+	unsigned int vao;
 
 	//parameters for buffer object creation
-	unsigned int numVertices = 0;
-	unsigned int numFaces = 0;
-	unsigned int numIndexes = 0;
-	unsigned int materialIndex = 0;
+	unsigned int numVertices;
+	unsigned int numFaces;
+	unsigned int numIndexes;
+	unsigned int materialIndex;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
 
-	std::shared_ptr<OptionsMesh> options;
+	OptionsMesh options;
 };
-
-inline ResourceMesh::ResourceMesh(UID resourceUID,
-								  const std::string& fileName,
-								  const std::string& assetsPath,
-								  const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	options = std::make_shared<OptionsMesh>();
-}
-
-inline ResourceMesh::~ResourceMesh()
-{
-	this->Unload();
-}
 
 inline ResourceType ResourceMesh::GetType() const
 {
@@ -97,17 +85,17 @@ inline ResourceType ResourceMesh::GetType() const
 
 inline unsigned int ResourceMesh::GetVBO() const
 {
-	return this->vbo;
+	return vbo;
 }
 
 inline unsigned int ResourceMesh::GetEBO() const
 {
-	return this->ebo;
+	return ebo;
 }
 
 inline unsigned int ResourceMesh::GetVAO() const
 {
-	return this->vao;
+	return vao;
 }
 
 inline unsigned int ResourceMesh::GetNumVertices()
@@ -155,9 +143,9 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
-inline std::shared_ptr<OptionsMesh>& ResourceMesh::GetOptions()
+inline OptionsMesh& ResourceMesh::GetOptions()
 {
-	return this->options;
+	return options;
 }
 
 inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
@@ -168,7 +156,7 @@ inline void ResourceMesh::SetNumVertices(unsigned int numVertices)
 inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 {
 	this->numFaces = numFaces;
-	this->numIndexes = numFaces * 3;
+	numIndexes = numFaces * 3;
 }
 
 inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)

@@ -9,7 +9,14 @@
 
 #define COMPONENT_LIGHT "Light"
 
-enum class LightType { UNKNOWN, DIRECTIONAL, POINT, SPOT, AMBIENT };
+enum class LightType 
+{ 
+	UNKNOWN, 
+	DIRECTIONAL, 
+	POINT, 
+	SPOT, 
+	AMBIENT 
+};
 
 const static std::string GetNameByLightType(LightType type);
 const static LightType GetLightTypeByName(const std::string& name);
@@ -19,21 +26,20 @@ class Json;
 class ComponentLight : public Component
 {
 public:
-	ComponentLight(const bool active, const std::shared_ptr<GameObject>& owner);
+	ComponentLight(const bool active, GameObject* owner);
 	ComponentLight(LightType type, bool canBeRemoved);
-	ComponentLight(LightType type, const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved);
+	ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, 
-				   const std::shared_ptr<GameObject>& gameObject, bool canBeRemoved);
+					GameObject* gameObject, bool canBeRemoved);
 
-	virtual ~ComponentLight() {};
+	virtual ~ComponentLight() override;
 
 	void Update() override;
 
 	void Enable() override;
 	void Disable() override;
 
-	virtual void Display() override;
 	virtual void Draw() override {};
 
 	virtual void SaveOptions(Json& meta) override {};
@@ -47,8 +53,8 @@ public:
 	void SetIntensity(float intensity);
 
 protected:
-	float3 color = float3(1.0f, 1.0f, 1.0f);
-	float intensity = 1.f;
+	float3 color;
+	float intensity;
 
 	LightType lightType;
 };
@@ -66,41 +72,6 @@ inline void ComponentLight::Enable()
 inline void ComponentLight::Disable()
 {
 	Component::Disable();
-}
-
-const std::string GetNameByLightType(LightType type)
-{
-	switch (type)
-	{
-	case LightType::DIRECTIONAL:
-		return "LightType_Directional";
-		break;
-	case LightType::POINT:
-		return "LightType_Point";
-		break;
-	case LightType::SPOT:
-		return "LightType_Spot";
-		break;
-	case LightType::AMBIENT:
-		return "LightType_Ambient";
-		break;
-	default:
-		assert(false && "Wrong light type introduced");
-		return "";
-	}
-}
-
-const LightType GetLightTypeByName(const std::string& typeName)
-{
-	if (typeName == "LightType_Directional")
-		return LightType::DIRECTIONAL;
-	if (typeName == "LightType_Point")
-		return LightType::POINT;
-	if (typeName == "LightType_Spot")
-		return LightType::SPOT;
-	if (typeName == "LightType_Ambient")
-		return LightType::AMBIENT;
-	return LightType::UNKNOWN;
 }
 
 inline const float3& ComponentLight::GetColor() const
@@ -126,4 +97,46 @@ inline void ComponentLight::SetColor(const float3& color)
 inline void ComponentLight::SetIntensity(float intensity)
 {
 	this->intensity = intensity;
+}
+
+inline const std::string GetNameByLightType(LightType type)
+{
+	switch (type)
+	{
+	case LightType::DIRECTIONAL:
+		return "LightType_Directional";
+	case LightType::POINT:
+		return "LightType_Point";
+	case LightType::SPOT:
+		return "LightType_Spot";
+	case LightType::AMBIENT:
+		return "LightType_Ambient";
+	default:
+		assert(false && "Wrong light type introduced");
+		return "";
+	}
+}
+
+inline const LightType GetLightTypeByName(const std::string& typeName)
+{
+	if (typeName == "LightType_Directional")
+	{
+		return LightType::DIRECTIONAL;
+	}
+
+	if (typeName == "LightType_Point")
+	{
+		return LightType::POINT;
+	}
+
+	if (typeName == "LightType_Spot")
+	{
+		return LightType::SPOT;
+	}
+
+	if (typeName == "LightType_Ambient")
+	{
+		return LightType::AMBIENT;
+	}
+	return LightType::UNKNOWN;
 }

@@ -37,13 +37,14 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(const std::shared_ptr<Quadtree>& quadtree);
-	void AddToRenderList(const std::shared_ptr<GameObject>& gameObject);
+	void FillRenderList(const Quadtree* quadtree);
+	void AddToRenderList(GameObject* gameObject);
 
-	//void DrawScene(Quadtree* quadtree);
 
 	bool IsSupportedPath(const std::string& modelPath);
-	void DrawQuadtree(const std::shared_ptr<Quadtree>& quadtree);
+	void DrawQuadtree(const Quadtree* quadtree);
+
+	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
@@ -53,17 +54,18 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<std::weak_ptr<GameObject> > gameObjectsToDraw;
-	const std::vector<std::string> modelTypes = { "FBX" };
+	std::vector<const GameObject*> gameObjectsToDraw;
+	const std::vector<std::string> modelTypes;
 
-	std::shared_ptr<Skybox> skybox;
+	//should this be here?
+	std::unique_ptr<Skybox> skybox;
 
-	GLuint frameBuffer = 0;
-	GLuint renderedTexture = 0;
-	GLuint depthRenderBuffer = 0;
+	GLuint frameBuffer;
+	GLuint renderedTexture;
+	GLuint depthStencilRenderbuffer;
 
-	std::string vertexShader = "default_vertex.glsl";
-	std::string fragmentShader = "default_fragment.glsl";
+	std::string vertexShader;
+	std::string fragmentShader;
 
 	friend class ModuleEditor;
 };
@@ -93,3 +95,7 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 	return fragmentShader;
 }
 
+inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
+{
+	return gameObjectsToDraw;
+}

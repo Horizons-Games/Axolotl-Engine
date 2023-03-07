@@ -4,6 +4,8 @@
 class EditorWindow;
 class WindowMainMenu;
 class WindowScene;
+class WindowInspector;
+class Resource;
 
 class ModuleEditor : public Module
 {
@@ -21,14 +23,21 @@ public:
 
 	void Resized();
 
+	const WindowScene* GetScene() const;
+
 	bool IsSceneFocused() const;
+	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 
 private:
-	std::vector<std::string> lines;
-	std::vector<std::shared_ptr<EditorWindow> > windows;
+	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-	std::shared_ptr<WindowScene> scene = nullptr;
 
-	bool windowResized = false;
+	WindowInspector* inspector;
+	WindowScene* scene;
+	bool windowResized;
 };
 
+inline const WindowScene* ModuleEditor::GetScene() const
+{
+	return scene;
+}

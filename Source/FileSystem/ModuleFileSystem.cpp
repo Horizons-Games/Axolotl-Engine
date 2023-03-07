@@ -2,17 +2,23 @@
 
 #include "ModuleFileSystem.h"
 #include "physfs.h"
-#include <iostream>
-#include <cstdio>
 #include "zip.h"
 
+ModuleFileSystem::ModuleFileSystem()
+{
+}
+
+ModuleFileSystem::~ModuleFileSystem()
+{
+}
 
 bool ModuleFileSystem::Init()
 {
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
+    PHYSFS_mount("..", nullptr, 0);
     PHYSFS_setWriteDir(".");
-#if defined(GAME)
+#ifndef ENGINE
     if (!Exists("Assets.zip"))
     {
         struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
@@ -235,7 +241,8 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
     return "";
 }
 
-void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size)
+void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, 
+    unsigned int& size)
 {
 	unsigned int header[4] = { (unsigned int)pathTextures[0].size(), (unsigned int)pathTextures[1].size(), 
                                 (unsigned int)pathTextures[2].size(), (unsigned int)pathTextures[3].size() };
@@ -278,7 +285,10 @@ void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
     {
         std::string newPath(path);
         newPath += '/' + files[i];
-        if (IsDirectory(newPath.c_str())) ZipFolder(zip, newPath.c_str());
+        if (IsDirectory(newPath.c_str()))
+        {
+            ZipFolder(zip, newPath.c_str());
+        }
         else
         {
             zip_entry_open(zip, newPath.c_str());

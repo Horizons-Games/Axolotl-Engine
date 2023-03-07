@@ -1,11 +1,9 @@
 #include "Scene.h"
+
 #include "Application.h"
 
-#include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
-
-#include "DataStructures/Quadtree.h"
 
 #include "FileSystem/ModuleResources.h"
 
@@ -13,19 +11,16 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 
-#include "GameObject/GameObject.h"
-
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMaterial.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
-#include <GL/glew.h>
-
-Scene::Scene()
+Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
+	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
+	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -35,26 +30,26 @@ Scene::~Scene()
 	sceneCameras.clear();
 }
 
-void Scene::FillQuadtree(const std::vector<std::weak_ptr<GameObject> >& gameObjects)
+void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 {
-	for (std::weak_ptr<GameObject> gameObject : gameObjects)
+	for (GameObject* gameObject : gameObjects)
 	{
-		std::shared_ptr<GameObject> asShared = gameObject.lock();
-		if (asShared)
-			sceneQuadTree->Add(asShared);
+		if (gameObject)
+		{
+			sceneQuadTree->Add(gameObject);
+		}
 	}
 }
 
-bool Scene::IsInsideACamera(const OBB& obb)
+bool Scene::IsInsideACamera(const OBB& obb) const
 {
 	// TODO: We have to add all the cameras in the future
-	for (std::weak_ptr<GameObject> cameraGameObject : sceneCameras)
+	for (GameObject* cameraGameObject : sceneCameras)
 	{
-		std::shared_ptr<GameObject> asShared = cameraGameObject.lock();
-		if (asShared)
+		if (cameraGameObject)
 		{
-			std::shared_ptr<ComponentCamera> camera =
-				std::static_pointer_cast<ComponentCamera>(asShared->GetComponent(ComponentType::CAMERA));
+			ComponentCamera* camera =
+				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
 			if (camera && camera->IsInside(obb))
 			{
 				return true;
@@ -64,16 +59,16 @@ bool Scene::IsInsideACamera(const OBB& obb)
 	return false;
 }
 
-bool Scene::IsInsideACamera(const AABB& aabb)
+bool Scene::IsInsideACamera(const AABB& aabb) const
 {
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-std::shared_ptr<GameObject> Scene::CreateGameObject(const char* name, const std::shared_ptr<GameObject>& parent)
+GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 {
 	assert(name != nullptr && parent != nullptr);
 
-	std::shared_ptr<GameObject> gameObject = GameObject::CreateGameObject(name, parent);
+	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
 	sceneGameObjects.push_back(gameObject);
 
@@ -98,101 +93,101 @@ std::shared_ptr<GameObject> Scene::CreateGameObject(const char* name, const std:
 	return gameObject;
 }
 
-std::shared_ptr<GameObject> Scene::CreateCameraGameObject(const char* name, const std::shared_ptr<GameObject>& parent)
+GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 {
-	std::shared_ptr<GameObject> gameObject = CreateGameObject(name, parent);
+	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponent(ComponentType::CAMERA);
 	sceneCameras.push_back(gameObject);
 
 	return gameObject;
 }
 
-void Scene::DestroyGameObject(const std::shared_ptr<GameObject>& gameObject)
+void Scene::DestroyGameObject(GameObject* gameObject)
 {
-	gameObject->GetParent().lock()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<std::weak_ptr<GameObject> >::const_iterator it = sceneGameObjects.begin();
-		it != sceneGameObjects.end();
-		++it)
-	{
-		std::shared_ptr<GameObject> asShared = (*it).lock();
-		if (asShared && asShared == gameObject)
-		{
-			sceneGameObjects.erase(it);
-			return;
-		}
-	}
+	RemoveFatherAndChildren(gameObject);
+	gameObject->GetParent()->RemoveChild(gameObject);
 }
 
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
-	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	resourceModel->Load();
 
-	std::string modelName = model;
-	size_t last_slash = modelName.find_last_of('/');
-	modelName = modelName.substr(last_slash + 1, modelName.size());
+	std::string modelName = App->fileSystem->GetFileName(model);
 
-	std::shared_ptr<GameObject> gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
+	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
-	//Cargas ResourceMesh
-	//Miras el MaterialIndex y cargas el ResourceMaterial del vector de Model con indice materialIndex
-	//Cargas el ComponentMaterial con el ResourceMaterial
-	//Cargas el ComponentMesh con el ResourceMesh
+	// First load the ResourceMesh
+	// Then look MaterialIndex and load the ResourceMaterial of the Model vector with materialIndex's index
+	// Load the ComponentMaterial with the ResourceMaterial
+	// Load the ComponentMesh with the ResourceMesh
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh =
-			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
+		std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(resourceModel->GetMeshes()[i]);
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = 
-			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
+		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(resourceModel->GetMaterials()[materialIndex]);
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
 		meshName = meshName.substr(new_last_slash + 1, meshName.size());
 
-		std::shared_ptr<GameObject> gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
+		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
 
-		std::shared_ptr<ComponentMaterial> materialRenderer =
-			std::static_pointer_cast<ComponentMaterial>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
+		ComponentMaterial* materialRenderer =
+			static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
 		materialRenderer->SetMaterial(material);
 
-		std::shared_ptr<ComponentMeshRenderer> meshRenderer =
-			std::static_pointer_cast<ComponentMeshRenderer>(gameObjectModelMesh
+		ComponentMeshRenderer* meshRenderer =
+			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
 	}
 }
 
-std::weak_ptr<GameObject> Scene::SearchGameObjectByID(UID gameObjectID) const
+GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 {
-	for (std::weak_ptr<GameObject> gameObject : sceneGameObjects)
+	for (GameObject* gameObject : sceneGameObjects)
 	{
-		std::shared_ptr<GameObject> asShared = gameObject.lock();
-		if (asShared && asShared->GetUID() == gameObjectID)
+		if (gameObject && gameObject->GetUID() == gameObjectID)
 		{
 			return gameObject;
 		}
 	}
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
-	return std::weak_ptr<GameObject>();
+	return nullptr;
 }
 
-void Scene::RemoveCamera(const std::shared_ptr<GameObject>& cameraGameObject)
+void Scene::RemoveFatherAndChildren(const GameObject* father)
 {
-	for (std::vector<std::weak_ptr<GameObject> >::iterator it = sceneCameras.begin();
-		it != sceneCameras.end();
-		++it)
+	for (GameObject* child : father->GetChildren())
 	{
-		std::shared_ptr<GameObject> asShared = (*it).lock();
-		if (asShared && cameraGameObject == asShared)
+		RemoveFatherAndChildren(child);
+	}
+
+	Component* component = father->GetComponent(ComponentType::CAMERA);
+	if (component)
+	{
+		for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
+			it != sceneCameras.end(); ++it)
 		{
-			sceneCameras.erase(it);
+			if (father == *it)
+			{
+				sceneCameras.erase(it);
+				return;
+			}
+		}
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
+		it != sceneGameObjects.end(); ++it)
+	{
+		if (*it == father)
+		{
+			sceneGameObjects.erase(it);
 			return;
 		}
 	}
@@ -267,8 +262,8 @@ void Scene::RenderAmbientLight() const
 
 	glUseProgram(program);
 
-	std::shared_ptr<ComponentLight> ambientComp =
-		std::static_pointer_cast<ComponentLight>(ambientLight->GetComponent(ComponentType::LIGHT));
+	ComponentLight* ambientComp =
+		static_cast<ComponentLight*>(ambientLight->GetComponent(ComponentType::LIGHT));
 	float3 ambientValue = ambientComp->GetColor();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
@@ -282,10 +277,10 @@ void Scene::RenderDirectionalLight() const
 
 	glUseProgram(program);
 
-	std::shared_ptr<ComponentTransform> dirTransform =
-		std::static_pointer_cast<ComponentTransform>(directionalLight->GetComponent(ComponentType::TRANSFORM));
-	std::shared_ptr<ComponentLight> dirComp =
-		std::static_pointer_cast<ComponentLight>(directionalLight->GetComponent(ComponentType::LIGHT));
+	ComponentTransform* dirTransform =
+		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
+	ComponentLight* dirComp =
+		static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
 
 	float3 directionalDir = dirTransform->GetGlobalForward();
 	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
@@ -346,24 +341,23 @@ void Scene::UpdateScenePointLights()
 {
 	pointLights.clear();
 
-	std::vector<std::weak_ptr<GameObject> > children = GetSceneGameObjects();
+	std::vector<GameObject*> children = GetSceneGameObjects();
 
-	for (std::weak_ptr<GameObject> child : children)
+	for (GameObject* child : children)
 	{
-		std::shared_ptr<GameObject> childAsShared = child.lock();
-		if (childAsShared)
+		if (child)
 		{
-			std::vector<std::shared_ptr<ComponentLight> > components =
-				childAsShared->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+			std::vector<ComponentLight*> components =
+				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 			if (!components.empty())
 			{
 				if (components[0]->GetLightType() == LightType::POINT)
 				{
-					std::shared_ptr<ComponentPointLight> pointLightComp =
-						std::static_pointer_cast<ComponentPointLight>(components[0]);
-					std::shared_ptr<ComponentTransform> transform =
-						std::static_pointer_cast<ComponentTransform>(components[0]
-							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
+					ComponentPointLight* pointLightComp =
+						static_cast<ComponentPointLight*>(components[0]);
+					ComponentTransform* transform =
+						static_cast<ComponentTransform*>(components[0]
+							->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
 					PointLight pl;
 					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
@@ -380,24 +374,23 @@ void Scene::UpdateSceneSpotLights()
 {
 	spotLights.clear();
 
-	std::vector<std::weak_ptr<GameObject> > children = GetSceneGameObjects();
+	std::vector<GameObject*> children = GetSceneGameObjects();
 
-	for (std::weak_ptr<GameObject> child : children)
+	for (GameObject* child : children)
 	{
-		std::shared_ptr<GameObject> childAsShared = child.lock();
-		if (childAsShared)
+		if (child)
 		{
-			std::vector<std::shared_ptr<ComponentLight> > components =
-				childAsShared->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+			std::vector<ComponentLight*> components =
+				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 			if (!components.empty())
 			{
 				if (components[0]->GetLightType() == LightType::SPOT)
 				{
-					std::shared_ptr<ComponentSpotLight> spotLightComp =
-						std::static_pointer_cast<ComponentSpotLight>(components[0]);
-					std::shared_ptr<ComponentTransform> transform =
-						std::static_pointer_cast<ComponentTransform>(components[0]
-							->GetOwner().lock()->GetComponent(ComponentType::TRANSFORM));
+					ComponentSpotLight* spotLightComp =
+						static_cast<ComponentSpotLight*>(components[0]);
+					ComponentTransform* transform =
+						static_cast<ComponentTransform*>(components[0]
+							->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
 					SpotLight sl;
 					sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
@@ -413,26 +406,21 @@ void Scene::UpdateSceneSpotLights()
 	}
 }
 
-void Scene::GenerateNewQuadtree()
-{
-	sceneQuadTree = std::make_shared<Quadtree>(rootQuadtreeAABB);
-}
-
 void Scene::InitNewEmptyScene()
 {
 	uid = UniqueID::GenerateUID();
 
-	root = std::make_shared<GameObject>("New Scene");
+	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
-	sceneGameObjects.push_back(root);
+	sceneGameObjects.push_back(root.get());
 
-	sceneQuadTree = std::make_shared<Quadtree>(rootQuadtreeAABB);
+	sceneQuadTree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
-	ambientLight = CreateGameObject("Ambient_Light", root);
+	ambientLight = CreateGameObject("Ambient_Light", root.get());
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
 
-	directionalLight = CreateGameObject("Directional_Light", root);
+	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
 	InitLights();
@@ -449,4 +437,19 @@ void Scene::InitLights()
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
+}
+
+void Scene::SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree)
+{
+	sceneQuadTree = std::move(quadtree);
+}
+
+std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
+{
+	return std::move(sceneQuadTree);
+}
+
+void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
+{
+	root = std::move(newRoot);
 }

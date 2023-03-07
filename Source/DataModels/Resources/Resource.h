@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "FileSystem/UniqueID.h"
 
 class Json;
@@ -32,20 +31,25 @@ public:
 
 	void Load();
 	void Unload();
-	virtual void SaveOptions(Json& meta) = 0;
-	virtual void LoadOptions(Json& meta) = 0;
+	virtual void SaveImporterOptions(Json& meta) = 0;
+	virtual void LoadImporterOptions(Json& meta) = 0;
 
 	bool IsLoaded() const;
 
 	bool IsChanged() const;
 	void SetChanged(bool changed);
 
+
 protected:
-	Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
+	Resource(UID resourceUID, 
+		const std::string& fileName, 
+		const std::string& assetsPath, 
+		const std::string& libraryPath);
 
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
 
+	virtual bool ChildChanged() const;
 	bool changed = false;
 
 private:
@@ -58,12 +62,12 @@ private:
 
 inline bool Resource::IsLoaded() const
 {
-	return this->loaded;
+	return loaded;
 }
 
 inline bool Resource::IsChanged() const
 {
-	return this->changed;
+	return changed;
 }
 
 inline void Resource::SetChanged(bool changed)
@@ -71,7 +75,15 @@ inline void Resource::SetChanged(bool changed)
 	this->changed = changed;
 }
 
-inline Resource::Resource(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath):
+inline bool Resource::ChildChanged() const
+{
+	return false;
+}
+
+inline Resource::Resource(	UID resourceUID, 
+							const std::string& fileName, 
+							const std::string& assetsPath, 
+							const std::string& libraryPath):
 	uid(resourceUID),
 	fileName(fileName),
 	assetsPath(assetsPath),
@@ -101,9 +113,9 @@ inline const std::string& Resource::GetLibraryPath() const
 
 inline void Resource::Load()
 {
-	if (!loaded)
+	if (!loaded || ChildChanged())
 	{
-		this->InternalLoad();
+		InternalLoad();
 		loaded = true;
 	}
 }
@@ -112,7 +124,7 @@ inline void Resource::Unload()
 {
 	if (loaded)
 	{
-		this->InternalUnload();
+		InternalUnload();
 		loaded = false;
 	}
 }
