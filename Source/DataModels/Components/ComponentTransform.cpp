@@ -116,10 +116,10 @@ void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
 
-	if (this->GetOwner()->GetChildren().empty())
+	if (GetOwner()->GetChildren().empty())
 		return;
 
-	for (GameObject* child : this->GetOwner()->GetChildren())
+	for (GameObject* child : GetOwner()->GetChildren())
 	{
 		ComponentTransform* childTransform = static_cast<ComponentTransform*>
 			(child->GetComponent(ComponentType::TRANSFORM));
