@@ -29,8 +29,8 @@ enum class TextureType
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
-#define QUADRANT_CAPACITY 10
-#define MIN_CUBE_SIZE 5.0f
+#define QUADRANT_CAPACITY 30
+#define MIN_CUBE_SIZE 20.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920
@@ -71,6 +71,6 @@ enum class TextureType
 #define GENERAL_BINARY_EXTENSION ".bin"
 
 // QuadTree standard -------
-#define QUADTREE_INITIAL_SIZE 200
-#define QUADTREE_INITIAL_ALTITUDE 1000
+#define QUADTREE_INITIAL_SIZE 50
+#define QUADTREE_INITIAL_ALTITUDE 10
 
