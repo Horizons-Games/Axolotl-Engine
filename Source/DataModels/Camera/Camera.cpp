@@ -308,6 +308,7 @@ void Camera::SetPlaneDistance(float zNear, float zFar)
 
 void Camera::SetPosition(const float3& position)
 {
+	this->position = position;
 	frustum->SetPos(position);
 }
 
@@ -326,55 +327,65 @@ void Camera::SetLookAt(const float3& lookAt)
 
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
-
 }
 
-LineSegment Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene)
+bool Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
+#ifdef ENGINE
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 
 	float2 mousePositionInScene = App->input->GetMousePosition();
-	mousePositionInScene.x -= startPosScene.x;
-	mousePositionInScene.y -= startPosScene.y;
 
-	float width = windowScene->GetAvailableRegion().x;
-	float height = windowScene->GetAvailableRegion().y;
-
-	float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
-	float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
-
-	return frustum->UnProjectLineSegment(normalizedX, normalizedY);
-}
-
-void Camera::CalculateHittedGameObjects(const LineSegment& ray)
-{
-	std::vector<GameObject*> existingGameObjects =
-		App->scene->GetLoadedScene()->GetSceneGameObjects();
-	std::map<float, GameObject*> hittedGameObjects;
-
-	for (GameObject* currentGameObject : existingGameObjects)
+	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePositionInScene.x, mousePositionInScene.y))
 	{
-		if (currentGameObject)
+		if (mousePositionInScene.x > startPosScene.x && mousePositionInScene.x < endPosScene.x
+			&& mousePositionInScene.y > startPosScene.y && mousePositionInScene.y < endPosScene.y)
 		{
-			float nearDistance, farDistance;
+			mousePositionInScene.x -= startPosScene.x;
+			mousePositionInScene.y -= startPosScene.y;
 
-			bool hit = ray.Intersects(currentGameObject->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+			float width = windowScene->GetAvailableRegion().x;
+			float height = windowScene->GetAvailableRegion().y;
 
-			if (hit && currentGameObject->IsActive())
-			{
-				hittedGameObjects[nearDistance] = currentGameObject;
-			}
+			float normalizedX = -1.0f + 2.0f * mousePositionInScene.x / width;
+			float normalizedY = 1.0f - 2.0f * mousePositionInScene.y / height;
+
+
+			ray = frustum->UnProjectLineSegment(normalizedX, normalizedY);
+
+			return true;
 		}
 	}
-
-	//ENGINE_LOG(std::to_string(hittedGameObjects.size()).c_str());
-	SetNewSelectedGameObject(hittedGameObjects, ray);
+#endif //ENGINE
+	return false;
 }
 
-void Camera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hittedGameObjects,
-	const LineSegment& ray)
+void Camera::CalculateHitGameObjects(const LineSegment& ray)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+	CalculateHitSelectedGo(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+
+	SetNewSelectedGameObject(hitGameObjects, ray);
+}
+
+void Camera::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+{
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	float nearDistance, farDistance;
+
+	bool hit = ray.Intersects(selectedGo->GetEncapsuledAABB(), nearDistance, farDistance);
+
+	if (hit && selectedGo->IsActive())
+	{
+		hitGameObjects[nearDistance] = selectedGo;
+	}
+}
+
+void Camera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
 {
 	GameObject* newSelectedGameObject = nullptr;
 
@@ -382,35 +393,40 @@ void Camera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hitted
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
 
-	for (const std::pair<float, GameObject*>& hittedGameObject : hittedGameObjects)
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
-		GameObject* actualGameObject = hittedGameObject.second;
+		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
-			std::shared_ptr<ResourceMesh> gameObjectMeshAsShared = componentMeshRenderer->GetMesh();
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
-			if (!gameObjectMeshAsShared)
+			if (!goMeshAsShared)
 			{
 				continue;
 			}
 
-			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
 				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-
-			const std::vector<Triangle>& meshTriangles = gameObjectMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 			for (const Triangle& triangle : meshTriangles)
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
 
-				if (!hit) continue;
-				if (thisDistance >= minCurrentDistance) continue;
+				if (!hit)
+				{
+					continue;
+				}
 
-				// Only save a gameObject when any of its triangles is hit and it is the nearest triangle to the frustum
-				newSelectedGameObject = actualGameObject;
+				if (thisDistance >= minCurrentDistance)
+				{
+					continue;
+				}
+
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
 			}
 		}
@@ -422,5 +438,6 @@ void Camera::SetNewSelectedGameObject(const std::map<float, GameObject*>& hitted
 			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 		App->scene->SetSelectedGameObject(newSelectedGameObject);
 		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }
