@@ -17,24 +17,24 @@ public:
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool InQuadrant(GameObject* gameObject);
+	bool InQuadrant(const GameObject* gameObject);
 
-	void Add(GameObject* gameObject);
-	void AddGameObjectAndChildren(GameObject* gameObject);
+	void Add(const GameObject* gameObject);
+	void AddGameObjectAndChildren(const GameObject* gameObject);
 	bool Remove(const GameObject* gameObject);
 	void RemoveGameObjectAndChildren(const GameObject* gameObject);
 	bool SmartRemove();
 
 	void Subdivide();
-	void RedistributeGameObjects(GameObject* gameObject);
+	void RedistributeGameObjects(const GameObject* gameObject);
 
-	void ExpandToFit(GameObject* gameObject);
+	void ExpandToFit(const GameObject* gameObject);
 	void AdjustHeightToNodes(float minY, float maxY);
 
 	void ResetChildren();
 
-	const std::set<GameObject*>& GetGameObjects() const;
-	void GetFamilyObjects(std::set<GameObject*>& familyGameObjects);
+	const std::set<const GameObject*>& GetGameObjects() const;
+	void GetFamilyObjects(std::set<const GameObject*>& familyGameObjects);
 
 	const Quadtree* GetFrontRightNode() const;
 	const Quadtree* GetFrontLeftNode() const;
@@ -53,13 +53,14 @@ public:
 	const AABB& GetBoundingBox() const;
 	void SetBoundingBox(AABB boundingBox);
 
-	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
+	std::list<const GameObject*> GetAllGameObjects(const GameObject* gameObject);
 
 	// Speeding raycast function, this should be changed to an iterative function instead of a recursive function
 	void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 
 private:
-	std::set<GameObject*> gameObjects;
+
+	std::set<const GameObject*> gameObjects;
 	AABB boundingBox;
 
 	int quadrantCapacity;
@@ -106,7 +107,7 @@ inline float Quadtree::GetMinQuadrantSideSize() const
 	return minQuadrantSideSize;
 }
 
-inline const std::set<GameObject*>& Quadtree::GetGameObjects() const
+inline const std::set<const GameObject*>& Quadtree::GetGameObjects() const
 {
 	return gameObjects;
 }
