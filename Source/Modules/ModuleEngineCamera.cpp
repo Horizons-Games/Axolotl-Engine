@@ -14,6 +14,7 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
@@ -154,7 +155,8 @@ update_status ModuleEngineCamera::Update()
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				const OBB& obb = App->scene->GetSelectedGameObject()->GetObjectOBB();
+				const OBB& obb = static_cast<ComponentBoundingBoxes*>(
+					App->scene->GetSelectedGameObject()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
 				focusFlag = false;
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
@@ -424,8 +426,10 @@ void ModuleEngineCamera::Focus(GameObject* gameObject)
 	{
 		if (object)
 		{
-			outputArray.push_back(object->GetEncapsuledAABB().minPoint);
-			outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			ComponentBoundingBoxes* boundingBox =
+				static_cast<ComponentBoundingBoxes*>(object->GetComponent(ComponentType::BOUNDINGBOX));
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
+			outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
 		}
 	}
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
@@ -784,8 +788,10 @@ void ModuleEngineCamera::CalculateHitSelectedGo(std::map<float, const GameObject
 {
 	GameObject* selectedGo = App->scene->GetSelectedGameObject();
 	float nearDistance, farDistance;
+	ComponentBoundingBoxes* componentBoundingBox = static_cast<ComponentBoundingBoxes*>
+		(selectedGo->GetComponent(ComponentType::BOUNDINGBOX));
 
-	bool hit = ray.Intersects(selectedGo->GetEncapsuledAABB(), nearDistance, farDistance);
+	bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance);
 
 	if (hit && selectedGo->IsActive())
 	{

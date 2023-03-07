@@ -38,7 +38,7 @@ public:
 	const std::string& GetFragmentShader() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	void AddToRenderList(const GameObject* gameObject);
 
 
 	bool IsSupportedPath(const std::string& modelPath);

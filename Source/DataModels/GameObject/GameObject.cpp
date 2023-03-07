@@ -4,6 +4,7 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentBoundingBoxes.h"
 #include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
@@ -12,7 +13,6 @@
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
-#include "Modules/ModuleDebugDraw.h"
 
 #include "Scene/Scene.h"
 
@@ -20,16 +20,12 @@
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
-	drawBoundingBoxes(false)
+	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
 {
 }
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true), 
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
-	objectOBB({ localAABB }), drawBoundingBoxes(false)
+	uid(UniqueID::GenerateUID()), enabled(true), active(true)
 {
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
 	active = (parent->IsEnabled() && parent->IsActive());
@@ -37,7 +33,6 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	// This should not be here
 	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 	bool hadSpotLight = false, hadPointLight = false;
 	for (ComponentLight* light : lights)
@@ -52,13 +47,11 @@ GameObject::~GameObject()
 			break;
 		}
 	}
-	//
-
+	
 	components.clear();
 
 	children.clear();
 
-	// This should not be here
 	Scene* currentScene = App->scene->GetLoadedScene();
 
 	if (hadSpotLight)
@@ -71,7 +64,6 @@ GameObject::~GameObject()
 		currentScene->UpdateScenePointLights();
 		currentScene->RenderPointLights();
 	}
-	//
 }
 
 void GameObject::Update()
@@ -83,16 +75,10 @@ void GameObject::Update()
 			component->Update();
 		}
 	}
-
-	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
 }
 
 void GameObject::Draw() const
 {
-	if (drawBoundingBoxes)
-	{
-		App->debug->DrawBoundingBox(objectOBB);
-	}
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
@@ -123,10 +109,6 @@ void GameObject::DrawSelected()
 			{
 				component->Draw();
 			}
-		}
-		if (currentGo->drawBoundingBoxes)
-		{
-			App->debug->DrawBoundingBox(currentGo->objectOBB);
 		}
 	}
 }
@@ -237,6 +219,7 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 void GameObject::InitNewEmptyGameObject()
 {
 	CreateComponent(ComponentType::TRANSFORM);
+	CreateComponent(ComponentType::BOUNDINGBOX);
 }
 
 void GameObject::SetParent(GameObject* newParent)
@@ -389,6 +372,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_unique<ComponentLight>(true, this);
+			break;
+		}
+
+		case ComponentType::BOUNDINGBOX:
+		{
+			newComponent = std::make_unique<ComponentBoundingBoxes>(true, this);
 			break;
 		}
 
@@ -564,18 +553,4 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 			break;
 		}
 	}
-}
-
-void GameObject::CalculateBoundingBoxes()
-{
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	objectOBB = localAABB;
-	objectOBB.Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
-}
-
-void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
-{
-	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
 }

@@ -201,6 +201,7 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
@@ -232,6 +233,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp" />
@@ -370,6 +372,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
+    <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
     <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
@@ -402,6 +405,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h" />

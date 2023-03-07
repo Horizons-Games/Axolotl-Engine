@@ -15,6 +15,7 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
+#include "Components/ComponentBoundingBoxes.h"
 
 #include "optick.h"
 
@@ -343,7 +344,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
+		const std::set<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
@@ -378,15 +379,18 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(GameObject* gameObject)
+void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
 
-	if (App->engineCamera->IsInside(gameObject->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
+	ComponentBoundingBoxes* boxes =
+		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
+
+	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
