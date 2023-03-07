@@ -7,7 +7,7 @@
 
 #include "Application.h"
 
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -19,6 +19,10 @@
 
 #include "GL/glew.h"
 
+#ifdef ENGINE
+#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#endif // ENGINE
+
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
 	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
@@ -26,10 +30,8 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
-	if (IsMeshLoaded())
-	{
+	if (mesh)
 		mesh->Unload();
-	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -39,7 +41,16 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	if (IsMeshLoaded()) //pointer not empty
+	//this should be in an EditorComponent class, or something of the like
+	//but for now have it here
+#ifdef ENGINE
+	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
+	{
+		mesh = nullptr;
+	}
+#endif // ENGINE
+
+	if (this->IsMeshLoaded()) //pointer not empty
 	{
 		if (!mesh->IsLoaded())
 		{
@@ -47,8 +58,8 @@ void ComponentMeshRenderer::Draw()
 		}
 
 		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -89,8 +100,8 @@ void ComponentMeshRenderer::DrawHighlight()
 		Program* programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared->GetId();
-		const float4x4& view = App->engineCamera->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -125,7 +136,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if (IsMeshLoaded())
+	if(mesh)
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -133,7 +144,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
-
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -142,31 +152,32 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
+#ifdef ENGINE
+	std::string path = meta["assetPathMesh"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
+		if (resourceMesh)
+		{
+			SetMesh(resourceMesh);
+		}
+	}
+#else
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-
+	std::shared_ptr<ResourceMesh> resourceMesh = App->resources->SearchResource<ResourceMesh>(uidMesh);
 	if (resourceMesh)
 	{
 		SetMesh(resourceMesh);
 	}
-	else
-	{
-		std::string path = meta["assetPathMesh"];
-		bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-		if (resourceExists) 
-		{
-			uidMesh = App->resources->ImportResource(path);
-			resourceMesh = App->resources->RequestResource<ResourceMesh>(uidMesh).lock();
-			SetMesh(resourceMesh);
-		}
-	}
+#endif
 }
 
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
 
-	if (IsMeshLoaded())
+	if (mesh)
 	{
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());

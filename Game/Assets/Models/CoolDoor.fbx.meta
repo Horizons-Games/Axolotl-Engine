@@ -1,0 +1,20 @@
+{
+    "UID": 14064112436801199515,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CoolDoor_0.mesh",
+        "Assets/Meshes/CoolDoor_1.mesh",
+        "Assets/Meshes/CoolDoor_2.mesh",
+        "Assets/Meshes/CoolDoor_3.mesh",
+        "Assets/Meshes/CoolDoor_4.mesh",
+        "Assets/Meshes/CoolDoor_5.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CoolDoor_0.mat",
+        "Assets/Materials/CoolDoor_1.mat",
+        "Assets/Materials/CoolDoor_2.mat",
+        "Assets/Materials/CoolDoor_3.mat",
+        "Assets/Materials/CoolDoor_4.mat",
+        "Assets/Materials/CoolDoor_5.mat"
+    ]
+}

@@ -101,6 +101,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
                 {
                     selectedParent->MoveUpChild(gameObject);
+                    App->scene->UpdateGameObjectAndDescendants(gameObject);
                 }
             }
 
@@ -109,6 +110,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
                 {
                     selectedParent->MoveDownChild(gameObject);
+                    App->scene->UpdateGameObjectAndDescendants(gameObject);
                 }
             }
         }
@@ -158,6 +160,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             if (draggedGameObject)
             {
                 draggedGameObject->SetParent(gameObject);
+                App->scene->UpdateGameObjectAndDescendants(gameObject);
             }
         }
 

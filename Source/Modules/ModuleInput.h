@@ -32,6 +32,7 @@ public:
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
 	void SetMousePositionY(int mouseY);
@@ -57,6 +58,7 @@ private:
 	int mousePosY;
 
 	bool mouseWheelScrolled;
+	bool inFocus;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -108,6 +110,11 @@ inline float2 ModuleInput::GetMouseWheel() const
 inline float2 ModuleInput::GetMousePosition() const
 {
 	return float2((float)mousePosX, (float)mousePosY);
+}
+
+inline bool ModuleInput::GetInFocus() const
+{
+	return inFocus;
 }
 
 inline void ModuleInput::SetMousePositionX(int mouseX)

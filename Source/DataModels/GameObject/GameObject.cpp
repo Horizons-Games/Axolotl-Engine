@@ -89,10 +89,12 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
+#ifdef ENGINE
 	if (drawBoundingBoxes)
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}
+#endif // ENGINE
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
@@ -124,10 +126,13 @@ void GameObject::DrawSelected()
 				component->Draw();
 			}
 		}
+#ifdef ENGINE
 		if (currentGo->drawBoundingBoxes)
 		{
 			App->debug->DrawBoundingBox(currentGo->objectOBB);
 		}
+
+#endif // ENGINE
 	}
 }
 
