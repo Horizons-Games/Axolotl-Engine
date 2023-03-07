@@ -1,0 +1,8 @@
+{
+    "UID": 11392243938869283587,
+    "Type": "Materials",
+    "DiffuseAssetPath": "Assets/Textures/Light_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Light_Normal.png",
+    "OcclusionAssetPath": "",
+    "SpecularAssetPath": ""
+}

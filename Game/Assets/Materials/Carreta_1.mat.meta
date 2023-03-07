@@ -1,0 +1,8 @@
+{
+    "UID": 13506470197605576612,
+    "Type": "Materials",
+    "DiffuseAssetPath": "Assets/Textures/BARROW_BARROW_MATERIAL_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/BARROW_BARROW_MATERIAL_Normal.png",
+    "OcclusionAssetPath": "",
+    "SpecularAssetPath": "Assets/Textures/PANEL_v1_lambert1_Normal.png"
+}

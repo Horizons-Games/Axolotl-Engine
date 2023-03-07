@@ -1,0 +1,14 @@
+{
+    "UID": 5482500257966482815,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HalfArch_0.mesh",
+        "Assets/Meshes/HalfArch_1.mesh",
+        "Assets/Meshes/HalfArch_2.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HalfArch_0.mat",
+        "Assets/Materials/HalfArch_1.mat",
+        "Assets/Materials/HalfArch_2.mat"
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "UID": 8786605496219337190,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/StartingRoom_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/StartingRoom_0.mat"
+    ]
+}
