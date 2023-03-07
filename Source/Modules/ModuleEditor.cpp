@@ -56,11 +56,11 @@ bool ModuleEditor::Init()
 
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
+	windows.push_back(std::make_unique<WindowResources>());
 	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
-	windows.push_back(std::make_unique<WindowResources>());
 	windows.push_back(std::make_unique<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 

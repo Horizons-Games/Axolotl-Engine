@@ -241,7 +241,7 @@ void CameraEngine::Focus(const OBB& obb)
 	float radius = boundingSphere.r;
 	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum->HorizontalFov();
-	float camDistance = radius / sin(fov / 2.0);
+	float camDistance = radius / float(sin(fov / 2.0));
 	vec camDirection = (boundingSphere.pos - frustum->Pos()).Normalized();
 
 	//position = boundingSphere.pos - (camDirection * camDistance);
@@ -293,8 +293,8 @@ void CameraEngine::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		App->input->SetMouseMotionX(float(mouseX - lastMouseX));
+		App->input->SetMouseMotionY(float(mouseY - lastMouseY));
 		mouseWarped = false;
 	}
 	int width, height;
