@@ -169,6 +169,6 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (IsMeshLoaded())
 	{
 		mesh->Load();
-		this->GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }

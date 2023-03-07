@@ -569,7 +569,7 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
-		static_cast<ComponentTransform*>((this)->GetComponent(ComponentType::TRANSFORM));
+		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
 	objectOBB = localAABB;
 	objectOBB.Transform(transform->GetGlobalMatrix());
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
