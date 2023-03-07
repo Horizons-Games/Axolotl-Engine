@@ -12,7 +12,6 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
@@ -114,8 +113,7 @@ bool CameraEngine::Update()
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				const OBB& obb = static_cast<ComponentBoundingBoxes*>(
-					App->scene->GetSelectedGameObject()->GetComponent(ComponentType::BOUNDINGBOX))->GetObjectOBB();
+				const OBB& obb = App->scene->GetSelectedGameObject()->GetObjectOBB();
 				focusFlag = false;
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
@@ -264,10 +262,8 @@ void CameraEngine::Focus(GameObject* gameObject)
 	{
 		if (object)
 		{
-			ComponentBoundingBoxes* boundingBox =
-				static_cast<ComponentBoundingBoxes*>(object->GetComponent(ComponentType::BOUNDINGBOX));
-			outputArray.push_back(boundingBox->GetEncapsuledAABB().minPoint);
-			outputArray.push_back(boundingBox->GetEncapsuledAABB().maxPoint);
+			outputArray.push_back(object->GetEncapsuledAABB().minPoint);
+			outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
 		}
 	}
 	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());

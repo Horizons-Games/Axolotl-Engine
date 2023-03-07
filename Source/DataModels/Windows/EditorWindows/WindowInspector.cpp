@@ -52,13 +52,13 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
-		ImGui::Checkbox("##Draw Bounding Box", &(currentGameObject->drawBoundingBoxes));
+		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
 		ImGui::SameLine();
 		ImGui::Text("Draw Bounding Box");
 
-		if (currentGameObject->drawBoundingBoxes != bbDrawn)
+		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
 		{
-			for (GameObject* child : currentGameObject->GetChildren())
+			for (GameObject* child : lastSelectedGameObject->GetChildren())
 			{
 				if (child->drawBoundingBoxes == bbDrawn)
 				{
@@ -66,7 +66,7 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
-			bbDrawn = currentGameObject->drawBoundingBoxes;
+			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&

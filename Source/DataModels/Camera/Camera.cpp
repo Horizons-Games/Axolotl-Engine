@@ -10,7 +10,6 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
@@ -360,11 +359,8 @@ void Camera::CalculateHittedGameObjects(const LineSegment& ray)
 		if (currentGameObject)
 		{
 			float nearDistance, farDistance;
-			ComponentBoundingBoxes* componentBoundingBox =
-				static_cast<ComponentBoundingBoxes*>
-				(currentGameObject->GetComponent(ComponentType::BOUNDINGBOX));
 
-			bool hit = ray.Intersects(componentBoundingBox->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
+			bool hit = ray.Intersects(currentGameObject->GetEncapsuledAABB(), nearDistance, farDistance); // ray vs. AABB
 
 			if (hit && currentGameObject->IsActive())
 			{

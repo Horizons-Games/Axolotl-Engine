@@ -47,7 +47,7 @@ bool ModuleScene::Start()
 	if (loadedScene == nullptr)
 	{
 		//TODO
-		LoadSceneFromJson("Lib/Scenes/lucelfifas.axolotl");
+		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
 		//loadedScene = CreateEmptyScene();
 	}
 #endif //GAMEMODE

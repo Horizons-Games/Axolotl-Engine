@@ -14,7 +14,6 @@
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
