@@ -331,6 +331,7 @@ void Camera::SetLookAt(const float3& lookAt)
 
 bool Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
 {
+#ifdef ENGINE
 	// normalize the input to [-1, 1].
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
@@ -356,8 +357,9 @@ bool Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene, Line
 
 			return true;
 		}
-		return false;
 	}
+#endif //ENGINE
+	return false;
 }
 
 void Camera::CalculateHitGameObjects(const LineSegment& ray)
