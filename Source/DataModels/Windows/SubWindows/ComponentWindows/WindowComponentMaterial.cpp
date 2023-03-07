@@ -200,10 +200,13 @@ void WindowComponentMaterial::DrawSetMaterial()
 					materialResource->SetNormal(nullptr);
 				}
 			}
+
 			float normalStrength = asMaterial->GetNormalStrenght();
-			ImGui::SliderFloat("Normal", &normalStrength,
-				0.0f, 1.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-			asMaterial->SetNormalStrenght(normalStrength);
+			if (ImGui::DragFloat("Normal Strength", &normalStrength,
+				0.01f, 0.0001f, std::numeric_limits<float>::max()))
+			{
+				asMaterial->SetNormalStrenght(normalStrength);
+			}
 
 			ImGui::Text("");
 		}
