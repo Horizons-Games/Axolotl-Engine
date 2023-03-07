@@ -7,6 +7,8 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"
 
+#include "ModuleScene.h"
+
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
 	ComponentWindow("TRANSFORM", component)
 {
@@ -200,8 +202,10 @@ void WindowComponentTransform::UpdateComponentTransform()
 			asTransform->SetScale(currentScale);
 		}
 
-		asTransform->CalculateLocalMatrix();
-		asTransform->CalculateGlobalMatrix();
+		if (scaleModified || rotationModified || translationModified)
+		{
+			App->scene->UpdateGameObjectAndDescendants(component->GetOwner());
+		}
 	}
 }
 

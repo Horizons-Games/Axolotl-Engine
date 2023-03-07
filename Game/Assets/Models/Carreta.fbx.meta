@@ -1,0 +1,12 @@
+{
+    "UID": 2295257389359333125,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Carreta_0.mesh",
+        "Assets/Meshes/Carreta_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Carreta_0.mat",
+        "Assets/Materials/Carreta_1.mat"
+    ]
+}
