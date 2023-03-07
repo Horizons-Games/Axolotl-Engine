@@ -233,11 +233,11 @@ update_status ModuleRender::Update()
 		batchManager->DrawBatch(batch);
 	}
 
-	for (const GameObject* gameObject : gameObjectsToDraw)
-	{
-		if (gameObject != nullptr && gameObject->IsActive())
-			gameObject->Draw();
-	}
+	//for (const GameObject* gameObject : gameObjectsToDraw)
+	//{
+	//	if (gameObject != nullptr && gameObject->IsActive())
+	//		gameObject->Draw();
+	//}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
