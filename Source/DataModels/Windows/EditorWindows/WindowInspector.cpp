@@ -14,7 +14,7 @@
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
 	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0)
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -52,6 +52,22 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
+		ImGui::Checkbox("##Draw Bounding Box", &(currentGameObject->drawBoundingBoxes));
+		ImGui::SameLine();
+		ImGui::Text("Draw Bounding Box");
+
+		if (currentGameObject->drawBoundingBoxes != bbDrawn)
+		{
+			for (GameObject* child : currentGameObject->GetChildren())
+			{
+				if (child->drawBoundingBoxes == bbDrawn)
+				{
+					child->setDrawBoundingBoxes(!bbDrawn);
+				}
+			}
+
+			bbDrawn = currentGameObject->drawBoundingBoxes;
+		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
 			lastSelectedGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&

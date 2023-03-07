@@ -3,7 +3,6 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
-#include "ComponentBoundingBoxes.h"
 #include "Program/Program.h"
 
 #include "Application.h"
@@ -98,8 +97,6 @@ void ComponentMeshRenderer::DrawHighlight()
 		}
 
 		float scale = 10.1f;
-		ComponentBoundingBoxes* boundingBox =
-			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
 		Program* programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared->GetId();
@@ -183,8 +180,6 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (mesh)
 	{
 		mesh->Load();
-		ComponentBoundingBoxes* boundingBox =
-			static_cast<ComponentBoundingBoxes*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX));
-		boundingBox->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }
