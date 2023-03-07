@@ -1,0 +1,14 @@
+{
+    "UID": 240319841783538917,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/SlantedWallMachine_0.mesh",
+        "Assets/Meshes/SlantedWallMachine_1.mesh",
+        "Assets/Meshes/SlantedWallMachine_2.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/SlantedWallMachine_0.mat",
+        "Assets/Materials/SlantedWallMachine_1.mat",
+        "Assets/Materials/SlantedWallMachine_2.mat"
+    ]
+}

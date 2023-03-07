@@ -31,7 +31,8 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw()
 {
-	if (GetActive())
+#ifdef ENGINE
+	if (this->GetActive())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()
@@ -41,6 +42,7 @@ void ComponentPointLight::Draw()
 
 		dd::sphere(position, dd::colors::White, radius);
 	}
+#endif // ENGINE
 }
 
 void ComponentPointLight::SaveOptions(Json& meta)

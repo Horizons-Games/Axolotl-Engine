@@ -1,5 +1,8 @@
 #include "ModuleProgram.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include "DataModels/Program/Program.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -82,9 +85,8 @@ void ModuleProgram::CreateProgram(unsigned int vtxShader, unsigned int frgShader
 
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
-	char* data = nullptr;
+	char* data;
 	App->fileSystem->Load(shaderFileName.c_str(), data);
-
 	return data;
 }
 
