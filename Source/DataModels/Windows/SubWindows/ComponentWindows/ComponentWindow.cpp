@@ -1,7 +1,6 @@
 #include "ComponentWindow.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBoundingBoxes.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
@@ -14,7 +13,6 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Components/ComponentAmbient.h"
-#include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMaterial.h"
@@ -42,8 +40,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentTransform>(static_cast<ComponentTransform*>(component));
 		case ComponentType::CAMERA:
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
-		case ComponentType::BOUNDINGBOX:
-			return std::make_unique<WindowComponentBoundingBoxes>(static_cast<ComponentBoundingBoxes*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
