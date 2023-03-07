@@ -2,7 +2,7 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -66,8 +66,8 @@ void GeometryBatch::BindBatch()
 			}
 
 			unsigned program = App->program->GetProgram();
-			const float4x4& view = App->engineCamera->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

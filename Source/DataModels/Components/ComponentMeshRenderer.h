@@ -41,7 +41,7 @@ private:
 	WindowMeshInput* inputMesh;
 };
 
-inline const std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
+inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return mesh;
 }

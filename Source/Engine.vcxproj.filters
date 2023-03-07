@@ -403,6 +403,12 @@
     <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
       <Filter>External\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -954,6 +960,15 @@
     <ClInclude Include="..\External\ImGui\ImGuizmo.h">
       <Filter>External\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchFlags.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
+      <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1057,6 +1072,9 @@
     </Filter>
     <Filter Include="Source\Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Batch">
+      <UniqueIdentifier>{2dd05ffc-d7df-4395-983c-ae23af216754}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

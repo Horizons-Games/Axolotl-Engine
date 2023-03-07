@@ -17,6 +17,7 @@
 #include "DataModels/Batch/GeometryBatch.h"
 
 #include "GameObject/GameObject.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -237,7 +238,7 @@ update_status ModuleRender::Update()
 		//if (gameObject != nullptr && gameObject->IsActive())
 		//{
 		//	gameObject->Draw();
-		//}
+		}
 	}
 
 	for (GeometryBatch* batch : batchManager->GetBatches())
@@ -245,11 +246,11 @@ update_status ModuleRender::Update()
 		batchManager->DrawBatch(batch);
 	}
 
-	//for (const GameObject* gameObject : gameObjectsToDraw)
-	//{
-	//	if (gameObject != nullptr && gameObject->IsActive())
-	//		gameObject->Draw();
-	//}
+	for (const GameObject* gameObject : gameObjectsToDraw)
+	{
+		if (gameObject != nullptr && gameObject->IsActive())
+			gameObject->Draw();
+	}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
