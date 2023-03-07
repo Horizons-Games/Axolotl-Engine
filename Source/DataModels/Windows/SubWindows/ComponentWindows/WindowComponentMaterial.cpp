@@ -59,18 +59,18 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			static float3 colorDiffuse = asMaterial->GetDiffuseColor();
+			static float3 colorDiffuse = materialResource->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
 			{
-				asMaterial->SetDiffuseColor(colorDiffuse);
+				materialResource->SetDiffuseColor(colorDiffuse);
 			}
 
-			static float3 colorSpecular = asMaterial->GetSpecularColor();
+			static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
 			{
-				asMaterial->SetSpecularColor(colorSpecular);
+				materialResource->SetSpecularColor(colorSpecular);
 			}
 
 			ImGui::Text("");
@@ -101,14 +101,14 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetChanged(true);
 			}
 
-			bool hasShininessAlpha = asMaterial->HasShininessAlpha();
+			bool hasShininessAlpha = materialResource->HasShininessAlpha();
 			ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
-			asMaterial->SetHasShininessAlpha(hasShininessAlpha);
+			materialResource->SetShininessAlpha(hasShininessAlpha);
 
-			float shininess = asMaterial->GetShininess();
+			float shininess = materialResource->GetShininess();
 			ImGui::SliderFloat("Shininess", &shininess,
-				0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-			asMaterial->SetShininess(shininess);
+				0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			materialResource->SetShininess(shininess);
 			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
