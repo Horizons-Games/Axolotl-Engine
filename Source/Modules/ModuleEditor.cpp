@@ -60,8 +60,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
-	windows.push_back(std::make_unique<WindowConsole>());
 	windows.push_back(std::make_unique<WindowResources>());
+	windows.push_back(std::make_unique<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
