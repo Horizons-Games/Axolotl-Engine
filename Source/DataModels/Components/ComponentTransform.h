@@ -24,14 +24,14 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	const float3& GetPosition() const;
-	const float3& GetGlobalPosition() const;
+	const float3 GetGlobalPosition() const;
 	const Quat& GetRotation() const;
 	const float3& GetRotationXYZ() const;
-	const Quat& GetGlobalRotation() const;
+	const Quat GetGlobalRotation() const;
 	const float3& GetScale() const;
-	const float3& GetLocalForward() const;
-	const float3& GetGlobalForward() const;
-	const float3& GetGlobalScale() const;
+	const float3 GetLocalForward() const;
+	const float3 GetGlobalForward() const;
+	const float3 GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
@@ -84,12 +84,12 @@ inline const float3& ComponentTransform::GetScale() const
 	return sca;
 }
 
-inline const float3& ComponentTransform::GetLocalForward() const
+inline const float3 ComponentTransform::GetLocalForward() const
 {
 	return localMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalForward() const
+inline const float3 ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
 }

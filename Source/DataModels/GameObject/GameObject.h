@@ -6,12 +6,21 @@
 #include <memory>
 #include <iterator>
 
+#include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
+
 class Component;
 class ComponentMeshRenderer;
 class Json;
 
 enum class ComponentType;
 enum class LightType;
+
+enum class StateOfSelection
+{
+	NO_SELECTED,
+	SELECTED
+};
 
 class GameObject
 {
@@ -36,13 +45,18 @@ public:
 	UID GetUID() const;
 	const char* GetName() const;
 	GameObject* GetParent() const;
+
+	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
+
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
+
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -65,9 +79,19 @@ public:
 	void MoveUpChild(GameObject* childToMove);
 	void MoveDownChild(GameObject* childToMove);
 
+	void CalculateBoundingBoxes();
+	void Encapsule(const vec* Vertices, unsigned numVertices);
+
+	const AABB& GetLocalAABB();
+	const AABB& GetEncapsuledAABB();
+	const OBB& GetObjectOBB();
+	const bool isDrawBoundingBoxes() const;
+
+	void setDrawBoundingBoxes(bool newDraw);
+	bool IsADescendant(const GameObject* descendant);
+
 private:
 	bool IsAChild(const GameObject* child);
-	bool IsADescendant(const GameObject* descendant);
 
 private:
 	UID uid;
@@ -76,14 +100,27 @@ private:
 	bool active;
 	std::string name;
 	std::vector<std::unique_ptr<Component>> components;
+	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
+
+	AABB localAABB;
+	AABB encapsuledAABB;
+	OBB objectOBB;
+	bool drawBoundingBoxes;
+
+	friend class WindowInspector;
 };
 
 inline UID GameObject::GetUID() const
 {
 	return uid;
+}
+
+inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
+{
+	this->stateOfSelection = stateOfSelection;
 }
 
 inline bool GameObject::IsEnabled() const
@@ -104,6 +141,11 @@ inline void GameObject::SetName(const char* newName)
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline StateOfSelection GameObject::GetStateOfSelection() const
+{
+	return stateOfSelection;
 }
 
 inline bool GameObject::IsActive() const
@@ -156,5 +198,33 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 	}
 
 	return components;
+}
+
+inline const AABB& GameObject::GetLocalAABB()
+{
+	CalculateBoundingBoxes();
+	return localAABB;
+}
+
+inline const AABB& GameObject::GetEncapsuledAABB()
+{
+	CalculateBoundingBoxes();
+	return encapsuledAABB;
+}
+
+inline const OBB& GameObject::GetObjectOBB()
+{
+	CalculateBoundingBoxes();
+	return objectOBB;
+}
+
+inline const bool GameObject::isDrawBoundingBoxes() const
+{
+	return drawBoundingBoxes;
+}
+
+inline void GameObject::setDrawBoundingBoxes(bool newDraw)
+{
+	drawBoundingBoxes = newDraw;
 }
 

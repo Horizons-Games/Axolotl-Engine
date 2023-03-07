@@ -59,7 +59,7 @@ public:
 	void InitLights();
 
 private:
-	void RemoveCamera(const GameObject* cameraGameObject);
+	void RemoveFatherAndChildren(const GameObject* father);
 
 	UID uid;
 	std::unique_ptr<GameObject> root;

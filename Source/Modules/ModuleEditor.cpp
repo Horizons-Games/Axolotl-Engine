@@ -12,12 +12,16 @@
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
+#include "Windows/EditorWindows/WindowResources.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
+#include <ImGui/ImGuizmo.h>
 
 #include <FontIcons/CustomFont.cpp>
 
@@ -52,12 +56,15 @@ bool ModuleEditor::Init()
 
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
-	windows.push_back(std::make_unique<WindowInspector>());
+	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
 	windows.push_back(std::make_unique<WindowConsole>());
+	windows.push_back(std::make_unique<WindowResources>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
+
+	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 
 	return true;
 }
@@ -86,13 +93,18 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
+
+	ImGuizmo::BeginFrame();
+	ImGuizmo::Enable(true);
 	
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+#endif // DEBUG
 
 	update_status status = update_status::UPDATE_CONTINUE;
 
@@ -180,4 +192,9 @@ void ModuleEditor::Resized()
 bool ModuleEditor::IsSceneFocused() const
 {
 	return scene->IsFocused();
+}
+
+void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
+{
+	this->inspector->SetResource(resource);
 }

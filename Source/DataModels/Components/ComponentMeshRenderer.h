@@ -31,8 +31,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	const std::shared_ptr<ResourceMesh> GetMesh() const;
-
+	std::shared_ptr<ResourceMesh> GetMesh() const;
 private:
 	bool IsMeshLoaded();
 
