@@ -31,8 +31,8 @@ public:
 	void OnPause();
 	void OnStop();
 
-private:
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
+private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& Json);

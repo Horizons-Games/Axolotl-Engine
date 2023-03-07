@@ -176,12 +176,15 @@ void WindowScene::DrawGuizmo()
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
 				focusedTransform->SetPosition(postion);
+				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			case ImGuizmo::OPERATION::ROTATE:
 				focusedTransform->SetRotation(rotation);
+				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			case ImGuizmo::OPERATION::SCALE:
 				focusedTransform->SetScale(scale);
+				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			}
 
