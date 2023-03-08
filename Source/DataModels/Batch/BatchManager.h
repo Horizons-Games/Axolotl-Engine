@@ -11,9 +11,17 @@ public:
 	BatchManager();
 	~BatchManager();
 
+	const std::vector<GeometryBatch*>& GetBatches() const;
+
 	void AddComponent(ComponentMeshRenderer* newComponent);
+	void DrawBatch(GeometryBatch* geometry_batch) const;
+
 private:
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
-
 	std::vector<GeometryBatch*> geometryBatches;
 };
+
+inline const std::vector<GeometryBatch*>& BatchManager::GetBatches() const
+{
+	return geometryBatches;
+}

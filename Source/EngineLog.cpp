@@ -1,3 +1,4 @@
+#ifdef ENGINE
 #include "EngineLog.h"
 
 void EngineLog::Log(const char file[], int line, const char* format, ...)
@@ -15,3 +16,4 @@ void EngineLog::Log(const char file[], int line, const char* format, ...)
 
 	logLines.push_back(tmpString);
 }
+#endif // ENGINE

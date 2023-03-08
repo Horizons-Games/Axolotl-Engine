@@ -31,7 +31,8 @@ ComponentDirLight::~ComponentDirLight()
 
 void ComponentDirLight::Draw()
 {
-	if (GetActive())
+#ifdef ENGINE
+	if (this->GetActive())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()
@@ -59,6 +60,7 @@ void ComponentDirLight::Draw()
 			dd::arrow(from, to, dd::colors::White, 0.05f);
 		}
 	}
+#endif // ENGINE
 }
 
 void ComponentDirLight::SaveOptions(Json& meta)

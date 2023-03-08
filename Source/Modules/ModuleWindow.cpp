@@ -37,9 +37,10 @@ bool ModuleWindow::Init()
 
 		SDL_Window* windowRawPointer = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			width, height, flags);
+
 		window = std::unique_ptr<SDL_Window, SDLWindowDestroyer>(windowRawPointer);
 
-		if(window == NULL)
+		if(window == nullptr)
 		{
 			ENGINE_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -47,10 +48,8 @@ bool ModuleWindow::Init()
 		else
 		{
 			SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
-
 			//Get window surface
-			SDL_Surface* sufaceRawPointer = SDL_GetWindowSurface(window.get());
-			screenSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(sufaceRawPointer);
+			screenSurface = SDL_GetWindowSurface(window.get());
 		}
 	}
 

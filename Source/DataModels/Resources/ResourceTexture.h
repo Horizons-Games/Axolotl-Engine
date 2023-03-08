@@ -3,7 +3,8 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression {
+enum class TextureCompression 
+{
 	NONE,
 	DXT1,
 	DXT3,
@@ -11,7 +12,8 @@ enum class TextureCompression {
 	BC7
 };
 
-enum class TextureMinFilter {
+enum class TextureMinFilter 
+{
 	NEAREST,
 	LINEAR,
 	NEAREST_MIPMAP_NEAREST,
@@ -20,12 +22,14 @@ enum class TextureMinFilter {
 	LINEAR_MIPMAP_LINEAR
 };
 
-enum class TextureMagFilter {
+enum class TextureMagFilter 
+{
 	NEAREST,
 	LINEAR
 };
 
-enum class TextureWrap {
+enum class TextureWrap 
+{
 	REPEAT,
 	CLAMP_TO_EDGE,
 	CLAMP_TO_BORDER,
@@ -33,8 +37,7 @@ enum class TextureWrap {
 	MIRROR_CLAMP_TO_EDGE
 };
 
-
-struct OptionsTexture
+struct LoadOptionsTexture
 {
 	TextureMinFilter min;
 	TextureMagFilter mag;
@@ -42,7 +45,7 @@ struct OptionsTexture
 	TextureWrap wrapT;
 	bool mipMap;
 
-	OptionsTexture() :
+	LoadOptionsTexture() :
 		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
 		mag(TextureMagFilter::LINEAR),
 		wrapS(TextureWrap::REPEAT),
@@ -51,19 +54,30 @@ struct OptionsTexture
 	{}
 };
 
-class ResourceTexture : public Resource
+struct ImportOptionsTexture
+{
+	bool flipVertical;
+	bool flipHorizontal;
+
+	ImportOptionsTexture() :
+		flipVertical(true),
+		flipHorizontal(false)
+	{}
+};
+
+class ResourceTexture : virtual public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, 
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
-	~ResourceTexture() override;
+	virtual ~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void SaveImporterOptions(Json& meta) override;
+	void LoadImporterOptions(Json& meta) override;
 
 	unsigned int GetGlTexture() const;
 	unsigned int GetWidth() const;
@@ -74,7 +88,8 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
-	std::shared_ptr<OptionsTexture>& GetOptions();
+	ImportOptionsTexture& GetImportOptions();
+	LoadOptionsTexture& GetLoadOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -90,16 +105,23 @@ protected:
 private:
 	void CreateTexture();
 
-	unsigned int glTexture;
-	unsigned int width;
-	unsigned int height;
-	unsigned int format;
-	unsigned int internalFormat;
-	unsigned int imageType;
+	int GetMagFilterEquivalence(TextureMagFilter filter);
+
+	int GetMinFilterEquivalence(TextureMinFilter filter);
+
+	int GetWrapFilterEquivalence(TextureWrap filter);
+
+	unsigned int glTexture = 0;
+	unsigned int width = 0;
+	unsigned int height = 0;
+	unsigned int format = 0;
+	unsigned int internalFormat = 0;
+	unsigned int imageType = 0;
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize;
 
-	std::shared_ptr<OptionsTexture> options;
+	LoadOptionsTexture loadOptions;
+	ImportOptionsTexture importOptions;
 };
 
 inline ResourceType ResourceTexture::GetType() const
@@ -147,9 +169,14 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 	return pixelsSize;
 }
 
-inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
+inline ImportOptionsTexture& ResourceTexture::GetImportOptions()
 {
-	return options;
+	return this->importOptions;
+}
+
+inline LoadOptionsTexture& ResourceTexture::GetLoadOptions()
+{
+	return this->loadOptions;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

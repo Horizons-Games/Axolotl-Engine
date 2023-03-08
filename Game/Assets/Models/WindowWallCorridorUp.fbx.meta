@@ -1,0 +1,14 @@
+{
+    "UID": 2161538464229730187,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/WindowWallCorridorUp_0.mesh",
+        "Assets/Meshes/WindowWallCorridorUp_1.mesh",
+        "Assets/Meshes/WindowWallCorridorUp_2.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/WindowWallCorridorUp_0.mat",
+        "Assets/Materials/WindowWallCorridorUp_1.mat",
+        "Assets/Materials/WindowWallCorridorUp_2.mat"
+    ]
+}

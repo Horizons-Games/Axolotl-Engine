@@ -1,10 +1,14 @@
 #pragma once
 #include "Module.h"
 
+constexpr auto ROOTPATH = "Source/Shaders/";
+
 class Program;
 
-enum class ProgramType {
+enum class ProgramType 
+{
 	MESHSHADER,
+	HIGHLIGHT,
 	SKYBOX
 };
 
@@ -16,31 +20,30 @@ public:
 
 	bool Start() override;
 
-	std::shared_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName);
-
 	bool CleanUp() override;
 
-	void CreateProgram(unsigned vtxShader, unsigned frgShader);
+	void CreateProgram(unsigned int vtxShader, unsigned int frgShader);
 
-	char* LoadShaderSource(const char* shaderFileName);
-	unsigned CompileShader(unsigned type, const char* source);
+	std::string LoadShaderSource(const std::string& shaderFileName);
+	unsigned CompileShader(unsigned type, const std::string& source);
 
 	const unsigned GetProgram() const;
-	const std::shared_ptr<Program> GetProgram(ProgramType type) const;
-
+	Program* GetProgram(ProgramType type) const;
 
 private:
-	unsigned program;
-	std::vector<std::shared_ptr<Program> > programs;
-	std::string rootPath;
+	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName);
+
+	unsigned int program;
+	std::vector<std::unique_ptr<Program> > programs;
+	std::string rootPath = "Source/Shaders/";
 };
+
+inline Program* ModuleProgram::GetProgram(ProgramType type) const
+{
+	return programs[static_cast<int>(type)].get();
+}
 
 inline const unsigned ModuleProgram::GetProgram() const
 {
 	return program;
-}
-
-inline const std::shared_ptr<Program> ModuleProgram::GetProgram(ProgramType type) const
-{
-	return programs[(int)type];
 }

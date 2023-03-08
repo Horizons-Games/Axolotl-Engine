@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Components/Component.h"
+
+#include "FileSystem/UniqueID.h"
 #include "Batch/GeometryBatch.h"
+
 
 #include <memory>
 
@@ -21,14 +24,14 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 
-	const std::shared_ptr<ResourceMesh> GetMesh() const;
-
+	std::shared_ptr<ResourceMesh> GetMesh() const;
 private:
 	bool IsMeshLoaded();
 
@@ -38,7 +41,7 @@ private:
 	WindowMeshInput* inputMesh;
 };
 
-inline const std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
+inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {
 	return mesh;
 }

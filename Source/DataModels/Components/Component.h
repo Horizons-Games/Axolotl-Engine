@@ -3,7 +3,15 @@
 #include <string>
 #include <assert.h>
 
-enum class ComponentType { UNKNOWN, MATERIAL, MESHRENDERER, TRANSFORM, LIGHT, CAMERA, BOUNDINGBOX };
+enum class ComponentType 
+{
+	UNKNOWN, 
+	MATERIAL, 
+	MESHRENDERER, 
+	TRANSFORM, 
+	LIGHT, 
+	CAMERA
+};
 
 const static std::string GetNameByType(ComponentType type);
 const static ComponentType GetTypeByName(const std::string& name);
@@ -112,8 +120,6 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Light";
 	case ComponentType::CAMERA:
 		return "Component_Camera";
-	case ComponentType::BOUNDINGBOX:
-		return "Component_Bounding";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -145,11 +151,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Camera")
 	{
 		return ComponentType::CAMERA;
-	}
-
-	if (typeName == "Component_Bounding")
-	{
-		return ComponentType::BOUNDINGBOX;
 	}
 	
 	return ComponentType::UNKNOWN;

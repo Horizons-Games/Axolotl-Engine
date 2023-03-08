@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include <DataModels/Batch/BatchManager.h>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -38,7 +39,7 @@ public:
 	const std::string& GetFragmentShader() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const GameObject* gameObject);
+	void AddToRenderList(GameObject* gameObject);
 
 
 	bool IsSupportedPath(const std::string& modelPath);
@@ -52,18 +53,19 @@ private:
 	void* context;
 	float4 backgroundColor;
 
+	BatchManager* batchManager;
+
 	unsigned vbo;
 	
 	std::vector<const GameObject*> gameObjectsToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
-	//Note (David Martin): Nope, but at 14/2 still alive
 	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
-	GLuint depthRenderBuffer;
+	GLuint depthStencilRenderbuffer;
 
 	std::string vertexShader;
 	std::string fragmentShader;

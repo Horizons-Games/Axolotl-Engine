@@ -6,10 +6,15 @@
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
@@ -26,28 +31,39 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-#if !defined(GAME)
+#ifdef ENGINE
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
 	}
-#else
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
+#else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/Final_Scene_Lights_mini_Lights.axolotl");
+		//TODO
+		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
+		//loadedScene = CreateEmptyScene();
 	}
-#endif
+#endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
 
 update_status ModuleScene::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+#endif // DEBUG
 
-	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
@@ -127,7 +143,7 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
-#if !defined(GAME)
+#ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
@@ -156,8 +172,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-20000, -1000, -20000), 
-		float3(20000, 1000, 20000))));
+	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
+		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -204,7 +220,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	selectedGameObject = loadedScene->GetRoot();
 
 	loadedScene->SetSceneGameObjects(loadedObjects);
-	loadedScene->SetSceneCameras(loadedObjects);
+	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 

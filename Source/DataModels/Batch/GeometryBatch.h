@@ -26,9 +26,10 @@ public:
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
-	void Draw();
+	void BindBatch();
 
 	const int GetFlags() const;
+	const int GetResourceIndex() const;
 
 	bool CleanUp();
 
@@ -38,18 +39,24 @@ private:
 	bool isUniqueResourceMesh(const ResourceMesh* resourceMesh);
 
 	std::vector<ComponentMeshRenderer*> components;
-	std::vector<ResourceMesh*> uniqueComponents;
+	std::vector<ResourceMesh*> resourceMeshes;
 
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 	unsigned int indirectBuffer = 0;
-	Command command[100];
+	unsigned int resourceMesheIndex;
+	std::vector<Command> commands;
 
-	int flags = 0;;
+	int flags = 0;
 };
 
 inline const int GeometryBatch::GetFlags() const
 {
 	return flags;
+}
+
+inline const int GeometryBatch::GetResourceIndex() const
+{
+	return resourceMesheIndex;
 }

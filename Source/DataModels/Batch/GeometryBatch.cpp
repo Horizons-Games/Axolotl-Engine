@@ -2,7 +2,7 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -21,7 +21,7 @@ GeometryBatch::GeometryBatch()
 GeometryBatch::~GeometryBatch()
 {
 	components.clear();
-	uniqueComponents.clear();
+	resourceMeshes.clear();
 	CleanUp();
 }
 
@@ -46,35 +46,30 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
-void GeometryBatch::Draw()
+void GeometryBatch::BindBatch()
 {
-	for (ResourceMesh* uniqueComponent : uniqueComponents)
+	//command.reserve(components.size());//need to verify the size if it's matching with uniqueComponent
+	unsigned int resourceMeshIndex = 0;
+	commands.clear();
+	
+	for (ResourceMesh* resourceMesh : resourceMeshes)
 	{
-		// Generate buffer IDs
-		if (indirectBuffer == 0) {
-			glGenVertexArrays(1, &vao);//vertex array
-			glGenBuffers(1, &indirectBuffer);//
-			glGenBuffers(1, &ebo);//index buffer
-			glGenBuffers(1, &vbo);//vertex buffer
-		}
-
-		// Bind buffers and VAO
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		if (uniqueComponent) //pointer not empty
+		if (resourceMesh) //pointer not empty
 		{
-			if (!uniqueComponent->IsLoaded())
+			if (!resourceMesh->IsLoaded())
 			{
-				uniqueComponent->Load();
+				//gen ebo vbo and vao buffers
+				resourceMesh->Load();
+				if (indirectBuffer == 0) {
+					glGenBuffers(1, &indirectBuffer);//
+				}
 			}
 
 			unsigned program = App->program->GetProgram();
-			const float4x4& view = App->engineCamera->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetProjectionMatrix();
+			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
-				static_cast<ComponentTransform*>(GetComponentOwner(uniqueComponent)
+				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 			GLint programInUse;
@@ -89,53 +84,22 @@ void GeometryBatch::Draw()
 			glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 			glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 				
-			////vertex array
-			//glBindVertexArray(uniqueComponent->GetVAO());
-			//glGenVertexArrays(1,&vao);
-
-			////index buffer
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uniqueComponent->GetEBO());
-			//glGenBuffers(1, &ebo);
-
-			////vertex buffer
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uniqueComponent->GetVBO());
-			//glGenBuffers(1, &vbo);
-
 			//do a for for all the instaces existing
-			for (unsigned int i(0); i < uniqueComponents.size(); ++i)
-			{
-				command[i].count = uniqueComponent->GetNumIndexes();// Number of indices in the mesh
-				command[i].instanceCount = 1;
-				command[i].firstIndex = 0;
-				command[i].baseVertex = uniqueComponent->GetNumVertices();
-				command[i].baseInstance = i;
-			}
+			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), resourceMeshIndex };
+			commands.push_back(newCommand);
+			resourceMeshIndex++;
 
 			//send to gpu
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(command),command,GL_STATIC_DRAW);//Also try with GL_DYNAMIC_DRAW
-			/*
-				STREAM_DRAW 
-				when the data store contents will be modified once and used at most a few times.
-
-				STATIC
-				Use STATIC_DRAW when the data store contents will be modified once and used many times.
-
-				DYNAMIC
-				Use DYNAMIC_DRAW when the data store contents will be modified repeatedly and used many times.
-			*/
+			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands),&commands[0], GL_STATIC_DRAW);
+			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
 
 			//send in the shader
 			glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
 
-			//glDrawElements(GL_TRIANGLES, uniqueComponent->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
-			//use multi draw to combine with the batch method
-			glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, uniqueComponents.size(),0);
 
-
-
+			//glBindVertexArray(0);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindVertexArray(0);//utility ??
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
@@ -145,7 +109,7 @@ void GeometryBatch::AddUniqueComponent(ResourceMesh* resourceMesh)
 {
 	if (isUniqueResourceMesh(resourceMesh))
 	{
-		uniqueComponents.push_back(resourceMesh);
+		resourceMeshes.push_back(resourceMesh);
 	}
 }
 
@@ -164,9 +128,9 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 
 bool GeometryBatch::isUniqueResourceMesh(const ResourceMesh* resourceMesh)
 {
-	for (ResourceMesh* uniqueComponent : uniqueComponents)
+	for (ResourceMesh* resourceMeshe : resourceMeshes)
 	{
-		if (uniqueComponent == resourceMesh)
+		if (resourceMeshe == resourceMesh)
 		{
 			return false;
 		}

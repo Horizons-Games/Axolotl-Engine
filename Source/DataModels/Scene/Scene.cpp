@@ -18,14 +18,11 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
-#include "DataModels/Batch/BatchManager.h"
-
 #include <GL/glew.h>
 
-Scene::Scene()
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
-	rootQuadtreeAABB(AABB(float3(-20000, -1000, -20000), float3(20000, 1000, 20000)))
+	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -109,29 +106,16 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
+	RemoveFatherAndChildren(gameObject);
 	gameObject->GetParent()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
-		it != sceneGameObjects.end();
-		++it)
-	{
-		if (*it == gameObject)
-		{
-			sceneGameObjects.erase(it);
-			return;
-		}
-	}
 }
 
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
-	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	resourceModel->Load();
 
-	std::string modelName = model;
-	size_t last_slash = modelName.find_last_of('/');
-	modelName = modelName.substr(last_slash + 1, modelName.size());
+	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
@@ -142,13 +126,11 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh =
-			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
+		std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(resourceModel->GetMeshes()[i]);
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = 
-			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
+		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(resourceModel->GetMaterials()[materialIndex]);
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
@@ -164,7 +146,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
-		batchManager->AddComponent(meshRenderer);
+
 	}
 }
 
@@ -182,14 +164,33 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void Scene::RemoveCamera(const GameObject* cameraGameObject)
+void Scene::RemoveFatherAndChildren(const GameObject* father)
 {
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
-		it != sceneCameras.end(); ++it)
+	for (GameObject* child : father->GetChildren())
 	{
-		if (cameraGameObject == *it)
+		RemoveFatherAndChildren(child);
+	}
+
+	Component* component = father->GetComponent(ComponentType::CAMERA);
+	if (component)
+	{
+		for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
+			it != sceneCameras.end(); ++it)
 		{
-			sceneCameras.erase(it);
+			if (father == *it)
+			{
+				sceneCameras.erase(it);
+				return;
+			}
+		}
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
+		it != sceneGameObjects.end(); ++it)
+	{
+		if (*it == father)
+		{
+			sceneGameObjects.erase(it);
 			return;
 		}
 	}
@@ -424,8 +425,6 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
-
-	batchManager = new BatchManager();
 
 	InitLights();
 }

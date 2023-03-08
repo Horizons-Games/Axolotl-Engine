@@ -4,13 +4,14 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
-#include "ModuleDebugDraw.h"
-#include "ModuleEditor.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
-
+#ifdef ENGINE
+#include "ModuleDebugDraw.h"
+#include "ModuleEditor.h"
+#endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
 
@@ -18,16 +19,19 @@ Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
+#ifdef ENGINE
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
+#endif // ENGINE
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
-	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
-	modules.push_back(std::unique_ptr<ModuleEngineCamera>(engineCamera = new ModuleEngineCamera()));
+	modules.push_back(std::unique_ptr<ModuleCamera>(engineCamera = new ModuleCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
+	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
+#ifdef ENGINE
 	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
-
+#endif // ENGINE
 	appTimer = std::make_unique<Timer>();
 	maxFramerate = MAX_FRAMERATE;
 }
@@ -63,15 +67,15 @@ update_status Application::Update()
 {
 	float ms = appTimer->Read();
 
-	update_status ret = UPDATE_CONTINUE;
+	update_status ret = update_status::UPDATE_CONTINUE;
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PreUpdate();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->Update();
 
-	for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PostUpdate();
 
 	float dt = (appTimer->Read() - ms) / 1000.0f;
