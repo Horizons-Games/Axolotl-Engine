@@ -67,58 +67,61 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    if (ImGui::IsItemVisible())
+    if (nodeDrawn)
     {
-        ImGui::PushID(gameObjectLabel);
-        if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
-            (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
-                && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
+        bool itemVisible = ImGui::IsItemVisible();
+        if (itemVisible)
         {
-            App->scene->GetLoadedScene()->GetSceneQuadTree()
-                ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-            App->scene->SetSelectedGameObject(gameObject);
-            App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
-        }
-
-        DrawPopupMenu(gameObject);
-        ImGui::PopID();
-
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
-        {
-            if (ImGui::BeginDragDropSource())
+            ImGui::PushID(gameObjectLabel);
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+                (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
+                    && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
             {
-                UID thisID = gameObject->GetUID();
-                ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
-
-                ImGui::EndDragDropSource();
+                App->scene->GetLoadedScene()->GetSceneQuadTree()
+                    ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+                App->scene->SetSelectedGameObject(gameObject);
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
             }
-        }
 
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+            DrawPopupMenu(gameObject);
+            ImGui::PopID();
+
+            if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
             {
-                UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
-                                                                // of the UID of the dragged GameObject
-                GameObject* draggedGameObject =
-                    App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-                if (draggedGameObject)
+                if (ImGui::BeginDragDropSource())
                 {
-                    draggedGameObject->SetParent(gameObject);
+                    UID thisID = gameObject->GetUID();
+                    ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+
+                    ImGui::EndDragDropSource();
                 }
             }
 
-            ImGui::EndDragDropTarget();
-        }
-    }
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+                {
+                    UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
+                                                                    // of the UID of the dragged GameObject
+                    GameObject* draggedGameObject =
+                        App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+                    if (draggedGameObject)
+                    {
+                        draggedGameObject->SetParent(gameObject);
+                    }
+                }
 
-    if (nodeDrawn) // If the parent node is correctly drawn, draw its children
-    {
-        for (int i = 0; i < gameObject->GetChildren().size(); ++i)
+                ImGui::EndDragDropTarget();
+            }
+        }
+        bool itemAboveCurrentScroll = ImGui::GetScrollY() >= ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
+        if (itemVisible || itemAboveCurrentScroll)
         {
-            DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+            for (int i = 0; i < gameObject->GetChildren().size(); ++i)
+            {
+                DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+            }
         }
-
         ImGui::TreePop();
     }
 }
