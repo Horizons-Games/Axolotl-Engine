@@ -210,7 +210,7 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	gameObjectsToDraw.clear();
+	meshesToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -237,7 +237,7 @@ update_status ModuleRender::Update()
 	//	skybox->Draw();
 	//}
 
-	gameObjectsToDraw.clear();
+	meshesToDraw.clear();
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
@@ -247,19 +247,12 @@ update_status ModuleRender::Update()
 
 	if (isRoot) 
 	{
-		gameObjectsToDraw.push_back(goSelected);
+		AddToRenderList(goSelected);
 	}
 
-	for (const GameObject* gameObject : gameObjectsToDraw)
+	for (auto meshAndCounter : meshesToDraw)
 	{
-		std::vector<ComponentMeshRenderer*> meshes = gameObject->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (ComponentMeshRenderer* mesh : meshes) 
-		{
-			batchManager->AddComponent(mesh);
-		//if (gameObject != nullptr && gameObject->IsActive())
-		//{
-		//	gameObject->Draw();
-		}
+		
 	}
 
 	//maybe we need to bind the program
@@ -289,9 +282,8 @@ update_status ModuleRender::Update()
 		goSelected->DrawHighlight();
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
+		AddToRenderList(goSelected); //could be out
 	}
-
-	AddToRenderList(goSelected); //could be out
 
 #ifdef ENGINE
 	if (App->debug->IsShowingBoundingBoxes())
@@ -413,7 +405,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
+						gameObject->GetComponent(ComponentType::MESHRENDERER));
+					ResourceMesh* mesh = component->GetMesh().get();
+					++meshesToDraw[mesh];
 				}
 			}
 		}
@@ -423,7 +418,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
+						gameObject->GetComponent(ComponentType::MESHRENDERER));
+					ResourceMesh* mesh = component->GetMesh().get();
+					++meshesToDraw[mesh];
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -453,7 +451,10 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			gameObjectsToDraw.push_back(gameObject);
+			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
+				gameObject->GetComponent(ComponentType::MESHRENDERER));
+			ResourceMesh* mesh = component->GetMesh().get();
+			++meshesToDraw[mesh];
 		}
 	}
 	

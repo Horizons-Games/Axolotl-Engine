@@ -6,6 +6,8 @@
 #include "GL/glew.h"
 #include <DataModels/Batch/BatchManager.h>
 
+#include <unordered_map>
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -58,7 +60,7 @@ private:
 	unsigned vbo;
 	unsigned uboCamera;
 
-	std::vector<const GameObject*> gameObjectsToDraw;
+	std::unordered_map<const ResourceMesh*, int> meshesToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
@@ -101,5 +103,5 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 
 inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
 {
-	return gameObjectsToDraw;
+	return meshesToDraw;
 }
