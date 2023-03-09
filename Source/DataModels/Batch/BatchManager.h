@@ -18,6 +18,7 @@ public:
 
 private:
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
+
 	std::vector<GeometryBatch*> geometryBatches;
 };
 

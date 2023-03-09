@@ -3,6 +3,7 @@
 #include "FileSystem/UniqueID.h"
 
 #include <vector>
+#include <unordered_set >
 #include "GL/glew.h"
 
 class ComponentMeshRenderer;
@@ -36,16 +37,15 @@ public:
 private:
 	void AddUniqueComponent(ResourceMesh* resourceMesh);
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh);
-	bool isUniqueResourceMesh(const ResourceMesh* resourceMesh);
 
 	std::vector<ComponentMeshRenderer*> components;
-	std::vector<ResourceMesh*> resourceMeshes;
+	std::unordered_set<ResourceMesh*> resourceMeshes;
 
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 	unsigned int indirectBuffer = 0;
-	unsigned int resourceMesheIndex;
+	unsigned int resourceMeshIndex;
 	std::vector<Command> commands;
 
 	int flags = 0;
@@ -58,5 +58,5 @@ inline const int GeometryBatch::GetFlags() const
 
 inline const int GeometryBatch::GetResourceIndex() const
 {
-	return resourceMesheIndex;
+	return resourceMeshIndex;
 }

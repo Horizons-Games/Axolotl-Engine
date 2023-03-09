@@ -27,7 +27,7 @@ GeometryBatch::~GeometryBatch()
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
 {
-	if (newComponent != nullptr)
+	if (newComponent)
 	{
 		if (components.empty())
 		{
@@ -41,7 +41,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 				flags |= HAS_TANGENTS;
 		}
 
-		AddUniqueComponent(newComponent->GetMesh().get());
+		resourceMeshes.insert(newComponent->GetMesh().get());
 		components.push_back(newComponent);
 	}
 }
@@ -49,8 +49,10 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 void GeometryBatch::BindBatch()
 {
 	//command.reserve(components.size());//need to verify the size if it's matching with uniqueComponent
-	unsigned int resourceMeshIndex = 0;
+	unsigned int instanceIndex = 0;
 	commands.clear();
+
+	unsigned program = App->program->GetProgram();
 	
 	for (ResourceMesh* resourceMesh : resourceMeshes)
 	{
@@ -61,13 +63,10 @@ void GeometryBatch::BindBatch()
 				//gen ebo vbo and vao buffers
 				resourceMesh->Load();
 				if (indirectBuffer == 0) {
-					glGenBuffers(1, &indirectBuffer);//
+					glGenBuffers(1, &indirectBuffer);
 				}
 			}
 
-			unsigned program = App->program->GetProgram();
-			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -81,17 +80,15 @@ void GeometryBatch::BindBatch()
 			}
 
 			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-			glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 				
 			//do a for for all the instaces existing
-			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), resourceMeshIndex };
+			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), instanceIndex };
 			commands.push_back(newCommand);
-			resourceMeshIndex++;
+			instanceIndex++;
 
 			//send to gpu
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands),&commands[0], GL_STATIC_DRAW);
+			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
 			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
 
 			//send in the shader
@@ -102,14 +99,6 @@ void GeometryBatch::BindBatch()
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
-	}
-}
-
-void GeometryBatch::AddUniqueComponent(ResourceMesh* resourceMesh)
-{
-	if (isUniqueResourceMesh(resourceMesh))
-	{
-		resourceMeshes.push_back(resourceMesh);
 	}
 }
 
@@ -124,19 +113,6 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	}
 
 	return nullptr;
-}
-
-bool GeometryBatch::isUniqueResourceMesh(const ResourceMesh* resourceMesh)
-{
-	for (ResourceMesh* resourceMeshe : resourceMeshes)
-	{
-		if (resourceMeshe == resourceMesh)
-		{
-			return false;
-		}
-	}
-
-	return true;
 }
 
 bool GeometryBatch::CleanUp()

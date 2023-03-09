@@ -6,7 +6,8 @@
 #include "DataModels/Batch/BatchFlags.h"
 
 BatchManager::BatchManager()
-{}
+{
+}
 
 BatchManager::~BatchManager()
 {
@@ -15,11 +16,11 @@ BatchManager::~BatchManager()
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 {
-	if (newComponent != nullptr)
+	if (newComponent)
 	{
 		GeometryBatch* batch = CheckBatchCompatibility(newComponent);
 
-		if (batch != nullptr)
+		if (batch)
 		{
 			batch->AddComponentMeshRenderer(newComponent);
 		}
@@ -27,11 +28,8 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 		{
 			GeometryBatch* newBatch = new GeometryBatch();
 
-			if (newBatch != nullptr)
-			{
-				newBatch->AddComponentMeshRenderer(newComponent);
-				geometryBatches.push_back(newBatch);
-			}
+			newBatch->AddComponentMeshRenderer(newComponent);
+			geometryBatches.push_back(newBatch);
 		}
 	}
 }
@@ -52,7 +50,9 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	for (GeometryBatch* geometryBatch : geometryBatches)
 	{
 		if (geometryBatch->GetFlags() == flags)
+		{
 			return geometryBatch;
+		}
 	}
 	return nullptr;
 }

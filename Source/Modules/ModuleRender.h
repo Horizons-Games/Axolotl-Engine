@@ -56,7 +56,8 @@ private:
 	BatchManager* batchManager;
 
 	unsigned vbo;
-	
+	unsigned uboCamera;
+
 	std::vector<const GameObject*> gameObjectsToDraw;
 	const std::vector<std::string> modelTypes;
 

@@ -1,4 +1,4 @@
-#version 440
+#version 460
 
 struct Material {
     vec3 diffuse_color;         //location 3

@@ -157,6 +157,27 @@ bool ModuleRender::Init()
 	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
+	//Reserve space for Camera matrix
+
+	const unsigned program = App->program->GetProgram();
+
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
+
+	glGenBuffers(1, &uboCamera);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
+
+	const unsigned bindingCamera = 0;
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingCamera, uboCamera, 0, sizeof(float4) * 8);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
 	return true;
 }
 
@@ -241,15 +262,17 @@ update_status ModuleRender::Update()
 		}
 	}
 
+	//maybe we need to bind the program
+	const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
+	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
 	for (GeometryBatch* batch : batchManager->GetBatches())
 	{
 		batchManager->DrawBatch(batch);
-	}
-
-	for (const GameObject* gameObject : gameObjectsToDraw)
-	{
-		if (gameObject != nullptr && gameObject->IsActive())
-			gameObject->Draw();
 	}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
@@ -268,7 +291,7 @@ update_status ModuleRender::Update()
 		glLineWidth(1);
 	}
 
-	AddToRenderList(goSelected);
+	AddToRenderList(goSelected); //could be out
 
 #ifdef ENGINE
 	if (App->debug->IsShowingBoundingBoxes())
@@ -302,6 +325,7 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(context);
 
 	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &uboCamera);
 	
 	return true;
 }
