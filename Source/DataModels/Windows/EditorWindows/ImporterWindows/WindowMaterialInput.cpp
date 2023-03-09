@@ -29,10 +29,9 @@ void WindowMaterialInput::DoThisIfOk()
 
 void WindowMaterialInput::GetResourceAfterImport()
 {
-	if (componentMaterial && this->futureResourceUID.valid())
+	if (componentMaterial && this->futureResource.valid())
 	{
-		UID uidMaterial = this->futureResourceUID.get();
-		std::weak_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(uidMaterial);
-		componentMaterial->SetMaterial(material.lock() /*TODO: change with filesystem rework*/);
+		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(this->futureResource.get());
+		componentMaterial->SetMaterial(material);
 	}
 }

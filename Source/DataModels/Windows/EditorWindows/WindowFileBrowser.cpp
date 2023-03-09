@@ -107,7 +107,7 @@ void WindowFileBrowser::DrawWindowContents()
 
 	ImportResourceWithLoadingWindow();
 
-	if (futureResourceUID.valid() && !isLoading)
+	if (futureResource.valid() && !isLoading)
 	{
 		GetResourceAfterImport();
 	}
@@ -137,7 +137,7 @@ void WindowFileBrowser::DoThisIfOk()
 void WindowFileBrowser::ImportResourceWithLoadingWindow()
 {
 	winLoading->Draw(isLoading);
-	if (futureResourceUID._Is_ready() && timer->Read() > 1000)
+	if (futureResource._Is_ready() && timer->Read() > 1000)
 	{
 		isLoading = false;
 		timer->Stop();
@@ -147,7 +147,7 @@ void WindowFileBrowser::ImportResourceWithLoadingWindow()
 
 void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 {
-	futureResourceUID = App->resources->ImportThread(filePath);
+	futureResource = App->resources->ImportThread(filePath);
 
 	timer = std::make_unique<Timer>();
 	timer->Start();

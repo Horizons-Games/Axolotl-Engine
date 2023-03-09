@@ -12,7 +12,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;    
+    flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -29,7 +29,7 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject != nullptr);   
+    assert(gameObject != nullptr);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
@@ -57,19 +57,19 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             }
         }
     }
-    
+
     if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
-    }    
+    }
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
     ImGui::PushID(gameObjectLabel);
-    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || 
-        (ImGui::IsMouseClicked(ImGuiMouseButton_Right) 
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+        (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
             && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
@@ -90,7 +90,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-        
+
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
             GameObject* selectedParent = gameObject->GetParent();
@@ -112,7 +112,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
             }
         }
-        
+
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())

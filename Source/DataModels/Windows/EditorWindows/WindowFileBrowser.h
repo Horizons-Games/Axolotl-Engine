@@ -7,6 +7,7 @@
 #include "FontIcons/CustomFont.h"
 #include "DataModels/Windows/EditorWindows/WindowLoading.h"
 
+class Resource;
 class Timer;
 
 class WindowFileBrowser : public EditorWindow
@@ -33,7 +34,7 @@ protected:
 	ImGuiFileDialog fileDialogImporter;
 	
 	bool showFileDialog = false;
-	std::future<unsigned long long> futureResourceUID;
+	std::future<std::shared_ptr<Resource>> futureResource;
 
 private:
 	void ImportResourceWithLoadingWindow();

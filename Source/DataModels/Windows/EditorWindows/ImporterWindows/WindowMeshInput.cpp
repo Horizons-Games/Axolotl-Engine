@@ -29,10 +29,9 @@ void WindowMeshInput::DoThisIfOk()
 
 void WindowMeshInput::GetResourceAfterImport()
 {
-	if (componentMesh && this->futureResourceUID.valid())
+	if (componentMesh && this->futureResource.valid())
 	{
-		UID uidMesh = this->futureResourceUID.get();
-		std::weak_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(uidMesh);
-		componentMesh->SetMesh(mesh.lock() /*TODO: change with filesystem rework*/);
+		std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(this->futureResource.get());
+		componentMesh->SetMesh(mesh);
 	}
 }
