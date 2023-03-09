@@ -261,7 +261,7 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ModuleCommand.cpp" />
+    <ClCompile Include="Modules\ModuleCommand.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
     <ClCompile Include="Modules\ModuleEditor.cpp" />
     <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
@@ -369,7 +369,7 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
@@ -438,8 +438,8 @@
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="ModuleCommand.h" />
     <ClInclude Include="Modules\Module.h" />
+    <ClInclude Include="Modules\ModuleCommand.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h" />
     <ClInclude Include="Modules\ModuleEditor.h" />
     <ClInclude Include="Modules\ModuleEngineCamera.h" />

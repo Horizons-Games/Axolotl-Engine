@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-#include "Command.h"
+#include "DataModels/Commands/Command.h"
 
 #include <list>
 #include <memory>

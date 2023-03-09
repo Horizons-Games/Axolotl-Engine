@@ -391,7 +391,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCommand.cpp">
+    <ClCompile Include="Modules\ModuleCommand.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -924,10 +924,10 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
+    <ClInclude Include="DataModels\Commands\Command.h">
       <Filter>Source\DataModels\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCommand.h">
+    <ClInclude Include="Modules\ModuleCommand.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
   </ItemGroup>
