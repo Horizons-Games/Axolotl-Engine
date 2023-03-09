@@ -26,7 +26,6 @@ bool ModuleProgram::Start()
 	return true;
 }
 
-
 std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
 	std::string programName)
 {
@@ -52,7 +51,6 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 	return program;
 }
 
-
 bool ModuleProgram::CleanUp()
 {
 	glDeleteProgram(program);
@@ -60,30 +58,15 @@ bool ModuleProgram::CleanUp()
 	return true;
 }
 
-void ModuleProgram::CreateProgram(unsigned int vtxShader, unsigned int frgShader)
+void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
+	std::string programName)
 {
-	program = glCreateProgram();
-	glAttachShader(program, vtxShader);
-	glAttachShader(program, frgShader);
-	glLinkProgram(program);
+	std::unique_ptr<Program> program = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
 
-	int res;
-	glGetProgramiv(program, GL_LINK_STATUS, &res);
-	if (res == GL_FALSE)
+	if (program)
 	{
-		int len = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
-		if (len > 0)
-		{
-			int written = 0;
-			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(program, len, &written, info);
-			ENGINE_LOG("Program Log Info: %s", info);
-			free(info);
-		}
+		programs[programType] = std::move(program);
 	}
-	glDeleteShader(vtxShader);
-	glDeleteShader(frgShader);
 }
 
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
