@@ -1,0 +1,10 @@
+{
+    "UID": 14202791625847958186,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/DoorNormal_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/DoorNormal_0.mat"
+    ]
+}

@@ -12,7 +12,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;    
+    flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -29,7 +29,7 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject != nullptr);   
+    assert(gameObject != nullptr);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
@@ -57,11 +57,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             }
         }
     }
-    
+
     if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
-    }    
+    }
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
@@ -166,8 +166,7 @@ void WindowHierarchy::DrawPopupMenu(GameObject* gameObject)
         {
             if (ImGui::MenuItem("Delete"))
             {
-                GameObject* selectedGo = App->scene->GetSelectedGameObject();
-                if (gameObject == selectedGo || gameObject->IsADescendant(selectedGo))
+                if (gameObject == App->scene->GetSelectedGameObject())
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent

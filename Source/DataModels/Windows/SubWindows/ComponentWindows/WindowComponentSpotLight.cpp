@@ -1,7 +1,9 @@
 #include "WindowComponentSpotLight.h"
 
 #include "Application.h"
+
 #include "ModuleScene.h"
+
 #include "DataModels/Scene/Scene.h"
 
 #include "DataModels/Components/ComponentSpotLight.h"
@@ -113,17 +115,20 @@ void WindowComponentSpotLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			float innerAngle = asSpotLight->GetInnerAngle();
-			float outerAngle = asSpotLight->GetOuterAngle();
+			float innerAngle = RadToDeg(asSpotLight->GetInnerAngle());
+			float outerAngle = RadToDeg(asSpotLight->GetOuterAngle());
 
 			ImGui::Text("Inner Angle"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##Inner", &innerAngle, 0.01f, 0.0001f, 180.0f))
+			if (ImGui::DragFloat("##Inner", &innerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))
 			{
+				innerAngle > 90.0f ? innerAngle = 90.0f : innerAngle;
+				innerAngle < 0.0f ? innerAngle = 0.0f : innerAngle;
+
 				if (innerAngle <= outerAngle)
 				{
-					asSpotLight->SetInnerAngle(innerAngle);
+					asSpotLight->SetInnerAngle(DegToRad(innerAngle));
 					modified = true;
 				}
 			}
@@ -132,11 +137,14 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::Text("Outer Angle"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##Outer", &outerAngle, 0.01f, 0.0001f, 180.0f))
+			if (ImGui::DragFloat("##Outer", &outerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))
 			{
+				outerAngle > 90.0f ? outerAngle = 90.0f : outerAngle;
+				outerAngle < 0.0f ? outerAngle = 0.0f : outerAngle;
+
 				if (outerAngle >= innerAngle)
 				{
-					asSpotLight->SetOuterAngle(outerAngle);
+					asSpotLight->SetOuterAngle(DegToRad(outerAngle));
 					modified = true;
 				}
 			}

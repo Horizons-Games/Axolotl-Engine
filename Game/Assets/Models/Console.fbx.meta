@@ -1,0 +1,14 @@
+{
+    "UID": 17070876752012625339,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Console_0.mesh",
+        "Assets/Meshes/Console_1.mesh",
+        "Assets/Meshes/Console_2.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Console_0.mat",
+        "Assets/Materials/Console_1.mat",
+        "Assets/Materials/Console_2.mat"
+    ]
+}
