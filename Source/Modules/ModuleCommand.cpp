@@ -1,4 +1,7 @@
+#include "Application.h"
+
 #include "ModuleCommand.h"
+#include "ModuleInput.h"
 
 ModuleCommand::ModuleCommand() : commandListIterator(std::begin(commandList))
 {
@@ -15,6 +18,18 @@ bool ModuleCommand::Init()
 
 update_status ModuleCommand::Update()
 {
+	if (
+		App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
+		&& App->input->GetKey(SDL_SCANCODE_Z) != KeyState::IDLE)
+	{
+		Undo();
+	}
+	else if (
+		App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
+		&& App->input->GetKey(SDL_SCANCODE_Y) != KeyState::IDLE)
+	{
+		Redo();
+	}
 	return UPDATE_CONTINUE;
 }
 
