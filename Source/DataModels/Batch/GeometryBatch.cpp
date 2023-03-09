@@ -86,20 +86,19 @@ void GeometryBatch::BindBatch()
 			commands.push_back(newCommand);
 			instanceIndex++;
 
-			//send to gpu
-			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
-			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
-
-			//send in the shader
-			glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
-
-
 			//glBindVertexArray(0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
+
+	//send to gpu
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
+	//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
+
+	//send in the shader
+	glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
