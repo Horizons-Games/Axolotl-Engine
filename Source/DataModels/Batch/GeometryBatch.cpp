@@ -9,6 +9,7 @@
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceMesh.h"
 #include "DataModels/Batch/BatchFlags.h"
+#include "DataModels/Program/Program.h"
 
 #include <gl/glew.h>
 
@@ -52,52 +53,50 @@ void GeometryBatch::BindBatch()
 	unsigned int instanceIndex = 0;
 	commands.clear();
 
-	unsigned program = App->program->GetProgram();
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	
-	for (ResourceMesh* resourceMesh : resourceMeshes)
+	if (program)
 	{
-		if (resourceMesh) //pointer not empty
+		for (ResourceMesh* resourceMesh : resourceMeshes)
 		{
-			if (!resourceMesh->IsLoaded())
+			if (resourceMesh) //pointer not empty
 			{
-				//gen ebo vbo and vao buffers
-				resourceMesh->Load();
-				if (indirectBuffer == 0) {
-					glGenBuffers(1, &indirectBuffer);
+				if (!resourceMesh->IsLoaded())
+				{
+					//gen ebo vbo and vao buffers
+					resourceMesh->Load();
+					if (indirectBuffer == 0) {
+						glGenBuffers(1, &indirectBuffer);
+					}
 				}
+
+				const float4x4& model =
+					static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
+						->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+				GLint programInUse;
+				glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+				program->BindUniformFloat4x4("model", (const float*)&model, GL_TRUE);
+
+				//do a for for all the instaces existing
+				Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), instanceIndex };
+				commands.push_back(newCommand);
+				instanceIndex++;
+
+				//send to gpu
+				glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+				glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
+				//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
+
+				//send in the shader
+				glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
+
+
+				//glBindVertexArray(0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
-
-			const float4x4& model =
-				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
-					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-
-			GLint programInUse;
-			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-			if (program != programInUse)
-			{
-				glUseProgram(program);
-			}
-
-			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-				
-			//do a for for all the instaces existing
-			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), instanceIndex };
-			commands.push_back(newCommand);
-			instanceIndex++;
-
-			//send to gpu
-			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
-			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
-
-			//send in the shader
-			glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
-
-
-			//glBindVertexArray(0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 }

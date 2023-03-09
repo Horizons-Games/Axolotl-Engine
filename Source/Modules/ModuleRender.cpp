@@ -159,16 +159,6 @@ bool ModuleRender::Init()
 
 	//Reserve space for Camera matrix
 
-	const unsigned program = App->program->GetProgram();
-
-	GLint programInUse;
-	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-	if (program != programInUse)
-	{
-		glUseProgram(program);
-	}
-
 	glGenBuffers(1, &uboCamera);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
@@ -184,8 +174,6 @@ bool ModuleRender::Init()
 bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
-
-	UpdateProgram();
 
 	//we really need to remove this :)
 #ifdef ENGINE
@@ -362,13 +350,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ModuleRender::SetShaders(const std::string& vertexShader, const std::string& fragmentShader)
-{
-	this->vertexShader = vertexShader.c_str();
-	this->fragmentShader = fragmentShader.c_str();
-	UpdateProgram();
-}
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -382,23 +363,6 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	}
 
 	return valid;
-}
-
-void ModuleRender::UpdateProgram()
-{
-	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
-	char* vertexSource;
-	char * fragmentSource;
-	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Source/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
-	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-	delete vertexSource;
-	delete fragmentSource;
-
-	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
