@@ -34,6 +34,7 @@ protected:
 	ImGuiFileDialog fileDialogImporter;
 	
 	bool showFileDialog = false;
+	bool isLoading;
 	std::future<std::shared_ptr<Resource>> futureResource;
 
 private:
@@ -41,6 +42,5 @@ private:
 
 	std::unique_ptr<WindowLoading> winLoading;
 	std::unique_ptr<Timer> timer;
-	bool isLoading;
 	std::string filePathName;
 };
