@@ -114,7 +114,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 ImGui::EndDragDropTarget();
             }
         }
-        bool itemAboveCurrentScroll = ImGui::GetScrollY() >= ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
+        bool itemAboveCurrentScroll = ImGui::GetScrollY() >=
+            ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
         if (itemVisible || itemAboveCurrentScroll)
         {
             for (int i = 0; i < gameObject->GetChildren().size(); ++i)
