@@ -83,9 +83,9 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 std::future<std::shared_ptr<Resource>> ModuleResources::ImportThread(const std::string& originalPath)
 {
 	return std::async(std::launch::async,
-		[&]()
+		[=]()
 		{
-			return RequestResource(std::string(originalPath));
+			return RequestResource(originalPath);
 		});
 }
 
