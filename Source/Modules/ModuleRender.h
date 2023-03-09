@@ -13,6 +13,7 @@ struct SDL_Renderer;
 struct SDL_Rect;
 
 class Skybox;
+class ResourceMesh;
 
 class ModuleRender : public Module
 {
@@ -47,7 +48,7 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+	const std::unordered_map<const ResourceMesh*, int> GetMeshesToDraw() const; //unused
 
 private:
 	void UpdateProgram();
@@ -101,7 +102,7 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 	return fragmentShader;
 }
 
-inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
+inline const std::unordered_map<const ResourceMesh*, int> ModuleRender::GetMeshesToDraw() const
 {
 	return meshesToDraw;
 }
