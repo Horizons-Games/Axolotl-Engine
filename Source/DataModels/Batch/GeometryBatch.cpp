@@ -57,6 +57,7 @@ void GeometryBatch::BindBatch()
 	
 	if (program)
 	{
+		program->Activate();
 		for (ResourceMesh* resourceMesh : resourceMeshes)
 		{
 			if (resourceMesh) //pointer not empty
@@ -98,6 +99,7 @@ void GeometryBatch::BindBatch()
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
 		}
+		program->Desactivate();
 	}
 }
 

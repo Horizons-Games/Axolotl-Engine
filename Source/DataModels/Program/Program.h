@@ -13,7 +13,7 @@ public:
 	void CleanUp();
 
 	void Activate();
-	void Deactivate();
+	void Desactivate();
 	void BindUniformFloat4x4(const std::string& name, const float* data, bool transpose);
 	void BindUniformFloat3(const std::string& name, const float3 data);
 	void BindUniformFloat(const std::string& name, const float data);

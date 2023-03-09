@@ -35,7 +35,6 @@ private:
 	std::string LoadShaderSource(const std::string& shaderFileName);
 	unsigned CompileShader(unsigned type, const std::string& source);
 
-	unsigned int program;
 	std::vector<std::unique_ptr<Program> > programs;
 	std::string rootPath = "Source/Shaders/";
 };

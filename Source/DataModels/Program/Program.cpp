@@ -21,7 +21,7 @@ void Program::Activate()
 	glUseProgram(id);
 }
 
-void Program::Deactivate()
+void Program::Desactivate()
 {
 	glUseProgram(0);
 }

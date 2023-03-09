@@ -220,10 +220,10 @@ update_status ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
-	//if (skybox)
-	//{
-	//	skybox->Draw();
-	//}
+	if (skybox)
+	{
+		skybox->Draw();
+	}
 
 	gameObjectsToDraw.clear();
 

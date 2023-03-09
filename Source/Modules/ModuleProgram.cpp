@@ -8,7 +8,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram() : program (0)
+ModuleProgram::ModuleProgram()
 {
 }
 
@@ -53,8 +53,6 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 
 bool ModuleProgram::CleanUp()
 {
-	glDeleteProgram(program);
-
 	return true;
 }
 
