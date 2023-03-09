@@ -10,7 +10,7 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), stopDrawing(false)
 {
     flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoScrollbar;
 }
@@ -29,6 +29,17 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
+    bool gameObjectIsRoot = gameObject == App->scene->GetLoadedScene()->GetRoot();
+
+    if (gameObjectIsRoot)
+    {
+        stopDrawing = false;
+    }
+    else if (stopDrawing)
+    {
+        return;
+    }
+
     assert(gameObject != nullptr);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
@@ -41,7 +52,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Leaf;
     }
 
-    if (gameObject == App->scene->GetLoadedScene()->GetRoot())
+    if (gameObjectIsRoot)
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
@@ -67,9 +78,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
+    bool itemVisible = ImGui::IsItemVisible();
+    bool itemAboveCurrentScroll = ImGui::GetScrollY() >=
+        ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
+
     if (nodeDrawn)
     {
-        bool itemVisible = ImGui::IsItemVisible();
         if (itemVisible)
         {
             ImGui::PushID(gameObjectLabel);
@@ -114,8 +128,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 ImGui::EndDragDropTarget();
             }
         }
-        bool itemAboveCurrentScroll = ImGui::GetScrollY() >=
-            ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
         if (itemVisible || itemAboveCurrentScroll)
         {
             for (int i = 0; i < gameObject->GetChildren().size(); ++i)
@@ -124,6 +136,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             }
         }
         ImGui::TreePop();
+    }
+
+    if (!(itemVisible || itemAboveCurrentScroll))
+    {
+        stopDrawing = true;
     }
 }
 

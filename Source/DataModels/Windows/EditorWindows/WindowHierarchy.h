@@ -15,4 +15,6 @@ protected:
 private:
 	void DrawRecursiveHierarchy(GameObject* gameObject);
 	void DrawPopupMenu(GameObject* gameObject);
+
+	bool stopDrawing;
 };
