@@ -40,7 +40,7 @@ void Skybox::Draw()
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glBindVertexArray(0);
-        program->Deactivate();
+        program->Desactivate();
         glDepthMask(GL_TRUE);
     }
 }

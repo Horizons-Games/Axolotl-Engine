@@ -9,7 +9,8 @@ enum class ProgramType
 {
 	MESHSHADER,
 	HIGHLIGHT,
-	SKYBOX
+	SKYBOX,
+	PROGRAM_TYPE_SIZE
 };
 
 class ModuleProgram : public Module
@@ -31,7 +32,8 @@ public:
 	Program* GetProgram(ProgramType type) const;
 
 private:
-	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName);
+	std::unique_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+		std::string programName);
 
 	unsigned int program;
 	std::vector<std::unique_ptr<Program> > programs;

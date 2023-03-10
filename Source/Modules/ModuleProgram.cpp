@@ -18,28 +18,33 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
-	programs.reserve((int)ProgramType::SKYBOX + 1);
-	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl"));
-	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl"));
-	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl"));
+	programs.reserve((int)ProgramType::PROGRAM_TYPE_SIZE);
+	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
+	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
+	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
+	
 
 	return true;
 }
 
 
-std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName)
+std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
+	std::string programName)
 {
-	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
-	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
+	unsigned vertexShader =
+		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
+	unsigned fragmentShader =
+		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{
 		return nullptr;
 	}
 
-	std::unique_ptr<Program> program = std::make_unique<Program>(vertexShader, fragmentShader);
+	std::unique_ptr<Program> program = std::make_unique<Program>(vertexShader, fragmentShader,
+		vtxShaderFileName, frgShaderFileName, programName);
 
-	if (program->GetId() == 0)
+	if (!program->IsValidProgram())
 	{
 		return nullptr;
 	}
