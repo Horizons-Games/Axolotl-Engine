@@ -57,33 +57,33 @@ void ComponentMeshRenderer::Draw()
 			mesh->Load();
 		}
 
-		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
-		const float4x4& model =
-			static_cast<ComponentTransform*>(GetOwner()
-				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-		GLint programInUse;
-		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+		Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
-		if (program != programInUse)
+		if (program)
 		{
-			glUseProgram(program);
+			program->Activate();
+			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+			const float4x4& model =
+				static_cast<ComponentTransform*>(GetOwner()
+					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+
+			glBindVertexArray(mesh->GetVAO());
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+
+			glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindVertexArray(0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			program->Desactivate();
 		}
-
-		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
-
-		glBindVertexArray(mesh->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
-
-		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }
 

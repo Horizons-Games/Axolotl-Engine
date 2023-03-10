@@ -24,6 +24,6 @@ void WindowRenderer::DrawWindowContents()
 	ImGui::Dummy(ImVec2(0.f, 5.f)); //spacing
 	if (ImGui::Button("Update shaders"))
 	{
-		App->renderer->SetShaders(vertexShaderBuffer, fragmentShaderBuffer);
+		//App->renderer->SetShaders(vertexShaderBuffer, fragmentShaderBuffer);
 	}
 }

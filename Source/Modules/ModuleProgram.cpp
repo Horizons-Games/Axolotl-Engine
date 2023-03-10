@@ -8,7 +8,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
-ModuleProgram::ModuleProgram() : program (0)
+ModuleProgram::ModuleProgram()
 {
 }
 
@@ -27,6 +27,16 @@ bool ModuleProgram::Start()
 	return true;
 }
 
+void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
+	std::string programName)
+{
+	std::unique_ptr<Program> program = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
+
+	if (program)
+	{
+		programs[programType] = std::move(program);
+	}
+}
 
 std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
 	std::string programName)
@@ -57,35 +67,7 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileN
 
 bool ModuleProgram::CleanUp()
 {
-	glDeleteProgram(program);
-
 	return true;
-}
-
-void ModuleProgram::CreateProgram(unsigned int vtxShader, unsigned int frgShader)
-{
-	program = glCreateProgram();
-	glAttachShader(program, vtxShader);
-	glAttachShader(program, frgShader);
-	glLinkProgram(program);
-
-	int res;
-	glGetProgramiv(program, GL_LINK_STATUS, &res);
-	if (res == GL_FALSE)
-	{
-		int len = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
-		if (len > 0)
-		{
-			int written = 0;
-			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(program, len, &written, info);
-			ENGINE_LOG("Program Log Info: %s", info);
-			free(info);
-		}
-	}
-	glDeleteShader(vtxShader);
-	glDeleteShader(frgShader);
 }
 
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
