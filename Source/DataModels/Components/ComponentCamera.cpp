@@ -10,6 +10,7 @@
 #include "ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
+#include "Math/Quat.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner, false),
@@ -24,7 +25,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
 	
 	frustum.SetPos(trans->GetPosition());
-	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
+	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetRotation());
 	frustum.SetFront(rotationMatrix * float3::unitZ);
 	frustum.SetUp(rotationMatrix * float3::unitY);
 

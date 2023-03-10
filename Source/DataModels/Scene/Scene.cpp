@@ -70,6 +70,12 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
+
+	// Update the transform respect its parent when created
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
