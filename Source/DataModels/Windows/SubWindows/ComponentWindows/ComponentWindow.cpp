@@ -86,6 +86,7 @@ void ComponentWindow::DrawEnableComponent()
 		std::stringstream ss;
 		ss << "##Enabled " << windowUUID;
 
+		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->GetActive();
 		ImGui::Checkbox(ss.str().c_str(), &enable);
 
@@ -95,7 +96,7 @@ void ComponentWindow::DrawEnableComponent()
 
 void ComponentWindow::DrawDeleteComponent()
 {
-	if (component)
+	if (component && component->GetCanBeRemoved())
 	{
 		std::stringstream ss;
 		ss << "Remove Comp. " << windowUUID;

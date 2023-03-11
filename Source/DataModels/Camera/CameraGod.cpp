@@ -39,8 +39,8 @@ bool CameraGod::Update()
 		//Move and rotate with right buttons and ASDWQE
 		int mouseX, mouseY;
 		SDL_GetMouseState(&mouseX, &mouseY);
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		App->input->SetMouseMotionX(float(mouseX - lastMouseX));
+		App->input->SetMouseMotionY(float(mouseY - lastMouseY));
 
 		int width, height;
 		SDL_GetWindowSize(App->window->GetWindow(), &width, &height);

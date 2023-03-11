@@ -191,10 +191,10 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 
 	unsigned int options[5] =
 	{
-		static_cast<int>(resource->GetLoadOptions().min),
-		static_cast<int>(resource->GetLoadOptions().mag),
-		static_cast<int>(resource->GetLoadOptions().wrapS),
-		static_cast<int>(resource->GetLoadOptions().wrapT),
+		static_cast<unsigned int>(resource->GetLoadOptions().min),
+		static_cast<unsigned int>(resource->GetLoadOptions().mag),
+		static_cast<unsigned int>(resource->GetLoadOptions().wrapS),
+		static_cast<unsigned int>(resource->GetLoadOptions().wrapT),
 		resource->GetLoadOptions().mipMap
 	};
 

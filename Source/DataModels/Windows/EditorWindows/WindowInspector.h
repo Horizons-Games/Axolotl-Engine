@@ -49,7 +49,7 @@ private:
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 
-	GameObject* lastSelectedGameObject = nullptr;
+	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
 
 	//Options (Move this to another class? Probably)
