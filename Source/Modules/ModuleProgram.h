@@ -40,5 +40,12 @@ private:
 
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
-	return programs[static_cast<int>(type)].get();
+	if (programs.size() != 0) 
+	{
+		return programs[static_cast<int>(type)].get();
+	}
+	else
+	{
+		return nullptr;
+	}
 }
