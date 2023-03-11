@@ -64,11 +64,8 @@ void WindowRenderer::DrawWindowContents()
 				std::ifstream vf(("../Source/Shaders/" + vertexShaderBuffers[i]).c_str());
 				std::ifstream ff(("../Source/Shaders/" + fragmentShaderBuffer[i]).c_str());
 
-				if (
-					vf.good()
-					&& 
-					ff.good()
-					)
+				if (vf.good()
+					&& ff.good())
 				{
 					App->program->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
 					initialized = false;
