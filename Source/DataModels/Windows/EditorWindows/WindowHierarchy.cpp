@@ -81,7 +81,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
 
-        if (ImGui::MenuItem("Create child"))
+        if (ImGui::MenuItem("Create Empty child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
@@ -89,6 +89,31 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+        }
+        //Create Resource
+        if (ImGui::BeginMenu("Create 3D object"))
+        {
+            if (ImGui::MenuItem("Cube"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
+            }
+            if (ImGui::MenuItem("Plane"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
+            }
+            if (ImGui::MenuItem("Cylinder"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cylinder", gameObject, Premade3D::CYLINDER);
+            }
+            if (ImGui::MenuItem("Capsule"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Capsule", gameObject, Premade3D::CAPSULE);
+            }
+            if (ImGui::MenuItem("Character"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
+            }
+            ImGui::EndMenu();
         }
 
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
