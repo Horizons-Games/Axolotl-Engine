@@ -50,8 +50,8 @@ Global
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseEngine|x64.Build.0 = ReleaseEngine|x64
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseEngine|x86.ActiveCfg = ReleaseEngine|Win32
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseEngine|x86.Build.0 = ReleaseEngine|Win32
-		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.ActiveCfg = DebugGame|x64
-		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.Build.0 = DebugGame|x64
+		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.ActiveCfg = ReleaseGame|x64
+		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.Build.0 = ReleaseGame|x64
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x86.ActiveCfg = ReleaseEngine|Win32
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x86.Build.0 = ReleaseEngine|Win32
 	EndGlobalSection
