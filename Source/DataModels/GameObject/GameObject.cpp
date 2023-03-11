@@ -258,6 +258,11 @@ void GameObject::SetParent(GameObject* newParent)
 	parent = newParent;
 	parent->AddChild(std::move(pointerToThis));
 
+	// Update the transform respect its parent when moved around
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
 

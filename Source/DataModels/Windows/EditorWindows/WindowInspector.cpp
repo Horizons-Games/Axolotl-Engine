@@ -1,3 +1,5 @@
+#pragma warning (disable: 4312)
+
 #include "WindowInspector.h"
 
 #include "Application.h"
@@ -14,7 +16,8 @@
 
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
 	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false)
+	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false),
+	lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -52,6 +55,25 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
+		ImGui::SameLine();
+
+		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
+		{
+			char* name = (char*)lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", name, 24))
+			{
+				std::string scene = " Scene";
+				std::string sceneName = name + scene;
+				lastSelectedGameObject->SetName(sceneName.c_str());
+			}
+
+		}
+		else
+		{
+			char* name = (char*)lastSelectedGameObject->GetName();
+			ImGui::InputText("##GameObject", name, 24);
+		}
+
 		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
 		ImGui::SameLine();
 		ImGui::Text("Draw Bounding Box");
@@ -75,28 +97,6 @@ void WindowInspector::InspectSelectedGameObject()
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
 		}
-	}
-	else
-	{
-		char* name = (char*)lastSelectedGameObject->GetName();
-		ImGui::InputText("##GameObject", name, 24);
-	}
-
-	if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
-	{
-		char* name = (char*)lastSelectedGameObject->GetName();
-		if (ImGui::InputText("##GameObject", name, 24))
-		{
-			std::string scene = " Scene";
-			std::string sceneName = name + scene;
-			lastSelectedGameObject->SetName(sceneName.c_str());
-		}
-
-	}
-	else
-	{
-		char* name = (char*)lastSelectedGameObject->GetName();
-		ImGui::InputText("##GameObject", name, 24);
 	}
 
 	ImGui::Separator();

@@ -78,6 +78,25 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
+    // Delete a GameObject with the SUPR key
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+    {
+        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+        {
+            if (gameObject == App->scene->GetSelectedGameObject())
+            {
+                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                            // change the focus to its parent
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                    RemoveGameObjectAndChildren(gameObject->GetParent());
+
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+            }
+        }
+    }
+
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
 
@@ -85,6 +104,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
+
         if (ImGui::MenuItem("Create camera"))
         {
             GameObject* newCamera =
