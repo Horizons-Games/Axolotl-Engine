@@ -56,7 +56,14 @@ struct Light {
     vec3 color;
 };
 
-layout(location = 3) uniform Material material; // 0-9
+readonly layout(std430, binding = 11) buffer Materials 
+{
+ Material materials[];
+};
+
+in flat int instance_index;
+
+//layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D specular_map;
 layout(binding = 7) uniform sampler2D normal_map;
@@ -215,6 +222,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
   
 void main()
 {
+    Material material = materials[instance_index];
 	vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -273,5 +281,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 1.0);
+    outColor = vec4(1.0,0,1.0,1.0);
 }

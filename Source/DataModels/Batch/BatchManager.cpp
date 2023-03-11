@@ -6,7 +6,8 @@
 #include "DataModels/Batch/BatchFlags.h"
 
 BatchManager::BatchManager()
-{}
+{
+}
 
 BatchManager::~BatchManager()
 {
@@ -61,6 +62,7 @@ void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 {
 
 	geometry_batch->BindBatch();
+	geometry_batch->UpdateCommands();
 	//use multi draw to combine with the batch method
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, geometry_batch->GetResourceIndex(), 0);
 

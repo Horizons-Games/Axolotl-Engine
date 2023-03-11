@@ -51,6 +51,9 @@ public:
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
+	std::vector<unsigned int> instance;
+	std::vector<unsigned int> instance_size;
+
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
@@ -63,6 +66,7 @@ private:
 	unsigned int vbo;
 	unsigned int ebo;
 	unsigned int vao;
+
 
 	//parameters for buffer object creation
 	unsigned int numVertices;

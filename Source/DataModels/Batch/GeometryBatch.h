@@ -27,6 +27,9 @@ public:
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
 	void BindBatch();
+	void UpdateCommands();
+	void CreateVAO();
+	void UpdateVAO();
 
 	const int GetFlags() const;
 	const int GetResourceIndex() const;
@@ -45,9 +48,12 @@ private:
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 	unsigned int indirectBuffer = 0;
-	unsigned int resourceMesheIndex;
+	unsigned int transforms = 0;
+	unsigned int resourceMeshIndex;
+	unsigned int firstIndex;
+	unsigned int basevertex;
 	std::vector<Command> commands;
-
+	ResourceMesh* buffers;
 	int flags = 0;
 };
 
@@ -58,5 +64,5 @@ inline const int GeometryBatch::GetFlags() const
 
 inline const int GeometryBatch::GetResourceIndex() const
 {
-	return resourceMesheIndex;
+	return resourceMeshIndex;
 }

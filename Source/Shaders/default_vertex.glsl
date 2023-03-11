@@ -1,17 +1,17 @@
 #version 460
 
 
-layout(location = 1) uniform mat4 view;
-layout(location = 2) uniform mat4 model;
-layout(location = 0) uniform mat4 proj;
+//layout(location = 1) uniform mat4 view;
+//layout(location = 2) uniform mat4 model;
+//layout(location = 0) uniform mat4 proj;
 
-//layout(std140, row_major, binding = 0) uniform Camera {
-// mat4 proj;
-// mat4 view;
-//};
-//readonly layout(std430, row_major, binding = 10) buffer Transforms {
-// mat4 models[];
-//};
+layout(std140, row_major, binding = 0) uniform Camera {
+ mat4 proj;
+ mat4 view;
+};
+readonly layout(std430, row_major, binding = 10) buffer Transforms {
+ mat4 models[];
+};
 
 uniform vec3 viewPos;
 
@@ -26,13 +26,13 @@ out vec3 Normal;
 out vec3 ViewPos;
 out vec3 fragTangent;
 
-//out int flat instance_index;
+out flat int instance_index;
 
 
 void main()
 {
-    //instance_index = gl_BaseInstance;
-    //mat4 model = models[gl_BaseInstance];
+    instance_index = gl_BaseInstance;
+    mat4 model = models[gl_BaseInstance];
 
     FragPos = vec3(model * vec4(vertexPosition, 1.0));
     //normals

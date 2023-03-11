@@ -249,7 +249,8 @@ update_status ModuleRender::Update()
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
-			gameObject->Draw();
+			if (gameObject->GetComponent(ComponentType::LIGHT))
+				gameObject->Draw();
 	}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
