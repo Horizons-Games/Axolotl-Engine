@@ -1258,15 +1258,5 @@
     <None Include="mathgeolib\include\math\Matrix.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="glew-2.1.0\doc\advanced.html" />
-    <None Include="glew-2.1.0\doc\basic.html" />
-    <None Include="glew-2.1.0\doc\build.html" />
-    <None Include="glew-2.1.0\doc\credits.html" />
-    <None Include="glew-2.1.0\doc\glew.html" />
-    <None Include="glew-2.1.0\doc\glxew.html" />
-    <None Include="glew-2.1.0\doc\index.html" />
-    <None Include="glew-2.1.0\doc\install.html" />
-    <None Include="glew-2.1.0\doc\log.html" />
-    <None Include="glew-2.1.0\doc\wglew.html" />
   </ItemGroup>
 </Project>
