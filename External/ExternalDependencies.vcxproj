@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugEngine|Win32">
+      <Configuration>DebugEngine</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugGame|Win32">
+      <Configuration>DebugGame</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugGame|x64">
+      <Configuration>DebugGame</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseEngine|Win32">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugEngine|x64">
+      <Configuration>DebugEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseEngine|x64">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|Win32">
+      <Configuration>ReleaseGame</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|x64">
+      <Configuration>ReleaseGame</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{4D6EC717-F9BB-4F31-9056-8F1120F69672}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="directxtex\BC.cpp" />
+    <ClCompile Include="directxtex\BC4BC5.cpp" />
+    <ClCompile Include="directxtex\BC6HBC7.cpp" />
+    <ClCompile Include="directxtex\BCDirectCompute.cpp" />
+    <ClCompile Include="directxtex\DirectXTexCompress.cpp" />
+    <ClCompile Include="directxtex\DirectXTexCompressGPU.cpp" />
+    <ClCompile Include="directxtex\DirectXTexConvert.cpp" />
+    <ClCompile Include="directxtex\DirectXTexD3D11.cpp" />
+    <ClCompile Include="directxtex\DirectXTexD3D12.cpp" />
+    <ClCompile Include="directxtex\DirectXTexDDS.cpp" />
+    <ClCompile Include="directxtex\DirectXTexFlipRotate.cpp" />
+    <ClCompile Include="directxtex\DirectXTexHDR.cpp" />
+    <ClCompile Include="directxtex\DirectXTexImage.cpp" />
+    <ClCompile Include="directxtex\DirectXTexMipmaps.cpp" />
+    <ClCompile Include="directxtex\DirectXTexMisc.cpp" />
+    <ClCompile Include="directxtex\DirectXTexNormalMaps.cpp" />
+    <ClCompile Include="directxtex\DirectXTexPMAlpha.cpp" />
+    <ClCompile Include="directxtex\DirectXTexResize.cpp" />
+    <ClCompile Include="directxtex\DirectXTexTGA.cpp" />
+    <ClCompile Include="directxtex\DirectXTexUtil.cpp" />
+    <ClCompile Include="directxtex\DirectXTexWIC.cpp" />
+    <ClCompile Include="fonticons\CustomFont.cpp" />
+    <ClCompile Include="imguifiledialog\ImGuiFileDialog.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\ImGuizmo.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_impl_sdl.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="mathgeolib\include\algorithm\GJK.cpp" />
+    <ClCompile Include="mathgeolib\include\algorithm\GJK2D.cpp" />
+    <ClCompile Include="mathgeolib\include\algorithm\random\LCG.cpp" />
+    <ClCompile Include="mathgeolib\include\algorithm\SAT.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\AABB.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Capsule.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Circle.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Circle2D.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Frustum.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Line.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\LineSegment.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\LineSegment2D.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\OBB.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\PBVolume.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Plane.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Polygon.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Polyhedron.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Ray.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Sphere.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Triangle.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\Triangle2D.cpp" />
+    <ClCompile Include="mathgeolib\include\geometry\TriangleMesh.cpp" />
+    <ClCompile Include="mathgeolib\include\math\BitOps.cpp" />
+    <ClCompile Include="mathgeolib\include\math\Callstack.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float2.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float3.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float3x3.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float3x4.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float4.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float4d.cpp" />
+    <ClCompile Include="mathgeolib\include\math\float4x4.cpp" />
+    <ClCompile Include="mathgeolib\include\math\grisu3.c" />
+    <ClCompile Include="mathgeolib\include\math\grisu3_cpp.cpp" />
+    <ClCompile Include="mathgeolib\include\math\MathFunc.cpp" />
+    <ClCompile Include="mathgeolib\include\math\MathLog.cpp" />
+    <ClCompile Include="mathgeolib\include\math\MathOps.cpp" />
+    <ClCompile Include="mathgeolib\include\math\MiniFloat.cpp" />
+    <ClCompile Include="mathgeolib\include\math\Polynomial.cpp" />
+    <ClCompile Include="mathgeolib\include\math\Quat.cpp" />
+    <ClCompile Include="mathgeolib\include\math\SSEMath.cpp" />
+    <ClCompile Include="mathgeolib\include\math\TransformOps.cpp" />
+    <ClCompile Include="mathgeolib\include\time\Clock.cpp" />
+    <ClCompile Include="zip\include\zip.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="assimp\aabb.h" />
+    <ClInclude Include="assimp\ai_assert.h" />
+    <ClInclude Include="assimp\anim.h" />
+    <ClInclude Include="assimp\Base64.hpp" />
+    <ClInclude Include="assimp\BaseImporter.h" />
+    <ClInclude Include="assimp\Bitmap.h" />
+    <ClInclude Include="assimp\BlobIOSystem.h" />
+    <ClInclude Include="assimp\ByteSwapper.h" />
+    <ClInclude Include="assimp\camera.h" />
+    <ClInclude Include="assimp\cexport.h" />
+    <ClInclude Include="assimp\cfileio.h" />
+    <ClInclude Include="assimp\cimport.h" />
+    <ClInclude Include="assimp\ColladaMetaData.h" />
+    <ClInclude Include="assimp\color4.h" />
+    <ClInclude Include="assimp\commonMetaData.h" />
+    <ClInclude Include="assimp\compiler\poppack1.h" />
+    <ClInclude Include="assimp\compiler\pstdint.h" />
+    <ClInclude Include="assimp\compiler\pushpack1.h" />
+    <ClInclude Include="assimp\config.h" />
+    <ClInclude Include="assimp\CreateAnimMesh.h" />
+    <ClInclude Include="assimp\DefaultIOStream.h" />
+    <ClInclude Include="assimp\DefaultIOSystem.h" />
+    <ClInclude Include="assimp\DefaultLogger.hpp" />
+    <ClInclude Include="assimp\defs.h" />
+    <ClInclude Include="assimp\Exceptional.h" />
+    <ClInclude Include="assimp\Exporter.hpp" />
+    <ClInclude Include="assimp\fast_atof.h" />
+    <ClInclude Include="assimp\GenericProperty.h" />
+    <ClInclude Include="assimp\GltfMaterial.h" />
+    <ClInclude Include="assimp\Hash.h" />
+    <ClInclude Include="assimp\Importer.hpp" />
+    <ClInclude Include="assimp\importerdesc.h" />
+    <ClInclude Include="assimp\IOStream.hpp" />
+    <ClInclude Include="assimp\IOStreamBuffer.h" />
+    <ClInclude Include="assimp\IOSystem.hpp" />
+    <ClInclude Include="assimp\light.h" />
+    <ClInclude Include="assimp\LineSplitter.h" />
+    <ClInclude Include="assimp\LogAux.h" />
+    <ClInclude Include="assimp\Logger.hpp" />
+    <ClInclude Include="assimp\LogStream.hpp" />
+    <ClInclude Include="assimp\material.h" />
+    <ClInclude Include="assimp\MathFunctions.h" />
+    <ClInclude Include="assimp\matrix3x3.h" />
+    <ClInclude Include="assimp\matrix4x4.h" />
+    <ClInclude Include="assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="assimp\mesh.h" />
+    <ClInclude Include="assimp\metadata.h" />
+    <ClInclude Include="assimp\NullLogger.hpp" />
+    <ClInclude Include="assimp\ObjMaterial.h" />
+    <ClInclude Include="assimp\ParsingUtils.h" />
+    <ClInclude Include="assimp\pbrmaterial.h" />
+    <ClInclude Include="assimp\port\androidjni\AndroidJNIIOSystem.h" />
+    <ClInclude Include="assimp\port\androidjni\BundledAssetIOSystem.h" />
+    <ClInclude Include="assimp\postprocess.h" />
+    <ClInclude Include="assimp\Profiler.h" />
+    <ClInclude Include="assimp\ProgressHandler.hpp" />
+    <ClInclude Include="assimp\qnan.h" />
+    <ClInclude Include="assimp\quaternion.h" />
+    <ClInclude Include="assimp\RemoveComments.h" />
+    <ClInclude Include="assimp\scene.h" />
+    <ClInclude Include="assimp\SceneCombiner.h" />
+    <ClInclude Include="assimp\SGSpatialSort.h" />
+    <ClInclude Include="assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="assimp\SmallVector.h" />
+    <ClInclude Include="assimp\SmoothingGroups.h" />
+    <ClInclude Include="assimp\SpatialSort.h" />
+    <ClInclude Include="assimp\StandardShapes.h" />
+    <ClInclude Include="assimp\StreamReader.h" />
+    <ClInclude Include="assimp\StreamWriter.h" />
+    <ClInclude Include="assimp\StringComparison.h" />
+    <ClInclude Include="assimp\StringUtils.h" />
+    <ClInclude Include="assimp\Subdivision.h" />
+    <ClInclude Include="assimp\texture.h" />
+    <ClInclude Include="assimp\TinyFormatter.h" />
+    <ClInclude Include="assimp\types.h" />
+    <ClInclude Include="assimp\vector2.h" />
+    <ClInclude Include="assimp\vector3.h" />
+    <ClInclude Include="assimp\version.h" />
+    <ClInclude Include="assimp\Vertex.h" />
+    <ClInclude Include="assimp\XmlParser.h" />
+    <ClInclude Include="assimp\XMLTools.h" />
+    <ClInclude Include="assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="directxtex\BC.h" />
+    <ClInclude Include="directxtex\BCDirectCompute.h" />
+    <ClInclude Include="directxtex\d3dx12.h" />
+    <ClInclude Include="directxtex\DDS.h" />
+    <ClInclude Include="directxtex\DirectXTex.h" />
+    <ClInclude Include="directxtex\DirectXTexP.h" />
+    <ClInclude Include="directxtex\filters.h" />
+    <ClInclude Include="directxtex\scoped.h" />
+    <ClInclude Include="fonticons\CustomFont.h" />
+    <ClInclude Include="fonticons\CustomImGuiFileDialogConfig.h" />
+    <ClInclude Include="glew-2.1.0\include\gl\eglew.h" />
+    <ClInclude Include="glew-2.1.0\include\gl\glew.h" />
+    <ClInclude Include="glew-2.1.0\include\gl\glxew.h" />
+    <ClInclude Include="glew-2.1.0\include\gl\wglew.h" />
+    <ClInclude Include="imguifiledialog\dirent\dirent.h" />
+    <ClInclude Include="imguifiledialog\ImGuiFileDialog.h" />
+    <ClInclude Include="imguifiledialog\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="imguifiledialog\stb\stb_image.h" />
+    <ClInclude Include="imguifiledialog\stb\stb_image_resize.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\ImGuizmo.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imgui\imgui_impl_sdl.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="mathgeolib\include\algorithm\GJK.h" />
+    <ClInclude Include="mathgeolib\include\algorithm\GJK2D.h" />
+    <ClInclude Include="mathgeolib\include\algorithm\random\LCG.h" />
+    <ClInclude Include="mathgeolib\include\algorithm\SAT.h" />
+    <ClInclude Include="mathgeolib\include\geometry\AABB.h" />
+    <ClInclude Include="mathgeolib\include\geometry\AABB2D.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Capsule.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Circle.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Circle2D.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Frustum.h" />
+    <ClInclude Include="mathgeolib\include\geometry\GeometryAll.h" />
+    <ClInclude Include="mathgeolib\include\geometry\GeomType.h" />
+    <ClInclude Include="mathgeolib\include\geometry\HitInfo.h" />
+    <ClInclude Include="mathgeolib\include\geometry\KDTree.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Line.h" />
+    <ClInclude Include="mathgeolib\include\geometry\LineSegment.h" />
+    <ClInclude Include="mathgeolib\include\geometry\LineSegment2D.h" />
+    <ClInclude Include="mathgeolib\include\geometry\OBB.h" />
+    <ClInclude Include="mathgeolib\include\geometry\OBB2D.h" />
+    <ClInclude Include="mathgeolib\include\geometry\PBVolume.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Plane.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Polygon.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Polygon2DRef.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Polyhedron.h" />
+    <ClInclude Include="mathgeolib\include\geometry\QuadTree.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Ray.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Sphere.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Triangle.h" />
+    <ClInclude Include="mathgeolib\include\geometry\Triangle2D.h" />
+    <ClInclude Include="mathgeolib\include\geometry\TriangleMesh.h" />
+    <ClInclude Include="mathgeolib\include\MathBuildConfig.h" />
+    <ClInclude Include="mathgeolib\include\MathGeoLib.h" />
+    <ClInclude Include="mathgeolib\include\MathGeoLibFwd.h" />
+    <ClInclude Include="mathgeolib\include\math\assume.h" />
+    <ClInclude Include="mathgeolib\include\math\BitFuncs.h" />
+    <ClInclude Include="mathgeolib\include\math\BitOps.h" />
+    <ClInclude Include="mathgeolib\include\math\Callstack.h" />
+    <ClInclude Include="mathgeolib\include\math\FixedPoint.h" />
+    <ClInclude Include="mathgeolib\include\math\float2.h" />
+    <ClInclude Include="mathgeolib\include\math\float3.h" />
+    <ClInclude Include="mathgeolib\include\math\float3x3.h" />
+    <ClInclude Include="mathgeolib\include\math\float3x4.h" />
+    <ClInclude Include="mathgeolib\include\math\float4.h" />
+    <ClInclude Include="mathgeolib\include\math\float4d.h" />
+    <ClInclude Include="mathgeolib\include\math\float4x4.h" />
+    <ClInclude Include="mathgeolib\include\math\float4x4_neon.h" />
+    <ClInclude Include="mathgeolib\include\math\float4x4_sse.h" />
+    <ClInclude Include="mathgeolib\include\math\float4_neon.h" />
+    <ClInclude Include="mathgeolib\include\math\float4_sse.h" />
+    <ClInclude Include="mathgeolib\include\math\FloatCmp.h" />
+    <ClInclude Include="mathgeolib\include\math\grisu3.h" />
+    <ClInclude Include="mathgeolib\include\math\InclWindows.h" />
+    <ClInclude Include="mathgeolib\include\math\Interpolate.h" />
+    <ClInclude Include="mathgeolib\include\math\MathAll.h" />
+    <ClInclude Include="mathgeolib\include\math\MathConstants.h" />
+    <ClInclude Include="mathgeolib\include\math\MathFunc.h" />
+    <ClInclude Include="mathgeolib\include\math\MathLog.h" />
+    <ClInclude Include="mathgeolib\include\math\MathNamespace.h" />
+    <ClInclude Include="mathgeolib\include\math\MathTypes.h" />
+    <ClInclude Include="mathgeolib\include\math\MatrixProxy.h" />
+    <ClInclude Include="mathgeolib\include\math\MiniFloat.h" />
+    <ClInclude Include="mathgeolib\include\math\MultiLineMacro.h" />
+    <ClInclude Include="mathgeolib\include\math\myassert.h" />
+    <ClInclude Include="mathgeolib\include\math\Polynomial.h" />
+    <ClInclude Include="mathgeolib\include\math\Quat.h" />
+    <ClInclude Include="mathgeolib\include\math\quat_simd.h" />
+    <ClInclude Include="mathgeolib\include\math\Rect.h" />
+    <ClInclude Include="mathgeolib\include\math\Reinterpret.h" />
+    <ClInclude Include="mathgeolib\include\math\simd.h" />
+    <ClInclude Include="mathgeolib\include\math\SSEMath.h" />
+    <ClInclude Include="mathgeolib\include\math\sse_mathfun.h" />
+    <ClInclude Include="mathgeolib\include\math\Swap.h" />
+    <ClInclude Include="mathgeolib\include\math\TransformOps.h" />
+    <ClInclude Include="mathgeolib\include\math\vec2d.h" />
+    <ClInclude Include="mathgeolib\include\time\Clock.h" />
+    <ClInclude Include="physfs\src\physfs.h" />
+    <ClInclude Include="physfs\src\physfs_casefolding.h" />
+    <ClInclude Include="physfs\src\physfs_internal.h" />
+    <ClInclude Include="physfs\src\physfs_lzmasdk.h" />
+    <ClInclude Include="physfs\src\physfs_miniz.h" />
+    <ClInclude Include="physfs\src\physfs_platforms.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\allocators.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\document.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\encodedstream.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\encodings.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\error\en.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\error\error.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\filereadstream.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\filewritestream.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\fwd.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\itoa.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\meta.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\pow10.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\regex.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\stack.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\strtod.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\internal\swap.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\memorybuffer.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\memorystream.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\pointer.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\prettywriter.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\rapidjson.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\reader.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\schema.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\stream.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\stringbuffer.h" />
+    <ClInclude Include="rapidjson\include\rapidjson\writer.h" />
+    <ClInclude Include="sdl\include\begin_code.h" />
+    <ClInclude Include="sdl\include\close_code.h" />
+    <ClInclude Include="sdl\include\SDL.h" />
+    <ClInclude Include="sdl\include\SDL_assert.h" />
+    <ClInclude Include="sdl\include\SDL_atomic.h" />
+    <ClInclude Include="sdl\include\SDL_audio.h" />
+    <ClInclude Include="sdl\include\SDL_bits.h" />
+    <ClInclude Include="sdl\include\SDL_blendmode.h" />
+    <ClInclude Include="sdl\include\SDL_clipboard.h" />
+    <ClInclude Include="sdl\include\SDL_config.h" />
+    <ClInclude Include="sdl\include\SDL_config_android.h" />
+    <ClInclude Include="sdl\include\SDL_config_iphoneos.h" />
+    <ClInclude Include="sdl\include\SDL_config_macosx.h" />
+    <ClInclude Include="sdl\include\SDL_config_minimal.h" />
+    <ClInclude Include="sdl\include\SDL_config_pandora.h" />
+    <ClInclude Include="sdl\include\SDL_config_psp.h" />
+    <ClInclude Include="sdl\include\SDL_config_windows.h" />
+    <ClInclude Include="sdl\include\SDL_config_winrt.h" />
+    <ClInclude Include="sdl\include\SDL_config_wiz.h" />
+    <ClInclude Include="sdl\include\SDL_copying.h" />
+    <ClInclude Include="sdl\include\SDL_cpuinfo.h" />
+    <ClInclude Include="sdl\include\SDL_egl.h" />
+    <ClInclude Include="sdl\include\SDL_endian.h" />
+    <ClInclude Include="sdl\include\SDL_error.h" />
+    <ClInclude Include="sdl\include\SDL_events.h" />
+    <ClInclude Include="sdl\include\SDL_filesystem.h" />
+    <ClInclude Include="sdl\include\SDL_gamecontroller.h" />
+    <ClInclude Include="sdl\include\SDL_gesture.h" />
+    <ClInclude Include="sdl\include\SDL_haptic.h" />
+    <ClInclude Include="sdl\include\SDL_hints.h" />
+    <ClInclude Include="sdl\include\SDL_joystick.h" />
+    <ClInclude Include="sdl\include\SDL_keyboard.h" />
+    <ClInclude Include="sdl\include\SDL_keycode.h" />
+    <ClInclude Include="sdl\include\SDL_loadso.h" />
+    <ClInclude Include="sdl\include\SDL_locale.h" />
+    <ClInclude Include="sdl\include\SDL_log.h" />
+    <ClInclude Include="sdl\include\SDL_main.h" />
+    <ClInclude Include="sdl\include\SDL_messagebox.h" />
+    <ClInclude Include="sdl\include\SDL_metal.h" />
+    <ClInclude Include="sdl\include\SDL_misc.h" />
+    <ClInclude Include="sdl\include\SDL_mouse.h" />
+    <ClInclude Include="sdl\include\SDL_mutex.h" />
+    <ClInclude Include="sdl\include\SDL_name.h" />
+    <ClInclude Include="sdl\include\SDL_opengl.h" />
+    <ClInclude Include="sdl\include\SDL_opengles.h" />
+    <ClInclude Include="sdl\include\SDL_opengles2.h" />
+    <ClInclude Include="sdl\include\SDL_opengles2_gl2.h" />
+    <ClInclude Include="sdl\include\SDL_opengles2_gl2ext.h" />
+    <ClInclude Include="sdl\include\SDL_opengles2_gl2platform.h" />
+    <ClInclude Include="sdl\include\SDL_opengles2_khrplatform.h" />
+    <ClInclude Include="sdl\include\SDL_opengl_glext.h" />
+    <ClInclude Include="sdl\include\SDL_pixels.h" />
+    <ClInclude Include="sdl\include\SDL_platform.h" />
+    <ClInclude Include="sdl\include\SDL_power.h" />
+    <ClInclude Include="sdl\include\SDL_quit.h" />
+    <ClInclude Include="sdl\include\SDL_rect.h" />
+    <ClInclude Include="sdl\include\SDL_render.h" />
+    <ClInclude Include="sdl\include\SDL_revision.h" />
+    <ClInclude Include="sdl\include\SDL_rwops.h" />
+    <ClInclude Include="sdl\include\SDL_scancode.h" />
+    <ClInclude Include="sdl\include\SDL_sensor.h" />
+    <ClInclude Include="sdl\include\SDL_shape.h" />
+    <ClInclude Include="sdl\include\SDL_stdinc.h" />
+    <ClInclude Include="sdl\include\SDL_surface.h" />
+    <ClInclude Include="sdl\include\SDL_system.h" />
+    <ClInclude Include="sdl\include\SDL_syswm.h" />
+    <ClInclude Include="sdl\include\SDL_test.h" />
+    <ClInclude Include="sdl\include\SDL_test_assert.h" />
+    <ClInclude Include="sdl\include\SDL_test_common.h" />
+    <ClInclude Include="sdl\include\SDL_test_compare.h" />
+    <ClInclude Include="sdl\include\SDL_test_crc32.h" />
+    <ClInclude Include="sdl\include\SDL_test_font.h" />
+    <ClInclude Include="sdl\include\SDL_test_fuzzer.h" />
+    <ClInclude Include="sdl\include\SDL_test_harness.h" />
+    <ClInclude Include="sdl\include\SDL_test_images.h" />
+    <ClInclude Include="sdl\include\SDL_test_log.h" />
+    <ClInclude Include="sdl\include\SDL_test_md5.h" />
+    <ClInclude Include="sdl\include\SDL_test_memory.h" />
+    <ClInclude Include="sdl\include\SDL_test_random.h" />
+    <ClInclude Include="sdl\include\SDL_thread.h" />
+    <ClInclude Include="sdl\include\SDL_timer.h" />
+    <ClInclude Include="sdl\include\SDL_touch.h" />
+    <ClInclude Include="sdl\include\SDL_types.h" />
+    <ClInclude Include="sdl\include\SDL_version.h" />
+    <ClInclude Include="sdl\include\SDL_video.h" />
+    <ClInclude Include="sdl\include\SDL_vulkan.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="zip\include\miniz.h" />
+    <ClInclude Include="zip\include\zip.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assimp\color4.inl" />
+    <None Include="assimp\material.inl" />
+    <None Include="assimp\matrix3x3.inl" />
+    <None Include="assimp\matrix4x4.inl" />
+    <None Include="assimp\quaternion.inl" />
+    <None Include="assimp\SmoothingGroups.inl" />
+    <None Include="assimp\vector2.inl" />
+    <None Include="assimp\vector3.inl" />
+    <None Include="directxtex\DirectXTex.inl" />
+    <None Include="directxtex\shaders\compiled\BC6HEncode_EncodeBlockCS.inc" />
+    <None Include="directxtex\shaders\compiled\BC6HEncode_TryModeG10CS.inc" />
+    <None Include="directxtex\shaders\compiled\BC6HEncode_TryModeLE10CS.inc" />
+    <None Include="directxtex\shaders\compiled\BC7Encode_EncodeBlockCS.inc" />
+    <None Include="directxtex\shaders\compiled\BC7Encode_TryMode02CS.inc" />
+    <None Include="directxtex\shaders\compiled\BC7Encode_TryMode137CS.inc" />
+    <None Include="directxtex\shaders\compiled\BC7Encode_TryMode456CS.inc" />
+    <None Include="glew-2.1.0\doc\advanced.html" />
+    <None Include="glew-2.1.0\doc\basic.html" />
+    <None Include="glew-2.1.0\doc\build.html" />
+    <None Include="glew-2.1.0\doc\credits.html" />
+    <None Include="glew-2.1.0\doc\glew.html" />
+    <None Include="glew-2.1.0\doc\glxew.html" />
+    <None Include="glew-2.1.0\doc\index.html" />
+    <None Include="glew-2.1.0\doc\install.html" />
+    <None Include="glew-2.1.0\doc\log.html" />
+    <None Include="glew-2.1.0\doc\wglew.html" />
+    <None Include="mathgeolib\include\geometry\KDTree.inl" />
+    <None Include="mathgeolib\include\geometry\QuadTree.inl" />
+    <None Include="mathgeolib\include\geometry\TriangleMesh_IntersectRay_AVX.inl" />
+    <None Include="mathgeolib\include\geometry\TriangleMesh_IntersectRay_CPP.inl" />
+    <None Include="mathgeolib\include\geometry\TriangleMesh_IntersectRay_SSE.inl" />
+    <None Include="mathgeolib\include\math\float2.inl" />
+    <None Include="mathgeolib\include\math\Matrix.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
