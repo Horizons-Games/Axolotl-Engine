@@ -13,6 +13,7 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
+#include "Components/ComponentTransform.h"
 
 #include "GameObject/GameObject.h"
 
@@ -106,7 +107,7 @@ bool ModuleRender::Init()
 	ENGINE_LOG("--------- Render Init ----------");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // we want a double buffer
@@ -138,6 +139,9 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
@@ -184,7 +188,7 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	gameObjectsToDraw.clear();
+	//opaqueGOToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -211,25 +215,40 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	gameObjectsToDraw.clear();
+	allGOToDraw.clear();
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
+	//GroupGameObjects();
+
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	if (isRoot) 
 	{
-		gameObjectsToDraw.push_back(goSelected);
+		allGOToDraw.push_back(goSelected);
 	}
-	for (const GameObject* gameObject : gameObjectsToDraw)
+
+	//Draw opaque
+	//glDepthFunc(GL_EQUAL);
+	for (const GameObject* gameObject : allGOToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
 		{
 			gameObject->Draw();
 		}
 	}
+	//glDepthFunc(GL_LEQUAL);
+
+	// Draw Transparent
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//for (std::map<float, GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
+	//	//DrawGameObject((*it).second);
+	//	(*it).second->Draw();
+	//}
+	//glDisable(GL_BLEND);
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
@@ -368,7 +387,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					allGOToDraw.push_back(gameObject);
 				}
 			}
 		}
@@ -378,7 +397,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					allGOToDraw.push_back(gameObject);
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -408,7 +427,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			gameObjectsToDraw.push_back(gameObject);
+			allGOToDraw.push_back(gameObject);
 		}
 	}
 	
@@ -439,3 +458,25 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
+void ModuleRender::GroupGameObjects() {
+	/*opaqueGOToDraw.clear();
+	transparentGOToDraw.clear();
+
+	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
+	for (const GameObject* gameObject : allGOToDraw)
+	{
+		if ((gameObject.GetMask().bitMask & static_cast<int>(MaskType::TRANSPARENT)) == 0) {
+			opaqueGameObjects.push_back(&gameObject);
+		}
+		else {
+			const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+			float dist = Length(cameraPos - transform->GetGlobalPosition());
+			transparentGameObjects[dist] = &gameObject;
+		}
+	}
+		
+	
+	if (scene->quadtree.IsOperative()) {
+		ClassifyGameObjectsFromQuadtree(scene->quadtree.root, scene->quadtree.bounds);
+	}*/
+}

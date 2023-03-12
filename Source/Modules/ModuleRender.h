@@ -48,13 +48,16 @@ public:
 
 private:
 	void UpdateProgram();
+	void GroupGameObjects();
 
 	void* context;
 	float4 backgroundColor;
 
 	unsigned vbo;
 	
-	std::vector<const GameObject*> gameObjectsToDraw;
+	std::vector<const GameObject*> allGOToDraw;
+	std::vector<const GameObject*> opaqueGOToDraw;
+	std::vector<const GameObject*> transparentGOToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
@@ -97,5 +100,5 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 
 inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
 {
-	return gameObjectsToDraw;
+	return allGOToDraw;
 }
