@@ -6,14 +6,11 @@
 #include "GL/glew.h"
 #include <DataModels/Batch/BatchManager.h>
 
-#include <unordered_map>
-
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
 class Skybox;
-class ResourceMesh;
 
 class ModuleRender : public Module
 {
@@ -48,7 +45,7 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	const std::unordered_map<const ResourceMesh*, int> GetMeshesToDraw() const; //unused
+	const std::list<const ComponentMeshRenderer*> GetMeshesToDraw() const; //unused
 
 private:
 	void UpdateProgram();
@@ -61,7 +58,7 @@ private:
 	unsigned vbo;
 	unsigned uboCamera;
 
-	std::unordered_map<const ResourceMesh*, int> meshesToDraw;
+	std::list<const ComponentMeshRenderer*> meshesToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
@@ -102,7 +99,7 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 	return fragmentShader;
 }
 
-inline const std::unordered_map<const ResourceMesh*, int> ModuleRender::GetMeshesToDraw() const
+inline const std::list<const ComponentMeshRenderer*> ModuleRender::GetMeshesToDraw() const
 {
 	return meshesToDraw;
 }

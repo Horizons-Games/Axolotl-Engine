@@ -407,8 +407,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					ResourceMesh* mesh = component->GetMesh().get();
-					++meshesToDraw[mesh];
+					meshesToDraw.push_back(component);
 				}
 			}
 		}
@@ -420,8 +419,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					ResourceMesh* mesh = component->GetMesh().get();
-					++meshesToDraw[mesh];
+					meshesToDraw.push_back(component);
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -453,8 +451,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		{
 			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 				gameObject->GetComponent(ComponentType::MESHRENDERER));
-			ResourceMesh* mesh = component->GetMesh().get();
-			++meshesToDraw[mesh];
+			meshesToDraw.push_back(component);
 		}
 	}
 	
