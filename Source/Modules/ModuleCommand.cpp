@@ -19,14 +19,14 @@ bool ModuleCommand::Init()
 update_status ModuleCommand::Update()
 {
 	if (
-		App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
-		&& App->input->GetKey(SDL_SCANCODE_Z) != KeyState::IDLE)
+		App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		&& App->input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
 		Undo();
 	}
 	else if (
-		App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
-		&& App->input->GetKey(SDL_SCANCODE_Y) != KeyState::IDLE)
+		App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		&& App->input->GetKey(SDL_SCANCODE_Y) == KeyState::DOWN)
 	{
 		Redo();
 	}
