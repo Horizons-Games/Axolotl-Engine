@@ -26,6 +26,8 @@ public:
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
+	void CreateVBO();
+	void CreateEBO();
 	void BindBatch();
 	void UpdateCommands();
 	void CreateVAO();

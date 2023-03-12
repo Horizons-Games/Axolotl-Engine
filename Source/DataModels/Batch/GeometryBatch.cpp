@@ -16,6 +16,10 @@
 
 GeometryBatch::GeometryBatch()
 {
+	buffers = new ResourceMesh(0,"","","");
+	
+	CreateVBO();
+	CreateEBO();
 	CreateVAO();
 }
 
@@ -50,10 +54,94 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
+void GeometryBatch::CreateVBO()
+{
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	for (ResourceMesh* resourceMesh : resourceMeshes)
+	{
+		//position			//uv				//normal		
+		unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
+		//tangents
+		if (resourceMesh->GetTangents().size() != 0)
+		{
+			vertexSize += sizeof(float) * 3;
+		}
+		//unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
+		GLuint bufferSize = vertexSize * resourceMesh->GetNumVertices();
+
+		glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
+
+		GLuint positionSize = sizeof(float) * 3 * resourceMesh->GetNumVertices();
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0, positionSize, &(resourceMesh->GetVertices()[0]));
+
+		GLuint uvOffset = positionSize;
+		GLuint uvSize = sizeof(float) * 2 * resourceMesh->GetNumVertices();
+
+		float2* uvs = (float2*)(glMapBufferRange(GL_ARRAY_BUFFER, uvOffset, uvSize, GL_MAP_WRITE_BIT));
+
+		for (unsigned int i = 0; i < resourceMesh->GetNumVertices(); ++i)
+		{
+			uvs[i] = float2(resourceMesh->GetTextureCoords()[i].x, resourceMesh->GetTextureCoords()[i].y);
+		}
+
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+
+		unsigned normalsOffset = positionSize + uvSize;
+		unsigned normalsSize = sizeof(float) * 3 * resourceMesh->GetNumVertices();
+		glBufferSubData(GL_ARRAY_BUFFER, normalsOffset, normalsSize, &resourceMesh->GetNormals()[0]);
+
+		if (resourceMesh->GetTangents().size() != 0)
+		{
+			unsigned tangentsOffset = positionSize + uvSize + normalsSize;
+			unsigned tangentsSize = sizeof(float) * 3 * resourceMesh->GetNumVertices();
+			glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, &resourceMesh->GetTangents()[0]);
+		}
+	}
+	
+
+}
+
+void GeometryBatch::CreateEBO()
+{
+	for (ResourceMesh* resourceMesh : resourceMeshes)
+	{
+		glGenBuffers(1, &ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+		GLuint indexSize = sizeof(GLuint) * resourceMesh->GetNumFaces() * 3;
+
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_STATIC_DRAW);
+
+		GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+
+		for (unsigned int i = 0; i < resourceMesh->GetNumFaces(); ++i)
+		{
+			assert(resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
+			*(indices++) = resourceMesh->GetFacesIndices()[i][0];
+			*(indices++) = resourceMesh->GetFacesIndices()[i][1];
+			*(indices++) = resourceMesh->GetFacesIndices()[i][2];
+		}
+		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	}
+}
+
+
 void GeometryBatch::BindBatch()
 {
-
+	const GLuint bindingPointCamera = 0;
+	const GLuint bindingPointModel = 10;
+	//model(transforms)
 	glGenBuffers(1, &transforms);//
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	const int bufferSize = resourceMeshes.size() * sizeof(float4x4);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, bufferSize, nullptr, GL_DYNAMIC_DRAW);
+	//camera
+	GLuint cameraUniformBlockID;
+	glGenBuffers(1, &cameraUniformBlockID);
+	glBindBuffer(GL_UNIFORM_BUFFER, cameraUniformBlockID);
 	
 	for (ResourceMesh* resourceMesh : resourceMeshes)
 	{
@@ -76,17 +164,31 @@ void GeometryBatch::BindBatch()
 
 			if (!resourceMesh->IsLoaded())
 			{
-			}
 				//gen ebo vbo and vao buffers
-				resourceMesh->Load();
+				//resourceMesh->Load();
+			}
+
+
+			float4x4* modelMatrices = (float4x4*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, bufferSize, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+
+
+			//binding the uniform camera
+			GLint cameraUniformBlockIndex = glGetUniformBlockIndex(program, "Camera");
+			glUniformBlockBinding(program, cameraUniformBlockIndex, bindingPointCamera);
+
+			glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(float4x4), NULL, GL_STATIC_DRAW);
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4x4), (const float*)&proj);
+			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float4x4), sizeof(float4x4), (const float*)&view);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPointCamera, cameraUniformBlockID);
 
 			//glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-			glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, transforms);
-			glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
+			//glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
+			//glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
 
-			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, transforms);
+			//glBindBuffer(GL_DRAW_INDIRECT_BUFFER, transforms);
 			glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(Command) * commands.size(), &model, GL_DYNAMIC_DRAW);
 
 			//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
@@ -94,12 +196,12 @@ void GeometryBatch::BindBatch()
 			//send in the shader
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 
-
 			//glBindVertexArray(0);
 			//glBindTexture(GL_TEXTURE_2D, 0);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 }
 
 void GeometryBatch::UpdateCommands()
@@ -132,28 +234,27 @@ void GeometryBatch::CreateVAO()
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
-	switch (flags) {
-	HAS_VERTICES:
-		glGenBuffers(1, &buffers->instance[0]);
-		glBindBuffer(GL_ARRAY_BUFFER,buffers->instance[0]);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(0);
-	HAS_TEXTURE_COORDINATES:
-		glGenVertexArrays(1, &buffers->instance[1]);
-		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(1);
-	HAS_NORMALS:
-		glGenVertexArrays(1, &buffers->instance[2]);
-		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(2);
-	HAS_TANGENTS:
-		glGenVertexArrays(1, &buffers->instance[3]);
-		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(3);
-	}
+
+	//vertices
+	glGenBuffers(1, &buffers->instance[0]);
+	glBindBuffer(GL_ARRAY_BUFFER,buffers->instance[0]);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	glEnableVertexAttribArray(0);
+	//texture
+	glGenVertexArrays(1, &buffers->instance[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
+	glEnableVertexAttribArray(1);
+	//normals
+	glGenVertexArrays(1, &buffers->instance[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	glEnableVertexAttribArray(2);
+	//tangents
+	glGenVertexArrays(1, &buffers->instance[3]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	glEnableVertexAttribArray(3);
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
@@ -164,7 +265,25 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::UpdateVAO()
 {
+	glBindVertexArray(vao);
 
+	//vertices
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[0]);
+	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetVertices(), GL_DYNAMIC_DRAW);
+
+	//normals
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
+	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetNormals(), GL_DYNAMIC_DRAW);
+
+	//texture
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
+	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTextureCoords(), GL_DYNAMIC_DRAW);
+
+	//tangents
+	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
+	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTangents(), GL_DYNAMIC_DRAW);
+
+	glBindVertexArray(0);
 }
 
 void GeometryBatch::AddUniqueComponent(ResourceMesh* resourceMesh)
