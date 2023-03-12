@@ -210,8 +210,6 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	meshesToDraw.clear();
-
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -237,17 +235,16 @@ update_status ModuleRender::Update()
 	//	skybox->Draw();
 	//}
 
-	meshesToDraw.clear();
-
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>renderMap = 
+		FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	if (isRoot) 
 	{
-		AddToRenderList(goSelected);
+		AddToRenderList(renderMap, goSelected);
 	}
 
 	for (auto meshAndCounter : meshesToDraw)
@@ -393,8 +390,9 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-void ModuleRender::FillRenderList(const Quadtree* quadtree)
+std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> map;
 	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
@@ -407,7 +405,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					meshesToDraw.push_back(component);
+					map[component->GetBatch()].push_back(component);
 				}
 			}
 		}
@@ -419,7 +417,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					meshesToDraw.push_back(component);
+					map[component->GetBatch()].push_back(component);
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -435,9 +433,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			FillRenderList(quadtree->GetBackLeftNode());
 		}
 	}
+	return map;
 }
 
-void ModuleRender::AddToRenderList(GameObject* gameObject)
+void ModuleRender::AddToRenderList(std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>& renderMap, 
+	GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -451,7 +451,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		{
 			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 				gameObject->GetComponent(ComponentType::MESHRENDERER));
-			meshesToDraw.push_back(component);
+			renderMap[component->GetBatch()].push_back(component);
 		}
 	}
 	
@@ -460,7 +460,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		for (GameObject* children : gameObject->GetChildren())
 		{
-			AddToRenderList(children);
+			AddToRenderList(renderMap, children);
 		}
 	}
 }

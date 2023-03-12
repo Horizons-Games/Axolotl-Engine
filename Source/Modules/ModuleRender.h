@@ -6,6 +6,8 @@
 #include "GL/glew.h"
 #include <DataModels/Batch/BatchManager.h>
 
+#include <unordered_map>
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -38,14 +40,13 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> FillRenderList(const Quadtree* quadtree);
+	void AddToRenderList(std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>& renderMap, 
+						GameObject* gameObject);
 
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
-
-	const std::list<const ComponentMeshRenderer*> GetMeshesToDraw() const; //unused
 
 private:
 	void UpdateProgram();
@@ -58,7 +59,6 @@ private:
 	unsigned vbo;
 	unsigned uboCamera;
 
-	std::list<const ComponentMeshRenderer*> meshesToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
@@ -97,9 +97,4 @@ inline const std::string& ModuleRender::GetVertexShader() const
 inline const std::string& ModuleRender::GetFragmentShader() const
 {
 	return fragmentShader;
-}
-
-inline const std::list<const ComponentMeshRenderer*> ModuleRender::GetMeshesToDraw() const
-{
-	return meshesToDraw;
 }
