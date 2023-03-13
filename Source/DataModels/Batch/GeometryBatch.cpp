@@ -181,16 +181,18 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 				flags |= HAS_TANGENTS;
 		}
 
-		if (IsUniqueResourceMesh(newComponent->GetMesh().get()))
+		ResourceMesh* mesh = newComponent->GetMesh().get();
+
+		if (IsUniqueResourceMesh(mesh))
 		{
 			AAA aaa = {
-				newComponent->GetMesh().get(),
+				mesh,
 				numTotalVertices,
 				numTotalFaces
 			};
 			resourceMeshes.push_back(aaa);
-			numTotalVertices += newComponent->GetMesh()->GetNumVertices();
-			numTotalFaces += newComponent->GetMesh()->GetNumFaces();
+			numTotalVertices += mesh->GetNumVertices();
+			numTotalFaces += mesh->GetNumFaces();
 		}
 		
 		components.push_back(newComponent);
