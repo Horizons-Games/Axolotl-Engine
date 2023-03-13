@@ -31,8 +31,8 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
-	void CreateVBO();
-	void CreateEBO();
+	void CalculateVBO();
+	void CalculateEBO();
 	void CreateVAO();
 
 	void UpdateVAO();

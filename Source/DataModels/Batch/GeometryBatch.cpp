@@ -16,6 +16,9 @@
 GeometryBatch::GeometryBatch()
 {
 	//TODO complete
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+	glGenVertexArrays(1, &vao);
 }
 
 GeometryBatch::~GeometryBatch()
@@ -25,16 +28,15 @@ GeometryBatch::~GeometryBatch()
 	CleanUp();
 }
 
-void GeometryBatch::CreateVBO()
+void GeometryBatch::CalculateVBO()
 {
-	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	
 							//position			//uv				//normal		
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
 	
 	//tangents
-	if ((*resourceMeshes.begin()).resourceMesh->GetTangents().size() != 0) //TODO see how we do that
+	if (flags && HAS_TANGENTS) //TODO see how we do that
 	{
 		vertexSize += sizeof(float) * 3;
 	}
@@ -80,34 +82,32 @@ void GeometryBatch::CreateVBO()
 	}
 }
 
-void GeometryBatch::CreateEBO()
+void GeometryBatch::CalculateEBO()
 {
-	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	GLuint indexSize = sizeof(GLuint) * numTotalFaces * 3;
 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_STATIC_DRAW);
 
+	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+
 	for (auto resourceMesh : resourceMeshes)
 	{
-		GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
-
 		for (unsigned int i = 0; i < resourceMesh.resourceMesh->GetNumFaces(); ++i)
 		{
 			assert(resourceMesh.resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
 			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][0];
 			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][1];
 			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][2];
-		}
-		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+		}	
 	}
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 }
 
 void GeometryBatch::CreateVAO()
 {
-	/*glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	/*glBindVertexArray(vao);
 	//verify which data to send in buffer
 
 	//vertices
