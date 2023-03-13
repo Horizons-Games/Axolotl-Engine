@@ -238,23 +238,23 @@ void GeometryBatch::CreateVAO()
 	//vertices
 	glGenBuffers(1, &buffers->instance[0]);
 	glBindBuffer(GL_ARRAY_BUFFER,buffers->instance[0]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	//texture
 	glGenVertexArrays(1, &buffers->instance[1]);
 	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	//normals
 	glGenVertexArrays(1, &buffers->instance[2]);
 	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	//tangents
 	glGenVertexArrays(1, &buffers->instance[3]);
 	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
@@ -267,22 +267,24 @@ void GeometryBatch::UpdateVAO()
 {
 	glBindVertexArray(vao);
 
-	//vertices
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[0]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetVertices(), GL_DYNAMIC_DRAW);
+	for (ResourceMesh* resourceMesh : resourceMeshes)
+	{
+		//vertices
+		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[0]);
+		glBufferData(GL_ARRAY_BUFFER, resourceMesh->GetNumVertices() * sizeof(float), &resourceMesh->GetVertices(), GL_DYNAMIC_DRAW);
 
-	//normals
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetNormals(), GL_DYNAMIC_DRAW);
+		//normals
+		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
+		glBufferData(GL_ARRAY_BUFFER, resourceMesh->GetNumVertices() * sizeof(float), &resourceMesh->GetNormals(), GL_DYNAMIC_DRAW);
 
-	//texture
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTextureCoords(), GL_DYNAMIC_DRAW);
+		//texture
+		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
+		glBufferData(GL_ARRAY_BUFFER, resourceMesh->GetNumVertices() * sizeof(float), &resourceMesh->GetTextureCoords(), GL_DYNAMIC_DRAW);
 
-	//tangents
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTangents(), GL_DYNAMIC_DRAW);
-
+		//tangents
+		glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
+		glBufferData(GL_ARRAY_BUFFER, resourceMesh->GetNumVertices() * sizeof(float), &resourceMesh->GetTangents(), GL_DYNAMIC_DRAW);
+	}
 	glBindVertexArray(0);
 }
 
