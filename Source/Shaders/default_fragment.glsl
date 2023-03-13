@@ -1,5 +1,7 @@
 #version 440
 
+#define M_PI 3.1415926535897932384626433832795
+
 struct Material {
     vec3 diffuse_color;         //location 3
     vec3 specular_color;        //location 4
@@ -11,6 +13,9 @@ struct Material {
     int shininess_alpha;        //location 9
     int has_shininess_map;      //location 10
     bool has_normal_map;        //location 11
+
+    float smoothness;           //location 12
+    int has_smoothness_map;     //location 13
 };
 
 struct PointLight
@@ -74,7 +79,6 @@ out vec4 outColor;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
-    
     vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
     vec3 bitangent = cross(orthoTangent, normal);
     return mat3(tangent, bitangent, normal); //TBN
@@ -83,6 +87,16 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 vec3 fresnelSchlick(vec3 F0, float dotLH)
 {
     return F0 + (1.0 - F0) * pow(1.0 - dotLH, 5.0);
+}
+
+float smithVisibility(float dotNL, float dotNV, float roughness)
+{
+    return 0.5/(dotNL*(dotNV*(1-roughness)+roughness)+dotNV*(dotNL*(1-roughness)+roughness));
+}
+
+float GGXNormalDistribution(float dotNH, float roughness)
+{
+    return roughness*roughness/(M_PI*max(dotNH*dotNH*(roughness*roughness-1.0)+1.0)*(dotNH*dotNH*(roughness*roughness-1.0)+1.0, 0.0001));
 }
 
 vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
@@ -98,7 +112,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
     float dotNL = max(dot(N,L), 0.0);
     float dotLH = max(dot(L,H), 0.0);
 
-    vec3 fresnel  = fresnelSchlick(f0, dotLH);
+    vec3 FS = fresnelSchlick(f0, dotLH);
+    float SV;
+    float GGXND;
     
     vec3 Li = directionalColor.rgb * directionalColor.a;
 
@@ -107,13 +123,11 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
     float dotVR = max(dot(V,R), 0.0001);
     float spec = pow(dotVR,shininess);
 
-    vec3 numerator = (shininess + 2) * fresnel * spec;
-    vec3 specular = numerator / 2;
+    //vec3 numerator = (shininess + 2) * fresnel * spec;
+    //vec3 specular = numerator / 2;
     vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
-    vec3 Lo = (diffuse + specular) * Li * dotNL;
-
-    return Lo;
+    return (diffuse + specular) * Li * dotNL;
 }
 
 vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
