@@ -80,9 +80,9 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
     return mat3(tangent, bitangent, normal); //TBN
 }
 
-vec3 fresnelSchlick(float cosTheta, vec3 F0)
+vec3 fresnelSchlick(vec3 F0, float dotLH)
 {
-    return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (1.0 - F0) * pow(1.0 - dotLH, 5.0);
 }
 
 vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
@@ -94,9 +94,11 @@ vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
+    vec3 H = (L + V)/sqrt(L.x*V.x + L.y*V.y + L.z*V.z);
     float dotNL = max(dot(N,L), 0.0);
+    float dotLH = max(dot(L,H), 0.0);
 
-    vec3 fresnel  = fresnelSchlick(dotNL, f0);
+    vec3 fresnel  = fresnelSchlick(f0, dotLH);
     
     vec3 Li = directionalColor.rgb * directionalColor.a;
 
@@ -147,6 +149,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
         vec3 diffuse = calculDiffuse(f0, texDiffuse);
 
         Lo += (diffuse + specular) * Li * dotNL;
+        // Lo += (diffuse + specular) * Li * dotNL;
     }
 
     return Lo;
@@ -178,14 +181,14 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
         float dotNL = max(dot(N, -L), 0.0);
 
         vec3 fresnel  = fresnelSchlick(dotNL, f0);
-
+        //}
         // Attenuation
         float distance = dot(FragPos - pos, aim);
         float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
         float C = dot(L, aim);
-        float Catt = 0;
+        float Catt = 0.0;
 
         if (C > cosInner)
         {
