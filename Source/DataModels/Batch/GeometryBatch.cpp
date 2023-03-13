@@ -34,7 +34,7 @@ void GeometryBatch::CreateVBO()
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
 	
 	//tangents
-	if ((*resourceMeshes.begin())->resourceMesh->GetTangents().size() != 0) //TODO see how we do that
+	if ((*resourceMeshes.begin()).resourceMesh->GetTangents().size() != 0) //TODO see how we do that
 	{
 		vertexSize += sizeof(float) * 3;
 	}
@@ -47,7 +47,7 @@ void GeometryBatch::CreateVBO()
 
 	for (auto aaa : resourceMeshes)
 	{
-		ResourceMesh* resourceMesh = aaa->resourceMesh;
+		ResourceMesh* resourceMesh = aaa.resourceMesh;
 
 		GLuint positionSize = sizeof(float) * 3 * resourceMesh->GetNumVertices();
 
@@ -93,12 +93,12 @@ void GeometryBatch::CreateEBO()
 	{
 		GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-		for (unsigned int i = 0; i < resourceMesh->resourceMesh->GetNumFaces(); ++i)
+		for (unsigned int i = 0; i < resourceMesh.resourceMesh->GetNumFaces(); ++i)
 		{
-			assert(resourceMesh->resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
-			*(indices++) = resourceMesh->resourceMesh->GetFacesIndices()[i][0];
-			*(indices++) = resourceMesh->resourceMesh->GetFacesIndices()[i][1];
-			*(indices++) = resourceMesh->resourceMesh->GetFacesIndices()[i][2];
+			assert(resourceMesh.resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
+			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][0];
+			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][1];
+			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][2];
 		}
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	}
@@ -180,14 +180,20 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			if (!newComponent->GetMesh()->GetTangents().empty())
 				flags |= HAS_TANGENTS;
 		}
-		AAA* aaa = new AAA();
-		aaa->resourceMesh = newComponent->GetMesh().get();
-		aaa->vertexOffset = numTotalVertices;
-		aaa->indexOffset = numTotalFaces;
-		resourceMeshes.insert(aaa);
+
+		if (IsUniqueResourceMesh(newComponent->GetMesh().get()))
+		{
+			AAA aaa = {
+				newComponent->GetMesh().get(),
+				numTotalVertices,
+				numTotalFaces
+			};
+			resourceMeshes.push_back(aaa);
+			numTotalVertices += newComponent->GetMesh()->GetNumVertices();
+			numTotalFaces += newComponent->GetMesh()->GetNumFaces();
+		}
+		
 		components.push_back(newComponent);
-		numTotalVertices += newComponent->GetMesh()->GetNumVertices();
-		numTotalFaces += newComponent->GetMesh()->GetNumFaces();
 	}
 }
 
@@ -256,9 +262,8 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 	{
 		if (component) //pointer not empty
 		{
-			AAA* aaa = FindResourceMesh(component->GetMesh().get());
-			assert(aaa);
-			ResourceMesh* resource = aaa->resourceMesh;
+			AAA aaa = FindResourceMesh(component->GetMesh().get());
+			ResourceMesh* resource = aaa.resourceMesh;
 			if (!resource->IsLoaded())
 			{
 				//gen ebo vbo and vao buffers
@@ -285,8 +290,8 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 			Command newCommand = { 
 				resource->GetNumIndexes(),	// Number of indices in the mesh
 				1,							// Number of instances to render
-				aaa->indexOffset,			// Index offset in the EBO
-				aaa->vertexOffset,			// Vertex offset in the VBO
+				aaa.indexOffset,			// Index offset in the EBO
+				aaa.vertexOffset,			// Vertex offset in the VBO
 				instanceIndex				// Instance Index
 			};
 
@@ -321,16 +326,29 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-AAA* GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
+bool GeometryBatch::IsUniqueResourceMesh(const ResourceMesh* resourceMesh)
+{
+	for (AAA aaa : resourceMeshes)
+	{
+		if (aaa.resourceMesh == resourceMesh)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+AAA GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
 {
 	for (auto aaa : resourceMeshes)
 	{
-		if (aaa->resourceMesh == mesh)
+		if (aaa.resourceMesh == mesh)
 		{
 			return aaa;
 		}
 	}
-	return nullptr;
+	abort(); //TODO check how can do this
 }
 
 bool GeometryBatch::CleanUp()
