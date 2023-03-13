@@ -280,7 +280,7 @@ update_status ModuleRender::Update()
 		goSelected->DrawHighlight();
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
-		AddToRenderList(goSelected); //could be out
+		AddToRenderList(renderMap, goSelected); //could be out
 	}
 
 #ifdef ENGINE
