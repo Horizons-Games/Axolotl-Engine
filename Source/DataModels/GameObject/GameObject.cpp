@@ -18,6 +18,8 @@
 
 #include <queue>
 
+unsigned long long sceneUID;
+
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
@@ -139,8 +141,19 @@ void GameObject::DrawHighlight()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	unsigned long long parentUID = 0;
 	meta["name"] = name.c_str();
 	meta["uid"] = uid;
+	if (parent != nullptr)
+	{
+		parentUID = parent->GetUID();
+		meta["parentUID"] = parentUID;
+	}
+	else 
+	{
+		sceneUID = uid;
+		meta["parentUID"] = "";
+	}
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 
@@ -153,12 +166,24 @@ void GameObject::SaveOptions(Json& meta)
 		components[i]->SaveOptions(jsonComponent);
 	}
 
-	for (int i = 0; i < children.size(); ++i)
-	{
-		Json jsonGameObject = jsonComponents[i]["GameObject"];
 
-		children[i]->SaveOptions(jsonGameObject);
+	
+	for (int j = 0; j < children.size(); ++j)
+	{
+		
+		Json jsonGameObjects = meta["GameObjects"][j];
+
+		if (parentUID == sceneUID) 
+		{
+			ENGINE_LOG("La UID es igual");
+		} 
+		else 
+		{
+			children[j]->SaveOptions(jsonGameObjects);
+		}
 	}
+	
+	
 }
 
 void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
@@ -198,19 +223,19 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 		}
 	}
 
-	Json jsonChildren = meta["Children"];
+	Json jsonGameObjects = meta["GameObjects"];
 
-	int size = jsonChildren.Size();
+	int size = jsonGameObjects.Size();
 
-	if (jsonChildren.Size() != 0) 
+	if (jsonGameObjects.Size() != 0)
 	{
-		for (unsigned int i = 0; i < jsonChildren.Size(); ++i)
+		for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 		{
-			Json jsonGameObject = jsonChildren[i]["GameObject"];
-			std::string name = jsonGameObject["name"];
+			Json jsonGameObjects = meta["GameObjects"][i];
+			std::string name = jsonGameObjects["name"];
 
 			GameObject* gameObject = new GameObject(name.c_str(), this);
-			gameObject->LoadOptions(jsonGameObject, loadedObjects);
+			gameObject->LoadOptions(jsonGameObjects, loadedObjects);
 		}
 	}
 }

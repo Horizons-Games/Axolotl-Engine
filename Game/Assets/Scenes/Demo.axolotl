@@ -1,0 +1,160 @@
+{
+    "name": "Demo",
+    "uid": 17058850905388619314,
+    "parentUID": "",
+    "enabled": true,
+    "active": true,
+    "Components": [
+        {
+            "Component": {
+                "type": "Component_Transform",
+                "active": true,
+                "removed": false,
+                "localPos_X": 0.0,
+                "localPos_Y": 0.0,
+                "localPos_Z": 0.0,
+                "localRot_X": -0.0,
+                "localRot_Y": 0.0,
+                "localRot_Z": -0.0,
+                "localSca_X": 1.0,
+                "localSca_Y": 1.0,
+                "localSca_Z": 1.0
+            }
+        },
+        {
+            "Component": {
+                "type": "Component_Bounding",
+                "active": true,
+                "removed": false,
+                "AABBMin_X": 0.0,
+                "AABBMin_Y": 0.0,
+                "AABBMin_Z": 0.0,
+                "AABBMax_X": 0.0,
+                "AABBMax_Y": 0.0,
+                "AABBMax_Z": 0.0
+            }
+        }
+    ],
+    "GameObjects": [
+        {
+            "name": "Ambient_Light",
+            "uid": 11502800424010335060,
+            "parentUID": 17058850905388619314,
+            "enabled": true,
+            "active": true,
+            "Components": [
+                {
+                    "Component": {
+                        "type": "Component_Transform",
+                        "active": true,
+                        "removed": false,
+                        "localPos_X": 0.0,
+                        "localPos_Y": 0.0,
+                        "localPos_Z": 0.0,
+                        "localRot_X": 0.0,
+                        "localRot_Y": 0.0,
+                        "localRot_Z": 0.0,
+                        "localSca_X": 1.0,
+                        "localSca_Y": 1.0,
+                        "localSca_Z": 1.0
+                    }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Bounding",
+                        "active": true,
+                        "removed": false,
+                        "AABBMin_X": 0.0,
+                        "AABBMin_Y": 0.0,
+                        "AABBMin_Z": 0.0,
+                        "AABBMax_X": 0.0,
+                        "AABBMax_Y": 0.0,
+                        "AABBMax_Z": 0.0
+                    }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Light",
+                        "active": true,
+                        "removed": false,
+                        "color_light_X": 0.05000000074505806,
+                        "color_light_Y": 0.05000000074505806,
+                        "color_light_Z": 0.05000000074505806,
+                        "intensity": 1.0,
+                        "lightType": "LightType_Ambient"
+                    }
+                }
+            ],
+            "GameObjects": [
+                null
+            ]
+        },
+        {
+            "name": "Directional_Light",
+            "uid": 5440016949460325262,
+            "parentUID": 17058850905388619314,
+            "enabled": true,
+            "active": true,
+            "Components": [
+                {
+                    "Component": {
+                        "type": "Component_Transform",
+                        "active": true,
+                        "removed": false,
+                        "localPos_X": 0.0,
+                        "localPos_Y": 0.0,
+                        "localPos_Z": 0.0,
+                        "localRot_X": 0.0,
+                        "localRot_Y": 0.0,
+                        "localRot_Z": 0.0,
+                        "localSca_X": 1.0,
+                        "localSca_Y": 1.0,
+                        "localSca_Z": 1.0
+                    }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Bounding",
+                        "active": true,
+                        "removed": false,
+                        "AABBMin_X": 0.0,
+                        "AABBMin_Y": 0.0,
+                        "AABBMin_Z": 0.0,
+                        "AABBMax_X": 0.0,
+                        "AABBMax_Y": 0.0,
+                        "AABBMax_Z": 0.0
+                    }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Light",
+                        "active": true,
+                        "removed": false,
+                        "color_light_X": 1.0,
+                        "color_light_Y": 1.0,
+                        "color_light_Z": 1.0,
+                        "intensity": 1.0,
+                        "lightType": "LightType_Directional"
+                    }
+                }
+            ],
+            "GameObjects": [
+                null
+            ]
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -10.0,
+                "y": -10.0,
+                "z": -10.0
+            },
+            "MaxPoint": {
+                "x": 10.0,
+                "y": 10.0,
+                "z": 10.0
+            }
+        }
+    }
+}
