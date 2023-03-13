@@ -169,19 +169,24 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 {
 	if (newComponent)
 	{
-		if (components.empty())
+		std::shared_ptr<ResourceMesh> meshShared = newComponent->GetMesh();
+		if (!meshShared)
 		{
-			if(!newComponent->GetMesh()->GetNormals().empty())
-				flags |= HAS_NORMALS;
-
-			if (!newComponent->GetMesh()->GetTextureCoords().empty())
-				flags |= HAS_TEXTURE_COORDINATES;
-
-			if (!newComponent->GetMesh()->GetTangents().empty())
-				flags |= HAS_TANGENTS;
+			return;
 		}
 
-		ResourceMesh* mesh = newComponent->GetMesh().get();
+		ResourceMesh* mesh = meshShared.get();
+		if (components.empty())
+		{
+			if(!mesh->GetNormals().empty())
+				flags |= HAS_NORMALS;
+
+			if (!mesh->GetTextureCoords().empty())
+				flags |= HAS_TEXTURE_COORDINATES;
+
+			if (!mesh->GetTangents().empty())
+				flags |= HAS_TANGENTS;
+		}
 
 		if (IsUniqueResourceMesh(mesh))
 		{
