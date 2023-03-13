@@ -13,7 +13,7 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	void DrawRecursiveHierarchy(GameObject* gameObject);
+	void DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot);
 	void DrawPopupMenu(GameObject* gameObject);
 
 	bool stopDrawing;

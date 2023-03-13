@@ -19,7 +19,8 @@ enum class LightType;
 enum class StateOfSelection
 {
 	NO_SELECTED,
-	SELECTED
+	SELECTED,
+	CHILD_SELECTED
 };
 
 class GameObject
@@ -86,9 +87,11 @@ public:
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
 	const bool isDrawBoundingBoxes() const;
+	const bool IsChildSelected();
 
 	void setDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
+	void SetParentAsChildSelected();
 
 private:
 	bool IsAChild(const GameObject* child);
@@ -120,6 +123,13 @@ inline UID GameObject::GetUID() const
 
 inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 {
+	if (stateOfSelection == StateOfSelection::NO_SELECTED)
+	{
+		if (parent)
+		{
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		}
+	}
 	this->stateOfSelection = stateOfSelection;
 }
 
@@ -228,3 +238,12 @@ inline void GameObject::setDrawBoundingBoxes(bool newDraw)
 	drawBoundingBoxes = newDraw;
 }
 
+inline const bool GameObject::IsChildSelected()
+{
+	if (stateOfSelection == StateOfSelection::CHILD_SELECTED)
+	{
+		stateOfSelection = StateOfSelection::NO_SELECTED;
+		return true;
+	}
+	return false;
+}

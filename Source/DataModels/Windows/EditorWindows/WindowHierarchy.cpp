@@ -23,15 +23,13 @@ void WindowHierarchy::DrawWindowContents()
 {
     if (App->scene->GetLoadedScene()->GetRoot())
     {
-        DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot());
+        DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot(), true);
     }
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot)
 {
-    bool gameObjectIsRoot = gameObject == App->scene->GetLoadedScene()->GetRoot();
-
-    if (gameObjectIsRoot)
+    if (isRoot)
     {
         stopDrawing = false;
     }
@@ -52,21 +50,25 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Leaf;
     }
 
-    if (gameObjectIsRoot)
+    if (isRoot)
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
     else
     {
-        const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
+        if (gameObject->IsChildSelected())
+        {
+            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+        }
+
+        /*const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
         for (GameObject* child : childrenList)
         {
-            if (child == App->scene->GetSelectedGameObject()
-                && StateOfSelection::SELECTED == App->scene->GetSelectedGameObject()->GetStateOfSelection())
+            if (child->GetStateOfSelection() == StateOfSelection::SELECTED)
             {
                 ImGui::SetNextItemOpen(true);
             }
-        }
+        }*/
     }
 
     if (gameObject == App->scene->GetSelectedGameObject())
@@ -93,6 +95,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 App->scene->GetLoadedScene()->GetSceneQuadTree()
                     ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+                gameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
                 App->scene->SetSelectedGameObject(gameObject);
                 App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
             }
@@ -100,7 +103,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             DrawPopupMenu(gameObject);
             ImGui::PopID();
 
-            if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
+            if (!isRoot) // The root cannot be moved around
             {
                 if (ImGui::BeginDragDropSource())
                 {
@@ -132,7 +135,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         {
             for (int i = 0; i < gameObject->GetChildren().size(); ++i)
             {
-                DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+                DrawRecursiveHierarchy(gameObject->GetChildren()[i], false);
             }
         }
         ImGui::TreePop();
