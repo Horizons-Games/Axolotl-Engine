@@ -247,10 +247,10 @@ update_status ModuleRender::Update()
 	{
 		AddToRenderList(renderMap, goSelected);
 	}
-
-	for (auto meshAndCounter : meshesToDraw)
+	
+	for (auto batchAndComponents : renderMap)
 	{
-		
+		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
 	}
 
 	//maybe we need to bind the program
