@@ -59,8 +59,19 @@ private:
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
+	
 	unsigned int indirectBuffer = 0;
-	unsigned int resourceMeshIndex;
+	unsigned int resourceMeshIndex = 0;
+	unsigned int verticesBuffer = 0;
+	unsigned int textureBuffer = 0;
+	unsigned int normalsBuffer = 0;
+	unsigned int tangentsBuffer = 0;
+
+	std::vector<float3> verticesToRender;
+	std::vector<float2> texturesToRender;
+	std::vector<float3> normalsToRender;
+	std::vector<float3> tangentsToRender;
+
 	std::vector<Command> commands;
 
 	int numTotalVertices = 0;

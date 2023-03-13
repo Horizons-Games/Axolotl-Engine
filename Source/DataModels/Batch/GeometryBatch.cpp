@@ -107,62 +107,60 @@ void GeometryBatch::CalculateEBO()
 
 void GeometryBatch::CreateVAO()
 {
-	/*glBindVertexArray(vao);
+	glBindVertexArray(vao);
 	//verify which data to send in buffer
 
 	//vertices
-	glGenBuffers(1, &buffers->instance[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[0]);
+	glGenBuffers(1, &verticesBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 	
 	//texture
-	glGenVertexArrays(1, &buffers->instance[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
+	glGenBuffers(1, &textureBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 	
 	//normals
-	glGenVertexArrays(1, &buffers->instance[2]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
+	glGenBuffers(1, &normalsBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 	
 	//tangents
-	glGenVertexArrays(1, &buffers->instance[3]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
+	glGenBuffers(1, &tangentsBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(3);
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 
-
-
-	glBindVertexArray(0);*/
+	glBindVertexArray(0);
 }
 
 void GeometryBatch::UpdateVAO()
 {
-	/*glBindVertexArray(vao);
+	glBindVertexArray(vao);
 
 	//vertices
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[0]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetVertices(), GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * sizeof(float), &verticesToRender, GL_DYNAMIC_DRAW);
 
 	//normals
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[1]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetNormals(), GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * sizeof(float), &texturesToRender, GL_DYNAMIC_DRAW);
 
 	//texture
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[2]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTextureCoords(), GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * sizeof(float), &normalsToRender, GL_DYNAMIC_DRAW);
 
 	//tangents
-	glBindBuffer(GL_ARRAY_BUFFER, buffers->instance[3]);
-	glBufferData(GL_ARRAY_BUFFER, buffers->GetNumVertices() * sizeof(float), &buffers->GetTangents(), GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+	glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * sizeof(float), &tangentsToRender, GL_DYNAMIC_DRAW);
 
-	glBindVertexArray(0);*/
+	glBindVertexArray(0);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -271,15 +269,18 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 		{
 			AAA aaa = FindResourceMesh(component->GetMesh().get());
 			ResourceMesh* resource = aaa.resourceMesh;
-			if (!resource->IsLoaded())
+
+			verticesToRender.push_back(resource->GetVertices());
+			texturesToRender.push_back((resource->GetTextureCoords()[0].x, 
+				resource->GetTextureCoords()[1].y));
+			normalsToRender.push_back(resource->GetNormals());
+
+			if (flags && HAS_TANGENTS)
 			{
-				//gen ebo vbo and vao buffers
-				resource->Load();
-				if (indirectBuffer == 0) {
-					glGenBuffers(1, &indirectBuffer);
-				}
+				tangentsToRender.push_back(resource->GetTangents());
 			}
-			const float4x4& model =
+			
+			/*const float4x4& model =
 				static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
@@ -291,7 +292,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 				glUseProgram(program);
 			}
 
-			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
+			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);*/
 
 			//do a for for all the instaces existing
 			Command newCommand = { 
@@ -306,14 +307,14 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 			instanceIndex++;
 
 			//glBindVertexArray(0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			/*glBindTexture(GL_TEXTURE_2D, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 		}
 	}
 
 	//send to gpu
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
+	/*glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);*/
 	//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
 
 	//send in the shader
