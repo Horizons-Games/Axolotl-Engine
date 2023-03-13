@@ -3,9 +3,6 @@
 #include "optick.h"
 #endif // DEBUG
 
-#pragma comment( lib, "../External/SDL/lib/x64/SDL2.lib" )
-#pragma comment( lib, "../External/SDL/lib/x64/SDL2main.lib" )
-
 enum class main_states
 {
 	MAIN_CREATION,  
