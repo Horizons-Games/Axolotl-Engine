@@ -7,6 +7,7 @@
 #include "Components/ComponentSpotLight.h"
 
 class GameObject;
+class ComponentCamera;
 class Quadtree;
 
 class Scene
@@ -43,13 +44,13 @@ public:
 	const GameObject* GetDirectionalLight() const;
 	Quadtree * GetSceneQuadTree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
-	const std::vector<GameObject*>& GetSceneCameras() const;
+	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
 	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
-	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
@@ -64,7 +65,7 @@ private:
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
-	std::vector<GameObject*> sceneCameras;
+	std::vector<ComponentCamera*> sceneCameras;
 
 	GameObject* ambientLight;
 	GameObject* directionalLight;
@@ -111,12 +112,12 @@ inline void Scene::SetSceneGameObjects(const std::vector<GameObject*>& gameObjec
 	sceneGameObjects = gameObjects;
 }
 
-inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
+inline const std::vector<ComponentCamera*>& Scene::GetSceneCameras() const
 {
 	return sceneCameras;
 }
 
-inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
+inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
 }
