@@ -175,7 +175,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
 		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
-	std::vector<GameObject*> loadedCameras{};
+	std::vector<ComponentCamera*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -183,10 +183,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	{
 		sceneQuadtree = loadedScene->GetSceneQuadTree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
-		if (!camerasOfObj.empty())
-		{
-			loadedCameras.push_back(obj);
-		}
+		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)

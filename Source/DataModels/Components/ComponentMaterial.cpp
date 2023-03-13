@@ -20,15 +20,11 @@
 #endif // ENGINE
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner, true)
+	: DrawableComponent(ComponentType::MATERIAL, active, owner, true)
 {
 }
 
 ComponentMaterial::~ComponentMaterial()
-{
-}
-
-void ComponentMaterial::Update()
 {
 }
 

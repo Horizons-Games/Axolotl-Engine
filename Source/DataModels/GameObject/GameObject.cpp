@@ -37,54 +37,10 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::~GameObject()
 {
-	// This should not be here
-	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight = false, hadPointLight = false;
-	for (ComponentLight* light : lights)
-	{
-		switch (light->GetLightType())
-		{
-		case LightType::SPOT:
-			hadSpotLight = true;
-			break;
-		case LightType::POINT:
-			hadPointLight = true;
-			break;
-		}
-	}
-	//
-
-	components.clear();
-
-	children.clear();
-
-	// This should not be here
-	Scene* currentScene = App->scene->GetLoadedScene();
-
-	if (hadSpotLight)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
-	if (hadPointLight)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
-	//
 }
 
 void GameObject::Update()
 {
-	for (std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Update();
-		}
-	}
-
-	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
 }
 
 void GameObject::Draw() const
@@ -95,13 +51,6 @@ void GameObject::Draw() const
 		App->debug->DrawBoundingBox(objectOBB);
 	}
 #endif // ENGINE
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Draw();
-		}
-	}
 }
 
 void GameObject::DrawSelected()
@@ -121,9 +70,9 @@ void GameObject::DrawSelected()
 		}
 		for (const std::unique_ptr<Component>& component : currentGo->components)
 		{
-			if (component->GetActive())
+			if (component->IsDrawable() && component->IsActive())
 			{
-				component->Draw();
+				static_cast<DrawableComponent*>(component.get())->Draw();
 			}
 		}
 #ifdef ENGINE
@@ -339,11 +288,6 @@ void GameObject::DeactivateChildren()
 {
 	active = false;
 
-	if (children.empty())
-	{
-		return;
-	}
-
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
@@ -353,11 +297,6 @@ void GameObject::DeactivateChildren()
 void GameObject::ActivateChildren()
 {
 	active = (parent->IsActive() && parent->IsEnabled());
-
-	if (children.empty())
-	{
-		return;
-	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{

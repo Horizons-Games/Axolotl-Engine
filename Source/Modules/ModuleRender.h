@@ -9,6 +9,7 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
+class DrawableComponent;
 class Skybox;
 
 class ModuleRender : public Module
@@ -40,11 +41,9 @@ public:
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
 
-
+	//path and file stuff should be contained in ModuleFileSystem
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
-
-	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
@@ -54,7 +53,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<const GameObject*> gameObjectsToDraw;
+	std::vector<DrawableComponent*> componentsToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?
@@ -93,9 +92,4 @@ inline const std::string& ModuleRender::GetVertexShader() const
 inline const std::string& ModuleRender::GetFragmentShader() const
 {
 	return fragmentShader;
-}
-
-inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
-{
-	return gameObjectsToDraw;
 }

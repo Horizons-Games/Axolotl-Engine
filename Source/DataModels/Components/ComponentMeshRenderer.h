@@ -1,23 +1,19 @@
 #pragma once
 
-#include "Components/Component.h"
+#include "Components/DrawableComponent.h"
 
 #include <memory>
-
-#define COMPONENT_MESHRENDERED "MeshRendered"
 
 class ResourceMaterial;
 class ResourceMesh;
 class Json;
 class WindowMeshInput;
 
-class ComponentMeshRenderer : public Component
+class ComponentMeshRenderer : public DrawableComponent
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	~ComponentMeshRenderer() override;
-
-	void Update() override;
 
 	void Draw() override;
 	void DrawHighlight();

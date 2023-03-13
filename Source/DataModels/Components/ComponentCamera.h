@@ -27,8 +27,9 @@ public:
 	ComponentCamera(bool active, GameObject* owner);
 	~ComponentCamera() override;
 
-	void Update() override;
-	void Draw() override;
+	//commented for now
+	//void Update() override;
+	//void Draw() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

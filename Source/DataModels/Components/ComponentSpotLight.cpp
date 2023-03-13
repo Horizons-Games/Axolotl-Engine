@@ -1,6 +1,10 @@
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
@@ -33,25 +37,28 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 ComponentSpotLight::~ComponentSpotLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
-void ComponentSpotLight::Draw()
-{
-#ifdef ENGINE
-	if (this->GetActive())
-	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()
-				->GetComponent(ComponentType::TRANSFORM));
-
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
-
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#endif // ENGINE
-}
+//void ComponentSpotLight::Draw()
+//{
+//#ifdef ENGINE
+//	if (this->IsActive())
+//	{
+//		ComponentTransform* transform =
+//			static_cast<ComponentTransform*>(GetOwner()
+//				->GetComponent(ComponentType::TRANSFORM));
+//
+//		float3 position = transform->GetGlobalPosition();
+//		float3 forward = transform->GetGlobalForward().Normalized();
+//
+//		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
+//		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
+//	}
+//#endif // ENGINE
+//}
 
 void ComponentSpotLight::SaveOptions(Json& meta)
 {

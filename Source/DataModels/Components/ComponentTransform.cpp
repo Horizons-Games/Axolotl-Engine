@@ -21,11 +21,6 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
-{
-	// Empty for now
-}
-
 void ComponentTransform::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();

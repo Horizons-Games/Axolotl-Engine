@@ -27,7 +27,8 @@ public:
 
 	~ComponentSpotLight() override;
 
-	void Draw() override;
+	//commented for now
+	//void Draw() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

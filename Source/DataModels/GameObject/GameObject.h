@@ -34,6 +34,7 @@ public:
 
 	void Update();
 	void Draw() const;
+	//this most likely shouldn't be here, since it's only needed in ENGINE mode
 	void DrawSelected();
 	void DrawHighlight();
 
@@ -85,9 +86,9 @@ public:
 	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes() const;
+	const bool IsDrawBoundingBoxes() const;
 
-	void setDrawBoundingBoxes(bool newDraw);
+	void SetDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
 
 private:
@@ -218,12 +219,12 @@ inline const OBB& GameObject::GetObjectOBB()
 	return objectOBB;
 }
 
-inline const bool GameObject::isDrawBoundingBoxes() const
+inline const bool GameObject::IsDrawBoundingBoxes() const
 {
 	return drawBoundingBoxes;
 }
 
-inline void GameObject::setDrawBoundingBoxes(bool newDraw)
+inline void GameObject::SetDrawBoundingBoxes(bool newDraw)
 {
 	drawBoundingBoxes = newDraw;
 }

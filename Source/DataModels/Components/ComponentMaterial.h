@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning (disable: 26495)
 
-#include "Components/Component.h"
+#include "Components/DrawableComponent.h"
 
 #include "Math/float3.h"
 
@@ -14,13 +14,11 @@ class ResourceMaterial;
 class ResourceTexture;
 class Json;
 
-class ComponentMaterial : public Component
+class ComponentMaterial : public DrawableComponent
 {
 public:
 	ComponentMaterial(bool active, GameObject* owner);
 	~ComponentMaterial() override;
-
-	void Update() override;
 
 	void Draw() override;
 

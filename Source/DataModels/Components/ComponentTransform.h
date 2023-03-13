@@ -17,8 +17,6 @@ public:
 	ComponentTransform(const bool active, GameObject* owner);
 	~ComponentTransform() override;
 
-	void Update() override;
-
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 

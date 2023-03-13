@@ -44,16 +44,11 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 bool Scene::IsInsideACamera(const OBB& obb) const
 {
 	// TODO: We have to add all the cameras in the future
-	for (GameObject* cameraGameObject : sceneCameras)
+	for (ComponentCamera* camera : sceneCameras)
 	{
-		if (cameraGameObject)
+		if (camera && camera->IsInside(obb))
 		{
-			ComponentCamera* camera =
-				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-			if (camera && camera->IsInside(obb))
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return false;
@@ -102,8 +97,8 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(gameObject);
+	Component* camera = gameObject->CreateComponent(ComponentType::CAMERA);
+	sceneCameras.push_back(static_cast<ComponentCamera*>(camera));
 
 	return gameObject;
 }
@@ -177,10 +172,9 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 	Component* component = father->GetComponent(ComponentType::CAMERA);
 	if (component)
 	{
-		for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
-			it != sceneCameras.end(); ++it)
+		for (std::vector<ComponentCamera*>::iterator it = std::begin(sceneCameras); it != std::end(sceneCameras); ++it)
 		{
-			if (father == *it)
+			if (father == (*it)->GetOwner())
 			{
 				sceneCameras.erase(it);
 				return;
