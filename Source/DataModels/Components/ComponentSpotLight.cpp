@@ -1,6 +1,10 @@
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
@@ -33,6 +37,9 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 ComponentSpotLight::~ComponentSpotLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
 void ComponentSpotLight::Draw()
