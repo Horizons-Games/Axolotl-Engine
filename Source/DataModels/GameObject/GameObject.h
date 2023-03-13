@@ -27,7 +27,7 @@ class GameObject
 public:
 	explicit GameObject(const char* name);
 	GameObject(const char* name, GameObject* parent);
-	~GameObject();
+	virtual ~GameObject();
 
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
