@@ -211,6 +211,8 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
+	renderMap.clear();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -245,7 +247,7 @@ update_status ModuleRender::Update()
 
 	if (isRoot) 
 	{
-		AddToRenderList(renderMap, goSelected);
+		AddToRenderList(goSelected);
 	}
 	
 	for (auto batchAndComponents : renderMap)
@@ -280,7 +282,7 @@ update_status ModuleRender::Update()
 		goSelected->DrawHighlight();
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
-		AddToRenderList(renderMap, goSelected); //could be out
+		AddToRenderList(goSelected); //could be out
 	}
 
 #ifdef ENGINE
@@ -437,8 +439,7 @@ std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRe
 	return map;
 }
 
-void ModuleRender::AddToRenderList(std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>& renderMap, 
-	GameObject* gameObject)
+void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -461,7 +462,7 @@ void ModuleRender::AddToRenderList(std::unordered_map<GeometryBatch*, std::vecto
 	{
 		for (GameObject* children : gameObject->GetChildren())
 		{
-			AddToRenderList(renderMap, children);
+			AddToRenderList(children);
 		}
 	}
 }

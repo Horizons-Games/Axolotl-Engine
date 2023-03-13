@@ -41,8 +41,7 @@ public:
 	const std::string& GetFragmentShader() const;
 
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>& renderMap, 
-						GameObject* gameObject);
+	void AddToRenderList(GameObject* gameObject);
 
 
 	bool IsSupportedPath(const std::string& modelPath);
@@ -60,6 +59,7 @@ private:
 	unsigned uboCamera;
 
 	const std::vector<std::string> modelTypes;
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMap;
 
 	//should this be here?
 	std::unique_ptr<Skybox> skybox;
