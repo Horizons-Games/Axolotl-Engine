@@ -41,15 +41,6 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	for (std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Update();
-		}
-	}
-
-	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
 }
 
 void GameObject::Draw() const
@@ -60,13 +51,6 @@ void GameObject::Draw() const
 		App->debug->DrawBoundingBox(objectOBB);
 	}
 #endif // ENGINE
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Draw();
-		}
-	}
 }
 
 void GameObject::DrawSelected()
@@ -86,9 +70,9 @@ void GameObject::DrawSelected()
 		}
 		for (const std::unique_ptr<Component>& component : currentGo->components)
 		{
-			if (component->GetActive())
+			if (component->IsDrawable() && component->IsActive())
 			{
-				component->Draw();
+				static_cast<DrawableComponent*>(component.get())->Draw();
 			}
 		}
 #ifdef ENGINE
@@ -304,11 +288,6 @@ void GameObject::DeactivateChildren()
 {
 	active = false;
 
-	if (children.empty())
-	{
-		return;
-	}
-
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
@@ -318,11 +297,6 @@ void GameObject::DeactivateChildren()
 void GameObject::ActivateChildren()
 {
 	active = (parent->IsActive() && parent->IsEnabled());
-
-	if (children.empty())
-	{
-		return;
-	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{

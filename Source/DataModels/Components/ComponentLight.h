@@ -35,12 +35,8 @@ public:
 
 	virtual ~ComponentLight() override;
 
-	void Update() override;
-
 	void Enable() override;
 	void Disable() override;
-
-	virtual void Draw() override {};
 
 	virtual void SaveOptions(Json& meta) override {};
 	virtual void LoadOptions(Json& meta) override {};
@@ -58,11 +54,6 @@ protected:
 
 	LightType lightType;
 };
-
-inline void ComponentLight::Update()
-{
-	Draw();
-}
 
 inline void ComponentLight::Enable()
 {

@@ -24,7 +24,7 @@
 #endif // ENGINE
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true)
+	: DrawableComponent(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
@@ -32,11 +32,6 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
 		mesh->Unload();
-}
-
-void ComponentMeshRenderer::Update()
-{
-
 }
 
 void ComponentMeshRenderer::Draw()

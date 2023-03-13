@@ -36,27 +36,27 @@ ComponentCamera::~ComponentCamera()
 {
 }
 
-void ComponentCamera::Update()
-{
-	frustum.SetPos((float3) trans->GetGlobalPosition());
+//void ComponentCamera::Update()
+//{
+//	frustum.SetPos((float3) trans->GetGlobalPosition());
+//
+//	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
+//	frustum.SetFront(rotationMatrix * float3::unitZ);
+//	frustum.SetUp(rotationMatrix * float3::unitY);
+//
+//	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
+//	{
+//		UpdateFrustumOffset();
+//	}
+//}
 
-	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
-	frustum.SetFront(rotationMatrix * float3::unitZ);
-	frustum.SetUp(rotationMatrix * float3::unitY);
-
-	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
-	{
-		UpdateFrustumOffset();
-	}
-}
-
-void ComponentCamera::Draw()
-{
-#ifdef ENGINE
-	if(drawFrustum)
-		App->debug->DrawFrustum(frustum);
-#endif // ENGINE
-}
+//void ComponentCamera::Draw()
+//{
+//#ifdef ENGINE
+//	if(drawFrustum)
+//		App->debug->DrawFrustum(frustum);
+//#endif // ENGINE
+//}
 
 void ComponentCamera::SaveOptions(Json& meta)
 {

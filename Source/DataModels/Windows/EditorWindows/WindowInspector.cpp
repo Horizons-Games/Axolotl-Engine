@@ -84,7 +84,7 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				if (child->drawBoundingBoxes == bbDrawn)
 				{
-					child->setDrawBoundingBoxes(!bbDrawn);
+					child->SetDrawBoundingBoxes(!bbDrawn);
 				}
 			}
 

@@ -10,6 +10,7 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "DataModels/Components/DrawableComponent.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
@@ -184,7 +185,7 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	gameObjectsToDraw.clear();
+	componentsToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -211,27 +212,27 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	gameObjectsToDraw.clear();
+	componentsToDraw.clear();
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
-	bool isRoot = goSelected->GetParent() == nullptr;
+	bool selectedIsRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
-	if (isRoot) 
+	if (selectedIsRoot) 
 	{
-		gameObjectsToDraw.push_back(goSelected);
+		AddToRenderList(goSelected);
 	}
-	for (const GameObject* gameObject : gameObjectsToDraw)
+	for (DrawableComponent* component : componentsToDraw)
 	{
-		if (gameObject != nullptr && gameObject->IsActive())
+		if (component && component->GetOwner()->IsActive())
 		{
-			gameObject->Draw();
+			component->Draw();
 		}
 	}
 
-	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	if (!selectedIsRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
@@ -341,8 +342,6 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
-	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
 	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
@@ -364,21 +363,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)
+			for (GameObject* gameObject : gameObjectsToRender)
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					AddToRenderList(gameObject);
 				}
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
 				if (gameObject->IsEnabled())
 				{
-					gameObjectsToDraw.push_back(gameObject);
+					AddToRenderList(gameObject);
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -408,7 +407,16 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			gameObjectsToDraw.push_back(gameObject);
+			std::vector<DrawableComponent*> materialComponents =
+				gameObject->GetComponentsByType<DrawableComponent>(ComponentType::MATERIAL);
+			std::vector<DrawableComponent*> meshComponents =
+				gameObject->GetComponentsByType<DrawableComponent>(ComponentType::MESHRENDERER);
+			componentsToDraw.insert(std::end(componentsToDraw),
+									std::begin(materialComponents),
+									std::end(materialComponents));
+			componentsToDraw.insert(std::end(componentsToDraw),
+									std::begin(meshComponents),
+									std::end(meshComponents));
 		}
 	}
 	

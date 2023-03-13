@@ -36,21 +36,21 @@ ComponentPointLight::~ComponentPointLight()
 	currentScene->RenderPointLights();
 }
 
-void ComponentPointLight::Draw()
-{
-#ifdef ENGINE
-	if (this->GetActive())
-	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()
-				->GetComponent(ComponentType::TRANSFORM));
-
-		float3 position = transform->GetGlobalPosition();
-
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#endif // ENGINE
-}
+//void ComponentPointLight::Draw()
+//{
+//#ifdef ENGINE
+//	if (this->IsActive())
+//	{
+//		ComponentTransform* transform =
+//			static_cast<ComponentTransform*>(GetOwner()
+//				->GetComponent(ComponentType::TRANSFORM));
+//
+//		float3 position = transform->GetGlobalPosition();
+//
+//		dd::sphere(position, dd::colors::White, radius);
+//	}
+//#endif // ENGINE
+//}
 
 void ComponentPointLight::SaveOptions(Json& meta)
 {
