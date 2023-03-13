@@ -102,6 +102,7 @@ ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuf
 
 ModuleRender::~ModuleRender()
 {
+	delete batchManager;
 }
 
 bool ModuleRender::Init()
