@@ -129,6 +129,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	// Then look MaterialIndex and load the ResourceMaterial of the Model vector with materialIndex's index
 	// Load the ComponentMaterial with the ResourceMaterial
 	// Load the ComponentMesh with the ResourceMesh
+	// Load the ComponentMesh into a batch
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
@@ -153,6 +154,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
 
+		App->renderer->GetBatchManager()->AddComponent(meshRenderer);
 	}
 }
 

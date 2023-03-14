@@ -33,6 +33,7 @@ public:
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	GeometryBatch* GetBatch() const;
+	void SetBatch(GeometryBatch* geometryBatch);
 
 private:
 	bool IsMeshLoaded();
@@ -51,6 +52,11 @@ inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 inline GeometryBatch* ComponentMeshRenderer::GetBatch() const
 {
 	return batch;
+}
+
+inline void ComponentMeshRenderer::SetBatch(GeometryBatch* geometryBatch)
+{
+	batch = geometryBatch;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()

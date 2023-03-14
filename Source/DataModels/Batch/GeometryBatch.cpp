@@ -197,7 +197,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			numTotalVertices += mesh->GetNumVertices();
 			numTotalFaces += mesh->GetNumFaces();
 		}
-		
+		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 	}
 }

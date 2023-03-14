@@ -242,8 +242,7 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>>renderMap = 
-		FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
 	if (isRoot) 
 	{
@@ -393,9 +392,8 @@ void ModuleRender::UpdateProgram()
 	App->program->CreateProgram(vertexShader, fragmentShader);
 }
 
-std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRender::FillRenderList(const Quadtree* quadtree)
+void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> map;
 	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
@@ -408,7 +406,10 @@ std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRe
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					map[component->GetBatch()].push_back(component);
+					if (component)
+					{
+						renderMap[component->GetBatch()].push_back(component);
+					}
 				}
 			}
 		}
@@ -420,7 +421,10 @@ std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRe
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					map[component->GetBatch()].push_back(component);
+					if (component)
+					{
+						renderMap[component->GetBatch()].push_back(component);
+					}
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -436,7 +440,6 @@ std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> ModuleRe
 			FillRenderList(quadtree->GetBackLeftNode());
 		}
 	}
-	return map;
 }
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
@@ -453,7 +456,10 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		{
 			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 				gameObject->GetComponent(ComponentType::MESHRENDERER));
-			renderMap[component->GetBatch()].push_back(component);
+			if (component)
+			{
+				renderMap[component->GetBatch()].push_back(component);
+			}
 		}
 	}
 	

@@ -40,9 +40,10 @@ public:
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 
-	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	BatchManager* GetBatchManager() const;
 
+	void FillRenderList(const Quadtree* quadtree);
+	void AddToRenderList(GameObject* gameObject);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
@@ -97,4 +98,9 @@ inline const std::string& ModuleRender::GetVertexShader() const
 inline const std::string& ModuleRender::GetFragmentShader() const
 {
 	return fragmentShader;
+}
+
+inline BatchManager* ModuleRender::GetBatchManager() const
+{
+	return batchManager;
 }
