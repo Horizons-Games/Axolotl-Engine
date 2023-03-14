@@ -16,7 +16,8 @@ WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
+	inputTextureSmoothnessMap(std::make_unique<WindowTextureInput>(component, TextureType::SMOOTHNESS))
 {
 }
 
@@ -206,6 +207,13 @@ void WindowComponentMaterial::DrawSetMaterial()
 				0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asMaterial->SetNormalStrenght(normalStrength);
+			}
+
+			float smoothness = asMaterial->GetSmoothness();
+			if (ImGui::DragFloat("Smoothness", &smoothness,
+				0.01f, 0.0f, 1.0f))
+			{
+				asMaterial->SetSmoothness(smoothness);
 			}
 
 			ImGui::Text("");

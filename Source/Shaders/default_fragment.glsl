@@ -106,32 +106,19 @@ vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
     return kD * texDiffuse;
 }
 
-vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 L = normalize(-directionalDir);
     vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
     float dotNL = max(dot(N,L), 0.0);
-    float dotLH = max(dot(L,H), 0.0);
+    vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
+    float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
+    float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
 
-    vec3 FS = fresnelSchlick(f0, dotLH);
-    float SV;
-    float GGXND;
-    
-    vec3 Li = directionalColor.rgb * directionalColor.a;
-
-    vec3 R = reflect(L, N);
-
-    float dotVR = max(dot(V,R), 0.0001);
-    float spec = pow(dotVR,shininess);
-
-    //vec3 numerator = (shininess + 2) * fresnel * spec;
-    //vec3 specular = numerator / 2;
-    vec3 diffuse = calculDiffuse(f0, texDiffuse);
-
-    return (diffuse + specular) * Li * dotNL;
+    return (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
-vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
 
@@ -141,36 +128,24 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
         vec3 color = points[i].color.rgb;
         float radius = points[i].position.w;
         float intensity = points[i].color.a;
-        
-        vec3 L = normalize(FragPos - pos);
+        vec3 L = normalize(FragPos-pos);
+        vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
         float dotNL = max(dot(N,-L), 0.0);
-
-        vec3 fresnel  = fresnelSchlick(dotNL, f0);
-
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
+        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
         // Attenuation
-        float distance = length(FragPos - pos);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float distance = length(FragPos-pos);
+        float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
-    
-        vec3 Li = color * intensity * attenuation;
-
-        vec3 R = reflect(L, N);
-
-        float dotVR = max(dot(V,R), 0.0001);
-        float spec = pow(dotVR,shininess);
-
-        vec3 numerator = (shininess + 2) * fresnel * spec;
-        vec3 specular = numerator / 2;
-        vec3 diffuse = calculDiffuse(f0, texDiffuse);
-
-        Lo += (diffuse + specular) * Li * dotNL;
-        // Lo += (diffuse + specular) * Li * dotNL;
+        vec3 Li = color*intensity*attenuation;
+        Lo += (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*Li*dotNL;
     }
 
     return Lo;
 }
 
-vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
 
@@ -187,16 +162,14 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
         float cosInner = cos(innerAngle);
         float cosOuter = cos(outerAngle);
 
-        vec3 L = normalize(FragPos - pos);
-
-        float theta = dot(L, normalize(-aim));
-
-        //if(theta > cosOuter) 
-        //{ 
+        vec3 L = normalize(FragPos-pos);
+        vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
         float dotNL = max(dot(N, -L), 0.0);
 
-        vec3 fresnel  = fresnelSchlick(dotNL, f0);
-        //}
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
+        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+
         // Attenuation
         float distance = dot(FragPos - pos, aim);
         float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
@@ -207,25 +180,16 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
 
         if (C > cosInner)
         {
-            Catt = 1;
+            Catt = 1.0;
         }
         else if (cosInner > C && C > cosOuter)
         {
-            Catt = (C - cosOuter)/(cosInner - cosOuter);
+            Catt = (C-cosOuter)/(cosInner-cosOuter);
         }
     
-        vec3 Li = color * intensity * attenuation * Catt;
-
-        vec3 R = reflect(L, N);
-
-        float dotVR = max(dot(V,R), 0.0001);
-        float spec = pow(dotVR,shininess);
-
-        vec3 numerator = (shininess + 2) * fresnel * spec;
-        vec3 specular = numerator / 2;
-        vec3 diffuse = calculDiffuse(f0, texDiffuse);
+        vec3 Li = color*intensity*attenuation*Catt;
             
-        Lo += (diffuse + specular) * Li * dotNL;
+        Lo += (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*Li*dotNL;
     }
 
     return Lo;
@@ -262,6 +226,7 @@ void main()
     }
     specularMat = pow(specularMat, gammaCorrection);
 
+    vec3 Cd;
     vec3 f0 =  specularMat.rgb;
 
     // shininess
@@ -269,10 +234,8 @@ void main()
     if (material.shininess_alpha == 1) {
 	    shininess = exp2(specularMat.a * 7 + 1);
     }
-    
-    // ambient
-    vec3 ambient = ambientValue * textureMat;
 
+    //vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
 
     if (num_point > 0)
@@ -285,7 +248,7 @@ void main()
         Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat);
     }
 
-    vec3 color = ambient + Lo;
+    vec3 color = ambientValue*textureMat + Lo;      // ambient: ambientValue*textureMat
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
