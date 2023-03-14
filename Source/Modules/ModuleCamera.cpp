@@ -55,13 +55,29 @@ bool ModuleCamera::Init()
 bool ModuleCamera::Start()
 {
 	camera->Start();
-	selectedCamera = camera.get();
+	#ifdef ENGINE
+		selectedCamera = camera.get();
+	#else // ENGINE
+		//selectedPosition = 1;
+		//SetSelectedCamera(selectedPosition);
+		//if (selectedCamera == nullptr)
+		//{
+			selectedPosition = 0;
+			selectedCamera = camera.get();
+		//}
+	#endif // GAMEMODE
 	return true;
 }
 
 update_status ModuleCamera::Update()
 {
-	if (App->editor->IsSceneFocused())
+	if (
+#ifdef ENGINE
+		App->editor->IsSceneFocused()
+#else // ENGINE
+		true
+#endif // GAMEMODE
+		)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
 		{
