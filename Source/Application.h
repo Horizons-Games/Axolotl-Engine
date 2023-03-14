@@ -35,6 +35,7 @@ public:
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
+	void SwitchDebuggingGame();
 public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
@@ -82,4 +83,9 @@ inline bool Application::IsDebuggingGame() const
 inline void Application::SetDebuggingGame(bool debuggingGame)
 {
 	this->debuggingGame = debuggingGame;
+}
+
+inline void Application::SwitchDebuggingGame()
+{
+	debuggingGame = !debuggingGame;
 }
