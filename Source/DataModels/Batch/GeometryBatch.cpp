@@ -209,29 +209,29 @@ void GeometryBatch::BindBatch()
 	// Set up the vertex data
 	float vertices[] = {
 		// First triangle
-		0.5f, 0.5f, 0.0f,  // Bottom left
-		-0.5f, 0.5f, 0.0f,  // Bottom right
-		0.5f, -0.5f, 0.0f  // Top right
-		-0.5f, -0.5f, 0.0f,  // Top left 
+		-0.5f, -0.5f, 0.0f,  // Botton left
+		-0.5f, 0.5f, 0.0f,  // Top left
+		 0.5f, -0.5f, 0.0f,  // Bottom right
+		 0.5f, 0.5f, 0.0f  // top right
 	};
 
 	// Set up the index data
 	GLuint indices[] = {
-		0, 1, 2, // First triangle
-		0, 3, 2, // Second triangle
+		0, 2, 3, // First triangle
+		0, 3, 1, // Second triangle
 	};
 
 	// Create the vertex buffer and load the vertex data into it
 	GLuint vertexBuffer;
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 
 	// Create the index buffer and load the index data into it
 	GLuint indexBuffer;
 	glGenBuffers(1, &indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
 
 	// Set up the vertex attribute pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
@@ -240,13 +240,13 @@ void GeometryBatch::BindBatch()
 	// Create the draw commands buffer
 	Command drawCommands[] = {
 		{3, 1, 0, 0, 0}, // First triangle
-		{3, 1, 0, 3, 0}, // Second triangle
+		{3, 1, 3, 0, 0}, // Second triangle
 	};
 
 	// Create the draw commands buffer and load the draw commands into it
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(drawCommands), drawCommands, GL_STATIC_DRAW);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(drawCommands), drawCommands, GL_DYNAMIC_DRAW);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, 2, 0);
 }
@@ -310,7 +310,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 	}
 
 	UpdateVAO();
-
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, componentsToRender.size(), 0);
 	verticesToRender.clear();
 	texturesToRender.clear();
 	texturesToRender.clear();
