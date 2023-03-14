@@ -966,6 +966,9 @@
     <ClInclude Include="DataModels\GameObject\EditorGameObject\EditorGameObject.h">
       <Filter>Source\DataModels\GameObject\EditorGameObject</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\EditorComponents\EditorComponent.h">
+      <Filter>Source\DataModels\Components\EditorComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1072,6 +1075,9 @@
     </Filter>
     <Filter Include="Source\DataModels\GameObject\EditorGameObject">
       <UniqueIdentifier>{4e8e0151-6753-4a56-b5be-fb74064ae6ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Components\EditorComponents">
+      <UniqueIdentifier>{11b6e7e7-ee5f-45d4-b3c6-25294ee4777e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
