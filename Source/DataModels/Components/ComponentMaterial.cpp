@@ -115,6 +115,25 @@ void ComponentMaterial::Draw()
 		glUniform1f(5, material->GetShininess()); //shininess
 		glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 
+		const float smoothness = material->GetSmoothness();
+		glUniform1f(12, smoothness);
+		texture = material->GetSmoothnessMap();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glUniform1i(13, 1); //has_smoothness_map
+			glActiveTexture(GL_TEXTURE8);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		}
+		else
+		{
+			glUniform1i(13, 0); //has_smoothness_map
+		}
+
 		float3 viewPos = App->engineCamera->GetCamera()->GetPosition();
 		glUniform3f(glGetUniformLocation(program, "viewPos"), viewPos.x, viewPos.y, viewPos.z);
 	}
@@ -254,6 +273,13 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 				texture->Unload();
 			}
 			break;
+		case TextureType::SMOOTHNESS:
+			texture = material->GetSmoothnessMap();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
 		}
 	}
 }
@@ -316,9 +342,4 @@ void ComponentMaterial::SetSmoothness(float smoothness)
 void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 {
 	this->material->SetShininess(hasShininessAlpha);
-}
-
-void ComponentMaterial::SetHasSmoothnessMap(bool hasSmoothnessMap)
-{
-	this->material->SetHasSmoothnessMap(hasSmoothnessMap);
 }

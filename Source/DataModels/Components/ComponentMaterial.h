@@ -35,7 +35,6 @@ public:
 	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
-	void SetHasSmoothnessMap(bool hasSmoothnessMap);
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const float3& GetDiffuseColor() const;

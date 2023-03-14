@@ -65,6 +65,7 @@ layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D specular_map;
 layout(binding = 7) uniform sampler2D normal_map;
+layout(binding = 8) uniform sampler2D smoothness_map;
 
 uniform Light light;
 
