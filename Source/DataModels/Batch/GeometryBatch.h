@@ -3,6 +3,9 @@
 #include "FileSystem/UniqueID.h"
 
 #include <vector>
+#include "Math/float2.h"
+#include "Math/float3.h"
+
 #include "GL/glew.h"
 
 class ComponentMeshRenderer;

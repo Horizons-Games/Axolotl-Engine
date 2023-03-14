@@ -36,7 +36,7 @@ void GeometryBatch::CalculateVBO()
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
 	
 	//tangents
-	if (flags && HAS_TANGENTS) //TODO see how we do that
+	if (flags && HAS_TANGENTS)
 	{
 		vertexSize += sizeof(float) * 3;
 	}
@@ -269,15 +269,17 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 		{
 			AAA aaa = FindResourceMesh(component->GetMesh().get());
 			ResourceMesh* resource = aaa.resourceMesh;
-
-			verticesToRender.push_back(resource->GetVertices());
-			texturesToRender.push_back((resource->GetTextureCoords()[0].x, 
+			verticesToRender.insert(std::end(verticesToRender), 
+				std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
+			texturesToRender.emplace_back((resource->GetTextureCoords()[0].x, 
 				resource->GetTextureCoords()[1].y));
-			normalsToRender.push_back(resource->GetNormals());
+			normalsToRender.insert(std::end(normalsToRender), 
+				std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
 
 			if (flags && HAS_TANGENTS)
 			{
-				tangentsToRender.push_back(resource->GetTangents());
+				tangentsToRender.insert(std::end(tangentsToRender), 
+					std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
 			}
 			
 			/*const float4x4& model =
@@ -318,7 +320,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToR
 	//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
 
 	//send in the shader
-	glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
