@@ -318,7 +318,7 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 	float3 newMinPoint = GetBoundingBox().minPoint;
 	
 	float3 gameObjectMaxPoint = gameObject->GetEncapsuledAABB().maxPoint;
-	float3 gameObjectminPoint = gameObject->GetEncapsuledAABB().minPoint;
+	float3 gameObjectMinPoint = gameObject->GetEncapsuledAABB().minPoint;
 
 	if (gameObjectmaxPoint.y > quadTreeMaxY || gameObjectminPoint.y < quadTreeMinY)
 	{
