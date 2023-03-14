@@ -4,6 +4,8 @@
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Batch/BatchFlags.h"
+#include "Application.h"
+#include "ModuleProgram.h"
 
 BatchManager::BatchManager()
 {
@@ -60,13 +62,17 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 {
-
 	geometry_batch->BindBatch();
-	geometry_batch->UpdateCommands();
-	geometry_batch->UpdateVAO();
+			unsigned program = App->program->GetProgram();	
+			GLint programInUse;
+			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+	
+			if (program != programInUse)
+			{
+				glUseProgram(program);
+			}
 
-	//use multi draw to combine with the batch method
-	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, geometry_batch->GetResourceIndex(), 0);
+	// Draw the triangles using the indirect draw commands
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, static_cast<void*>(nullptr), 2, 0);
 
-	glBindVertexArray(0);
 }
