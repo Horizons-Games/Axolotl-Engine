@@ -62,7 +62,6 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 {
-	geometry_batch->BindBatch();
 			unsigned program = App->program->GetProgram();	
 			GLint programInUse;
 			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
@@ -71,6 +70,7 @@ void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 			{
 				glUseProgram(program);
 			}
+	geometry_batch->BindBatch();
 
 	// Draw the triangles using the indirect draw commands
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, static_cast<void*>(nullptr), 2, 0);
