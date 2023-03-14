@@ -33,6 +33,8 @@ public:
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
 
+	bool IsDebuggingGame() const;
+	void SetDebuggingGame(bool debuggingGame);
 public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
@@ -52,6 +54,7 @@ private:
 
 	int maxFramerate;
 	float deltaTime = 0.f;
+	bool debuggingGame;
 };
 
 extern std::unique_ptr<Application> App;
@@ -69,4 +72,14 @@ inline int Application::GetMaxFrameRate() const
 inline float Application::GetDeltaTime() const
 {
 	return deltaTime;
+}
+
+inline bool Application::IsDebuggingGame() const
+{
+	return debuggingGame;
+}
+
+inline void Application::SetDebuggingGame(bool debuggingGame)
+{
+	this->debuggingGame = debuggingGame;
 }
