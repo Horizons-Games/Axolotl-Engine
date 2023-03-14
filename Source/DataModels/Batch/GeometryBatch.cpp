@@ -140,9 +140,10 @@ void GeometryBatch::BindBatch()
 {
 	// Set up the vertex data
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
+		// First triangle
+		-0.5f, - 0.5f, 0.0f,  // Top left
+		 0.5f, - 0.5f, 0.0f,  // Top right
+		 0.0f, 0.5f, 0.0f,  // Bottom right
 	};
 
 	// Set up the index data
@@ -174,9 +175,8 @@ void GeometryBatch::BindBatch()
 	};
 
 	// Create the draw commands buffer and load the draw commands into it
-	GLuint drawCommandsBuffer;
-	glGenBuffers(1, &drawCommandsBuffer);
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, drawCommandsBuffer);
+	glGenBuffers(1, &indirectBuffer);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(drawCommands), drawCommands, GL_STATIC_DRAW);
 
 }
