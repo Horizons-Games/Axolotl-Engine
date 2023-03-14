@@ -142,8 +142,9 @@ void GeometryBatch::BindBatch()
 	float vertices[] = {
 		// First triangle
 		-0.5f, - 0.5f, 0.0f,  // Top left
+		-0.5f, 0.5f, 0.0f,  // Bottom right
 		 0.5f, - 0.5f, 0.0f,  // Top right
-		 0.0f, 0.5f, 0.0f,  // Bottom right
+		 0.5f, 0.5f, 0.0f  // Bottom left
 	};
 
 	// Set up the index data
