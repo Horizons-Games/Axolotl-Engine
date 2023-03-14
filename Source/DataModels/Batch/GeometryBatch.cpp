@@ -196,6 +196,8 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			resourceMeshes.push_back(aaa);
 			numTotalVertices += mesh->GetNumVertices();
 			numTotalFaces += mesh->GetNumFaces();
+			CalculateVBO();
+			CalculateEBO();
 		}
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);

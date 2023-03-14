@@ -262,11 +262,6 @@ update_status ModuleRender::Update()
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	for (GeometryBatch* batch : batchManager->GetBatches())
-	{
-		batchManager->DrawBatch(batch);
-	}
-
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
 		glEnable(GL_STENCIL_TEST);
