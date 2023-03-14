@@ -243,7 +243,10 @@ update_status ModuleRender::Update()
 	bool isRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
-
+	
+	GeometryBatch* batch = new GeometryBatch();
+	std::vector<ComponentMeshRenderer> a;
+	batch->BindBatch();
 	if (isRoot) 
 	{
 		AddToRenderList(goSelected);

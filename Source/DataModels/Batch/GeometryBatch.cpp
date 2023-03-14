@@ -206,62 +206,55 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::BindBatch()
 {
-	//command.reserve(components.size());//need to verify the size if it's matching with uniqueComponent
-	/*unsigned int instanceIndex = 0;
-	commands.clear();
+	// Set up the vertex data
+	float vertices[] = {
+		// First triangle
+		0.5f, 0.5f, 0.0f,  // Bottom left
+		-0.5f, 0.5f, 0.0f,  // Bottom right
+		0.5f, -0.5f, 0.0f  // Top right
+		-0.5f, -0.5f, 0.0f,  // Top left 
+	};
 
-	unsigned program = App->program->GetProgram();
-	
-	for (ResourceMesh* resourceMesh : resourceMeshes)
-	{
-		if (resourceMesh) //pointer not empty
-		{
-			if (!resourceMesh->IsLoaded())
-			{
-				//gen ebo vbo and vao buffers
-				resourceMesh->Load();
-				if (indirectBuffer == 0) {
-					glGenBuffers(1, &indirectBuffer);
-				}
-			}
+	// Set up the index data
+	GLuint indices[] = {
+		0, 1, 2, // First triangle
+		0, 3, 2, // Second triangle
+	};
 
-			const float4x4& model =
-				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
-					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+	// Create the vertex buffer and load the vertex data into it
+	GLuint vertexBuffer;
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-			GLint programInUse;
-			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+	// Create the index buffer and load the index data into it
+	GLuint indexBuffer;
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-			if (program != programInUse)
-			{
-				glUseProgram(program);
-			}
+	// Set up the vertex attribute pointers
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	glEnableVertexAttribArray(0);
 
-			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-				
-			//do a for for all the instaces existing
-			Command newCommand = { resourceMesh->GetNumIndexes(), 1, 0, resourceMesh->GetNumVertices(), instanceIndex };
-			commands.push_back(newCommand);
-			instanceIndex++;
+	// Create the draw commands buffer
+	Command drawCommands[] = {
+		{3, 1, 0, 0, 0}, // First triangle
+		{3, 1, 0, 3, 0}, // Second triangle
+	};
 
-			//glBindVertexArray(0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}
-	}
-
-	//send to gpu
+	// Create the draw commands buffer and load the draw commands into it
+	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);
-	//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(drawCommands), drawCommands, GL_STATIC_DRAW);
 
-	//send in the shader
-	glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);*/
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, 2, 0);
 }
 
 void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	commands.reserve(components.size());
+	
 	unsigned program = App->program->GetProgram();
 	unsigned int instanceIndex = 0;
 
@@ -316,13 +309,13 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 		}
 	}
 
-	//send to gpu
-	/*glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), &commands[0], GL_STATIC_DRAW);*/
-	//glBufferStorage(GL_DRAW_INDIRECT_BUFFER, sizeof(commands), commands, GL_DYNAMIC_DRAW);
+	UpdateVAO();
 
-	//send in the shader
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	verticesToRender.clear();
+	texturesToRender.clear();
+	texturesToRender.clear();
+	normalsToRender.clear();
+	tangentsToRender.clear();
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
