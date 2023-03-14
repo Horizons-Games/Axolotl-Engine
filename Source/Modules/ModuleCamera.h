@@ -42,12 +42,17 @@ public:
 
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);
+	Camera* GetSelectedCamera() const;
+	void SetSelectedCamera(int cameraNumber);
+
 	
 private:
 	std::unique_ptr <Camera> camera;
+	Camera* selectedCamera;
 };
 
-inline Camera* ModuleCamera::GetCamera()
+
+inline Camera* ModuleCamera::GetSelectedCamera() const
 {
-	return camera.get();
+	return selectedCamera;
 }

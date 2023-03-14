@@ -27,7 +27,7 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
-#define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 200.f
+#define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
 
 enum class CameraType 
 { 

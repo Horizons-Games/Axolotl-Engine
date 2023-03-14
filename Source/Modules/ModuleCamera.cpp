@@ -15,6 +15,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentCamera.h"
 
 #include "Resources/ResourceMesh.h"
 
@@ -29,6 +30,7 @@
 #include "Camera/CameraEngine.h"
 #endif // ENGINE
 #include "Camera/CameraGod.h"
+#include "Camera/CameraGameObject.h"
 
 
 
@@ -52,13 +54,22 @@ bool ModuleCamera::Init()
 bool ModuleCamera::Start()
 {
 	camera->Start();
-
+	selectedCamera = camera.get();
 	return true;
 }
 
 update_status ModuleCamera::Update()
 {
-	camera->Update();
+	if (App->input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
+	{
+		SetSelectedCamera(0);
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+	{
+		SetSelectedCamera(1);
+	}
+
+	selectedCamera->Update();
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -79,4 +90,26 @@ void ModuleCamera::ChangeCamera(CameraType newType)
 
 	}
 	
+}
+
+void ModuleCamera::SetSelectedCamera(int cameraNumber)
+{
+	if (cameraNumber == 0)
+	{
+		selectedCamera = camera.get();
+	}
+	else
+	{
+		std::vector<GameObject*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
+		if (loadedCameras.size() >= cameraNumber)
+		{
+			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras[cameraNumber - 1]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+			camera->SetPosition(selectedCamera->GetPosition());
+		}
+	}
+}
+
+Camera* ModuleCamera::GetCamera()
+{
+	return selectedCamera;
 }

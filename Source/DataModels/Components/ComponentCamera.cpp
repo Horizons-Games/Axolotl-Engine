@@ -44,12 +44,12 @@ void ComponentCamera::Update()
 
 void ComponentCamera::Draw()
 {
-/*
+
 #ifdef ENGINE
 	if(camera->IsDrawFrustum())
-		App->debug->DrawFrustum(camera->GetFrustum());
+		App->debug->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
-*/
+
 }
 
 void ComponentCamera::SaveOptions(Json& meta)

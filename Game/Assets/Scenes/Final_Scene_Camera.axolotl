@@ -12997,7 +12997,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.9478370547294617,
-                            "localPos_Z": 8.358044624328614,
+                            "localPos_Z": 7.278350353240967,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -13012,7 +13012,7 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": false
+                            "drawFrustum": true
                         }
                     }
                 ],
