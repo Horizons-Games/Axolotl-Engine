@@ -5,8 +5,11 @@
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
 
+class CameraGameObject;
+
 #define COMPONENT_CAMERA "Camera"
 
+/*
 enum class ECameraFrustumMode
 {
 	UNKNOWN,
@@ -14,9 +17,9 @@ enum class ECameraFrustumMode
 	OFFSETFRUSTUM,
 	NOFRUSTUM
 };
-
 const static std::string GetNameByFrustumMode(ECameraFrustumMode type);
 const static ECameraFrustumMode GetFrustumModeByName(const std::string& name);
+*/
 
 class Json;
 class ComponentTransform;
@@ -33,6 +36,7 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	/*
 	void UpdateFrustumOffset();
 	bool IsInside(const OBB& obb);
 	bool IsInsideOffset(const OBB& obb);
@@ -44,17 +48,17 @@ public:
 	bool IsDrawFrustum() const;
 	ECameraFrustumMode GetFrustumMode() const;
 	float GetFrustumOffset() const;
+	*/
+
+	void SetCamera(CameraGameObject* camera);
+	CameraGameObject* GetCamera();
 
 
 private:
-	Frustum frustum;
-	ECameraFrustumMode frustumMode;
-	float frustumOffset;
-	Plane offsetFrustumPlanes[6];
-	bool drawFrustum;
-	ComponentTransform* trans;
+	CameraGameObject* camera;
 };
 
+/*
 inline void ComponentCamera::SetDrawFrustum(bool newFrustum)
 {
 	drawFrustum = newFrustum;
@@ -123,3 +127,4 @@ inline const ECameraFrustumMode GetFrustumModeByName(const std::string& typeName
 
 	return ECameraFrustumMode::UNKNOWN;
 }
+*/

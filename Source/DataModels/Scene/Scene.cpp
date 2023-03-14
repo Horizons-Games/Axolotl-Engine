@@ -18,6 +18,8 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
+#include "Camera/CameraGameObject.h"
+
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
@@ -50,7 +52,7 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 		{
 			ComponentCamera* camera =
 				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-			if (camera && camera->IsInside(obb))
+			if (camera && camera->GetCamera()->IsInside(obb))
 			{
 				return true;
 			}

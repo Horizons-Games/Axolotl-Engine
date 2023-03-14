@@ -12,24 +12,15 @@
 #include "FileSystem/Json.h"
 #include "Math/Quat.h"
 
+
+#include "Camera/CameraGameObject.h"
+
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner, false),
-	frustumOffset(1.0f), drawFrustum(true), frustumMode(ECameraFrustumMode::NORMALFRUSTUM),
-	// PlaceHolder get position from component transform
-	trans(static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM)))
+	: Component(ComponentType::CAMERA, active, owner, false)
 {
-	float aspectRatio = 16.f / 9.f;
-
-	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 2000.f);
-	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
-	
-	frustum.SetPos(trans->GetPosition());
-	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetRotation());
-	frustum.SetFront(rotationMatrix * float3::unitZ);
-	frustum.SetUp(rotationMatrix * float3::unitY);
-
-	UpdateFrustumOffset();
+	camera = new CameraGameObject();
+	camera->Init();
+	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 }
 
 ComponentCamera::~ComponentCamera()
@@ -38,24 +29,27 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	frustum.SetPos((float3) trans->GetGlobalPosition());
+	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	camera->SetPosition((float3)trans->GetGlobalPosition());
 
 	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
-	frustum.SetFront(rotationMatrix * float3::unitZ);
-	frustum.SetUp(rotationMatrix * float3::unitY);
+	camera->GetFrustum()->SetFront(rotationMatrix * float3::unitZ);
+	camera->GetFrustum()->SetUp(rotationMatrix * float3::unitY);
 
-	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
+	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{
-		UpdateFrustumOffset();
+		camera->RecalculateOffsetPlanes();
 	}
 }
 
 void ComponentCamera::Draw()
 {
+/*
 #ifdef ENGINE
-	if(drawFrustum)
-		App->debug->DrawFrustum(frustum);
+	if(camera->IsDrawFrustum())
+		App->debug->DrawFrustum(camera->GetFrustum());
 #endif // ENGINE
+*/
 }
 
 void ComponentCamera::SaveOptions(Json& meta)
@@ -65,9 +59,9 @@ void ComponentCamera::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	meta["frustumOfset"] = (float)frustumOffset;
-	meta["drawFrustum"] = (bool)drawFrustum;
-	meta["frustumMode"] = GetNameByFrustumMode(frustumMode).c_str();
+	meta["frustumOfset"] = camera->GetFrustumOffset();
+	meta["drawFrustum"] = camera->IsDrawFrustum();
+	//meta["frustumMode"] = camera->GetFrustumMode();
 }
 
 void ComponentCamera::LoadOptions(Json& meta)
@@ -77,11 +71,24 @@ void ComponentCamera::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
-	frustumOffset = (float)meta["frustumOfset"];
-	drawFrustum = (bool)meta["drawFrustum"];
-	frustumMode = GetFrustumModeByName(meta["frustumMode"]);
+	camera->SetFrustumOffset((float)meta["frustumOfset"]);
+	camera->SetIsDrawFrustum((bool)meta["drawFrustum"]);
+	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
+
+
+void ComponentCamera::SetCamera(CameraGameObject* newCamera)
+{
+	camera = newCamera;
+}
+
+CameraGameObject* ComponentCamera::GetCamera()
+{
+	return camera;
+}
+
+/*
 void ComponentCamera::UpdateFrustumOffset()
 {
 	math::Plane frustumPlanes[6];
@@ -159,3 +166,4 @@ bool ComponentCamera::IsInsideOffset(const OBB& obb)
 
 	return true;
 }
+*/
