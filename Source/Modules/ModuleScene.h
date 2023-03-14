@@ -2,9 +2,6 @@
 
 #include "Module.h"
 
-#include <memory>
-
-#include "../FileSystem/UniqueID.h"
 #include "FileSystem/Json.h"
 
 class GameObject;
@@ -15,7 +12,7 @@ class ModuleScene : public Module
 {
 public:
 	ModuleScene();
-	~ModuleScene();
+	~ModuleScene() override;
 
 	bool Init() override;
 	bool Start() override;

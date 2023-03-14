@@ -2,13 +2,11 @@
 
 #include "SubWindow.h"
 
-#include <vector>
-
 class WindowFPS : public SubWindow
 {
 public:
 	WindowFPS();
-	~WindowFPS();
+	~WindowFPS() override;
 
 protected:
 	void DrawWindowContents() override;

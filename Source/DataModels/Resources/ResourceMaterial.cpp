@@ -1,5 +1,4 @@
 #include "ResourceMaterial.h"
-#include <GL/glew.h>
 
 ResourceMaterial::ResourceMaterial(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),

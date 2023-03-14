@@ -30,7 +30,7 @@ update_status ModuleCommand::Update()
 	{
 		Redo();
 	}
-	return UPDATE_CONTINUE;
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool ModuleCommand::Cleanup()

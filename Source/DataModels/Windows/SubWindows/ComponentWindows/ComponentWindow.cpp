@@ -1,3 +1,5 @@
+#include "ComponentWindow.h"
+
 #include <sstream>
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
@@ -13,9 +15,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "GameObject/GameObject.h"
-#include "Components/Component.h"
-#include "Components/ComponentLight.h"
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentBoundingBoxes.h"
 #include "Components/ComponentCamera.h"
@@ -102,8 +101,6 @@ void ComponentWindow::DrawEnableComponent()
 		{
 			App->command->CreateAndExecuteCommand<CommandComponentEnabled>(component, &enable, enable);
 		}
-
-		//(enable) ? component->Enable() : component->Disable();
 	}
 }
 

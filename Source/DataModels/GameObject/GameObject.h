@@ -1,12 +1,9 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
-#include <algorithm>
 #include <iterator>
 
 class Component;
@@ -28,6 +25,8 @@ public:
 
 	void Update();
 	void Draw() const;
+	void DrawSelected();
+	void DrawHighlight();
 
 	void InitNewEmptyGameObject();
 

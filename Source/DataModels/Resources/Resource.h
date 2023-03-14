@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "FileSystem/UniqueID.h"
 
 class Json;

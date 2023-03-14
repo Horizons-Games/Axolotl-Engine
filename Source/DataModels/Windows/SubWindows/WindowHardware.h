@@ -2,13 +2,11 @@
 
 #include "SubWindow.h"
 
-#include <string>
-
 class WindowHardware : public SubWindow
 {
 public:
 	WindowHardware();
-	~WindowHardware();
+	~WindowHardware() override;
 
 protected:
 	void DrawWindowContents() override;
