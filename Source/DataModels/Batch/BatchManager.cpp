@@ -69,7 +69,7 @@ void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 	glBindVertexArray(0);
 }
 
-void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*> componentsToRender)
+void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	batch->BindBatch2(componentsToRender);
 }

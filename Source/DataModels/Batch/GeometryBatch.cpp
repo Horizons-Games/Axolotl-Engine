@@ -259,7 +259,7 @@ void GeometryBatch::BindBatch()
 	glBindBuffer(GL_ARRAY_BUFFER, indirectBuffer);*/
 }
 
-void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*> componentsToRender)
+void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	commands.reserve(components.size());
 	unsigned program = App->program->GetProgram();

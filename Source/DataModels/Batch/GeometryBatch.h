@@ -43,7 +43,7 @@ public:
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
 	void BindBatch();
-	void BindBatch2(std::vector<ComponentMeshRenderer*> componentsToRender);
+	void BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 	const int GetFlags() const;
 	const int GetResourceIndex() const;

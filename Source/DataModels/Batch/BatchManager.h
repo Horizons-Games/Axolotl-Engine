@@ -15,7 +15,7 @@ public:
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 	void DrawBatch(GeometryBatch* geometry_batch) const;
-	void DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*> componentsToRender);
+	void DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 private:
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
