@@ -3,6 +3,10 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleInput.h"
+
+#include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
@@ -31,7 +35,7 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
 {
 }
 
@@ -82,6 +86,7 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	//delete copyObject;
 
 	windows.clear();
 
@@ -110,6 +115,18 @@ update_status ModuleEditor::Update()
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
+		&& App->input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
+	{
+		CopyAnObject();
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
+		&& App->input->GetKey(SDL_SCANCODE_V) != KeyState::IDLE)
+	{
+		PasteAnObject();
+	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -197,4 +214,27 @@ bool ModuleEditor::IsSceneFocused() const
 void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
 {
 	this->inspector->SetResource(resource);
+}
+
+void ModuleEditor::CopyAnObject()
+{
+	//delete copyObject;
+	copyObject = new GameObject(*App->scene->GetSelectedGameObject());
+}
+
+void ModuleEditor::PasteAnObject()
+{
+	if(copyObject)
+	{
+		if (App->scene->GetSelectedGameObject())
+		{
+			App->scene->GetLoadedScene()->
+				CreateGameObject(copyObject->GetName(), copyObject, App->scene->GetSelectedGameObject());
+		}
+		else
+		{
+			App->scene->GetLoadedScene()->
+				CreateGameObject(copyObject->GetName(), copyObject, App->scene->GetLoadedScene()->GetRoot());
+		}
+	}
 }

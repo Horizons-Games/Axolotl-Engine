@@ -6,6 +6,7 @@ class WindowMainMenu;
 class WindowScene;
 class WindowInspector;
 class Resource;
+class GameObject;
 
 class ModuleEditor : public Module
 {
@@ -29,12 +30,17 @@ public:
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 
 private:
+	void CopyAnObject();
+	void PasteAnObject();
+
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 
 	WindowInspector* inspector;
 	WindowScene* scene;
 	bool windowResized;
+
+	GameObject* copyObject;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

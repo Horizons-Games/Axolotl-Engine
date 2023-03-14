@@ -22,6 +22,7 @@ public:
 	bool IsInsideACamera(const AABB& aabb) const;
 
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* CreateGameObject(const char* name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
 	void ConvertModelIntoGameObject(const char* model);

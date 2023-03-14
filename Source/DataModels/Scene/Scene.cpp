@@ -99,6 +99,41 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+GameObject* Scene::CreateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = new GameObject(*newObject);
+	gameObject->SetParent(parent);
+
+	// Update the transform respect its parent when created
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
+	sceneGameObjects.push_back(gameObject);
+
+	//Quadtree treatment
+	if (!sceneQuadTree->InQuadrant(gameObject))
+	{
+		if (!sceneQuadTree->IsFreezed())
+		{
+			sceneQuadTree->ExpandToFit(gameObject);
+			FillQuadtree(sceneGameObjects);
+		}
+		else
+		{
+			App->renderer->AddToRenderList(gameObject);
+		}
+	}
+	else
+	{
+		sceneQuadTree->Add(gameObject);
+	}
+
+	return gameObject;
+}
+
 GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
