@@ -18,7 +18,7 @@
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner, false)
 {
-	camera = new CameraGameObject();
+	camera = std::make_unique <CameraGameObject>();
 	camera->Init();
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
@@ -77,14 +77,7 @@ void ComponentCamera::LoadOptions(Json& meta)
 	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
-
-
-void ComponentCamera::SetCamera(CameraGameObject* newCamera)
-{
-	camera = newCamera;
-}
-
 CameraGameObject* ComponentCamera::GetCamera()
 {
-	return camera;
+	return camera.get();
 }

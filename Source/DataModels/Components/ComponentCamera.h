@@ -36,24 +36,9 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	/*
-	void UpdateFrustumOffset();
-	bool IsInside(const OBB& obb);
-	bool IsInsideOffset(const OBB& obb);
-
-	void SetDrawFrustum(bool newFrustum);
-	void SetFrustumMode(ECameraFrustumMode newFrustumMode);
-	void SetFrustumOffset(float newFrustumOffset);
-
-	bool IsDrawFrustum() const;
-	ECameraFrustumMode GetFrustumMode() const;
-	float GetFrustumOffset() const;
-	*/
-
-	void SetCamera(CameraGameObject* camera);
 	CameraGameObject* GetCamera();
 
 
 private:
-	CameraGameObject* camera;
+	std::unique_ptr <CameraGameObject> camera;
 };
