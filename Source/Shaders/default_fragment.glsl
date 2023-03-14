@@ -109,7 +109,7 @@ vec3 calculDiffuse(vec3 f0, vec3 texDiffuse)
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
-    vec3 H = (L + V)/sqrt(L.x*V.x + L.y*V.y + L.z*V.z);
+    vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
     float dotNL = max(dot(N,L), 0.0);
     float dotLH = max(dot(L,H), 0.0);
 
