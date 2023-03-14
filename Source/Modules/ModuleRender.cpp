@@ -358,8 +358,7 @@ void ModuleRender::UpdateProgram()
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
-		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
+	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -403,8 +402,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
+	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{

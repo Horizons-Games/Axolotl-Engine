@@ -47,7 +47,7 @@ bool ModuleScene::Start()
 	if (loadedScene == nullptr)
 	{
 		//TODO
-		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
+		LoadSceneFromJson("Lib/Scenes/Final_Scene_Camera.axolotl");
 		//loadedScene = CreateEmptyScene();
 	}
 #endif //GAMEMODE

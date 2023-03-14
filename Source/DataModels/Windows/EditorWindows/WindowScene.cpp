@@ -185,6 +185,7 @@ void WindowScene::DrawGuizmo()
 				break;
 			}
 			focusedTransform->UpdateTransformMatrices();
+			focusedTransform->GetOwner()->Update();
 
 			for (Component* component : focusedObject->GetComponents())
 			{

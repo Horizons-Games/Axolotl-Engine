@@ -205,6 +205,7 @@ void WindowComponentTransform::UpdateComponentTransform()
 		if (scaleModified || rotationModified || translationModified)
 		{
 			asTransform->UpdateTransformMatrices();
+			asTransform->GetOwner()->Update();
 		}
 	}
 }
