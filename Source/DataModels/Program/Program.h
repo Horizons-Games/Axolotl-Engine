@@ -11,7 +11,7 @@ public:
 
 	void CleanUp();
 	void Activate();
-	void Desactivate();
+	void Deactivate();
 	bool IsValidProgram() const;
 
 	void BindUniformFloat4x4(const std::string& name, const float* data, bool transpose);

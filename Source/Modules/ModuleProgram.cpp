@@ -27,8 +27,8 @@ bool ModuleProgram::Start()
 	return true;
 }
 
-void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
-	std::string programName)
+void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName, int programType,
+	const std::string programName)
 {
 	std::unique_ptr<Program> program = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
 
@@ -38,8 +38,8 @@ void ModuleProgram::UpdateProgram(std::string& vtxShaderFileName, std::string& f
 	}
 }
 
-std::unique_ptr<Program> ModuleProgram::CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
-	std::string programName)
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShaderFileName, const std::string frgShaderFileName,
+	const std::string programName)
 {
 	unsigned vertexShader =
 		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));

@@ -22,14 +22,14 @@ public:
 	bool Start() override;
 	bool CleanUp() override;
 
-	void UpdateProgram(std::string& vtxShaderFileName, std::string& frgShaderFileName, int programType,
-		std::string programName);
+	void UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName, int programType,
+		const std::string programName);
 
 	Program* GetProgram(ProgramType type) const;
 
 private:
-	std::unique_ptr<Program> CreateProgram(std::string vtxShaderFileName, std::string frgShaderFileName,
-		std::string programName);
+	std::unique_ptr<Program> CreateProgram(const std::string vtxShaderFileName, const std::string frgShaderFileName,
+		const std::string programName);
 
 	std::string LoadShaderSource(const std::string& shaderFileName);
 	unsigned CompileShader(unsigned type, const std::string& source);
@@ -40,7 +40,7 @@ private:
 
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
-	if (programs.size() != 0) 
+	if (programs.empty() || programs.size() <= (int)ProgramType::PROGRAM_TYPE_SIZE)
 	{
 		return programs[static_cast<int>(type)].get();
 	}

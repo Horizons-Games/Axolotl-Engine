@@ -117,7 +117,7 @@ void ComponentMaterial::Draw()
 			program->BindUniformFloat3("viewPos", viewPos);
 		}
 	
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 

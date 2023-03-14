@@ -82,7 +82,7 @@ void ComponentMeshRenderer::Draw()
 			glBindVertexArray(0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-			program->Desactivate();
+			program->Deactivate();
 		}
 	}
 }
@@ -121,7 +121,7 @@ void ComponentMeshRenderer::DrawHighlight()
 
 			glBindVertexArray(0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			program->Desactivate();
+			program->Deactivate();
 		}
 	}
 }

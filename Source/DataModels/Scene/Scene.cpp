@@ -261,7 +261,7 @@ void Scene::GenerateLights()
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 
@@ -281,7 +281,7 @@ void Scene::RenderAmbientLight() const
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 
@@ -306,7 +306,7 @@ void Scene::RenderDirectionalLight() const
 		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 
@@ -335,7 +335,7 @@ void Scene::RenderPointLights() const
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 
@@ -363,7 +363,7 @@ void Scene::RenderSpotLights() const
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-		program->Desactivate();
+		program->Deactivate();
 	}
 }
 
