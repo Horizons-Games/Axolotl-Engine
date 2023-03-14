@@ -21,6 +21,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	camera = new CameraGameObject();
 	camera->Init();
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
+	Update();
 }
 
 ComponentCamera::~ComponentCamera()
@@ -87,83 +88,3 @@ CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera;
 }
-
-/*
-void ComponentCamera::UpdateFrustumOffset()
-{
-	math::Plane frustumPlanes[6];
-	frustum.GetPlanes(frustumPlanes);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		math::Plane plane = frustumPlanes[itPlanes];
-		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
-		offsetFrustumPlanes[itPlanes] = plane;
-	}
-}
-
-bool ComponentCamera::IsInside(const OBB& obb)
-{
-	if (frustumMode == ECameraFrustumMode::NOFRUSTUM)
-	{
-		return false;
-	}
-
-	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
-	{
-		return IsInsideOffset(obb);
-	}
-
-	math::vec cornerPoints[8];
-	math::Plane frustumPlanes[6];
-
-	frustum.GetPlanes(frustumPlanes);
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; ++itPoints)
-		{
-			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-
-		if (!onPlane)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool ComponentCamera::IsInsideOffset(const OBB& obb)
-{
-	math::vec cornerPoints[8];
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; ++itPoints)
-		{
-			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-		
-		if (!onPlane)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-*/

@@ -105,6 +105,8 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		{
 			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras[cameraNumber - 1]->GetComponent(ComponentType::CAMERA)))->GetCamera();
 			camera->SetPosition(selectedCamera->GetPosition());
+			camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
+			camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
 		}
 	}
 }

@@ -18,5 +18,7 @@ CameraGameObject::~CameraGameObject()
 
 bool CameraGameObject::Update()
 {
+	projectionMatrix = frustum->ProjectionMatrix();
+	viewMatrix = frustum->ViewMatrix();
 	return true;
 }
