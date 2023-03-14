@@ -9,9 +9,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 #include "ModuleDebugDraw.h"
-#ifdef ENGINE
 #include "ModuleEditor.h"
-#endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
 
@@ -19,9 +17,7 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
-#ifdef ENGINE
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
-#endif // ENGINE
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));

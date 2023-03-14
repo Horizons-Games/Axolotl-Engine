@@ -13,9 +13,7 @@ class ModuleResources;
 class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
-#ifdef ENGINE
 class ModuleEditor;
-#endif //ENGINE
 
 class Application
 {
@@ -36,6 +34,7 @@ public:
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
 	void SwitchDebuggingGame();
+
 public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
@@ -46,9 +45,8 @@ public:
 	ModuleResources* resources;
 	ModuleCamera* engineCamera;
 	ModuleDebugDraw* debug;
-#ifdef ENGINE
 	ModuleEditor* editor;
-#endif // ENGINE
+
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
