@@ -32,11 +32,13 @@ public:
 	const float3& GetSpecularColor();
 	float& GetShininess();
 	float& GetNormalStrength();
+	float& GetSmoothness();
 	bool HasDiffuse();
 	bool HasNormal();
 	bool HasOcclusion();
 	bool HasSpecular();
 	bool HasShininessAlpha();
+	bool HasSmoothnessMap();
 
 	OptionsMaterial& GetOptions();
 
@@ -49,7 +51,9 @@ public:
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float shininess);
 	void SetNormalStrength(float normalStrength);
+	void SetSmoothness(float smoothness);
 	void SetShininessAlpha(bool shininessAlpha);
+	void SetHasSmoothnessMap(bool hasSmoothnessMap);
 
 protected:
 	void InternalLoad() override {};
@@ -65,8 +69,10 @@ private:
 	float3 specularColor;
 	float shininess;
 	float normalStrength;
+	float smoothness;
 
 	bool shininessAlpha;
+	bool hasSmoothnessMap;
 
 	OptionsMaterial options;
 };
@@ -116,6 +122,11 @@ inline float& ResourceMaterial::GetNormalStrength()
 	return normalStrength;
 }
 
+inline float& ResourceMaterial::GetSmoothness()
+{
+	return smoothness;
+}
+
 inline OptionsMaterial& ResourceMaterial::GetOptions()
 {
 	return options;
@@ -144,6 +155,11 @@ inline bool ResourceMaterial::HasSpecular()
 inline bool ResourceMaterial::HasShininessAlpha()
 {
 	return shininessAlpha;  
+}
+
+inline bool ResourceMaterial::HasSmoothnessMap()
+{
+	return hasSmoothnessMap;
 }
 
 inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
@@ -186,7 +202,17 @@ inline void ResourceMaterial::SetNormalStrength(float normalStrength)
 	this->normalStrength = normalStrength;
 }
 
+inline void ResourceMaterial::SetSmoothness(float smoothness)
+{
+	this->smoothness = smoothness;
+}
+
 inline void ResourceMaterial::SetShininessAlpha(bool shininessAlpha)
 {
 	this->shininessAlpha = shininessAlpha;
+}
+
+inline void ResourceMaterial::SetHasSmoothnessMap(bool hasSmoothnessMap)
+{
+	this->hasSmoothnessMap = hasSmoothnessMap;
 }

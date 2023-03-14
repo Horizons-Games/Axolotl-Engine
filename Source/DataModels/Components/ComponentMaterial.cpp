@@ -274,8 +274,18 @@ const float ComponentMaterial::GetNormalStrenght() const {
 	return material->GetNormalStrength();
 }
 
+const float ComponentMaterial::GetSmoothness() const
+{
+	return material->GetSmoothness();
+}
+
 const bool ComponentMaterial::HasShininessAlpha() const {
 	return material->HasShininessAlpha();
+}
+
+const bool ComponentMaterial::HasSmoothnessMap() const
+{
+	return material->HasSmoothnessMap();
 }
 
 void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
@@ -298,7 +308,17 @@ void ComponentMaterial::SetNormalStrenght(float normalStrength)
 	this->material->SetNormalStrength(normalStrength);
 }
 
+void ComponentMaterial::SetSmoothness(float smoothness)
+{
+	this->material->SetSmoothness(smoothness);
+}
+
 void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 {
 	this->material->SetShininess(hasShininessAlpha);
+}
+
+void ComponentMaterial::SetHasSmoothnessMap(bool hasSmoothnessMap)
+{
+	this->material->SetHasSmoothnessMap(hasSmoothnessMap);
 }

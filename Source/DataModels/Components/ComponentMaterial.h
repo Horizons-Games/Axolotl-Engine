@@ -33,14 +33,18 @@ public:
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
+	void SetSmoothness(float smoothness);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
+	void SetHasSmoothnessMap(bool hasSmoothnessMap);
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const float3& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float GetShininess() const;
 	const float GetNormalStrenght() const;
+	const float GetSmoothness() const;
 	const bool HasShininessAlpha() const;
+	const bool HasSmoothnessMap() const;
 
 private:
 
