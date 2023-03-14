@@ -79,6 +79,7 @@ private:
 
 private:
 	UID uid;
+	UID parentUID;
 
 	bool enabled;
 	bool active;
