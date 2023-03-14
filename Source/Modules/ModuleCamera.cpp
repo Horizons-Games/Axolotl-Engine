@@ -47,6 +47,7 @@ bool ModuleCamera::Init()
 		camera = std::make_unique <CameraGod>();
 	#endif // GAMEMODE
 
+	selectedPosition = 0;
 	camera->Init();
 	return true;
 }
@@ -60,13 +61,23 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
+	if (App->editor->IsSceneFocused())
 	{
-		SetSelectedCamera(0);
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
-	{
-		SetSelectedCamera(1);
+		if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+		{
+			selectedPosition--;
+			SetSelectedCamera(selectedPosition);
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
+		{
+			selectedPosition++;
+			SetSelectedCamera(selectedPosition);
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		{
+			selectedPosition = 0;
+			SetSelectedCamera(selectedPosition);
+		}
 	}
 
 	selectedCamera->Update();
@@ -94,8 +105,9 @@ void ModuleCamera::ChangeCamera(CameraType newType)
 
 void ModuleCamera::SetSelectedCamera(int cameraNumber)
 {
-	if (cameraNumber == 0)
+	if (cameraNumber <= 0)
 	{
+		selectedPosition = 0;
 		selectedCamera = camera.get();
 	}
 	else
@@ -107,6 +119,10 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 			camera->SetPosition(selectedCamera->GetPosition());
 			camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
 			camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
+		}
+		else
+		{
+			selectedPosition--;
 		}
 	}
 }

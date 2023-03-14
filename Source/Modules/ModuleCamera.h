@@ -49,6 +49,7 @@ public:
 private:
 	std::unique_ptr <Camera> camera;
 	Camera* selectedCamera;
+	int selectedPosition;
 };
 
 

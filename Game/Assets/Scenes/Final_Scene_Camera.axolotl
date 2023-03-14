@@ -12986,7 +12986,7 @@
         },
         {
             "GameObject": {
-                "name": "Camera Test",
+                "name": "Cameras",
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -12996,8 +12996,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.9478370547294617,
-                            "localPos_Z": 7.278350353240967,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -13005,18 +13005,150 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Camera",
-                            "active": true,
-                            "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": true
-                        }
                     }
                 ],
-                "Childrens": null
+                "Childrens": [
+                    {
+                        "GameObject": {
+                            "name": "Back",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "removed": false,
+                                        "localPos_X": 0.0,
+                                        "localPos_Y": 0.9478370547294617,
+                                        "localPos_Z": 7.278350353240967,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 0.0,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Camera",
+                                        "active": true,
+                                        "removed": false,
+                                        "frustumOfset": 1.0,
+                                        "drawFrustum": true
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "Core",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "removed": false,
+                                        "localPos_X": 5.5985612869262699,
+                                        "localPos_Y": 0.0,
+                                        "localPos_Z": -4.81076192855835,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": -55.75,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Camera",
+                                        "active": true,
+                                        "removed": false,
+                                        "frustumOfset": 1.0,
+                                        "drawFrustum": true
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "Init",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "removed": false,
+                                        "localPos_X": -2.0217199325561525,
+                                        "localPos_Y": -2.839721202850342,
+                                        "localPos_Z": -70.75633239746094,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 47.79999923706055,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Camera",
+                                        "active": true,
+                                        "removed": false,
+                                        "frustumOfset": 1.0,
+                                        "drawFrustum": true
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    },
+                    {
+                        "GameObject": {
+                            "name": "PasilloLere",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "removed": false,
+                                        "localPos_X": -4.010058403015137,
+                                        "localPos_Y": -2.8502089977264406,
+                                        "localPos_Z": -58.89149475097656,
+                                        "localRot_X": 0.0,
+                                        "localRot_Y": 34.17499923706055,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Camera",
+                                        "active": true,
+                                        "removed": false,
+                                        "frustumOfset": 1.0,
+                                        "drawFrustum": true
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    }
+                ]
             }
         }
     ]
