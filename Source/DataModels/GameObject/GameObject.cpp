@@ -12,11 +12,12 @@
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
-#include "Modules/ModuleDebugDraw.h"
 
 #include "Scene/Scene.h"
 
-#include <queue>
+#ifdef ENGINE
+#include "DataModels/GameObject/EditorGameObject/EditorGameObject.h"
+#endif // ENGINE
 
 // Root constructor
 GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
@@ -41,72 +42,6 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-}
-
-void GameObject::Draw() const
-{
-#ifdef ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->debug->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-}
-
-void GameObject::DrawSelected()
-{
-	std::queue<const GameObject*> gameObjectQueue;
-	gameObjectQueue.push(this);
-	while (!gameObjectQueue.empty())
-	{
-		const GameObject* currentGo = gameObjectQueue.front();
-		gameObjectQueue.pop();
-		for (GameObject* child : currentGo->GetChildren())
-		{
-			if (child->IsEnabled())
-			{
-				gameObjectQueue.push(child);
-			}
-		}
-		for (const std::unique_ptr<Component>& component : currentGo->components)
-		{
-			if (component->IsDrawable() && component->IsActive())
-			{
-				static_cast<DrawableComponent*>(component.get())->Draw();
-			}
-		}
-#ifdef ENGINE
-		if (currentGo->drawBoundingBoxes)
-		{
-			App->debug->DrawBoundingBox(currentGo->objectOBB);
-		}
-
-#endif // ENGINE
-	}
-}
-
-void GameObject::DrawHighlight()
-{
-	std::queue<const GameObject*> gameObjectQueue;
-	gameObjectQueue.push(this);
-	while (!gameObjectQueue.empty())
-	{
-		const GameObject* currentGo = gameObjectQueue.front();
-		gameObjectQueue.pop();
-		for (GameObject* child : currentGo->GetChildren())
-		{
-			if (child->IsEnabled())
-			{
-				gameObjectQueue.push(child);
-			}
-		}
-		std::vector<ComponentMeshRenderer*> meshes = 
-			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (ComponentMeshRenderer* mesh : meshes) 
-		{
-			mesh->DrawHighlight();
-		}
-	}
 }
 
 void GameObject::SaveOptions(Json& meta)
@@ -182,7 +117,13 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 			Json jsonGameObject = jsonChildrens[i]["GameObject"];
 			std::string name = jsonGameObject["name"];
 
-			GameObject* gameObject = new GameObject(name.c_str(), this);
+			GameObject* gameObject;
+#ifdef ENGINE
+			gameObject = new EditorGameObject(name.c_str(), this);
+#else
+			gameObject = new GameObject(name.c_str(), this);
+#endif // ENGINE
+
 			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}

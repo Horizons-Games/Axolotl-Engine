@@ -16,6 +16,9 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
+#ifdef ENGINE
+#include "DataModels/GameObject/EditorGameObject/EditorGameObject.h"
+#endif // ENGINE
 
 #ifdef DEBUG
 #include "optick.h"
@@ -232,25 +235,25 @@ update_status ModuleRender::Update()
 		}
 	}
 
+#ifdef ENGINE
 	if (!selectedIsRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
+		EditorGameObject* selectedAsEditor = static_cast<EditorGameObject*>(goSelected);
+
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 		glStencilMask(0xFF); // enable writing to the stencil buffer
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		goSelected->DrawSelected();
+		selectedAsEditor->DrawSelected();
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
 		glPolygonMode(GL_FRONT, GL_LINE);
-		goSelected->DrawHighlight();
+		selectedAsEditor->DrawHighlight();
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 	}
 
-	AddToRenderList(goSelected);
-
-#ifdef ENGINE
 	if (App->debug->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());

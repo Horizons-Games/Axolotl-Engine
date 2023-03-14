@@ -33,10 +33,6 @@ public:
 	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
 
 	void Update();
-	void Draw() const;
-	//this most likely shouldn't be here, since it's only needed in ENGINE mode
-	void DrawSelected();
-	void DrawHighlight();
 
 	void InitNewEmptyGameObject();
 

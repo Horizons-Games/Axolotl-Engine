@@ -12,6 +12,10 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 
+#ifdef ENGINE
+#include "DataModels/GameObject/EditorGameObject/EditorGameObject.h"
+#endif // ENGINE
+
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -60,8 +64,6 @@ update_status ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-
-	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -165,15 +167,26 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 void ModuleScene::SetSceneFromJson(Json& Json)
 {
-	std::unique_ptr<GameObject> newRoot = std::make_unique<GameObject>(std::string(Json["name"]).c_str());
+	std::unique_ptr<GameObject> newRoot;
+
+#ifdef ENGINE
+	newRoot = std::make_unique<EditorGameObject>(std::string(Json["name"]).c_str());
+#else
+	newRoot = std::make_unique<GameObject>(std::string(Json["name"]).c_str());
+#endif // ENGINE
 
 	loadedScene = std::make_unique<Scene>();
 
 	std::vector<GameObject*> loadedObjects{};
 	newRoot->LoadOptions(Json, loadedObjects);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
+	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(
+		float3(-QUADTREE_INITIAL_SIZE / 2,
+			   -QUADTREE_INITIAL_ALTITUDE,
+			   -QUADTREE_INITIAL_SIZE / 2),
+		float3(QUADTREE_INITIAL_SIZE / 2,
+			   QUADTREE_INITIAL_ALTITUDE,
+			   QUADTREE_INITIAL_SIZE / 2))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
 	std::vector<ComponentCamera*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
