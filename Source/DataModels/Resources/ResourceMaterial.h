@@ -66,7 +66,7 @@ private:
 	std::shared_ptr<ResourceTexture> normal;
 	std::shared_ptr<ResourceTexture> occlusion;
 	std::shared_ptr<ResourceTexture> specular;
-	std::shared_ptr<ResourceTexture> smoothnessMap;
+	std::shared_ptr<ResourceTexture> metallic;
 	float3 diffuseColor;
 	float3 specularColor;
 	float shininess;
@@ -74,6 +74,7 @@ private:
 	float smoothness;
 
 	bool shininessAlpha;
+	bool smoothnessAlpha;
 
 	OptionsMaterial options;
 };
@@ -105,7 +106,7 @@ inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular()
 
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSmoothnessMap()
 {
-	return this->smoothnessMap;
+	return this->metallic;
 }
 
 inline const float3& ResourceMaterial::GetDiffuseColor()

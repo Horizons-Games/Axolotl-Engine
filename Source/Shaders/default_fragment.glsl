@@ -15,7 +15,9 @@ struct Material {
     bool has_normal_map;        //location 11
 
     float smoothness;           //location 12
-    int has_smoothness_map;     //location 13
+    int has_smoothness_alpha;   //location 13
+    float metalness;            //location 14
+    int has_metallic_map;       //location 15
 };
 
 struct PointLight
@@ -65,7 +67,7 @@ layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D specular_map;
 layout(binding = 7) uniform sampler2D normal_map;
-layout(binding = 8) uniform sampler2D smoothness_map;
+layout(binding = 8) uniform sampler2D metallic_map;
 
 uniform Light light;
 
@@ -208,7 +210,7 @@ void main()
         textureMat = texture(diffuse_map, TexCoord).rgb; 
     }
     textureMat = pow(textureMat, gammaCorrection.rgb);
-    
+
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
@@ -219,15 +221,20 @@ void main()
         norm = normalize(space * norm);
 	}
 
+    float metalnessMask = metalness;
+    if (material.has_metallic_map == 1) {
+        metalnessMask = texture(metallic_map, TexCoord).r; 
+    }
+
+    vec3 Cd = textureMat*(1-metalnessMask);
+    vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
+
     //fresnel
     vec4 specularMat =  vec4(material.specular_color, 0.0);
     if (material.has_specular_map == 1) {
         specularMat = vec4(texture(specular_map, TexCoord));
     }
     specularMat = pow(specularMat, gammaCorrection);
-
-    vec3 Cd;
-    vec3 f0 =  specularMat.rgb;
 
     // shininess
     float shininess = material.shininess;
