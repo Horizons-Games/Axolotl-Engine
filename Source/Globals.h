@@ -18,8 +18,8 @@ enum class TextureType
 	DIFFUSE, 
 	NORMAL, 
 	OCCLUSION, 
-	SPECULAR,
-	SMOOTHNESS
+	//SPECULAR,
+	METALLIC
 };
 
 // Application -------------

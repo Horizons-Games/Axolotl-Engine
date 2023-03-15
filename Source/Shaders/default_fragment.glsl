@@ -4,20 +4,20 @@
 
 struct Material {
     vec3 diffuse_color;         //location 3
-    vec3 specular_color;        //location 4
-    float shininess;            //location 5
-    float normal_strength;      //location 6
+    //vec3 specular_color;      
+    //float shininess;          
+    float normal_strength;      //location 4
     
-    int has_diffuse_map;        //location 7
-    int has_specular_map;       //location 8
-    int shininess_alpha;        //location 9
-    int has_shininess_map;      //location 10
-    bool has_normal_map;        //location 11
+    int has_diffuse_map;        //location 5
+    //int has_specular_map;     
+    //int shininess_alpha;      
+    //int has_shininess_map;     
+    bool has_normal_map;        //location 6
 
-    float smoothness;           //location 12
-    int has_metallic_alpha;   //location 13
-    float metalness;            //location 14
-    int has_metallic_map;       //location 15
+    float smoothness;           //location 7
+    int has_metallic_alpha;     //location 8
+    float metalness;            //location 9
+    int has_metallic_map;       //location 10
 };
 
 struct PointLight
@@ -65,9 +65,9 @@ struct Light {
 
 layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
-layout(binding = 6) uniform sampler2D specular_map;
-layout(binding = 7) uniform sampler2D normal_map;
-layout(binding = 8) uniform sampler2D metallic_map;
+//layout(binding = 6) uniform sampler2D specular_map;
+layout(binding = 6) uniform sampler2D normal_map;
+layout(binding = 7) uniform sampler2D metallic_map;
 
 uniform Light light;
 

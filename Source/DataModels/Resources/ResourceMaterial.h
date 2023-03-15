@@ -40,6 +40,7 @@ public:
 	//bool HasSpecular();
 	//bool HasShininessAlpha();
 	bool HasMetallicMap();
+	bool HasMetallicAlpha();
 
 	OptionsMaterial& GetOptions();
 
@@ -48,13 +49,13 @@ public:
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
 	//void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
-	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& smoothnessMap);
+	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetDiffuseColor(float3& diffuseColor);
 	//void SetSpecularColor(float3& specularColor);
 	//void SetShininess(float shininess);
 	void SetNormalStrength(float normalStrength);
 	void SetSmoothness(float smoothness);
-	void SetMetallicAlpha(bool shininessAlpha);
+	void SetMetallicAlpha(bool metallicAlpha);
 
 protected:
 	void InternalLoad() override {};
@@ -162,12 +163,17 @@ inline bool ResourceMaterial::HasOcclusion()
 inline bool ResourceMaterial::HasShininessAlpha()
 {
 	return shininessAlpha;  
+}*/
+
+inline bool ResourceMaterial::HasMetallicMap()
+{
+	return metallic != nullptr;
 }
 
-inline bool ResourceMaterial::HasSmoothnessMap()
+inline bool ResourceMaterial::HasMetallicAlpha()
 {
-	return smoothnessMap != nullptr;
-}*/
+	return hasMetallicAlpha;
+}
 
 inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
 {
@@ -187,12 +193,12 @@ inline void ResourceMaterial::SetOcclusion(const std::shared_ptr<ResourceTexture
 /*inline void ResourceMaterial::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
 {
 	this->specular = specular;
-}
-
-inline void ResourceMaterial::SetSmoothnessMap(const std::shared_ptr<ResourceTexture>& smoothnessMap)
-{
-	this->smoothnessMap = smoothnessMap;
 }*/
+
+inline void ResourceMaterial::SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic)
+{
+	this->metallic = metallic;
+}
 
 inline void ResourceMaterial::SetDiffuseColor(float3& diffuseColor)
 {
@@ -217,6 +223,11 @@ inline void ResourceMaterial::SetNormalStrength(float normalStrength)
 inline void ResourceMaterial::SetSmoothness(float smoothness)
 {
 	this->smoothness = smoothness;
+}
+
+inline void ResourceMaterial::SetMetallicAlpha(bool metallicAlpha)
+{
+	hasMetallicAlpha = metallicAlpha;
 }
 
 /*inline void ResourceMaterial::SetShininessAlpha(bool shininessAlpha)
