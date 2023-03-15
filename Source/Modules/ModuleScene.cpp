@@ -156,12 +156,18 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	loadedScene = std::make_unique<Scene>();
 
-	std::vector<GameObject*> loadedObjects{};
-	newRoot->LoadOptions(Json, loadedObjects);
+	std::unordered_map<UID, GameObject*> gameObjectMap{};
+	newRoot->LoadOptions(Json, gameObjectMap);
 
 	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->LoadOptions(Json);
+
+	std::vector<GameObject*> loadedObjects{};
+	for (const auto& uidAndGameObject : gameObjectMap)
+	{
+		loadedObjects.push_back(uidAndGameObject.second);
+	}
 
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;

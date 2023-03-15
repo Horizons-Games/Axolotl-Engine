@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <unordered_map>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
@@ -27,7 +28,7 @@ public:
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
+	void LoadOptions(Json& meta, std::unordered_map<UID, GameObject*>& loadedObjects);
 
 	void Update();
 	void Draw() const;

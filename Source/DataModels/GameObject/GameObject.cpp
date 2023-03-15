@@ -188,9 +188,9 @@ void GameObject::SaveOptions(Json& meta)
 	
 }
 
-void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
+void GameObject::LoadOptions(Json& meta, std::unordered_map<UID, GameObject*>& loadedObjects)
 {
-	loadedObjects.push_back(this);
+	loadedObjects[this->uid] = this;
 
 	uid = meta["uid"];
 	name = meta["name"];
