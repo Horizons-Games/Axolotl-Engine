@@ -5,8 +5,8 @@
 #include "ModuleRender.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#ifdef ENGINE
 #include "Windows/WindowMainMenu.h"
+#ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
 #include "Windows/EditorWindows/WindowConfiguration.h"
@@ -15,6 +15,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 #else
+#include "Windows/EditorWindows/EditorWindow.h"
 #include "Windows/WindowDebug.h"
 #endif
 
@@ -29,13 +30,7 @@
 
 #include <FontIcons/CustomFont.cpp>
 
-static bool cameraOpened = true;
-static bool configOpened = true;
-static bool consoleOpened = true;
-static bool aboutOpened = false;
-static bool propertiesOpened = true;
-
-ModuleEditor::ModuleEditor() : scene(nullptr), windowResized(false)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
 }
 

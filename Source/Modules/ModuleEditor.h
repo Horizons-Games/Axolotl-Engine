@@ -30,11 +30,8 @@ public:
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 
 private:
-//to be clear: this is a bad idea and can lead to compiler errors, but at this point it's the least of my worries
-#ifdef ENGINE
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
-#endif
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
 
 	WindowInspector* inspector;
