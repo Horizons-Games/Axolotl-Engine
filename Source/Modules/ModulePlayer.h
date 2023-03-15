@@ -15,6 +15,8 @@ public:
 
 	update_status Update();
 
+	void Move();
+
 	GameObject* GetPlayer();
 	void SetPlayer(std::unique_ptr<GameObject> player);
 	Camera* GetCameraPlayer();
@@ -23,5 +25,6 @@ public:
 private:
 	std::unique_ptr <GameObject>  player;
 	Camera* cameraPlayer;
+	float speed = 3;
 	
 };
