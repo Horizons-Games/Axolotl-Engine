@@ -18,15 +18,17 @@
 
 #include <queue>
 
-unsigned long long sceneUID;
-
 // Root constructor
-GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
+GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
 {
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : GameObject(name)
+GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::GenerateUID())
+{
+}
+
+GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
 {
 	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
@@ -145,16 +147,7 @@ void GameObject::SaveOptions(Json& meta)
 	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
 	meta["uid"] = uid;
-	if (parent != nullptr)
-	{
-		newParentUID = parent->GetUID();
-		meta["parentUID"] = parentUID;
-	}
-	else 
-	{
-		sceneUID = uid;
-		meta["parentUID"] = 0;
-	}
+	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 
@@ -165,44 +158,11 @@ void GameObject::SaveOptions(Json& meta)
 		Json jsonComponent = jsonComponents[i]["Component"];
 
 		components[i]->SaveOptions(jsonComponent);
-	}
-
-
-	
-	for (int j = 0; j < children.size(); ++j)
-	{
-
-		if (newParentUID == sceneUID) 
-		{
-			ENGINE_LOG("La UID es igual");
-			children[j]->SetParent(this->parent);
-			j--;
-		} 
-		else 
-		{
-			Json jsonGameObjects = meta["GameObjects"][j];
-			children[j]->SaveOptions(jsonGameObjects);
-		}
-	}
-	
-	
+	}	
 }
 
-void GameObject::LoadOptions(Json& meta, std::unordered_map<UID, GameObject*>& loadedObjects)
+void GameObject::LoadOptions(Json& meta)
 {
-	loadedObjects[this->uid] = this;
-
-	uid = meta["uid"];
-	name = meta["name"];
-	parentUID = meta["parentUID"];
-	enabled = (bool) meta["enabled"];
-	active = (bool) meta["active"];
-	if (parentUID == 0) 
-	{
-		sceneUID = uid;
-		ENGINE_LOG("Loading Scene");
-	}
-	
 	Json jsonComponents = meta["Components"];
 
 	if(jsonComponents.Size() != 0)
@@ -228,47 +188,6 @@ void GameObject::LoadOptions(Json& meta, std::unordered_map<UID, GameObject*>& l
 			}
 
 			component->LoadOptions(jsonComponent);
-		}
-	}
-
-	Json jsonGameObjects = meta["GameObjects"];
-
-	int size = jsonGameObjects.Size();
-
-	if (jsonGameObjects.Size() != 0)
-	{
-		for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
-		{
-			Json jsonGameObjects = meta["GameObjects"][i];
-			std::string name = jsonGameObjects["name"];
-			UID parentUID = jsonGameObjects["parentUID"];
-
-			if (parentUID != sceneUID) 
-			{
-				ENGINE_LOG("UID is different");
-				for (int j = 0; j < children.size(); ++j)
-				{
-					if (children[j]->GetUID() == parentUID) 
-					{
-						ENGINE_LOG("Found Parent");
-						GameObject* gameObject = new GameObject(name.c_str(), children[j].get());
-						gameObject->LoadOptions(jsonGameObjects, loadedObjects);
-					}
-				}
-			}
-			else 
-			{
-				GameObject* gameObject = new GameObject(name.c_str(), this);
-				gameObject->LoadOptions(jsonGameObjects, loadedObjects);
-			}
-
-			/*GameObject* gameObject = new GameObject(name.c_str(), this);
-
-			if (parentUID != sceneUID)
-			{
-				gameObject->SetParent();
-			}
-			gameObject->LoadOptions(jsonGameObjects, loadedObjects);*/
 		}
 	}
 }
@@ -302,6 +221,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 
 	if (!IsAChild(child.get()))
 	{
+		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 		children.push_back(std::move(child));
 	}

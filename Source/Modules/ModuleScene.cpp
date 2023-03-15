@@ -113,7 +113,13 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	GameObject* root = loadedScene->GetRoot();
 	root->SetName(App->fileSystem->GetFileName(name).c_str());
-	root->SaveOptions(jsonScene);
+
+	Json jsonGameObjects = jsonScene["GameObjects"];
+	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
@@ -150,24 +156,16 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	delete buffer;
 }
 
-void ModuleScene::SetSceneFromJson(Json& Json)
+void ModuleScene::SetSceneFromJson(Json& json)
 {
-	std::unique_ptr<GameObject> newRoot = std::make_unique<GameObject>(std::string(Json["name"]).c_str());
-
 	loadedScene = std::make_unique<Scene>();
-
-	std::unordered_map<UID, GameObject*> gameObjectMap{};
-	newRoot->LoadOptions(Json, gameObjectMap);
 
 	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
-	rootQuadtree->LoadOptions(Json);
+	rootQuadtree->LoadOptions(json);
 
-	std::vector<GameObject*> loadedObjects{};
-	for (const auto& uidAndGameObject : gameObjectMap)
-	{
-		loadedObjects.push_back(uidAndGameObject.second);
-	}
+	Json gameObjects = json["GameObjects"];
+	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
 	std::vector<GameObject*> loadedCameras{};
 	GameObject* ambientLight = nullptr;
@@ -210,7 +208,6 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	App->renderer->FillRenderList(rootQuadtree);
 
-	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();
 
 	loadedScene->SetSceneGameObjects(loadedObjects);
@@ -220,4 +217,65 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	loadedScene->InitLights();
 
+}
+
+std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
+{
+	std::vector<std::unique_ptr<GameObject>> gameObjects{};
+	std::unordered_map<UID, GameObject*> gameObjectMap{};
+	std::unordered_map<UID, UID> childParentMap{};
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		std::string name = jsonGameObject["name"];
+		UID uid = jsonGameObject["uid"];
+		UID parentUID = jsonGameObject["parentUID"];
+		bool enabled = jsonGameObject["enabled"];
+		bool active = jsonGameObject["active"];
+		std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(name, uid);
+		/*if (enabled)
+		{
+			gameObject->Enable();
+		}
+		else
+		{
+			gameObject->Disable();
+		}
+		if (active)
+		{
+			gameObject->ActivateChildren();
+		}
+		else
+		{
+			gameObject->DeactivateChildren();
+		}*/
+		gameObject->LoadOptions(jsonGameObject);
+		gameObjectMap[uid] = gameObject.get();
+		childParentMap[uid] = parentUID;
+		gameObjects.push_back(std::move(gameObject));
+	}
+
+	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
+	{
+		std::unique_ptr<GameObject> gameObject = std::move(*it);
+		UID uid = gameObject->GetUID();
+		UID parent = childParentMap[uid];
+
+		if (parent == 0)
+		{
+			loadedScene->SetRoot(std::move(gameObject));
+			continue;
+		}
+
+		GameObject* parentGameObject = gameObjectMap[parent];
+		parentGameObject->AddChild(std::move(gameObject));
+	}
+
+	std::vector<GameObject*> loadedObjects{};
+	for (const auto& uidAndGameObject : gameObjectMap)
+	{
+		loadedObjects.push_back(uidAndGameObject.second);
+	}
+	return loadedObjects;
 }
