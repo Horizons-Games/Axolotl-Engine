@@ -16,8 +16,8 @@ WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
-	inputTextureSmoothnessMap(std::make_unique<WindowTextureInput>(component, TextureType::SMOOTHNESS))
+	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
 {
 }
 
@@ -67,14 +67,14 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetDiffuseColor(colorDiffuse);
 			}
 
-			static float3 colorSpecular = materialResource->GetSpecularColor();
+			/*static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
 			{
 				materialResource->SetSpecularColor(colorSpecular);
 			}
 
-			ImGui::Text("");
+			ImGui::Text("");*/
 
 			static UID thisUID = UniqueID::GenerateUID();
 
@@ -83,7 +83,8 @@ void WindowComponentMaterial::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal()
-					|| materialResource->GetSpecular())
+					|| //materialResource->GetSpecular()
+					materialResource->GetMetallicMap())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -97,12 +98,13 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetDiffuse(nullptr);
 				materialResource->SetNormal(nullptr);
 				materialResource->SetOcclusion(nullptr);
-				materialResource->SetSpecular(nullptr);
+				//materialResource->SetSpecular(nullptr);
+				materialResource->SetMetallicMap(nullptr);
 				
 				materialResource->SetChanged(true);
 			}
 
-			bool hasShininessAlpha = materialResource->HasShininessAlpha();
+			/*bool hasShininessAlpha = materialResource->HasShininessAlpha();
 			ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
 			materialResource->SetShininessAlpha(hasShininessAlpha);
 
@@ -110,7 +112,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 			ImGui::SliderFloat("Shininess", &shininess,
 				0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			materialResource->SetShininess(shininess);
-			ImGui::Separator();
+			ImGui::Separator();*/
 
 			ImGui::Text("Diffuse Texture");
 			bool showTextureBrowserDiffuse = true;
@@ -145,7 +147,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Separator();
 
-			ImGui::Text("Specular Texture");
+			/*ImGui::Text("Specular Texture");
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetSpecular())
 			{
@@ -173,7 +175,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				}
 			}
 
-			ImGui::Separator();
+			ImGui::Separator();*/
 
 			ImGui::Text("Normal Texture");
 			bool showTextureBrowserNormal = true;
