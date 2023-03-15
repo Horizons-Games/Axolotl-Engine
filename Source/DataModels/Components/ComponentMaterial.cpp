@@ -116,7 +116,7 @@ void ComponentMaterial::Draw()
 		glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 		*/
 		glUniform1f(7, material->GetSmoothness());
-		glUniform1f(7, material->GetSmoothness());
+		glUniform1f(8, material->HasMetallicAlpha());
 
 		texture = material->GetMetallicMap();
 		if (texture)

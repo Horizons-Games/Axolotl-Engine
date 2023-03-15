@@ -4,5 +4,6 @@
     "DiffuseAssetPath": "",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

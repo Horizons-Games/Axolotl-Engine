@@ -191,7 +191,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	memcpy(shininess, fileBuffer, sizeof(float));
 	resource->SetShininess(*shininess);*/
 
-	fileBuffer += sizeof(float);
+	//fileBuffer += sizeof(float);
 
 	float* normalStrenght = new float;
 	memcpy(normalStrenght, fileBuffer, sizeof(float));

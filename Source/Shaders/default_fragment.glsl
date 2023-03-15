@@ -67,7 +67,6 @@ in vec3 fragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
-
 in vec2 TexCoord;
 
 out vec4 outColor;
@@ -97,7 +96,7 @@ float GGXNormalDistribution(float dotNH, float roughness)
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 L = normalize(-directionalDir);
-    vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
+    vec3 H = (L+V)/length(L+V);
     float dotNL = max(dot(N,L), 0.0);
     vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
     float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
@@ -117,7 +116,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float radius = points[i].position.w;
         float intensity = points[i].color.a;
         vec3 L = normalize(FragPos-pos);
-        vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
+        vec3 H = (L+V)/length(L+V);
         float dotNL = max(dot(N,-L), 0.0);
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
         float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
@@ -151,7 +150,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float cosOuter = cos(outerAngle);
 
         vec3 L = normalize(FragPos-pos);
-        vec3 H = (L + V)/sqrt((L.x+V.x)*(L.x+V.x) + (L.y+V.y)*(L.y+V.y) + (L.z+V.z)*(L.z+V.z));
+        vec3 H = (L+V)/length(L+V);
         float dotNL = max(dot(N, -L), 0.0);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
@@ -191,11 +190,11 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
-	vec4 textureMat = vec4(material.diffuse_color.r, material.diffuse_color.g, material.diffuse_color.b, 1.0);
+	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord);
+        textureMat = texture(diffuse_map, TexCoord).rgb;
     }
-    textureMat.rgb = pow(textureMat.rgb, gammaCorrection.rgb);
+    textureMat = pow(textureMat, gammaCorrection.rgb);
 
 	if (material.has_normal_map)
 	{
@@ -208,7 +207,7 @@ void main()
 	}
 
     float metalnessMask = material.metalness;
-    float smoothnessMat = textureMat.a;
+    float smoothnessMat = material.smoothness;
     if (material.has_metallic_map == 1) {
         vec2 metallicRA = texture(metallic_map, TexCoord).ra;
         metalnessMask = metallicRA.x;
@@ -218,9 +217,9 @@ void main()
         }
     }
 
-    vec3 Cd = textureMat.rgb*(1-metalnessMask);
-    vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
-    float roughness = (1-material.smoothness*smoothnessMat)*(1-material.smoothness*smoothnessMat);
+    vec3 Cd = textureMat*(1.0-metalnessMask);
+    vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
+    float roughness = (1-smoothnessMat)*(1-smoothnessMat)+0.0001;
 
     //fresnel
     //vec4 specularMat =  vec4(material.specular_color, 0.0);
@@ -247,7 +246,7 @@ void main()
         Lo += calculateSpotLights(norm, viewDir, Cd, f0, roughness);
     }
 
-    vec3 color = ambientValue*textureMat.rgb + Lo;      // ambient: ambientValue*textureMat
+    vec3 color = ambientValue*textureMat + Lo;      // ambient: ambientValue*textureMat
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
