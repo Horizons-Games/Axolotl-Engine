@@ -69,6 +69,7 @@ private:
 	unsigned int textureBuffer = 0;
 	unsigned int normalsBuffer = 0;
 	unsigned int tangentsBuffer = 0;
+	unsigned int transforms = 0;
 
 	std::vector<float3> verticesToRender;
 	std::vector<float2> texturesToRender;
@@ -80,6 +81,7 @@ private:
 	std::vector<Command> commands;
 
 	int numTotalVertices = 0;
+	int numTotalIndices = 0;
 	int numTotalFaces = 0;
 
 	int flags = 0;

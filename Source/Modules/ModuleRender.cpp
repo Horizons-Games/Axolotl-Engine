@@ -257,12 +257,12 @@ update_status ModuleRender::Update()
 	}
 
 	//maybe we need to bind the program
-	const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
-	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
-	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	//const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+	//const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+	//glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
+	//glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
+	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{

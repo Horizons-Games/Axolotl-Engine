@@ -51,7 +51,7 @@ void GeometryBatch::CalculateVBO()
 
 	GLuint bufferSize = CalculateSpaceInVBO() * numTotalVertices;
 
-	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_DYNAMIC_DRAW);
 
 	int spaceUsed = 0;
 
@@ -104,7 +104,7 @@ void GeometryBatch::CalculateEBO()
 
 	GLuint indexSize = sizeof(GLuint) * numTotalFaces * 3;
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, nullptr, GL_DYNAMIC_DRAW);
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
@@ -239,10 +239,11 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			AAA aaa = {
 				mesh,
 				numTotalVertices,
-				numTotalFaces
+				numTotalIndices
 			};
 			resourceMeshes.push_back(aaa);
 			numTotalVertices += mesh->GetNumVertices();
+			numTotalIndices += mesh->GetNumIndexes();
 			numTotalFaces += mesh->GetNumFaces();
 			CalculateVBO();
 			CalculateEBO();
@@ -252,55 +253,74 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
-void GeometryBatch::BindBatch()
-{
-	// Set up the vertex data
-	float vertices[] = {
-		// First triangle
-		-0.5f, -0.5f, 0.0f,  // Botton left
-		-0.5f, 0.5f, 0.0f,  // Top left
-		 0.5f, -0.5f, 0.0f,  // Bottom right
-		 0.5f, 0.5f, 0.0f  // top right
-	};
-
-	// Set up the index data
-	GLuint indices[] = {
-		0, 2, 3, // First triangle
-		0, 3, 1, // Second triangle
-	};
-
-	// Create the vertex buffer and load the vertex data into it
-	GLuint vertexBuffer;
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-
-	// Create the index buffer and load the index data into it
-	GLuint indexBuffer;
-	glGenBuffers(1, &indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
-
-	// Set up the vertex attribute pointers
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-	glEnableVertexAttribArray(0);
-
-	// Create the draw commands buffer
-	Command drawCommands[] = {
-		{3, 1, 0, 0, 0}, // First triangle
-		{3, 1, 3, 0, 0}, // Second triangle
-	};
-
-	// Create the draw commands buffer and load the draw commands into it
-	glGenBuffers(1, &indirectBuffer);
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, sizeof(drawCommands), drawCommands, GL_DYNAMIC_DRAW);
-
-	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, 2, 0);
-}
+//void GeometryBatch::BindBatch()
+//{
+//	const GLuint bindingPointCamera = 0;
+//	const GLuint bindingPointModel = 10;
+//	float4x4 modelMatrices[2];
+//	int i = 0;
+//	//model(transforms)
+//	glGenBuffers(1, &transforms);
+//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+//	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(modelMatrices), NULL, GL_DYNAMIC_DRAW);
+//	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+//	//camera
+//	GLuint cameraUniformBlockID;
+//	glGenBuffers(1, &cameraUniformBlockID);
+//	glBindBuffer(GL_UNIFORM_BUFFER, cameraUniformBlockID);
+//
+//	for (ResourceMesh* resourceMesh : resourceMeshes)
+//	{
+//		if (resourceMesh) //pointer not empty
+//		{
+//			unsigned program = App->program->GetProgram();
+//			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+//			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+//			const float4x4& model =
+//				static_cast<ComponentTransform*>(GetComponentOwner(resourceMesh)
+//					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+//
+//			GLint programInUse;
+//			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+//
+//			if (program != programInUse)
+//			{
+//				glUseProgram(program);
+//			}
+//
+//			modelMatrices[i] = model;
+//			i++;
+//			//binding the uniform camera
+//			GLint cameraUniformBlockIndex = glGetUniformBlockIndex(program, "Camera");
+//			glUniformBlockBinding(program, cameraUniformBlockIndex, bindingPointCamera);
+//
+//			glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(float4x4), NULL, GL_STATIC_DRAW);
+//			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4x4), (const float*)&proj);
+//			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float4x4), sizeof(float4x4), (const float*)&view);
+//			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+//
+//			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPointCamera, cameraUniformBlockID);
+//
+//		}
+//	}
+//	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(modelMatrices), &modelMatrices);
+//	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+//}
 
 void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	const GLuint bindingPointCamera = 0;
+	const GLuint bindingPointModel = 10;
+	float4x4 modelMatrices[2];
+	//model(transforms)
+	glGenBuffers(1, &transforms);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(modelMatrices), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	//camera
+	GLuint cameraUniformBlockID;
+	glGenBuffers(1, &cameraUniformBlockID);
+	glBindBuffer(GL_UNIFORM_BUFFER, cameraUniformBlockID);
 
 	unsigned program = App->program->GetProgram();
 	GLint programInUse;
@@ -343,14 +363,23 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 				tangentsToRender.insert(std::end(tangentsToRender), 
 					std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
 			}
-			
-			/*const float4x4& model =
+			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+			const float4x4& model =
 				static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-*/
 
+			modelMatrices[resourceMeshIndex]=model;
+			//binding the uniform camera
+			GLint cameraUniformBlockIndex = glGetUniformBlockIndex(program, "Camera");
+			glUniformBlockBinding(program, cameraUniformBlockIndex, bindingPointCamera);
 
-			//glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
+			glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(float4x4), NULL, GL_STATIC_DRAW);
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4x4), (const float*)&proj);
+			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float4x4), sizeof(float4x4), (const float*)&view);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPointCamera, cameraUniformBlockID);
 
 			//do a for for all the instaces existing
 			Command newCommand = { 
@@ -366,6 +395,8 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 		}
 	}
 	UpdateVAO();
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(modelMatrices), &modelMatrices);
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
