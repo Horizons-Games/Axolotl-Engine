@@ -8,6 +8,10 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#ifndef ENGINE
+#include "ModulePlayer.h"
+#endif // !ENGINE
+
 
 #include "Scene/Scene.h"
 
@@ -94,6 +98,11 @@ update_status ModuleCamera::Update()
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
 		}
+		else if (App->input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+		{
+			selectedPosition = 1;
+			SetSelectedCamera(selectedPosition);
+		}
 	}
 
 	selectedCamera->Update();
@@ -123,15 +132,44 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 {
 	if (cameraNumber <= 0)
 	{
+#ifdef ENGINE
 		selectedPosition = 0;
 		selectedCamera = camera.get();
+#else
+		selectedPosition = 0;
+		selectedCamera = App->player->GetCameraPlayer();
+		if (!selectedCamera)
+		{
+			selectedPosition = 1;
+			selectedCamera = camera.get();
+		}
+		else
+		{
+			camera->SetPosition(selectedCamera->GetPosition());
+			camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
+			camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
+		}
+#endif // ENGINE
 	}
+#ifndef ENGINE
+	else if (cameraNumber == 1)
+	{
+		selectedPosition = 1;
+		selectedCamera = camera.get();
+	}
+#endif // !ENGINE
 	else
 	{
 		std::vector<GameObject*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
 		if (loadedCameras.size() >= cameraNumber)
 		{
-			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras[cameraNumber - 1]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras[cameraNumber
+			#ifdef ENGINE
+							-1
+			#else
+							-2
+			#endif // ENGINE
+			]->GetComponent(ComponentType::CAMERA)))->GetCamera();
 			camera->SetPosition(selectedCamera->GetPosition());
 			camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
 			camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());

@@ -13150,6 +13150,93 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "Player",
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.781000137329102,
+                            "localPos_Y": 0.8087846040725708,
+                            "localPos_Z": 8.833999633789063,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 10164967713770515816,
+                            "assetPathMaterial": "Assets/Materials/David_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17434968988411810753,
+                            "assetPathMesh": "Assets/Meshes/David_0.mesh"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": false
+                        }
+                    }
+                ],
+                "Childrens": [
+                    {
+                        "GameObject": {
+                            "name": "Basic Camera",
+                            "enabled": true,
+                            "active": true,
+                            "Components": [
+                                {
+                                    "Component": {
+                                        "type": "Component_Transform",
+                                        "active": true,
+                                        "removed": false,
+                                        "localPos_X": -0.8040709495544434,
+                                        "localPos_Y": 1.7516260147094727,
+                                        "localPos_Z": 1.728132724761963,
+                                        "localRot_X": 102.0,
+                                        "localRot_Y": 6.375,
+                                        "localRot_Z": 0.0,
+                                        "localSca_X": 1.0,
+                                        "localSca_Y": 1.0,
+                                        "localSca_Z": 1.0
+                                    }
+                                },
+                                {
+                                    "Component": {
+                                        "type": "Component_Camera",
+                                        "active": true,
+                                        "removed": false,
+                                        "frustumOfset": 1.0,
+                                        "drawFrustum": true
+                                    }
+                                }
+                            ],
+                            "Childrens": null
+                        }
+                    }
+                ]
+            }
         }
     ]
 }

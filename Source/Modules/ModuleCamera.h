@@ -44,6 +44,8 @@ public:
 	void ChangeCamera(CameraType newType);
 	Camera* GetSelectedCamera() const;
 	void SetSelectedCamera(int cameraNumber);
+	int GetSelectedPosition();
+	void SetSelectedPosition(int newSelected);
 
 	
 private:
@@ -56,4 +58,15 @@ private:
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {
 	return selectedCamera;
+}
+
+
+inline int ModuleCamera::GetSelectedPosition()
+{
+	return selectedPosition;
+}
+
+inline void ModuleCamera::SetSelectedPosition(int newSelected)
+{
+	selectedPosition = newSelected;
 }

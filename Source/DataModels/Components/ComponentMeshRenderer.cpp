@@ -58,8 +58,8 @@ void ComponentMeshRenderer::Draw()
 		}
 
 		unsigned program = App->program->GetProgram();
-		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+		const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -100,8 +100,8 @@ void ComponentMeshRenderer::DrawHighlight()
 		Program* programShared = App->program->GetProgram(ProgramType::HIGHLIGHT);
 		assert(programShared);
 		unsigned program = programShared->GetId();
-		const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+		const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

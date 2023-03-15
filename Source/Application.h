@@ -15,6 +15,8 @@ class ModuleCamera;
 #ifdef ENGINE
 class ModuleEditor;
 class ModuleDebugDraw;
+#else
+class ModulePlayer;
 #endif //ENGINE
 
 class Application
@@ -41,10 +43,12 @@ public:
 	ModuleInput* input;
 	ModuleProgram* program;
 	ModuleResources* resources;
-	ModuleCamera* engineCamera;
+	ModuleCamera* camera;
 #ifdef ENGINE
 	ModuleEditor* editor;
 	ModuleDebugDraw* debug;
+#else
+	ModulePlayer* player;
 #endif // ENGINE
 private:
 	std::vector<std::unique_ptr<Module> > modules;
