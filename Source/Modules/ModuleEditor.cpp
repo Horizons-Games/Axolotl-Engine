@@ -6,6 +6,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
+#include "Windows/WindowDebug.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -16,7 +17,6 @@
 #include "Windows/EditorWindows/WindowResources.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
-#include "Windows/WindowDebug.h"
 #endif
 
 #ifdef DEBUG
