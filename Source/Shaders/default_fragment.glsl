@@ -15,7 +15,7 @@ struct Material {
     bool has_normal_map;        //location 11
 
     float smoothness;           //location 12
-    int has_smoothness_alpha;   //location 13
+    int has_metallic_alpha;   //location 13
     float metalness;            //location 14
     int has_metallic_map;       //location 15
 };
@@ -205,11 +205,11 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
-	vec3 textureMat = material.diffuse_color;
+	vec3 textureMat = vec4(material.diffuse_color.x, material.diffuse_color.y, material.diffuse_color.z, 1.0);
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord).rgb; 
+        textureMat = texture(diffuse_map, TexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection.rgb);
+    textureMat.rgb = pow(textureMat, gammaCorrection.rgb);
 
 	if (material.has_normal_map)
 	{
@@ -222,37 +222,43 @@ void main()
 	}
 
     float metalnessMask = metalness;
+    float smoothnessMat = textureMat.a;
     if (material.has_metallic_map == 1) {
-        metalnessMask = texture(metallic_map, TexCoord).r; 
+        vec2 metallicRA = texture(metallic_map, TexCoord).ra;
+        metalnessMask = metallicRA.x;
+
+        if(material.has_metallic_alpha) {
+            smoothnessMat = metallicRA.y;
+        }
     }
 
-    vec3 Cd = textureMat*(1-metalnessMask);
-    vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
+    vec3 Cd = textureMat.rgb*(1-metalnessMask);
+    vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
+    float roughness = (1-smoothness*smoothnessMat)*(1-smoothness*smoothnessMat);
 
     //fresnel
-    vec4 specularMat =  vec4(material.specular_color, 0.0);
-    if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(specular_map, TexCoord));
-    }
-    specularMat = pow(specularMat, gammaCorrection);
+    //vec4 specularMat =  vec4(material.specular_color, 0.0);
+    //if (material.has_specular_map == 1) {
+    //    specularMat = vec4(texture(specular_map, TexCoord));
+    //}
+    //specularMat = pow(specularMat, gammaCorrection);
 
     // shininess
-    float shininess = material.shininess;
-    if (material.shininess_alpha == 1) {
-	    shininess = exp2(specularMat.a * 7 + 1);
-    }
+    //float shininess = material.shininess;
+    //if (material.shininess_alpha == 1) {
+	//    shininess = exp2(specularMat.a * 7 + 1);
+    //}
 
-    //vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculateSpotLights(norm, viewDir, Cd, f0, roughness);
     }
 
     vec3 color = ambientValue*textureMat + Lo;      // ambient: ambientValue*textureMat
