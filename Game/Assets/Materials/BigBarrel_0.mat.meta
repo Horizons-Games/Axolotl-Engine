@@ -4,5 +4,6 @@
     "DiffuseAssetPath": "Assets/Textures/tanque2_TANK_TXT_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/tanque2_TANK_TXT_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

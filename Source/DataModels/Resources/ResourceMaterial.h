@@ -34,6 +34,7 @@ public:
 	//float& GetShininess();
 	float& GetNormalStrength();
 	float& GetSmoothness();
+	float& GetMetalness();
 	bool HasDiffuse();
 	bool HasNormal();
 	bool HasOcclusion();
@@ -55,6 +56,7 @@ public:
 	//void SetShininess(float shininess);
 	void SetNormalStrength(float normalStrength);
 	void SetSmoothness(float smoothness);
+	void SetMetalness(float metalness);
 	void SetMetallicAlpha(bool metallicAlpha);
 
 protected:
@@ -73,6 +75,7 @@ private:
 	//float shininess;
 	float normalStrength;
 	float smoothness;
+	float metalness;
 
 	//bool shininessAlpha;
 	bool hasMetallicAlpha;
@@ -133,6 +136,11 @@ inline float& ResourceMaterial::GetNormalStrength()
 inline float& ResourceMaterial::GetSmoothness()
 {
 	return smoothness;
+}
+
+inline float& ResourceMaterial::GetMetalness()
+{
+	return metalness;
 }
 
 inline OptionsMaterial& ResourceMaterial::GetOptions()
@@ -223,6 +231,11 @@ inline void ResourceMaterial::SetNormalStrength(float normalStrength)
 inline void ResourceMaterial::SetSmoothness(float smoothness)
 {
 	this->smoothness = smoothness;
+}
+
+inline void ResourceMaterial::SetMetalness(float metalness)
+{
+	this->metalness = metalness;
 }
 
 inline void ResourceMaterial::SetMetallicAlpha(bool metallicAlpha)

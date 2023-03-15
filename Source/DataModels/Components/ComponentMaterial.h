@@ -34,6 +34,7 @@ public:
 	//void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
+	void SetMetalness(float metalness);
 	//void SetHasShininessAlpha(bool hasShininessAlpha);
 	void SetMetallicAlpha(bool metallicAlpha);
 
@@ -43,6 +44,7 @@ public:
 	//const float GetShininess() const;
 	const float GetNormalStrenght() const;
 	const float GetSmoothness() const;
+	const float GetMetalness() const;
 	//const bool HasShininessAlpha() const;
 	const bool HasMetallicAlpha() const;
 

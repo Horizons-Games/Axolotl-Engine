@@ -147,6 +147,23 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Separator();
 
+			float smoothness = asMaterial->GetSmoothness();
+			if (ImGui::DragFloat("Smoothness", &smoothness,
+				0.01f, 0.0f, 1.0f))
+			{
+				asMaterial->SetSmoothness(smoothness);
+			}
+
+			if (asMaterial->HasMetallicAlpha())
+			{
+				float metalness = asMaterial->GetMetalness();
+				if (ImGui::DragFloat("Metalness", &metalness,
+					0.01f, 0.0f, 1.0f))
+				{
+					asMaterial->SetMetalness(metalness);
+				}
+			}
+
 			/*ImGui::Text("Specular Texture");
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetSpecular())
@@ -209,13 +226,6 @@ void WindowComponentMaterial::DrawSetMaterial()
 				0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asMaterial->SetNormalStrenght(normalStrength);
-			}
-
-			float smoothness = asMaterial->GetSmoothness();
-			if (ImGui::DragFloat("Smoothness", &smoothness,
-				0.01f, 0.0f, 1.0f))
-			{
-				asMaterial->SetSmoothness(smoothness);
 			}
 
 			ImGui::Text("");

@@ -72,7 +72,7 @@ void ComponentMaterial::Draw()
 		}
 		else
 		{
-			glUniform1i(7, 0); //has_diffuse_map
+			glUniform1i(5, 0); //has_diffuse_map
 		}
 
 		/*const float3& specularColor = material->GetSpecularColor();
@@ -311,6 +311,11 @@ const float ComponentMaterial::GetSmoothness() const
 	return material->GetSmoothness();
 }
 
+const float ComponentMaterial::GetMetalness() const
+{
+	return material->GetMetalness();
+}
+
 /*const bool ComponentMaterial::HasShininessAlpha() const {
 	return material->HasShininessAlpha();
 }*/
@@ -343,6 +348,11 @@ void ComponentMaterial::SetNormalStrenght(float normalStrength)
 void ComponentMaterial::SetSmoothness(float smoothness)
 {
 	this->material->SetSmoothness(smoothness);
+}
+
+void ComponentMaterial::SetMetalness(float metalness)
+{
+	this->material->SetMetalness(metalness);
 }
 
 /*void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
