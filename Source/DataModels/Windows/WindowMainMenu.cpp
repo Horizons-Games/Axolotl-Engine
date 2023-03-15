@@ -1,6 +1,6 @@
 #include "WindowMainMenu.h"
 
-#include "Application.h"
+
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
 
@@ -95,6 +95,13 @@ void WindowMainMenu::DrawHelpMenu()
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
+}
+
+void WindowMainMenu::ShortcutSave() 
+{
+	std::string filePathName = fileDialogImporter.GetCurrentFileName();
+	if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
+	else saveScene->SaveAsWindow();
 }
 
 

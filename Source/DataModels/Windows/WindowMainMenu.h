@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Application.h"
 #include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
@@ -16,6 +16,7 @@ public:
 
 	bool IsWindowEnabled(int windowIndex) const;
 	void SetWindowEnabled(int windowIndex, bool enabled);
+	void ShortcutSave();
 
 private:
 	void DrawWindowMenu();
@@ -33,6 +34,7 @@ private:
 	ImGuiFileDialog fileDialogImporter;
 	
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
+	WindowMainMenu* save;
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
@@ -44,3 +46,10 @@ inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool enabled)
 {
 	windowNamesAndEnabled[windowIndex].second = enabled;
 }
+
+//inline void WindowMainMenu::ShortcutSave() const
+//{
+//	std::string filePathName = fileDialogImporter.GetCurrentFileName(); 
+//	if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
+//	else saveScene->SaveAsWindow();
+//}

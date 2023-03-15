@@ -22,6 +22,7 @@ public:
 	void Resized();
 
 	const WindowScene* GetScene() const;
+	const WindowMainMenu* GetMainMenu() const;
 
 	bool IsSceneFocused() const;
 
@@ -36,4 +37,9 @@ private:
 inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
+}
+
+inline const WindowMainMenu* ModuleEditor::GetMainMenu() const
+{
+	return mainMenu.get();
 }

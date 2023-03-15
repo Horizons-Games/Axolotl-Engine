@@ -3,10 +3,14 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
 
 #include "imgui_impl_sdl.h"
 #include "optick.h"
+#include "Windows/WindowMainMenu.h"
+
+
 
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
 {
@@ -86,6 +90,16 @@ update_status ModuleInput::Update()
     SDL_PumpEvents();
 
     const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
+    if (keyboard[SDL_SCANCODE_LCTRL])
+    {
+       if (keyboard[SDL_SCANCODE_S])
+       {
+           App->editor->GetMainMenu()->ShortcutSave();
+           //App->window->ShortcutSave();
+          //WindowMainMenu->ShortcutSave();
+       }
+    }
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
