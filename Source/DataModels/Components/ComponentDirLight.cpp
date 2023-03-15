@@ -1,5 +1,6 @@
 #include "ComponentDirLight.h"
 
+#include "Application.h"
 #include "ComponentTransform.h"
 
 #include "FileSystem/Json.h"
@@ -31,7 +32,12 @@ ComponentDirLight::~ComponentDirLight()
 
 void ComponentDirLight::Draw()
 {
-#ifdef ENGINE
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return;
+	}
+#endif //ENGINE
 	if (this->GetActive())
 	{
 		ComponentTransform* transform =
@@ -60,7 +66,6 @@ void ComponentDirLight::Draw()
 			dd::arrow(from, to, dd::colors::White, 0.05f);
 		}
 	}
-#endif // ENGINE
 }
 
 void ComponentDirLight::SaveOptions(Json& meta)
