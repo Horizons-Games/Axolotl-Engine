@@ -55,6 +55,7 @@ private:
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 	bool IsUniqueResourceMesh(const ResourceMesh* resourceMesh);
 	AAA FindResourceMesh(ResourceMesh* mesh);
+	int CalculateSpaceInVBO();
 
 	std::vector<ComponentMeshRenderer*> components;
 	std::vector<AAA> resourceMeshes;
@@ -64,7 +65,6 @@ private:
 	unsigned int vao = 0;
 	
 	unsigned int indirectBuffer = 0;
-	unsigned int resourceMeshIndex = 0;
 	unsigned int verticesBuffer = 0;
 	unsigned int textureBuffer = 0;
 	unsigned int normalsBuffer = 0;
@@ -74,6 +74,8 @@ private:
 	std::vector<float2> texturesToRender;
 	std::vector<float3> normalsToRender;
 	std::vector<float3> tangentsToRender;
+
+	unsigned int resourceMeshIndex = 0; //delete
 
 	std::vector<Command> commands;
 

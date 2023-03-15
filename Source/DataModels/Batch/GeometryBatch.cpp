@@ -15,10 +15,19 @@
 
 GeometryBatch::GeometryBatch()
 {
+	unsigned program = App->program->GetProgram();
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
 	//TODO complete
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 	glGenVertexArrays(1, &vao);
+	CreateVAO();
 }
 
 GeometryBatch::~GeometryBatch()
@@ -30,18 +39,17 @@ GeometryBatch::~GeometryBatch()
 
 void GeometryBatch::CalculateVBO()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	
-							//position			//uv				//normal		
-	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
-	
-	//tangents
-	if (flags && HAS_TANGENTS)
-	{
-		vertexSize += sizeof(float) * 3;
-	}
+	unsigned program = App->program->GetProgram();
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-	GLuint bufferSize = vertexSize * numTotalVertices;
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	GLuint bufferSize = CalculateSpaceInVBO() * numTotalVertices;
 
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STATIC_DRAW);
 
@@ -84,6 +92,14 @@ void GeometryBatch::CalculateVBO()
 
 void GeometryBatch::CalculateEBO()
 {
+	unsigned program = App->program->GetProgram();
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	GLuint indexSize = sizeof(GLuint) * numTotalFaces * 3;
@@ -92,14 +108,14 @@ void GeometryBatch::CalculateEBO()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	for (auto resourceMesh : resourceMeshes)
+	for (auto aaa : resourceMeshes)
 	{
-		for (unsigned int i = 0; i < resourceMesh.resourceMesh->GetNumFaces(); ++i)
+		for (unsigned int i = 0; i < aaa.resourceMesh->GetNumFaces(); ++i)
 		{
-			assert(resourceMesh.resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
-			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][0];
-			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][1];
-			*(indices++) = resourceMesh.resourceMesh->GetFacesIndices()[i][2];
+			assert(aaa.resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
+			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][0];
+			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][1];
+			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][2];
 		}	
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
@@ -107,13 +123,21 @@ void GeometryBatch::CalculateEBO()
 
 void GeometryBatch::CreateVAO()
 {
+	unsigned program = App->program->GetProgram();
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
 
 	//vertices
 	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 	
 	//texture
@@ -128,11 +152,15 @@ void GeometryBatch::CreateVAO()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 	
+	if (flags & HAS_TANGENTS)
+	{
+		glGenBuffers(1, &tangentsBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+		glEnableVertexAttribArray(3);
+	}
 	//tangents
-	glGenBuffers(1, &tangentsBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-	glEnableVertexAttribArray(3);
+	
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
@@ -142,25 +170,39 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::UpdateVAO()
 {
+	unsigned program = App->program->GetProgram();
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
+
 	glBindVertexArray(vao);
 
 	//vertices
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * sizeof(float), &verticesToRender, GL_DYNAMIC_DRAW);
-
-	//normals
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * sizeof(float), &texturesToRender, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * sizeof(float), &verticesToRender[0], GL_DYNAMIC_DRAW);
 
 	//texture
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * sizeof(float), &texturesToRender[0], GL_DYNAMIC_DRAW);
+
+	//normals
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * sizeof(float), &normalsToRender, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * sizeof(float), &normalsToRender[0], GL_DYNAMIC_DRAW);
 
 	//tangents
-	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * sizeof(float), &tangentsToRender, GL_DYNAMIC_DRAW);
-
-	glBindVertexArray(0);
+	if (flags & HAS_TANGENTS)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * sizeof(float), &tangentsToRender[0], GL_DYNAMIC_DRAW);
+	}
+	
+	//indirect
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -176,14 +218,20 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		ResourceMesh* mesh = meshShared.get();
 		if (components.empty())
 		{
-			if(!mesh->GetNormals().empty())
+			if (mesh->GetNormals().size() != 0)
+			{
 				flags |= HAS_NORMALS;
+			}
 
-			if (!mesh->GetTextureCoords().empty())
+			if (mesh->GetTextureCoords().size() != 0)
+			{
 				flags |= HAS_TEXTURE_COORDINATES;
+			}
 
-			if (!mesh->GetTangents().empty())
+			if (mesh->GetTangents().size() != 0)
+			{
 				flags |= HAS_TANGENTS;
+			}
 		}
 
 		if (IsUniqueResourceMesh(mesh))
@@ -253,10 +301,25 @@ void GeometryBatch::BindBatch()
 
 void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	commands.reserve(components.size());
-	
+
 	unsigned program = App->program->GetProgram();
-	unsigned int instanceIndex = 0;
+	GLint programInUse;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+
+	if (program != programInUse)
+	{
+		glUseProgram(program);
+	}
+
+	commands.clear();
+	commands.reserve(components.size());
+
+	verticesToRender.clear();
+	texturesToRender.clear();
+	normalsToRender.clear();
+	tangentsToRender.clear();
+	
+	resourceMeshIndex = 0;
 
 	for (auto component : componentsToRender)
 	{
@@ -266,12 +329,16 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 			ResourceMesh* resource = aaa.resourceMesh;
 			verticesToRender.insert(std::end(verticesToRender), 
 				std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
-			texturesToRender.emplace_back((resource->GetTextureCoords()[0].x, 
-				resource->GetTextureCoords()[1].y));
+			
+			for (float3 tex : resource->GetTextureCoords())
+			{
+				texturesToRender.push_back(float2(tex.x, tex.y));
+			}
+			
 			normalsToRender.insert(std::end(normalsToRender), 
 				std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
 
-			if (flags && HAS_TANGENTS)
+			if (flags & HAS_TANGENTS)
 			{
 				tangentsToRender.insert(std::end(tangentsToRender), 
 					std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
@@ -280,16 +347,10 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 			/*const float4x4& model =
 				static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+*/
 
-			GLint programInUse;
-			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-			if (program != programInUse)
-			{
-				glUseProgram(program);
-			}
-
-			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);*/
+			//glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
 
 			//do a for for all the instaces existing
 			Command newCommand = { 
@@ -297,25 +358,14 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 				1,							// Number of instances to render
 				aaa.indexOffset,			// Index offset in the EBO
 				aaa.vertexOffset,			// Vertex offset in the VBO
-				instanceIndex				// Instance Index
+				resourceMeshIndex			// Instance Index
 			};
 
 			commands.push_back(newCommand);
-			instanceIndex++;
-
-			//glBindVertexArray(0);
-			/*glBindTexture(GL_TEXTURE_2D, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
+			resourceMeshIndex++;
 		}
 	}
-
 	UpdateVAO();
-	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, componentsToRender.size(), 0);
-	verticesToRender.clear();
-	texturesToRender.clear();
-	texturesToRender.clear();
-	normalsToRender.clear();
-	tangentsToRender.clear();
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
@@ -356,12 +406,29 @@ AAA GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
 	abort(); //TODO check how can do this
 }
 
+int GeometryBatch::CalculateSpaceInVBO()
+{
+							//position			//uv				//normal		
+	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
+
+	//tangents
+	if (flags & HAS_TANGENTS)
+	{
+		vertexSize += sizeof(float) * 3;
+	}
+	return vertexSize;
+}
+
 bool GeometryBatch::CleanUp()
 {
 	glDeleteBuffers(1,&vao);
 	glDeleteBuffers(1,&ebo);
 	glDeleteBuffers(1,&vbo);
 	glDeleteBuffers(1, &indirectBuffer);
+	glDeleteBuffers(1, &verticesBuffer);
+	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &normalsBuffer);
+	glDeleteBuffers(1, &tangentsBuffer);
 
 	return true;
 }

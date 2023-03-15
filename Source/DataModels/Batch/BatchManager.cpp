@@ -40,14 +40,20 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 {
 	int flags = 0;
 
-	if (!newComponent->GetMesh()->GetNormals().empty())
+	if (newComponent->GetMesh()->GetNormals().size() != 0)
+	{
 		flags |= HAS_NORMALS;
+	}
 
-	if (!newComponent->GetMesh()->GetTextureCoords().empty())
+	if (newComponent->GetMesh()->GetTextureCoords().size() != 0)
+	{
 		flags |= HAS_TEXTURE_COORDINATES;
+	}
 
-	if (!newComponent->GetMesh()->GetTangents().empty())
+	if (newComponent->GetMesh()->GetTangents().size() != 0)
+	{
 		flags |= HAS_TANGENTS;
+	}
 
 	for (GeometryBatch* geometryBatch : geometryBatches)
 	{
@@ -72,4 +78,5 @@ void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
 void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	batch->BindBatch2(componentsToRender);
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, batch->GetResourceIndex(), 0);
 }
