@@ -139,6 +139,13 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	return gameObject;
 }
 
+GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, LightType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponentLight(type);
+	return gameObject;
+}
+
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);

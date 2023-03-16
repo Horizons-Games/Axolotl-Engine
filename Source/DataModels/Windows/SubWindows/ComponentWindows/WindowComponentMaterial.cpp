@@ -54,8 +54,9 @@ void WindowComponentMaterial::DrawSetMaterial()
 		{
 			ImGui::Text("");
 
-			char name[20] = "Texture";
-			ImGui::InputText("Texture Name", name, 20);
+			ImGui::Text("Name: ");
+			ImGui::SameLine();
+			ImGui::Text(materialResource->GetFileName().c_str());
 
 			ImGui::Text("");
 
