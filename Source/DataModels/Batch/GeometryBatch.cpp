@@ -329,7 +329,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 {
 	const GLuint bindingPointCamera = 0;
 	const GLuint bindingPointModel = 10;
-	float4x4 modelMatrices[2];
+	float4x4 modelMatrices[sizeof(componentsToRender)];
 	//model(transforms)
 	glGenBuffers(1, &transforms);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
