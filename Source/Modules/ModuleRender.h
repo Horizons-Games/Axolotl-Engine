@@ -57,7 +57,7 @@ private:
 	
 	std::vector<const GameObject*> allGOToDraw;
 	std::vector<const GameObject*> opaqueGOToDraw;
-	std::vector<const GameObject*> transparentGOToDraw;
+	std::map<float, const GameObject*> transparentGOToDraw;
 	const std::vector<std::string> modelTypes;
 
 	//should this be here?

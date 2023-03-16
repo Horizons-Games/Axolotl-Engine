@@ -14,6 +14,7 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentMaterial.h"
 
 #include "GameObject/GameObject.h"
 
@@ -221,7 +222,6 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	//GroupGameObjects();
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
@@ -230,9 +230,11 @@ update_status ModuleRender::Update()
 		allGOToDraw.push_back(goSelected);
 	}
 
+	GroupGameObjects();
+
 	//Draw opaque
 	//glDepthFunc(GL_EQUAL);
-	for (const GameObject* gameObject : allGOToDraw)
+	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
 		{
@@ -242,13 +244,13 @@ update_status ModuleRender::Update()
 	//glDepthFunc(GL_LEQUAL);
 
 	// Draw Transparent
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//for (std::map<float, GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
-	//	//DrawGameObject((*it).second);
-	//	(*it).second->Draw();
-	//}
-	//glDisable(GL_BLEND);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
+		//DrawGameObject((*it).second);
+		(*it).second->Draw();
+	}
+	glDisable(GL_BLEND);
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
@@ -459,24 +461,25 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 }
 
 void ModuleRender::GroupGameObjects() {
-	/*opaqueGOToDraw.clear();
+	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
+
 
 	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
 	for (const GameObject* gameObject : allGOToDraw)
 	{
-		if ((gameObject.GetMask().bitMask & static_cast<int>(MaskType::TRANSPARENT)) == 0) {
-			opaqueGameObjects.push_back(&gameObject);
-		}
-		else {
-			const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-			float dist = Length(cameraPos - transform->GetGlobalPosition());
-			transparentGameObjects[dist] = &gameObject;
+		ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
+		if (material != nullptr) {
+			material->SetTransparent(true);
+			if (!material->GetTransparent())
+			{
+				opaqueGOToDraw.push_back(gameObject);
+			}
+			else {
+				const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				transparentGOToDraw[dist] = gameObject;
+			}
 		}
 	}
-		
-	
-	if (scene->quadtree.IsOperative()) {
-		ClassifyGameObjectsFromQuadtree(scene->quadtree.root, scene->quadtree.bounds);
-	}*/
 }
