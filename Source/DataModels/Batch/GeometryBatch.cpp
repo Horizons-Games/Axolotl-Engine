@@ -460,11 +460,11 @@ void GeometryBatch::RecalculateInfoResource()
 	numTotalFaces = 0;
 	for (auto meshInfo : resourceMeshes)
 	{
-		meshInfo.indexOffset = numTotalIndices;
-		meshInfo.vertexOffset = numTotalVertices;
 		numTotalVertices += meshInfo.resourceMesh->GetNumVertices();
 		numTotalIndices += meshInfo.resourceMesh->GetNumIndexes();
 		numTotalFaces += meshInfo.resourceMesh->GetNumFaces();
+		meshInfo.indexOffset = numTotalIndices;
+		meshInfo.vertexOffset = numTotalVertices;
 	}
 }
 
