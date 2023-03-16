@@ -24,14 +24,13 @@ enum class TextureType
 // Application -------------
 #define TITLE "Axolotl Engine"
 #define VERSION "1.0.0"
-//#define GAME
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
-#define QUADRANT_CAPACITY 10
-#define MIN_CUBE_SIZE 5.0f
+#define QUADRANT_CAPACITY 30
+#define MIN_CUBE_SIZE 20.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920
@@ -44,6 +43,11 @@ enum class TextureType
 #define BRIGHTNESS 1.0f
 
 // Paths -------------------
+
+#define ASSETS_FOLDER "Assets"
+#define LIB_FOLDER "Lib"
+#define ASSETS_PATH "Assets/"
+#define LIB_PATH "Lib/"
 #define MODELS_PATH "Assets/Models/"
 #define TEXTURES_PATH "Assets/Textures/"
 #define MESHES_PATH "Assets/Meshes/"
@@ -66,7 +70,7 @@ enum class TextureType
 #define META_EXTENSION ".meta"
 #define GENERAL_BINARY_EXTENSION ".bin"
 
-// Quadtree standard -------
-#define QUADTREE_INITIAL_SIZE 20
+// QuadTree standard -------
+#define QUADTREE_INITIAL_SIZE 50
 #define QUADTREE_INITIAL_ALTITUDE 10
 

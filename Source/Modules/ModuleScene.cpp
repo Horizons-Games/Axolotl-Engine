@@ -6,10 +6,15 @@
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
 {
@@ -26,26 +31,37 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-#if !defined(GAME)
+#ifdef ENGINE
 	if (loadedScene == nullptr)
 	{
 		loadedScene = CreateEmptyScene();
 	}
-#else
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
+#else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/Final_Scene_Lights_mini_Lights.axolotl");
+		//TODO
+		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
+		//loadedScene = CreateEmptyScene();
 	}
-#endif
+#endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
 
 update_status ModuleScene::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+#endif // DEBUG
 
-	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -136,7 +152,7 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
-#if !defined(GAME)
+#ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
@@ -211,7 +227,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	selectedGameObject = loadedScene->GetRoot();
 
 	loadedScene->SetSceneGameObjects(loadedObjects);
-	loadedScene->SetSceneCameras(loadedObjects);
+	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 

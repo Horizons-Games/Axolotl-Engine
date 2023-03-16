@@ -1,0 +1,16 @@
+{
+    "UID": 1145918595149233805,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Blaster_0.mesh",
+        "Assets/Meshes/Blaster_1.mesh",
+        "Assets/Meshes/Blaster_2.mesh",
+        "Assets/Meshes/Blaster_3.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Blaster_0.mat",
+        "Assets/Materials/Blaster_1.mat",
+        "Assets/Materials/Blaster_2.mat",
+        "Assets/Materials/Blaster_3.mat"
+    ]
+}

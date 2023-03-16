@@ -70,6 +70,12 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
+
+	// Update the transform respect its parent when created
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
@@ -104,29 +110,16 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
+	RemoveFatherAndChildren(gameObject);
 	gameObject->GetParent()->RemoveChild(gameObject);
-	RemoveCamera(gameObject);
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
-		it != sceneGameObjects.end();
-		++it)
-	{
-		if (*it == gameObject)
-		{
-			sceneGameObjects.erase(it);
-			return;
-		}
-	}
 }
 
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
-	UID modelUID = App->resources->ImportResource(model);
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(modelUID).lock();
+	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	resourceModel->Load();
 
-	std::string modelName = model;
-	size_t last_slash = modelName.find_last_of('/');
-	modelName = modelName.substr(last_slash + 1, modelName.size());
+	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 	
@@ -137,13 +130,11 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh =
-			App->resources->RequestResource<ResourceMesh>(resourceModel->GetMeshesUIDs()[i]).lock();
+		std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(resourceModel->GetMeshes()[i]);
 
 		unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		std::shared_ptr<ResourceMaterial> material = 
-			App->resources->RequestResource<ResourceMaterial>(resourceModel->GetMaterialsUIDs()[materialIndex]).lock();
+		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(resourceModel->GetMaterials()[materialIndex]);
 
 		std::string meshName = mesh->GetFileName();
 		size_t new_last_slash = meshName.find_last_of('/');
@@ -176,14 +167,33 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void Scene::RemoveCamera(const GameObject* cameraGameObject)
+void Scene::RemoveFatherAndChildren(const GameObject* father)
 {
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
-		it != sceneCameras.end(); ++it)
+	for (GameObject* child : father->GetChildren())
 	{
-		if (cameraGameObject == *it)
+		RemoveFatherAndChildren(child);
+	}
+
+	Component* component = father->GetComponent(ComponentType::CAMERA);
+	if (component)
+	{
+		for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
+			it != sceneCameras.end(); ++it)
 		{
-			sceneCameras.erase(it);
+			if (father == *it)
+			{
+				sceneCameras.erase(it);
+				return;
+			}
+		}
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin();
+		it != sceneGameObjects.end(); ++it)
+	{
+		if (*it == father)
+		{
+			sceneGameObjects.erase(it);
 			return;
 		}
 	}

@@ -6,6 +6,9 @@
 #include <string>
 #include <memory>
 
+#ifndef ENGINE
+#define ENGINE_LOG(...) //ignore it
+#else
 #define ENGINE_LOG(format, ...) engineLog->Log(__FILE__, __LINE__, format, __VA_ARGS__);
 
 class EngineLog
@@ -28,3 +31,4 @@ inline EngineLog::~EngineLog()
 {
 	logLines.clear();
 }
+#endif // ENGINE

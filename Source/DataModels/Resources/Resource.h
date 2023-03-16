@@ -31,13 +31,14 @@ public:
 
 	void Load();
 	void Unload();
-	virtual void SaveOptions(Json& meta) = 0;
-	virtual void LoadOptions(Json& meta) = 0;
+	virtual void SaveImporterOptions(Json& meta) = 0;
+	virtual void LoadImporterOptions(Json& meta) = 0;
 
 	bool IsLoaded() const;
 
 	bool IsChanged() const;
 	void SetChanged(bool changed);
+
 
 protected:
 	Resource(UID resourceUID, 
@@ -48,6 +49,7 @@ protected:
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
 
+	virtual bool ChildChanged() const;
 	bool changed = false;
 
 private:
@@ -71,6 +73,11 @@ inline bool Resource::IsChanged() const
 inline void Resource::SetChanged(bool changed)
 {
 	this->changed = changed;
+}
+
+inline bool Resource::ChildChanged() const
+{
+	return false;
 }
 
 inline Resource::Resource(	UID resourceUID, 
@@ -106,7 +113,7 @@ inline const std::string& Resource::GetLibraryPath() const
 
 inline void Resource::Load()
 {
-	if (!loaded)
+	if (!loaded || ChildChanged())
 	{
 		InternalLoad();
 		loaded = true;
