@@ -147,6 +147,36 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Separator();
 
+			ImGui::Text("Metallic Texture");
+			bool showMetallicBrowserDiffuse = true;
+			if (materialResource)
+			{
+				if (materialResource->GetMetallicMap())
+				{
+					texture = materialResource->GetMetallicMap();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showMetallicBrowserDiffuse = false;
+				}
+			}
+
+			if (showMetallicBrowserDiffuse)
+			{
+				inputTextureMetallic->DrawWindowContents();
+			}
+			else
+			{
+				if (ImGui::Button("Remove Texture Metallic") && materialResource->GetMetallicMap())
+				{
+					asMaterial->UnloadTexture(TextureType::METALLIC);
+
+					materialResource->SetMetallicMap(nullptr);
+				}
+			}
+
 			float smoothness = asMaterial->GetSmoothness();
 			if (ImGui::DragFloat("Smoothness", &smoothness,
 				0.01f, 0.0f, 1.0f))
@@ -162,6 +192,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				asMaterial->SetMetalness(metalness);
 			}
 			
+			ImGui::Separator();
 
 			/*ImGui::Text("Specular Texture");
 			bool showTextureBrowserSpecular = true;
