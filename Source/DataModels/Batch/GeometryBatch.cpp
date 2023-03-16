@@ -192,7 +192,7 @@ void GeometryBatch::UpdateVAO()
 
 	//vertices
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * sizeof(float), &verticesToRender[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() *3* sizeof(float), &verticesToRender[0], GL_DYNAMIC_DRAW);
 
 	//texture
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
