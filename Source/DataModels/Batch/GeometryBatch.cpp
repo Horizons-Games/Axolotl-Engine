@@ -350,7 +350,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 	}
 
 	commands.clear();
-	commands.reserve(components.size());
+	commands.reserve(componentsToRender.size());
 
 	verticesToRender.clear();
 	texturesToRender.clear();
@@ -460,11 +460,11 @@ void GeometryBatch::RecalculateInfoResource()
 	numTotalFaces = 0;
 	for (auto meshInfo : resourceMeshes)
 	{
+		meshInfo.indexOffset = numTotalIndices;
+		meshInfo.vertexOffset = numTotalVertices;
 		numTotalVertices += meshInfo.resourceMesh->GetNumVertices();
 		numTotalIndices += meshInfo.resourceMesh->GetNumIndexes();
 		numTotalFaces += meshInfo.resourceMesh->GetNumFaces();
-		meshInfo.indexOffset = numTotalIndices;
-		meshInfo.vertexOffset = numTotalVertices;
 	}
 }
 
