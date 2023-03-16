@@ -4,6 +4,13 @@
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 
+enum class Actions 
+{ 
+	NONE, 
+	NEW_SCENE, 
+	EXIT 
+};
+
 class WindowMainMenu : public Window
 {
 public:
@@ -21,6 +28,7 @@ private:
 	void DrawWindowMenu();
 	void DrawFileMenu();
 	void DrawHelpMenu();
+	void DrawPopup();
 
 	static bool defaultEnabled;
 
@@ -29,6 +37,9 @@ private:
 	std::unique_ptr<WindowAbout> about;
 
 	bool showAbout;
+	bool openPopup;
+
+	Actions action;
 
 	ImGuiFileDialog fileDialogImporter;
 	
