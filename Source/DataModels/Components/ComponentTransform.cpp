@@ -17,6 +17,16 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 {
 }
 
+ComponentTransform::ComponentTransform(ComponentTransform& componentTransform)
+	: Component(componentTransform),
+	pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
+	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),
+	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
+	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
+	globalMatrix(componentTransform.GetGlobalMatrix())
+{
+}
+
 ComponentTransform::~ComponentTransform()
 {
 }
