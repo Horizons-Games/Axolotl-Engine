@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 
 #include "Scene/Scene.h"
 
@@ -225,7 +226,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	App->renderer->FillRenderList(rootQuadtree);
 
 	selectedGameObject = loadedScene->GetRoot();
-
+	App->editor->RefreshInspector();
 	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetAmbientLight(ambientLight);
