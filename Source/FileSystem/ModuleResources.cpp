@@ -58,6 +58,22 @@ bool ModuleResources::CleanUp()
 	return true;
 }
 
+void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
+{
+	std::shared_ptr<Resource> importedRes;
+	std::string assetsPath = CreateAssetsPath(fileName, type);
+	switch(type)
+	{
+	case ResourceType::Material:
+		assetsPath += MATERIAL_EXTENSION;
+		App->fileSystem->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	default:
+		break;
+	}
+}
+
 //Creates Binary and Meta from an Asset original path
 std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& originalPath)
 {

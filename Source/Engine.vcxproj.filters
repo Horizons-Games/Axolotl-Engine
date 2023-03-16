@@ -403,6 +403,9 @@
     <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
       <Filter>External\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -953,6 +956,9 @@
     </ClInclude>
     <ClInclude Include="..\External\ImGui\ImGuizmo.h">
       <Filter>External\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
