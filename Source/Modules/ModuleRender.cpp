@@ -279,7 +279,13 @@ update_status ModuleRender::Update()
 		AddToRenderList(goSelected); //could be out
 	}
 
-#ifdef ENGINE
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return update_status::UPDATE_CONTINUE;
+	}
+#endif //ENGINE
+
 	if (App->debug->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
@@ -290,7 +296,6 @@ update_status ModuleRender::Update()
 
 	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
 	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
-#endif // ENGINE
 
 	return update_status::UPDATE_CONTINUE;
 }

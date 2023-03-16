@@ -409,6 +409,9 @@
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
       <Filter>Source\DataModels\Batch</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -968,6 +971,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>Source\DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowDebug.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
