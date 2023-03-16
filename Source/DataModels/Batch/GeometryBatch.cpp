@@ -146,7 +146,7 @@ void GeometryBatch::CreateVAO()
 	//vertices
 	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, static_cast<void*>(nullptr));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 	
 	//texture
@@ -329,11 +329,11 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 {
 	const GLuint bindingPointCamera = 0;
 	const GLuint bindingPointModel = 10;
-	float4x4 modelMatrices[sizeof(componentsToRender)];
+	std::vector<float4x4>modelMatrices;
 	//model(transforms)
 	glGenBuffers(1, &transforms);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(modelMatrices), NULL, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, componentsToRender.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
 	//camera
 	GLuint cameraUniformBlockID;
@@ -387,7 +387,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 				static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			modelMatrices[resourceMeshIndex]=model;
+			modelMatrices.push_back(model);
 			//binding the uniform camera
 			GLint cameraUniformBlockIndex = glGetUniformBlockIndex(program, "Camera");
 			glUniformBlockBinding(program, cameraUniformBlockIndex, bindingPointCamera);
@@ -413,7 +413,7 @@ void GeometryBatch::BindBatch2(std::vector<ComponentMeshRenderer*>& componentsTo
 		}
 	}
 	UpdateVAO();
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(modelMatrices), &modelMatrices);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, componentsToRender.size()*sizeof(float4x4), modelMatrices.data());
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 }
 
