@@ -169,10 +169,6 @@ void GeometryBatch::CreateVAO()
 		glEnableVertexAttribArray(3);
 	}
 	//tangents
-	
-	// Instance indices
-	glGenBuffers(1, &ebo);
-	glBindBuffer(GL_ARRAY_BUFFER, ebo);
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
