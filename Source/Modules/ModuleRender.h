@@ -49,6 +49,7 @@ public:
 private:
 	void UpdateProgram();
 	void GroupGameObjects();
+	void DrawSelectedGO(GameObject* goSelected);
 
 	void* context;
 	float4 backgroundColor;

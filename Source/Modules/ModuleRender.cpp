@@ -222,9 +222,8 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
-
+	
 	if (isRoot) 
 	{
 		allGOToDraw.push_back(goSelected);
@@ -232,8 +231,8 @@ update_status ModuleRender::Update()
 
 	GroupGameObjects();
 
-	//Draw opaque
 	//glDepthFunc(GL_EQUAL);
+	//Draw opaque
 	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
@@ -243,32 +242,23 @@ update_status ModuleRender::Update()
 	}
 	//glDepthFunc(GL_LEQUAL);
 
-	// Draw Transparent
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
-		//DrawGameObject((*it).second);
-		(*it).second->Draw();
-	}
-	glDisable(GL_BLEND);
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
-		glEnable(GL_STENCIL_TEST);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-		glStencilMask(0xFF); // enable writing to the stencil buffer
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		goSelected->DrawSelected();
-
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-		glLineWidth(25);
-		glPolygonMode(GL_FRONT, GL_LINE);
-		goSelected->DrawHighlight();
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glLineWidth(1);
+		DrawSelectedGO(goSelected);
 	}
 
 	AddToRenderList(goSelected);
+
+
+	// Draw Transparent
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
+	//	//DrawGameObject((*it).second);
+	//	(*it).second->Draw();
+	//}
+	//glDisable(GL_BLEND);
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -465,6 +455,21 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
+void ModuleRender::DrawSelectedGO(GameObject* goSelected) {
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+	glStencilMask(0xFF); // enable writing to the stencil buffer
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	goSelected->DrawSelected();
+
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+	glLineWidth(25);
+	glPolygonMode(GL_FRONT, GL_LINE);
+	goSelected->DrawHighlight();
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glLineWidth(1);
+}
+
 void ModuleRender::GroupGameObjects() {
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
@@ -475,7 +480,7 @@ void ModuleRender::GroupGameObjects() {
 	{
 		ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 		if (material != nullptr) {
-			material->SetTransparent(true);
+			material->SetTransparent(false);
 			if (!material->GetTransparent())
 			{
 				opaqueGOToDraw.push_back(gameObject);
