@@ -90,12 +90,10 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
-#ifdef ENGINE
-	if (drawBoundingBoxes)
+	if (drawBoundingBoxes || App->IsDebuggingGame())
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}
-#endif // ENGINE
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())

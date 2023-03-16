@@ -8,22 +8,19 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
-#ifdef ENGINE
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
-#else
+#ifndef ENGINE
 #include "ModulePlayer.h"
 #endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application()
+Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false)
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
-#ifdef ENGINE
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
-#endif // ENGINE
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
@@ -35,11 +32,7 @@ Application::Application()
 
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
-#ifdef ENGINE
 	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
-#endif // ENGINE
-	appTimer = std::make_unique<Timer>();
-	maxFramerate = MAX_FRAMERATE;
 }
 
 Application::~Application()

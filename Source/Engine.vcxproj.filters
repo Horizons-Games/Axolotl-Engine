@@ -412,6 +412,9 @@
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -971,6 +974,9 @@
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowDebug.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
