@@ -163,13 +163,14 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		std::vector<GameObject*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
 		if (loadedCameras.size() >= cameraNumber)
 		{
-			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras[cameraNumber
-			#ifdef ENGINE
-							-1
-			#else
-							-2
-			#endif // ENGINE
-			]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+#ifdef ENGINE
+			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras
+				[cameraNumber - 1]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+#else
+			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras
+				[cameraNumber - 2]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+#endif
+			selectedPosition = cameraNumber;
 			camera->SetPosition(selectedCamera->GetPosition());
 			camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
 			camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());

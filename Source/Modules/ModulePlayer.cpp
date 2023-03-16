@@ -36,7 +36,7 @@ bool ModulePlayer::Start()
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = (static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA)))->GetCamera();
+			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
 		}
@@ -46,8 +46,11 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::Update()
 {
-	Move();
-	Rotate();
+	if (App->camera->GetSelectedPosition() == 0)
+	{
+		Move();
+		Rotate();
+	}
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -58,10 +61,7 @@ GameObject* ModulePlayer::GetPlayer()
 
 void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
 {
-	if (App->camera->GetSelectedPosition() == 0)
-	{
-		player = std::move(newPlayer);
-	}
+	player = std::move(newPlayer);
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
