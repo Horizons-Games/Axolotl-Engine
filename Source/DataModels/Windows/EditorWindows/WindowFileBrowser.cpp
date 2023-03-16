@@ -69,7 +69,7 @@ WindowFileBrowser::~WindowFileBrowser()
 {
 }
 
-void WindowFileBrowser::SaveAsWindow()
+void WindowFileBrowser::SaveAsWindow(bool& isSaving)
 {
 	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
 	std::string sceneName = App->scene->GetLoadedScene()->GetRoot()->GetName();
@@ -89,6 +89,7 @@ void WindowFileBrowser::SaveAsWindow()
 		{
 			DoThisIfOk();
 		}
+		isSaving = false;
 		fileDialogImporter.Close();
 	}
 

@@ -38,6 +38,7 @@ private:
 
 	bool showAbout;
 	bool openPopup;
+	bool isSaving;
 
 	Actions action;
 

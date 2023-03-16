@@ -10,7 +10,7 @@ const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-
 bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) :
-	Window("Main Menu"), showAbout(false), openPopup(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
+	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
 	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
 {
 
@@ -35,6 +35,7 @@ void WindowMainMenu::Draw(bool& enabled)
 		DrawWindowMenu();
 		DrawHelpMenu();
 		if(openPopup) DrawPopup();
+		if(isSaving) saveScene->SaveAsWindow(isSaving);
 	}
 	ImGui::EndMainMenuBar();
 }
@@ -51,16 +52,21 @@ void WindowMainMenu::DrawPopup()
 
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			//std::string filePathName = fileDialogImporter.GetCurrentFileName();
-			//if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
-			//else saveScene->SaveAsWindow();
+			std::string filePathName = fileDialogImporter.GetCurrentFileName();
+			if (filePathName != "") 
+			{
+				App->scene->SaveSceneToJson(filePathName);
+			}
+			else isSaving = true; 
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
+			
 		}
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
 		if (ImGui::Button("Close without saving", ImVec2(240, 0)))
 		{
+			isSaving = false;
 			if (action == Actions::NEW_SCENE)
 			{
 				std::unique_ptr<Scene> scene = std::make_unique<Scene>();
@@ -85,7 +91,6 @@ void WindowMainMenu::DrawPopup()
 
 void WindowMainMenu::DrawFileMenu()
 {
-
 	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::Button(ICON_IGFD_FILE " New Scene"))
@@ -98,7 +103,7 @@ void WindowMainMenu::DrawFileMenu()
 		{
 			std::string filePathName = fileDialogImporter.GetCurrentFileName();
 			if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
-			else saveScene->SaveAsWindow();
+			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
 		if (ImGui::MenuItem("Exit"))
