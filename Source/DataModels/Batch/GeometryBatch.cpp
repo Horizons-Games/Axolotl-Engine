@@ -173,8 +173,6 @@ void GeometryBatch::CreateVAO()
 	// Instance indices
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ARRAY_BUFFER, ebo);
-	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, 1 * sizeof(float), static_cast<void*>(nullptr));
-	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
