@@ -28,6 +28,7 @@ GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID
 
 GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
 	uid(UniqueID::GenerateUID()), enabled(true), active(true), 
+	stateOfSelection(StateOfSelection::NO_SELECTED),
 	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
 	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
@@ -35,13 +36,22 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	active = (parent->IsEnabled() && parent->IsActive());
 }
 
-GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
+GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
 	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	localAABB(gameObject.GetLocalAABB()), encapsuledAABB(localAABB),
+	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
+	stateOfSelection(StateOfSelection::NO_SELECTED),
 	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
-	gameObject.stateOfSelection();
-	//id = t.id;
+	for (auto component : gameObject.GetComponents())
+	{
+		//Component newComp(component);
+		components.push_back(std::unique_ptr<Component>(component));
+	}
+
+	for (auto child : gameObject.GetChildren())
+	{
+		AddChild(std::unique_ptr<GameObject>(child));
+	}
 }
 
 GameObject::~GameObject()
@@ -265,7 +275,14 @@ void GameObject::SetParent(GameObject* newParent)
 
 	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
 	parent = newParent;
-	parent->AddChild(std::move(pointerToThis));
+	if (pointerToThis)
+	{
+		parent->AddChild(std::move(pointerToThis));
+	}
+	else
+	{
+		parent->AddChild(std::unique_ptr<GameObject>(this));
+	}
 
 	// Update the transform respect its parent when moved around
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>
@@ -316,6 +333,11 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	{
 		this->components.push_back(std::move(newComponent));
 	}
+}
+
+void GameObject::AddComponent(std::unique_ptr<Component>& component)
+{
+	this->components.push_back(std::move(component));
 }
 
 void GameObject::Enable()
