@@ -14,7 +14,7 @@ public:
 	Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes);
 	~Skybox();
 
-	void Draw();
+	void Draw() const;
 
 private:
 	std::shared_ptr<ResourceSkyBox> skyboxRes;

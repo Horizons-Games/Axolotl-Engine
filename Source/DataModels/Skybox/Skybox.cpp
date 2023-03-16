@@ -18,7 +18,7 @@ Skybox::~Skybox()
 {
 }
 
-void Skybox::Draw()
+void Skybox::Draw() const
 {
 
     Program* program = App->program->GetProgram(ProgramType::SKYBOX);

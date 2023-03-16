@@ -10,6 +10,7 @@
 #include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceSkyBox.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMaterial.h"
@@ -18,7 +19,9 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
-Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
+#include "DataModels/Skybox/Skybox.h"
+
+Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
@@ -414,8 +417,6 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
-	uid = UniqueID::GenerateUID();
-
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
@@ -428,6 +429,14 @@ void Scene::InitNewEmptyScene()
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
 
 	InitLights();
 }
@@ -448,6 +457,11 @@ void Scene::InitLights()
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
 	rootQuadtree = std::move(quadtree);
+}
+
+void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
+{
+	this->skybox = std::move(skybox);
 }
 
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()

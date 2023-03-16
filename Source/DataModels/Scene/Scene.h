@@ -8,6 +8,7 @@
 
 class GameObject;
 class Quadtree;
+class Skybox;
 
 class Scene
 {
@@ -41,13 +42,15 @@ public:
 	GameObject* GetRoot();
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
-	Quadtree * GetRootQuadtree() const;
+	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
+	const Skybox* GetSkybox() const;
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
+	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
 	void SetAmbientLight(GameObject* ambientLight);
@@ -60,7 +63,7 @@ public:
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
 
-	UID uid;
+	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
@@ -80,11 +83,6 @@ private:
 	AABB rootQuadtreeAABB;
 	std::unique_ptr<Quadtree> rootQuadtree;
 };
-
-inline UID Scene::GetUID() const
-{
-	return uid;
-}
 
 inline GameObject* Scene::GetRoot()
 {
@@ -134,5 +132,10 @@ inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 inline Quadtree* Scene::GetRootQuadtree() const
 {
 	return rootQuadtree.get();
+}
+
+inline const Skybox* Scene::GetSkybox() const
+{
+	return skybox.get();
 }
 
