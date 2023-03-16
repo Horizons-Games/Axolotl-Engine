@@ -89,7 +89,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                             // change the focus to its parent
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                App->scene->GetLoadedScene()->GetRootQuadtree()->
                     RemoveGameObjectAndChildren(gameObject->GetParent());
 
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
