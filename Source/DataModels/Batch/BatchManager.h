@@ -14,6 +14,8 @@ public:
 	const std::vector<GeometryBatch*>& GetBatches() const;
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
+	void RemoveComponent(ComponentMeshRenderer* component);
+
 	void DrawBatch(GeometryBatch* geometry_batch) const;
 	void DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender);
 

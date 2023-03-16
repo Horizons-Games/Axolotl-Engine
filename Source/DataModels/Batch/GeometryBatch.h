@@ -1,10 +1,11 @@
 #pragma once
 
 #include "FileSystem/UniqueID.h"
-
-#include <vector>
 #include "Math/float2.h"
 #include "Math/float3.h"
+
+#include <vector>
+#include <list>
 
 #include "GL/glew.h"
 
@@ -26,6 +27,7 @@ struct AAA //temporary name
 	ResourceMesh* resourceMesh;
 	int vertexOffset;
 	int indexOffset;
+	int timesRepeated;
 };
 
 class GeometryBatch
@@ -41,6 +43,7 @@ public:
 	void UpdateVAO();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
+	void RemoveComponent(ComponentMeshRenderer* component);
 
 	void BindBatch();
 	void BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender);
@@ -53,12 +56,12 @@ public:
 private:
 	void AddUniqueComponent(ResourceMesh* resourceMesh);
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
-	bool IsUniqueResourceMesh(const ResourceMesh* resourceMesh);
-	AAA FindResourceMesh(ResourceMesh* mesh);
-	int CalculateSpaceInVBO();
+	void CreateOrCountInstance(ResourceMesh* resourceMesh);
+	void RecalculateInfoResource();
+	AAA& FindResourceMesh(ResourceMesh* mesh);
 
-	std::vector<ComponentMeshRenderer*> components;
-	std::vector<AAA> resourceMeshes;
+	std::list<ComponentMeshRenderer*> components;
+	std::list<AAA> resourceMeshes;
 
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
@@ -76,7 +79,7 @@ private:
 	std::vector<float3> normalsToRender;
 	std::vector<float3> tangentsToRender;
 
-	unsigned int resourceMeshIndex = 0; //delete
+	unsigned int resourceMeshIndex = 0;
 
 	std::vector<Command> commands;
 

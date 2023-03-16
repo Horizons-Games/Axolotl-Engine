@@ -49,7 +49,16 @@ void GeometryBatch::CalculateVBO()
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	GLuint bufferSize = CalculateSpaceInVBO() * numTotalVertices;
+							//position			//uv				//normal	
+	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
+
+	//tangents
+	if (flags & HAS_TANGENTS)
+	{
+		vertexSize += sizeof(float) * 3;
+	}
+
+	GLuint bufferSize = vertexSize * numTotalVertices;
 
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_DYNAMIC_DRAW);
 
@@ -233,23 +242,32 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 				flags |= HAS_TANGENTS;
 			}
 		}
-
-		if (IsUniqueResourceMesh(mesh))
-		{
-			AAA aaa = {
-				mesh,
-				numTotalVertices,
-				numTotalIndices
-			};
-			resourceMeshes.push_back(aaa);
-			numTotalVertices += mesh->GetNumVertices();
-			numTotalIndices += mesh->GetNumIndexes();
-			numTotalFaces += mesh->GetNumFaces();
-			CalculateVBO();
-			CalculateEBO();
-		}
+		
+		CreateOrCountInstance(mesh);
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
+	}
+}
+
+void GeometryBatch::RemoveComponent(ComponentMeshRenderer* component)
+{
+	if (component)
+	{
+		ResourceMesh* mesh = component->GetMesh().get();
+
+		for (std::list<AAA>::iterator it = resourceMeshes.begin(); it != resourceMeshes.end(); ++it) {
+			if (it->resourceMesh == mesh)
+			{
+				--it->timesRepeated;
+				if (it->timesRepeated <= 0)
+				{
+					resourceMeshes.erase(it);
+					RecalculateInfoResource();
+					break;
+				}
+			}
+		}
+		components.erase(std::find(components.begin(), components.end(), component));
 	}
 }
 
@@ -412,20 +430,45 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-bool GeometryBatch::IsUniqueResourceMesh(const ResourceMesh* resourceMesh)
+void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
 {
 	for (AAA aaa : resourceMeshes)
 	{
 		if (aaa.resourceMesh == resourceMesh)
 		{
-			return false;
+			++aaa.timesRepeated;
+			return;
 		}
 	}
 
-	return true;
+	AAA aaa = {
+				resourceMesh,
+				numTotalVertices,
+				numTotalIndices,
+				1
+	};
+	resourceMeshes.push_back(aaa);
+	numTotalVertices += resourceMesh->GetNumVertices();
+	numTotalIndices += resourceMesh->GetNumIndexes();
+	numTotalFaces += resourceMesh->GetNumFaces();
 }
 
-AAA GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
+void GeometryBatch::RecalculateInfoResource()
+{
+	numTotalVertices = 0;
+	numTotalIndices = 0;
+	numTotalFaces = 0;
+	for (auto meshInfo : resourceMeshes)
+	{
+		meshInfo.indexOffset = numTotalIndices;
+		meshInfo.vertexOffset = numTotalVertices;
+		numTotalVertices += meshInfo.resourceMesh->GetNumVertices();
+		numTotalIndices += meshInfo.resourceMesh->GetNumIndexes();
+		numTotalFaces += meshInfo.resourceMesh->GetNumFaces();
+	}
+}
+
+AAA& GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
 {
 	for (auto aaa : resourceMeshes)
 	{
@@ -435,19 +478,6 @@ AAA GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
 		}
 	}
 	abort(); //TODO check how can do this
-}
-
-int GeometryBatch::CalculateSpaceInVBO()
-{
-							//position			//uv				//normal		
-	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
-
-	//tangents
-	if (flags & HAS_TANGENTS)
-	{
-		vertexSize += sizeof(float) * 3;
-	}
-	return vertexSize;
 }
 
 bool GeometryBatch::CleanUp()

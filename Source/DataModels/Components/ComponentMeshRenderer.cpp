@@ -8,6 +8,7 @@
 #include "Application.h"
 
 #include "ModuleCamera.h"
+#include "ModuleRender.h"
 #include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -31,7 +32,10 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
+	{
 		mesh->Unload();
+		App->renderer->GetBatchManager();
+	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -180,5 +184,6 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		App->renderer->GetBatchManager()->AddComponent(this);
 	}
 }

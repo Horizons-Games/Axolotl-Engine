@@ -28,11 +28,25 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 		}
 		else
 		{
-			GeometryBatch* newBatch = new GeometryBatch();
+			batch = new GeometryBatch();
 
-			newBatch->AddComponentMeshRenderer(newComponent);
-			geometryBatches.push_back(newBatch);
+			batch->AddComponentMeshRenderer(newComponent);
+			geometryBatches.push_back(batch);
 		}
+		batch->CalculateVBO();
+		batch->CalculateEBO();
+	}
+}
+
+void BatchManager::RemoveComponent(ComponentMeshRenderer* component)
+{
+	if (component)
+	{
+		GeometryBatch* batch = component->GetBatch();
+		assert(batch);
+		batch->RemoveComponent(component);
+		batch->CalculateVBO();
+		batch->CalculateEBO();
 	}
 }
 
