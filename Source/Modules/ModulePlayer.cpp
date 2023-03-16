@@ -114,8 +114,8 @@ void ModulePlayer::Rotate()
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		float4x4 newRot = trans->GetRotation();
-		newRot.RotateZ(newRot.z + 0.2);
-		trans->SetRotation(newRot);
+		newRot.z += newRot.RotateZ (App->input->GetMouseMotion().x * deltaTime).z;
+		//trans->SetRotation( newRot);
 		trans->UpdateTransformMatrices();
 	}
 }
