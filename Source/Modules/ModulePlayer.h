@@ -16,6 +16,7 @@ public:
 	update_status Update();
 
 	void Move();
+	void Rotate();
 
 	GameObject* GetPlayer();
 	void SetPlayer(std::unique_ptr<GameObject> player);

@@ -47,6 +47,7 @@ bool ModulePlayer::Start()
 update_status ModulePlayer::Update()
 {
 	Move();
+	Rotate();
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -102,6 +103,19 @@ void ModulePlayer::Move()
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
+		trans->UpdateTransformMatrices();
+	}
+}
+
+void ModulePlayer::Rotate()
+{
+	if (App->input->GetMouseMotion().x != 0)
+	{
+		float deltaTime = App->GetDeltaTime();
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		float4x4 newRot = trans->GetRotation();
+		newRot.RotateZ(newRot.z + 0.2);
+		trans->SetRotation(newRot);
 		trans->UpdateTransformMatrices();
 	}
 }
