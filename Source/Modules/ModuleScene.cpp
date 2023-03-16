@@ -47,9 +47,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		//TODO
-		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
-		//loadedScene = CreateEmptyScene();
+		LoadSceneFromJson("Lib/Scenes/Demo.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
@@ -141,6 +139,9 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
 
+	const Skybox* skybox = loadedScene->GetSkybox();
+	skybox->SaveOptions(jsonScene);
+
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
@@ -180,6 +181,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->LoadOptions(json);
+
+	loadedScene->SetSkybox(std::make_unique<Skybox>());
+	Skybox* skybox = loadedScene->GetSkybox();
+	skybox->LoadOptions(json);
 
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);

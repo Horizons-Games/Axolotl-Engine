@@ -46,7 +46,7 @@ public:
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	const Skybox* GetSkybox() const;
+	Skybox* GetSkybox() const;
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
@@ -134,7 +134,7 @@ inline Quadtree* Scene::GetRootQuadtree() const
 	return rootQuadtree.get();
 }
 
-inline const Skybox* Scene::GetSkybox() const
+inline Skybox* Scene::GetSkybox() const
 {
 	return skybox.get();
 }
