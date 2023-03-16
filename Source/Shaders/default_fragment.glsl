@@ -211,7 +211,7 @@ void main()
     if (material.has_metallic_map == 1) {
         vec2 metallicRA = texture(metallic_map, TexCoord).ra;
         metalnessMask = metallicRA.x;
-
+    
         if(material.has_metallic_alpha) {
             smoothnessMat = metallicRA.y;
         }
