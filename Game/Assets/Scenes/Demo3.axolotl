@@ -2,8 +2,35 @@
     "GameObjects": [
         {
             "GameObject": {
+                "name": "d",
+                "uid": 9101390296322802403,
+                "parentUID": 8374079106470034690,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Demo3",
-                "uid": 5174272196761833250,
+                "uid": 8374079106470034690,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
@@ -23,59 +50,6 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "d",
-                "uid": 1797481666452760170,
-                "parentUID": 5174272196761833250,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ]
             }
@@ -83,8 +57,8 @@
         {
             "GameObject": {
                 "name": "Ambient_Light",
-                "uid": 9770491126239388340,
-                "parentUID": 5174272196761833250,
+                "uid": 5656567434554385108,
+                "parentUID": 8374079106470034690,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -102,19 +76,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     },
                     {
@@ -135,8 +96,8 @@
         {
             "GameObject": {
                 "name": "Directional_Light",
-                "uid": 541075769902691154,
-                "parentUID": 5174272196761833250,
+                "uid": 4237431729945255126,
+                "parentUID": 8374079106470034690,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -154,19 +115,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     },
                     {
@@ -187,8 +135,8 @@
         {
             "GameObject": {
                 "name": "a",
-                "uid": 14788197129251512724,
-                "parentUID": 5174272196761833250,
+                "uid": 9975035221222126777,
+                "parentUID": 8374079106470034690,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -206,19 +154,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -227,8 +162,8 @@
         {
             "GameObject": {
                 "name": "b",
-                "uid": 14313978811197934773,
-                "parentUID": 5174272196761833250,
+                "uid": 7648605763410299641,
+                "parentUID": 8374079106470034690,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -246,19 +181,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -267,8 +189,8 @@
         {
             "GameObject": {
                 "name": "c",
-                "uid": 6468125772313346758,
-                "parentUID": 5174272196761833250,
+                "uid": 18413657342278636362,
+                "parentUID": 8374079106470034690,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -286,19 +208,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -307,8 +216,8 @@
         {
             "GameObject": {
                 "name": "da",
-                "uid": 14887810392970010473,
-                "parentUID": 1797481666452760170,
+                "uid": 8882435915037315525,
+                "parentUID": 9101390296322802403,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -326,19 +235,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -347,8 +243,8 @@
         {
             "GameObject": {
                 "name": "db",
-                "uid": 5479214037627789331,
-                "parentUID": 1797481666452760170,
+                "uid": 4067628486877153014,
+                "parentUID": 9101390296322802403,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -366,19 +262,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -387,8 +270,8 @@
         {
             "GameObject": {
                 "name": "dc",
-                "uid": 14707882988789177639,
-                "parentUID": 1797481666452760170,
+                "uid": 8761948171839793359,
+                "parentUID": 9101390296322802403,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -407,28 +290,15 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
                     }
                 ]
             }
         },
         {
             "GameObject": {
-                "name": "dca",
-                "uid": 10262504048249672170,
-                "parentUID": 14707882988789177639,
+                "name": "nds",
+                "uid": 16418460606457292848,
+                "parentUID": 4067628486877153014,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -446,219 +316,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "dcb",
-                "uid": 14228215964105046728,
-                "parentUID": 14707882988789177639,
-                "enabled": false,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "acab",
-                "uid": 15176755835906524717,
-                "parentUID": 14707882988789177639,
-                "enabled": false,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "dcaa",
-                "uid": 16396916445941111500,
-                "parentUID": 10262504048249672170,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "dcab",
-                "uid": 11483870291485064957,
-                "parentUID": 10262504048249672170,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "dcba",
-                "uid": 7057713114186408520,
-                "parentUID": 14228215964105046728,
-                "enabled": true,
-                "active": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Bounding",
-                            "active": true,
-                            "removed": false,
-                            "AABBMin_X": 0.0,
-                            "AABBMin_Y": 0.0,
-                            "AABBMin_Z": 0.0,
-                            "AABBMax_X": 0.0,
-                            "AABBMax_Y": 0.0,
-                            "AABBMax_Z": 0.0
                         }
                     }
                 ]
@@ -668,14 +325,14 @@
     "Quadtree": {
         "BoundingBox": {
             "MinPoint": {
-                "x": -10.0,
+                "x": -25.0,
                 "y": -10.0,
-                "z": -10.0
+                "z": -25.0
             },
             "MaxPoint": {
-                "x": 10.0,
+                "x": 25.0,
                 "y": 10.0,
-                "z": 10.0
+                "z": 25.0
             }
         }
     }
