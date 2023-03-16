@@ -89,12 +89,10 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
-#ifdef ENGINE
-	if (drawBoundingBoxes)
+	if (drawBoundingBoxes || App->IsDebuggingGame())
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}
-#endif // ENGINE
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
@@ -257,6 +255,11 @@ void GameObject::SetParent(GameObject* newParent)
 	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
 	parent = newParent;
 	parent->AddChild(std::move(pointerToThis));
+
+	// Update the transform respect its parent when moved around
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }

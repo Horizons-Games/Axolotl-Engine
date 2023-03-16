@@ -311,12 +311,10 @@ void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resour
 		meta["UID"] = resource->GetUID();
 		meta["Type"] = GetNameOfType(resource->GetType()).c_str();
 		resource->SaveImporterOptions(meta);
-		
+		rapidjson::StringBuffer buffer;
+		meta.toBuffer(buffer);
+		App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	}
-	rapidjson::StringBuffer buffer;
-	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
-
 }
 
 void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
@@ -472,18 +470,18 @@ void ModuleResources::MonitorResources()
 
 void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource)
 {
-	/*std::vector<std::string> pathTextures;
+	std::vector<std::string> pathTextures;
 
-	std::shared_ptr<ResourceTexture> textureDiffuse = RequestResource<ResourceTexture>(materialResource->GetDiffuseUID());
+	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
 	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureNormal = RequestResource<ResourceTexture>(materialResource->GetNormalUID());
+	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
 	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureOcclusion = RequestResource<ResourceTexture>(materialResource->GetOcclusionrUID());
+	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureSpecular = RequestResource<ResourceTexture>(materialResource->GetSpecularUID());
+	std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
@@ -493,7 +491,7 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::string materialPath = materialResource->GetAssetsPath();
 
 	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
-	delete fileBuffer;*/
+	delete fileBuffer;
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)

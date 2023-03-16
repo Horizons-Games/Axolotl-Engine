@@ -63,7 +63,7 @@ void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*
 	delete metaBuffer;
 #endif
 
-	size = sizeof(UID) * resource->GetTextures().size();
+	size = (unsigned int)(sizeof(UID) * resource->GetTextures().size());
 	char* cursor = new char[size] {};
 	fileBuffer = cursor;
 	unsigned int bytes = size;

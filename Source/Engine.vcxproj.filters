@@ -406,6 +406,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -959,6 +962,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowDebug.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

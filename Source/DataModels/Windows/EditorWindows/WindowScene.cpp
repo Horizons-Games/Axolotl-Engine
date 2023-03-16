@@ -158,7 +158,7 @@ void WindowScene::DrawGuizmo()
 		{
 			GameObject* parent = focusedObject->GetParent();
 			float3 postion, scale;
-			Quat rotation;
+			float4x4 rotation;
 			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
 			float4x4 localMatrix;
 
@@ -176,17 +176,15 @@ void WindowScene::DrawGuizmo()
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
 				focusedTransform->SetPosition(postion);
-				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			case ImGuizmo::OPERATION::ROTATE:
 				focusedTransform->SetRotation(rotation);
-				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			case ImGuizmo::OPERATION::SCALE:
 				focusedTransform->SetScale(scale);
-				App->scene->UpdateGameObjectAndDescendants(focusedTransform->GetOwner());
 				break;
 			}
+			focusedTransform->UpdateTransformMatrices();
 
 			for (Component* component : focusedObject->GetComponents())
 			{

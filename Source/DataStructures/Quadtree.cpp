@@ -1,3 +1,5 @@
+#pragma warning (disable: 4804)
+
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
@@ -147,7 +149,8 @@ bool Quadtree::Remove(const GameObject* gameObject)
 			gameObjects.erase(it);
 			removed = SmartRemove();
 		}
-		else {
+		else 
+		{
 			bool childrenRemovedObject = frontRightNode->Remove(gameObject);
 			childrenRemovedObject += frontLeftNode->Remove(gameObject);
 			childrenRemovedObject += backRightNode->Remove(gameObject);
@@ -184,7 +187,6 @@ bool Quadtree::Remove(const GameObject* gameObject)
 	return removed;
 
 }
-
 
 bool Quadtree::SmartRemove()
 {
