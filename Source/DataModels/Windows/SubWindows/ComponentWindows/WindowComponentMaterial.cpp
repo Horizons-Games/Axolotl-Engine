@@ -253,7 +253,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			float normalStrength = asMaterial->GetNormalStrenght();
 			if (ImGui::DragFloat("Normal Strength", &normalStrength,
-				0.01f, 0.0f, 1.0f))
+				0.01f, 0.0f, std::numeric_limits<float>::max()))
 			{
 				asMaterial->SetNormalStrenght(normalStrength);
 			}
