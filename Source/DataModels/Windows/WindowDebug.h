@@ -12,5 +12,6 @@ public:
 
 private:
 	static bool defaultEnabled;
+	bool wireframeMode = false;
 };
 
