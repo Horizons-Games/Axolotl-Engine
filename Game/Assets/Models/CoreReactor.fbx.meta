@@ -1,0 +1,16 @@
+{
+    "UID": 17778993796559267423,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CoreReactor_0.mesh",
+        "Assets/Meshes/CoreReactor_1.mesh",
+        "Assets/Meshes/CoreReactor_2.mesh",
+        "Assets/Meshes/CoreReactor_3.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CoreReactor_0.mat",
+        "Assets/Materials/CoreReactor_1.mat",
+        "Assets/Materials/CoreReactor_2.mat",
+        "Assets/Materials/CoreReactor_3.mat"
+    ]
+}

@@ -11,6 +11,7 @@ class Model;
 class GameObject;
 class Component;
 class ComponentCamera;
+class Resource;
 enum class LightType;
 class ComponentWindow;
 
@@ -20,12 +21,20 @@ public:
 	WindowInspector();
 	~WindowInspector() override;
 
+	void SetResource(const std::weak_ptr<Resource>& resource);
+
 protected:
 	void DrawWindowContents() override;
 
-	ImVec2 GetStartingSize() const override;
-
 private:
+	void InspectSelectedGameObject();
+	
+	void InspectSelectedResource();
+	void InitTextureImportOptions();
+	void InitTextureLoadOptions();
+	void DrawTextureOptions();
+	
+	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
 
@@ -40,11 +49,23 @@ private:
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
 
+	GameObject* lastSelectedGameObject;
+	std::weak_ptr<Resource> resource;
+
+	//Options (Move this to another class? Probably)
+	//Texture
+	bool flipVertical;
+	bool flipHorizontal;
+
+	bool mipMap;
+	int min;
+	int mag;
+	int wrapS;
+	int wrapT;
+	//--
+
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
-};
 
-inline ImVec2 WindowInspector::GetStartingSize() const
-{
-	return ImVec2(900, 250);
-}
+	bool bbDrawn;
+};

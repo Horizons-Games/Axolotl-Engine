@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleWindow.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
@@ -15,9 +15,10 @@
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentBoundingBoxes.h"
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -138,8 +139,10 @@ bool ModuleRender::Init()
 
 	glEnable(GL_TEXTURE_2D);
 
+#ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
+#endif // ENGINE
 	glGenRenderbuffers(1, &depthStencilRenderbuffer);
 
 	std::pair<int, int> windowSize = App->window->GetWindowSize();
@@ -158,17 +161,22 @@ bool ModuleRender::Start()
 
 	UpdateProgram();
 
-#if !defined(GAME)
-	UID skyboxUID = App->resources->ImportResource("Assets/Skybox/skybox.sky");
-#else
-	UID skyboxUID = App->resources->GetSkyBoxResource();
-#endif
-	std::shared_ptr<ResourceSkyBox> resourceSkybox = 
-		std::dynamic_pointer_cast<ResourceSkyBox>(App->resources->RequestResource(skyboxUID).lock());
+	//we really need to remove this :)
+#ifdef ENGINE
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
+#else
+	//TODO How do we get skybox in game mode?
+	//We need to store the UID in the JSONscene and then loaded when unserialize?
+	//So should this be moved to the scene?
+	// Search skybox on the lib folder and save the UID of skybox? Then should be only one in ALL the asset/Folder
+	//UID skyboxUID = App->resources->GetSkyBoxResource();
+#endif
 	return true;
 }
 
@@ -187,14 +195,16 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, 
 				 backgroundColor.z, backgroundColor.w);
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
+#endif // DEBUG
 
 	if (skybox)
 	{
@@ -216,7 +226,9 @@ update_status ModuleRender::Update()
 	for (const GameObject* gameObject : gameObjectsToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
+		{
 			gameObject->Draw();
+		}
 	}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
@@ -237,6 +249,13 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(goSelected);
 
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return update_status::UPDATE_CONTINUE;
+	}
+#endif //ENGINE
+
 	if (App->debug->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
@@ -245,8 +264,8 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetViewMatrix(),
-	App->engineCamera->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
+	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -273,8 +292,10 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->SetAspectRatio(float(width) / height);
+	App->engineCamera->GetCamera()->SetAspectRatio(float(width) / height);
+#ifdef ENGINE
 	App->editor->Resized();
+#endif // ENGINE
 }
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
@@ -294,7 +315,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
 		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -324,10 +346,12 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::UpdateProgram()
 {
+	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
+	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
 	char* vertexSource;
 	char * fragmentSource;
-	App->fileSystem->Load(("Lib/Shaders/" + vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Lib/Shaders/" + fragmentShader).c_str(), fragmentSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
+	App->fileSystem->Load(("Source/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
 	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
 	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
@@ -339,10 +363,10 @@ void ModuleRender::UpdateProgram()
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->IsInside(quadtree->GetBoundingBox()) || 
+	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
-		const std::list<const GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
+		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
@@ -377,18 +401,15 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(const GameObject* gameObject)
+void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
 
-	ComponentBoundingBoxes* boxes =
-		static_cast<ComponentBoundingBoxes*>(gameObject->GetComponent(ComponentType::BOUNDINGBOX));
-
-	if (App->engineCamera->IsInside(boxes->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(boxes->GetEncapsuledAABB()))
+	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB())
+		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
@@ -408,6 +429,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 {
+#ifdef ENGINE
 	if (quadtree->IsLeaf())
 	{
 		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
@@ -419,6 +441,6 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontLeftNode());
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
-	
+#endif // ENGINE
 }
 

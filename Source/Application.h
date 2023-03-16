@@ -7,14 +7,14 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
 class ModuleProgram;
-class ModuleDebugDraw;
-class ModuleEditor;
-class ModuleEngineCamera;
 class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
 class ModuleCommand;
+class ModuleCamera;
+class ModuleDebugDraw;
+class ModuleEditor;
 
 class Application
 {
@@ -32,6 +32,10 @@ public:
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
 
+	bool IsDebuggingGame() const;
+	void SetDebuggingGame(bool debuggingGame);
+	void SwitchDebuggingGame();
+
 public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
@@ -39,17 +43,19 @@ public:
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleProgram* program;
+	ModuleResources* resources;
+	ModuleCamera* engineCamera;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
-	ModuleEngineCamera* engineCamera;
-	ModuleResources* resources;
 	ModuleCommand* command;
+
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
+	bool debuggingGame;
 };
 
 extern std::unique_ptr<Application> App;
@@ -67,4 +73,19 @@ inline int Application::GetMaxFrameRate() const
 inline float Application::GetDeltaTime() const
 {
 	return deltaTime;
+}
+
+inline bool Application::IsDebuggingGame() const
+{
+	return debuggingGame;
+}
+
+inline void Application::SetDebuggingGame(bool debuggingGame)
+{
+	this->debuggingGame = debuggingGame;
+}
+
+inline void Application::SwitchDebuggingGame()
+{
+	debuggingGame = !debuggingGame;
 }

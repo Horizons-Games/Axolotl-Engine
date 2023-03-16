@@ -19,6 +19,8 @@ void WindowComponentCamera::DrawWindowContents()
 
 	if (asCamera)
 	{
+		ImGui::Text("");
+
 		const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
 		bool drawFrustum = asCamera->IsDrawFrustum();

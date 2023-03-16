@@ -7,10 +7,13 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+#include "Math/float3x3.h"
+
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
-	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
-	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
+	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
 {
 }
 
@@ -20,37 +23,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
-}
-
-void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
-												   bool translationModified, 
-												   bool rotationModified)
-{
-	switch (lightComponent->GetLightType())
-	{
-	case LightType::DIRECTIONAL:
-		if (rotationModified)
-			App->scene->GetLoadedScene()->RenderDirectionalLight();
-		break;
-
-	case LightType::POINT:
-		if (translationModified)
-		{
-			App->scene->GetLoadedScene()->UpdateScenePointLights();
-			App->scene->GetLoadedScene()->RenderPointLights();
-		}
-		break;
-
-	case LightType::SPOT:
-		if (translationModified || rotationModified)
-		{
-			App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-			App->scene->GetLoadedScene()->RenderSpotLights();
-		}
-		break;
-	}
+	// Empty for now
 }
 
 void ComponentTransform::SaveOptions(Json& meta)
@@ -93,62 +66,71 @@ void ComponentTransform::LoadOptions(Json& meta)
 	sca.y = (float) meta["localSca_Y"];
 	sca.z = (float) meta["localSca_Z"];
 
-	CalculateLocalMatrix();
-	if(GetOwner()->GetParent()) 
-		CalculateGlobalMatrix();
+	CalculateMatrices();
 }
 
-void ComponentTransform::CalculateLocalMatrix()
+void ComponentTransform::CalculateMatrices()
 {
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
 
-	SetLocalMatrix(localMatrix);
-}
-
-void ComponentTransform::CalculateGlobalMatrix()
-{
 	const GameObject* parent = GetOwner()->GetParent();
-	assert(parent);
 
-	float3 parentPos, parentSca, localPos, localSca;
-	Quat parentRot, localRot;
+	if (parent)
+	{
+		const ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
-	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		// Set local matrix
+		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
-	GetLocalMatrix().Decompose(localPos, localRot, localSca);
+		// Set global matrix
+		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
-	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
-
-	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-	SetGlobalMatrix(globalMatrix);
+		globalPos = globalMatrix.TranslatePart();
+		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
+		globalSca = globalMatrix.GetScale();
+	}
 }
 
-const float3& ComponentTransform::GetGlobalPosition() const
+void ComponentTransform::UpdateTransformMatrices()
 {
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+	CalculateMatrices();
 
-	return globalPos;
+	if (GetOwner()->GetChildren().empty())
+		return;
+
+	for (GameObject* child : GetOwner()->GetChildren())
+	{
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(child->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+	}
 }
 
-const Quat& ComponentTransform::GetGlobalRotation() const
+void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
+	bool translationModified,
+	bool rotationModified)
 {
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
+	switch (lightComponent->GetLightType())
+	{
+	case LightType::DIRECTIONAL:
+		if (rotationModified)
+			App->scene->GetLoadedScene()->RenderDirectionalLight();
+		break;
 
-	return globalRot;
-}
+	case LightType::POINT:
+		if (translationModified)
+		{
+			App->scene->GetLoadedScene()->UpdateScenePointLights();
+			App->scene->GetLoadedScene()->RenderPointLights();
+		}
+		break;
 
-const float3& ComponentTransform::GetGlobalScale() const
-{
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalSca;
+	case LightType::SPOT:
+		if (translationModified || rotationModified)
+		{
+			App->scene->GetLoadedScene()->UpdateSceneSpotLights();
+			App->scene->GetLoadedScene()->RenderSpotLights();
+		}
+		break;
+	}
 }
