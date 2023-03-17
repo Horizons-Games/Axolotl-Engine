@@ -22,7 +22,7 @@ struct Command
 	GLuint  baseInstance;	// Instance Index
 };
 
-struct AAA //temporary name
+struct ResourceInfo //temporary name
 {
 	ResourceMesh* resourceMesh;
 	int vertexOffset;
@@ -36,17 +36,12 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
-	void CalculateVBO();
-	void CalculateEBO();
 	void CreateVAO();
 
-	void UpdateVAO();
-
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
-	void RemoveComponent(ComponentMeshRenderer* component);
+	void RemoveComponent(ComponentMeshRenderer* component); //maybe delete
 
-	void BindBatch();
-	void BindBatch2(std::vector<ComponentMeshRenderer*>& componentsToRender);
+	void BindBatch(std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 	const int GetFlags() const;
 	const int GetResourceIndex() const;
@@ -54,16 +49,19 @@ public:
 	bool CleanUp();
 
 private:
-	void AddUniqueComponent(ResourceMesh* resourceMesh);
+	void FillBuffers();
+	void FillEBO();
+
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
+
 	void CreateOrCountInstance(ResourceMesh* resourceMesh);
-	void RecalculateInfoResource();
-	AAA& FindResourceMesh(ResourceMesh* mesh);
+	void RecalculateInfoResource(); //maybe delete
 
-	std::list<ComponentMeshRenderer*> components;
-	std::list<AAA> resourceMeshes;
+	ResourceInfo& FindResourceMesh(ResourceMesh* mesh);
 
-	unsigned int vbo = 0;
+	std::list<ComponentMeshRenderer*> components; //maybe return to vector
+	std::list<ResourceInfo> resourcesInfo; //maybe return to vector
+
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 	

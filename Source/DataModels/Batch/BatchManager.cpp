@@ -33,8 +33,7 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 			batch->AddComponentMeshRenderer(newComponent);
 			geometryBatches.push_back(batch);
 		}
-		batch->CalculateVBO();
-		batch->CalculateEBO();
+		batch->CreateVAO();
 	}
 }
 
@@ -45,8 +44,6 @@ void BatchManager::RemoveComponent(ComponentMeshRenderer* component)
 		GeometryBatch* batch = component->GetBatch();
 		assert(batch);
 		batch->RemoveComponent(component);
-		batch->CalculateVBO();
-		batch->CalculateEBO();
 	}
 }
 
@@ -91,7 +88,7 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	batch->BindBatch2(componentsToRender);
+	batch->BindBatch(componentsToRender);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, batch->GetResourceIndex(), 0);
 	glBindVertexArray(0);
 }
