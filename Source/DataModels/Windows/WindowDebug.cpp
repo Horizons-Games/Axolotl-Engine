@@ -19,6 +19,8 @@ void WindowDebug::Draw(bool& enabled)
 {
 	if (App->IsDebuggingGame())
 	{
+		//De momento asi estoy activando el cursor
+		SDL_ShowCursor(SDL_ENABLE);
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 								ImGuiCond_Always,
