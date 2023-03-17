@@ -52,10 +52,10 @@ void WindowMainMenu::DrawPopup()
 
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			std::string filePathName = fileDialogImporter.GetCurrentFileName();
+			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 			if (filePathName != "") 
 			{
-				App->scene->SaveSceneToJson(filePathName);
+				App->scene->SaveSceneToJson(filePathName + ".axolotl");
 			}
 			else isSaving = true; 
 			ImGui::CloseCurrentPopup();
@@ -101,8 +101,8 @@ void WindowMainMenu::DrawFileMenu()
 		loadScene->DrawWindowContents();
 		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
 		{
-			std::string filePathName = fileDialogImporter.GetCurrentFileName();
-			if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
+			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+			if (filePathName != "")	App->scene->SaveSceneToJson(filePathName + ".axolotl");
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
