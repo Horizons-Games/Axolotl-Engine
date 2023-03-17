@@ -23,10 +23,7 @@ GeometryBatch::GeometryBatch()
 	glGenBuffers(1, &verticesBuffer);
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
-	if (flags & HAS_TANGENTS)
-	{
-		glGenBuffers(1, &tangentsBuffer);
-	}
+	glGenBuffers(1, &tangentsBuffer); // maybe keep the condition to check if tangent exist
 	glGenBuffers(1, &transforms);
 	glGenVertexArrays(1, &vao);
 }
@@ -93,6 +90,7 @@ void GeometryBatch::CreateVAO()
 	//verify which data to send in buffer
 	
 	FillBuffers();
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	//vertices
@@ -169,18 +167,11 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	const GLuint bindingPointCamera = 0;
 	const GLuint bindingPointModel = 10;
 	std::vector<float4x4>modelMatrices;
 	//model(transforms)
-	glGenBuffers(1, &transforms);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, componentsToRender.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
-	//camera
-	GLuint cameraUniformBlockID;
-	glGenBuffers(1, &cameraUniformBlockID);
-	glBindBuffer(GL_UNIFORM_BUFFER, cameraUniformBlockID);
 
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
@@ -279,10 +270,7 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &verticesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
 	glDeleteBuffers(1, &normalsBuffer);
-	if (flags & HAS_TANGENTS)
-	{
-		glDeleteBuffers(1, &tangentsBuffer);
-	}
+	glDeleteBuffers(1, &tangentsBuffer);// maybe keep the condition to check if tangent exist
 	glDeleteBuffers(1, &transforms);
 
 	return true;
