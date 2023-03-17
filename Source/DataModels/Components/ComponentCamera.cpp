@@ -32,6 +32,15 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	UpdateFrustumOffset();
 }
 
+ComponentCamera::ComponentCamera(ComponentCamera& componentCamera):
+	Component(componentCamera), frustum(componentCamera.GetFrustum())
+	, frustumMode(componentCamera.GetFrustumMode()), frustumOffset(componentCamera.GetFrustumOffset())
+	,  drawFrustum(componentCamera.IsDrawFrustum())
+	, trans(static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM)))
+{
+	UpdateFrustumOffset();
+}
+
 ComponentCamera::~ComponentCamera()
 {
 }

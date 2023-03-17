@@ -25,6 +25,7 @@ class ComponentCamera : public Component
 {
 public:
 	ComponentCamera(bool active, GameObject* owner);
+	ComponentCamera(ComponentCamera& componentCamera);
 	~ComponentCamera() override;
 
 	void Update() override;
@@ -44,6 +45,8 @@ public:
 	bool IsDrawFrustum() const;
 	ECameraFrustumMode GetFrustumMode() const;
 	float GetFrustumOffset() const;
+	Frustum GetFrustum()const;
+	
 
 
 private:
@@ -83,6 +86,11 @@ inline ECameraFrustumMode ComponentCamera::GetFrustumMode() const
 inline float ComponentCamera::GetFrustumOffset() const
 {
 	return frustumOffset;
+}
+
+inline Frustum ComponentCamera::GetFrustum() const
+{
+	return frustum;
 }
 
 inline const std::string GetNameByFrustumMode(ECameraFrustumMode type)
