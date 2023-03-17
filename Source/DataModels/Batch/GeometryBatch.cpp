@@ -105,14 +105,14 @@ void GeometryBatch::CreateVAO()
 	//texture
 	glGenBuffers(1, &textureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
 	glGenBuffers(1, &normalsBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 
@@ -121,7 +121,7 @@ void GeometryBatch::CreateVAO()
 	{
 		glGenBuffers(1, &tangentsBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 		glEnableVertexAttribArray(3);
 	}
@@ -240,7 +240,7 @@ void GeometryBatch::BindBatch(std::vector<ComponentMeshRenderer*>& componentsToR
 	}
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, componentsToRender.size()*sizeof(float4x4), modelMatrices.data());
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size()*sizeof(float4x4), modelMatrices.data());
 	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
 	glBindVertexArray(0);
