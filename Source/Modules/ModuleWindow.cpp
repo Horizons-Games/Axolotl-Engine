@@ -39,6 +39,7 @@ bool ModuleWindow::Init()
 			width, height, flags);
 
 		window = std::unique_ptr<SDL_Window, SDLWindowDestroyer>(windowRawPointer);
+		SetVsync(false);
 
 		if(window == NULL)
 		{
