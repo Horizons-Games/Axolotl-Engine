@@ -16,6 +16,6 @@ public:
 	void Move();
 
 private:
-
+	void keepMouseCentered();
 };
 
