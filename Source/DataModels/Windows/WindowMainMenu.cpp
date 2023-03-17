@@ -58,9 +58,22 @@ void WindowMainMenu::DrawPopup()
 				App->scene->SaveSceneToJson(filePathName + ".axolotl");
 			}
 			else isSaving = true; 
+			if (action == Actions::NEW_SCENE)
+			{
+				std::unique_ptr<Scene> scene = std::make_unique<Scene>();
+				scene->InitNewEmptyScene();
+				App->scene->SetLoadedScene(std::move(scene));
+				action = Actions::NONE;
+			}
+			else if (action == Actions::EXIT) {
+				//to make it easier in terms of coupling between classes,
+				//just push an SDL_QuitEvent to the event queue
+				SDL_Event quitEvent;
+				quitEvent.type = SDL_QUIT;
+				SDL_PushEvent(&quitEvent);
+			}
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
-			
 		}
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
