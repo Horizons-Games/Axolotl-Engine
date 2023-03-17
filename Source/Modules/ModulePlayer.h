@@ -13,7 +13,7 @@ public:
 	bool Init() override;
 	bool Start() override;
 
-	update_status Update();
+	update_status PreUpdate();
 
 	void Move();
 	void Rotate();

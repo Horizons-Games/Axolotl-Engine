@@ -44,7 +44,7 @@ bool ModulePlayer::Start()
 	return true;
 }
 
-update_status ModulePlayer::Update()
+update_status ModulePlayer::PreUpdate()
 {
 	if (App->camera->GetSelectedPosition() == 0)
 	{
