@@ -62,4 +62,6 @@ void WindowWindow::DrawWindowContents()
 	{
 		App->window->SetDesktopFullscreen(fullDesktop);
 	}
+
+	
 }

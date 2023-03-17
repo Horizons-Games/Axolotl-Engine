@@ -131,6 +131,12 @@ void ModuleWindow::SetBrightness(float brightness)
 	}
 }
 
+void ModuleWindow::SetVsync(bool vsyncactive)
+{
+	vsync = vsyncactive;
+	SDL_GL_SetSwapInterval(vsyncactive);
+}
+
 SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
 {
 	if (boolVal)
