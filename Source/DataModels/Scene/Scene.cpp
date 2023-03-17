@@ -130,6 +130,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	// Then look MaterialIndex and load the ResourceMaterial of the Model vector with materialIndex's index
 	// Load the ComponentMaterial with the ResourceMaterial
 	// Load the ComponentMesh with the ResourceMesh
+	// Create the VAO for the Batch associated
 
 	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
 	{
@@ -153,6 +154,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
+		meshRenderer->GetBatch()->CreateVAO();
 	}
 }
 

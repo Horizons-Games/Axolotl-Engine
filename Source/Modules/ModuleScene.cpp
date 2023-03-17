@@ -167,6 +167,8 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 {
 	std::unique_ptr<GameObject> newRoot = std::make_unique<GameObject>(std::string(Json["name"]).c_str());
 
+	App->renderer->GetBatchManager()->CleanBatches();
+
 	loadedScene = std::make_unique<Scene>();
 
 	std::vector<GameObject*> loadedObjects{};
@@ -215,6 +217,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	}
 
 	App->renderer->FillRenderList(sceneQuadtree);
+	App->renderer->GetBatchManager()->CreateAllVAOs();
 
 	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();

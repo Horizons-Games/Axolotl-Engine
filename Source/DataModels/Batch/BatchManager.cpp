@@ -33,17 +33,14 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 			batch->AddComponentMeshRenderer(newComponent);
 			geometryBatches.push_back(batch);
 		}
-		batch->CreateVAO();
 	}
 }
 
-void BatchManager::RemoveComponent(ComponentMeshRenderer* component)
+void BatchManager::CreateAllVAOs()
 {
-	if (component)
+	for (GeometryBatch* batch : geometryBatches)
 	{
-		GeometryBatch* batch = component->GetBatch();
-		assert(batch);
-		batch->RemoveComponent(component);
+		batch->CreateVAO();
 	}
 }
 
@@ -76,7 +73,7 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender)
+void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	batch->BindBatch(componentsToRender);
 }

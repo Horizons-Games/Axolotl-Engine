@@ -5,7 +5,6 @@
 #include "Math/float3.h"
 
 #include <vector>
-#include <list>
 
 #include "GL/glew.h"
 
@@ -27,7 +26,6 @@ struct ResourceInfo //temporary name
 	ResourceMesh* resourceMesh;
 	int vertexOffset;
 	int indexOffset;
-	int timesRepeated;
 };
 
 class GeometryBatch
@@ -39,9 +37,8 @@ public:
 	void CreateVAO();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
-	void RemoveComponent(ComponentMeshRenderer* component); //maybe delete
 
-	void BindBatch(std::vector<ComponentMeshRenderer*>& componentsToRender);
+	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 	const int GetFlags() const;
 	const int GetResourceIndex() const;
@@ -55,12 +52,11 @@ private:
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 
 	void CreateOrCountInstance(ResourceMesh* resourceMesh);
-	void RecalculateInfoResource(); //maybe delete
 
 	ResourceInfo& FindResourceMesh(ResourceMesh* mesh);
 
-	std::list<ComponentMeshRenderer*> components; //maybe return to vector
-	std::list<ResourceInfo> resourcesInfo; //maybe return to vector
+	std::vector<ComponentMeshRenderer*> components;
+	std::vector<ResourceInfo> resourcesInfo;
 
 	unsigned int ebo = 0;
 	unsigned int vao = 0;

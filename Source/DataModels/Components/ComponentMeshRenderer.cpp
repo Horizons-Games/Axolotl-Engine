@@ -34,7 +34,6 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 	if (mesh)
 	{
 		mesh->Unload();
-		App->renderer->GetBatchManager();
 	}
 }
 

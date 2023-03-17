@@ -167,29 +167,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
-void GeometryBatch::RemoveComponent(ComponentMeshRenderer* component)
-{
-	if (component)
-	{
-		ResourceMesh* mesh = component->GetMesh().get();
-
-		for (std::list<ResourceInfo>::iterator it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
-			if (it->resourceMesh == mesh)
-			{
-				--it->timesRepeated;
-				if (it->timesRepeated <= 0)
-				{
-					resourcesInfo.erase(it);
-					RecalculateInfoResource();
-					break;
-				}
-			}
-		}
-		components.erase(std::find(components.begin(), components.end(), component));
-	}
-}
-
-void GeometryBatch::BindBatch(std::vector<ComponentMeshRenderer*>& componentsToRender)
+void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	const GLuint bindingPointCamera = 0;
 	const GLuint bindingPointModel = 10;
@@ -266,7 +244,6 @@ void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
 	{
 		if (aaa.resourceMesh == resourceMesh)
 		{
-			++aaa.timesRepeated;
 			return;
 		}
 	}
@@ -274,28 +251,12 @@ void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
 	ResourceInfo aaa = {
 				resourceMesh,
 				numTotalVertices,
-				numTotalIndices,
-				1
+				numTotalIndices
 	};
 	resourcesInfo.push_back(aaa);
 	numTotalVertices += resourceMesh->GetNumVertices();
 	numTotalIndices += resourceMesh->GetNumIndexes();
 	numTotalFaces += resourceMesh->GetNumFaces();
-}
-
-void GeometryBatch::RecalculateInfoResource()
-{
-	numTotalVertices = 0;
-	numTotalIndices = 0;
-	numTotalFaces = 0;
-	for (auto meshInfo : resourcesInfo)
-	{
-		meshInfo.indexOffset = numTotalIndices;
-		meshInfo.vertexOffset = numTotalVertices;
-		numTotalVertices += meshInfo.resourceMesh->GetNumVertices();
-		numTotalIndices += meshInfo.resourceMesh->GetNumIndexes();
-		numTotalFaces += meshInfo.resourceMesh->GetNumFaces();
-	}
 }
 
 ResourceInfo& GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
