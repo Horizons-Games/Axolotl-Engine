@@ -38,20 +38,20 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 
 GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
 	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
+	localAABB(gameObject.GetLocalAABB()), encapsuledAABB(localAABB),
 	stateOfSelection(StateOfSelection::NO_SELECTED),
 	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
 	for (auto component : gameObject.GetComponents())
 	{
-		//Component newComp(component);
-		components.push_back(std::unique_ptr<Component>(component));
+		AddComponent(component->GetType(), component);
 	}
 
 	for (auto child : gameObject.GetChildren())
 	{
 		AddChild(std::unique_ptr<GameObject>(child));
 	}
+	GetEncapsuledAABB();
 }
 
 GameObject::~GameObject()
@@ -335,9 +335,54 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	}
 }
 
-void GameObject::AddComponent(std::unique_ptr<Component>& component)
+void GameObject::AddComponent(ComponentType type, Component* component)
 {
-	this->components.push_back(std::move(component));
+	std::unique_ptr<Component> newComponent;
+
+	switch (type)
+	{
+	case ComponentType::TRANSFORM:
+	{
+		
+		newComponent = std::make_unique<ComponentTransform>(dynamic_cast<ComponentTransform&>(*component));
+		break;
+	}
+
+	case ComponentType::MESHRENDERER:
+	{
+		newComponent = std::make_unique<ComponentMeshRenderer>(dynamic_cast<ComponentMeshRenderer&>(*component));
+		break;
+	}
+
+	case ComponentType::MATERIAL:
+	{
+		newComponent = std::make_unique<ComponentMaterial>(dynamic_cast<ComponentMaterial&>(*component));
+		break;
+	}
+
+
+	case ComponentType::CAMERA:
+	{
+		newComponent = std::make_unique<ComponentCamera>(dynamic_cast<ComponentCamera&>(*component));
+		break;
+	}
+
+	case ComponentType::LIGHT:
+	{
+		newComponent = std::make_unique<ComponentLight>(dynamic_cast<ComponentLight&>(*component));
+		break;
+	}
+
+	default:
+		assert(false && "Wrong component type introduced");
+	}
+
+	if (newComponent)
+	{
+		newComponent->SetOwner(this);
+		Component* referenceBeforeMove = newComponent.get();
+		components.push_back(std::move(newComponent));
+	}
 }
 
 void GameObject::Enable()

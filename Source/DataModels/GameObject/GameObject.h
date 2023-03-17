@@ -53,7 +53,7 @@ public:
 
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
-	void AddComponent(std::unique_ptr<Component>& component);
+	void AddComponent(ComponentType type, Component* component);
 
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
