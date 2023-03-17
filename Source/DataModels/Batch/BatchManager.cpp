@@ -76,19 +76,7 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-//void BatchManager::DrawBatch(GeometryBatch* geometry_batch) const
-//{
-//
-//	geometry_batch->BindBatch();
-//	//use multi draw to combine with the batch method
-//	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, geometry_batch->GetResourceIndex(), 0);
-//
-//	glBindVertexArray(0);
-//}
-
 void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	batch->BindBatch(componentsToRender);
-	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, batch->GetResourceIndex(), 0);
-	glBindVertexArray(0);
 }

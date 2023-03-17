@@ -4,17 +4,22 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#include "FileSystem/ModuleFileSystem.h"
+
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
-#include "Scene/Scene.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Batch/GeometryBatch.h"
+#include "DataModels/Program/Program.h"
+
+#include "FileSystem/ModuleFileSystem.h"
+
+#include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/ComponentMeshRenderer.h"
@@ -159,20 +164,9 @@ bool ModuleRender::Init()
 	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
 	//Reserve space for Camera matrix
-
-	const unsigned program = App->program->GetProgram();
-
-	GLint programInUse;
-	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-	if (program != programInUse)
-	{
-		glUseProgram(program);
-	}
-
 	glGenBuffers(1, &uboCamera);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingCamera = 0;
 
@@ -253,12 +247,15 @@ update_status ModuleRender::Update()
 	}
 
 	//maybe we need to bind the program
-	//const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-	//const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
-	//glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
-	//glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
-	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	program->Activate();
+
+	const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
+	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{

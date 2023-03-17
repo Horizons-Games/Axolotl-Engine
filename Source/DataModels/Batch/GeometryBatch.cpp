@@ -8,7 +8,9 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceMesh.h"
+
 #include "DataModels/Batch/BatchFlags.h"
+#include "DataModels/Program/Program.h"
 
 #include <gl/glew.h>
 #include <assert.h>
@@ -202,14 +204,8 @@ void GeometryBatch::BindBatch(std::vector<ComponentMeshRenderer*>& componentsToR
 	glGenBuffers(1, &cameraUniformBlockID);
 	glBindBuffer(GL_UNIFORM_BUFFER, cameraUniformBlockID);
 
-	unsigned program = App->program->GetProgram();
-	GLint programInUse;
-	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-	if (program != programInUse)
-	{
-		glUseProgram(program);
-	}
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	program->Activate();
 
 	commands.clear();
 	commands.reserve(componentsToRender.size());
@@ -223,30 +219,18 @@ void GeometryBatch::BindBatch(std::vector<ComponentMeshRenderer*>& componentsToR
 			ResourceInfo resourceInfo = FindResourceMesh(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo.resourceMesh;
 			
-			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 			modelMatrices.push_back(model);
-			//binding the uniform camera
-			GLint cameraUniformBlockIndex = glGetUniformBlockIndex(program, "Camera");
-			glUniformBlockBinding(program, cameraUniformBlockIndex, bindingPointCamera);
-
-			glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(float4x4), NULL, GL_STATIC_DRAW);
-			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4x4), (const float*)&proj);
-			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float4x4), sizeof(float4x4), (const float*)&view);
-			glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPointCamera, cameraUniformBlockID);
-
+			
 			//do a for for all the instaces existing
 			Command newCommand = { 
 				resource->GetNumIndexes(),	// Number of indices in the mesh
 				1,							// Number of instances to render
-				resourceInfo.indexOffset,			// Index offset in the EBO
-				resourceInfo.vertexOffset,			// Vertex offset in the VBO
+				resourceInfo.indexOffset,	// Index offset in the EBO
+				resourceInfo.vertexOffset,	// Vertex offset in the VBO
 				resourceMeshIndex			// Instance Index
 			};
 
@@ -258,6 +242,9 @@ void GeometryBatch::BindBatch(std::vector<ComponentMeshRenderer*>& componentsToR
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, componentsToRender.size()*sizeof(float4x4), modelMatrices.data());
 	glBindVertexArray(vao);
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
+	glBindVertexArray(0);
+	program->Deactivate();
 }
 
 const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceMesh)
