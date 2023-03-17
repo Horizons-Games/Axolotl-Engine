@@ -240,11 +240,6 @@ update_status ModuleRender::Update()
 	{
 		AddToRenderList(goSelected);
 	}
-	
-	for (auto batchAndComponents : renderMap)
-	{
-		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
-	}
 
 	//maybe we need to bind the program
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
@@ -256,6 +251,11 @@ update_status ModuleRender::Update()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	for (auto batchAndComponents : renderMap)
+	{
+		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
+	}
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
