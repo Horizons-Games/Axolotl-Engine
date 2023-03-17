@@ -6,6 +6,11 @@ ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
+ComponentAmbient::ComponentAmbient(ComponentAmbient& componentAmbient): 
+	ComponentLight(componentAmbient)
+{
+}
+
 ComponentAmbient::ComponentAmbient(GameObject* parent) :
 	ComponentLight(LightType::AMBIENT, parent, false)
 {

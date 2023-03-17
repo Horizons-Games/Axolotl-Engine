@@ -9,6 +9,7 @@ class ComponentAmbient : public ComponentLight
 {
 public:
 	ComponentAmbient();
+	ComponentAmbient(ComponentAmbient& componentAmbient);
 	ComponentAmbient(GameObject* parent);
 	ComponentAmbient(const float3& color);
 	ComponentAmbient(const float3& color, GameObject* parent);

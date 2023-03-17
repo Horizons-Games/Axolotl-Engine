@@ -9,8 +9,13 @@ ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, tr
 {
 }
 
+ComponentPointLight::ComponentPointLight(ComponentPointLight& componentPointLight) :
+	ComponentLight(componentPointLight), radius(componentPointLight.GetRadius())
+{
+}
+
 ComponentPointLight::ComponentPointLight(GameObject* parent) :
-	ComponentLight(LightType::SPOT, parent, true), radius(1.0f)
+	ComponentLight(LightType::POINT, parent, true), radius(1.0f)
 {
 }
 

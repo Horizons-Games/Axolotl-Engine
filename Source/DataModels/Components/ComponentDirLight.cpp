@@ -10,6 +10,11 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 {
 }
 
+ComponentDirLight::ComponentDirLight(ComponentDirLight& componentDirLight): 
+	ComponentLight(componentDirLight)
+{
+}
+
 ComponentDirLight::ComponentDirLight(GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
