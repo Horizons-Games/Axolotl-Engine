@@ -70,6 +70,7 @@ private:
 	unsigned int transforms = 0;
 
 	bool createBuffers = true;
+	bool reserveModelSpace = true;
 
 	std::vector<float3> verticesToRender;
 	std::vector<float2> texturesToRender;

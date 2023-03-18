@@ -34,8 +34,26 @@ void GeometryBatch::FillBuffers()
 {
 	FillEBO();
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numTotalVertices, 0, GL_STATIC_DRAW);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * numTotalVertices, 0, GL_STATIC_DRAW);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numTotalVertices, 0, GL_STATIC_DRAW);
+
+	//if (flags & HAS_TANGENTS)
+	//{
+	//	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+	//	unsigned tangentSize = sizeof(float) * 3 * numTotalVertices;
+	//	glBufferData(GL_ARRAY_BUFFER, tangentSize, 0, GL_STATIC_DRAW);
+	//}
+
+	normalsToRender.clear();
+	texturesToRender.clear();
+	verticesToRender.clear();
+	tangentsToRender.clear();
 
 	for (auto resInfo : resourcesInfo)
 	{
@@ -108,7 +126,7 @@ void GeometryBatch::CreateVAO()
 	//vertices
 	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), static_cast<void*>(nullptr));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
@@ -135,7 +153,8 @@ void GeometryBatch::CreateVAO()
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+	const GLuint bindingPointModel = 10;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
 	
 	glBindVertexArray(0);
 }
@@ -172,6 +191,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		CreateOrCountInstance(mesh);
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
+		reserveModelSpace = true;
 	}
 }
 
@@ -183,11 +203,15 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		createBuffers = false;
 	}
 
-	const GLuint bindingPointModel = 10;
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+	if (reserveModelSpace)
+	{
+		glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
+		reserveModelSpace = false;
+	}
+
 	std::vector<float4x4> modelMatrices;
 	//model(transforms)
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
 
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
