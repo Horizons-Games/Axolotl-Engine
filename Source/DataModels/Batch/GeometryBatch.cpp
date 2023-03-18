@@ -19,10 +19,6 @@ GeometryBatch::GeometryBatch()
 {
 	//TODO complete
 	glGenBuffers(1, &ebo);
-	glGenBuffers(1, &verticesBuffer);
-	glGenBuffers(1, &normalsBuffer);
-	glGenBuffers(1, &textureBuffer);
-	glGenBuffers(1, &tangentsBuffer);
 	glGenBuffers(1, &indirectBuffer);
 	glGenBuffers(1, &transforms);
 	CreateVAO();
@@ -70,12 +66,6 @@ void GeometryBatch::FillBuffers()
 
 		}
 	}
-
-	if (!isloaded)
-	{
-		glGenVertexArrays(1, &vao);
-		isloaded = true;
-	}
 }
 
 void GeometryBatch::FillEBO()
@@ -103,6 +93,7 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
+	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
 	
@@ -219,6 +210,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size()*sizeof(float4x4), modelMatrices.data());
+	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
 	glBindVertexArray(0);
 	program->Deactivate();
