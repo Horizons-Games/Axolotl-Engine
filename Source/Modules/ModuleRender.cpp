@@ -9,6 +9,10 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#ifndef ENGINE
+#include "ModulePlayer.h"
+#endif // !ENGINE
+
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -217,6 +221,11 @@ update_status ModuleRender::Update()
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
+#ifndef ENGINE
+	AddToRenderList(App->player->GetPlayer());
+#endif // !ENGINE
+
+
 	if (isRoot) 
 	{
 		gameObjectsToDraw.push_back(goSelected);
@@ -262,8 +271,8 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
-	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
+	App->camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -290,7 +299,7 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->GetCamera()->SetAspectRatio(float(width) / height);
+	App->camera->GetCamera()->SetAspectRatio(float(width) / height);
 #ifdef ENGINE
 	App->editor->Resized();
 #endif // ENGINE
@@ -338,8 +347,7 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
-		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
+	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -383,8 +391,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
+	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
