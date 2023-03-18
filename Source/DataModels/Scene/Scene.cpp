@@ -111,6 +111,9 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
+	ComponentMaterial* materialComponent =
+		static_cast<ComponentMaterial*>(gameObject->CreateComponent(ComponentType::MATERIAL));
+	materialComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
 	std::shared_ptr<ResourceMesh> mesh;
@@ -138,9 +141,7 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 
 	meshComponent->SetMesh(mesh);
 
-	ComponentMaterial* materialComponent =
-		static_cast<ComponentMaterial*>(gameObject->CreateComponent(ComponentType::MATERIAL));
-	materialComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	
 
 	return gameObject;
 }
