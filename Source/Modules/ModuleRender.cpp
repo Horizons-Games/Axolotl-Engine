@@ -227,9 +227,11 @@ update_status ModuleRender::Update()
 		allGOToDraw.push_back(goSelected);
 	}
 
+	AddToRenderList(goSelected);
+
 	GroupGameObjects();
 
-	//glDepthFunc(GL_EQUAL);
+	glDepthFunc(GL_LEQUAL);
 	//Draw opaque
 	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
@@ -238,25 +240,22 @@ update_status ModuleRender::Update()
 			gameObject->Draw();
 		}
 	}
-	//glDepthFunc(GL_LEQUAL);
 
 
-	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	/*if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
 		DrawSelectedGO(goSelected);
-	}
-
-	AddToRenderList(goSelected);
+	}*/
 
 
 	// Draw Transparent
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
-	//	//DrawGameObject((*it).second);
-	//	(*it).second->Draw();
-	//}
-	//glDisable(GL_BLEND);
+	glDepthFunc(GL_ALWAYS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
+		(*it).second->Draw();
+	}
+	glDisable(GL_BLEND);
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -399,7 +398,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			allGOToDraw.push_back(gameObject);
+			//allGOToDraw.push_back(gameObject);
 		}
 	}
 	
@@ -455,7 +454,7 @@ void ModuleRender::GroupGameObjects() {
 	{
 		ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 		if (material != nullptr) {
-			material->SetTransparent(false);
+			material->SetTransparent(true);
 			if (!material->GetTransparent())
 			{
 				opaqueGOToDraw.push_back(gameObject);
@@ -463,6 +462,10 @@ void ModuleRender::GroupGameObjects() {
 			else {
 				const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				while (transparentGOToDraw[dist] != nullptr) {
+					float addDistance = 0.0001f;
+					dist += addDistance;
+				}
 				transparentGOToDraw[dist] = gameObject;
 			}
 		}
