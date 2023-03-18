@@ -90,6 +90,7 @@ void ModulePlayer::Move()
 		trans->SetPosition(position);
 		trans->UpdateTransformMatrices();
 	}
+
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
@@ -115,7 +116,7 @@ void ModulePlayer::Rotate()
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		float3 newRot = trans->GetRotationXYZ();
 		newRot.z += - App->input->GetMouseMotion().x * deltaTime;
-		trans->SetRotation( newRot);
+		trans->SetRotation(newRot);
 		trans->UpdateTransformMatrices();
 	}
 }
