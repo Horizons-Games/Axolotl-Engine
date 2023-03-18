@@ -25,6 +25,7 @@ public:
 	void Resized();
 
 	const WindowScene* GetScene() const;
+	const std::unique_ptr<WindowDebug>* GetDebugOptions() const;
 
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
@@ -42,4 +43,9 @@ private:
 inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
+}
+
+inline const std::unique_ptr<WindowDebug>* ModuleEditor::GetDebugOptions() const
+{
+	return &debugOptions;
 }
