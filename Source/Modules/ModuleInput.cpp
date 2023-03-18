@@ -105,10 +105,15 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
+        ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#else // ENGINE
+
         if (App->IsDebuggingGame())
         {
             ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
         }
+#endif
 
         switch (sdlEvent.type)
         {
@@ -173,11 +178,13 @@ update_status ModuleInput::Update()
     if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
     {
         App->SwitchDebuggingGame();
+#ifndef ENGINE
         if (!App->IsDebuggingGame())
         {
             SDL_ShowCursor(SDL_DISABLE);
             //We need to restart the position of the mouse too
         }
+#endif // ENGINE
     }
 
     return status;
