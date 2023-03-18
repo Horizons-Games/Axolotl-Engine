@@ -51,7 +51,6 @@ GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), pare
 	{
 		AddChild(std::unique_ptr<GameObject>(child));
 	}
-	GetEncapsuledAABB();
 }
 
 GameObject::~GameObject()
