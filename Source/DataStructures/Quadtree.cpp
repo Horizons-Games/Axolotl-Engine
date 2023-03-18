@@ -319,14 +319,13 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 
 	if (gameObjectMaxPoint.y > quadTreeMaxY || gameObjectMinPoint.y < quadTreeMinY)
 	{
+		//The new quadtree height is the GameObject height + distance with the old quadtree height.
 		if (gameObjectMinPoint.y < quadTreeMinY)
 		{
-			
 			newMinPoint.y = -newMinPoint.y + 2* gameObjectMinPoint.y;
 		}
 		if (gameObjectMaxPoint.y > quadTreeMaxY)
 		{
-			
 			newMaxPoint.y = -newMaxPoint.y + 2 * gameObjectMaxPoint.y;
 		}
 		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
