@@ -13,19 +13,20 @@
 #include "DataModels/Program/Program.h"
 
 #include <gl/glew.h>
-#include <assert.h>
+#include <SDL_assert.h>
 
 GeometryBatch::GeometryBatch()
 {
 	//TODO complete
 	glGenBuffers(1, &ebo);
-	glGenBuffers(1, &indirectBuffer);
 	glGenBuffers(1, &verticesBuffer);
-	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
-	glGenBuffers(1, &tangentsBuffer); // maybe keep the condition to check if tangent exist
+	glGenBuffers(1, &textureBuffer);
+	glGenBuffers(1, &tangentsBuffer);
+	glGenBuffers(1, &indirectBuffer);
 	glGenBuffers(1, &transforms);
-	glGenVertexArrays(1, &vao);
+	CreateVAO();
+
 }
 
 GeometryBatch::~GeometryBatch()
@@ -45,6 +46,7 @@ void GeometryBatch::FillBuffers()
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
 
+
 		for (float3 tex : resource->GetTextureCoords())
 		{
 			texturesToRender.push_back(float2(tex.x, tex.y));
@@ -53,12 +55,28 @@ void GeometryBatch::FillBuffers()
 		normalsToRender.insert(std::end(normalsToRender),
 			std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
 
+
 		if (flags & HAS_TANGENTS)
 		{
 			tangentsToRender.insert(std::end(tangentsToRender),
 				std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
+
 		}
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+	glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
+
+	glGenVertexArrays(1, &vao);
 }
 
 void GeometryBatch::FillEBO()
@@ -89,28 +107,23 @@ void GeometryBatch::CreateVAO()
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
 	
-	FillBuffers();
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	//vertices
 	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
 	glGenBuffers(1, &textureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
 	glGenBuffers(1, &normalsBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 
@@ -119,14 +132,12 @@ void GeometryBatch::CreateVAO()
 	{
 		glGenBuffers(1, &tangentsBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 		glEnableVertexAttribArray(3);
 	}
 
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-
 	glBindVertexArray(0);
 }
 
@@ -161,6 +172,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		
 		CreateOrCountInstance(mesh);
 		newComponent->SetBatch(this);
+		createBuffers = true;
 		components.push_back(newComponent);
 	}
 }
@@ -170,6 +182,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	const GLuint bindingPointModel = 10;
 	std::vector<float4x4>modelMatrices;
 	//model(transforms)
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, componentsToRender.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
 
@@ -187,12 +200,9 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		{
 			ResourceInfo resourceInfo = FindResourceMesh(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo.resourceMesh;
-			
-			const float4x4& model =
-				static_cast<ComponentTransform*>(component->GetOwner()
-					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			modelMatrices.push_back(model);
+			modelMatrices.push_back(static_cast<ComponentTransform*>(component->GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix());
 			
 			//do a for for all the instaces existing
 			Command newCommand = { 
@@ -210,7 +220,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size()*sizeof(float4x4), modelMatrices.data());
-	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
 	glBindVertexArray(0);
 	program->Deactivate();
@@ -259,7 +268,7 @@ ResourceInfo& GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
 			return aaa;
 		}
 	}
-	abort(); //TODO check how can do this
+	SDL_assert(false);; //TODO check how can do this
 }
 
 bool GeometryBatch::CleanUp()

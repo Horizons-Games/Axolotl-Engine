@@ -217,7 +217,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	}
 
 	App->renderer->FillRenderList(sceneQuadtree);
-	App->renderer->GetBatchManager()->CreateAllVAOs();
+	//App->renderer->GetBatchManager()->CreateAllVAOs();
 
 	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();

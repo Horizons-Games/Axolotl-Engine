@@ -44,9 +44,10 @@ public:
 	const int GetResourceIndex() const;
 
 	bool CleanUp();
+	bool createBuffers = true;
+	void FillBuffers();
 
 private:
-	void FillBuffers();
 	void FillEBO();
 
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete

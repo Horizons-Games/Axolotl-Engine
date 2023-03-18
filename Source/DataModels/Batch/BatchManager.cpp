@@ -75,5 +75,10 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	if (batch->createBuffers)
+	{
+		batch->FillBuffers();
+		batch->createBuffers = false;
+	}
 	batch->BindBatch(componentsToRender);
 }
