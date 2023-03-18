@@ -326,7 +326,7 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 		{
 			newMinPoint.y = gameObjectPosition.y - gameObject->GetEncapsuledAABB().Size().y;
 		}
-		else
+		if (gameObjectMaxPoint.y > quadTreeMaxY)
 		{
 			newMaxPoint.y = gameObjectPosition.y + gameObject->GetEncapsuledAABB().Size().y;
 		}
