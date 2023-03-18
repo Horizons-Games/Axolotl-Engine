@@ -1,13 +1,12 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-
-#ifdef ENGINE
 #include "imgui_impl_sdl.h"
-#endif // ENGINE
+
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -106,9 +105,10 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
-#ifdef ENGINE
-        ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
-#endif // ENGINE
+        if (App->IsDebuggingGame())
+        {
+            ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+        }
 
         switch (sdlEvent.type)
         {
