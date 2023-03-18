@@ -45,38 +45,37 @@ void GeometryBatch::FillBuffers()
 		ResourceMesh* resource = resInfo.resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
-
+		glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+		glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
 
 		for (float3 tex : resource->GetTextureCoords())
 		{
 			texturesToRender.push_back(float2(tex.x, tex.y));
+			glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+			glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
 		}
 
 		normalsToRender.insert(std::end(normalsToRender),
 			std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
+		glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+		glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
 
 
 		if (flags & HAS_TANGENTS)
 		{
 			tangentsToRender.insert(std::end(tangentsToRender),
 				std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
+			glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+			glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 
 		}
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
-
-	glGenVertexArrays(1, &vao);
+	if (!isloaded)
+	{
+		glGenVertexArrays(1, &vao);
+		isloaded = true;
+	}
 }
 
 void GeometryBatch::FillEBO()

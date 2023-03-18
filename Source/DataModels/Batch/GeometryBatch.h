@@ -45,6 +45,7 @@ public:
 
 	bool CleanUp();
 	bool createBuffers = true;
+
 	void FillBuffers();
 
 private:
@@ -83,6 +84,7 @@ private:
 	int numTotalFaces = 0;
 
 	int flags = 0;
+	bool isloaded = false;
 };
 
 inline const int GeometryBatch::GetFlags() const
