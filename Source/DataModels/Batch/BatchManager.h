@@ -14,7 +14,6 @@ public:
 	const std::vector<GeometryBatch*>& GetBatches() const; //delete
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
-	void CreateAllVAOs();
 
 	void DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
 

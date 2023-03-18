@@ -44,12 +44,11 @@ public:
 	const int GetResourceIndex() const;
 
 	bool CleanUp();
-	bool createBuffers = true;
-
-	void FillBuffers();
 
 private:
 	void FillEBO();
+
+	void FillBuffers();
 
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 
@@ -69,6 +68,8 @@ private:
 	unsigned int normalsBuffer = 0;
 	unsigned int tangentsBuffer = 0;
 	unsigned int transforms = 0;
+
+	bool createBuffers = true;
 
 	std::vector<float3> verticesToRender;
 	std::vector<float2> texturesToRender;

@@ -154,7 +154,6 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMesh(mesh);
-		meshRenderer->GetBatch()->CreateVAO();
 	}
 }
 

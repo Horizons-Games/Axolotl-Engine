@@ -21,8 +21,6 @@ GeometryBatch::GeometryBatch()
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &indirectBuffer);
 	glGenBuffers(1, &transforms);
-	CreateVAO();
-
 }
 
 GeometryBatch::~GeometryBatch()
@@ -36,35 +34,43 @@ void GeometryBatch::FillBuffers()
 {
 	FillEBO();
 
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
+
 	for (auto resInfo : resourcesInfo)
 	{
 		ResourceMesh* resource = resInfo.resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
-		glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-		glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
-
+		
 		for (float3 tex : resource->GetTextureCoords())
 		{
 			texturesToRender.push_back(float2(tex.x, tex.y));
-			glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-			glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
 		}
 
 		normalsToRender.insert(std::end(normalsToRender),
 			std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
-		glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-		glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
-
 
 		if (flags & HAS_TANGENTS)
 		{
 			tangentsToRender.insert(std::end(tangentsToRender),
 				std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
-			glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-			glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
-
 		}
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
+
+	if (flags & HAS_TANGENTS)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 	}
 }
 
@@ -128,6 +134,9 @@ void GeometryBatch::CreateVAO()
 
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+	
 	glBindVertexArray(0);
 }
 
@@ -162,18 +171,22 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		
 		CreateOrCountInstance(mesh);
 		newComponent->SetBatch(this);
-		createBuffers = true;
 		components.push_back(newComponent);
 	}
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	if (createBuffers)
+	{
+		FillBuffers();
+		createBuffers = false;
+	}
+
 	const GLuint bindingPointModel = 10;
-	std::vector<float4x4>modelMatrices;
+	std::vector<float4x4> modelMatrices;
 	//model(transforms)
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, componentsToRender.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
 
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
@@ -248,6 +261,7 @@ void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
 	numTotalVertices += resourceMesh->GetNumVertices();
 	numTotalIndices += resourceMesh->GetNumIndexes();
 	numTotalFaces += resourceMesh->GetNumFaces();
+	createBuffers = true;
 }
 
 ResourceInfo& GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
