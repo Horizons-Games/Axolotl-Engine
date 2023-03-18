@@ -90,6 +90,7 @@ void ModulePlayer::Move()
 		trans->SetPosition(position);
 		trans->UpdateTransformMatrices();
 	}
+
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
