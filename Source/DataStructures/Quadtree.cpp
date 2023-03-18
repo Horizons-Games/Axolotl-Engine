@@ -304,10 +304,6 @@ void Quadtree::RedistributeGameObjects(GameObject* gameObject)
 
 void Quadtree::ExpandToFit(GameObject* gameObject)
 {
-	ComponentTransform* gameObjectTransform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-	const float3& gameObjectPosition = gameObject->GetEncapsuledAABB().CenterPoint();
-
 	float quadTreeMaxX = boundingBox.MaxX();
 	float quadTreeMaxY = boundingBox.MaxY();
 	float quadTreeMaxZ = boundingBox.MaxZ();
@@ -317,18 +313,21 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 	float3 newMaxPoint = GetBoundingBox().maxPoint;
 	float3 newMinPoint = GetBoundingBox().minPoint;
 	
-	float3 gameObjectMaxPoint = gameObject->GetEncapsuledAABB().maxPoint;
-	float3 gameObjectMinPoint = gameObject->GetEncapsuledAABB().minPoint;
+	const AABB& gameObjectAABB = gameObject->GetEncapsuledAABB();
+	float3 gameObjectMaxPoint = gameObjectAABB.maxPoint;
+	float3 gameObjectMinPoint = gameObjectAABB.minPoint;
 
 	if (gameObjectMaxPoint.y > quadTreeMaxY || gameObjectMinPoint.y < quadTreeMinY)
 	{
 		if (gameObjectMinPoint.y < quadTreeMinY)
 		{
-			newMinPoint.y = gameObjectPosition.y - gameObject->GetEncapsuledAABB().Size().y;
+			
+			newMinPoint.y = -newMinPoint.y + 2* gameObjectMinPoint.y;
 		}
 		if (gameObjectMaxPoint.y > quadTreeMaxY)
 		{
-			newMaxPoint.y = gameObjectPosition.y + gameObject->GetEncapsuledAABB().Size().y;
+			
+			newMaxPoint.y = -newMaxPoint.y + 2 * gameObjectMaxPoint.y;
 		}
 		AdjustHeightToNodes(newMinPoint.y, newMaxPoint.y);
 	}
