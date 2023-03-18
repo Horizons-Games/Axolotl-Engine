@@ -27,7 +27,7 @@ WindowComponentMaterial::~WindowComponentMaterial()
 void WindowComponentMaterial::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-
+	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
@@ -50,6 +50,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 	if (asMaterial)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
+
 		if (materialResource)
 		{
 			ImGui::Text("");
@@ -57,6 +58,13 @@ void WindowComponentMaterial::DrawSetMaterial()
 			ImGui::Text("Name: ");
 			ImGui::SameLine();
 			ImGui::Text(materialResource->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Remove Material"))
+			{
+				materialResource->Unload();
+				asMaterial->SetMaterial(nullptr);
+				return;
+			}
 
 			ImGui::Text("");
 
