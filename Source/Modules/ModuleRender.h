@@ -28,8 +28,6 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
 
-	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
-
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
