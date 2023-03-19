@@ -263,7 +263,10 @@ void CameraEngine::Focus(const OBB& obb)
 	bool isSameRotation = false;
 	SetLookAt(boundingSphere.pos, isSameRotation);
 
-	if (isSamePosition && isSameRotation) isFocusing = false;
+	if (isSamePosition && isSameRotation)
+	{
+		isFocusing = false;
+	}
 }
 
 void CameraEngine::Focus(GameObject* gameObject)
