@@ -14,16 +14,17 @@ struct OptionsModel
 {
 };
 
-struct Node
-{
-	char* name;
-	float4x4 transform;
-	Node* parent;
-	std::vector<ComponentMeshRenderer> meshRenderers;
-};
-
 class ResourceModel : virtual public Resource
 {
+public:
+	struct Node
+	{
+		char* name;
+		float4x4 transform;
+		Node* parent;
+		std::vector<ComponentMeshRenderer> meshRenderers;
+	};
+
 public:
 	ResourceModel(UID resourceUID, 
 		const std::string& fileName, 
