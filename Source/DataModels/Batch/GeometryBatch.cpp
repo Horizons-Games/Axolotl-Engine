@@ -173,11 +173,16 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			}
 		}
 		
-		CreateOrCountInstance(mesh);
+		CreateInstance(mesh);
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 		reserveModelSpace = true;
 	}
+}
+
+void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
+{
+	components.erase(std::find(components.begin(), components.end(), componentToDelete));
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
@@ -250,7 +255,7 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
+void GeometryBatch::CreateInstance(ResourceMesh* resourceMesh)
 {
 	for (ResourceInfo aaa : resourcesInfo)
 	{

@@ -33,6 +33,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
 	{
+		batch->DeleteComponent(this);
 		mesh->Unload();
 	}
 }
@@ -183,5 +184,10 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->renderer->GetBatchManager()->AddComponent(this);
+	}
+	else
+	{
+		batch->DeleteComponent(this);
+		batch = nullptr;
 	}
 }

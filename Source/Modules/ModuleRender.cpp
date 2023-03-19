@@ -386,7 +386,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					if (component)
+					if (component && component->GetBatch())
 					{
 						renderMap[component->GetBatch()].push_back(component);
 					}
@@ -401,7 +401,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					if (component)
+					if (component && component->GetBatch())
 					{
 						renderMap[component->GetBatch()].push_back(component);
 					}
@@ -435,7 +435,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		{
 			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 				gameObject->GetComponent(ComponentType::MESHRENDERER));
-			if (component)
+			if (component && component->GetBatch())
 			{
 				renderMap[component->GetBatch()].push_back(component);
 			}

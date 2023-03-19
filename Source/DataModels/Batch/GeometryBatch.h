@@ -37,6 +37,7 @@ public:
 	void CreateVAO();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
+	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
 
@@ -52,7 +53,7 @@ private:
 
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 
-	void CreateOrCountInstance(ResourceMesh* resourceMesh);
+	void CreateInstance(ResourceMesh* resourceMesh);
 
 	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
