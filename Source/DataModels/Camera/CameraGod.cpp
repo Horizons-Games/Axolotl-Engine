@@ -37,9 +37,17 @@ bool CameraGod::Update()
 		//Move and rotate with right buttons and ASDWQE
 		if (!App->IsDebuggingGame())
 		{
-			keepMouseCentered();
+			KeepMouseCentered();
 			Move();
-			FreeLook();
+			if (!backFromDebugging)
+			{
+				FreeLook();
+			}
+			backFromDebugging = false;
+		}
+		else
+		{
+			backFromDebugging = true;
 		}
 
 		KeyboardRotate();
@@ -102,7 +110,7 @@ void CameraGod::Move()
 	}
 }
 
-void CameraGod::keepMouseCentered()
+void CameraGod::KeepMouseCentered()
 {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
@@ -111,7 +119,7 @@ void CameraGod::keepMouseCentered()
 
 	int width, height;
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);
+	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);	
 
 	lastMouseX = width / 2;
 	lastMouseY = height / 2;
