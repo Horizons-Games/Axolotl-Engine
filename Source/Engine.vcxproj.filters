@@ -980,7 +980,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>Source\DataModels\Batch</Filter>
-    </ClCompile>
+	</ClInclude>
     <ClInclude Include="Modules\ModulePlayer.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
