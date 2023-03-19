@@ -80,11 +80,15 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-	currentRotation = Quat::identity;
+	//currentRotation = Quat::identity;
 
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
+
+	float3 axis(frustum->Front().Cross(frustum->Up()).Normalize());
+	float angle = std::acos(frustum->Front().Dot(frustum->Up()));
+	currentRotation = Quat(std::cos(angle / 2), axis.x * std::sin(angle / 2), axis.y * std::sin(angle / 2), axis.z * std::sin(angle / 2));
 
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -101,6 +105,8 @@ bool Camera::Start()
 
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
 {
+	currentRotation = Quat(rotationMatrix);
+
 	vec oldFront = frustum->Front().Normalized();
 	vec oldUp = frustum->Up().Normalized();
 
@@ -318,14 +324,16 @@ void Camera::SetOrientation(const float3& orientation)
 	frustum->SetUp(orientation);
 }
 
-void Camera::SetLookAt(const float3& lookAt)
+void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
 {
 	float3 direction = lookAt - position;
 	Quat finalRotation = Quat::LookAt(frustum->Front(), direction.Normalized(), frustum->Up(), float3::unitY);
+	if (finalRotation.Equals(currentRotation))
+	{
+		isSameRotation = true;
+		return;
+	}
 	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime() * rotationSpeed);
-	//currentRotation = rotation
-	if (nextRotation.Equals(Quat::identity)) isFocusing = false;
-
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
 }

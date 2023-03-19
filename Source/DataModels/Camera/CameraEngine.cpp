@@ -52,7 +52,7 @@ bool CameraEngine::Update()
 		if (isFocusing)
 		{
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
-			Rotate();
+			//Rotate();
 		}
 		else
 		{
@@ -239,6 +239,7 @@ void CameraEngine::Zoom()
 
 void CameraEngine::Focus(const OBB& obb)
 {
+
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
@@ -250,10 +251,23 @@ void CameraEngine::Focus(const OBB& obb)
 	//position = boundingSphere.pos - (camDirection * camDistance);
 
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
-	position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed);
 
-	SetPosition(position);
-	SetLookAt(boundingSphere.pos);
+	bool isSamePosition = false;
+	if (position.Equals(endposition)) 
+	{ 
+		isSamePosition = true; 
+	}
+	else 
+	{ 
+		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed);
+		SetPosition(position);
+	}
+
+	
+	bool isSameRotation;
+	SetLookAt(boundingSphere.pos, isSameRotation);
+
+	if (isSamePosition && isSameRotation) isFocusing = false;
 }
 
 void CameraEngine::Focus(GameObject* gameObject)
