@@ -80,6 +80,7 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
+	currentRotation = Quat::identity;
 
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
