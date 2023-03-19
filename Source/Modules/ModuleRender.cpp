@@ -254,8 +254,8 @@ update_status ModuleRender::Update()
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
 
-	const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
