@@ -72,11 +72,6 @@ private:
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
 
-	std::vector<float3> verticesToRender;
-	std::vector<float2> texturesToRender;
-	std::vector<float3> normalsToRender;
-	std::vector<float3> tangentsToRender;
-
 	unsigned int resourceMeshIndex = 0;
 
 	std::vector<Command> commands;

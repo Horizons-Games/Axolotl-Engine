@@ -34,29 +34,14 @@ void GeometryBatch::FillBuffers()
 {
 	FillEBO();
 
-	//glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numTotalVertices, 0, GL_STATIC_DRAW);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * numTotalVertices, 0, GL_STATIC_DRAW);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numTotalVertices, 0, GL_STATIC_DRAW);
-
-	//if (flags & HAS_TANGENTS)
-	//{
-	//	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-	//	unsigned tangentSize = sizeof(float) * 3 * numTotalVertices;
-	//	glBufferData(GL_ARRAY_BUFFER, tangentSize, 0, GL_STATIC_DRAW);
-	//}
-
-	normalsToRender.clear();
-	texturesToRender.clear();
-	verticesToRender.clear();
-	tangentsToRender.clear();
+	std::vector<float3> verticesToRender;
+	std::vector<float2> texturesToRender;
+	std::vector<float3> normalsToRender;
+	std::vector<float3> tangentsToRender;
 
 	for (auto resInfo : resourcesInfo)
 	{
+
 		ResourceMesh* resource = resInfo.resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
@@ -211,21 +196,20 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	}
 
 	std::vector<float4x4> modelMatrices;
-	//model(transforms)
-
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
-	program->Activate();
-
+	
 	commands.clear();
 	commands.reserve(componentsToRender.size());
 	
 	resourceMeshIndex = 0;
 
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	program->Activate();
+
 	for (auto component : componentsToRender)
 	{
 		if (component) //pointer not empty
 		{
-			ResourceInfo resourceInfo = FindResourceMesh(component->GetMesh().get());
+			ResourceInfo resourceInfo = FindResourceInfo(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo.resourceMesh;
 
 			modelMatrices.push_back(static_cast<ComponentTransform*>(component->GetOwner()
@@ -246,7 +230,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	}
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size()*sizeof(float4x4), modelMatrices.data());
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size() * sizeof(float4x4), modelMatrices.data());
 	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
 	glBindVertexArray(0);
@@ -288,7 +272,7 @@ void GeometryBatch::CreateOrCountInstance(ResourceMesh* resourceMesh)
 	createBuffers = true;
 }
 
-ResourceInfo& GeometryBatch::FindResourceMesh(ResourceMesh* mesh)
+ResourceInfo& GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 {
 	for (auto aaa : resourcesInfo)
 	{
