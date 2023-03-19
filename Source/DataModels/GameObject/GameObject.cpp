@@ -4,6 +4,7 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
@@ -343,37 +344,68 @@ void GameObject::AddComponent(ComponentType type, Component* component)
 	case ComponentType::TRANSFORM:
 	{
 		
-		newComponent = std::make_unique<ComponentTransform>(dynamic_cast<ComponentTransform&>(*component));
+		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
 		break;
 	}
 
 	case ComponentType::MESHRENDERER:
 	{
-		newComponent = std::make_unique<ComponentMeshRenderer>(dynamic_cast<ComponentMeshRenderer&>(*component));
+		newComponent = std::make_unique<ComponentMeshRenderer>(static_cast<ComponentMeshRenderer&>(*component));
 		break;
 	}
 
 	case ComponentType::MATERIAL:
 	{
-		newComponent = std::make_unique<ComponentMaterial>(dynamic_cast<ComponentMaterial&>(*component));
+		newComponent = std::make_unique<ComponentMaterial>(static_cast<ComponentMaterial&>(*component));
 		break;
 	}
 
 
 	case ComponentType::CAMERA:
 	{
-		newComponent = std::make_unique<ComponentCamera>(dynamic_cast<ComponentCamera&>(*component));
+		newComponent = std::make_unique<ComponentCamera>(static_cast<ComponentCamera&>(*component));
 		break;
 	}
 
 	case ComponentType::LIGHT:
 	{
-		newComponent = std::make_unique<ComponentLight>(dynamic_cast<ComponentLight&>(*component));
+		AddComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
 		break;
 	}
 
 	default:
 		assert(false && "Wrong component type introduced");
+	}
+
+	if (newComponent)
+	{
+		newComponent->SetOwner(this);
+		Component* referenceBeforeMove = newComponent.get();
+		components.push_back(std::move(newComponent));
+	}
+}
+
+void GameObject::AddComponentLight(LightType type, Component* component)
+{
+	std::unique_ptr<ComponentLight> newComponent;
+
+	switch (type)
+	{
+	case LightType::AMBIENT:
+		newComponent = std::make_unique<ComponentAmbient>(static_cast<ComponentAmbient&>(*component));
+		break;
+
+	case LightType::DIRECTIONAL:
+		newComponent = std::make_unique<ComponentDirLight>(static_cast<ComponentDirLight&>(*component));
+		break;
+
+	case LightType::POINT:
+		newComponent = std::make_unique<ComponentPointLight>(static_cast<ComponentPointLight&>(*component));
+		break;
+
+	case LightType::SPOT:
+		newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
+		break;
 	}
 
 	if (newComponent)

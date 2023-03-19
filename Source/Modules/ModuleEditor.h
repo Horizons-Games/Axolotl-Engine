@@ -32,6 +32,8 @@ public:
 private:
 	void CopyAnObject();
 	void PasteAnObject();
+	void CutAnObject();
+	void DuplicateAnObject();
 
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;

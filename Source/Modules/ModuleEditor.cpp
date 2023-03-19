@@ -86,7 +86,7 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	//delete copyObject;
+	delete copyObject;
 
 	windows.clear();
 
@@ -116,16 +116,32 @@ update_status ModuleEditor::Update()
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
-		&& App->input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
 	{
 		CopyAnObject();
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE
-		&& App->input->GetKey(SDL_SCANCODE_V) != KeyState::IDLE)
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
 	{
 		PasteAnObject();
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+	{
+		CutAnObject();
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+	{
+		DuplicateAnObject();
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -218,7 +234,7 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 
 void ModuleEditor::CopyAnObject()
 {
-	//delete copyObject;
+	delete copyObject;
 	copyObject = new GameObject(*App->scene->GetSelectedGameObject());
 }
 
@@ -236,5 +252,21 @@ void ModuleEditor::PasteAnObject()
 			App->scene->GetLoadedScene()->
 				CreateGameObject(copyObject->GetName(), copyObject, App->scene->GetLoadedScene()->GetRoot());
 		}
+	}
+}
+
+void ModuleEditor::CutAnObject()
+{
+	CopyAnObject();
+	App->scene->GetLoadedScene()->DestroyGameObject(App->scene->GetSelectedGameObject());
+}
+
+void ModuleEditor::DuplicateAnObject()
+{
+	if (App->scene->GetSelectedGameObject())
+	{
+		App->scene->GetLoadedScene()->
+			CreateGameObject(App->scene->GetSelectedGameObject()->GetName()
+				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
 	}
 }
