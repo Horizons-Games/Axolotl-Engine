@@ -18,9 +18,13 @@
 GeometryBatch::GeometryBatch()
 {
 	//TODO complete
+	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &indirectBuffer);
 	glGenBuffers(1, &transforms);
+	glGenBuffers(1, &verticesBuffer);
+	glGenBuffers(1, &textureBuffer);
+	glGenBuffers(1, &normalsBuffer);
 }
 
 GeometryBatch::~GeometryBatch()
@@ -102,26 +106,22 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
-	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	//vertices
-	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
-	glGenBuffers(1, &textureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
-	glGenBuffers(1, &normalsBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
@@ -129,7 +129,6 @@ void GeometryBatch::CreateVAO()
 	//tangents
 	if (flags & HAS_TANGENTS)
 	{
-		glGenBuffers(1, &tangentsBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 		glEnableVertexAttribArray(3);
