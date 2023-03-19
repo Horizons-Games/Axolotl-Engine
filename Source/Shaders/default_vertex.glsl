@@ -30,11 +30,10 @@ out vec3 Normal;
 out vec3 ViewPos;
 out vec3 fragTangent;
 
-out flat int instance_index;
+out flat int InstanceIndex;
 
 void main()
 {
-    instance_index = gl_BaseInstance;
     mat4 model = models[gl_BaseInstance];
 
     FragPos = vec3(model * vec4(vertexPosition, 1.0));
@@ -47,4 +46,6 @@ void main()
 
     TexCoord = texCoord;
     ViewPos = viewPos;
+
+    InstanceIndex = gl_BaseInstance;
 }

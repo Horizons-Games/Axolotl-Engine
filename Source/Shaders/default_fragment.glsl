@@ -70,6 +70,8 @@ in vec3 ViewPos;
 
 in vec2 TexCoord;
 
+in flat int InstanceIndex;
+
 out vec4 outColor;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
