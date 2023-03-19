@@ -54,7 +54,7 @@ private:
 
 	void CreateOrCountInstance(ResourceMesh* resourceMesh);
 
-	ResourceInfo& FindResourceMesh(ResourceMesh* mesh);
+	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
 	std::vector<ComponentMeshRenderer*> components;
 	std::vector<ResourceInfo> resourcesInfo;
