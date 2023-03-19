@@ -56,32 +56,45 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-//#ifdef ENGINE
-//	//Update Meta
-//	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
-//	char* metaBuffer = {};
-//	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-//	rapidjson::Document doc;
-//	Json meta(doc, doc);
-//	meta.fromBuffer(metaBuffer);
-//	delete metaBuffer;
-//#endif
-//
-//	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
-//
-//	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() +
-//		sizeof(UID) * (unsigned int)resource->GetNumMaterials();
-//
-//	char* cursor = new char[size] {};
-//
-//	fileBuffer = cursor;
-//
-//	unsigned int bytes = sizeof(header);
-//	memcpy(cursor, header, bytes);
-//
-//	cursor += bytes;
-//
-//	std::vector<UID> meshesUIDs;
+#ifdef ENGINE
+	//Update Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+#endif
+	
+	unsigned int header[1] = { (unsigned int)resource->GetNumNodes() };
+
+	size = sizeof(char) + sizeof(float4x4) + sizeof(int);
+	size *= resource->GetNumNodes();
+
+	for (ResourceModel::Node *node : resource->GetNodes())
+	{
+		size += node->meshRenderers.size() * sizeof(std::pair<UID, UID>);
+	}
+	
+	size += sizeof(header);
+
+	char* cursor = new char[size] {};
+
+	fileBuffer = cursor;
+
+	unsigned int bytes = sizeof(header);
+	memcpy(cursor, header, bytes);
+
+	cursor += bytes;
+
+	std::vector<UID> meshesUIDs;
+
+	unsigned int count = 0;
+	for (ResourceModel::Node* node : resource->GetNodes())
+	{
+	}
+
 //	meshesUIDs.reserve(resource->GetNumMeshes());
 //	for (int i = 0; i < resource->GetNumMeshes(); i++)
 //	{
