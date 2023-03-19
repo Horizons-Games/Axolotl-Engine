@@ -33,7 +33,6 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	position(camera->position),
 	projectionMatrix(camera->projectionMatrix),
 	viewMatrix(camera->viewMatrix),
-	currentRotation(camera->currentRotation),
 	aspectRatio(camera->aspectRatio),
 	acceleration(camera->acceleration),
 	moveSpeed(camera->moveSpeed),
@@ -80,15 +79,10 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-	//currentRotation = Quat::identity;
 
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
-
-	float3 axis(frustum->Front().Cross(frustum->Up()).Normalize());
-	float angle = std::acos(frustum->Front().Dot(frustum->Up()));
-	currentRotation = Quat(std::cos(angle / 2), axis.x * std::sin(angle / 2), axis.y * std::sin(angle / 2), axis.z * std::sin(angle / 2));
 
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -105,8 +99,6 @@ bool Camera::Start()
 
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
 {
-	currentRotation = Quat(rotationMatrix);
-
 	vec oldFront = frustum->Front().Normalized();
 	vec oldUp = frustum->Up().Normalized();
 
@@ -326,16 +318,21 @@ void Camera::SetOrientation(const float3& orientation)
 
 void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
 {
-	float3 direction = lookAt - position;
-	Quat finalRotation = Quat::LookAt(frustum->Front(), direction.Normalized(), frustum->Up(), float3::unitY);
-	if (finalRotation.Equals(currentRotation))
+	float3 targetDirection = (lookAt - position).Normalized();
+	float3 currentDirection = frustum->Front().Normalized();
+
+	if (targetDirection.AngleBetween(currentDirection) == 0.0f)
 	{
 		isSameRotation = true;
-		return;
 	}
-	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime() * rotationSpeed);
-	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-	ApplyRotation(rotationMatrix);
+	else 
+	{
+		float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
+		Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
+		float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
+		ApplyRotation(rotationMatrix);
+	}
+
 }
 
 bool Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)

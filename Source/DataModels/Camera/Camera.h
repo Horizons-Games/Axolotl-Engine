@@ -110,7 +110,6 @@ protected:
 
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
-	Quat currentRotation;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;

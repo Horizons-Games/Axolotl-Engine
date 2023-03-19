@@ -248,8 +248,6 @@ void CameraEngine::Focus(const OBB& obb)
 	float camDistance = radius / float(sin(fov / 2.0));
 	vec camDirection = (boundingSphere.pos - frustum->Pos()).Normalized();
 
-	//position = boundingSphere.pos - (camDirection * camDistance);
-
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
 
 	bool isSamePosition = false;
@@ -259,12 +257,11 @@ void CameraEngine::Focus(const OBB& obb)
 	}
 	else 
 	{ 
-		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed);
+		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed * 2);
 		SetPosition(position);
 	}
 
-	
-	bool isSameRotation;
+	bool isSameRotation = false;
 	SetLookAt(boundingSphere.pos, isSameRotation);
 
 	if (isSamePosition && isSameRotation) isFocusing = false;
