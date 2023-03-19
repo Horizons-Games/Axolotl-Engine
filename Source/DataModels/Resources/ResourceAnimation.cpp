@@ -11,16 +11,11 @@ ResourceAnimation::~ResourceAnimation()
 	Unload();
 }
 
-void ResourceAnimation::InternalLoad()
-{
-	//TODO: Maybe AnimationImporter Import should be called here?
-}
-
 void ResourceAnimation::InternalUnload()
 {
-	for (Channel* channel : channels)
+	for (auto it = channels.begin(); it != channels.end(); ++it)
 	{
-		delete channel;
+		delete it->second;
 	}
 
 	channels.clear();

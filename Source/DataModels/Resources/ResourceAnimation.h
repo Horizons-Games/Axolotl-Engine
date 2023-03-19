@@ -5,12 +5,13 @@
 #include "Math/float3.h"
 #include "Math/Quat.h"
 
+#include <unordered_map>
+
 class ResourceAnimation : public Resource
 {
 public:
 	struct Channel
 	{
-		char* name;
 		unsigned int numPositions;
 		unsigned int numRotations;
 		std::vector<float3> positions;
@@ -27,12 +28,12 @@ public:
 	ResourceType GetType();
 
 protected:
-	void InternalLoad() override;
+	void InternalLoad() override {};
 	void InternalUnload() override;
 
 private:
-	std::vector<Channel*> channels;
 	float duration;
+	std::unordered_map<char*, Channel*> channels;
 };
 
 inline ResourceType ResourceAnimation::GetType()

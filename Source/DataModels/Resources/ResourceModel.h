@@ -2,13 +2,14 @@
 
 #include "Resource.h"
 
+#include "Components/ComponentMeshRenderer.h"
+
 #include "Math/float4x4.h"
 
 #include <memory>
 
 class ResourceMesh;
 class ResourceMaterial;
-class ComponentMeshRenderer;
 
 struct OptionsModel
 {

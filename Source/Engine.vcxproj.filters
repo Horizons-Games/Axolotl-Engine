@@ -415,6 +415,12 @@
     <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
       <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
+      <Filter>Source\FileSystem\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -977,6 +983,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\WindowDebug.h">
       <Filter>Source\DataModels\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceAnimation.h">
+      <Filter>Source\DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\AnimationImporter.h">
+      <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

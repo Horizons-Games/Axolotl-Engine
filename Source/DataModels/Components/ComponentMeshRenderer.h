@@ -33,6 +33,7 @@ public:
 
 private:
 	bool IsMeshLoaded();
+	bool IsMaterialLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;
