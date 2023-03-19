@@ -52,7 +52,6 @@ bool CameraEngine::Update()
 		if (isFocusing)
 		{
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
-			//Rotate();
 		}
 		else
 		{
@@ -341,20 +340,4 @@ void CameraEngine::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
 		mouseWarped = true;
 	}
-}
-
-void CameraEngine::Rotate()
-{
-	float yaw = 0.f, pitch = 0.f;
-
-	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
-
-	Quat pitchQuat(frustum->WorldRight(), pitch * App->GetDeltaTime() * rotationSpeed * acceleration);
-	Quat yawQuat(float3::unitY, yaw * App->GetDeltaTime() * rotationSpeed * acceleration);
-
-	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
-	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
-
-	ApplyRotation(rotationDeltaMatrix);
 }
