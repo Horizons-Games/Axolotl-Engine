@@ -171,30 +171,30 @@ void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std
 
 void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete)
 {
-	resToDelete->MarkToDelete();
+	//resToDelete->MarkToDelete();
 
-	std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
-	std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
-	App->fileSystem->Delete(metaPath.c_str());
-	App->fileSystem->Delete(libPath.c_str());
+	//std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	//std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
+	//App->fileSystem->Delete(metaPath.c_str());
+	//App->fileSystem->Delete(libPath.c_str());
 
-	if (resToDelete)
-	{
-		if (resToDelete->GetType() == ResourceType::Model)
-		{
-			std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
-			for (const std::shared_ptr<ResourceMesh>& mesh : modelToDelete->GetMeshes())
-			{
-				DeleteResource(std::dynamic_pointer_cast<EditorResourceInterface>(mesh));
-			}
-		}
-		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
-		{
-			App->fileSystem->Delete(resToDelete->GetAssetsPath().c_str());
-		}
-	}
+	//if (resToDelete)
+	//{
+	//	if (resToDelete->GetType() == ResourceType::Model)
+	//	{
+	//		std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
+	//		for (const std::shared_ptr<ResourceMesh>& mesh : modelToDelete->GetMeshes())
+	//		{
+	//			DeleteResource(std::dynamic_pointer_cast<EditorResourceInterface>(mesh));
+	//		}
+	//	}
+	//	else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
+	//	{
+	//		App->fileSystem->Delete(resToDelete->GetAssetsPath().c_str());
+	//	}
+	//}
 
-	resources.erase(resToDelete->GetUID());
+	//resources.erase(resToDelete->GetUID());
 }
 
 std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePath, const char* fileNameToStore)

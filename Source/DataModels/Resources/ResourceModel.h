@@ -6,6 +6,7 @@
 
 #include "Math/float4x4.h"
 
+#include <vector>
 #include <memory>
 
 class ResourceMesh;
@@ -22,8 +23,8 @@ public:
 	{
 		char* name;
 		float4x4 transform;
-		Node* parent;
-		std::vector<ComponentMeshRenderer> meshRenderers;
+		int parent;
+		std::vector<std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>>> meshRenderers;
 	};
 
 public:
@@ -38,32 +39,23 @@ public:
 	void SaveImporterOptions(Json& meta) override {};
 	void LoadImporterOptions(Json& meta) override {};
 
-	const size_t GetNumMeshes() const;
-	const size_t GetNumMaterials() const;
-	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
-	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
+	const size_t GetNumNodes() const;
+	const std::vector<Node*>& GetNodes() const;
 
 	OptionsModel& GetOptions();
 
-	void SetNumMeshes(const unsigned int numMeshes);
-	void SetNumMaterials(const unsigned int numMaterials);
-	void SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes);
-	void SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials);
+	void SetNodes(const std::vector<Node*>& nodes);
+
+	void AppendNode(Node* node);
 
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
 
 private:
-	size_t numMeshes;
-	size_t numMaterials;
-
-	std::vector<std::shared_ptr<ResourceMesh>> meshes;
-	std::vector<std::shared_ptr<ResourceMaterial>> materials;
-
 	OptionsModel options;
 
-	std::vector<Node> nodes;
+	std::vector<Node*> nodes;
 };
 
 inline ResourceType ResourceModel::GetType() const
@@ -71,24 +63,14 @@ inline ResourceType ResourceModel::GetType() const
 	return ResourceType::Model;
 }
 
-inline const size_t ResourceModel::GetNumMeshes() const
+inline const size_t ResourceModel::GetNumNodes() const
 {
-	return numMeshes;
+	return nodes.size();
 }
 
-inline const size_t ResourceModel::GetNumMaterials() const
+inline const std::vector<ResourceModel::Node*>& ResourceModel::GetNodes() const
 {
-	return numMaterials;
-}
-
-inline const std::vector<std::shared_ptr<ResourceMesh>>& ResourceModel::GetMeshes() const
-{
-	return meshes;
-}
-
-inline const std::vector<std::shared_ptr<ResourceMaterial>>& ResourceModel::GetMaterials() const
-{
-	return materials;
+	return nodes;
 }
 
 inline OptionsModel& ResourceModel::GetOptions()
@@ -96,24 +78,12 @@ inline OptionsModel& ResourceModel::GetOptions()
 	return options;
 }
 
-inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
+inline void ResourceModel::SetNodes(const std::vector<Node*>& nodes)
 {
-	this->numMeshes = numMeshes;
+	this->nodes = nodes;
 }
 
-inline void ResourceModel::SetNumMaterials(const unsigned int numMaterials)
+inline void ResourceModel::AppendNode(Node* node)
 {
-	this->numMaterials = numMaterials;
-}
-
-inline void ResourceModel::SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes)
-{
-	this->meshes = meshes;
-	this->numMeshes = meshes.size();
-}
-
-inline void ResourceModel::SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials)
-{
-	this->materials = materials;
-	this->numMaterials = materials.size();
+	nodes.push_back(node);
 }

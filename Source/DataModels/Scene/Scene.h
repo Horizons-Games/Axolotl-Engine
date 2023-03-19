@@ -3,6 +3,8 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
+#include "Resources/ResourceModel.h"
+
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 

@@ -21,6 +21,8 @@
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Program/Program.h"
 
+#include <stack>
+
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
@@ -131,28 +133,50 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	// Load the ComponentMaterial with the ResourceMaterial
 	// Load the ComponentMesh with the ResourceMesh
 
-	for (unsigned int i = 0; i < resourceModel->GetNumMeshes(); ++i)
+	std::stack<std::pair<int, GameObject*>> parentsStack;
+	std::vector<ResourceModel::Node*> nodes = resourceModel->GetNodes();
+
+	parentsStack.push(std::make_pair(-1, gameObjectModel));
+
+	for (int i = 0; i < nodes.size(); ++i)
 	{
-		std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(resourceModel->GetMeshes()[i]);
+		const ResourceModel::Node* node = nodes[i];
+		
+		while (node->parent > parentsStack.top().first)
+		{
+			parentsStack.pop();
+		}
 
-		unsigned int materialIndex = mesh->GetMaterialIndex();
+		GameObject* gameObjectNode = CreateGameObject(node->name, parentsStack.top().second);
 
-		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(resourceModel->GetMaterials()[materialIndex]);
+		parentsStack.push(std::make_pair(i, gameObjectNode));
+		
+		for (std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>> meshRenderer :
+			node->meshRenderers)
+		{
+			std::shared_ptr<ResourceMesh> mesh =
+				std::dynamic_pointer_cast<ResourceMesh>(meshRenderer.first);
 
-		std::string meshName = mesh->GetFileName();
-		size_t new_last_slash = meshName.find_last_of('/');
-		meshName = meshName.substr(new_last_slash + 1, meshName.size());
+			unsigned int materialIndex = mesh->GetMaterialIndex();
 
-		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
+			std::shared_ptr<ResourceMaterial> material = 
+				std::dynamic_pointer_cast<ResourceMaterial>(meshRenderer.second);
 
-		ComponentMaterial* materialRenderer =
-			static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
-		materialRenderer->SetMaterial(material);
+			std::string meshName = mesh->GetFileName();
+			size_t new_last_slash = meshName.find_last_of('/');
+			meshName = meshName.substr(new_last_slash + 1, meshName.size());
 
-		ComponentMeshRenderer* meshRenderer =
-			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
-				->CreateComponent(ComponentType::MESHRENDERER));
-		meshRenderer->SetMesh(mesh);
+			GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectNode);
+
+			ComponentMaterial* materialRenderer =
+				static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
+			materialRenderer->SetMaterial(material);
+
+			ComponentMeshRenderer* meshRenderer =
+				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
+					->CreateComponent(ComponentType::MESHRENDERER));
+			meshRenderer->SetMesh(mesh);
+		}
 	}
 }
 
