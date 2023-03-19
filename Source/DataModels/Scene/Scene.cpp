@@ -19,6 +19,7 @@
 #include "Components/ComponentTransform.h"
 
 #include <GL/glew.h>
+#include "Camera/CameraGameObject.h"
 #include "DataModels/Program/Program.h"
 
 Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
@@ -53,7 +54,7 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 		{
 			ComponentCamera* camera =
 				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-			if (camera && camera->IsInside(obb))
+			if (camera && camera->GetCamera()->IsInside(obb))
 			{
 				return true;
 			}

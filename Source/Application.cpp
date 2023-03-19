@@ -10,6 +10,9 @@
 #include "ModuleScene.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
+#ifndef ENGINE
+#include "ModulePlayer.h"
+#endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
 
@@ -21,8 +24,12 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
-	modules.push_back(std::unique_ptr<ModuleCamera>(engineCamera = new ModuleCamera()));
+	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
+#ifndef ENGINE
+	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
+#endif // !ENGINE
+
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
 	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));

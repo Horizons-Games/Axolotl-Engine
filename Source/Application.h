@@ -13,6 +13,9 @@ class ModuleResources;
 class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
+#ifndef ENGINE
+class ModulePlayer;
+#endif //ENGINE
 class ModuleEditor;
 
 class Application
@@ -43,7 +46,10 @@ public:
 	ModuleInput* input;
 	ModuleProgram* program;
 	ModuleResources* resources;
-	ModuleCamera* engineCamera;
+	ModuleCamera* camera;
+#ifndef ENGINE
+	ModulePlayer* player;
+#endif // ENGINE
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
 
