@@ -9,6 +9,10 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#ifndef ENGINE
+#include "ModulePlayer.h"
+#endif // !ENGINE
+
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -159,8 +163,6 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	UpdateProgram();
-
 	//we really need to remove this :)
 #ifdef ENGINE
 	std::shared_ptr<ResourceSkyBox> resourceSkybox =
@@ -219,6 +221,11 @@ update_status ModuleRender::Update()
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
 
+#ifndef ENGINE
+	AddToRenderList(App->player->GetPlayer());
+#endif // !ENGINE
+
+
 	if (isRoot) 
 	{
 		gameObjectsToDraw.push_back(goSelected);
@@ -264,8 +271,8 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
-	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
+	App->camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -292,7 +299,7 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->GetCamera()->SetAspectRatio(float(width) / height);
+	App->camera->GetCamera()->SetAspectRatio(float(width) / height);
 #ifdef ENGINE
 	App->editor->Resized();
 #endif // ENGINE
@@ -322,13 +329,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ModuleRender::SetShaders(const std::string& vertexShader, const std::string& fragmentShader)
-{
-	this->vertexShader = vertexShader.c_str();
-	this->fragmentShader = fragmentShader.c_str();
-	UpdateProgram();
-}
-
 bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 {
 	bool valid = false;
@@ -344,27 +344,10 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	return valid;
 }
 
-void ModuleRender::UpdateProgram()
-{
-	//const char* vertexSource = App->program->LoadShaderSource(("Source/Shaders/" + this->vertexShader).c_str());
-	//const char* fragmentSource = App->program->LoadShaderSource(("Source/Shaders/" + this->fragmentShader).c_str());
-	char* vertexSource;
-	char * fragmentSource;
-	App->fileSystem->Load(("Source/Shaders/" + this->vertexShader).c_str(), vertexSource);
-	App->fileSystem->Load(("Source/Shaders/" + this->fragmentShader).c_str(), fragmentSource);
-	unsigned vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexSource);
-	unsigned fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-	delete vertexSource;
-	delete fragmentSource;
-
-	App->program->CreateProgram(vertexShader, fragmentShader);
-}
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
-		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
+	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -408,8 +391,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
+	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
