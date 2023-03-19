@@ -1,6 +1,5 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
@@ -182,7 +181,6 @@ update_status ModuleInput::Update()
         if (!App->IsDebuggingGame())
         {
             SDL_ShowCursor(SDL_DISABLE);
-            //We need to restart the position of the mouse too
         }
 #endif // ENGINE
     }
