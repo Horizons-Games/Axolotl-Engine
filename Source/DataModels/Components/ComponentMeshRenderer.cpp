@@ -14,6 +14,7 @@
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceMaterial.h"
 
 #include "GameObject/GameObject.h"
 
@@ -180,5 +181,14 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+	}
+}
+
+void ComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
+{
+	material = newMaterial;
+	if (material)
+	{
+		material->Load();
 	}
 }

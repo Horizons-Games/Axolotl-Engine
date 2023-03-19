@@ -2,13 +2,24 @@
 
 #include "Resource.h"
 
+#include "Math/float4x4.h"
+
 #include <memory>
 
 class ResourceMesh;
 class ResourceMaterial;
+class ComponentMeshRenderer;
 
 struct OptionsModel
 {
+};
+
+struct Node
+{
+	char* name;
+	float4x4 transform;
+	Node* parent;
+	std::vector<ComponentMeshRenderer> meshRenderers;
 };
 
 class ResourceModel : virtual public Resource
@@ -49,6 +60,8 @@ private:
 	std::vector<std::shared_ptr<ResourceMaterial>> materials;
 
 	OptionsModel options;
+
+	std::vector<Node> nodes;
 };
 
 inline ResourceType ResourceModel::GetType() const
