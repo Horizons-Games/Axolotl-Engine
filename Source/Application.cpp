@@ -91,7 +91,8 @@ bool Application::CleanUp()
 	bool ret = true;
 
 	for (int i = (int)(modules.size() - 1); i >= 0; --i)
-		ret = modules[i]->CleanUp();
+		if (i != 4) { ret = modules[i]->CleanUp(); }
+	ret = modules[4]->CleanUp();
 
 	return ret;
 }

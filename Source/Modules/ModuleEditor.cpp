@@ -65,16 +65,22 @@ bool ModuleEditor::Start()
 {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
+	for (int i = 0; i < windows.size(); ++i) {
+		windows[i].get()->Start();
+	}
 
 	return true;
 }
 
 bool ModuleEditor::CleanUp()
 {
+	for (int i = 0; i < windows.size(); ++i) {
+		windows[i].get()->CleanUp();
+	}
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
+	
 	windows.clear();
 
 	return true;
@@ -119,9 +125,11 @@ update_status ModuleEditor::Update()
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
-		bool windowEnabled = mainMenu->IsWindowEnabled(i);
-		windows[i]->Draw(windowEnabled);
-		mainMenu->SetWindowEnabled(i, windowEnabled);
+		//bool windowEnabled = mainMenu->IsWindowEnabled(i);
+		//windows[i]->SetEnable(windowEnabled);
+		windows[i]->Draw();
+		//mainMenu->SetWindowEnabled(i, windows[i].get()->GetEnable());
+		//windows[i]->SetEnable(mainMenu->IsWindowEnabled(i));		
 	}
 
 	return status;

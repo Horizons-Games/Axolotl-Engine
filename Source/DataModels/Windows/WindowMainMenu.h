@@ -10,11 +10,10 @@ public:
 
 	static const std::string repositoryLink;
 
-	void Draw(bool& enabled = defaultEnabled) override;
+	void Draw() override;
 
 	bool IsWindowEnabled(int windowIndex) const;
-	void SetWindowEnabled(int windowIndex, bool enabled);
-
+	void SetWindowEnabled(int windowIndex, bool &enabled);	
 private:
 	void DrawWindowsMenu();
 	void DrawAbout();
@@ -28,15 +27,15 @@ private:
 	
 	bool showAbout;
 	
-	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
+	std::vector<std::pair<std::string, std::reference_wrapper<bool>> > windowNamesAndEnabled;	
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
 {
-	return windowNamesAndEnabled[windowIndex].second;
+	return windowNamesAndEnabled[windowIndex].second.get();	
 }
 
-inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool enabled)
+inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool &enabled)
 {
-	windowNamesAndEnabled[windowIndex].second = enabled;
+	windowNamesAndEnabled[windowIndex].second.get() = &enabled;	
 }

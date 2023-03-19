@@ -9,7 +9,7 @@ class SubWindow : public Window
 public:
 	virtual ~SubWindow() override;
 
-	void Draw(bool& enabled = defaultEnabled) override;
+	void Draw() override;
 
 protected:
 	SubWindow(const std::string& name);

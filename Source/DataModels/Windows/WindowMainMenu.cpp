@@ -8,12 +8,14 @@ bool WindowMainMenu::defaultEnabled = true;
 WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : 
 	Window("Main Menu"), showAbout(false)
 {
+	
+	enabled = defaultEnabled;
 	about = std::make_unique<WindowAbout>();
 	
 	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
 	{
-		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair(window->GetName(), true);
-		windowNamesAndEnabled.push_back(windowNameAndEnabled);
+		std::pair<std::string, std::reference_wrapper<bool>> windowNameAndEnabled = { window->GetName(), window->enabled };
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
 	}
 }
 
@@ -21,7 +23,7 @@ WindowMainMenu::~WindowMainMenu()
 {
 }
 
-void WindowMainMenu::Draw(bool& enabled)
+void WindowMainMenu::Draw()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -38,10 +40,11 @@ void WindowMainMenu::DrawWindowsMenu()
 {
 	if (ImGui::BeginMenu("Windows"))
 	{
-		for (std::pair<std::string, bool>& windowNameAndEnabled : windowNamesAndEnabled)
-		{
-			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second);
+		for (auto& windowNameAndEnabled : windowNamesAndEnabled)
+		{			
+			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second.get());
 		}
+		
 		ImGui::EndMenu();
 	}
 }
@@ -50,9 +53,9 @@ void WindowMainMenu::DrawAbout()
 {
 	if (ImGui::MenuItem("About"))
 	{
-		showAbout = !showAbout;
+		enabled = !showAbout;
 	}		
-	about->Draw(showAbout);
+	about->Draw();
 }
 
 void WindowMainMenu::DrawGithubLink() const

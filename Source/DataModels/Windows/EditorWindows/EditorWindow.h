@@ -9,9 +9,11 @@ class EditorWindow : public Window
 public:
 	virtual ~EditorWindow() override;
 
-	void Draw(bool& enabled) override;
+	void Draw() override;
 
-	bool IsFocused() const;
+	bool IsFocused() const;	
+	void Start();
+	void CleanUp();
 
 protected:
 	EditorWindow(const std::string& name);
@@ -19,9 +21,12 @@ protected:
 	virtual ImVec2 GetStartingSize() const = 0; 
 
 	ImGuiWindowFlags flags;
+	
 
 private:
 	bool focused;
+	void load_meta(std::string name, bool& enable);
+	void Update_meta(bool enabled, std::string name);
 };
 
 inline bool EditorWindow::IsFocused() const

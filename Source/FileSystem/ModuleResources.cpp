@@ -317,7 +317,9 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox };
+												  ResourceType::SkyBox,
+												  ResourceType::Window
+	};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -511,6 +513,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 		return "Materials";
 	case ResourceType::SkyBox:
 		return "SkyBox";
+	case ResourceType::Window:
+		return "StateWindow";
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";

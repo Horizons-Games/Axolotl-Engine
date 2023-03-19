@@ -7,14 +7,14 @@ class Window
 public:
 	virtual ~Window() {}
 
-	virtual void Draw(bool& enabled) = 0;
+	virtual void Draw() = 0;
 
 	const std::string& GetName() const;
-	
+	bool enabled;
 protected:
-	Window(const std::string& name);
-
+	Window(const std::string& name);	
 	std::string name;
+	
 };
 
 inline Window::Window(const std::string& name)
