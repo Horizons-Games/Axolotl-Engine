@@ -1,4 +1,5 @@
 #include "WindowMainMenu.h"
+#include "Windows/SubWindows/WindowStyle.h"
 
 #include "SDL.h"
 
@@ -42,6 +43,13 @@ void WindowMainMenu::DrawWindowsMenu()
 		for (std::pair<std::string, bool>& windowNameAndEnabled : windowNamesAndEnabled)
 		{
 			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second);
+		}
+		if (ImGui::MenuItem("Restart Windows"))
+		{
+			//Borrar ventanas
+			WindowStyle DockStyle;
+			DockStyle.ResetDockConfig();
+
 		}
 		ImGui::EndMenu();
 	}
