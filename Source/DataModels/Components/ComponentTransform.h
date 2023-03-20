@@ -31,6 +31,8 @@ public:
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
+	const float3& GetGlobalFront() const;
+	const float3& GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
@@ -106,6 +108,16 @@ inline const float3& ComponentTransform::GetLocalForward() const
 inline const float3& ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
+}
+
+inline const float3& ComponentTransform::GetGlobalFront() const
+{
+	return globalMatrix.WorldY();
+}
+
+inline const float3& ComponentTransform::GetGlobalRight() const
+{
+	return globalMatrix.WorldX();
 }
 
 inline void ComponentTransform::SetPosition(const float3& position)
