@@ -5,6 +5,7 @@
 #include "Components/Component.h"
 
 #include "Math/float4x4.h"
+#include "Math/Quat.h"
 
 #define COMPONENT_TRANSFORM "Transform"
 
@@ -24,39 +25,38 @@ public:
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
-	const float4x4& GetRotation() const;
+	const Quat& GetRotation() const;
 	const float3& GetRotationXYZ() const;
-	const float4x4& GetGlobalRotation() const;
+	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
-	const float3& GetGlobalFront() const;
-	const float3& GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
-	void SetRotation(const float4x4& rotation);
+	void SetRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
 
-	void CalculateMatrices();
-	void UpdateTransformMatrices();
+	void SetLocalMatrix(const float4x4& matrix);
+	void SetGlobalMatrix(const float4x4& matrix);
+
+	void CalculateLocalMatrix();
+	void CalculateGlobalMatrix();
+
+	void ResetGlobalMatrix();
 
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-	
+
 private:
 	float3 pos;
-	float4x4 rot;
+	Quat rot;
 	float3 sca;
-
-	float3 globalPos;
-	float4x4 globalRot;
-	float3 globalSca;
 
 	float3 rotXYZ;
 
@@ -69,12 +69,7 @@ inline const float3& ComponentTransform::GetPosition() const
 	return pos;
 }
 
-inline const float3& ComponentTransform::GetGlobalPosition() const
-{
-	return globalPos;
-}
-
-inline const float4x4& ComponentTransform::GetRotation() const 
+inline const Quat& ComponentTransform::GetRotation() const
 {
 	return rot;
 }
@@ -84,19 +79,9 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
-inline const float4x4& ComponentTransform::GetGlobalRotation() const
-{
-	return globalRot;
-}
-
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
-}
-
-inline const float3& ComponentTransform::GetGlobalScale() const
-{
-	return globalSca;
 }
 
 inline const float3& ComponentTransform::GetLocalForward() const
@@ -109,16 +94,6 @@ inline const float3& ComponentTransform::GetGlobalForward() const
 	return globalMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalFront() const
-{
-	return globalMatrix.WorldY();
-}
-
-inline const float3& ComponentTransform::GetGlobalRight() const
-{
-	return globalMatrix.WorldX();
-}
-
 inline void ComponentTransform::SetPosition(const float3& position)
 {
 	pos = position;
@@ -127,10 +102,10 @@ inline void ComponentTransform::SetPosition(const float3& position)
 inline void ComponentTransform::SetRotation(const float3& rotation)
 {
 	rotXYZ = rotation;
-	rot = float4x4::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+	rot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
 }
 
-inline void ComponentTransform::SetRotation(const float4x4& rotation)
+inline void ComponentTransform::SetRotation(const Quat& rotation)
 {
 	rot = rotation;
 	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
@@ -139,10 +114,6 @@ inline void ComponentTransform::SetRotation(const float4x4& rotation)
 inline void ComponentTransform::SetScale(const float3& scale)
 {
 	sca = scale;
-
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
 }
 
 inline const float4x4& ComponentTransform::GetLocalMatrix() const
@@ -153,4 +124,19 @@ inline const float4x4& ComponentTransform::GetLocalMatrix() const
 inline const float4x4& ComponentTransform::GetGlobalMatrix() const
 {
 	return globalMatrix;
+}
+
+inline void ComponentTransform::SetLocalMatrix(const float4x4& matrix)
+{
+	localMatrix = matrix;
+}
+
+inline void ComponentTransform::SetGlobalMatrix(const float4x4& matrix)
+{
+	globalMatrix = matrix;
+}
+
+inline void ComponentTransform::ResetGlobalMatrix()
+{
+	globalMatrix = float4x4::identity;
 }

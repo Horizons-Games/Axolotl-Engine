@@ -7,20 +7,20 @@ struct OptionsScene
 {
 };
 
-class ResourceScene : virtual public Resource
+class ResourceScene : public Resource
 {
 public:
 	ResourceScene(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
-	virtual ~ResourceScene() override;
+	~ResourceScene() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveOptions(Json& meta) override {};
+	void LoadOptions(Json& meta) override {};
 
 	//Getters
 
-	OptionsScene& GetOptions();
+	std::shared_ptr<OptionsScene>& GetOptions();
 
 	//Setters
 
@@ -29,7 +29,7 @@ protected:
 	void InternalUnload() override {};
 
 private:
-	OptionsScene options;
+	std::shared_ptr<OptionsScene> options;
 };
 
 inline ResourceType ResourceScene::GetType() const
@@ -37,7 +37,7 @@ inline ResourceType ResourceScene::GetType() const
 	return ResourceType::Scene;
 }
 
-inline OptionsScene& ResourceScene::GetOptions()
+inline std::shared_ptr<OptionsScene>& ResourceScene::GetOptions()
 {
 	return options;
 }

@@ -9,19 +9,19 @@ struct OptionsMesh
 {
 };
 
-class ResourceMesh : virtual public Resource
+class ResourceMesh : public Resource
 {
 public:
 	ResourceMesh(UID resourceUID, 
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
-	virtual ~ResourceMesh() override;
+	~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveOptions(Json& meta) override {};
+	void LoadOptions(Json& meta) override {};
 
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
@@ -37,7 +37,7 @@ public:
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
 
-	OptionsMesh& GetOptions();
+	std::shared_ptr<OptionsMesh>& GetOptions();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
@@ -75,7 +75,7 @@ private:
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
 
-	OptionsMesh options;
+	std::shared_ptr<OptionsMesh> options;
 };
 
 inline ResourceType ResourceMesh::GetType() const
@@ -143,7 +143,7 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
-inline OptionsMesh& ResourceMesh::GetOptions()
+inline std::shared_ptr<OptionsMesh>& ResourceMesh::GetOptions()
 {
 	return options;
 }

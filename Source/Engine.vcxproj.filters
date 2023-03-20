@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -169,7 +169,7 @@
     <ClCompile Include="Modules\ModuleEditor.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleCamera.cpp">
+    <ClCompile Include="Modules\ModuleEngineCamera.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleInput.cpp">
@@ -186,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="Modules\ModuleWindow.cpp">
       <Filter>Source\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
@@ -286,6 +289,9 @@
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
@@ -358,6 +364,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
@@ -381,39 +390,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Camera\Camera.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Camera\CameraGameObject.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Camera\CameraGod.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\ModulePlayer.cpp">
-      <Filter>Source\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
-      <Filter>Source\DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -702,7 +678,7 @@
     <ClInclude Include="Modules\ModuleEditor.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleCamera.h">
+    <ClInclude Include="Modules\ModuleEngineCamera.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleInput.h">
@@ -719,6 +695,12 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleWindow.h">
       <Filter>Source\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\Window.h">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
@@ -840,6 +822,9 @@
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
     <ClInclude Include="FileSystem\Importers\ModelImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
@@ -909,6 +894,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
@@ -932,51 +920,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Camera\Camera.h">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraGod.h">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraEngine.h">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraGameObject.h">
-      <Filter>Source\DataModels\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\Window.h">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
-      <Filter>Source\DataModels\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h">
-      <Filter>Source\DataModels\Resources\EditorResource</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h">
-      <Filter>Source\DataModels\Resources\EditorResource</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Source\Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\ModulePlayer.h">
-      <Filter>Source\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentPlayer.h">
-      <Filter>Source\DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\WindowDebug.h">
-      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1072,15 +1015,6 @@
     </Filter>
     <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
       <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Camera">
-      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
-      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Auxiliar">
-      <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

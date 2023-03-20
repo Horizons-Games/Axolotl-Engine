@@ -2,8 +2,6 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/Json.h"
-#include "Resources/ResourceTexture.h"
 
 #include <GL/glew.h>
 #include <DirectXTex/DirectXTex.h>
@@ -22,14 +20,11 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 {
 	ENGINE_LOG("Import texture from %s", filePath);
 
-	ImportOptionsTexture options = resource->GetImportOptions();
-
 	std::string narrowString(filePath);
 	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
 	const wchar_t* path = wideString.c_str();
 
 	DirectX::TexMetadata md;
-	DirectX::ScratchImage* imgResult;
 	DirectX::ScratchImage img, flippedImg, dcmprsdImg;
 
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
@@ -42,53 +37,13 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		{
 			result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
 
-			imgResult = &img;
-			if(options.flipVertical && options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipVertical)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-
-				if(!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
+			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 		}
 		else
 		{
-			imgResult = &img;
-			if (options.flipVertical && options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipVertical)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
+			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 		}
 	}
 	else
@@ -96,39 +51,21 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		result = DirectX::Decompress(img.GetImages(), img.GetImageCount(),
 			md, DXGI_FORMAT_UNKNOWN, dcmprsdImg);
 
-		imgResult = &dcmprsdImg;
-
-		if (options.flipVertical && options.flipHorizontal)
-		{
-			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-			if (!FAILED(result)) imgResult = &flippedImg;
-		}
-		else if (options.flipVertical)
-		{
-			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
-				dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-			
-			if (!FAILED(result)) imgResult = &flippedImg;
-		}
-		else if (options.flipHorizontal)
-		{
-			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(), dcmprsdImg.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
-
-			if (!FAILED(result)) imgResult = &flippedImg;
-		}
+		result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
+			dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 	}
 
 	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
+	result = DirectX::SaveToDDSFile(flippedImg.GetImages(), flippedImg.GetImageCount(), flippedImg.GetMetadata(), 
+		DirectX::DDS_FLAGS_NONE, path);
+
 	GLint internalFormat;
 	GLenum format, type;
 
-	switch (imgResult->GetMetadata().format)
+	switch (flippedImg.GetMetadata().format)
 	{
 	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
 	case DXGI_FORMAT_R8G8B8A8_UNORM:
@@ -156,16 +93,16 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		assert(false && "Unsupported format");
 	}
 
-	resource->SetWidth((unsigned int)imgResult->GetMetadata().width);
-	resource->SetHeight((unsigned int)imgResult->GetMetadata().height);
+	resource->SetWidth((unsigned int)flippedImg.GetMetadata().width);
+	resource->SetHeight((unsigned int)flippedImg.GetMetadata().height);
 
 	resource->SetInternalFormat(internalFormat);
 	resource->SetFormat(format);
 	resource->SetImageType(type);
 
-	resource->SetPixelsSize((unsigned int)imgResult->GetPixelsSize());
+	resource->SetPixelsSize((unsigned int)flippedImg.GetPixelsSize());
 
-	std::vector<uint8_t> pixels(imgResult->GetPixels(), imgResult->GetPixels() + imgResult->GetPixelsSize());
+	std::vector<uint8_t> pixels(flippedImg.GetPixels(),flippedImg.GetPixels() + flippedImg.GetPixelsSize());
 
 	resource->SetPixels(pixels);
 
@@ -189,16 +126,7 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 		resource->GetPixelsSize()
 	};
 
-	unsigned int options[5] =
-	{
-		static_cast<unsigned int>(resource->GetLoadOptions().min),
-		static_cast<unsigned int>(resource->GetLoadOptions().mag),
-		static_cast<unsigned int>(resource->GetLoadOptions().wrapS),
-		static_cast<unsigned int>(resource->GetLoadOptions().wrapT),
-		resource->GetLoadOptions().mipMap
-	};
-
-	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize() + sizeof(options);
+	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize();
 
 	char* cursor = new char[size];
 
@@ -211,11 +139,6 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 
 	bytes = sizeof(unsigned char) * resource->GetPixelsSize();
 	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(options);
-	memcpy(cursor, options, bytes);
 }
 
 void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
@@ -237,16 +160,5 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 	std::vector<unsigned char> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
 	resource->SetPixels(pixels);
 
-	fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
-
 	delete[] pixelsPointer;
-
-	unsigned int options[5];
-	memcpy(options, fileBuffer, sizeof(options));
-
-	resource->GetLoadOptions().min = (TextureMinFilter)options[0];
-	resource->GetLoadOptions().mag = (TextureMagFilter)options[1];
-	resource->GetLoadOptions().wrapS = (TextureWrap)options[2];
-	resource->GetLoadOptions().wrapT = (TextureWrap)options[3];
-	resource->GetLoadOptions().mipMap = options[4];
-}
+} 

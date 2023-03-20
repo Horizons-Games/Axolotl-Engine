@@ -6,12 +6,17 @@
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
-#include "ModuleCamera.h"
+#include "ModuleEngineCamera.h"
 #include "DataModels/Program/Program.h"
 
-Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes)
+Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes),
+    skyboxUID(0ULL)
 {
-    this->skyboxRes->Load();
+    std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
+    if (skyboxAsShared)
+    {
+        skyboxAsShared->Load();
+    }
 }
 
 Skybox::~Skybox()
@@ -20,27 +25,29 @@ Skybox::~Skybox()
 
 void Skybox::Draw()
 {
+    glDepthMask(GL_FALSE);
 
     Program* program = App->program->GetProgram(ProgramType::SKYBOX);
-    if (program && skyboxRes) 
+    if (program) 
     {
-        skyboxRes->Load();
-        glDepthMask(GL_FALSE);
-
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
 
-        glBindVertexArray(skyboxRes->GetVAO());
-        glActiveTexture(GL_TEXTURE0);
+        std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
+        if (skyboxAsShared)
+        {
+            glBindVertexArray(skyboxAsShared->GetVAO());
+            glActiveTexture(GL_TEXTURE0);
 
-        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxRes->GetGlTexture());
+            glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxAsShared->GetGlTexture());
 
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        glBindVertexArray(0);
-        program->Deactivate();
-        glDepthMask(GL_TRUE);
+            glBindVertexArray(0);
+            program->Deactivate();
+            glDepthMask(GL_TRUE);
+        }
     }
 }

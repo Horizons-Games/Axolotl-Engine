@@ -2,12 +2,8 @@
 
 #include "Globals.h"
 #include "GL/glew.h"
-#include <MathGeoLib/Include/Math/float3.h>
 
-Program::Program(unsigned vertexShader, unsigned fragmentShader,
-	const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName) :
-	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName), programName(programName),
-	id(glCreateProgram())
+Program::Program(unsigned vertexShader, unsigned fragmentShader) : id (glCreateProgram())
 {
 	glAttachShader(id, vertexShader);
 	glAttachShader(id, fragmentShader);
@@ -33,7 +29,6 @@ Program::Program(unsigned vertexShader, unsigned fragmentShader,
 
 Program::~Program()
 {
-	CleanUp();
 }
 
 void Program::Activate()
@@ -51,33 +46,22 @@ void Program::CleanUp()
 	glDeleteProgram(id);
 }
 
-void Program::BindUniformFloat4x4(const std::string& name, const float* data, bool transpose)
+void Program::BindUniformFloat4x4(const char* name, const float* data, bool transpose)
 {
-	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, transpose, data);
+	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, transpose, data);
 }
 
-void Program::BindUniformFloat3(const std::string& name, const float3 data)
+void Program::BindUniformFloat3(const char* name, const float* data)
 {
-	glUniform3f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z);
+	glUniform3fv(glGetUniformLocation(id, name), 1, data);
 }
 
-void Program::BindUniformFloat(const std::string& name, const float data)
+void Program::BindUniformFloat(const char* name, const float* data)
 {
-	glUniform1f(glGetUniformLocation(id, name.c_str()), data);
+	glUniform1fv(glGetUniformLocation(id, name), 1, data);
 }
 
-void Program::BindUniformInt(const std::string& name, int value)
+void Program::BindUniformBool(const char* name, bool value)
 {
-	glUniform1i(glGetUniformLocation(id, name.c_str()), value);
-}
-
-void Program::BindUniformBlock(const std::string& name, const unsigned value)
-{
-	glUniformBlockBinding(id, glGetUniformBlockIndex(id, name.c_str()), value);
-}
-
-void Program::BindShaderStorageBlock(const std::string& name, const unsigned value)
-{
-	glShaderStorageBlockBinding(id, glGetProgramResourceIndex(id, GL_SHADER_STORAGE_BLOCK, name.c_str()), value);
+	glUniform1i(glGetUniformLocation(id, name), value);
 }

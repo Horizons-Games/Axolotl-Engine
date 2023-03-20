@@ -10,8 +10,8 @@ enum class ComponentType
 	MESHRENDERER, 
 	TRANSFORM, 
 	LIGHT, 
-	CAMERA,
-	PLAYER
+	CAMERA, 
+	BOUNDINGBOX 
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -121,8 +121,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Light";
 	case ComponentType::CAMERA:
 		return "Component_Camera";
-	case ComponentType::PLAYER:
-		return "Component_Player";
+	case ComponentType::BOUNDINGBOX:
+		return "Component_Bounding";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -156,9 +156,9 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::CAMERA;
 	}
 
-	if (typeName == "Component_Player")
+	if (typeName == "Component_Bounding")
 	{
-		return ComponentType::PLAYER;
+		return ComponentType::BOUNDINGBOX;
 	}
 	
 	return ComponentType::UNKNOWN;

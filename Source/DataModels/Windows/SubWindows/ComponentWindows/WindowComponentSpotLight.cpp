@@ -1,16 +1,14 @@
 #include "WindowComponentSpotLight.h"
 
 #include "Application.h"
-
 #include "ModuleScene.h"
-
 #include "DataModels/Scene/Scene.h"
 
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentPointLight.h"
 
 WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component) :
-	WindowComponentLight("SPOT LIGHT", component)
+	ComponentWindow("SPOT LIGHT", component)
 {
 }
 
@@ -80,17 +78,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asSpotLight->GetIntensity();
-			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, max_intensity))
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
 			{
-				if (intensity > max_intensity)
-				{
-					intensity = max_intensity;
-				}
-				else if (intensity < 0.0f)
-				{
-					intensity = 0.0f;
-				}
-
 				asSpotLight->SetIntensity(intensity);
 				modified = true;
 			}
@@ -115,20 +104,17 @@ void WindowComponentSpotLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			float innerAngle = RadToDeg(asSpotLight->GetInnerAngle());
-			float outerAngle = RadToDeg(asSpotLight->GetOuterAngle());
+			float innerAngle = asSpotLight->GetInnerAngle();
+			float outerAngle = asSpotLight->GetOuterAngle();
 
 			ImGui::Text("Inner Angle"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##Inner", &innerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))
+			if (ImGui::DragFloat("##Inner", &innerAngle, 0.01f, 0.0001f, 180.0f))
 			{
-				innerAngle > 90.0f ? innerAngle = 90.0f : innerAngle;
-				innerAngle < 0.0f ? innerAngle = 0.0f : innerAngle;
-
 				if (innerAngle <= outerAngle)
 				{
-					asSpotLight->SetInnerAngle(DegToRad(innerAngle));
+					asSpotLight->SetInnerAngle(innerAngle);
 					modified = true;
 				}
 			}
@@ -137,14 +123,11 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::Text("Outer Angle"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##Outer", &outerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))
+			if (ImGui::DragFloat("##Outer", &outerAngle, 0.01f, 0.0001f, 180.0f))
 			{
-				outerAngle > 90.0f ? outerAngle = 90.0f : outerAngle;
-				outerAngle < 0.0f ? outerAngle = 0.0f : outerAngle;
-
 				if (outerAngle >= innerAngle)
 				{
-					asSpotLight->SetOuterAngle(DegToRad(outerAngle));
+					asSpotLight->SetOuterAngle(outerAngle);
 					modified = true;
 				}
 			}

@@ -37,7 +37,8 @@ enum class TextureWrap
 	MIRROR_CLAMP_TO_EDGE
 };
 
-struct LoadOptionsTexture
+
+struct OptionsTexture
 {
 	TextureMinFilter min;
 	TextureMagFilter mag;
@@ -45,7 +46,7 @@ struct LoadOptionsTexture
 	TextureWrap wrapT;
 	bool mipMap;
 
-	LoadOptionsTexture() :
+	OptionsTexture() :
 		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
 		mag(TextureMagFilter::LINEAR),
 		wrapS(TextureWrap::REPEAT),
@@ -54,30 +55,19 @@ struct LoadOptionsTexture
 	{}
 };
 
-struct ImportOptionsTexture
-{
-	bool flipVertical;
-	bool flipHorizontal;
-
-	ImportOptionsTexture() :
-		flipVertical(true),
-		flipHorizontal(false)
-	{}
-};
-
-class ResourceTexture : virtual public Resource
+class ResourceTexture : public Resource
 {
 public:
 	ResourceTexture(UID resourceUID, 
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
-	virtual ~ResourceTexture() override;
+	~ResourceTexture() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override;
-	void LoadImporterOptions(Json& meta) override;
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
 	unsigned int GetGlTexture() const;
 	unsigned int GetWidth() const;
@@ -88,8 +78,7 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 
-	ImportOptionsTexture& GetImportOptions();
-	LoadOptionsTexture& GetLoadOptions();
+	std::shared_ptr<OptionsTexture>& GetOptions();
 
 	void SetWidth(unsigned int width);
 	void SetHeight(unsigned int height);
@@ -105,23 +94,16 @@ protected:
 private:
 	void CreateTexture();
 
-	int GetMagFilterEquivalence(TextureMagFilter filter);
-
-	int GetMinFilterEquivalence(TextureMinFilter filter);
-
-	int GetWrapFilterEquivalence(TextureWrap filter);
-
-	unsigned int glTexture = 0;
-	unsigned int width = 0;
-	unsigned int height = 0;
-	unsigned int format = 0;
-	unsigned int internalFormat = 0;
-	unsigned int imageType = 0;
+	unsigned int glTexture;
+	unsigned int width;
+	unsigned int height;
+	unsigned int format;
+	unsigned int internalFormat;
+	unsigned int imageType;
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize;
 
-	LoadOptionsTexture loadOptions;
-	ImportOptionsTexture importOptions;
+	std::shared_ptr<OptionsTexture> options;
 };
 
 inline ResourceType ResourceTexture::GetType() const
@@ -169,14 +151,9 @@ inline unsigned int ResourceTexture::GetPixelsSize() const
 	return pixelsSize;
 }
 
-inline ImportOptionsTexture& ResourceTexture::GetImportOptions()
+inline std::shared_ptr<OptionsTexture>& ResourceTexture::GetOptions()
 {
-	return this->importOptions;
-}
-
-inline LoadOptionsTexture& ResourceTexture::GetLoadOptions()
-{
-	return this->loadOptions;
+	return options;
 }
 
 inline void ResourceTexture::SetWidth(unsigned int width)

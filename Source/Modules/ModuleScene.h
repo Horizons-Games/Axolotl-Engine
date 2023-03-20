@@ -7,7 +7,6 @@
 class GameObject;
 class Quadtree;
 class Scene;
-class Skybox;
 
 class ModuleScene : public Module
 {
@@ -31,15 +30,14 @@ public:
 	void OnPause();
 	void OnStop();
 
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 private:
+	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& Json);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
-	std::unique_ptr<Skybox> skybox;
 	GameObject* selectedGameObject;
 
 	//to store the tmp serialization of the Scene

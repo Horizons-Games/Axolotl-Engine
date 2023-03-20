@@ -7,11 +7,6 @@ WindowComponentLight::WindowComponentLight(ComponentLight* component) :
 {
 }
 
-WindowComponentLight::WindowComponentLight(const std::string& name, ComponentLight* component) :
-	ComponentWindow(name, component)
-{
-}
-
 WindowComponentLight::~WindowComponentLight()
 {
 }

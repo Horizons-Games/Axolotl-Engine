@@ -29,6 +29,10 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+	void SetDiffuseUID(UID& diffuseUID);
+	void SetNormalUID(UID& normalUID);
+	void SetOcclusionUID(UID& occlusionUID);
+	void SetSpecularUID(UID& specularUID);
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float shininess);
@@ -36,6 +40,10 @@ public:
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
+	const UID& GetDiffuseUID() const;
+	const UID& GetNormalUID() const;
+	const UID& GetOcclusionUID() const;
+	const UID& GetSpecularUID() const;
 	const float3& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float GetShininess() const;
@@ -49,10 +57,85 @@ private:
 
 	std::shared_ptr<ResourceMaterial> material;
 
+	float3 diffuseColor;
+	float3 specularColor;
+	float shininess;
+	float normalStrength;
+
+	bool hasShininessAlpha;
+
+	//Auxiliar UIDs
+	UID diffuseUID;
+	UID normalUID;
+	UID occlusionUID;
+	UID specularUID;
+	//All this
+
 	friend class WindowComponentMaterial;
 };
+
+inline void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
+{
+	this->diffuseColor = diffuseColor;
+}
+
+inline void ComponentMaterial::SetSpecularColor(float3& specularColor)
+{
+	this->specularColor = specularColor;
+}
+
+inline void ComponentMaterial::SetShininess(float shininess)
+{
+	this->shininess = shininess;
+}
+
+inline void ComponentMaterial::SetNormalStrenght(float normalStrength)
+{
+	this->normalStrength = normalStrength;
+}
+
+inline void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
+{
+	this->hasShininessAlpha = hasShininessAlpha;
+}
 
 inline std::shared_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
 {
 	return material;
+}
+
+inline const UID& ComponentMaterial::GetDiffuseUID() const {
+	return diffuseUID;
+}
+
+inline const UID& ComponentMaterial::GetNormalUID() const {
+	return normalUID;
+}
+
+inline const UID& ComponentMaterial::GetOcclusionUID() const {
+	return occlusionUID;
+}
+
+inline const UID& ComponentMaterial::GetSpecularUID() const {
+	return specularUID;
+}
+
+inline const float3& ComponentMaterial::GetDiffuseColor() const {
+	return diffuseColor;
+}
+
+inline const float3& ComponentMaterial::GetSpecularColor() const {
+	return specularColor;
+}
+
+inline const float ComponentMaterial::GetShininess() const {
+	return shininess;
+}
+
+inline const float ComponentMaterial::GetNormalStrenght() const {
+	return normalStrength;
+}
+
+inline const bool ComponentMaterial::HasShininessAlpha() const {
+	return hasShininessAlpha;
 }

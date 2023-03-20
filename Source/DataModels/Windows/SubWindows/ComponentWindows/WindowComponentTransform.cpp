@@ -7,8 +7,6 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"
 
-#include "ModuleScene.h"
-
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
 	ComponentWindow("TRANSFORM", component)
 {
@@ -45,7 +43,7 @@ void WindowComponentTransform::DrawWindowContents()
 		if (ownerIsRoot)
 		{
 			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(float4x4::identity);
+			asTransform->SetRotation(Quat::identity);
 			asTransform->SetScale(float3::one);
 			return;
 		}
@@ -202,10 +200,8 @@ void WindowComponentTransform::UpdateComponentTransform()
 			asTransform->SetScale(currentScale);
 		}
 
-		if (scaleModified || rotationModified || translationModified)
-		{
-			asTransform->UpdateTransformMatrices();
-		}
+		asTransform->CalculateLocalMatrix();
+		asTransform->CalculateGlobalMatrix();
 	}
 }
 

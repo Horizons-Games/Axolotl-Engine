@@ -1,10 +1,10 @@
 #pragma once
 
-#include "WindowComponentLight.h"
+#include "ComponentWindow.h"
 
 class ComponentPointLight;
 
-class WindowComponentPointLight : public WindowComponentLight
+class WindowComponentPointLight : public ComponentWindow
 {
 public:
 	WindowComponentPointLight(ComponentPointLight* component);

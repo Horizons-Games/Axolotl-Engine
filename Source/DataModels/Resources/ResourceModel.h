@@ -4,38 +4,35 @@
 
 #include <memory>
 
-class ResourceMesh;
-class ResourceMaterial;
-
 struct OptionsModel
 {
 };
 
-class ResourceModel : virtual public Resource
+class ResourceModel : public Resource
 {
 public:
 	ResourceModel(UID resourceUID, 
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
-	virtual ~ResourceModel() override;
+	~ResourceModel() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveOptions(Json& meta) override {};
+	void LoadOptions(Json& meta) override {};
 
 	const size_t GetNumMeshes() const;
 	const size_t GetNumMaterials() const;
-	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
-	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
+	const std::vector<UID>& GetMeshesUIDs() const;
+	const std::vector<UID>& GetMaterialsUIDs() const;
 
-	OptionsModel& GetOptions();
+	std::shared_ptr<OptionsModel>& GetOptions();
 
 	void SetNumMeshes(const unsigned int numMeshes);
 	void SetNumMaterials(const unsigned int numMaterials);
-	void SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes);
-	void SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials);
+	void SetMeshesUIDs(const std::vector<UID>& meshesUIDs);
+	void SetMaterialsUIDs(const std::vector<UID>& materialsUIDs);
 
 protected:
 	void InternalLoad() override;
@@ -44,11 +41,10 @@ protected:
 private:
 	size_t numMeshes;
 	size_t numMaterials;
+	std::vector<UID> meshesUIDs;
+	std::vector<UID> materialsUIDs;
 
-	std::vector<std::shared_ptr<ResourceMesh>> meshes;
-	std::vector<std::shared_ptr<ResourceMaterial>> materials;
-
-	OptionsModel options;
+	std::shared_ptr<OptionsModel> options;
 };
 
 inline ResourceType ResourceModel::GetType() const
@@ -66,17 +62,17 @@ inline const size_t ResourceModel::GetNumMaterials() const
 	return numMaterials;
 }
 
-inline const std::vector<std::shared_ptr<ResourceMesh>>& ResourceModel::GetMeshes() const
+inline const std::vector<UID>& ResourceModel::GetMeshesUIDs() const
 {
-	return meshes;
+	return meshesUIDs;
 }
 
-inline const std::vector<std::shared_ptr<ResourceMaterial>>& ResourceModel::GetMaterials() const
+inline const std::vector<UID>& ResourceModel::GetMaterialsUIDs() const
 {
-	return materials;
+	return materialsUIDs;
 }
 
-inline OptionsModel& ResourceModel::GetOptions()
+inline std::shared_ptr<OptionsModel>& ResourceModel::GetOptions()
 {
 	return options;
 }
@@ -91,14 +87,14 @@ inline void ResourceModel::SetNumMaterials(const unsigned int numMaterials)
 	this->numMaterials = numMaterials;
 }
 
-inline void ResourceModel::SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes)
+inline void ResourceModel::SetMeshesUIDs(const std::vector<UID>& meshesUIDs)
 {
-	this->meshes = meshes;
-	this->numMeshes = meshes.size();
+	this->meshesUIDs = meshesUIDs;
+	numMeshes = meshesUIDs.size();
 }
 
-inline void ResourceModel::SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials)
+inline void ResourceModel::SetMaterialsUIDs(const std::vector<UID>& materialsUIDs)
 {
-	this->materials = materials;
-	this->numMaterials = materials.size();
+	this->materialsUIDs = materialsUIDs;
+	numMaterials = materialsUIDs.size();
 }

@@ -11,13 +11,13 @@ class Skybox
 {
 
 public:
-	Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes);
+	Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes);
 	~Skybox();
 
 	void Draw();
 
 private:
-	std::shared_ptr<ResourceSkyBox> skyboxRes;
+	std::weak_ptr<ResourceSkyBox> skyboxRes;
 
 	UID skyboxUID;
 };

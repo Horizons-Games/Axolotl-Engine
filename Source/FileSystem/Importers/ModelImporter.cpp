@@ -6,8 +6,6 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "DataModels/Resources/ResourceMesh.h"
-#include "DataModels/Resources/ResourceMaterial.h"
 
 #include "Math/float3.h"
 
@@ -35,7 +33,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 	ENGINE_LOG("Import Model from %s", filePath);
 
-	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate);
 	if (scene)
 	{
 		ImportMaterials(scene, filePath, resource);
@@ -57,23 +55,12 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
-#ifdef ENGINE
-	//Update Meta
-	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
-	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-	rapidjson::Document doc;
-	Json meta(doc, doc);
-	meta.fromBuffer(metaBuffer);
-	delete metaBuffer;
-#endif
-
 	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
 
-	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() +
-		sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() + sizeof(UID) 
+		* (unsigned int)resource->GetNumMaterials();
 
-	char* cursor = new char[size] {};
+	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
@@ -82,54 +69,17 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
-	std::vector<UID> meshesUIDs;
-	meshesUIDs.reserve(resource->GetNumMeshes());
-	for (int i = 0; i < resource->GetNumMeshes(); i++)
-	{
-#ifdef ENGINE
-		Json jsonMeshes = meta["MeshesAssetPaths"];
-		jsonMeshes[i] = resource->GetMeshes()[i]->GetAssetsPath().c_str();
-#endif
-		meshesUIDs.push_back(resource->GetMeshes()[i]->GetUID());
-	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
-	memcpy(cursor, &(meshesUIDs[0]), bytes);
+	memcpy(cursor, &(resource->GetMeshesUIDs()[0]), bytes);
 
 	cursor += bytes;
 
-	std::vector<UID> materialsUIDs;
-	materialsUIDs.reserve(resource->GetNumMaterials());
-	for (int i = 0; i < resource->GetNumMaterials(); i++)
-	{
-#ifdef ENGINE
-		Json jsonMat = meta["MatAssetPaths"];
-		jsonMat[i] = resource->GetMaterials()[i]->GetAssetsPath().c_str();
-#endif
-		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
-	}
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
-	memcpy(cursor, &(materialsUIDs[0]), bytes);
-
-#ifdef ENGINE
-	rapidjson::StringBuffer buffer;
-	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
-#endif
+	memcpy(cursor, &(resource->GetMaterialsUIDs()[0]), bytes);
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
 {
-#ifdef ENGINE
-	//Update Meta
-	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
-	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-	rapidjson::Document doc;
-	Json meta(doc, doc);
-	meta.fromBuffer(metaBuffer);
-	delete metaBuffer;
-#endif
-
 	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
 	memcpy(header, fileBuffer, bytes);
@@ -139,54 +89,23 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	fileBuffer += bytes;
 
-	std::vector<std::shared_ptr<ResourceMesh>> meshes;
-	meshes.reserve(resource->GetNumMeshes());
-
-	std::vector<std::shared_ptr<ResourceMaterial>> materials;
-	materials.reserve(resource->GetNumMaterials());
-
-#ifdef  ENGINE
-	Json jsonMeshes = meta["MeshesAssetPaths"];
-	for (int i = 0; i < resource->GetNumMeshes(); i++)
-	{
-		std::string meshPath = jsonMeshes[i];
-		meshes.push_back
-		(App->resources->RequestResource<ResourceMesh>(meshPath));
-	}
-
-	Json jsonMat = meta["MatAssetPaths"];
-	for (int i = 0; i < resource->GetNumMaterials(); i++)
-	{
-		std::string matPath = jsonMat[i];
-		materials.push_back
-		(App->resources->RequestResource<ResourceMaterial>(matPath));
-	}
-#else
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
-	std::vector<UID> meshesUIDs(meshesPointer, meshesPointer + resource->GetNumMeshes());
-	delete[] meshesPointer;
-	for (int i = 0; i < meshesUIDs.size(); i++)
-	{
-		meshes.push_back(App->resources->SearchResource<ResourceMesh>(meshesUIDs[i]));
-	}
+	std::vector<UID> meshes(meshesPointer, meshesPointer + resource->GetNumMeshes());
+	resource->SetMeshesUIDs(meshes);
 
 	fileBuffer += bytes;
+
+	delete[] meshesPointer;
 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
 	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
-	std::vector<UID> materialsUIDs(materialsPointer, materialsPointer + resource->GetNumMaterials());
-	delete[] materialsPointer;
-	for (int i = 0; i < materialsUIDs.size(); i++)
-	{
-		materials.push_back(App->resources->SearchResource<ResourceMaterial>(materialsUIDs[i]));
-	}
-#endif
+	std::vector<UID> materials(materialsPointer, materialsPointer + resource->GetNumMaterials());
+	resource->SetMaterialsUIDs(materials);
 
-	resource->SetMeshes(meshes);
-	resource->SetMaterials(materials);
+	delete[] materialsPointer;
 }
 
 
@@ -195,9 +114,8 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 {
 	ENGINE_LOG("---- Loading Materials ----");
 
-	std::vector<std::shared_ptr<ResourceMaterial>> materials;
-
-	materials.reserve(scene->mNumMaterials);
+	std::vector<UID> materialsUIDs;
+	materialsUIDs.reserve(scene->mNumMaterials);
 
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
@@ -251,20 +169,19 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 			+ MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
-		std::shared_ptr<ResourceMaterial> resourceMaterial =
-			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->ImportResource(materialPath));
-		materials.push_back(resourceMaterial);
-		
+		UID resourceMaterial = App->resources->ImportResource(materialPath);
+		materialsUIDs.push_back(resourceMaterial);
+
 		delete fileBuffer;
 	}
 
-	resource->SetMaterials(materials);
+	resource->SetMaterialsUIDs(materialsUIDs);
 }
 
 void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource)
 {
-	std::vector<std::shared_ptr<ResourceMesh>> meshes;
-	meshes.reserve(scene->mNumMeshes);
+	std::vector<UID> meshesUIDs;
+	meshesUIDs.reserve(scene->mNumMeshes);
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
@@ -276,10 +193,10 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
 		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
-		meshes.push_back(resourceMesh);
+		UID resourceMesh = App->resources->ImportResource(meshPath);
+		meshesUIDs.push_back(resourceMesh);
 	}
-	resource->SetMeshes(meshes);
+	resource->SetMeshesUIDs(meshesUIDs);
 }
 
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)

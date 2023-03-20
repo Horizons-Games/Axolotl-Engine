@@ -1,7 +1,5 @@
 #include "Application.h"
-#ifdef DEBUG
 #include "optick.h"
-#endif // DEBUG
 
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "../External/SDL/lib/x64/SDL2main.lib" )
@@ -17,9 +15,7 @@ enum class main_states
 };
 
 std::unique_ptr<Application> App;
-#ifdef ENGINE
 std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
-#endif // ENGINE
 
 int main(int argc, char ** argv)
 {
@@ -28,9 +24,7 @@ int main(int argc, char ** argv)
 
 	while (state != main_states::MAIN_EXIT)
 	{
-#ifdef DEBUG
 		OPTICK_FRAME("MainThread");
-#endif // DEBUG
 
 		switch (state)
 		{
@@ -102,9 +96,7 @@ int main(int argc, char ** argv)
 	}
 
 	ENGINE_LOG("Bye :)\n");
-#ifdef DEBUG
 	OPTICK_SHUTDOWN();
-#endif // DEBUG
 
 	return mainReturn;
 }
