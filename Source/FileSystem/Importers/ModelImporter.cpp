@@ -67,16 +67,15 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	delete metaBuffer;
 #endif
 	
-	unsigned int header[1] = { (unsigned int)resource->GetNumNodes() };
-
-	size = sizeof(char) + sizeof(float4x4) + sizeof(int);
-	size *= resource->GetNumNodes();
+	size = (sizeof(float4x4) + sizeof(int) + sizeof(unsigned int) * 2) * resource->GetNumNodes();
 
 	for (ResourceModel::Node *node : resource->GetNodes())
 	{
-		size += node->meshRenderers.size() * sizeof(std::pair<UID, UID>);
+		size += sizeof(UID) * 2 * node->meshRenderers.size();
+		size += sizeof(char) * node->name.size();
 	}
-	
+
+	unsigned int header[1] = { (unsigned int)resource->GetNumNodes() };
 	size += sizeof(header);
 
 	char* cursor = new char[size] {};
@@ -88,45 +87,62 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
-	std::vector<UID> meshesUIDs;
-
-	unsigned int count = 0;
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
+		unsigned int nodeHeader[2] = { node->name.size(), node->meshRenderers.size() };
+
+		bytes = sizeof(nodeHeader);
+		memcpy(cursor, nodeHeader, bytes);
+		cursor += bytes;
+
+		bytes = sizeof(char) * node->name.size();
+		memcpy(cursor, &(node->name[0]), bytes);
+		cursor += bytes;
+
+		bytes = sizeof(float4x4);
+		memcpy(cursor, &(node->transform[0]), bytes);
+		cursor += bytes;
+
+		bytes = sizeof(int);
+		memcpy(cursor, &(node->parent), bytes);
+		cursor += bytes;
+
+		std::vector<UID> meshesUIDs;
+		meshesUIDs.reserve(node->meshRenderers.size());
+		for (int i = 0; i < node->meshRenderers.size(); i++)
+		{
+	#ifdef ENGINE
+			Json jsonMeshes = meta["MeshesAssetPaths"];
+			jsonMeshes[i] = node->meshRenderers[i].first->GetAssetsPath().c_str();
+	#endif
+			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
+		}
+		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+		memcpy(cursor, &(meshesUIDs[0]), bytes);
+		
+		cursor += bytes;
+
+		std::vector<UID> materialsUIDs;
+		materialsUIDs.reserve(node->meshRenderers.size());
+		for (int i = 0; i < node->meshRenderers.size(); i++)
+		{
+	#ifdef ENGINE
+			Json jsonMat = meta["MatAssetPaths"];
+			jsonMat[i] = node->meshRenderers[i].second->GetAssetsPath().c_str();
+	#endif
+			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
+		}
+		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+		memcpy(cursor, &(materialsUIDs[0]), bytes);
+
+		cursor += bytes;
 	}
 
-//	meshesUIDs.reserve(resource->GetNumMeshes());
-//	for (int i = 0; i < resource->GetNumMeshes(); i++)
-//	{
-//#ifdef ENGINE
-//		Json jsonMeshes = meta["MeshesAssetPaths"];
-//		jsonMeshes[i] = resource->GetMeshes()[i]->GetAssetsPath().c_str();
-//#endif
-//		meshesUIDs.push_back(resource->GetMeshes()[i]->GetUID());
-//	}
-//	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
-//	memcpy(cursor, &(meshesUIDs[0]), bytes);
-//
-//	cursor += bytes;
-//
-//	std::vector<UID> materialsUIDs;
-//	materialsUIDs.reserve(resource->GetNumMaterials());
-//	for (int i = 0; i < resource->GetNumMaterials(); i++)
-//	{
-//#ifdef ENGINE
-//		Json jsonMat = meta["MatAssetPaths"];
-//		jsonMat[i] = resource->GetMaterials()[i]->GetAssetsPath().c_str();
-//#endif
-//		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
-//	}
-//	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
-//	memcpy(cursor, &(materialsUIDs[0]), bytes);
-//
-//#ifdef ENGINE
-//	rapidjson::StringBuffer buffer;
-//	meta.toBuffer(buffer);
-//	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
-//#endif
+#ifdef ENGINE
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+#endif
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)

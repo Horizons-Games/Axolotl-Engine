@@ -21,7 +21,7 @@ class ResourceModel : virtual public Resource
 public:
 	struct Node
 	{
-		char* name;
+		std::string name;
 		float4x4 transform;
 		int parent;
 		std::vector<std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>>> meshRenderers;
