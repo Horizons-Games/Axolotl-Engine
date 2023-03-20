@@ -24,10 +24,10 @@ protected:
     void Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size) override;
 
 private:
-    std::shared_ptr<ResourceMaterial> ImportMaterial(const aiMaterial* material, const char* filePath, int iteration);
+    void ImportNode(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource,
+        const aiNode* parent, int parentIdx);
     std::shared_ptr<ResourceMesh> ImportMesh(const aiMesh* mesh, const char* filePath, int iteration);
-    void ImportNode(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource, 
-                    const aiNode* parent, int parentIdx);
+    std::shared_ptr<ResourceMaterial> ImportMaterial(const aiMaterial* material, const char* filePath, int iteration);
 
     void CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer);
 
