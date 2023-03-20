@@ -69,6 +69,7 @@ update_status ModuleScene::Update()
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
 	loadedScene = std::move(newScene);
+	selectedGameObject = loadedScene->GetRoot();
 }
 
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
