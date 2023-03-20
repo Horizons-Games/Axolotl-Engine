@@ -64,7 +64,7 @@ void WindowMainMenu::DrawPopup()
 				App->scene->SetLoadedScene(std::move(scene));
 				action = Actions::NONE;
 			}
-			else if (action == Actions::EXIT) {
+			else if (action == Actions::EXIT && filePathName != "New Scene") {
 				//to make it easier in terms of coupling between classes,
 				//just push an SDL_QuitEvent to the event queue
 				SDL_Event quitEvent;
@@ -117,13 +117,13 @@ void WindowMainMenu::DrawFileMenu()
 			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + ".axolotl");
 			else isSaving = true;
 		}
-		loadScene->DrawWindowContents();
 		saveScene->DrawWindowContents();
 		if (ImGui::MenuItem("Exit"))
 		{
 			openPopup = true;
 			action = Actions::EXIT;
 		}
+		ImGui::EndMenu();
 	}
 }
 
