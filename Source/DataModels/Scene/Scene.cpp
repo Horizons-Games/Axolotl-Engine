@@ -147,7 +147,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 			parentsStack.pop();
 		}
 
-		GameObject* gameObjectNode = CreateGameObject(node->name, parentsStack.top().second);
+		GameObject* gameObjectNode = CreateGameObject(&node->name[0], parentsStack.top().second);
 
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 		

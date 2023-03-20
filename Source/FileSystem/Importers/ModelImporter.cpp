@@ -180,14 +180,14 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		nodes[i]->name = std::string(name, nodeHeader[0]);
 		delete name;
 
-		float4x4* transform;
+		float4x4* transform = nullptr;
 		bytes = sizeof(float4x4);
 		memcpy(transform, fileBuffer, bytes);
 		fileBuffer += bytes;
 		nodes[i]->transform = *transform;
 		delete transform;
 
-		int* parent;
+		int* parent = nullptr;
 		bytes = sizeof(int);
 		memcpy(parent, fileBuffer, bytes);
 		fileBuffer += bytes;
