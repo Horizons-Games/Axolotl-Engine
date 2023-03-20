@@ -234,8 +234,12 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 
 void ModuleEditor::CopyAnObject()
 {
-	delete copyObject;
-	copyObject = new GameObject(*App->scene->GetSelectedGameObject());
+	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot())
+	{
+		delete copyObject;
+		copyObject = new GameObject(*App->scene->GetSelectedGameObject());
+	}
+	
 }
 
 void ModuleEditor::PasteAnObject()
@@ -263,7 +267,7 @@ void ModuleEditor::CutAnObject()
 
 void ModuleEditor::DuplicateAnObject()
 {
-	if (App->scene->GetSelectedGameObject())
+	if (App->scene->GetSelectedGameObject() && App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot())
 	{
 		App->scene->GetLoadedScene()->
 			CreateGameObject(App->scene->GetSelectedGameObject()->GetName()
