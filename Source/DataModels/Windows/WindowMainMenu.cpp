@@ -115,7 +115,8 @@ void WindowMainMenu::DrawFileMenu()
 		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
 		{
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
-			if (filePathName != "")	App->scene->SaveSceneToJson(filePathName + ".axolotl");
+			// IF THE DEFAULT NAME OF A SCENE CHANGES WE WILL NEED TO CHANGE ALSO THIS
+			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + ".axolotl");
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
