@@ -146,6 +146,7 @@ update_status ModuleEditor::Update()
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
+		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
 		ImGui::DockBuilderDockWindow("Hierarchy", dockIdLeft);
 		ImGui::DockBuilderDockWindow("Scene", dockSpaceId);
