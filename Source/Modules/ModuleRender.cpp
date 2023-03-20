@@ -237,23 +237,22 @@ update_status ModuleRender::Update()
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
 		{
-			gameObject->Draw();
+			/*if (gameObject == goSelected && !isRoot && goSelected != nullptr && goSelected->IsActive())
+				DrawSelectedGO(goSelected);
+			else*/
+				gameObject->Draw();
 		}
 	}
-
-
-	/*if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
-	{
-		DrawSelectedGO(goSelected);
-	}*/
-
 
 	// Draw Transparent
 	glDepthFunc(GL_ALWAYS);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
-		(*it).second->Draw();
+		/*if ((*it).second == goSelected && !isRoot && goSelected != nullptr && goSelected->IsActive())
+			DrawSelectedGO(goSelected);
+		else*/
+			(*it).second->Draw();
 	}
 	glDisable(GL_BLEND);
 
@@ -398,7 +397,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			//allGOToDraw.push_back(gameObject);
+			allGOToDraw.push_back(gameObject);
 		}
 	}
 	
