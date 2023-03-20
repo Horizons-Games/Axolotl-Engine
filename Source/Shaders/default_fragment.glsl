@@ -151,7 +151,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 L = normalize(FragPos-pos);
         vec3 H = (L+V)/length(L+V);
-        float dotNL = max(dot(N, -L), 0.0);
+        float dotNL = max(dot(N,-L), 0.0);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
         float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);

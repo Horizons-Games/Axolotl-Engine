@@ -1,0 +1,10 @@
+{
+    "UID": 5170958169892127746,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CanFBX_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CanFBX_0.mat"
+    ]
+}

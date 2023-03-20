@@ -1,8 +1,9 @@
 {
     "UID": 11423069334961893184,
     "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/PanelRed_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/PanelRed_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

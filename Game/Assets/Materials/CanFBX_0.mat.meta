@@ -1,0 +1,8 @@
+{
+    "UID": 5828723657720539872,
+    "Type": "Materials",
+    "DiffuseAssetPath": "Assets/Textures/Can_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "",
+    "OcclusionAssetPath": "",
+    "MetallicAssetPath": "Assets/Textures/Can_DefaultMaterial_Metallic.png"
+}

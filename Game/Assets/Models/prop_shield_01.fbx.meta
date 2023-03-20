@@ -1,0 +1,10 @@
+{
+    "UID": 10795062956717243235,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/prop_shield_01_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/prop_shield_01_0.mat"
+    ]
+}
