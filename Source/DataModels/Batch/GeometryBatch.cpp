@@ -25,6 +25,7 @@ GeometryBatch::GeometryBatch()
 	glGenBuffers(1, &verticesBuffer);
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
+	glGenBuffers(1, &tangentsBuffer);
 }
 
 GeometryBatch::~GeometryBatch()
