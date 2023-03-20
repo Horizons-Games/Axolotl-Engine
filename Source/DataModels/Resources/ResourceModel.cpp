@@ -3,9 +3,12 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceMesh.h"
+
 ResourceModel::ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	options(std::make_shared<OptionsModel>()), numMaterials(0), numMeshes(0)
+	numMaterials(0), numMeshes(0)
 {
 }
 
@@ -16,18 +19,16 @@ ResourceModel::~ResourceModel()
 
 void ResourceModel::InternalLoad()
 {
-	for (UID materialUID : materialsUIDs)
+	for (std::shared_ptr<Resource> material : materials)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID).lock();
 		if (material)
 		{
 			material->Load();
 		}
 	}
 
-	for (UID meshUID : meshesUIDs)
+	for (std::shared_ptr<Resource> mesh : meshes)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID).lock();
 		if (mesh)
 		{
 			mesh->Load();
@@ -37,18 +38,16 @@ void ResourceModel::InternalLoad()
 
 void ResourceModel::InternalUnload()
 {
-	for (UID materialUID : materialsUIDs)
+	for (std::shared_ptr<Resource> material : materials)
 	{
-		std::shared_ptr<Resource> material = App->resources->RequestResource(materialUID).lock();
 		if (material)
 		{
 			material->Unload();
 		}
 	}
 
-	for (UID meshUID : meshesUIDs)
+	for (std::shared_ptr<Resource> mesh : meshes)
 	{
-		std::shared_ptr<Resource> mesh = App->resources->RequestResource(meshUID).lock();
 		if (mesh)
 		{
 			mesh->Unload();

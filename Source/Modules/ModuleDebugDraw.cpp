@@ -7,6 +7,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleCamera.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 
@@ -615,8 +616,10 @@ update_status ModuleDebugDraw::Update()
     ComponentTransform* selectedTransform =
         static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
-    DrawTransform(selectedTransform);
+    //DrawTransform(selectedTransform);
+#ifdef ENGINE
     dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
+#endif //ENGINE
 
     return update_status::UPDATE_CONTINUE;
 }
@@ -630,10 +633,10 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     dd::flush();
 }
 
-void ModuleDebugDraw::DrawTransform(const ComponentTransform* transform)
+void ModuleDebugDraw::DrawTransform(ComponentTransform* transform)
 {
     float4x4 transformDrawPosition = float4x4::FromTRS((float3)transform->GetGlobalPosition(), 
-                                                            Quat::identity, float3(0.5f, 0.5f, 0.5f));
+                                                        float4x4::identity, float3(0.5f, 0.5f, 0.5f));
 
     dd::axisTriad(transformDrawPosition, 0.1f, 1.0f);
 }

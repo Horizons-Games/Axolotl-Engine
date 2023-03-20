@@ -5,8 +5,12 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifdef ENGINE
 #include "imgui_impl_sdl.h"
+#endif // ENGINE
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
 {
@@ -28,31 +32,37 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
-    freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
-    orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
-    moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
-    zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
-    freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
-    orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
-    moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
-    zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
+    #ifdef ENGINE
+        freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
+        orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
+        moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
+        zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
+        freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
+        orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
+        moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
+        zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
 
-    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
-                    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
-    this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (defaultCursor.get());
+        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
+                        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
+        this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (defaultCursor.get());
 
+    #else  // ENGINE
+        SDL_ShowCursor(SDL_DISABLE);
+    #endif // GAMEMODE
 
 	return ret;
 }
 
 update_status ModuleInput::Update()
 {
+#ifdef DEBUG
     OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
 
     update_status status = update_status::UPDATE_CONTINUE;
 
@@ -96,7 +106,9 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#endif // ENGINE
 
         switch (sdlEvent.type)
         {
@@ -109,6 +121,14 @@ update_status ModuleInput::Update()
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+            }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
+            {
+                inFocus = false;
+            }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+            {
+                inFocus = true;
             }
 
             break;
@@ -148,6 +168,11 @@ update_status ModuleInput::Update()
             break;
         }
 
+    }
+
+    if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
+    {
+        App->SwitchDebuggingGame();
     }
 
     return status;

@@ -4,6 +4,7 @@
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
+#include "Application.h"
 
 ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true),
 	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
@@ -37,7 +38,13 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw()
 {
-	if (GetActive())
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return;
+	}
+#endif //ENGINE
+	if (this->GetActive())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()
