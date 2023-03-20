@@ -275,7 +275,14 @@ void ModuleEditor::PasteAnObject()
 void ModuleEditor::CutAnObject()
 {
 	CopyAnObject();
-	App->scene->GetLoadedScene()->DestroyGameObject(App->scene->GetSelectedGameObject());
+
+	GameObject* gameObject = App->scene->GetSelectedGameObject();
+	App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+																			// change the focus to its parent
+	App->scene->GetLoadedScene()->GetSceneQuadTree()->
+		RemoveGameObjectAndChildren(gameObject->GetParent());
+
+	App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
 }
 
 void ModuleEditor::DuplicateAnObject()
