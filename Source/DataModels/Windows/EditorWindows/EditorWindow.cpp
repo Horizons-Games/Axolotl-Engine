@@ -20,35 +20,21 @@ EditorWindow::~EditorWindow()
 
 void EditorWindow::Start()
 {
-	load_meta(name.c_str(), enabled);
+	LoadMeta(name.c_str(), enabled);
 }
 
-void EditorWindow::load_meta(std::string name, bool& enable)
+void EditorWindow::LoadMeta(const std::string name,bool& enable)
 {
 	char* binaryBuffer = {};
 	std::string lib = "Lib/StateWindow/" + name + ".meta";	
 	
-	if (App->fileSystem->Load(lib.c_str(), binaryBuffer) > 0) {
+	if (App->fileSystem->Exists(lib.c_str())) {
 
-
+		App->fileSystem->Load(lib.c_str(), binaryBuffer);
 		rapidjson::Document doc;
 		Json json(doc, doc);
-		json.fromBuffer(binaryBuffer);
-		std::string buffer = std::string(binaryBuffer);
-		size_t i = buffer.find("State");
-		size_t j = buffer.find("\n", i);
-		if (i != std::string::npos)
-		{
-			if (buffer.substr(i + 8, j - (i + 8)) == "true")
-			{
-				enable = true;
-			}
-			else
-			{
-				enable = false;
-			}
-
-		}
+		json.fromBuffer(binaryBuffer);		
+		enable = bool(json["State"]);		
 	}
 	else {
 		enable = true;
@@ -57,12 +43,11 @@ void EditorWindow::load_meta(std::string name, bool& enable)
 
 }
 
-void EditorWindow::Update_meta(bool enabled,std::string name)
+void EditorWindow::UpdateMeta(bool enabled,const std::string name)
 {
 	
 		rapidjson::Document doc;
-		Json json(doc, doc);
-		json["UID"] = UniqueID::GenerateUID();
+		Json json(doc, doc);		
 		json["Type"] = "Window";
 		json["State"] = enabled;
 		rapidjson::StringBuffer buffer;
@@ -98,5 +83,5 @@ void EditorWindow::Draw()
 
 void EditorWindow::CleanUp() 
 {
-	Update_meta(enabled, name);
+	UpdateMeta(enabled, name);
 }

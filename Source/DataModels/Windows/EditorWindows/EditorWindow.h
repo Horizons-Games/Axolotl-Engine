@@ -25,8 +25,8 @@ protected:
 
 private:
 	bool focused;
-	void load_meta(std::string name, bool& enable);
-	void Update_meta(bool enabled, std::string name);
+	void LoadMeta(const std::string name, bool& enable);
+	void UpdateMeta(bool enabled, const std::string name);
 };
 
 inline bool EditorWindow::IsFocused() const

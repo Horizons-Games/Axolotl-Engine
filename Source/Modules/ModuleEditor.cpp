@@ -65,7 +65,8 @@ bool ModuleEditor::Start()
 {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
-	for (int i = 0; i < windows.size(); ++i) {
+	for (int i = 0; i < windows.size(); ++i) 
+	{
 		windows[i].get()->Start();
 	}
 
@@ -74,7 +75,8 @@ bool ModuleEditor::Start()
 
 bool ModuleEditor::CleanUp()
 {
-	for (int i = 0; i < windows.size(); ++i) {
+	for (int i = 0; i < windows.size(); ++i) 
+	{
 		windows[i].get()->CleanUp();
 	}
 	ImGui_ImplOpenGL3_Shutdown();
