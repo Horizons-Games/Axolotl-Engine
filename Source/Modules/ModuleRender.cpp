@@ -214,6 +214,19 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
+
+	if (App->debug->IsShowingBoundingBoxes())
+	{
+		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	}
+
+	int w, h;
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+
+	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
+		App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
+
+
 	allGOToDraw.clear();
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
@@ -231,7 +244,7 @@ update_status ModuleRender::Update()
 
 	GroupGameObjects();
 
-	glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS);
 	//Draw opaque
 	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
@@ -263,16 +276,6 @@ update_status ModuleRender::Update()
 	}
 #endif //ENGINE
 
-	if (App->debug->IsShowingBoundingBoxes())
-	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
-	}
-
-	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
-
-	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
-	App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -453,7 +456,7 @@ void ModuleRender::GroupGameObjects() {
 	{
 		ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 		if (material != nullptr) {
-			material->SetTransparent(true);
+			material->SetTransparent(false);
 			if (!material->GetTransparent())
 			{
 				opaqueGOToDraw.push_back(gameObject);
