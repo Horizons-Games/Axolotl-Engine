@@ -111,6 +111,51 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	ComponentMaterial* materialComponent =
+		static_cast<ComponentMaterial*>(gameObject->CreateComponent(ComponentType::MATERIAL));
+	materialComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	ComponentMeshRenderer* meshComponent =
+		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	std::shared_ptr<ResourceMesh> mesh;
+
+	switch (type)
+	{
+	case Premade3D::CUBE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+		break;
+	case Premade3D::PLANE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+		break;
+	case Premade3D::CYLINDER:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+		break;
+	case Premade3D::CAPSULE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+		break;
+	case Premade3D::CHARACTER:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+		break;
+	default:
+		break;
+	}
+
+	meshComponent->SetMesh(mesh);
+
+	
+
+	return gameObject;
+}
+
+GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, LightType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponentLight(type);
+	return gameObject;
+}
+
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
