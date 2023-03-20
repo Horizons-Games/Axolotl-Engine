@@ -380,7 +380,6 @@ void GameObject::AddComponent(ComponentType type, Component* component)
 	if (newComponent)
 	{
 		newComponent->SetOwner(this);
-		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
 	}
 }
@@ -411,7 +410,6 @@ void GameObject::AddComponentLight(LightType type, Component* component)
 	if (newComponent)
 	{
 		newComponent->SetOwner(this);
-		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
 	}
 }
