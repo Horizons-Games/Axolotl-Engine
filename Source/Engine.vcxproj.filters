@@ -415,6 +415,9 @@
     <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
       <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentTransform2D.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -977,6 +980,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\WindowDebug.h">
       <Filter>Source\DataModels\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform2D.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
