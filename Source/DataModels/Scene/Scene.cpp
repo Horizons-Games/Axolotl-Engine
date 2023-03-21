@@ -19,7 +19,9 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
+#include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Program/Program.h"
 
 Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
@@ -51,8 +53,7 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 	{
 		if (cameraGameObject)
 		{
-			ComponentCamera* camera =
-				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
+			ComponentCamera* camera = static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
 			if (camera && camera->GetCamera()->IsInside(obb))
 			{
 				return true;
