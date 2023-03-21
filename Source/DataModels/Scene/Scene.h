@@ -63,6 +63,7 @@ public:
 	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetSceneCanvas(const std::vector<GameObject*>& canvas);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
@@ -138,6 +139,11 @@ inline const std::vector<GameObject*>& Scene::GetSceneCanvas() const
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
+}
+
+inline void Scene::SetSceneCanvas(const std::vector<GameObject*>& canvas)
+{
+	sceneCanvas = canvas;
 }
 
 inline void Scene::SetAmbientLight(GameObject* ambientLight)

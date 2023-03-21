@@ -8,6 +8,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -176,6 +177,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
 	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
 	std::vector<GameObject*> loadedCameras{};
+	std::vector<GameObject*> loadedCanvas{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -187,6 +189,12 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 		{
 			loadedCameras.push_back(obj);
 		}
+
+		if (obj->GetComponent(ComponentType::CANVAS) != nullptr)
+		{
+			loadedCanvas.push_back(obj);
+		}
+
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
@@ -200,17 +208,21 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 				directionalLight = obj;
 			}
 		}
-		//Quadtree treatment
-		if (!sceneQuadtree->InQuadrant(obj))
+		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
-			if (!sceneQuadtree->IsFreezed())
+			//Quadtree treatment
+			if (!sceneQuadtree->InQuadrant(obj))
 			{
-				sceneQuadtree->ExpandToFit(obj);
+				if (!sceneQuadtree->IsFreezed())
+				{
+					sceneQuadtree->ExpandToFit(obj);
+				}
 			}
-		}
-		else
-		{
-			sceneQuadtree->Add(obj);
+			else
+			{
+				sceneQuadtree->Add(obj);
+			}
+
 		}
 	}
 
@@ -221,6 +233,7 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 
 	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
+	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 
