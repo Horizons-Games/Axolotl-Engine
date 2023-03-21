@@ -320,3 +320,9 @@ void WindowInspector::AddComponentPlayer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
+
+void WindowInspector::ResetSelectedGameObject()
+{
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
+}
