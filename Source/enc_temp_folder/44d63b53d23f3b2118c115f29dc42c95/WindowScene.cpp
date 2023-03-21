@@ -156,60 +156,56 @@ void WindowScene::DrawGuizmo()
 
 		if (ImGuizmo::IsUsing())
 		{
-			//Guizmo 3D
-			if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
+			GameObject* parent = focusedObject->GetParent();
+			float3 position, scale;
+			float4x4 rotation;
+			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
+			float4x4 localMatrix;
+
+			if (parent != nullptr) {
+				const ComponentTransform* parentTransform =
+					static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+
+				inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
+			}
+
+			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
+			localMatrix.Decompose(position, rotation, scale);
+
+			switch (gizmoCurrentOperation)
 			{
-				GameObject* parent = focusedObject->GetParent();
-				float3 position, scale;
-				float4x4 rotation;
-				float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
-				float4x4 localMatrix;
+			case ImGuizmo::OPERATION::TRANSLATE:
+				focusedTransform->SetPosition(position);
+				break;
+			case ImGuizmo::OPERATION::ROTATE:
+				focusedTransform->SetRotation(rotation);
+				break;
+			case ImGuizmo::OPERATION::SCALE:
+				focusedTransform->SetScale(scale);
+				break;
+			}
+			focusedTransform->UpdateTransformMatrices();
 
-				if (parent != nullptr) {
-					const ComponentTransform* parentTransform =
-						static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-
-					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
-				}
-
-				localMatrix = inverseParentMatrix * modelMatrix.Transposed();
-				localMatrix.Decompose(position, rotation, scale);
-
-				switch (gizmoCurrentOperation)
+			for (Component* component : focusedObject->GetComponents())
+			{
+				if (component->GetType() == ComponentType::LIGHT)
 				{
-				case ImGuizmo::OPERATION::TRANSLATE:
-					focusedTransform->SetPosition(position);
-					break;
-				case ImGuizmo::OPERATION::ROTATE:
-					focusedTransform->SetRotation(rotation);
-					break;
-				case ImGuizmo::OPERATION::SCALE:
-					focusedTransform->SetScale(scale);
-					break;
-				}
-				focusedTransform->UpdateTransformMatrices();
+					Scene* scene = App->scene->GetLoadedScene();
+					const ComponentLight* light = (ComponentLight*)component;
 
-				for (Component* component : focusedObject->GetComponents())
-				{
-					if (component->GetType() == ComponentType::LIGHT)
+					switch (light->GetLightType())
 					{
-						Scene* scene = App->scene->GetLoadedScene();
-						const ComponentLight* light = (ComponentLight*)component;
-
-						switch (light->GetLightType())
-						{
-						case LightType::DIRECTIONAL:
-							scene->RenderDirectionalLight();
-							break;
-						case LightType::SPOT:
-							scene->UpdateSceneSpotLights();
-							scene->RenderSpotLights();
-							break;
-						case LightType::POINT:
-							scene->UpdateScenePointLights();
-							scene->RenderPointLights();
-							break;
-						}
+					case LightType::DIRECTIONAL:
+						scene->RenderDirectionalLight();
+						break;
+					case LightType::SPOT:
+						scene->UpdateSceneSpotLights();
+						scene->RenderSpotLights();
+						break;
+					case LightType::POINT:
+						scene->UpdateScenePointLights();
+						scene->RenderPointLights();
+						break;
 					}
 				}
 			}

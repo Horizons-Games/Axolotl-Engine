@@ -111,6 +111,18 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = new GameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneGameObjects.push_back(gameObject);
+	sceneCanvas.push_back(gameObject);
+
+	return gameObject;
+}
+
 GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);

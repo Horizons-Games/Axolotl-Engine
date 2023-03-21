@@ -20,6 +20,7 @@
 
 #include "GameObject/GameObject.h"
 
+#include "Components/ComponentTransform.h"
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -387,6 +388,12 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	if (gameObject->GetParent() == nullptr)
+	{
+		return;
+	}
+
+	//If an object doesn't have transform component it doesn't need to draw
+	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
 	{
 		return;
 	}

@@ -107,6 +107,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
+
+        if (ImGui::MenuItem("Create canvas"))
+        {
+            GameObject* newCamera =
+                App->scene->GetLoadedScene()->CreateCanvasGameObject("Canvas", gameObject);
+        }
         //Create Resource
         if (ImGui::BeginMenu("Create 3D object"))
         {

@@ -32,6 +32,7 @@ public:
 
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
+	GameObject* CreateCanvasGameObject(const char* name, GameObject* parent);
 	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
@@ -55,6 +56,7 @@ public:
 	Quadtree * GetSceneQuadTree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
+	const std::vector<GameObject*>& GetSceneCanvas() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
@@ -76,6 +78,7 @@ private:
 
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<GameObject*> sceneCameras;
+	std::vector<GameObject*> sceneCanvas;
 
 	GameObject* ambientLight;
 	GameObject* directionalLight;
@@ -125,6 +128,11 @@ inline void Scene::SetSceneGameObjects(const std::vector<GameObject*>& gameObjec
 inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 {
 	return sceneCameras;
+}
+
+inline const std::vector<GameObject*>& Scene::GetSceneCanvas() const
+{
+	return sceneCanvas;
 }
 
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
