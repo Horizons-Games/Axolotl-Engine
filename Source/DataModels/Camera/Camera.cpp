@@ -373,7 +373,7 @@ void Camera::CalculateHitGameObjects(const LineSegment& ray)
 	std::map<float, const GameObject*> hitGameObjects;
 
 	CalculateHitSelectedGo(hitGameObjects, ray);
-	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->CheckRaycastIntersection(hitGameObjects, ray);
 
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
@@ -440,10 +440,10 @@ void Camera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& 
 
 	if (newSelectedGameObject != nullptr)
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()
+		App->scene->GetLoadedScene()->GetRootQuadtree()
 			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(newSelectedGameObject);
 		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

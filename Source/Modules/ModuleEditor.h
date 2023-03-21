@@ -28,6 +28,7 @@ public:
 
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
+	void RefreshInspector() const;
 
 private:
 	std::vector<std::unique_ptr<EditorWindow> > windows;
