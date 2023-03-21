@@ -41,6 +41,7 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
+	void AddComponentPlayer();
 
 	void DrawButtomsSaveAndLoad();
 

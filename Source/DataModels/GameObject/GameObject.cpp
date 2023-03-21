@@ -8,6 +8,7 @@
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
+#include "../Components/ComponentPlayer.h"
 
 #include "Application.h"
 
@@ -374,6 +375,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentLight>(true, this);
 			break;
 		}
+
+		case ComponentType::PLAYER:
+		{
+			newComponent = std::make_unique<ComponentPlayer>(true, this);
+			break;
+		}
+
 
 		default:
 			assert(false && "Wrong component type introduced");

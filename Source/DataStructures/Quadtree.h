@@ -19,6 +19,7 @@ public:
 
 	bool IsLeaf() const;
 	bool InQuadrant(GameObject* gameObject);
+	bool EntireInQuadrant(GameObject* gameObject);
 
 	void Add(GameObject* gameObject);
 	void AddGameObjectAndChildren(GameObject* gameObject);

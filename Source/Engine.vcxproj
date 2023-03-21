@@ -388,6 +388,7 @@
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
@@ -422,6 +423,10 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -477,6 +482,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -551,6 +560,7 @@
     </ClCompile>
     <ClCompile Include="Modules\ModuleCamera.cpp" />
     <ClCompile Include="Modules\ModuleInput.cpp" />
+    <ClCompile Include="Modules\ModulePlayer.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
@@ -748,6 +758,7 @@
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
     <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
+    <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
     <ClInclude Include="DataModels\Components\ComponentTransform.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
@@ -789,6 +800,10 @@
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -844,6 +859,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -940,6 +959,7 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleCamera.h" />
     <ClInclude Include="Modules\ModuleInput.h" />
+    <ClInclude Include="Modules\ModulePlayer.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
