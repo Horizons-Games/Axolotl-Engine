@@ -3,7 +3,7 @@
 #include "FileSystem/Json.h"
 
 ComponentCanvas::ComponentCanvas(bool active, GameObject* owner)
-	: Component(ComponentType::CANVAS, active, owner, false)
+	: Component(ComponentType::CANVAS, active, owner, true)
 {
 }
 

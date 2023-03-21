@@ -10,6 +10,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -22,6 +23,7 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentCanvas.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -44,6 +46,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 		case ComponentType::PLAYER:
 			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
+		case ComponentType::CANVAS:
+			return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);

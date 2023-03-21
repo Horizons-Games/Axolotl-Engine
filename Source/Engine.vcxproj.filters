@@ -421,6 +421,9 @@
     <ClCompile Include="DataModels\Components\ComponentCanvas.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -989,6 +992,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCanvas.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
