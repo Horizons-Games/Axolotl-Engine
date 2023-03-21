@@ -56,7 +56,7 @@ struct Light {
     vec3 color;
 };
 
-layout(location = 3) uniform Material material; // 0-9
+//layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D specular_map;
 layout(binding = 7) uniform sampler2D normal_map;
@@ -73,6 +73,10 @@ in vec2 TexCoord;
 in flat int InstanceIndex;
 
 out vec4 outColor;
+
+readonly layout(std430, binding = 11) buffer Materials {
+ Material materials[];
+};
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
@@ -217,6 +221,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
   
 void main()
 {
+    Material material = materials[InstanceIndex];
 	vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
