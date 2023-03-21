@@ -3,7 +3,9 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
+#include "Windows/WindowMainMenu.h"
 
 #ifdef ENGINE
 #include "imgui_impl_sdl.h"
@@ -96,6 +98,12 @@ update_status ModuleInput::Update()
     SDL_PumpEvents();
 
     const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
+    if (keyboard[SDL_SCANCODE_LCTRL])
+    {
+        if (keyboard[SDL_SCANCODE_S])  App->editor->GetMainMenu()->ShortcutSave();
+        
+    }
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {

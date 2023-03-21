@@ -156,3 +156,10 @@ void WindowMainMenu::DrawHelpMenu()
 	about->Draw(showAbout);
 }
 
+void WindowMainMenu::ShortcutSave()
+{
+	std::string filePathName = fileDialogImporter.GetCurrentFileName();
+	if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
+	else saveScene->SaveAsWindow(isSaving);
+}
+
