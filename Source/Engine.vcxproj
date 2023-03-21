@@ -566,6 +566,7 @@
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
+    <ClCompile Include="Modules\ModuleUI.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="DataModels\Scene\Scene.cpp" />
@@ -967,6 +968,7 @@
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
+    <ClInclude Include="Modules\ModuleUI.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="DataModels\Scene\Scene.h" />

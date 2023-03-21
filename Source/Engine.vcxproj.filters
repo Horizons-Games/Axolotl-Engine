@@ -424,6 +424,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModuleUI.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -995,6 +998,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h">
       <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleUI.h">
+      <Filter>Source\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
