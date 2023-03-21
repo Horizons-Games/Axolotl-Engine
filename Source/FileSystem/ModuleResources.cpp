@@ -296,7 +296,7 @@ void ModuleResources::FillResourceBin(std::shared_ptr<Resource> sharedResource)
 {
 #ifndef ENGINE
 	resourcesBin.push_back(sharedResource);
-#endif
+#endif // !ENGINE
 }
 
 void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)

@@ -52,6 +52,7 @@ public:
 	void ReimportResource(UID resourceUID);
 
 	void FillResourceBin(std::shared_ptr<Resource> sharedResource);
+	void CleanResourceBin();
 
 private:
 	//resource creation and deletition
@@ -217,6 +218,11 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
 {
 	return SearchResource<Resource>(uid);
+}
+
+inline void ModuleResources::CleanResourceBin()
+{
+	resourcesBin.clear();
 }
 
 template<class R>

@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleCamera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -14,6 +13,10 @@
 
 #include <gl/glew.h>
 #include <SDL_assert.h>
+
+#ifndef ENGINE
+#include "FileSystem/ModuleResources.h"
+#endif // !ENGINE
 
 GeometryBatch::GeometryBatch()
 {
@@ -153,27 +156,8 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		{
 			return;
 		}
-
-		ResourceMesh* mesh = meshShared.get();
-		if (components.empty())
-		{
-			if (mesh->GetNormals().size() != 0)
-			{
-				flags |= HAS_NORMALS;
-			}
-
-			if (mesh->GetTextureCoords().size() != 0)
-			{
-				flags |= HAS_TEXTURE_COORDINATES;
-			}
-
-			if (mesh->GetTangents().size() != 0)
-			{
-				flags |= HAS_TANGENTS;
-			}
-		}
 		
-		CreateInstance(mesh);
+		CreateInstance(meshShared);
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 		reserveModelSpace = true;
@@ -255,25 +239,49 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-void GeometryBatch::CreateInstance(ResourceMesh* resourceMesh)
+void GeometryBatch::CreateInstance(std::shared_ptr<ResourceMesh> meshShared)
 {
+	ResourceMesh* mesh = meshShared.get();
+
 	for (ResourceInfo aaa : resourcesInfo)
 	{
-		if (aaa.resourceMesh == resourceMesh)
+		if (aaa.resourceMesh == mesh)
 		{
 			return;
 		}
 	}
 
+	if (components.empty())
+	{
+		if (mesh->GetNormals().size() != 0)
+		{
+			flags |= HAS_NORMALS;
+		}
+
+		if (mesh->GetTextureCoords().size() != 0)
+		{
+			flags |= HAS_TEXTURE_COORDINATES;
+		}
+
+		if (mesh->GetTangents().size() != 0)
+		{
+			flags |= HAS_TANGENTS;
+		}
+	}
+
+#ifndef ENGINE
+	App->resources->FillResourceBin(meshShared);
+#endif // !ENGINE
+
 	ResourceInfo aaa = {
-				resourceMesh,
+				mesh,
 				numTotalVertices,
 				numTotalIndices
 	};
 	resourcesInfo.push_back(aaa);
-	numTotalVertices += resourceMesh->GetNumVertices();
-	numTotalIndices += resourceMesh->GetNumIndexes();
-	numTotalFaces += resourceMesh->GetNumFaces();
+	numTotalVertices += mesh->GetNumVertices();
+	numTotalIndices += mesh->GetNumIndexes();
+	numTotalFaces += mesh->GetNumFaces();
 	createBuffers = true;
 }
 
