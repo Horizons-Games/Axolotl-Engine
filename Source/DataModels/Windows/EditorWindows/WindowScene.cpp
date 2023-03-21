@@ -149,15 +149,15 @@ void WindowScene::DrawGuizmo()
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
 
-		float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
-
-		ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
-			(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
-
-		if (ImGuizmo::IsUsing())
+		//Guizmo 3D
+		if (static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
 		{
-			//Guizmo 3D
-			if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
+			float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
+
+			ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
+				(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
+
+			if (ImGuizmo::IsUsing())
 			{
 				GameObject* parent = focusedObject->GetParent();
 				float3 position, scale;
@@ -212,20 +212,21 @@ void WindowScene::DrawGuizmo()
 						}
 					}
 				}
+			
 			}
+
+			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
+			float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
+
+			ImGuizmo::ViewManipulate(
+				viewMat.ptr(),
+				App->camera->GetCamera()->GetDistance(
+					float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
+				ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
+				ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
+				0x10101010);
+
 		}
-
-		float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
-		float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
-
-		ImGuizmo::ViewManipulate(
-			viewMat.ptr(),
-			App->camera->GetCamera()->GetDistance(
-				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
-			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
-			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
-			0x10101010);
-
 		if (ImGui::IsWindowFocused())
 		{
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
