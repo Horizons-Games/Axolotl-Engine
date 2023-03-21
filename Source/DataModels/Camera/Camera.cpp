@@ -33,7 +33,6 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	position(camera->position),
 	projectionMatrix(camera->projectionMatrix),
 	viewMatrix(camera->viewMatrix),
-	currentRotation(camera->currentRotation),
 	aspectRatio(camera->aspectRatio),
 	acceleration(camera->acceleration),
 	moveSpeed(camera->moveSpeed),
@@ -317,16 +316,23 @@ void Camera::SetOrientation(const float3& orientation)
 	frustum->SetUp(orientation);
 }
 
-void Camera::SetLookAt(const float3& lookAt)
+void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
 {
-	float3 direction = lookAt - position;
-	Quat finalRotation = Quat::LookAt(frustum->Front(), direction.Normalized(), frustum->Up(), float3::unitY);
-	Quat nextRotation = currentRotation.Slerp(finalRotation, App->GetDeltaTime() * rotationSpeed);
-	//currentRotation = rotation
-	if (nextRotation.Equals(Quat::identity)) isFocusing = false;
+	float3 targetDirection = (lookAt - position).Normalized();
+	float3 currentDirection = frustum->Front().Normalized();
 
-	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-	ApplyRotation(rotationMatrix);
+	if (targetDirection.AngleBetween(currentDirection) == 0.0f)
+	{
+		isSameRotation = true;
+	}
+	else 
+	{
+		float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
+		Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
+		float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
+		ApplyRotation(rotationMatrix);
+	}
+
 }
 
 bool Camera::CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray)
@@ -367,7 +373,7 @@ void Camera::CalculateHitGameObjects(const LineSegment& ray)
 	std::map<float, const GameObject*> hitGameObjects;
 
 	CalculateHitSelectedGo(hitGameObjects, ray);
-	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->CheckRaycastIntersection(hitGameObjects, ray);
 
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
@@ -434,10 +440,10 @@ void Camera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& 
 
 	if (newSelectedGameObject != nullptr)
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()
+		App->scene->GetLoadedScene()->GetRootQuadtree()
 			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(newSelectedGameObject);
 		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

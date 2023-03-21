@@ -18,6 +18,8 @@
 #ifdef ENGINE
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #endif // ENGINE
+#include "DataModels/Program/Program.h"
+
 
 ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 	: Component(ComponentType::MATERIAL, active, owner, true)
@@ -34,35 +36,41 @@ void ComponentMaterial::Update()
 
 void ComponentMaterial::Draw()
 {
-	const unsigned int program = App->program->GetProgram();
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
-	GLint programInUse;
-	glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
-
-	if (program != programInUse)
+	if (program)
 	{
-		glUseProgram(program);
-	}
+		program->Activate();
 
-	//this should be in an EditorComponent class, or something of the like
-	//but for now have it here
+		//this should be in an EditorComponent class, or something of the like
+		//but for now have it here
 #ifdef ENGINE
-	if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
-	{
-		material = nullptr;
-	}
+		if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+		{
+			material = nullptr;
+		}
 #endif // ENGINE
 
-	if(material) 
-	{
-		const float3& diffuseColor = material->GetDiffuseColor();
-		glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
-		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
-		if (texture)
+		if (material)
 		{
-			if (!texture->IsLoaded())
+			const float3& diffuseColor = material->GetDiffuseColor();
+			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
+			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+			if (texture)
 			{
-				texture->Load();
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glUniform1i(7, 1); //has_diffuse_map
+
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(7, 0); //has_diffuse_map
 			}
 
 			glUniform1i(5, 1); //has_diffuse_map
@@ -82,7 +90,18 @@ void ComponentMaterial::Draw()
 		{
 			if (!texture->IsLoaded())
 			{
-				texture->Load();
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glUniform1i(8, 1); //has_specular_map
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(8, 0); //has_specular_map
 			}
 
 			glUniform1i(8, 1); //has_specular_map
@@ -99,7 +118,19 @@ void ComponentMaterial::Draw()
 		{
 			if (!texture->IsLoaded())
 			{
-				texture->Load();
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				glUniform1f(6, material->GetNormalStrength()); //normal_strength
+				glUniform1i(11, 1); //has_normal_map
+			}
+			else
+			{
+				glUniform1i(11, 0); //has_normal_map
 			}
 
 			glActiveTexture(GL_TEXTURE6);
