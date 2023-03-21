@@ -28,7 +28,7 @@ bool ModulePlayer::Init()
 
 bool ModulePlayer::Start()
 {
-	//Inizialice the player
+	//Initialize the player
 
 	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
 	for (GameObject* camera : cameras)

@@ -23,8 +23,6 @@ bool CameraGameObject::Update()
 {
 	if (App->input->GetInFocus())
 	{
-
-
 		projectionMatrix = frustum->ProjectionMatrix();
 		viewMatrix = frustum->ViewMatrix();
 

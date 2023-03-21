@@ -409,6 +409,9 @@
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
       <Filter>Source\DataModels\Batch</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModulePlayer.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
@@ -980,7 +983,10 @@
     </ClInclude>
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>Source\DataModels\Batch</Filter>
-	</ClInclude>
+	  </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModulePlayer.h">
       <Filter>Source\Modules</Filter>
     </ClInclude>

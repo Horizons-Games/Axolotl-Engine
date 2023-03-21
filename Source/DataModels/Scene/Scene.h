@@ -10,6 +10,15 @@ class GameObject;
 class Quadtree;
 class BatchManager;
 
+enum class Premade3D
+{
+	CUBE,
+	PLANE,
+	CYLINDER,
+	CAPSULE,
+	CHARACTER
+};
+
 class Scene
 {
 public:
@@ -24,6 +33,8 @@ public:
 
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
+	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
+	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
 	void ConvertModelIntoGameObject(const char* model);
 
