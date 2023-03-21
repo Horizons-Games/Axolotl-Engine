@@ -406,6 +406,21 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowStyle.cpp">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModulePlayer.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
+      <Filter>Source\DataModels\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -959,6 +974,21 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowStyle.h">
       <Filter>Source\DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModulePlayer.h">
+      <Filter>Source\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPlayer.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowDebug.h">
+      <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

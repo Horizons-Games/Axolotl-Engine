@@ -24,15 +24,15 @@ void WindowFrustum::DrawWindowContents()
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum"};
 
-	int currentFrustum = (int)App->engineCamera->GetCamera()->GetFrustumMode();
+	int currentFrustum = (int)App->camera->GetCamera()->GetFrustumMode();
 	if (ImGui::ListBox("Frustum Mode\n(single select)", &currentFrustum, listbox_items, IM_ARRAYSIZE(listbox_items), 3))
 	{
-		App->engineCamera->GetCamera()->SetFrustumMode((EFrustumMode)currentFrustum);
+		App->camera->GetCamera()->SetFrustumMode((EFrustumMode)currentFrustum);
 	}
 
-	float vFrustum = App->engineCamera->GetCamera()->GetFrustumOffset();
+	float vFrustum = App->camera->GetCamera()->GetFrustumOffset();
 	if (ImGui::SliderFloat("Offset", &vFrustum, MIN_FRUSTUM, MAX_FRUSTUM, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-		App->engineCamera->GetCamera()->SetFrustumOffset(vFrustum);
+		App->camera->GetCamera()->SetFrustumOffset(vFrustum);
 	}
 
 	bool isQuadtreeFreezed = App->scene->GetLoadedScene()->GetSceneQuadTree()->IsFreezed();

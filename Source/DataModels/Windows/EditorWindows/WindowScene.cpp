@@ -143,8 +143,8 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
-		float4x4 viewMat = App->engineCamera->GetCamera()->GetViewMatrix().Transposed();
-		float4x4 projMat = App->engineCamera->GetCamera()->GetProjectionMatrix().Transposed();
+		float4x4 viewMat = App->camera->GetCamera()->GetViewMatrix().Transposed();
+		float4x4 projMat = App->camera->GetCamera()->GetProjectionMatrix().Transposed();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
@@ -157,7 +157,7 @@ void WindowScene::DrawGuizmo()
 		if (ImGuizmo::IsUsing())
 		{
 			GameObject* parent = focusedObject->GetParent();
-			float3 postion, scale;
+			float3 position, scale;
 			float4x4 rotation;
 			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
 			float4x4 localMatrix;
@@ -170,12 +170,12 @@ void WindowScene::DrawGuizmo()
 			}
 
 			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
-			localMatrix.Decompose(postion, rotation, scale);
+			localMatrix.Decompose(position, rotation, scale);
 
 			switch (gizmoCurrentOperation)
 			{
 			case ImGuizmo::OPERATION::TRANSLATE:
-				focusedTransform->SetPosition(postion);
+				focusedTransform->SetPosition(position);
 				break;
 			case ImGuizmo::OPERATION::ROTATE:
 				focusedTransform->SetRotation(rotation);
@@ -216,7 +216,7 @@ void WindowScene::DrawGuizmo()
 
 		ImGuizmo::ViewManipulate(
 			viewMat.ptr(),
-			App->engineCamera->GetCamera()->GetDistance(
+			App->camera->GetCamera()->GetDistance(
 				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
 			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
 			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
@@ -236,7 +236,7 @@ void WindowScene::DrawGuizmo()
 				{
 					manipulatedViewMatrix = viewMat.InverseTransposed();;
 
-					App->engineCamera->GetCamera()->GetFrustum()->SetFrame(
+					App->camera->GetCamera()->GetFrustum()->SetFrame(
 						manipulatedViewMatrix.Col(3).xyz(),  //position
 						-manipulatedViewMatrix.Col(2).xyz(), //rotation
 						manipulatedViewMatrix.Col(1).xyz()   //scale
@@ -250,7 +250,7 @@ void WindowScene::DrawGuizmo()
 					float3 position, scale;
 					Quat rotation;
 
-					App->engineCamera->GetCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
+					App->camera->GetCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
 				}
@@ -270,7 +270,7 @@ void WindowScene::ManageResize()
 	bool heightChanged = currentHeight != availableRegion.y;
 	if (widthChanged || heightChanged) // window was resized
 	{ 
-		App->engineCamera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->camera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 	}

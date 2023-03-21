@@ -27,6 +27,7 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
+#define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
 
 enum class CameraType 
 { 
@@ -72,7 +73,7 @@ public:
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
 	void SetOrientation(const float3& orientation);
-	void SetLookAt(const float3& lookAt);
+	void SetLookAt(const float3& lookAt, bool& isSameRotation);
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
@@ -109,7 +110,6 @@ protected:
 
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
-	Quat currentRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;
