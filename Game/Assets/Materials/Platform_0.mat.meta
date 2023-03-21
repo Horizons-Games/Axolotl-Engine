@@ -1,9 +1,0 @@
-{
-    "UID": 13874330713181030193,
-    "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/platform_base_textured_Material_BaseMap.png",
-    "NormalAssetPath": "Assets/Textures/platform_base_textured_Material_Normal.png",
-    "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
-}

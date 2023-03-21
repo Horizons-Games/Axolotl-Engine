@@ -1,9 +1,0 @@
-{
-    "UID": 8223869383435219439,
-    "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/newTurret_lightTurret_Material.001_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/newTurret_lightTurret_Material.001_Normal.png",
-    "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
-}
