@@ -72,10 +72,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
             && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
-        App->scene->GetLoadedScene()->GetSceneQuadTree()
+        App->scene->GetLoadedScene()->GetRootQuadtree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
         App->scene->SetSelectedGameObject(gameObject);
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+        App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
     }
 
     // Delete a GameObject with the SUPR key
@@ -89,7 +89,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                             // change the focus to its parent
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                App->scene->GetLoadedScene()->GetRootQuadtree()->
                     RemoveGameObjectAndChildren(gameObject->GetParent());
 
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
@@ -186,10 +186,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                    App->scene->GetLoadedScene()->GetRootQuadtree()->
                         RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+                App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }

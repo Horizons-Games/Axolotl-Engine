@@ -20,19 +20,22 @@
 #include <queue>
 
 // Root constructor
-GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
+GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
 	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
 	drawBoundingBoxes(false)
 {
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true), 
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
-	objectOBB({ localAABB }), drawBoundingBoxes(false)
+GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::GenerateUID())
 {
+}
+
+GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
+{
+	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
+	this->parentUID = parent->GetUID();
 	active = (parent->IsEnabled() && parent->IsActive());
 }
 
@@ -161,7 +164,10 @@ void GameObject::DrawHighlight()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
+	meta["uid"] = uid;
+	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 
@@ -172,27 +178,11 @@ void GameObject::SaveOptions(Json& meta)
 		Json jsonComponent = jsonComponents[i]["Component"];
 
 		components[i]->SaveOptions(jsonComponent);
-	}
-
-	Json jsonChildrens = meta["Childrens"];
-
-	for (int i = 0; i < children.size(); ++i)
-	{
-		Json jsonGameObject = jsonChildrens[i]["GameObject"];
-
-		children[i]->SaveOptions(jsonGameObject);
-	}
+	}	
 }
 
-void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
+void GameObject::LoadOptions(Json& meta)
 {
-	loadedObjects.push_back(this);
-
-	uid = UniqueID::GenerateUID();
-	name = meta["name"];
-	enabled = (bool) meta["enabled"];
-	active = (bool) meta["active"];
-	
 	Json jsonComponents = meta["Components"];
 
 	if(jsonComponents.Size() != 0)
@@ -218,22 +208,6 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 			}
 
 			component->LoadOptions(jsonComponent);
-		}
-	}
-
-	Json jsonChildrens = meta["Childrens"];
-
-	int size = jsonChildrens.Size();
-
-	if (jsonChildrens.Size() != 0) 
-	{
-		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
-		{
-			Json jsonGameObject = jsonChildrens[i]["GameObject"];
-			std::string name = jsonGameObject["name"];
-
-			GameObject* gameObject = new GameObject(name.c_str(), this);
-			gameObject->LoadOptions(jsonGameObject, loadedObjects);
 		}
 	}
 }
@@ -271,6 +245,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 
 	if (!IsAChild(child.get()))
 	{
+		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 		children.push_back(std::move(child));
 	}

@@ -336,3 +336,9 @@ void WindowInspector::DrawButtomsSaveAndLoad()
 	ImGui::SameLine();
 	saveScene->DrawWindowContents();
 }
+
+void WindowInspector::ResetSelectedGameObject()
+{
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
+}

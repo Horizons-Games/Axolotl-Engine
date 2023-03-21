@@ -37,7 +37,7 @@ bool ModulePlayer::Start()
 		{
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(camera->GetParent());
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
 		}
 	}
