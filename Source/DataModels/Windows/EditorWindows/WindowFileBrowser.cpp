@@ -69,7 +69,7 @@ WindowFileBrowser::~WindowFileBrowser()
 {
 }
 
-void WindowFileBrowser::SaveAsWindow()
+void WindowFileBrowser::SaveAsWindow(bool& isSaving)
 {
 	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
 	std::string sceneName = App->scene->GetLoadedScene()->GetRoot()->GetName();
@@ -89,6 +89,7 @@ void WindowFileBrowser::SaveAsWindow()
 		{
 			DoThisIfOk();
 		}
+		isSaving = false;
 		fileDialogImporter.Close();
 	}
 
@@ -107,6 +108,7 @@ void WindowFileBrowser::DrawWindowContents()
 		fileDialogImporter.OpenDialog("ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(),
 			"", 1, nullptr, flags);
 	}
+	
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
 	{
 		if (fileDialogImporter.IsOk())

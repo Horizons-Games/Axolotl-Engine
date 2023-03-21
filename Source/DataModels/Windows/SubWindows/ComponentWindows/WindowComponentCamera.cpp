@@ -1,6 +1,7 @@
 #include "WindowComponentCamera.h"
 
 #include "DataModels/Components/ComponentCamera.h"
+#include "Camera/CameraGameObject.h"
 
 WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
 	ComponentWindow("CAMERA", component)
@@ -19,12 +20,14 @@ void WindowComponentCamera::DrawWindowContents()
 
 	if (asCamera)
 	{
+		ImGui::Text("");
+
 		const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
-		bool drawFrustum = asCamera->IsDrawFrustum();
-		ECameraFrustumMode frustumMode = asCamera->GetFrustumMode();
+		bool drawFrustum = asCamera->GetCamera()->IsDrawFrustum();
+		EFrustumMode frustumMode = asCamera->GetCamera()->GetFrustumMode();
 		int frustumModeAsNumber = static_cast<int>(frustumMode);
-		float frustumOffset = asCamera->GetFrustumOffset();
+		float frustumOffset = asCamera->GetCamera()->GetFrustumOffset();
 
 		ImGui::Text("Draw Frustum"); ImGui::SameLine();
 		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
@@ -34,9 +37,9 @@ void WindowComponentCamera::DrawWindowContents()
 
 		ImGui::Separator();
 
-		asCamera->SetDrawFrustum(drawFrustum);
-		ECameraFrustumMode newFrustumMode = static_cast<ECameraFrustumMode>(frustumModeAsNumber);
-		asCamera->SetFrustumMode(newFrustumMode);
-		asCamera->SetFrustumOffset(frustumOffset);
+		asCamera->GetCamera()->SetIsDrawFrustum(drawFrustum);
+		EFrustumMode newFrustumMode = static_cast<EFrustumMode>(frustumModeAsNumber);
+		asCamera->GetCamera()->SetFrustumMode(newFrustumMode);
+		asCamera->GetCamera()->SetFrustumOffset(frustumOffset);
 	}
 }

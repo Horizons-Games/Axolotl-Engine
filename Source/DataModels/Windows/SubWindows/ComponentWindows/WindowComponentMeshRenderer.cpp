@@ -21,7 +21,7 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-
+	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
@@ -31,7 +31,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 		if (meshAsShared)
 		{
-			ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
 		}
 		else
@@ -40,15 +39,16 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
-
+		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
 				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-
+				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
 				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->RequestResource<ResourceMesh>(draggedMeshUID).lock();
+					App->resources->SearchResource<ResourceMesh>(draggedMeshUID);
+				//And then this should be RequestResource not SearchResource
 
 				if (newMesh)
 				{
@@ -59,7 +59,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		ImGui::SameLine();
+		
 
 		bool showMeshBrowser;
 

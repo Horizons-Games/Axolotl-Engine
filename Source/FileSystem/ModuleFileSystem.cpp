@@ -16,8 +16,9 @@ bool ModuleFileSystem::Init()
 {
     PHYSFS_init(nullptr);
     PHYSFS_mount(".", nullptr, 0);
+    PHYSFS_mount("..", nullptr, 0);
     PHYSFS_setWriteDir(".");
-#if defined(GAME)
+#ifndef ENGINE
     if (!Exists("Assets.zip"))
     {
         struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
@@ -36,7 +37,10 @@ void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const s
     bool exists = Exists(assetsPath.c_str());
     if (!exists)
     {
-        CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+        if (!Copy(originalPath.c_str(), assetsPath.c_str())) 
+        {
+            CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+        }
     }
 }
 

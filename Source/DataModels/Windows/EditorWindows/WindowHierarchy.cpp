@@ -12,7 +12,7 @@ static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;    
+    flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -29,7 +29,7 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject != nullptr);   
+    assert(gameObject != nullptr);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
@@ -57,19 +57,19 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             }
         }
     }
-    
+
     if (gameObject == App->scene->GetSelectedGameObject())
     {
         flags |= ImGuiTreeNodeFlags_Selected;
-    }    
+    }
 
     ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
     ImGui::PushID(gameObjectLabel);
-    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || 
-        (ImGui::IsMouseClicked(ImGuiMouseButton_Right) 
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+        (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
             && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetSceneQuadTree()
@@ -78,19 +78,82 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
     }
 
+    // Delete a GameObject with the SUPR key
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+    {
+        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+        {
+            if (gameObject == App->scene->GetSelectedGameObject())
+            {
+                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                            // change the focus to its parent
+                App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                    RemoveGameObjectAndChildren(gameObject->GetParent());
+
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+            }
+        }
+    }
+
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
 
-        if (ImGui::MenuItem("Create child"))
+        if (ImGui::MenuItem("Create Empty child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
+
         if (ImGui::MenuItem("Create camera"))
         {
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
         }
-        
+        //Create Resource
+        if (ImGui::BeginMenu("Create 3D object"))
+        {
+            if (ImGui::MenuItem("Cube"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
+            }
+            if (ImGui::MenuItem("Plane"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
+            }
+            if (ImGui::MenuItem("Cylinder"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cylinder", gameObject, Premade3D::CYLINDER);
+            }
+            if (ImGui::MenuItem("Capsule"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Capsule", gameObject, Premade3D::CAPSULE);
+            }
+            if (ImGui::MenuItem("Character"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
+            }
+            ImGui::EndMenu();
+        }
+        //Create Light ShortCut
+        if (ImGui::BeginMenu("Create Light"))
+        {
+            if (ImGui::MenuItem("Spot"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
+            }
+            if (ImGui::MenuItem("Point"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
+            }
+            //Normally you can have multiple Directionals but just now we can't so...
+            /*if (ImGui::MenuItem("Directional"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Directional", gameObject, LightType::DIRECTIONAL);
+            }*/
+            ImGui::EndMenu();
+        }
+
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
             GameObject* selectedParent = gameObject->GetParent();
@@ -112,7 +175,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
             }
         }
-        
+
         if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())

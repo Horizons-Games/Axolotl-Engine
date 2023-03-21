@@ -1,5 +1,6 @@
 #include "ComponentDirLight.h"
 
+#include "Application.h"
 #include "ComponentTransform.h"
 
 #include "FileSystem/Json.h"
@@ -31,7 +32,13 @@ ComponentDirLight::~ComponentDirLight()
 
 void ComponentDirLight::Draw()
 {
-	if (GetActive())
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return;
+	}
+#endif //ENGINE
+	if (this->GetActive())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

@@ -47,20 +47,12 @@ private:
 			SDL_DestroyWindow(window);
 		}
 	};
-	//SDL_Surface is also incomplete
-	struct SDLSurfaceDestroyer
-	{
-		void operator()(SDL_Surface* surface) const
-		{
-			SDL_FreeSurface(surface);
-		}
-	};
 
 	//The window we'll be rendering to
 	std::unique_ptr<SDL_Window, SDLWindowDestroyer> window;
 
 	//The surface contained by the window
-	std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer> screenSurface;
+	SDL_Surface* screenSurface;
 
 	//whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
 	//this is because both flags are set at the same time, so it's impossible to differentiate otherwise
