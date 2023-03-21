@@ -247,11 +247,12 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 
 void ModuleEditor::CopyAnObject()
 {
+	delete copyObject;
+
 	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
 		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
 		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
-		delete copyObject;
 		copyObject = new GameObject(*App->scene->GetSelectedGameObject());
 	}
 	
@@ -264,12 +265,12 @@ void ModuleEditor::PasteAnObject()
 		if (App->scene->GetSelectedGameObject())
 		{
 			App->scene->GetLoadedScene()->
-				CreateGameObject(copyObject->GetName(), copyObject, App->scene->GetSelectedGameObject());
+				DuplicateGameObject(copyObject->GetName(), copyObject, App->scene->GetSelectedGameObject());
 		}
 		else
 		{
 			App->scene->GetLoadedScene()->
-				CreateGameObject(copyObject->GetName(), copyObject, App->scene->GetLoadedScene()->GetRoot());
+				DuplicateGameObject(copyObject->GetName(), copyObject, App->scene->GetLoadedScene()->GetRoot());
 		}
 	}
 }
@@ -289,10 +290,13 @@ void ModuleEditor::CutAnObject()
 
 void ModuleEditor::DuplicateAnObject()
 {
-	if (App->scene->GetSelectedGameObject() && App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot())
+	if (App->scene->GetSelectedGameObject() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot()
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight()
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
 		App->scene->GetLoadedScene()->
-			CreateGameObject(App->scene->GetSelectedGameObject()->GetName()
+			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
 				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
 	}
 }

@@ -102,7 +102,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
 {
 	assert(name != nullptr && parent != nullptr);
 
