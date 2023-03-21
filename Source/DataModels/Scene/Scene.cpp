@@ -107,7 +107,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* newObject, Gam
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
-	gameObject->SetParent(parent);
+	gameObject->MoveParent(parent);
 
 	// Update the transform respect its parent when created
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>

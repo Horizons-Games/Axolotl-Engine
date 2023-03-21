@@ -67,6 +67,7 @@ public:
 
 	void SetName(const char* newName);
 	void SetParent(GameObject* newParent);
+	void MoveParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -139,6 +140,11 @@ inline const char* GameObject::GetName() const
 inline void GameObject::SetName(const char* newName)
 {
 	name = newName;
+}
+
+inline void GameObject::SetParent(GameObject* newParent)
+{
+	parent = newParent;
 }
 
 inline GameObject* GameObject::GetParent() const

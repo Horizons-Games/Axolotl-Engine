@@ -51,7 +51,10 @@ GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), pare
 
 	for (auto child : gameObject.GetChildren())
 	{
-		AddChild(std::unique_ptr<GameObject>(child));
+		std::unique_ptr<GameObject> newChild;
+		newChild = std::make_unique<GameObject>(static_cast<GameObject&>(*child));
+		newChild->SetParent(this);
+		children.push_back(std::move(newChild));
 	}
 }
 
@@ -262,7 +265,7 @@ void GameObject::InitNewEmptyGameObject()
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
-void GameObject::SetParent(GameObject* newParent)
+void GameObject::MoveParent(GameObject* newParent)
 {
 	assert(newParent);
 
