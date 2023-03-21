@@ -227,3 +227,13 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 	loadedScene->InitLights();
 
 }
+
+/*
+This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
+*/
+void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
+{
+	loadedScene->GetSceneQuadTree()->AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject = gameObject;
+	loadedScene->GetSceneQuadTree()->RemoveGameObjectAndChildren(selectedGameObject);
+}

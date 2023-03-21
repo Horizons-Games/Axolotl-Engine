@@ -72,10 +72,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
             && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
-        App->scene->GetLoadedScene()->GetSceneQuadTree()
-            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-        App->scene->SetSelectedGameObject(gameObject);
-        App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+        App->scene->ChangeSelectedGameObject(gameObject);
     }
 
     // Delete a GameObject with the SUPR key

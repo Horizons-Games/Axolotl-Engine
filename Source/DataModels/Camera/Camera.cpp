@@ -440,10 +440,7 @@ void Camera::SetNewSelectedGameObject(const std::map<float, const GameObject*>& 
 
 	if (newSelectedGameObject != nullptr)
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()
-			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(newSelectedGameObject);
+		App->scene->ChangeSelectedGameObject(newSelectedGameObject);
 		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

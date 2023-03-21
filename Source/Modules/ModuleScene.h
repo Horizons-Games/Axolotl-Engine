@@ -23,6 +23,7 @@ public:
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
+	void ChangeSelectedGameObject(GameObject* gameObject);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -60,3 +61,4 @@ inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	selectedGameObject = gameObject;
 }
+

@@ -441,6 +441,12 @@ void Quadtree::AddGameObjectAndChildren(GameObject* gameObject)
 	{
 		return;
 	}
+	//If an object doesn't have transform component it can't be at the quadtree
+	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
+	{
+		return;
+	}
+
 	std::list<GameObject*> familyObjects = {};
 	std::list<GameObject*> objects = GetAllGameObjects(gameObject);
 	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());
