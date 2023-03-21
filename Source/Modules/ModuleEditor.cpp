@@ -247,7 +247,9 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 
 void ModuleEditor::CopyAnObject()
 {
-	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot())
+	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
 	{
 		delete copyObject;
 		copyObject = new GameObject(*App->scene->GetSelectedGameObject());
