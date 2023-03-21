@@ -53,6 +53,8 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
+#else 
+	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
@@ -288,6 +290,13 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+}
+
+void ModuleResources::FillResourceBin(std::shared_ptr<Resource> sharedResource)
+{
+#ifndef ENGINE
+	resourcesBin.push_back(sharedResource);
+#endif
 }
 
 void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)

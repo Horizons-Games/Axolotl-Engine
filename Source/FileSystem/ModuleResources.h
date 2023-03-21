@@ -51,6 +51,8 @@ public:
 
 	void ReimportResource(UID resourceUID);
 
+	void FillResourceBin(std::shared_ptr<Resource> sharedResource);
+
 private:
 	//resource creation and deletition
 	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName,
@@ -103,6 +105,8 @@ private:
 
 	std::thread monitorThread;
 	bool monitorResources;
+
+	std::vector<std::shared_ptr<Resource>> resourcesBin;
 
 	friend class WindowResources;
 };
