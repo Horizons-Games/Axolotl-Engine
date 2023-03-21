@@ -39,6 +39,22 @@ void WindowMainMenu::Draw(bool& enabled)
 	ImGui::EndMainMenuBar();
 }
 
+void WindowMainMenu::Exit()
+{
+	//to make it easier in terms of coupling between classes,
+	//just push an SDL_QuitEvent to the event queue
+	SDL_Event quitEvent;
+	quitEvent.type = SDL_QUIT;
+	SDL_PushEvent(&quitEvent);
+}
+
+void WindowMainMenu::CreateNewScene()
+{
+	std::unique_ptr<Scene> scene = std::make_unique<Scene>();
+	scene->InitNewEmptyScene();
+	App->scene->SetLoadedScene(std::move(scene));
+}
+
 void WindowMainMenu::DrawPopup()
 {
 	ImGui::OpenPopup("Are you sure?");
@@ -54,23 +70,15 @@ void WindowMainMenu::DrawPopup()
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 			if (filePathName != "New Scene")
 			{
-				App->scene->SaveSceneToJson(filePathName + ".axolotl");
+				App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
 			}
 			else isSaving = true;
 			if (action == Actions::NEW_SCENE)
 			{
-				std::unique_ptr<Scene> scene = std::make_unique<Scene>();
-				scene->InitNewEmptyScene();
-				App->scene->SetLoadedScene(std::move(scene));
+				CreateNewScene();
 				action = Actions::NONE;
 			}
-			else if (action == Actions::EXIT && filePathName != "New Scene") {
-				//to make it easier in terms of coupling between classes,
-				//just push an SDL_QuitEvent to the event queue
-				SDL_Event quitEvent;
-				quitEvent.type = SDL_QUIT;
-				SDL_PushEvent(&quitEvent);
-			}
+			else if (action == Actions::EXIT && filePathName != "New Scene") Exit();
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
 		}
@@ -81,18 +89,10 @@ void WindowMainMenu::DrawPopup()
 			isSaving = false;
 			if (action == Actions::NEW_SCENE)
 			{
-				std::unique_ptr<Scene> scene = std::make_unique<Scene>();
-				scene->InitNewEmptyScene();
-				App->scene->SetLoadedScene(std::move(scene));
+				CreateNewScene();
 				action = Actions::NONE;
 			}
-			else if (action == Actions::EXIT) {
-				//to make it easier in terms of coupling between classes,
-				//just push an SDL_QuitEvent to the event queue
-				SDL_Event quitEvent;
-				quitEvent.type = SDL_QUIT;
-				SDL_PushEvent(&quitEvent);
-			}
+			else if (action == Actions::EXIT) Exit();
 			openPopup = false;
 			ImGui::CloseCurrentPopup();
 		}
@@ -114,7 +114,7 @@ void WindowMainMenu::DrawFileMenu()
 		{
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 			// IF THE DEFAULT NAME OF A SCENE CHANGES WE WILL NEED TO CHANGE ALSO THIS
-			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + ".axolotl");
+			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
@@ -126,8 +126,6 @@ void WindowMainMenu::DrawFileMenu()
 		ImGui::EndMenu();
 	}
 }
-
-
 
 void WindowMainMenu::DrawWindowMenu()
 {

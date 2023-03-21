@@ -4,12 +4,6 @@
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 
-enum class Actions
-{
-	NONE,
-	NEW_SCENE,
-	EXIT
-};
 
 class WindowMainMenu : public Window
 {
@@ -29,6 +23,8 @@ private:
 	void DrawFileMenu();
 	void DrawHelpMenu();
 	void DrawPopup();
+	void CreateNewScene();
+	void Exit();
 
 	static bool defaultEnabled;
 
@@ -39,6 +35,13 @@ private:
 	bool showAbout;
 	bool openPopup;
 	bool isSaving;
+
+	enum class Actions
+	{
+		NONE,
+		NEW_SCENE,
+		EXIT
+	};
 
 	Actions action;
 	
