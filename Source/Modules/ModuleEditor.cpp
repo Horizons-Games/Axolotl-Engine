@@ -210,3 +210,11 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 	this->inspector->SetResource(resource);
 #endif
 }
+
+void ModuleEditor::RefreshInspector() const
+{
+#ifdef ENGINE
+	inspector->ResetSelectedGameObject();
+#endif // ENGINE
+
+}

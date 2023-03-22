@@ -16,7 +16,6 @@
 #endif // !ENGINE
 
 #include "FileSystem/ModuleFileSystem.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Batch/GeometryBatch.h"
@@ -185,22 +184,8 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	//we really need to remove this :)
-#ifdef ENGINE
-	std::shared_ptr<ResourceSkyBox> resourceSkybox =
-		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+	//UpdateProgram();
 
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
-	}
-#else
-	//TODO How do we get skybox in game mode?
-	//We need to store the UID in the JSONscene and then loaded when unserialize?
-	//So should this be moved to the scene?
-	// Search skybox on the lib folder and save the UID of skybox? Then should be only one in ALL the asset/Folder
-	//UID skyboxUID = App->resources->GetSkyBoxResource();
-#endif
 	return true;
 }
 
@@ -230,17 +215,18 @@ update_status ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
-	//if (skybox)
-	//{
-	//	skybox->Draw();
-	//}
+	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
+	if (skybox)
+	{
+		skybox->Draw();
+	}
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
-	
+	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
@@ -292,7 +278,7 @@ update_status ModuleRender::Update()
 
 	if (App->debug->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+		DrawQuadtree(App->scene->GetLoadedScene()->GetRootQuadtree());
 	}
 
 	int w, h;

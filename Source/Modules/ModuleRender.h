@@ -59,9 +59,6 @@ private:
 	const std::vector<std::string> modelTypes;
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMap;
 
-	//should this be here?
-	std::unique_ptr<Skybox> skybox;
-
 	GLuint frameBuffer;
 	GLuint renderedTexture;
 	GLuint depthStencilRenderbuffer;

@@ -35,24 +35,24 @@ void WindowFrustum::DrawWindowContents()
 		App->camera->GetCamera()->SetFrustumOffset(vFrustum);
 	}
 
-	bool isQuadtreeFreezed = App->scene->GetLoadedScene()->GetSceneQuadTree()->IsFreezed();
+	bool isQuadtreeFreezed = App->scene->GetLoadedScene()->GetRootQuadtree()->IsFreezed();
 	if (ImGui::Checkbox("Freeze Quadtree", &isQuadtreeFreezed))
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetFreezedStatus(isQuadtreeFreezed);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->SetFreezedStatus(isQuadtreeFreezed);
 	}
 
-	int quadrantCapacity = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetQuadrantCapacity();
+	int quadrantCapacity = App->scene->GetLoadedScene()->GetRootQuadtree()->GetQuadrantCapacity();
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetQuadrantCapacity(quadrantCapacity);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
-	float minQuadrantSideSize = App->scene->GetLoadedScene()->GetSceneQuadTree()->GetMinQuadrantSideSize();
+	float minQuadrantSideSize = App->scene->GetLoadedScene()->GetRootQuadtree()->GetMinQuadrantSideSize();
 	if (ImGui::SliderFloat("Minimum quadrant side size", 
 		&minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->scene->GetLoadedScene()->GetSceneQuadTree()->SetMinQuadrantSideSize(minQuadrantSideSize);
+		App->scene->GetLoadedScene()->GetRootQuadtree()->SetMinQuadrantSideSize(minQuadrantSideSize);
 		//TODO save values for future executions
 	}
 
