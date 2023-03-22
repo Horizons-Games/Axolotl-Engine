@@ -28,13 +28,21 @@ WindowMainMenu::~WindowMainMenu()
 
 void WindowMainMenu::Draw(bool& enabled)
 {
+	if (openPopup) DrawPopup();
+	else if (!isSaving && action != Actions::NONE) {
+		if (action == Actions::NEW_SCENE)
+		{
+			CreateNewScene();
+			action = Actions::NONE;
+		}
+		else if (action == Actions::EXIT) Exit();
+	}
+	if (isSaving) saveScene->SaveAsWindow(isSaving);
 	if (ImGui::BeginMainMenuBar())
 	{
 		DrawFileMenu();
 		DrawWindowMenu();
 		DrawHelpMenu();
-		if (openPopup) DrawPopup();
-		if (isSaving) saveScene->SaveAsWindow(isSaving);
 	}
 	ImGui::EndMainMenuBar();
 }
@@ -64,21 +72,11 @@ void WindowMainMenu::DrawPopup()
 	{
 		ImGui::Text("Do you want to save the scene?\nAll your changes will be lost if you don't save them.");
 		ImGui::Separator();
-
+		std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
-			if (filePathName != "New Scene")
-			{
-				App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
-			}
+			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
-			if (action == Actions::NEW_SCENE)
-			{
-				CreateNewScene();
-				action = Actions::NONE;
-			}
-			else if (action == Actions::EXIT && filePathName != "New Scene") Exit();
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
 		}
@@ -87,12 +85,6 @@ void WindowMainMenu::DrawPopup()
 		if (ImGui::Button("Close without saving", ImVec2(240, 0)))
 		{
 			isSaving = false;
-			if (action == Actions::NEW_SCENE)
-			{
-				CreateNewScene();
-				action = Actions::NONE;
-			}
-			else if (action == Actions::EXIT) Exit();
 			openPopup = false;
 			ImGui::CloseCurrentPopup();
 		}
@@ -113,7 +105,8 @@ void WindowMainMenu::DrawFileMenu()
 		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
 		{
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
-			// IF THE DEFAULT NAME OF A SCENE CHANGES WE WILL NEED TO CHANGE ALSO THIS
+			// We should find a way to check if the scene has already been saved
+			// Using "New Scene" is a patch
 			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 		}
@@ -144,11 +137,7 @@ void WindowMainMenu::DrawHelpMenu()
 	if (ImGui::BeginMenu("Help"))
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
-
-		if (ImGui::MenuItem("GitHub Link"))
-		{
-			ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
-		}
+		if (ImGui::MenuItem("GitHub Link")) ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
