@@ -166,7 +166,33 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
+#ifdef ENGINE
+	bool find = false;
+	for (ComponentMeshRenderer* compare : components)
+	{
+		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
+		{
+			find = true;
+			break;
+		}
+	}
+	if (!find)
+	{
+		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
+			if (it->resourceMesh == componentToDelete->GetMesh().get())
+			{
+				numTotalVertices -= it->resourceMesh->GetNumVertices();
+				numTotalIndices -= it->resourceMesh->GetNumIndexes();
+				numTotalFaces -= it->resourceMesh->GetNumFaces();
+				createBuffers = true;
+				resourcesInfo.erase(it);
+				break;
+			}
+		}
+	}
+#endif //ENGINE
 	components.erase(std::find(components.begin(), components.end(), componentToDelete));
+	reserveModelSpace = true;
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)

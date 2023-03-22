@@ -222,7 +222,9 @@ inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
 
 inline void ModuleResources::CleanResourceBin()
 {
+#ifndef ENGINE
 	resourcesBin.clear();
+#endif //!ENGINE
 }
 
 template<class R>
