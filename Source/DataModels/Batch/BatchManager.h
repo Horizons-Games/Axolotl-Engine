@@ -2,6 +2,10 @@
 
 #include <vector>
 
+#ifndef ENGINE
+#include "FileSystem/ModuleResources.h"
+#endif // !ENGINE
+
 class GeometryBatch;
 class ComponentMeshRenderer;
 
@@ -32,5 +36,8 @@ inline const std::vector<GeometryBatch*>& BatchManager::GetBatches() const
 
 inline void BatchManager::CleanBatches()
 {
+#ifndef ENGINE
+	App->resources->CleanResourceBin();
+#endif // !ENGINE
 	geometryBatches.clear();
 }

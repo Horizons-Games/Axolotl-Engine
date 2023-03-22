@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleCamera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -14,6 +13,10 @@
 
 #include <gl/glew.h>
 #include <SDL_assert.h>
+
+#ifndef ENGINE
+#include "FileSystem/ModuleResources.h"
+#endif // !ENGINE
 
 GeometryBatch::GeometryBatch()
 {
@@ -153,27 +156,8 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		{
 			return;
 		}
-
-		ResourceMesh* mesh = meshShared.get();
-		if (components.empty())
-		{
-			if (mesh->GetNormals().size() != 0)
-			{
-				flags |= HAS_NORMALS;
-			}
-
-			if (mesh->GetTextureCoords().size() != 0)
-			{
-				flags |= HAS_TEXTURE_COORDINATES;
-			}
-
-			if (mesh->GetTangents().size() != 0)
-			{
-				flags |= HAS_TANGENTS;
-			}
-		}
 		
-		CreateInstance(mesh);
+		CreateInstance(meshShared.get());
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 		reserveModelSpace = true;
@@ -182,7 +166,37 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
+
+	bool find = false;
+	for (ComponentMeshRenderer* compare : components)
+	{
+		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
+		{
+			find = true;
+			break;
+		}
+	}
+
+	if (!find)
+	{
+#ifdef ENGINE
+		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
+			if (it->resourceMesh == componentToDelete->GetMesh().get())
+			{
+				numTotalVertices -= it->resourceMesh->GetNumVertices();
+				numTotalIndices -= it->resourceMesh->GetNumIndexes();
+				numTotalFaces -= it->resourceMesh->GetNumFaces();
+				createBuffers = true;
+				resourcesInfo.erase(it);
+				break;
+			}
+		}
+#else
+		App->resources->FillResourceBin(componentToDelete->GetMesh());
+#endif //ENGINE
+	}
 	components.erase(std::find(components.begin(), components.end(), componentToDelete));
+	reserveModelSpace = true;
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
@@ -255,25 +269,43 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-void GeometryBatch::CreateInstance(ResourceMesh* resourceMesh)
+void GeometryBatch::CreateInstance(ResourceMesh* mesh)
 {
 	for (ResourceInfo aaa : resourcesInfo)
 	{
-		if (aaa.resourceMesh == resourceMesh)
+		if (aaa.resourceMesh == mesh)
 		{
 			return;
 		}
 	}
 
+	if (components.empty())
+	{
+		if (mesh->GetNormals().size() != 0)
+		{
+			flags |= HAS_NORMALS;
+		}
+
+		if (mesh->GetTextureCoords().size() != 0)
+		{
+			flags |= HAS_TEXTURE_COORDINATES;
+		}
+
+		if (mesh->GetTangents().size() != 0)
+		{
+			flags |= HAS_TANGENTS;
+		}
+	}
+
 	ResourceInfo aaa = {
-				resourceMesh,
+				mesh,
 				numTotalVertices,
 				numTotalIndices
 	};
 	resourcesInfo.push_back(aaa);
-	numTotalVertices += resourceMesh->GetNumVertices();
-	numTotalIndices += resourceMesh->GetNumIndexes();
-	numTotalFaces += resourceMesh->GetNumFaces();
+	numTotalVertices += mesh->GetNumVertices();
+	numTotalIndices += mesh->GetNumIndexes();
+	numTotalFaces += mesh->GetNumFaces();
 	createBuffers = true;
 }
 
