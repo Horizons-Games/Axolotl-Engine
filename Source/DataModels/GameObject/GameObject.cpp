@@ -46,7 +46,7 @@ GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), pare
 {
 	for (auto component : gameObject.GetComponents())
 	{
-		AddComponent(component->GetType(), component);
+		CopyComponent(component->GetType(), component);
 	}
 
 	for (auto child : gameObject.GetChildren())
@@ -54,7 +54,7 @@ GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), pare
 		std::unique_ptr<GameObject> newChild;
 		newChild = std::make_unique<GameObject>(static_cast<GameObject&>(*child));
 		newChild->SetParent(this);
-		children.push_back(std::move(newChild));
+		AddChild(std::move(newChild));
 	}
 }
 
@@ -337,7 +337,7 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	}
 }
 
-void GameObject::AddComponent(ComponentType type, Component* component)
+void GameObject::CopyComponent(ComponentType type, Component* component)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -371,7 +371,7 @@ void GameObject::AddComponent(ComponentType type, Component* component)
 
 	case ComponentType::LIGHT:
 	{
-		AddComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
+		CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
 		break;
 	}
 
@@ -386,7 +386,7 @@ void GameObject::AddComponent(ComponentType type, Component* component)
 	}
 }
 
-void GameObject::AddComponentLight(LightType type, Component* component)
+void GameObject::CopyComponentLight(LightType type, Component* component)
 {
 	std::unique_ptr<ComponentLight> newComponent;
 

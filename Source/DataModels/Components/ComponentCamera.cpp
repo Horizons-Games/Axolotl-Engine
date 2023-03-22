@@ -14,6 +14,8 @@
 
 
 #include "Camera/CameraGameObject.h"
+#include "Camera/CameraEngine.h"
+#include "Camera/CameraGod.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	: Component(ComponentType::CAMERA, active, owner, false)
@@ -25,8 +27,9 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 }
 
 ComponentCamera::ComponentCamera(ComponentCamera& componentCamera):
-	Component(componentCamera), camera(componentCamera.GetCamera())
+	Component(componentCamera)
 {
+	DuplicateCamera(componentCamera.camera.get());
 }
 
 ComponentCamera::~ComponentCamera()
@@ -85,4 +88,9 @@ void ComponentCamera::LoadOptions(Json& meta)
 CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera.get();
+}
+
+void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
+{
+	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
 }

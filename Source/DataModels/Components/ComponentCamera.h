@@ -39,6 +39,7 @@ public:
 
 	CameraGameObject* GetCamera();
 
+	void DuplicateCamera(CameraGameObject* camera);
 
 
 private:
