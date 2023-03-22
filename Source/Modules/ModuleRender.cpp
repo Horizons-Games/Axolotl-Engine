@@ -472,7 +472,6 @@ void ModuleRender::DrawSelectedGO(GameObject* goSelected) {
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject) {
-	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
 	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 	if (material != nullptr) {
 		//material->SetTransparent(true);
