@@ -2,6 +2,8 @@
 
 #include "ModuleRender.h"
 
+#include <queue>
+
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleWindow.h"
@@ -15,6 +17,7 @@
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentMaterial.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "GameObject/GameObject.h"
 
@@ -243,28 +246,22 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(goSelected);
 
+	drawnGameObjects.clear();
+
 	//Draw opaque
 	glDepthFunc(GL_LEQUAL);
 	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
-		if (gameObject != nullptr && gameObject->IsActive())
-		{
-			/*if (gameObject == goSelected && !isRoot && goSelected != nullptr && goSelected->IsActive())
-				DrawSelectedGO(goSelected);
-			else*/
-				gameObject->Draw();
-		}
+		DrawGameObject(gameObject);
 	}
 
 	// Draw Transparent
 	glDepthFunc(GL_ALWAYS);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it) {
-		/*if ((*it).second == goSelected && !isRoot && goSelected != nullptr && goSelected->IsActive())
-			DrawSelectedGO(goSelected);
-		else*/
-			(*it).second->Draw();
+	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it)
+	{	
+		DrawGameObject((*it).second);
 	}
 	glDisable(GL_BLEND);
 
@@ -425,7 +422,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			opaqueGOToDraw.push_back(gameObject);
+			transparentGOToDraw.insert({ 0.f, gameObject });
 		}
 	}
 	
@@ -456,25 +453,103 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
-void ModuleRender::DrawSelectedGO(GameObject* goSelected) {
+void ModuleRender::DrawGameObject(const GameObject* gameObject)
+{
+	if (std::find(std::begin(drawnGameObjects), std::end(drawnGameObjects), gameObject->GetUID()) !=
+		std::end(drawnGameObjects))
+	{
+		return;
+	}
+
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
+
+	if (gameObject != nullptr && gameObject->IsActive())
+	{
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected)
+		{
+			DrawSelectedHighlightGameObject(goSelected);
+		}
+		else
+		{
+			gameObject->Draw();
+			drawnGameObjects.push_back(gameObject->GetUID());
+		}
+	}
+}
+
+void ModuleRender::DrawSelectedHighlightGameObject(GameObject* gameObject)
+{
 	glEnable(GL_STENCIL_TEST);
 	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 	glStencilMask(0xFF); // enable writing to the stencil buffer
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	goSelected->DrawSelected();
+	DrawSelectedAndChildren(gameObject);
 
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 	glLineWidth(25);
 	glPolygonMode(GL_FRONT, GL_LINE);
-	goSelected->DrawHighlight();
+	DrawHighlight(gameObject);
 	glPolygonMode(GL_FRONT, GL_FILL);
 	glLineWidth(1);
+	glDisable(GL_STENCIL_TEST);
 }
 
-bool ModuleRender::CheckIfTransparent(const GameObject* gameObject) {
+void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
+{
+	std::queue<GameObject*> gameObjectQueue;
+	gameObjectQueue.push(gameObject);
+	while (!gameObjectQueue.empty())
+	{
+		GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		gameObject->Draw();
+		drawnGameObjects.push_back(gameObject->GetUID());
+#ifdef ENGINE
+		if (currentGo->isDrawBoundingBoxes())
+		{
+			App->debug->DrawBoundingBox(currentGo->GetObjectOBB());
+		}
+#endif // ENGINE
+	}
+}
+
+void ModuleRender::DrawHighlight(GameObject* gameObject)
+{
+	std::queue<GameObject*> gameObjectQueue;
+	gameObjectQueue.push(gameObject);
+	while (!gameObjectQueue.empty())
+	{
+		GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		std::vector<ComponentMeshRenderer*> meshes =
+			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes)
+		{
+			mesh->DrawHighlight();
+		}
+	}
+}
+
+bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
+{
 	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
-	if (material != nullptr) {
-		//material->SetTransparent(true);
+	if (material != nullptr)
+	{
+		material->SetTransparent(true);
 		if (!material->GetTransparent())
 			return false;
 		else
