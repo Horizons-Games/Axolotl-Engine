@@ -62,6 +62,22 @@ void WindowScene::DrawGuizmo()
 		gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
+		App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+	{
+		gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_W) == KeyState::DOWN &&
+		App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+	{
+		gizmoCurrentOperation = ImGuizmo::OPERATION::ROTATE;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN &&
+		App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+	{
+		gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
+	}
+
 	ImGui::Dummy(ImVec2(5.0f, 0.0f));
 	ImGui::Separator();
 	ImGui::Dummy(ImVec2(5.0f, 0.0f));
