@@ -209,12 +209,7 @@ void main()
     float metalnessMask = material.metalness;
     float smoothnessMat = material.smoothness;
     if (material.has_metallic_map == 1) {
-        vec2 metallicRA = texture(metallic_map, TexCoord).ra;
-        metalnessMask = metallicRA.x;
-    
-        if(material.has_metallic_alpha) {
-            smoothnessMat = metallicRA.y;
-        }
+        metalnessMask = texture(metallic_map, TexCoord).r;
     }
 
     vec3 Cd = textureMat*(1.0-metalnessMask);
