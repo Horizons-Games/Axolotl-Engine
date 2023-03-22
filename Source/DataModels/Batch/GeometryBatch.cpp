@@ -157,7 +157,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			return;
 		}
 		
-		CreateInstance(meshShared);
+		CreateInstance(meshShared.get());
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 		reserveModelSpace = true;
@@ -166,7 +166,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
-#ifdef ENGINE
+
 	bool find = false;
 	for (ComponentMeshRenderer* compare : components)
 	{
@@ -176,8 +176,10 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 			break;
 		}
 	}
+
 	if (!find)
 	{
+#ifdef ENGINE
 		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
 			if (it->resourceMesh == componentToDelete->GetMesh().get())
 			{
@@ -189,8 +191,10 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 				break;
 			}
 		}
-	}
+#else
+		App->resources->FillResourceBin(componentToDelete->GetMesh());
 #endif //ENGINE
+	}
 	components.erase(std::find(components.begin(), components.end(), componentToDelete));
 	reserveModelSpace = true;
 }
@@ -265,10 +269,8 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-void GeometryBatch::CreateInstance(std::shared_ptr<ResourceMesh> meshShared)
+void GeometryBatch::CreateInstance(ResourceMesh* mesh)
 {
-	ResourceMesh* mesh = meshShared.get();
-
 	for (ResourceInfo aaa : resourcesInfo)
 	{
 		if (aaa.resourceMesh == mesh)
@@ -294,10 +296,6 @@ void GeometryBatch::CreateInstance(std::shared_ptr<ResourceMesh> meshShared)
 			flags |= HAS_TANGENTS;
 		}
 	}
-
-#ifndef ENGINE
-	App->resources->FillResourceBin(meshShared);
-#endif // !ENGINE
 
 	ResourceInfo aaa = {
 				mesh,

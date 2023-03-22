@@ -53,7 +53,7 @@ private:
 
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 
-	void CreateInstance(std::shared_ptr<ResourceMesh> meshShared);
+	void CreateInstance(ResourceMesh* mesh);
 
 	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
