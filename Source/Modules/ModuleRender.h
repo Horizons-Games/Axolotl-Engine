@@ -42,11 +42,11 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+	//const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
-	void GroupGameObjects();
+	bool CheckIfTransparent(const GameObject* gameObject);
 	void DrawSelectedGO(GameObject* goSelected);
 
 	void* context;
@@ -54,7 +54,6 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<const GameObject*> allGOToDraw;
 	std::vector<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	const std::vector<std::string> modelTypes;
@@ -95,9 +94,4 @@ inline const std::string& ModuleRender::GetVertexShader() const
 inline const std::string& ModuleRender::GetFragmentShader() const
 {
 	return fragmentShader;
-}
-
-inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
-{
-	return allGOToDraw;
 }

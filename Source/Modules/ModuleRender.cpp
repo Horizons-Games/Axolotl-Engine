@@ -209,6 +209,9 @@ update_status ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
+	opaqueGOToDraw.clear();
+	transparentGOToDraw.clear();
+
 	if (skybox)
 	{
 		skybox->Draw();
@@ -227,8 +230,6 @@ update_status ModuleRender::Update()
 		App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
 
 
-	allGOToDraw.clear();
-
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
@@ -237,15 +238,13 @@ update_status ModuleRender::Update()
 	
 	if (isRoot) 
 	{
-		allGOToDraw.push_back(goSelected);
+		opaqueGOToDraw.push_back(goSelected);
 	}
 
 	AddToRenderList(goSelected);
 
-	GroupGameObjects();
-
-	glDepthFunc(GL_LESS);
 	//Draw opaque
+	glDepthFunc(GL_LEQUAL);
 	for (const GameObject* gameObject : opaqueGOToDraw)
 	{
 		if (gameObject != nullptr && gameObject->IsActive())
@@ -350,6 +349,8 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
+	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
+
 	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
 		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
 	{
@@ -360,7 +361,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					allGOToDraw.push_back(gameObject);
+					if (!CheckIfTransparent(gameObject))
+						opaqueGOToDraw.push_back(gameObject);
+					else
+					{
+						const ComponentTransform* transform = 
+							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+						while (transparentGOToDraw[dist] != nullptr) { //If an object is at the same position as another one
+							float addDistance = 0.0001f;
+							dist += addDistance;
+						}
+						transparentGOToDraw[dist] = gameObject;
+					}
 				}
 			}
 		}
@@ -370,7 +383,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-					allGOToDraw.push_back(gameObject);
+					if (!CheckIfTransparent(gameObject))
+						opaqueGOToDraw.push_back(gameObject);
+					else
+					{
+						const ComponentTransform* transform = 
+							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+						while (transparentGOToDraw[dist] != nullptr) {
+							float addDistance = 0.0001f;
+							dist += addDistance;
+						}
+						transparentGOToDraw[dist] = gameObject;
+					}
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -400,7 +425,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			allGOToDraw.push_back(gameObject);
+			opaqueGOToDraw.push_back(gameObject);
 		}
 	}
 	
@@ -446,30 +471,14 @@ void ModuleRender::DrawSelectedGO(GameObject* goSelected) {
 	glLineWidth(1);
 }
 
-void ModuleRender::GroupGameObjects() {
-	opaqueGOToDraw.clear();
-	transparentGOToDraw.clear();
-
-
+bool ModuleRender::CheckIfTransparent(const GameObject* gameObject) {
 	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
-	for (const GameObject* gameObject : allGOToDraw)
-	{
-		ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
-		if (material != nullptr) {
-			material->SetTransparent(false);
-			if (!material->GetTransparent())
-			{
-				opaqueGOToDraw.push_back(gameObject);
-			}
-			else {
-				const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-				float dist = Length(cameraPos - transform->GetGlobalPosition());
-				while (transparentGOToDraw[dist] != nullptr) {
-					float addDistance = 0.0001f;
-					dist += addDistance;
-				}
-				transparentGOToDraw[dist] = gameObject;
-			}
-		}
+	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
+	if (material != nullptr) {
+		//material->SetTransparent(true);
+		if (!material->GetTransparent())
+			return false;
+		else
+			return true;
 	}
 }
