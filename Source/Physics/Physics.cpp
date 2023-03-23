@@ -137,6 +137,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float thisDistance = 0.0f;
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
@@ -145,6 +146,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		{
 			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+
 			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
 			if (!goMeshAsShared)
@@ -154,7 +156,9 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 
 			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
 				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
 			for (const Triangle& triangle : meshTriangles)
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
@@ -173,9 +177,13 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				// and it is the nearest triangle to the frustum
 				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
+				hitNormal = triangle.NormalCCW();
 			}
 		}
 	}
 
 	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = exactHitPoint;
+	hit.normal = hitNormal;
 }
