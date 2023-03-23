@@ -300,3 +300,11 @@ void ModuleEditor::DuplicateAnObject()
 				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
 	}
 }
+
+void ModuleEditor::RefreshInspector() const
+{
+#ifdef ENGINE
+	inspector->ResetSelectedGameObject();
+#endif // ENGINE
+
+}

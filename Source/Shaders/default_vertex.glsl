@@ -1,6 +1,5 @@
 #version 440
 
-
 layout(location = 0) uniform mat4 proj;
 layout(location = 1) uniform mat4 view;
 layout(location = 2) uniform mat4 model;

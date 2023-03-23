@@ -8,6 +8,7 @@
 
 class GameObject;
 class Quadtree;
+class Skybox;
 
 enum class Premade3D
 {
@@ -53,13 +54,15 @@ public:
 	GameObject* GetRoot();
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
-	Quadtree * GetSceneQuadTree() const;
+	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
+	Skybox* GetSkybox() const;
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
-	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
+	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
+	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
 	void SetAmbientLight(GameObject* ambientLight);
@@ -72,7 +75,7 @@ public:
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
 
-	UID uid;
+	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
@@ -90,13 +93,8 @@ private:
 	unsigned ssboSpot;
 	
 	AABB rootQuadtreeAABB;
-	std::unique_ptr<Quadtree> sceneQuadTree;
+	std::unique_ptr<Quadtree> rootQuadtree;
 };
-
-inline UID Scene::GetUID() const
-{
-	return uid;
-}
 
 inline GameObject* Scene::GetRoot()
 {
@@ -143,8 +141,13 @@ inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 	this->directionalLight = directionalLight;
 }
 
-inline Quadtree* Scene::GetSceneQuadTree() const
+inline Quadtree* Scene::GetRootQuadtree() const
 {
-	return sceneQuadTree.get();
+	return rootQuadtree.get();
+}
+
+inline Skybox* Scene::GetSkybox() const
+{
+	return skybox.get();
 }
 

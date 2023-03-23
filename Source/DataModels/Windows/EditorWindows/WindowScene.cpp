@@ -224,6 +224,22 @@ void WindowScene::DrawGuizmo()
 
 		if (ImGui::IsWindowFocused())
 		{
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
+				App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			{
+				gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_W) == KeyState::DOWN &&
+				App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			{
+				gizmoCurrentOperation = ImGuizmo::OPERATION::ROTATE;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN &&
+				App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			{
+				gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
+			}
+
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE ||
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
