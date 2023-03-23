@@ -28,6 +28,11 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
+	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
+{
+}
+
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)

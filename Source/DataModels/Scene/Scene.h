@@ -32,6 +32,7 @@ public:
 	bool IsInsideACamera(const AABB& aabb) const;
 
 	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* DuplicateGameObject(const char* name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
