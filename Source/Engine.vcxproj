@@ -183,8 +183,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
@@ -199,8 +199,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
@@ -252,8 +252,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\assimp;..\External\DirectXTex\libs\Release_lib;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -273,109 +273,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\assimp;..\External\DirectXTex\libs\Release_lib;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\External\FontIcons\CustomFont.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_demo.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_draw.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_impl_opengl3.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_impl_sdl.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_tables.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_widgets.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\SAT.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\AABB.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Capsule.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Frustum.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Line.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\OBB.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\PBVolume.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Plane.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polygon.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Ray.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Sphere.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\BitOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Callstack.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float2.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x3.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4d.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4x4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3.c" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3_cpp.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathFunc.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathLog.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MiniFloat.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Polynomial.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Quat.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\SSEMath.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
@@ -581,169 +483,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\External\FontIcons\CustomFont.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\dirent\dirent.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialogConfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imconfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3_loader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_sdl.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_internal.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_rectpack.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_textedit.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_truetype.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\SAT.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Capsule.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Frustum.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeometryAll.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeomType.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\HitInfo.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\KDTree.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Line.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\PBVolume.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Plane.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon2DRef.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\QuadTree.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Ray.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Sphere.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathBuildConfig.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLib.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLibFwd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\assume.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitFuncs.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitOps.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Callstack.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FixedPoint.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float2.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4d.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_neon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_sse.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_neon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_sse.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FloatCmp.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\grisu3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\InclWindows.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Interpolate.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathAll.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathConstants.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathFunc.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathLog.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathNamespace.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathTypes.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MatrixProxy.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MiniFloat.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MultiLineMacro.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\myassert.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Polynomial.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Quat.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\quat_simd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Rect.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Reinterpret.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\simd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\SSEMath.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\sse_mathfun.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Swap.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\TransformOps.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -978,29 +717,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\External\FontIcons\CustomFont.ifs">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\External\ImGuiFileDialog\dirent\ChangeLog">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\QuadTree.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
-    <None Include="..\External\MathGeoLib\Include\Math\float2.inl" />
-    <None Include="..\External\MathGeoLib\Include\Math\Matrix.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\External\FontIcons\CustomFont.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </Image>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
