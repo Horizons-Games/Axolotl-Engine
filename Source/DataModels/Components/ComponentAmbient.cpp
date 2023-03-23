@@ -6,7 +6,7 @@ ComponentAmbient::ComponentAmbient() : ComponentLight(LightType::AMBIENT, false)
 {
 }
 
-ComponentAmbient::ComponentAmbient(ComponentAmbient& componentAmbient): 
+ComponentAmbient::ComponentAmbient(const ComponentAmbient& componentAmbient): 
 	ComponentLight(componentAmbient)
 {
 }

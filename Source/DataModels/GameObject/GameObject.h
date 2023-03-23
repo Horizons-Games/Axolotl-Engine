@@ -27,7 +27,7 @@ class GameObject
 public:
 	explicit GameObject(const char* name);
 	GameObject(const char* name, GameObject* parent);
-	GameObject(GameObject& gameObject);
+	GameObject(const GameObject& gameObject);
 	~GameObject();
 
 	void SaveOptions(Json& json);

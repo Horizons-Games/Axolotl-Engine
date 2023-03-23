@@ -17,7 +17,7 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 {
 }
 
-ComponentTransform::ComponentTransform(ComponentTransform& componentTransform)
+ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform)
 	: Component(componentTransform),
 	pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
 	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),

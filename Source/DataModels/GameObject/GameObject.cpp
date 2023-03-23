@@ -38,9 +38,9 @@ GameObject::GameObject(const char* name, GameObject* parent) : name(name), paren
 	active = (parent->IsEnabled() && parent->IsActive());
 }
 
-GameObject::GameObject(GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
+GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
 	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	localAABB(gameObject.GetLocalAABB()), encapsuledAABB(localAABB),
+	localAABB(gameObject.localAABB), encapsuledAABB(localAABB),
 	stateOfSelection(StateOfSelection::NO_SELECTED),
 	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {

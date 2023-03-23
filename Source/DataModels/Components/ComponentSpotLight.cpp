@@ -11,7 +11,7 @@ ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(ComponentSpotLight& componentSpotLight):
+ComponentSpotLight::ComponentSpotLight(const ComponentSpotLight& componentSpotLight):
 	ComponentLight(componentSpotLight), radius(componentSpotLight.GetRadius()), 
 	innerAngle(componentSpotLight.GetInnerAngle()), outerAngle(componentSpotLight.GetOuterAngle())
 {

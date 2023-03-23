@@ -28,7 +28,7 @@ class ComponentCamera : public Component
 {
 public:
 	ComponentCamera(bool active, GameObject* owner);
-	ComponentCamera(ComponentCamera& componentCamera);
+	ComponentCamera(const ComponentCamera& componentCamera);
 	~ComponentCamera() override;
 
 	void Update() override;

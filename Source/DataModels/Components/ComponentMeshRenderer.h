@@ -15,7 +15,7 @@ class ComponentMeshRenderer : public Component
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
-	ComponentMeshRenderer(ComponentMeshRenderer& componentMeshRenderer);
+	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
 	void Update() override;

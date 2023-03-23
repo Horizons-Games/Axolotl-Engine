@@ -28,7 +28,7 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
-ComponentMeshRenderer::ComponentMeshRenderer(ComponentMeshRenderer& componentMeshRenderer):
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
 	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
 {
 }

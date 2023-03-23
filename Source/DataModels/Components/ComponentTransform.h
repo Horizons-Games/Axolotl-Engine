@@ -15,7 +15,7 @@ class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
-	ComponentTransform(ComponentTransform& componentTransform);
+	ComponentTransform(const ComponentTransform& componentTransform);
 	~ComponentTransform() override;
 
 	void Update() override;

@@ -11,7 +11,7 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 {
 }
 
-ComponentDirLight::ComponentDirLight(ComponentDirLight& componentDirLight): 
+ComponentDirLight::ComponentDirLight(const ComponentDirLight& componentDirLight): 
 	ComponentLight(componentDirLight)
 {
 }

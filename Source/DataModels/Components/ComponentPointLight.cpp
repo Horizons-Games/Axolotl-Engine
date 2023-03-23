@@ -10,7 +10,7 @@ ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, tr
 {
 }
 
-ComponentPointLight::ComponentPointLight(ComponentPointLight& componentPointLight) :
+ComponentPointLight::ComponentPointLight(const ComponentPointLight& componentPointLight) :
 	ComponentLight(componentPointLight), radius(componentPointLight.GetRadius())
 {
 }

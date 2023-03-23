@@ -24,7 +24,7 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
-	Component(Component& component);
+	Component(const Component& component);
 	virtual ~Component();
 
 	virtual void Init(); // In case any component needs an init to do something once created
@@ -62,8 +62,8 @@ inline Component::Component(const ComponentType type,
 {
 }
 
-inline Component::Component(Component& component) : 
-	type(component.GetType()), active(component.GetActive()), owner(nullptr), canBeRemoved(component.GetCanBeRemoved())
+inline Component::Component(const Component& component) : 
+	type(component.type), active(component.active), owner(nullptr), canBeRemoved(component.canBeRemoved)
 {
 }
 
