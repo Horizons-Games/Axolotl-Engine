@@ -53,8 +53,8 @@ void ComponentMaterial::Draw()
 
 		if (material)
 		{
-			const float3& diffuseColor = material->GetDiffuseColor();
-			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
+			const float4& diffuseColor = material->GetDiffuseColor();
+			glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z, diffuseColor.w); //diffuse_color
 			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 			if (texture)
 			{
@@ -259,7 +259,7 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 	}
 }
 
-const float3& ComponentMaterial::GetDiffuseColor() const {
+const float4& ComponentMaterial::GetDiffuseColor() const {
 	return material->GetDiffuseColor();
 }
 
@@ -279,7 +279,7 @@ const bool ComponentMaterial::HasShininessAlpha() const {
 	return material->HasShininessAlpha();
 }
 
-void ComponentMaterial::SetDiffuseColor(float3& diffuseColor)
+void ComponentMaterial::SetDiffuseColor(float4& diffuseColor)
 {
 	this->material->SetDiffuseColor(diffuseColor);
 }

@@ -29,7 +29,7 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
-	void SetDiffuseColor(float3& diffuseColor);
+	void SetDiffuseColor(float4& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
@@ -37,7 +37,7 @@ public:
 	void SetTransparent(bool isTransparent);
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
-	const float3& GetDiffuseColor() const;
+	const float4& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float GetShininess() const;
 	const float GetNormalStrenght() const;

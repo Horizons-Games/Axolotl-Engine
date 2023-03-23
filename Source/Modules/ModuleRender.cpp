@@ -17,6 +17,7 @@
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentMaterial.h"
+#include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include "GameObject/GameObject.h"
@@ -563,8 +564,7 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 	if (material != nullptr)
 	{
-		//material->SetTransparent(true);
-		if (!material->GetTransparent())
+		if (!material->GetMaterial()->GetTransparent())
 			return false;
 		else
 			return true;

@@ -3,6 +3,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceTexture.h"
+#include <iostream>
 
 MaterialImporter::MaterialImporter()
 {
@@ -103,13 +104,11 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 		resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0
 	};
 
-	float3 colors[2] =
-	{
-		resource->GetDiffuseColor(),
-		resource->GetSpecularColor()
-	};
+	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
+	float3 specularColor[1] = { resource->GetSpecularColor() };
+	
 
-	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float) * 2;
+	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor)  + sizeof(float) * 2;
 
 	char* cursor = new char[size];
 
@@ -120,8 +119,13 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	cursor += bytes;
 
-	bytes = sizeof(colors);
-	memcpy(cursor, colors, bytes);
+	bytes = sizeof(diffuseColor);
+	memcpy(cursor, diffuseColor, bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(specularColor);
+	memcpy(cursor, specularColor, bytes);
 
 	cursor += bytes;
 
@@ -136,7 +140,6 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
-
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
@@ -169,13 +172,17 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	fileBuffer += sizeof(texturesUIDs);
 
-	float3 colors[2];
-	memcpy(colors, fileBuffer, sizeof(colors));
+	float4 difuseColor[1];
+	memcpy(difuseColor, fileBuffer, sizeof(difuseColor));
+	resource->SetDiffuseColor(difuseColor[0]);
 
-	resource->SetDiffuseColor(colors[0]);
-	resource->SetSpecularColor(colors[1]);
+	fileBuffer += sizeof(difuseColor);
 
-	fileBuffer += sizeof(colors);
+	float3 specularColor[1];
+	memcpy(specularColor, fileBuffer, sizeof(specularColor));
+	resource->SetSpecularColor(specularColor[0]);
+
+	fileBuffer += sizeof(specularColor);
 
 	float* shininess = new float;
 	memcpy(shininess, fileBuffer, sizeof(float));
@@ -186,6 +193,8 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	float* normalStrenght = new float;
 	memcpy(normalStrenght, fileBuffer, sizeof(float));
 	resource->SetNormalStrength(*normalStrenght);
+
+	fileBuffer += sizeof(float);
 
 	delete shininess;
 	delete normalStrenght;

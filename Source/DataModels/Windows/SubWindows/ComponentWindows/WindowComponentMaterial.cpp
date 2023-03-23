@@ -59,9 +59,41 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			static float3 colorDiffuse = materialResource->GetDiffuseColor();
+			const char* renderModes[2] = { "Opaque", "Transparent" };
+
+			static int currentIndex = 0;
+			
+			const char* currentType = renderModes[currentIndex];
+
+			ImGui::Text("Render Mode:"); ImGui::SameLine();
+			if (ImGui::BeginCombo("##Render mode", currentType))
+			{
+				for (int i = 0; i < IM_ARRAYSIZE(renderModes); i++)
+				{
+					const bool isSelected = currentIndex == i;
+					if (ImGui::Selectable(renderModes[i], isSelected)) 
+					{
+						currentIndex = i;
+
+						if (renderModes[i] == "Opaque") 
+						{
+							materialResource->SetTransparent(false);
+						}
+						if (renderModes[i] == "Transparent")
+						{
+							materialResource->SetTransparent(true);
+						}
+
+					}
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+
+			static float4 colorDiffuse = materialResource->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			if (ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse))
 			{
 				materialResource->SetDiffuseColor(colorDiffuse);
 			}

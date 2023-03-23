@@ -1,7 +1,7 @@
 #version 440
 
 struct Material {
-    vec3 diffuse_color;         //location 3
+    vec4 diffuse_color;         //location 3
     vec3 specular_color;        //location 4
     float shininess;            //location 5
     float normal_strength;      //location 6
@@ -221,11 +221,11 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
-	vec3 textureMat = material.diffuse_color;
+	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord).rgb; 
+        textureMat = texture(diffuse_map, TexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection.rgb);
+    textureMat = pow(textureMat, gammaCorrection);
     
 	if (material.has_normal_map)
 	{
@@ -253,18 +253,18 @@ void main()
     }
     
     // ambient
-    vec3 ambient = ambientValue * textureMat;
+    vec3 ambient = ambientValue * textureMat.rgb;
 
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat.rgb);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat.rgb);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat.rgb);
     }
 
     vec3 color = ambient + Lo;
@@ -273,5 +273,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 0.7f);
+    outColor = vec4(color, textureMat.a);
 }
