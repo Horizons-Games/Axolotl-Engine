@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Modules/ModuleProgram.h"
+#include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
 
 #include "FileSystem/ModuleResources.h"
@@ -121,8 +122,8 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	{
 		if (!sceneQuadTree->IsFreezed())
 		{
-			sceneQuadTree->AddGameObjectAndChildren(gameObject);
-			//FillQuadtree(sceneGameObjects);
+			sceneQuadTree->ExpandToFit(gameObject);
+			FillQuadtree(sceneGameObjects);
 		}
 		else
 		{
@@ -131,8 +132,12 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	}
 	else
 	{
-		sceneQuadTree->AddGameObjectAndChildren(gameObject);
+		sceneQuadTree->Add(gameObject);
 	}
+	App->scene->GetLoadedScene()->GetSceneQuadTree()
+		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->SetSelectedGameObject(gameObject);
+	App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
