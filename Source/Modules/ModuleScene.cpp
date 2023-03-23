@@ -260,9 +260,9 @@ This have the same functionality as SetSelectedGameObject but implies changes in
 */
 void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 {
-	loadedScene->GetSceneQuadTree()->AddGameObjectAndChildren(selectedGameObject);
+	loadedScene->GetRootQuadtree()->AddGameObjectAndChildren(selectedGameObject);
 	selectedGameObject = gameObject;
-	loadedScene->GetSceneQuadTree()->RemoveGameObjectAndChildren(selectedGameObject);
+	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
 }
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
