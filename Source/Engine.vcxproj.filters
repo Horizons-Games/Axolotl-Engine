@@ -418,6 +418,9 @@
     <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
       <Filter>Source\DataModels\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\Physics.cpp">
+      <Filter>Source\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -984,6 +987,9 @@
     <ClInclude Include="DataModels\Windows\WindowDebug.h">
       <Filter>Source\DataModels\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Physics.h">
+      <Filter>Source\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -1087,6 +1093,9 @@
     </Filter>
     <Filter Include="Source\Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics">
+      <UniqueIdentifier>{278e51b6-e39a-4817-b567-7cb302e354e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

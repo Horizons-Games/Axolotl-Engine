@@ -579,6 +579,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Physics\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\FontIcons\CustomFont.h">
@@ -978,6 +979,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Physics\Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\External\FontIcons\CustomFont.ifs">
