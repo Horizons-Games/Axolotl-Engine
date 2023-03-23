@@ -119,11 +119,11 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
-	if (!sceneQuadTree->InQuadrant(gameObject))
+	if (!rootQuadtree->InQuadrant(gameObject))
 	{
-		if (!sceneQuadTree->IsFreezed())
+		if (!rootQuadtree->IsFreezed())
 		{
-			sceneQuadTree->ExpandToFit(gameObject);
+			rootQuadtree->ExpandToFit(gameObject);
 			FillQuadtree(sceneGameObjects);
 		}
 		else
@@ -133,12 +133,12 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	}
 	else
 	{
-		sceneQuadTree->Add(gameObject);
+		rootQuadtree->Add(gameObject);
 	}
-	App->scene->GetLoadedScene()->GetSceneQuadTree()
+	App->scene->GetLoadedScene()->GetRootQuadtree()
 		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 	App->scene->SetSelectedGameObject(gameObject);
-	App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
