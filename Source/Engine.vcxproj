@@ -377,6 +377,7 @@
     <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -749,6 +750,7 @@
     <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
+    <ClInclude Include="ComponentTransform2D.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
