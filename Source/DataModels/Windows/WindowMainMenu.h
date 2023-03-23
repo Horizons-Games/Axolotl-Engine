@@ -1,5 +1,5 @@
 #pragma once
-#include "Application.h"
+
 #include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
@@ -46,7 +46,7 @@ private:
 	ImGuiFileDialog fileDialogImporter;
 
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
-	WindowMainMenu* save;
+	
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const

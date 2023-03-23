@@ -159,11 +159,9 @@ void WindowMainMenu::DrawHelpMenu()
 void WindowMainMenu::ShortcutSave()
 {
 	std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
-	if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + ".axolotl");
+	if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
 	else isSaving = true;
 
-	/*std::string filePathName = fileDialogImporter.GetCurrentFileName();
-	if (filePathName != "")	App->scene->SaveSceneToJson(filePathName);
-	else saveScene->SaveAsWindow(isSaving);*/
+	
 }
 
