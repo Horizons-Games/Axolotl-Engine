@@ -9,7 +9,7 @@
 ComponentPlayer::ComponentPlayer(bool active, GameObject* owner)
 	: Component(ComponentType::PLAYER, active, owner, true)
 {
-	isKinematic = false;
+	isKinematic = true;
 	m = 1.0f;
 	g = 9.81;
 	v0 = float3(0.0f, 0.0f, 0.0f);
