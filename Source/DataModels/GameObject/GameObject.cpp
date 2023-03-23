@@ -252,7 +252,7 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
 		if (transform != nullptr)
 		{
-			transform->CalculateMatrices();
+			transform->UpdateTransformMatrices();
 		}
 		children.push_back(std::move(child));
 	}
