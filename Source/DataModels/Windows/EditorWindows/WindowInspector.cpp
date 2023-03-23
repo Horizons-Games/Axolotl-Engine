@@ -137,6 +137,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) {
+				if (ImGui::MenuItem("Create Player Component"))
+				{
+					AddComponentPlayer();
+				}
+			}
+
 		}
 
 		else
@@ -317,10 +324,21 @@ void WindowInspector::AddComponentLight(LightType type)
 	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
+void WindowInspector::AddComponentPlayer()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
 // TODO: REMOVE
 void WindowInspector::DrawButtomsSaveAndLoad()
 {
 	loadScene->DrawWindowContents();
 	ImGui::SameLine();
 	saveScene->DrawWindowContents();
+}
+
+void WindowInspector::ResetSelectedGameObject()
+{
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
 }

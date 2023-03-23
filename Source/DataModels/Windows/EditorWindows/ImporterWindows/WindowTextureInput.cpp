@@ -22,8 +22,11 @@ WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType 
 	case TextureType::OCCLUSION:
 		title = "Load Occlusion";
 		break;
-	case TextureType::SPECULAR:
+	/*case TextureType::SPECULAR:
 		title = "Load Specular";
+		break;*/
+	case TextureType::METALLIC:
+		title = "Load Metallic";
 		break;
 	default:
 		break;
@@ -58,8 +61,11 @@ void WindowTextureInput::DoThisIfOk()
 				break;
 			case TextureType::OCCLUSION:
 				break;
-			case TextureType::SPECULAR:
+			/*case TextureType::SPECULAR:
 				material->SetSpecular(texture);
+				break;*/
+			case TextureType::METALLIC:
+				material->SetMetallicMap(texture);
 				break;
 			}
 			material->SetChanged(true);

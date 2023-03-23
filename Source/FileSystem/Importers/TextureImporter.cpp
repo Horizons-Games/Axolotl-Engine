@@ -130,6 +130,11 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	switch (imgResult->GetMetadata().format)
 	{
+	case DXGI_FORMAT_R8_UNORM:
+		internalFormat = GL_R8;
+		format = GL_RED;
+		type = GL_BYTE;
+		break;
 	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
 	case DXGI_FORMAT_R8G8B8A8_UNORM:
 		internalFormat = GL_RGBA8;

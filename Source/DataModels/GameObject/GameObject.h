@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <unordered_map>
 
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
@@ -25,12 +26,13 @@ enum class StateOfSelection
 class GameObject
 {
 public:
-	explicit GameObject(const char* name);
-	GameObject(const char* name, GameObject* parent);
+	explicit GameObject(const std::string& name);
+	GameObject(const std::string& name, UID uid);
+	GameObject(const std::string& name, GameObject* parent);
 	~GameObject();
 
 	void SaveOptions(Json& json);
-	void LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects);
+	void LoadOptions(Json& meta);
 
 	void Update();
 	void Draw() const;
@@ -95,6 +97,7 @@ private:
 
 private:
 	UID uid;
+	UID parentUID;
 
 	bool enabled;
 	bool active;

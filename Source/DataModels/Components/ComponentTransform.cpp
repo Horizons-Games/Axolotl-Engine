@@ -77,7 +77,8 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		const ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		parentTransform->CalculateMatrices();
 
 		// Set local matrix
 		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
@@ -94,9 +95,11 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
+	GetOwner()->Update();
 
 	if (GetOwner()->GetChildren().empty())
 		return;
+
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{

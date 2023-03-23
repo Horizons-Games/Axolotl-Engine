@@ -8,6 +8,7 @@
 #include "Geometry/LineSegment.h"
 
 class GameObject;
+class Json;
 
 class Quadtree
 {
@@ -18,6 +19,7 @@ public:
 
 	bool IsLeaf() const;
 	bool InQuadrant(GameObject* gameObject);
+	bool EntireInQuadrant(GameObject* gameObject);
 
 	void Add(GameObject* gameObject);
 	void AddGameObjectAndChildren(GameObject* gameObject);
@@ -35,6 +37,9 @@ public:
 
 	const std::set<GameObject*>& GetGameObjects() const;
 	void GetFamilyObjects(std::set<GameObject*>& familyGameObjects);
+
+	void SaveOptions(Json& meta);
+	void LoadOptions(Json& meta);
 
 	const Quadtree* GetFrontRightNode() const;
 	const Quadtree* GetFrontLeftNode() const;
