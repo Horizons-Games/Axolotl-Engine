@@ -412,6 +412,8 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
+	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
+
 	if (gameObject->GetParent() == nullptr)
 	{
 		return;
@@ -422,7 +424,19 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			transparentGOToDraw.insert({ 0.f, gameObject });
+			if (!CheckIfTransparent(gameObject))
+				opaqueGOToDraw.push_back(gameObject);
+			else
+			{
+				const ComponentTransform* transform =
+					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				while (transparentGOToDraw[dist] != nullptr) {
+					float addDistance = 0.0001f;
+					dist += addDistance;
+				}
+				transparentGOToDraw[dist] = gameObject;
+			}
 		}
 	}
 	
@@ -549,7 +563,7 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
 	if (material != nullptr)
 	{
-		material->SetTransparent(true);
+		//material->SetTransparent(true);
 		if (!material->GetTransparent())
 			return false;
 		else
