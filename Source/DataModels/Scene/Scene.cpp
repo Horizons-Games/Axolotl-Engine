@@ -121,8 +121,8 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	{
 		if (!sceneQuadTree->IsFreezed())
 		{
-			sceneQuadTree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
+			sceneQuadTree->AddGameObjectAndChildren(gameObject);
+			//FillQuadtree(sceneGameObjects);
 		}
 		else
 		{
@@ -131,7 +131,7 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	}
 	else
 	{
-		sceneQuadTree->Add(gameObject);
+		sceneQuadTree->AddGameObjectAndChildren(gameObject);
 	}
 
 	return gameObject;
