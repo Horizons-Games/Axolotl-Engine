@@ -143,7 +143,6 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
-
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
@@ -199,4 +198,9 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	//delete shininess;
 	delete normalStrenght;
+
+#ifdef ENGINE
+	resource->LoadLoadOptions(meta);
+#endif // ENGINE
+
 }
