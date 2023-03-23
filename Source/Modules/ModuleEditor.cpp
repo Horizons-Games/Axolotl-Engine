@@ -6,6 +6,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
+#include "Windows/WindowDebug.h"
+#ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
 #include "Windows/EditorWindows/WindowConfiguration.h"
@@ -13,6 +15,10 @@
 #include "Windows/EditorWindows/WindowHierarchy.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
+#include "Windows/EditorWindows/WindowAssetFolder.h"
+#else
+#include "Windows/EditorWindows/EditorWindow.h"
+#endif
 
 #ifdef DEBUG
 #include "optick.h"
@@ -24,12 +30,6 @@
 #include <ImGui/ImGuizmo.h>
 
 #include <FontIcons/CustomFont.cpp>
-
-static bool cameraOpened = true;
-static bool configOpened = true;
-static bool consoleOpened = true;
-static bool aboutOpened = false;
-static bool propertiesOpened = true;
 
 ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
@@ -54,17 +54,21 @@ bool ModuleEditor::Init()
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
+#ifdef ENGINE
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
+	windows.push_back(std::make_unique<WindowResources>());
 	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
-	windows.push_back(std::make_unique<WindowFileBrowser>());
+	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	windows.push_back(std::make_unique<WindowResources>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
+#else
+	debugOptions = std::make_unique<WindowDebug>();
+#endif
 
 	return true;
 }
@@ -83,8 +87,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	windows.clear();
-
 	return true;
 }
 
@@ -94,8 +96,10 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 
+#ifdef ENGINE
 	ImGuizmo::BeginFrame();
 	ImGuizmo::Enable(true);
+#endif
 	
 	return update_status::UPDATE_CONTINUE;
 }
@@ -106,8 +110,7 @@ update_status ModuleEditor::Update()
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
 #endif // DEBUG
 
-	update_status status = update_status::UPDATE_CONTINUE;
-
+#ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
@@ -160,8 +163,11 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
+#else
+	debugOptions->Draw();
+#endif
 
-	return status;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::PostUpdate()
@@ -191,10 +197,24 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
+#ifdef ENGINE
 	return scene->IsFocused();
+#else
+	return true;
+#endif
 }
 
 void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
 {
+#ifdef ENGINE
 	this->inspector->SetResource(resource);
+#endif
+}
+
+void ModuleEditor::RefreshInspector() const
+{
+#ifdef ENGINE
+	inspector->ResetSelectedGameObject();
+#endif // ENGINE
+
 }

@@ -52,7 +52,6 @@ bool CameraEngine::Update()
 		if (isFocusing)
 		{
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
-			Rotate();
 		}
 		else
 		{
@@ -239,21 +238,35 @@ void CameraEngine::Zoom()
 
 void CameraEngine::Focus(const OBB& obb)
 {
+
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
 	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum->HorizontalFov();
-	float camDistance = radius / sin(fov / 2.0);
+	float camDistance = radius / float(sin(fov / 2.0));
 	vec camDirection = (boundingSphere.pos - frustum->Pos()).Normalized();
 
-	//position = boundingSphere.pos - (camDirection * camDistance);
-
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
-	position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed);
 
-	SetPosition(position);
-	SetLookAt(boundingSphere.pos);
+	bool isSamePosition = false;
+	if (position.Equals(endposition)) 
+	{ 
+		isSamePosition = true; 
+	}
+	else 
+	{ 
+		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed * 2);
+		SetPosition(position);
+	}
+
+	bool isSameRotation = false;
+	SetLookAt(boundingSphere.pos, isSameRotation);
+
+	if (isSamePosition && isSameRotation)
+	{
+		isFocusing = false;
+	}
 }
 
 void CameraEngine::Focus(GameObject* gameObject)
@@ -296,8 +309,8 @@ void CameraEngine::UnlimitedCursor()
 
 	if (mouseWarped)
 	{
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
+		App->input->SetMouseMotionX(float(mouseX - lastMouseX));
+		App->input->SetMouseMotionY(float(mouseY - lastMouseY));
 		mouseWarped = false;
 	}
 	int width, height;
@@ -330,20 +343,4 @@ void CameraEngine::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
 		mouseWarped = true;
 	}
-}
-
-void CameraEngine::Rotate()
-{
-	float yaw = 0.f, pitch = 0.f;
-
-	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
-
-	Quat pitchQuat(frustum->WorldRight(), pitch * App->GetDeltaTime() * rotationSpeed * acceleration);
-	Quat yawQuat(float3::unitY, yaw * App->GetDeltaTime() * rotationSpeed * acceleration);
-
-	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
-	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
-
-	ApplyRotation(rotationDeltaMatrix);
 }

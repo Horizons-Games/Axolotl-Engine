@@ -170,6 +170,11 @@ update_status ModuleInput::Update()
 
     }
 
+    if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
+    {
+        App->SwitchDebuggingGame();
+    }
+
     return status;
 }
 

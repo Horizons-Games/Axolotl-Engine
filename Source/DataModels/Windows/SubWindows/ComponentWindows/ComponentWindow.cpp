@@ -9,6 +9,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -20,6 +21,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentPlayer.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -40,6 +42,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentTransform>(static_cast<ComponentTransform*>(component));
 		case ComponentType::CAMERA:
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
+		case ComponentType::PLAYER:
+			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
@@ -86,6 +90,7 @@ void ComponentWindow::DrawEnableComponent()
 		std::stringstream ss;
 		ss << "##Enabled " << windowUUID;
 
+		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->GetActive();
 		ImGui::Checkbox(ss.str().c_str(), &enable);
 
@@ -95,7 +100,7 @@ void ComponentWindow::DrawEnableComponent()
 
 void ComponentWindow::DrawDeleteComponent()
 {
-	if (component)
+	if (component && component->GetCanBeRemoved())
 	{
 		std::stringstream ss;
 		ss << "Remove Comp. " << windowUUID;

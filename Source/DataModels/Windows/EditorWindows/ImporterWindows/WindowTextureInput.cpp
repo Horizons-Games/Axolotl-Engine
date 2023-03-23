@@ -1,13 +1,13 @@
 #include "WindowTextureInput.h"
 
-#include "Components/ComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType textureType) :
-	WindowFileBrowser(), materialComponent(material), textureType(textureType)
+WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
+	WindowFileBrowser(), windowComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
 
@@ -22,8 +22,11 @@ WindowTextureInput::WindowTextureInput(ComponentMaterial* material, TextureType 
 	case TextureType::OCCLUSION:
 		title = "Load Occlusion";
 		break;
-	case TextureType::SPECULAR:
+	/*case TextureType::SPECULAR:
 		title = "Load Specular";
+		break;*/
+	case TextureType::METALLIC:
+		title = "Load Metallic";
 		break;
 	default:
 		break;
@@ -39,7 +42,7 @@ WindowTextureInput::~WindowTextureInput()
 
 void WindowTextureInput::DoThisIfOk()
 {
-	if (materialComponent)
+	if (windowComponent)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		this->ImportResourceAsync(filePath);
@@ -58,15 +61,17 @@ void WindowTextureInput::GetResourceAfterImport()
 			switch (textureType)
 			{
 			case TextureType::DIFFUSE:
-				materialAsShared->SetDiffuse(texture);
+				windowComponent->SetDiffuse(texture);
 				break;
 			case TextureType::NORMAL:
-				materialAsShared->SetNormal(texture);
+				windowComponent->SetNormal(texture);
 				break;
 			case TextureType::OCCLUSION:
 				break;
-			case TextureType::SPECULAR:
-				materialAsShared->SetSpecular(texture);
+			case TextureType::METALLIC:
+				windowComponent->SetMetalic(texture);
+				break;
+			default:
 				break;
 			}
 
