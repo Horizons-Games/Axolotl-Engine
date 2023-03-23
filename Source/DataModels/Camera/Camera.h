@@ -37,7 +37,7 @@ enum class CameraType
 
 class GameObject;
 class WindowScene;
-class RaycastHit;
+struct RaycastHit;
 
 class Camera
 {

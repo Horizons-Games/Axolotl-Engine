@@ -2,6 +2,10 @@
 
 #include "Geometry/LineSegment.h"
 
+#include <map>
+
+class GameObject;
+
 struct RaycastHit 
 {
 	GameObject* gameObject;
@@ -17,7 +21,8 @@ public:
 
 private:
 
-	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	static void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	static void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, 
+										 const LineSegment& ray, RaycastHit& hit);
 };
 

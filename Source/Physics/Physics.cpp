@@ -5,11 +5,20 @@
 #include "ModuleScene.h"
 #include "ModuleCamera.h"
 
+#include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
+
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentMeshRenderer.h"
+
+#include "DataStructures/Quadtree.h"
+#include <DataModels/Resources/ResourceMesh.h>
+
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Geometry/Frustum.h"
 #include "Math/float2.h"
-
+#include "Geometry/Triangle.h"
 
 bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
@@ -18,7 +27,14 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	CalculateHitSelectedGo(hitGameObjects, ray);
 	App->scene->GetLoadedScene()->GetRootQuadtree()->CheckRaycastIntersection(hitGameObjects, ray);
 
-	SetNewSelectedGameObject(hitGameObjects, ray);
+	SetNewSelectedGameObject(hitGameObjects, ray, hit);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
@@ -63,7 +79,7 @@ void Physics::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGame
 	}
 }
 
-void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray, RaycastHit& hit)
 {
 	GameObject* newSelectedGameObject = nullptr;
 
@@ -110,11 +126,5 @@ void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>&
 		}
 	}
 
-	if (newSelectedGameObject != nullptr)
-	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()
-			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-		App->scene->SetSelectedGameObject(newSelectedGameObject);
-		App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(newSelectedGameObject);
-		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
-	}
+	hit.gameObject = newSelectedGameObject;
+}
