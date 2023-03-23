@@ -14,10 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
-	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false),
-	lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -45,10 +42,6 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	//TODO: REMOVE AFTER, HERE WE GO
-	DrawButtomsSaveAndLoad();
-	ImGui::Separator();
-
 	lastSelectedGameObject = App->scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
@@ -178,7 +171,6 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
-
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -329,10 +321,8 @@ void WindowInspector::AddComponentPlayer()
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
-// TODO: REMOVE
-void WindowInspector::DrawButtomsSaveAndLoad()
+void WindowInspector::ResetSelectedGameObject()
 {
-	loadScene->DrawWindowContents();
-	ImGui::SameLine();
-	saveScene->DrawWindowContents();
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
 }

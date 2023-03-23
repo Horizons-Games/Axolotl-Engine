@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Modules/ModuleProgram.h"
+#include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
 
 #include "FileSystem/ModuleResources.h"
@@ -10,6 +11,7 @@
 #include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceSkyBox.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMaterial.h"
@@ -19,10 +21,11 @@
 #include "Components/ComponentTransform.h"
 
 #include "Camera/CameraGameObject.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Program/Program.h"
 
-Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
-	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
+Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
+	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
@@ -39,7 +42,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 	{
 		if (gameObject)
 		{
-			sceneQuadTree->Add(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
 	}
 }
@@ -51,8 +54,7 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 	{
 		if (cameraGameObject)
 		{
-			ComponentCamera* camera =
-				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
+			ComponentCamera* camera = static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
 			if (camera && camera->GetCamera()->IsInside(obb))
 			{
 				return true;
@@ -82,11 +84,11 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	sceneGameObjects.push_back(gameObject);
 
 	//Quadtree treatment
-	if (!sceneQuadTree->InQuadrant(gameObject))
+	if (!rootQuadtree->InQuadrant(gameObject))
 	{
-		if (!sceneQuadTree->IsFreezed())
+		if (!rootQuadtree->IsFreezed())
 		{
-			sceneQuadTree->ExpandToFit(gameObject);
+			rootQuadtree->ExpandToFit(gameObject);
 			FillQuadtree(sceneGameObjects);
 		}
 		else
@@ -96,8 +98,47 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	}
 	else
 	{
-		sceneQuadTree->Add(gameObject);
+		rootQuadtree->Add(gameObject);
 	}
+
+	return gameObject;
+}
+
+GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = new GameObject(*newObject);
+	gameObject->MoveParent(parent);
+
+	// Update the transform respect its parent when created
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
+	sceneGameObjects.push_back(gameObject);
+
+	//Quadtree treatment
+	if (!rootQuadtree->InQuadrant(gameObject))
+	{
+		if (!rootQuadtree->IsFreezed())
+		{
+			rootQuadtree->ExpandToFit(gameObject);
+			FillQuadtree(sceneGameObjects);
+		}
+		else
+		{
+			App->renderer->AddToRenderList(gameObject);
+		}
+	}
+	else
+	{
+		rootQuadtree->Add(gameObject);
+	}
+	App->scene->GetLoadedScene()->GetRootQuadtree()
+		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->SetSelectedGameObject(gameObject);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
@@ -496,20 +537,26 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
-	uid = UniqueID::GenerateUID();
-
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
 	sceneGameObjects.push_back(root.get());
 
-	sceneQuadTree = std::make_unique<Quadtree>(rootQuadtreeAABB);
+	rootQuadtree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
 	ambientLight = CreateGameObject("Ambient_Light", root.get());
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
 
 	InitLights();
 }
@@ -527,14 +574,19 @@ void Scene::InitLights()
 	RenderSpotLights();
 }
 
-void Scene::SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree)
+void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
-	sceneQuadTree = std::move(quadtree);
+	rootQuadtree = std::move(quadtree);
+}
+
+void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
+{
+	this->skybox = std::move(skybox);
 }
 
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 {
-	return std::move(sceneQuadTree);
+	return std::move(rootQuadtree);
 }
 
 void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)

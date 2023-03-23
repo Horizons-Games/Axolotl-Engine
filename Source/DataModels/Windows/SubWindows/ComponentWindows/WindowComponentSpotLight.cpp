@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 
 #include "DataModels/Scene/Scene.h"
 
@@ -63,6 +64,10 @@ void WindowComponentSpotLight::DrawWindowContents()
 							App->scene->GetLoadedScene()->RenderPointLights();
 
 							modified = true;
+							App->editor->RefreshInspector();
+							ImGui::EndCombo();
+							ImGui::EndTable();
+							return;
 						}
 					}
 

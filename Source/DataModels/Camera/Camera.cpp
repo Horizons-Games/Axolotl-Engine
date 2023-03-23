@@ -28,6 +28,33 @@ Camera::Camera(const CameraType type)
 	frustum = std::make_unique <Frustum>();
 }
 
+Camera::Camera(Camera& camera)
+	: type(type),
+	position(camera.position),
+	projectionMatrix(camera.projectionMatrix),
+	viewMatrix(camera.viewMatrix),
+	aspectRatio(camera.aspectRatio),
+	acceleration(camera.acceleration),
+	moveSpeed(camera.moveSpeed),
+	rotationSpeed(camera.rotationSpeed),
+	mouseSpeedModifier(camera.mouseSpeedModifier),
+	frustumOffset(camera.frustumOffset),
+	viewPlaneDistance(camera.viewPlaneDistance),
+	frustumMode(camera.frustumMode),
+	mouseWarped(camera.mouseWarped),
+	focusFlag(camera.focusFlag),
+	isFocusing(camera.isFocusing),
+	lastMouseX(camera.lastMouseX),
+	lastMouseY(camera.lastMouseY),
+	mouseState(camera.mouseState),
+	frustum(std::move(camera.frustum))
+{
+	if (frustumMode == EFrustumMode::offsetFrustum)
+	{
+		RecalculateOffsetPlanes();
+	}
+}
+
 Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	: type(type),
 	position(camera->position),
@@ -373,7 +400,7 @@ void Camera::CalculateHitGameObjects(const LineSegment& ray)
 	std::map<float, const GameObject*> hitGameObjects;
 
 	CalculateHitSelectedGo(hitGameObjects, ray);
-	App->scene->GetLoadedScene()->GetSceneQuadTree()->CheckRaycastIntersection(hitGameObjects, ray);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->CheckRaycastIntersection(hitGameObjects, ray);
 
 	SetNewSelectedGameObject(hitGameObjects, ray);
 }
