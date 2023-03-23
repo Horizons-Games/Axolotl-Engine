@@ -4,16 +4,20 @@
 
 struct RaycastHit 
 {
+	GameObject* gameObject;
 
+	//TO DO: Split the GameObject information
 };
 
 class Physics
 {
 public:
-	static const LineSegment ScreenPointToRay(float2 mousePostion);
-	static bool Raycast(LineSegment ray, RaycastHit& hit);
+	static bool ScreenPointToRay(const float2& mousePosition, LineSegment& ray);
+	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
 
 private:
 
+	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 };
 
