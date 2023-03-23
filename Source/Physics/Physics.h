@@ -10,8 +10,11 @@ class Quadtree;
 struct RaycastHit 
 {
 	GameObject* gameObject;
+	float distance;
+	float3 hitPoint;
+	float3 normal;
 
-	//TO DO: Split the GameObject information
+	//TO DO: Obtain Collider/AABB from GameObject
 };
 
 class Physics
@@ -19,14 +22,17 @@ class Physics
 public:
 	static bool ScreenPointToRay(const float2& mousePosition, LineSegment& ray);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
+	static bool HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance);
 
 private:
 
-	static void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
-	static void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, 
-										const LineSegment& ray, RaycastHit& hit);
+	static void AddIntersectionGameObject(std::map<float, const GameObject*>& hitGameObjects,
+									    const LineSegment& ray, GameObject* go);
 
-	static void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, 
+	static void AddIntersectionQuadtree(std::map<float, const GameObject*>& hitGameObjects,
 										const LineSegment& ray, Quadtree* quadtree);
+
+	static void GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
+										const LineSegment& ray, RaycastHit& hit);
 };
 

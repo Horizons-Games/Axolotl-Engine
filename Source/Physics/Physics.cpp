@@ -21,23 +21,6 @@
 #include "Geometry/Triangle.h"
 #include <queue>
 
-bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
-{
-	std::map<float, const GameObject*> hitGameObjects;
-
-	CalculateHitSelectedGo(hitGameObjects, ray);
-	CheckRaycastIntersection(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
-
-	SetNewSelectedGameObject(hitGameObjects, ray, hit);
-
-	if (hit.gameObject != nullptr)
-	{
-		return true;
-	}
-
-	return false;
-}
-
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 {
 	// normalize the input to [-1, 1].
@@ -67,20 +50,86 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 	return false;
 }
 
-void Physics::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
+bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
-	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	std::map<float, const GameObject*> hitGameObjects;
+
+	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+
+	GetRaycastHitInfo(hitGameObjects, ray, hit);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
+{
+	bool hit = ray.Intersects(go->GetEncapsuledAABB(), nearDistance, farDistance);
+
+	if (hit && go->IsActive())
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitGameObjects, 
+	const LineSegment& ray, GameObject* go)
+{
 	float nearDistance, farDistance;
 
-	bool hit = ray.Intersects(selectedGo->GetEncapsuledAABB(), nearDistance, farDistance);
-
-	if (hit && selectedGo->IsActive())
+	if (HasIntersection(ray, go, nearDistance, farDistance)) 
 	{
-		hitGameObjects[nearDistance] = selectedGo;
+		hitGameObjects[nearDistance] = go;
 	}
 }
 
-void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, 
+void Physics::AddIntersectionQuadtree(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, Quadtree* quadtree)
+{
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(quadtree);
+
+	while (!quadtreeQueue.empty())
+	{
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
+
+		if (!ray.Intersects(currentQuadtree->GetBoundingBox()))
+		{
+			continue;
+		}
+
+		std::set<GameObject*> quadtreeGameObjects = currentQuadtree->GetGameObjects();
+
+		float nearDistance, farDistance;
+		for (GameObject* gameObject : quadtreeGameObjects)
+		{
+			if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+			{
+				hitGameObjects[nearDistance] = gameObject;
+			}
+		}
+
+		if (currentQuadtree->IsLeaf())
+		{
+			continue;
+		}
+
+		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+	}
+}
+
+void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
 	const LineSegment& ray, RaycastHit& hit)
 {
 	GameObject* newSelectedGameObject = nullptr;
@@ -129,45 +178,4 @@ void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>&
 	}
 
 	hit.gameObject = newSelectedGameObject;
-}
-
-void Physics::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, 
-	const LineSegment& ray, Quadtree* quadtree)
-{
-	std::queue<const Quadtree*> quadtreeQueue;
-	quadtreeQueue.push(quadtree);
-
-	while (!quadtreeQueue.empty())
-	{
-		const Quadtree* currentQuadtree = quadtreeQueue.front();
-		quadtreeQueue.pop();
-
-		if (!ray.Intersects(currentQuadtree->GetBoundingBox()))
-		{
-			continue;
-		}
-
-		std::set<GameObject*> quadtreeGameObjects = currentQuadtree->GetGameObjects();
-
-		float nearDistance, farDistance;
-		for (GameObject* gameObject : quadtreeGameObjects)
-		{
-			bool hit = ray.Intersects(gameObject->GetEncapsuledAABB(), nearDistance, farDistance);
-
-			if (hit && gameObject->IsActive())
-			{
-				hitGameObjects[nearDistance] = gameObject;
-			}
-		}
-
-		if (currentQuadtree->IsLeaf())
-		{
-			continue;
-		}
-
-		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
-		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
-		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
-		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
-	}
 }
