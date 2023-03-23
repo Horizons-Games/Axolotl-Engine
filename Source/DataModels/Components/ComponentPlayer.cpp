@@ -26,8 +26,8 @@ void ComponentPlayer::Update()
 		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 		float3 x;
 		float t = App->GetDeltaTime();
-		float3 x0 = transform->GetGlobalPosition();
-		float3 a = float3(0.0f, 0.5 * g * t * t, 0.0f);
+		float3 x0 = transform->GetPosition();
+		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
 
 		x = x0 + v0 * t + a;
 

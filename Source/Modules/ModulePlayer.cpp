@@ -51,7 +51,14 @@ update_status ModulePlayer::PreUpdate()
 		Move();
 		Rotate();
 	}
+	return update_status::UPDATE_CONTINUE;
+}
+
+update_status ModulePlayer::Update()
+{
 	player->Update();
+	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+	trans->UpdateTransformMatrices();
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -79,17 +86,17 @@ void ModulePlayer::Move()
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
+		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
+		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Left
@@ -97,7 +104,7 @@ void ModulePlayer::Move()
 	{
 		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Right
@@ -105,7 +112,7 @@ void ModulePlayer::Move()
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 }
 
@@ -118,6 +125,6 @@ void ModulePlayer::Rotate()
 		float3 newRot = trans->GetRotationXYZ();
 		newRot.y += - App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 }
