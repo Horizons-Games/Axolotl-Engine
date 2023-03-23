@@ -11,11 +11,6 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 {
 }
 
-ComponentDirLight::ComponentDirLight(const ComponentDirLight& componentDirLight): 
-	ComponentLight(componentDirLight)
-{
-}
-
 ComponentDirLight::ComponentDirLight(GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, parent, false)
 {

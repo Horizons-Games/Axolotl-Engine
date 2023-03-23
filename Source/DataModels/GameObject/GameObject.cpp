@@ -392,14 +392,6 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 
 	switch (type)
 	{
-	case LightType::AMBIENT:
-		newComponent = std::make_unique<ComponentAmbient>(static_cast<ComponentAmbient&>(*component));
-		break;
-
-	case LightType::DIRECTIONAL:
-		newComponent = std::make_unique<ComponentDirLight>(static_cast<ComponentDirLight&>(*component));
-		break;
-
 	case LightType::POINT:
 		newComponent = std::make_unique<ComponentPointLight>(static_cast<ComponentPointLight&>(*component));
 		break;

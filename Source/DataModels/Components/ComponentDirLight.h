@@ -10,7 +10,6 @@ class ComponentDirLight : public ComponentLight
 {
 public:
 	ComponentDirLight();
-	ComponentDirLight(const ComponentDirLight& componentDirLight);
 	ComponentDirLight(GameObject* parent);
 	ComponentDirLight(const float3& color, float intensity);
 	ComponentDirLight(const float3& color, float intensity, GameObject* parent);
