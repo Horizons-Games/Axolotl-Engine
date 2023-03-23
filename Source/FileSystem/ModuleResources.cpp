@@ -490,8 +490,11 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
+	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+
+	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallicMap();
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
 	unsigned int size = 0;

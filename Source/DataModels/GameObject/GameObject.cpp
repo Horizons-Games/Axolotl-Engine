@@ -247,6 +247,13 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 	{
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
+
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		if (transform != nullptr)
+		{
+			transform->UpdateTransformMatrices();
+		}
 		children.push_back(std::move(child));
 	}
 }
