@@ -51,31 +51,25 @@ void WindowTextureInput::DoThisIfOk()
 
 void WindowTextureInput::GetResourceAfterImport()
 {
-	if (materialComponent && this->futureResource.valid())
+	if (windowComponent && this->futureResource.valid())
 	{
-		std::shared_ptr<ResourceMaterial> materialAsShared = materialComponent->GetMaterial();
-		if (materialAsShared)
+		std::shared_ptr<ResourceTexture> texture =
+			std::dynamic_pointer_cast<ResourceTexture>(this->futureResource.get());
+		switch (textureType)
 		{
-			std::shared_ptr<ResourceTexture> texture =
-				std::dynamic_pointer_cast<ResourceTexture>(this->futureResource.get());
-			switch (textureType)
-			{
-			case TextureType::DIFFUSE:
-				windowComponent->SetDiffuse(texture);
-				break;
-			case TextureType::NORMAL:
-				windowComponent->SetNormal(texture);
-				break;
-			case TextureType::OCCLUSION:
-				break;
-			case TextureType::METALLIC:
-				windowComponent->SetMetalic(texture);
-				break;
-			default:
-				break;
-			}
-
-			materialAsShared->SetChanged(true);
+		case TextureType::DIFFUSE:
+			windowComponent->SetDiffuse(texture);
+			break;
+		case TextureType::NORMAL:
+			windowComponent->SetNormal(texture);
+			break;
+		case TextureType::OCCLUSION:
+			break;
+		case TextureType::METALLIC:
+			windowComponent->SetMetalic(texture);
+			break;
+		default:
+			break;
 		}
 	}
 }

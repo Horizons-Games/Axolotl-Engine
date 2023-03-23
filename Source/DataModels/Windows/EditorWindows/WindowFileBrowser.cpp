@@ -160,7 +160,7 @@ void WindowFileBrowser::DoThisIfOk()
 void WindowFileBrowser::ImportResourceWithLoadingWindow()
 {
 	winLoading->Draw(isLoading);
-	if (futureResource._Is_ready() && timer->Read() > 1000)
+	if (isLoading && futureResource._Is_ready() && timer->Read() > 1000)
 	{
 		isLoading = false;
 		timer->Stop();
