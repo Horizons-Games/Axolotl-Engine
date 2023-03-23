@@ -7,26 +7,6 @@ ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 
 ComponentTransform2D::~ComponentTransform2D()
 {
-	delete eulerAngles;
-	eulerAngles = nullptr;
-	delete localPosition;
-	localPosition = nullptr;
-	delete localRotation;
-	localRotation = nullptr;
-	delete localScale;
-	localScale = nullptr;
-	delete localToWorldMatrix;
-	localToWorldMatrix = nullptr;
-	delete worldToLocalMatrix;
-	worldToLocalMatrix = nullptr;
-	delete anchorMax;
-	anchorMax = nullptr;
-	delete anchorMin;
-	anchorMin = nullptr;
-	delete pivot;
-	pivot = nullptr;
-	delete sizeDelta;
-	sizeDelta = nullptr;
 }
 
 void ComponentTransform2D::Update()
