@@ -5,6 +5,7 @@
 #include <map>
 
 class GameObject;
+class Quadtree;
 
 struct RaycastHit 
 {
@@ -23,6 +24,9 @@ private:
 
 	static void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
 	static void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, 
-										 const LineSegment& ray, RaycastHit& hit);
+										const LineSegment& ray, RaycastHit& hit);
+
+	static void CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, 
+										const LineSegment& ray, Quadtree* quadtree);
 };
 

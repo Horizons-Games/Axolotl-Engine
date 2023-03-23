@@ -19,13 +19,14 @@
 #include "Geometry/Frustum.h"
 #include "Math/float2.h"
 #include "Geometry/Triangle.h"
+#include <queue>
 
 bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
 	std::map<float, const GameObject*> hitGameObjects;
 
 	CalculateHitSelectedGo(hitGameObjects, ray);
-	App->scene->GetLoadedScene()->GetRootQuadtree()->CheckRaycastIntersection(hitGameObjects, ray);
+	CheckRaycastIntersection(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
 
 	SetNewSelectedGameObject(hitGameObjects, ray, hit);
 
@@ -79,7 +80,8 @@ void Physics::CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGame
 	}
 }
 
-void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray, RaycastHit& hit)
+void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, 
+	const LineSegment& ray, RaycastHit& hit)
 {
 	GameObject* newSelectedGameObject = nullptr;
 
@@ -127,4 +129,45 @@ void Physics::SetNewSelectedGameObject(const std::map<float, const GameObject*>&
 	}
 
 	hit.gameObject = newSelectedGameObject;
+}
+
+void Physics::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, 
+	const LineSegment& ray, Quadtree* quadtree)
+{
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(quadtree);
+
+	while (!quadtreeQueue.empty())
+	{
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
+
+		if (!ray.Intersects(currentQuadtree->GetBoundingBox()))
+		{
+			continue;
+		}
+
+		std::set<GameObject*> quadtreeGameObjects = currentQuadtree->GetGameObjects();
+
+		float nearDistance, farDistance;
+		for (GameObject* gameObject : quadtreeGameObjects)
+		{
+			bool hit = ray.Intersects(gameObject->GetEncapsuledAABB(), nearDistance, farDistance);
+
+			if (hit && gameObject->IsActive())
+			{
+				hitGameObjects[nearDistance] = gameObject;
+			}
+		}
+
+		if (currentQuadtree->IsLeaf())
+		{
+			continue;
+		}
+
+		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+	}
 }
