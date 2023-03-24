@@ -1,19 +1,19 @@
 #pragma once
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
-class ComponentMaterial;
+class WindowComponentMaterial;
 
 class WindowTextureInput :
     public WindowFileBrowser
 {
 public:
-	WindowTextureInput(ComponentMaterial* material, TextureType textureType);
+	WindowTextureInput(WindowComponentMaterial* material, TextureType textureType);
 	~WindowTextureInput() override;
 
 	void DoThisIfOk() override;
 
 private:
-	ComponentMaterial* materialComponent;
+	WindowComponentMaterial* windowComponent;
 	TextureType textureType;
 
 	friend class WindowComponentMaterial;

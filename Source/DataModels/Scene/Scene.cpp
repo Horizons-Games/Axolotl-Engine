@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Modules/ModuleProgram.h"
+#include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
 
 #include "FileSystem/ModuleResources.h"
@@ -100,6 +101,45 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	{
 		rootQuadtree->Add(gameObject);
 	}
+
+	return gameObject;
+}
+
+GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = new GameObject(*newObject);
+	gameObject->MoveParent(parent);
+
+	// Update the transform respect its parent when created
+	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	childTransform->UpdateTransformMatrices();
+
+	sceneGameObjects.push_back(gameObject);
+
+	//Quadtree treatment
+	if (!rootQuadtree->InQuadrant(gameObject))
+	{
+		if (!rootQuadtree->IsFreezed())
+		{
+			rootQuadtree->ExpandToFit(gameObject);
+			FillQuadtree(sceneGameObjects);
+		}
+		else
+		{
+			App->renderer->AddToRenderList(gameObject);
+		}
+	}
+	else
+	{
+		rootQuadtree->Add(gameObject);
+	}
+	App->scene->GetLoadedScene()->GetRootQuadtree()
+		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->SetSelectedGameObject(gameObject);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }

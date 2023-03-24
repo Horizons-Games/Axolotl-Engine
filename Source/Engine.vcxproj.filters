@@ -1,320 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineLog.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_demo.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_draw.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_impl_opengl3.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_impl_sdl.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_tables.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGui\imgui_widgets.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK.cpp">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.cpp">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\SAT.cpp">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.cpp">
-      <Filter>External\MathGeoLib\Algorithm\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\AABB.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Capsule.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle2D.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Frustum.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Line.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\OBB.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\PBVolume.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Plane.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polygon.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Ray.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Sphere.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.cpp">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\BitOps.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Callstack.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float2.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x3.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x4.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4d.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4x4.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3.c">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3_cpp.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathFunc.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathLog.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathOps.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MiniFloat.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Polynomial.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Quat.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\SSEMath.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp">
-      <Filter>External\MathGeoLib\Time</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
-      <Filter>Source\DataModels\Timer</Filter>
+      <Filter>DataModels\Timer</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\GameObject\GameObject.cpp">
-      <Filter>Source\DataModels\GameObject</Filter>
+      <Filter>DataModels\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleDebugDraw.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleEditor.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleCamera.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleInput.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleProgram.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleRender.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleScene.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleWindow.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp">
-      <Filter>External\ImGuiFileDialog</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\FontIcons\CustomFont.cpp">
-      <Filter>External\FontIcons</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentLight.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\ModuleResources.cpp">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Json.cpp">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\SceneImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -323,82 +155,79 @@
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp">
-      <Filter>Source\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataStructures</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Scene\Scene.cpp">
-      <Filter>Source\DataModels\Scene</Filter>
+      <Filter>DataModels\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>Source\DataModels\Skybox</Filter>
+      <Filter>DataModels\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
-      <Filter>Source\DataModels\Program</Filter>
+      <Filter>DataModels\Program</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Camera\Camera.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraGameObject.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraGod.cpp">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
+      <Filter>DataModels\Windows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
       <Filter>External\ImGui</Filter>
@@ -412,475 +241,196 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModulePlayer.cpp">
-      <Filter>Source\Modules</Filter>
-    </ClCompile>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="EngineLog.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    <ClCompile Include="Modules\ModulePlayer.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\WindowDebug.cpp">
-      <Filter>Source\DataModels\Windows</Filter>
+      <Filter>DataModels\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="debug_draw.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="debugdraw.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineLog.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imconfig.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_impl_sdl.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imgui_internal.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_rectpack.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_textedit.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGui\imstb_truetype.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\MathBuildConfig.h">
-      <Filter>External\MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLib.h">
-      <Filter>External\MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLibFwd.h">
-      <Filter>External\MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK.h">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.h">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\SAT.h">
-      <Filter>External\MathGeoLib\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.h">
-      <Filter>External\MathGeoLib\Algorithm\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB2D.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Capsule.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle2D.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Frustum.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeometryAll.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeomType.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\HitInfo.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\KDTree.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Line.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB2D.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\PBVolume.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Plane.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon2DRef.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\QuadTree.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Ray.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Sphere.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.h">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\assume.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitFuncs.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitOps.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Callstack.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FixedPoint.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float2.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x3.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x4.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_neon.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_sse.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4d.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_neon.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_sse.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FloatCmp.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\grisu3.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\InclWindows.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Interpolate.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathAll.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathConstants.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathFunc.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathLog.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathNamespace.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathTypes.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MatrixProxy.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MiniFloat.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MultiLineMacro.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\myassert.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Polynomial.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Quat.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\quat_simd.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Rect.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Reinterpret.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\simd.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\sse_mathfun.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\SSEMath.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Swap.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\TransformOps.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h">
-      <Filter>External\MathGeoLib\Time</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Timer\Timer.h">
-      <Filter>Source\DataModels\Timer</Filter>
+      <Filter>DataModels\Timer</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\Component.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\GameObject\GameObject.h">
-      <Filter>Source\DataModels\GameObject</Filter>
+      <Filter>DataModels\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Module.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleDebugDraw.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleEditor.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleCamera.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleInput.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleProgram.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleRender.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleScene.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleWindow.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
-      <Filter>Source\DataModels\Windows\SubWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentTransform.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMaterial.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\Importer.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h">
-      <Filter>External\ImGuiFileDialog</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialogConfig.h">
-      <Filter>External\ImGuiFileDialog</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\dirent\dirent.h">
-      <Filter>External\ImGuiFileDialog\dirent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image.h">
-      <Filter>External\ImGuiFileDialog\stb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h">
-      <Filter>External\ImGuiFileDialog\stb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\FontIcons\CustomFont.h">
-      <Filter>External\FontIcons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h">
-      <Filter>External\FontIcons</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentLight.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentPointLight.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleResources.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\Resource.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceTexture.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMesh.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Json.h">
-      <Filter>Source\FileSystem</Filter>
+      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCamera.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\ModelImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceModel.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceScene.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\SceneImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -889,88 +439,88 @@
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h">
-      <Filter>Source\DataStructures</Filter>
+      <Filter>DataStructures</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMaterial.h">
-      <Filter>Source\DataModels\Resources</Filter>
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Scene\Scene.h">
-      <Filter>Source\DataModels\Scene</Filter>
+      <Filter>DataModels\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>Source\DataModels\Skybox</Filter>
+      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
-      <Filter>Source\DataModels\Program</Filter>
+      <Filter>DataModels\Program</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\Camera.h">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraGod.h">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraGameObject.h">
-      <Filter>Source\DataModels\Camera</Filter>
+      <Filter>DataModels\Camera</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\Window.h">
-      <Filter>Source\DataModels\Windows</Filter>
+      <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
-      <Filter>Source\DataModels\Windows</Filter>
+      <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h">
-      <Filter>Source\DataModels\Resources\EditorResource</Filter>
+      <Filter>DataModels\Resources\EditorResource</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h">
-      <Filter>Source\DataModels\Resources\EditorResource</Filter>
+      <Filter>DataModels\Resources\EditorResource</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
-      <Filter>Source\DataModels\Windows\EditorWindows</Filter>
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Source\Auxiliar</Filter>
+      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\ImGuizmo.h">
       <Filter>External\ImGui</Filter>
@@ -987,121 +537,96 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
       <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModulePlayer.h">
-      <Filter>Source\Modules</Filter>
-    </ClInclude>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="debug_draw.hpp" />
+    <ClInclude Include="debugdraw.h" />
+    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    <ClInclude Include="Modules\ModulePlayer.h">
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\WindowDebug.h">
-      <Filter>Source\DataModels\Windows</Filter>
+      <Filter>DataModels\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{63d396b9-4239-47e8-b629-8ccdfeb9ed44}</UniqueIdentifier>
+    <Filter Include="Auxiliar">
+      <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External">
-      <UniqueIdentifier>{c91453bb-e0c9-4c12-a995-0c020d2586ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\ImGui">
-      <UniqueIdentifier>{54dbcdcc-9ea9-4362-a596-39b1dd4da081}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib">
-      <UniqueIdentifier>{5d6d2ce2-f37e-471c-b590-6128348925ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib\Algorithm">
-      <UniqueIdentifier>{768d07c6-eaf2-4191-b734-04c75ca5abf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib\Geometry">
-      <UniqueIdentifier>{62cb0c5b-15f9-499f-8c49-792a90b0d2a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib\Math">
-      <UniqueIdentifier>{76bf3803-80b4-4a92-8676-efcc00ffc736}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib\Time">
-      <UniqueIdentifier>{bf70a3e3-59fb-46f0-bec3-c42deaed688e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\MathGeoLib\Algorithm\Random">
-      <UniqueIdentifier>{fe175828-1f83-44c7-a6d6-2f60f91d19ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Modules">
-      <UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels">
+    <Filter Include="DataModels">
       <UniqueIdentifier>{fe9ac5d2-b879-4003-b5ff-417273c34d26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Timer">
+    <Filter Include="DataModels\Timer">
       <UniqueIdentifier>{f75295bc-065a-440a-aa53-ce3dfcd97940}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\GameObject">
+    <Filter Include="DataModels\GameObject">
       <UniqueIdentifier>{2c464690-68af-41c3-8707-3a2f09badcd2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Components">
+    <Filter Include="DataModels\Components">
       <UniqueIdentifier>{ee0f2f55-34e8-4bf6-916a-dbd0be303a49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Windows">
+    <Filter Include="DataModels\Windows">
       <UniqueIdentifier>{23da8ec5-edff-4529-813f-9743ebfb0b17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows">
+    <Filter Include="DataModels\Windows\EditorWindows">
       <UniqueIdentifier>{c69f503f-e0be-4222-8b7c-171f46e7b492}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows">
-      <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\FileSystem">
-      <UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\FileSystem\Importers">
-      <UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\ImGuiFileDialog">
-      <UniqueIdentifier>{f4cda053-e527-4a31-8d11-f6489ebcb4d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\FontIcons">
-      <UniqueIdentifier>{75d33d15-d2af-41b6-a7a4-c3ecb1146cec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\ImGuiFileDialog\dirent">
-      <UniqueIdentifier>{a8e5ca38-c495-4ee5-bc5f-b0f9711a25af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\ImGuiFileDialog\stb">
-      <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Enums">
-      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources">
-      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
+    <Filter Include="DataModels\Windows\EditorWindows\ImporterWindows">
       <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataStructures">
-      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    <Filter Include="DataModels\Windows\SubWindows">
+      <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Scene">
-      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Program">
-      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
+    <Filter Include="DataModels\Windows\SubWindows\ComponentWindows">
       <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Camera">
-      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
+    <Filter Include="DataModels\Resources">
+      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
+    <Filter Include="DataModels\Resources\EditorResource">
       <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Auxiliar">
-      <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
+    <Filter Include="DataModels\Scene">
+      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Skybox">
+      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Program">
+      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Camera">
+      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures">
+      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem\Importers">
+      <UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataModels\Batch">
       <UniqueIdentifier>{2dd05ffc-d7df-4395-983c-ae23af216754}</UniqueIdentifier>
