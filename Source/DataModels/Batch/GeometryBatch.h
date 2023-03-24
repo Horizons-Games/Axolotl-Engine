@@ -31,7 +31,6 @@ struct Material {
 	int has_metallic_alpha = 0;
 	float metalness = 0;           //32 //4 //location 9
 	int has_metallic_map = 0;      //36 //4 //location 10
-	float2 padding8bytes  =float2::zero;
 };
 
 struct ResourceInfo //temporary name

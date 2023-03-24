@@ -50,7 +50,6 @@ void GeometryBatch::FillBuffers()
 	std::vector<float3> tangentsToRender;
 	std::vector<Material> materialToRender;
 	float3 test{ 0,1,0 };
-	float2 test2{ 0,0 };
 	for (auto resInfo : resourcesInfo)
 	{
 
@@ -84,8 +83,7 @@ void GeometryBatch::FillBuffers()
 			resInfo.resourceMaterial->GetSmoothness(),
 			resInfo.resourceMaterial->HasMetallicAlpha(),
 			resInfo.resourceMaterial->GetMetalness(),
-			resInfo.resourceMaterial->HasMetallicMap(),
-			test2
+			resInfo.resourceMaterial->HasMetallicMap()
 			};
 			materialToRender.push_back(newMaterial);
 		}
@@ -93,7 +91,7 @@ void GeometryBatch::FillBuffers()
 		{
 			Material newMaterial =
 			{
-			test,0, 50.0f, 1.0f, 1, 1, 1, 0, test2
+			test,0, 50.0f, 1.0f, 1, 1, 1, 0
 		};
 			materialToRender.push_back(newMaterial);
 		}
@@ -115,7 +113,7 @@ void GeometryBatch::FillBuffers()
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, materials);
-	glBufferData(GL_SHADER_STORAGE_BUFFER,components.size() * sizeof(float4x4), &materialToRender[0], GL_STATIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER,components.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
