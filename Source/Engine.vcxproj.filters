@@ -421,8 +421,12 @@
     <ClCompile Include="Physics\Physics.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -992,8 +996,12 @@
     <ClInclude Include="Physics\Physics.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentRigidBody.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h" />
+    <ClInclude Include="DataModels\Components\ComponentRigidBody.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

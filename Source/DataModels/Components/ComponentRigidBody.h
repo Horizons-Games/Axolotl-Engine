@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#include "Math/float3.h"
+
 class ComponentRigidBody :
 	public Component
 {
@@ -13,5 +15,24 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
+
+	bool GetIsKinematic();
+	void SetIsKinematic(bool newIsKinematic);
+
+private:
+
+	bool isKinematic;
+	float m;
+	float g;
+	float3 v0;
 };
 
+inline bool ComponentRigidBody::GetIsKinematic()
+{
+	return this->isKinematic;
+}
+
+inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
+{
+	isKinematic = newIsKinematic;
+}

@@ -1,8 +1,6 @@
 #pragma once
 #include "Component.h"
 
-#include "Math/float3.h"
-
 class ComponentPlayer :
     public Component
 {
@@ -17,10 +15,5 @@ public:
 	void LoadOptions(Json& meta) override;
 
 private:
-
-	bool isKinematic;
-	float m;
-	float g;
-	float3 v0;
 };
 
