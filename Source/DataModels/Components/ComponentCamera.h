@@ -28,6 +28,7 @@ class ComponentCamera : public Component
 {
 public:
 	ComponentCamera(bool active, GameObject* owner);
+	ComponentCamera(const ComponentCamera& componentCamera);
 	~ComponentCamera() override;
 
 	void Update() override;
@@ -37,6 +38,8 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	CameraGameObject* GetCamera();
+
+	void DuplicateCamera(CameraGameObject* camera);
 
 
 private:

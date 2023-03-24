@@ -14,10 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
-	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false),
-	lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -45,10 +42,6 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	//TODO: REMOVE AFTER, HERE WE GO
-	DrawButtomsSaveAndLoad();
-	ImGui::Separator();
-
 	lastSelectedGameObject = App->scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
@@ -144,13 +137,6 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
-				if (ImGui::MenuItem("Create RigidBody Component"))
-				{
-					AddComponentRigidBody();
-				}
-			}
-
 		}
 
 		else
@@ -185,7 +171,6 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
-
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -334,19 +319,6 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
-}
-
-void WindowInspector::AddComponentRigidBody()
-{
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
-}
-
-// TODO: REMOVE
-void WindowInspector::DrawButtomsSaveAndLoad()
-{
-	loadScene->DrawWindowContents();
-	ImGui::SameLine();
-	saveScene->DrawWindowContents();
 }
 
 void WindowInspector::ResetSelectedGameObject()
