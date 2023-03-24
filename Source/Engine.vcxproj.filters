@@ -148,20 +148,11 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp">
       <Filter>DataStructures</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Scene\Scene.cpp">
       <Filter>DataModels\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp">
       <Filter>DataModels\Resources</Filter>
@@ -229,18 +220,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\External\ImGui\ImGuizmo.cpp">
-      <Filter>External\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
-      <Filter>Source\DataModels\Batch</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
-      <Filter>Source\DataModels\Batch</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -267,6 +246,16 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
+      <Filter>DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
+      <Filter>DataModels\Batch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -432,12 +421,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h">
       <Filter>DataStructures</Filter>
     </ClInclude>
@@ -522,21 +505,6 @@
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="..\External\ImGui\ImGuizmo.h">
-      <Filter>External\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Batch\BatchFlags.h">
-      <Filter>Source\DataModels\Batch</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Batch\BatchManager.h">
-      <Filter>Source\DataModels\Batch</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
-      <Filter>Source\DataModels\Batch</Filter>
-	  </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
-      <Filter>Source\DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -562,6 +530,18 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
+    <ClInclude Include="DataModels\Batch\BatchFlags.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
+      <Filter>DataModels\Batch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -628,42 +608,8 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Batch">
-      <UniqueIdentifier>{2dd05ffc-d7df-4395-983c-ae23af216754}</UniqueIdentifier>
+    <Filter Include="DataModels\Batch">
+      <UniqueIdentifier>{492b4c54-7b2e-491c-abb8-3d82ba510047}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Geometry\QuadTree.inl">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_CPP.inl">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl">
-      <Filter>External\MathGeoLib\Geometry</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Math\float2.inl">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </None>
-    <None Include="..\External\MathGeoLib\Include\Math\Matrix.inl">
-      <Filter>External\MathGeoLib\Math</Filter>
-    </None>
-    <None Include="..\External\ImGuiFileDialog\dirent\ChangeLog">
-      <Filter>External\ImGuiFileDialog\dirent</Filter>
-    </None>
-    <None Include="..\External\FontIcons\CustomFont.ifs">
-      <Filter>External\FontIcons</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\External\FontIcons\CustomFont.png">
-      <Filter>External\FontIcons</Filter>
-    </Image>
   </ItemGroup>
 </Project>
