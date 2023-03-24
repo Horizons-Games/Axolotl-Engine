@@ -32,7 +32,6 @@ public:
 	ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, 
 					GameObject* gameObject, bool canBeRemoved);
-	ComponentLight(const ComponentLight& componentLight);
 
 	virtual ~ComponentLight() override;
 

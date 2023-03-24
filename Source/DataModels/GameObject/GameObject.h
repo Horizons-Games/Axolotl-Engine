@@ -29,7 +29,6 @@ public:
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
 	GameObject(const std::string& name, GameObject* parent);
-	GameObject(const GameObject& gameObject);
 	~GameObject();
 
 	void SaveOptions(Json& json);
@@ -55,8 +54,6 @@ public:
 
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
-	void CopyComponent(ComponentType type, Component* component);
-	void CopyComponentLight(LightType type, Component* component);
 
 	template <typename T,
 		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
@@ -69,7 +66,6 @@ public:
 
 	void SetName(const char* newName);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -143,11 +139,6 @@ inline const char* GameObject::GetName() const
 inline void GameObject::SetName(const char* newName)
 {
 	name = newName;
-}
-
-inline void GameObject::SetParent(GameObject* newParent)
-{
-	parent = newParent;
 }
 
 inline GameObject* GameObject::GetParent() const

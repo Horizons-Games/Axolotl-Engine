@@ -11,12 +11,6 @@ ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true)
 {
 }
 
-ComponentSpotLight::ComponentSpotLight(const ComponentSpotLight& componentSpotLight):
-	ComponentLight(componentSpotLight), radius(componentSpotLight.GetRadius()), 
-	innerAngle(componentSpotLight.GetInnerAngle()), outerAngle(componentSpotLight.GetOuterAngle())
-{
-}
-
 ComponentSpotLight::ComponentSpotLight(GameObject* parent) :
 	ComponentLight(LightType::SPOT, parent, true),
 	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)

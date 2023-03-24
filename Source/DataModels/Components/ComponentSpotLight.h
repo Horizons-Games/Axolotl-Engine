@@ -19,7 +19,6 @@ class ComponentSpotLight : public ComponentLight
 {
 public:
 	ComponentSpotLight();
-	ComponentSpotLight(const ComponentSpotLight& componentSpotLight);
 	ComponentSpotLight(GameObject* parent);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 					   const float3& color, float intensity);

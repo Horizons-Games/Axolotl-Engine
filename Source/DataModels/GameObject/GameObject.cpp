@@ -4,7 +4,6 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
-#include "../Components/ComponentLight.h"
 #include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
@@ -38,26 +37,6 @@ GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject
 	this->parent->AddChild(std::unique_ptr<GameObject>(this));
 	this->parentUID = parent->GetUID();
 	active = (parent->IsEnabled() && parent->IsActive());
-}
-
-GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	localAABB(gameObject.localAABB), encapsuledAABB(localAABB),
-	stateOfSelection(StateOfSelection::NO_SELECTED),
-	objectOBB({ localAABB }), drawBoundingBoxes(false)
-{
-	for (auto component : gameObject.GetComponents())
-	{
-		CopyComponent(component->GetType(), component);
-	}
-
-	for (auto child : gameObject.GetChildren())
-	{
-		std::unique_ptr<GameObject> newChild;
-		newChild = std::make_unique<GameObject>(static_cast<GameObject&>(*child));
-		newChild->SetParent(this);
-		AddChild(std::move(newChild));
-	}
 }
 
 GameObject::~GameObject()
@@ -238,7 +217,7 @@ void GameObject::InitNewEmptyGameObject()
 	CreateComponent(ComponentType::TRANSFORM);
 }
 
-void GameObject::MoveParent(GameObject* newParent)
+void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 
@@ -250,14 +229,7 @@ void GameObject::MoveParent(GameObject* newParent)
 
 	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
 	parent = newParent;
-	if (pointerToThis)
-	{
-		parent->AddChild(std::move(pointerToThis));
-	}
-	else
-	{
-		parent->AddChild(std::unique_ptr<GameObject>(this));
-	}
+	parent->AddChild(std::move(pointerToThis));
 
 	// Update the transform respect its parent when moved around
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>
@@ -315,77 +287,6 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	for (std::unique_ptr<Component>& newComponent : components)
 	{
 		this->components.push_back(std::move(newComponent));
-	}
-}
-
-void GameObject::CopyComponent(ComponentType type, Component* component)
-{
-	std::unique_ptr<Component> newComponent;
-
-	switch (type)
-	{
-	case ComponentType::TRANSFORM:
-	{
-		
-		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
-		break;
-	}
-
-	case ComponentType::MESHRENDERER:
-	{
-		newComponent = std::make_unique<ComponentMeshRenderer>(static_cast<ComponentMeshRenderer&>(*component));
-		break;
-	}
-
-	case ComponentType::MATERIAL:
-	{
-		newComponent = std::make_unique<ComponentMaterial>(static_cast<ComponentMaterial&>(*component));
-		break;
-	}
-
-
-	case ComponentType::CAMERA:
-	{
-		newComponent = std::make_unique<ComponentCamera>(static_cast<ComponentCamera&>(*component));
-		break;
-	}
-
-	case ComponentType::LIGHT:
-	{
-		CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
-		break;
-	}
-
-	default:
-		assert(false && "Wrong component type introduced");
-	}
-
-	if (newComponent)
-	{
-		newComponent->SetOwner(this);
-		components.push_back(std::move(newComponent));
-	}
-}
-
-void GameObject::CopyComponentLight(LightType type, Component* component)
-{
-	std::unique_ptr<ComponentLight> newComponent;
-
-	switch (type)
-	{
-	case LightType::POINT:
-		newComponent = std::make_unique<ComponentPointLight>(static_cast<ComponentPointLight&>(*component));
-		break;
-
-	case LightType::SPOT:
-		newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
-		break;
-	}
-
-	if (newComponent)
-	{
-		newComponent->SetOwner(this);
-		components.push_back(std::move(newComponent));
 	}
 }
 

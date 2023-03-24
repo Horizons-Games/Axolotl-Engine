@@ -14,12 +14,11 @@
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	ComponentWindow("MATERIAL", component), 
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
-	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
-	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
+	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
+	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
 	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
-	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
 {
-	InitMaterialValues();
 }
 
 WindowComponentMaterial::~WindowComponentMaterial()
@@ -70,8 +69,12 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
+			static float3 colorDiffuse = materialResource->GetDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
+			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			{
+				materialResource->SetDiffuseColor(colorDiffuse);
+			}
 
 			/*static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
@@ -80,9 +83,37 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetSpecularColor(colorSpecular);
 			}
 
-			ImGui::Text("");
+			ImGui::Text("");*/
 
-			bool hasShininessAlpha = materialResource->HasShininessAlpha();
+			static UID thisUID = UniqueID::GenerateUID();
+
+			std::string removeButtonLabel = "No Texture";
+
+			if (materialResource)
+			{
+				if (materialResource->GetDiffuse() || materialResource->GetNormal()
+					|| //materialResource->GetSpecular()
+					materialResource->GetMetallicMap())
+				{
+					removeButtonLabel = "Remove Textures";
+				}
+
+			}
+
+			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
+			{
+				asMaterial->UnloadTextures();
+				
+				materialResource->SetDiffuse(nullptr);
+				materialResource->SetNormal(nullptr);
+				materialResource->SetOcclusion(nullptr);
+				//materialResource->SetSpecular(nullptr);
+				materialResource->SetMetallicMap(nullptr);
+				
+				materialResource->SetChanged(true);
+			}
+
+			/*bool hasShininessAlpha = materialResource->HasShininessAlpha();
 			ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
 			materialResource->SetShininessAlpha(hasShininessAlpha);
 
@@ -93,43 +124,82 @@ void WindowComponentMaterial::DrawSetMaterial()
 			ImGui::Separator();*/
 
 			ImGui::Text("Diffuse Texture");
-			if (diffuseTexture)
+			bool showTextureBrowserDiffuse = true;
+			std::shared_ptr<ResourceTexture> texture;
+			if (materialResource)
 			{
-				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Diffuse"))
+				if (materialResource->GetDiffuse())
 				{
-					diffuseTexture->Unload();
-					diffuseTexture = nullptr;
+					texture = materialResource->GetDiffuse();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showTextureBrowserDiffuse = false;
 				}
+			}
+
+			if (showTextureBrowserDiffuse)
+			{
+				inputTextureDiffuse->DrawWindowContents();
 			}
 			else
 			{
-				inputTextureDiffuse->DrawWindowContents();
+				if (ImGui::Button("Remove Texture Diffuse") && materialResource->GetDiffuse())
+				{
+					asMaterial->UnloadTexture(TextureType::DIFFUSE);
 
+					materialResource->SetDiffuse(nullptr);
+				}
 			}
 
 			ImGui::Separator();
 
 			ImGui::Text("Metallic Texture");
-			if (metalicMap)
+			bool showMetallicBrowserDiffuse = true;
+			if (materialResource)
 			{
-				metalicMap->Load();
-				ImGui::Image((void*)(intptr_t)metalicMap->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Metallic"))
+				if (materialResource->GetMetallicMap())
 				{
-					metalicMap->Unload();
-					metalicMap = nullptr;
+					texture = materialResource->GetMetallicMap();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showMetallicBrowserDiffuse = false;
 				}
 			}
-			else 
+
+			if (showMetallicBrowserDiffuse)
 			{
 				inputTextureMetallic->DrawWindowContents();
 			}
+			else
+			{
+				if (ImGui::Button("Remove Texture Metallic") && materialResource->GetMetallicMap())
+				{
+					asMaterial->UnloadTexture(TextureType::METALLIC);
 
-			ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
+					materialResource->SetMetallicMap(nullptr);
+				}
+			}
+
+			float smoothness = asMaterial->GetSmoothness();
+			if (ImGui::DragFloat("Smoothness", &smoothness,
+				0.01f, 0.0f, 1.0f))
+			{
+				asMaterial->SetSmoothness(smoothness);
+			}
+
 			
-			ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
+			float metalness = asMaterial->GetMetalness();
+			if (ImGui::DragFloat("Metallic", &metalness,
+				0.01f, 0.0f, 1.0f))
+			{
+				asMaterial->SetMetalness(metalness);
+			}
 			
 			ImGui::Separator();
 
@@ -163,44 +233,41 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Separator();*/
 
-			ImGui::Separator();
-
 			ImGui::Text("Normal Texture");
-			if (normalMap)
+			bool showTextureBrowserNormal = true;
+			if (materialResource && materialResource->GetNormal())
 			{
-				normalMap->Load();
-				ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Normal"))
-				{
-					normalMap->Unload();
-					normalMap = nullptr;
-				}
+					texture = materialResource->GetNormal();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showTextureBrowserNormal = false;
 			}
-			else
+
+			if (showTextureBrowserNormal)
 			{
 				inputTextureNormal->DrawWindowContents();
 			}
+			else if (ImGui::Button("Remove Texture Normal"))
+			{
+				if (materialResource->GetNormal())
+				{
+					asMaterial->UnloadTexture(TextureType::NORMAL);
 
-			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
+					materialResource->SetNormal(nullptr);
+				}
+			}
+
+			float normalStrength = asMaterial->GetNormalStrenght();
+			if (ImGui::DragFloat("Normal Strength", &normalStrength,
+				0.01f, 0.0f, std::numeric_limits<float>::max()))
+			{
+				asMaterial->SetNormalStrenght(normalStrength);
+			}
+
 			ImGui::Text("");
-			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
-			if (ImGui::Button("Reset"))
-			{
-				InitMaterialValues();
-			}
-			ImGui::SameLine(ImGui::GetWindowWidth() - 70);
-			if (ImGui::Button("Apply"))
-			{
-				materialResource->SetDiffuseColor(colorDiffuse);
-				materialResource->SetDiffuse(diffuseTexture);
-				materialResource->SetMetallicMap(metalicMap);
-				materialResource->SetNormal(normalMap);
-				materialResource->SetSmoothness(smoothness);
-				materialResource->SetMetalness(metalness);
-				materialResource->SetNormalStrength(normalStrength);
-				materialResource->SetChanged(true);
-				App->resources->ReimportResource(materialResource->GetUID());
-			}
 		}
 	}
 }
@@ -214,26 +281,6 @@ void WindowComponentMaterial::DrawEmptyMaterial()
 		if (asMaterial->GetMaterial() == nullptr)
 		{
 			inputMaterial->DrawWindowContents();
-		}
-	}
-}
-
-void WindowComponentMaterial::InitMaterialValues()
-{
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
-
-	if (asMaterial)
-	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
-		if(materialResource) 
-		{
-			colorDiffuse = materialResource->GetDiffuseColor();
-			diffuseTexture = materialResource->GetDiffuse();
-			metalicMap = materialResource->GetMetallicMap();
-			normalMap = materialResource->GetNormal();
-			smoothness = materialResource->GetSmoothness();
-			metalness = materialResource->GetMetalness();
-			normalStrength = materialResource->GetNormalStrength();
 		}
 	}
 }

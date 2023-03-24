@@ -43,7 +43,6 @@ class Camera
 {
 public:
 	Camera(const CameraType type);
-	Camera(Camera& camera);
 	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
 	virtual ~Camera();
 

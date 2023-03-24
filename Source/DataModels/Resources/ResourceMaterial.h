@@ -6,7 +6,7 @@
 
 class ResourceTexture;
 
-struct LoadOptionsMaterial
+struct OptionsMaterial
 {
 };
 
@@ -23,9 +23,6 @@ public:
 
 	void SaveImporterOptions(Json& meta) override {};
 	void LoadImporterOptions(Json& meta) override {};
-
-	void SaveLoadOptions(Json& meta) override;
-	void LoadLoadOptions(Json& meta) override;
 
 	std::shared_ptr<ResourceTexture>& GetDiffuse();
 	std::shared_ptr<ResourceTexture>& GetNormal();
@@ -46,7 +43,7 @@ public:
 	bool HasMetallicMap();
 	bool HasMetallicAlpha();
 
-	LoadOptionsMaterial& GetLoadOptions();
+	OptionsMaterial& GetOptions();
 
 	//Sets
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
@@ -83,7 +80,7 @@ private:
 	//bool shininessAlpha;
 	bool hasMetallicAlpha;
 
-	LoadOptionsMaterial loadOptions;
+	OptionsMaterial options;
 };
 
 inline ResourceType ResourceMaterial::GetType() const
@@ -146,9 +143,9 @@ inline float& ResourceMaterial::GetMetalness()
 	return metalness;
 }
 
-inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
+inline OptionsMaterial& ResourceMaterial::GetOptions()
 {
-	return loadOptions;
+	return options;
 }
 
 inline bool ResourceMaterial::HasDiffuse()

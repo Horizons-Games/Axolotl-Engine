@@ -31,13 +31,6 @@ ComponentLight::ComponentLight(LightType type, const float3& color, float intens
 {
 }
 
-ComponentLight::ComponentLight(const ComponentLight& componentLight): Component(componentLight)
-	,color(componentLight.GetColor()), intensity(componentLight.GetIntensity())
-	, lightType(componentLight.GetLightType())
-{
-
-}
-
 ComponentLight::~ComponentLight()
 {
 }

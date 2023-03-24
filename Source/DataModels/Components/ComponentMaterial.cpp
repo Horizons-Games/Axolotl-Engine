@@ -26,11 +26,6 @@ ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
 {
 }
 
-ComponentMaterial::ComponentMaterial(const ComponentMaterial& componentMaterial) :
-	Component(componentMaterial), material(componentMaterial.GetMaterial())
-{
-}
-
 ComponentMaterial::~ComponentMaterial()
 {
 }

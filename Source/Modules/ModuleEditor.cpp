@@ -3,10 +3,6 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleScene.h"
-#include "ModuleInput.h"
-
-#include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Windows/WindowMainMenu.h"
@@ -35,8 +31,7 @@
 
 #include <FontIcons/CustomFont.cpp>
 
-
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
 }
 
@@ -91,7 +86,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	delete copyObject;
 
 	return true;
 }
@@ -119,34 +113,6 @@ update_status ModuleEditor::Update()
 #ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
-
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-	{
-		CopyAnObject();
-	}
-	
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-	{
-		PasteAnObject();
-	}
-
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-	{
-		CutAnObject();
-	}
-
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-	{
-		DuplicateAnObject();
-	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -243,62 +209,6 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 #ifdef ENGINE
 	this->inspector->SetResource(resource);
 #endif
-}
-
-void ModuleEditor::CopyAnObject()
-{
-	delete copyObject;
-
-	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
-	{
-		copyObject = new GameObject(*App->scene->GetSelectedGameObject());
-	}
-	
-}
-
-void ModuleEditor::PasteAnObject()
-{
-	if(copyObject)
-	{
-		if (App->scene->GetSelectedGameObject())
-		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject, App->scene->GetSelectedGameObject());
-		}
-		else
-		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject, App->scene->GetLoadedScene()->GetRoot());
-		}
-	}
-}
-
-void ModuleEditor::CutAnObject()
-{
-	CopyAnObject();
-
-	GameObject* gameObject = App->scene->GetSelectedGameObject();
-	App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-																			// change the focus to its parent
-	App->scene->GetLoadedScene()->GetRootQuadtree()->
-		RemoveGameObjectAndChildren(gameObject->GetParent());
-
-	App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
-}
-
-void ModuleEditor::DuplicateAnObject()
-{
-	if (App->scene->GetSelectedGameObject() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
-	{
-		App->scene->GetLoadedScene()->
-			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
-				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
-	}
 }
 
 void ModuleEditor::RefreshInspector() const

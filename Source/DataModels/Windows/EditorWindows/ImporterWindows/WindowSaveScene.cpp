@@ -6,8 +6,8 @@
 WindowSaveScene::WindowSaveScene() : WindowFileBrowser()
 {
 	isSave = true;
-	dialogName = " Save As...";
-	title = ICON_IGFD_SAVE" Save As...";
+	dialogName = " Save Scene File";
+	title = ICON_IGFD_SAVE" Save Scene File";
 	filters = SCENE_EXTENSION;
 	startPath = "Assets/Scenes";
 }

@@ -31,29 +31,10 @@ void ResourceTexture::SaveImporterOptions(Json& meta)
 	meta["flipHorizontal"] = importOptions.flipHorizontal;
 }
 
-
 void ResourceTexture::LoadImporterOptions(Json& meta)
 {
 	importOptions.flipVertical = meta["flipVertical"];
 	importOptions.flipHorizontal = meta["flipHorizontal"];
-}
-
-void ResourceTexture::SaveLoadOptions(Json& meta)
-{
-	meta["min"] = (int)loadOptions.min;
-	meta["mag"] = (int)loadOptions.mag;
-	meta["wrapS"] = (int)loadOptions.wrapS;
-	meta["wrapT"] = (int)loadOptions.wrapT;
-	meta["mipMap"] = loadOptions.mipMap;
-}
-
-void ResourceTexture::LoadLoadOptions(Json& meta)
-{
-	loadOptions.min = (TextureMinFilter)(int)meta["min"];
-	loadOptions.mag = (TextureMagFilter)(int)meta["mag"];
-	loadOptions.wrapS = (TextureWrap)(int)meta["wrapS"];
-	loadOptions.wrapT = (TextureWrap)(int)meta["wrapT"];
-	loadOptions.mipMap = (bool)meta["mipMap"];
 }
 
 void ResourceTexture::CreateTexture()

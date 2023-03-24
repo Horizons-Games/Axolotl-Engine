@@ -79,9 +79,6 @@ public:
 	void SaveImporterOptions(Json& meta) override;
 	void LoadImporterOptions(Json& meta) override;
 
-	void SaveLoadOptions(Json& meta) override;
-	void LoadLoadOptions(Json& meta) override;
-
 	unsigned int GetGlTexture() const;
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;

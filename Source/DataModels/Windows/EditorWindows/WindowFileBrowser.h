@@ -9,7 +9,6 @@ public:
 	WindowFileBrowser();
 	virtual ~WindowFileBrowser() override;
 	void DrawWindowContents() override;
-	void SaveAsWindow(bool& isSaving);
 	virtual void DoThisIfOk();
 	virtual void Browser();
 	

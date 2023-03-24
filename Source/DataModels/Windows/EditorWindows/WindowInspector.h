@@ -4,6 +4,9 @@
 
 #include "FileSystem/UniqueID.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "ImporterWindows/WindowSaveScene.h"
+
 class Model;
 class GameObject;
 class Component;
@@ -39,6 +42,13 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+
+	void DrawButtomsSaveAndLoad();
+
+	bool showSaveScene;
+	bool showLoadScene;
+	std::unique_ptr<WindowLoadScene> loadScene;
+	std::unique_ptr<WindowSaveScene> saveScene;
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
