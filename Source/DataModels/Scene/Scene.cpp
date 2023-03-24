@@ -19,6 +19,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "ComponentTransform2D.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -69,36 +70,40 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool is3D)
 {
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
-	gameObject->InitNewEmptyGameObject();
+	gameObject->InitNewEmptyGameObject(is3D);
 
-	// Update the transform respect its parent when created
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
-		(gameObject->GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
-
-	sceneGameObjects.push_back(gameObject);
-
-	//Quadtree treatment
-	if (!rootQuadtree->InQuadrant(gameObject))
+	if (is3D)
 	{
-		if (!rootQuadtree->IsFreezed())
+		// Update the transform respect its parent when created
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+
+		sceneGameObjects.push_back(gameObject);
+
+		//Quadtree treatment
+		if (!rootQuadtree->InQuadrant(gameObject))
 		{
-			rootQuadtree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
+			if (!rootQuadtree->IsFreezed())
+			{
+				rootQuadtree->ExpandToFit(gameObject);
+				FillQuadtree(sceneGameObjects);
+			}
+			else
+			{
+				App->renderer->AddToRenderList(gameObject);
+			}
 		}
 		else
 		{
-			App->renderer->AddToRenderList(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
-	}
-	else
-	{
-		rootQuadtree->Add(gameObject);
+
 	}
 
 	return gameObject;

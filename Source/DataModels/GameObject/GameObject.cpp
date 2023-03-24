@@ -11,6 +11,7 @@
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentCanvas.h"
+#include "ComponentTransform2D.h"
 
 #include "Application.h"
 
@@ -234,9 +235,16 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
-void GameObject::InitNewEmptyGameObject()
+void GameObject::InitNewEmptyGameObject(bool is3D)
 {
-	CreateComponent(ComponentType::TRANSFORM);
+	if (is3D)
+	{
+		CreateComponent(ComponentType::TRANSFORM);
+	}
+	else 
+	{
+		CreateComponent(ComponentType::TRANSFORM2D);
+	}
 }
 
 void GameObject::MoveParent(GameObject* newParent)
@@ -455,6 +463,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::TRANSFORM:
 		{
 			newComponent = std::make_unique<ComponentTransform>(true, this);
+			break;
+		}
+
+		case ComponentType::TRANSFORM2D:
+		{
+			newComponent = std::make_unique<ComponentTransform2D>(true, this);
 			break;
 		}
 

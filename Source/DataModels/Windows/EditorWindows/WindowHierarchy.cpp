@@ -163,22 +163,22 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Create Empty 2D child"))
             {
-                // App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
+                App->scene->GetLoadedScene()->CreateGameObject("Empty 2D GameObject", gameObject, false);
             }
 
             if (ImGui::MenuItem("Create Text"))
             {
-                //GameObject* newCamera = App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+                App->scene->GetLoadedScene()->CreateGameObject("new Text", gameObject, false);
             }
 
             if (ImGui::MenuItem("Create Image"))
             {
-                //GameObject* newCamera =  App->scene->GetLoadedScene()->CreateCanvasGameObject("Canvas", gameObject);
+                App->scene->GetLoadedScene()->CreateGameObject("new Image", gameObject, false);
             }
 
             if (ImGui::MenuItem("Create Button"))
             {
-                //GameObject* newCamera =  App->scene->GetLoadedScene()->CreateCanvasGameObject("Canvas", gameObject);
+                App->scene->GetLoadedScene()->CreateGameObject("new Button", gameObject, false);
             }
         }
 

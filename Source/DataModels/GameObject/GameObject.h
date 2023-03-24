@@ -40,7 +40,7 @@ public:
 	void DrawSelected();
 	void DrawHighlight();
 
-	void InitNewEmptyGameObject();
+	void InitNewEmptyGameObject(bool is3D=true);
 
 	void AddChild(std::unique_ptr<GameObject> child);
 	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
