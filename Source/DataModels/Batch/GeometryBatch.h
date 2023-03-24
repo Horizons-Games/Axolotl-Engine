@@ -10,6 +10,7 @@
 
 class ComponentMeshRenderer;
 class ResourceMesh;
+class ResourceMaterial;
 class GameObject;
 
 struct Command
@@ -21,9 +22,22 @@ struct Command
 	GLuint  baseInstance;	// Instance Index
 };
 
+struct Material {
+	float3 diffuse_color = float3::zero;      
+	float normal_strength = 0;
+	int has_diffuse_map   =0;   
+	int has_normal_map    =0;  
+	float smoothness = 0;
+	int has_metallic_alpha = 0;
+	float metalness = 0;           //32 //4 //location 9
+	int has_metallic_map = 0;      //36 //4 //location 10
+	float2 padding8bytes  =float2::zero;
+};
+
 struct ResourceInfo //temporary name
 {
 	ResourceMesh* resourceMesh;
+	ResourceMaterial* resourceMaterial;
 	int vertexOffset;
 	int indexOffset;
 };
@@ -53,7 +67,7 @@ private:
 
 	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
 
-	void CreateInstance(ResourceMesh* mesh);
+	void CreateInstance(ResourceMesh* mesh, ResourceMaterial* material);
 
 	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
@@ -69,6 +83,7 @@ private:
 	unsigned int normalsBuffer = 0;
 	unsigned int tangentsBuffer = 0;
 	unsigned int transforms = 0;
+	unsigned int materials = 0;
 
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
@@ -76,6 +91,8 @@ private:
 	unsigned int resourceMeshIndex = 0;
 
 	std::vector<Command> commands;
+	//std::vector<float4x4> modelMatrices;
+	//std::vector<float4x4> storageModel;
 
 	int numTotalVertices = 0;
 	int numTotalIndices = 0;

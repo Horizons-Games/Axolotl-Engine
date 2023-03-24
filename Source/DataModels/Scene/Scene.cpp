@@ -14,7 +14,6 @@
 #include "Resources/ResourceSkyBox.h"
 
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentMaterial.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -156,11 +155,9 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	ComponentMaterial* materialComponent =
-		static_cast<ComponentMaterial*>(gameObject->CreateComponent(ComponentType::MATERIAL));
-	materialComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	meshComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
 	switch (type)
@@ -233,14 +230,12 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
 
-		ComponentMaterial* materialRenderer =
-			static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
-		materialRenderer->SetMaterial(material);
-
 		ComponentMeshRenderer* meshRenderer =
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
+		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
+
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceMaterial.h"
 
 #include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
@@ -29,6 +30,7 @@ GeometryBatch::GeometryBatch()
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
 	glGenBuffers(1, &tangentsBuffer);
+	glGenBuffers(1, &materials);
 }
 
 GeometryBatch::~GeometryBatch()
@@ -46,13 +48,16 @@ void GeometryBatch::FillBuffers()
 	std::vector<float2> texturesToRender;
 	std::vector<float3> normalsToRender;
 	std::vector<float3> tangentsToRender;
-
+	std::vector<Material> materialToRender;
+	float3 test{ 0,1,0 };
+	float2 test2{ 0,0 };
 	for (auto resInfo : resourcesInfo)
 	{
 
 		ResourceMesh* resource = resInfo.resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
+		
 		
 		for (float3 tex : resource->GetTextureCoords())
 		{
@@ -66,6 +71,31 @@ void GeometryBatch::FillBuffers()
 		{
 			tangentsToRender.insert(std::end(tangentsToRender),
 				std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
+		}
+
+		if (resInfo.resourceMaterial != nullptr)
+		{
+			Material newMaterial =
+			{
+			resInfo.resourceMaterial->GetDiffuseColor(),
+			resInfo.resourceMaterial->GetNormalStrength(),
+			resInfo.resourceMaterial->HasDiffuse(),
+			resInfo.resourceMaterial->HasNormal(),
+			resInfo.resourceMaterial->GetSmoothness(),
+			resInfo.resourceMaterial->HasMetallicAlpha(),
+			resInfo.resourceMaterial->GetMetalness(),
+			resInfo.resourceMaterial->HasMetallicMap(),
+			test2
+			};
+			materialToRender.push_back(newMaterial);
+		}
+		else
+		{
+			Material newMaterial =
+			{
+			test,0, 50.0f, 1.0f, 1, 1, 1, 0, test2
+		};
+			materialToRender.push_back(newMaterial);
 		}
 	}
 
@@ -83,6 +113,9 @@ void GeometryBatch::FillBuffers()
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
 		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, materials);
+	glBufferData(GL_SHADER_STORAGE_BUFFER,components.size() * sizeof(float4x4), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -142,7 +175,9 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	
 	const GLuint bindingPointModel = 10;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);	
+	const GLuint bindingPointMaterial = 11;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	
 	glBindVertexArray(0);
 }
@@ -152,15 +187,17 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	if (newComponent)
 	{
 		std::shared_ptr<ResourceMesh> meshShared = newComponent->GetMesh();
+		std::shared_ptr<ResourceMaterial> materialShared = newComponent->GetMaterial();
 		if (!meshShared)
 		{
 			return;
 		}
 		
-		CreateInstance(meshShared.get());
+		CreateInstance(meshShared.get(),materialShared.get());
 		newComponent->SetBatch(this);
 		components.push_back(newComponent);
 		reserveModelSpace = true;
+		//storageModel.assign(modelMatrices.begin(), modelMatrices.end());
 	}
 }
 
@@ -196,27 +233,28 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	reserveModelSpace = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMesh());
-	}
+}
 #endif //ENGINE
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	//componentsToRender[0]->GetOwner()->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
 	if (createBuffers)
 	{
 		FillBuffers();
 		createBuffers = false;
 	}
-
+	//modelMatrices.clear();
+	std::vector<float4x4> modelMatrices;
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	if (reserveModelSpace)
 	{
+		//modelMatrices.assign(storageModel.begin(), storageModel.end());
 		glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		reserveModelSpace = false;
 	}
 
-	std::vector<float4x4> modelMatrices;
-	
 	commands.clear();
 	commands.reserve(componentsToRender.size());
 	
@@ -243,7 +281,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 				resourceInfo.vertexOffset,	// Vertex offset in the VBO
 				resourceMeshIndex			// Instance Index
 			};
-
 			commands.push_back(newCommand);
 			resourceMeshIndex++;
 		}
@@ -251,6 +288,13 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size() * sizeof(float4x4), modelMatrices.data());
+	if (reserveModelSpace)
+	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, materials);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), modelMatrices.data(), GL_DYNAMIC_DRAW);//16 bytes
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size() * sizeof(float4x4), modelMatrices.data());
+		reserveModelSpace = false;
+	}
 	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, resourceMeshIndex, 0);
 	glBindVertexArray(0);
@@ -270,7 +314,7 @@ const GameObject* GeometryBatch::GetComponentOwner(const ResourceMesh* resourceM
 	return nullptr;
 }
 
-void GeometryBatch::CreateInstance(ResourceMesh* mesh)
+void GeometryBatch::CreateInstance(ResourceMesh* mesh,ResourceMaterial* material)
 {
 	for (ResourceInfo aaa : resourcesInfo)
 	{
@@ -300,6 +344,7 @@ void GeometryBatch::CreateInstance(ResourceMesh* mesh)
 
 	ResourceInfo aaa = {
 				mesh,
+				material,
 				numTotalVertices,
 				numTotalIndices
 	};
@@ -332,6 +377,7 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &normalsBuffer);
 	glDeleteBuffers(1, &tangentsBuffer);// maybe keep the condition to check if tangent exist
 	glDeleteBuffers(1, &transforms);
+	glDeleteBuffers(1, &materials);
 
 	return true;
 }

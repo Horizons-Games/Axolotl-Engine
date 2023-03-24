@@ -1,4 +1,6 @@
 #pragma warning (disable: 26495)
+#pragma warning (disable: 4804)
+#pragma warning (disable: 4312)
 
 #include "ComponentMeshRenderer.h"
 
@@ -15,10 +17,13 @@
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
+
 
 #ifdef ENGINE
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
@@ -41,6 +46,11 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		batch->DeleteComponent(this);
 		mesh->Unload();
 	}
+	//if (material)
+	//{
+	//	batch->DeleteComponent(this);
+	//	material->Unload();
+	//}
 }
 
 void ComponentMeshRenderer::Update()
@@ -93,6 +103,90 @@ void ComponentMeshRenderer::Draw()
 
 			program->Deactivate();
 		}
+	}
+
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+
+	if (program)
+	{
+		program->Activate();
+
+		//this should be in an EditorComponent class, or something of the like
+		//but for now have it here
+#ifdef ENGINE
+		if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+		{
+			material = nullptr;
+		}
+#endif // ENGINE
+
+		if (material)
+		{
+			const float3& diffuseColor = material->GetDiffuseColor();
+			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
+			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glUniform1i(7, 1); //has_diffuse_map
+
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(7, 0); //has_diffuse_map
+			}
+
+			//const float3& specularColor = material->GetSpecularColor();
+			//glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
+			//texture = material->GetSpecular();
+			//if (texture)
+			//{
+			//	if (!texture->IsLoaded())
+			//	{
+			//		texture->Load();
+			//	}
+
+			//	glUniform1i(8, 1); //has_specular_map
+			//	glActiveTexture(GL_TEXTURE6);
+			//	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			//}
+			//else
+			//{
+			//	glUniform1i(8, 0); //has_specular_map
+			//}
+
+			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				glUniform1f(6, material->GetNormalStrength()); //normal_strength
+				glUniform1i(11, 1); //has_normal_map
+			}
+			else
+			{
+				glUniform1i(11, 0); //has_normal_map
+			}
+
+			//glUniform1f(5, material->GetShininess()); //shininess
+			//glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
+
+			float3 viewPos = App->camera->GetCamera()->GetPosition();
+			program->BindUniformFloat3("viewPos", viewPos);
+		}
+
+		program->Deactivate();
 	}
 }
 
@@ -152,6 +246,22 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 
 	meta["meshUID"] = (UID)uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
+
+	//Material
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = (bool)active;
+	meta["removed"] = (bool)canBeRemoved;
+
+	UID uidMaterial = 0;
+	assetPath = "";
+
+	if (material)
+	{
+		uidMaterial = material->GetUID();
+		assetPath = material->GetAssetsPath();
+	}
+	meta["materialUID"] = (UID)uidMaterial;
+	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -179,6 +289,30 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		SetMesh(resourceMesh);
 	}
 #endif
+
+	//Material
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	canBeRemoved = (bool)meta["removed"];
+#ifdef ENGINE
+	path = meta["assetPathMaterial"];
+	resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
+		if (resourceMaterial)
+		{
+			SetMaterial(resourceMaterial);
+		}
+	}
+#else
+	UID uidMaterial = meta["materialUID"];
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
+	if (resourceMaterial)
+	{
+		SetMaterial(resourceMaterial);
+	}
+#endif
 }
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
@@ -188,11 +322,163 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
-		App->renderer->GetBatchManager()->AddComponent(this);
+		App->renderer->GetBatchManager()->AddComponent(this); //crash there
 	}
 	else
 	{
 		batch->DeleteComponent(this);
 		batch = nullptr;
 	}
+}
+
+void ComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
+{
+	material = newMaterial;
+
+	if (material)
+	{
+		material->Load();
+	}
+}
+
+void ComponentMeshRenderer::UnloadTextures()
+{
+	if (material)
+	{
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetNormal();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetOcclusion();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		//texture = material->GetSpecular();
+		//if (texture)
+		//{
+		//	texture->Unload();
+		//}
+	}
+}
+
+void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
+{
+	if (material)
+	{
+		std::shared_ptr<ResourceTexture> texture;
+		switch (textureType)
+		{
+		case TextureType::DIFFUSE:
+			texture = material->GetDiffuse();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::NORMAL:
+			texture = material->GetNormal();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::OCCLUSION:
+			texture = material->GetOcclusion();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		//case TextureType::SPECULAR:
+		//	texture = material->GetSpecular();
+		//	if (texture)
+		//	{
+		//		texture->Unload();
+		//	}
+		//	break;
+		}
+	}
+}
+
+const float3& ComponentMeshRenderer::GetDiffuseColor() const {
+	return material->GetDiffuseColor();
+}
+
+/*const float3& ComponentMaterial::GetSpecularColor() const {
+	return material->GetSpecularColor();
+}
+const float ComponentMaterial::GetShininess() const {
+	return material->GetShininess();
+}*/
+
+const float ComponentMeshRenderer::GetNormalStrenght() const {
+	return material->GetNormalStrength();
+}
+
+const float ComponentMeshRenderer::GetSmoothness() const
+{
+	return material->GetSmoothness();
+}
+
+const float ComponentMeshRenderer::GetMetalness() const
+{
+	return material->GetMetalness();
+}
+
+/*const bool ComponentMaterial::HasShininessAlpha() const {
+	return material->HasShininessAlpha();
+}*/
+
+const bool ComponentMeshRenderer::HasMetallicAlpha() const
+{
+	return material->HasMetallicAlpha();
+}
+
+void ComponentMeshRenderer::SetDiffuseColor(float3& diffuseColor)
+{
+	this->material->SetDiffuseColor(diffuseColor);
+}
+
+/*void ComponentMaterial::SetSpecularColor(float3& specularColor)
+{
+	this->material->SetSpecularColor(specularColor);
+}
+void ComponentMaterial::SetShininess(float shininess)
+{
+	this->material->SetShininess(shininess);
+}*/
+
+void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetSmoothness(float smoothness)
+{
+	this->material->SetSmoothness(smoothness);
+}
+
+void ComponentMeshRenderer::SetMetalness(float metalness)
+{
+	this->material->SetMetalness(metalness);
+}
+
+/*void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
+{
+	this->material->SetShininess(hasShininessAlpha);
+}*/
+
+void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
+{
+	this->material->SetMetallicAlpha(metallicAlpha);
 }

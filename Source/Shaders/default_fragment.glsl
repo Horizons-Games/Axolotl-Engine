@@ -3,14 +3,14 @@
 #define M_PI 3.1415926535897932384626433832795
 
 struct Material {
-    vec3 diffuse_color;         //location 3         
-    float normal_strength;      //location 4
-    int has_diffuse_map;        //location 5
-    bool has_normal_map;        //location 6
-    float smoothness;           //location 7
-    int has_metallic_alpha;     //location 8
-    float metalness;            //location 9
-    int has_metallic_map;       //location 10
+    vec3 diffuse_color;        //0 //12 //location 3         
+    float normal_strength;     //12 //4 //location 4
+    int has_diffuse_map;       //16 //4 //location 5
+    int has_normal_map;        //20 //4 //location 6
+    float smoothness;          //24 //4 //location 7
+    int has_metallic_alpha;    //28 //4 //location 8
+    float metalness;           //32 //4 //location 9
+    int has_metallic_map;      //36 //4 //location 10
 };
 
 struct PointLight
@@ -202,7 +202,7 @@ void main()
         textureMat = texture(diffuse_map, TexCoord).rgb;
     }
     textureMat = pow(textureMat, gammaCorrection.rgb);
-
+    
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
