@@ -203,7 +203,7 @@ void main()
     }
     textureMat = pow(textureMat, gammaCorrection.rgb);
     
-	if (material.has_normal_map)
+	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
         norm = texture(normal_map, TexCoord).rgb;
