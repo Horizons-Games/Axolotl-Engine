@@ -191,12 +191,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 				break;
 			}
 		}
-#else
-		App->resources->FillResourceBin(componentToDelete->GetMesh());
-#endif //ENGINE
 	}
 	components.erase(std::find(components.begin(), components.end(), componentToDelete));
 	reserveModelSpace = true;
+#else
+		App->resources->FillResourceBin(componentToDelete->GetMesh());
+	}
+#endif //ENGINE
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
