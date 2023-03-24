@@ -6,11 +6,19 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include "DataModels/Resources/ResourceMesh.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component))
+	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component)), inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
+	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
+	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
 {
 }
 
@@ -42,7 +50,16 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			flags |= ImGuiInputTextFlags_ReadOnly;
 		}
 
-		ImGui::InputText("##Mesh path", meshPath, 128, flags);
+		if (asMeshRenderer->GetMaterial())
+		{
+			DrawSetMaterial();
+		}
+		else
+		{
+			DrawEmptyMaterial();
+		}
+
+		ImGui::InputText("##Mesh path", meshPath, 128);
 		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
@@ -97,3 +114,197 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 }
+
+void WindowComponentMeshRenderer::DrawSetMaterial()
+{
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
+
+	if (asMeshRenderer)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
+
+		if (materialResource)
+		{
+			ImGui::Text("");
+
+			ImGui::Text("Name: ");
+			ImGui::SameLine();
+			ImGui::Text(materialResource->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Remove Material"))
+			{
+				materialResource->Unload();
+				asMeshRenderer->SetMaterial(nullptr);
+				return;
+			}
+
+			ImGui::Text("");
+
+			static float4 colorDiffuse = materialResource->GetDiffuseColor();
+			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
+			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			{
+				materialResource->SetDiffuseColor(colorDiffuse);
+			}
+
+			//static float3 colorSpecular = materialResource->GetSpecularColor();
+			//ImGui::Text("Specular Color:"); ImGui::SameLine();
+			//if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+			//{
+			//	materialResource->SetSpecularColor(colorSpecular);
+			//}
+
+			ImGui::Text("");
+
+			static UID thisUID = UniqueID::GenerateUID();
+
+			std::string removeButtonLabel = "No Texture";
+
+			if (materialResource)
+			{
+				if (materialResource->GetDiffuse() || materialResource->GetNormal()
+					|| materialResource->GetMetallicMap())
+				{
+					removeButtonLabel = "Remove Textures";
+				}
+
+			}
+
+			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
+			{
+				asMeshRenderer->UnloadTextures();
+				
+				materialResource->SetDiffuse(nullptr);
+				materialResource->SetNormal(nullptr);
+				materialResource->SetOcclusion(nullptr);
+				//materialResource->SetSpecular(nullptr);
+				materialResource->SetMetallicMap(nullptr);
+				
+				materialResource->SetChanged(true);
+			}
+
+			//bool hasShininessAlpha = materialResource->HasShininessAlpha();
+			//ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
+			//materialResource->SetShininessAlpha(hasShininessAlpha);
+
+			//float shininess = materialResource->GetShininess();
+			//ImGui::SliderFloat("Shininess", &shininess,
+			//	0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			//materialResource->SetShininess(shininess);
+			ImGui::Separator();
+
+			ImGui::Text("Diffuse Texture");
+			bool showTextureBrowserDiffuse = true;
+			std::shared_ptr<ResourceTexture> texture;
+			if (materialResource)
+			{
+				if (materialResource->GetDiffuse())
+				{
+					texture = materialResource->GetDiffuse();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showTextureBrowserDiffuse = false;
+				}
+			}
+
+			if (showTextureBrowserDiffuse)
+			{
+				inputTextureDiffuse->DrawWindowContents();
+			}
+			else
+			{
+				if (ImGui::Button("Remove Texture Diffuse") && materialResource->GetDiffuse())
+				{
+					asMeshRenderer->UnloadTexture(TextureType::DIFFUSE);
+
+					materialResource->SetDiffuse(nullptr);
+				}
+			}
+
+			ImGui::Separator();
+
+			//ImGui::Text("Specular Texture");
+			//bool showTextureBrowserSpecular = true;
+			//if (materialResource && materialResource->GetSpecular())
+			//{
+			//	texture =
+			//		std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetSpecular());
+			//	if (texture)
+			//	{
+			//		ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+			//	}
+
+			//	showTextureBrowserSpecular = false;
+			//}
+
+			//if (showTextureBrowserSpecular)
+			//{
+			//	inputTextureSpecular->DrawWindowContents();
+			//}
+			//else
+			//{
+			//	if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecular())
+			//	{
+			//		asMeshRenderer->UnloadTexture(TextureType::SPECULAR);
+
+			//		materialResource->SetSpecular(nullptr);
+			//	}
+			//}
+
+			ImGui::Separator();
+
+			ImGui::Text("Normal Texture");
+			bool showTextureBrowserNormal = true;
+			if (materialResource && materialResource->GetNormal())
+			{
+					texture = materialResource->GetNormal();
+					if (texture)
+					{
+						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					}
+
+					showTextureBrowserNormal = false;
+			}
+
+			if (showTextureBrowserNormal)
+			{
+				inputTextureNormal->DrawWindowContents();
+			}
+			else if (ImGui::Button("Remove Texture Normal"))
+			{
+				if (materialResource->GetNormal())
+				{
+					asMeshRenderer->UnloadTexture(TextureType::NORMAL);
+
+					materialResource->SetNormal(nullptr);
+				}
+			}
+
+			float normalStrength = asMeshRenderer->GetNormalStrenght();
+			if (ImGui::DragFloat("Normal Strength", &normalStrength,
+				0.01f, 0.0001f, std::numeric_limits<float>::max()))
+			{
+				asMeshRenderer->SetNormalStrenght(normalStrength);
+			}
+
+			ImGui::Text("");
+		}
+	}
+}
+
+void WindowComponentMeshRenderer::DrawEmptyMaterial()
+{
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
+
+	if (asMeshRenderer)
+	{
+		if (asMeshRenderer->GetMaterial() == nullptr)
+		{
+			inputMaterial->DrawWindowContents();
+		}
+	}
+}
+

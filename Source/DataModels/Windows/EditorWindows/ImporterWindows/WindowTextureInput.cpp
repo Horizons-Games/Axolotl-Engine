@@ -1,13 +1,12 @@
 #include "WindowTextureInput.h"
-
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
-	WindowFileBrowser(), windowComponent(material), textureType(textureType)
+WindowTextureInput::WindowTextureInput(ComponentMeshRenderer* material, TextureType textureType) :
+	WindowFileBrowser(), meshRendererComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
 
@@ -42,26 +41,32 @@ WindowTextureInput::~WindowTextureInput()
 
 void WindowTextureInput::DoThisIfOk()
 {
-	if (windowComponent)
+	if (meshRendererComponent)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(filePath);
 		
-		switch (textureType)
+		std::shared_ptr<ResourceMaterial> material = meshRendererComponent->GetMaterial();
+
+		if (material)
 		{
-		case TextureType::DIFFUSE:
-			windowComponent->SetDiffuse(texture);
-			break;
-		case TextureType::NORMAL:
-			windowComponent->SetNormal(texture);
-			break;
-		case TextureType::OCCLUSION:
-			break;
-		case TextureType::METALLIC:
-			windowComponent->SetMetalic(texture);
-			break;
-		default:
-			break;
+			switch (textureType)
+			{
+			case TextureType::DIFFUSE:
+				material->SetDiffuse(texture);
+				break;
+			case TextureType::NORMAL:
+				material->SetNormal(texture);
+				break;
+			case TextureType::OCCLUSION:
+				break;
+			//case TextureType::SPECULAR:
+			//	material->SetSpecular(texture);
+			//	break;
+			case TextureType::METALLIC:
+				material->SetMetallicMap(texture);
+			}
+			material->SetChanged(true);
 		}
 	}
 }
