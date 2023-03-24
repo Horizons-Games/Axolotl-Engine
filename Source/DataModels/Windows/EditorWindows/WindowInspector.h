@@ -42,6 +42,7 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+	void AddComponentRigidBody();
 
 	void DrawButtomsSaveAndLoad();
 

@@ -144,6 +144,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
+				if (ImGui::MenuItem("Create RigidBody Component"))
+				{
+					AddComponentRigidBody();
+				}
+			}
+
 		}
 
 		else
@@ -327,6 +334,11 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentRigidBody()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
 }
 
 // TODO: REMOVE

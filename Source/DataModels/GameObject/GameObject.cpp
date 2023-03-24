@@ -9,6 +9,7 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentRigidBody.h"
 
 #include "Application.h"
 
@@ -386,6 +387,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PLAYER:
 		{
 			newComponent = std::make_unique<ComponentPlayer>(true, this);
+			break;
+		}
+		
+		case ComponentType::RIGIDBODY:
+		{
+			newComponent = std::make_unique<ComponentRigidBody>(true, this);
 			break;
 		}
 
