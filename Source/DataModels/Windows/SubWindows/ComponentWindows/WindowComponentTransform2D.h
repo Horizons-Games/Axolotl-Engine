@@ -1,6 +1,8 @@
 #pragma once
 #include "ComponentWindow.h"
 
+#include "Math/float3.h"
+
 class ComponentTransform2D;
 
 class WindowComponentTransform2D :
@@ -14,4 +16,14 @@ protected:
 	void DrawTransformTable();
 	void DrawWindowContents() override;
 
+private:
+
+	void UpdateComponentTransform();
+	float3 currentTranslation;
+	float3 currentRotation;
+	float3 currentScale;
+	float currentDragSpeed;
+	bool translationModified;
+	bool rotationModified;
+	bool scaleModified;
 };

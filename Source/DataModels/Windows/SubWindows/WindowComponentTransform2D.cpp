@@ -20,7 +20,6 @@ void WindowComponentTransform2D::DrawWindowContents()
 
 	if (asTransform)
 	{
-		/*
 		currentTranslation = asTransform->GetPosition();
 		currentRotation = asTransform->GetRotationXYZ();
 		currentScale = asTransform->GetScale();
@@ -34,14 +33,12 @@ void WindowComponentTransform2D::DrawWindowContents()
 		DrawTransformTable();
 
 		UpdateComponentTransform();
-		*/
 	}
 }
 
 
 void WindowComponentTransform2D::DrawTransformTable()
 {
-	/*
 	if (ImGui::BeginTable("TransformTable", 2))
 	{
 		ImGui::TableNextColumn();
@@ -148,5 +145,48 @@ void WindowComponentTransform2D::DrawTransformTable()
 
 		ImGui::EndTable();
 	}
-		*/
+}
+
+
+void WindowComponentTransform2D::UpdateComponentTransform()
+{
+	ComponentTransform2D* asTransform = static_cast<ComponentTransform2D*>(component);
+
+	if (asTransform)
+	{
+		if (translationModified)
+		{
+			asTransform->SetPosition(currentTranslation);
+		}
+
+		if (rotationModified)
+		{
+			asTransform->SetRotation(currentRotation);
+		}
+
+		if (scaleModified)
+		{
+			if (currentScale.x <= 0)
+			{
+				currentScale.x = 0.0001f;
+			}
+
+			if (currentScale.y <= 0)
+			{
+				currentScale.y = 0.0001f;
+			}
+
+			if (currentScale.z <= 0)
+			{
+				currentScale.z = 0.0001f;
+			}
+
+			asTransform->SetScale(currentScale);
+		}
+
+		if (scaleModified || rotationModified || translationModified)
+		{
+			asTransform->CalculateMatrices();
+		}
+	}
 }
