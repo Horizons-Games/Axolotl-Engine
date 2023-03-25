@@ -18,20 +18,32 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetLocalPosition(const float3& localPosition);
-	void SetLocalRotation(const Quat& localRotation);
+	void SetPosition(const float3& localPosition);
+	void SetRotation(const float3& rotation);
+	void SetRotation(const float4x4& rotation);
 	void SetEulerAngles(const float3& eulerAngles);
-	void SetLocalScale(const float3& localScale);
+	void SetScale(const float3& localScale);
+
+	const float3& GetPosition() const;
+	const float4x4& GetRotation() const;
+	const float3& GetRotationXYZ() const;
+	const float3& GetScale() const;
+	const float4x4& GetLocalMatrix() const;
+
+
+	void CalculateMatrices();
+
 
 private:
 	float3 eulerAngles;
 
-	float3 localPosition;
-	Quat localRotation;
-	float3 localScale;
+	float3 pos;
+	float4x4 rot;
+	float3 sca;
 
-	float4x4 localToWorldMatrix;
-	float4x4 worldToLocalMatrix;
+	float4x4 localMatrix;
+
+	float3 rotXYZ;
 
 	float2 anchorMax;
 	float2 anchorMin;
@@ -40,14 +52,21 @@ private:
 	float2 sizeDelta;
 };
 
-inline void ComponentTransform2D::SetLocalPosition(const float3& localPosition)
+inline void ComponentTransform2D::SetPosition(const float3& localPosition)
 {
-	this->localPosition = localPosition;
+	this->pos = localPosition;
 }
 
-inline void ComponentTransform2D::SetLocalRotation(const Quat& localRotation)
+inline void ComponentTransform2D::SetRotation(const float3& rotation)
 {
-	this->localRotation = localRotation;
+	rotXYZ = rotation;
+	rot = float4x4::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+}
+
+inline void ComponentTransform2D::SetRotation(const float4x4& rotation)
+{
+	rot = rotation;
+	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
 }
 
 inline void ComponentTransform2D::SetEulerAngles(const float3& eulerAngles)
@@ -55,7 +74,46 @@ inline void ComponentTransform2D::SetEulerAngles(const float3& eulerAngles)
 	this->eulerAngles = eulerAngles;
 }
 
-inline void ComponentTransform2D::SetLocalScale(const float3& localScale)
+inline void ComponentTransform2D::SetScale(const float3& localScale)
 {
-	this->localScale = localScale;
+	this->sca = localScale;
+
+	if (sca.x <= 0) sca.x = 0.0001f;
+	if (sca.y <= 0) sca.y = 0.0001f;
+	if (sca.z <= 0) sca.z = 0.0001f;
+}
+
+
+inline const float3& ComponentTransform2D::GetPosition() const
+{
+	return pos;
+}
+
+
+inline const float4x4& ComponentTransform2D::GetRotation() const
+{
+	return rot;
+}
+
+
+inline const float3& ComponentTransform2D::GetRotationXYZ() const
+{
+	return rotXYZ;
+}
+
+
+inline const float3& ComponentTransform2D::GetScale() const
+{
+	return sca;
+}
+
+
+inline const float4x4& ComponentTransform2D::GetLocalMatrix() const
+{
+	return localMatrix;
+}
+
+inline void ComponentTransform2D::CalculateMatrices()
+{
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
 }
