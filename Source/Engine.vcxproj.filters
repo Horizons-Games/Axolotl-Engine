@@ -430,6 +430,9 @@
     <ClCompile Include="ComponentTransform2D.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1007,6 +1010,9 @@
     </ClInclude>
     <ClInclude Include="ComponentTransform2D.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,17 +21,17 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["active"] = static_cast<bool>(active);
 	meta["removed"] = static_cast<bool>(canBeRemoved);
 
-	meta["localPositionX"] = static_cast<float>(localPosition.x);
-	meta["localPositionY"] = static_cast<float>(localPosition.y);
-	meta["localPositionZ"] = static_cast<float>(localPosition.z);
+	meta["localPositionX"] = static_cast<float>(pos.x);
+	meta["localPositionY"] = static_cast<float>(pos.y);
+	meta["localPositionZ"] = static_cast<float>(pos.z);
 
 	meta["eulerAnglesX"] = static_cast<float>(eulerAngles.x);
 	meta["eulerAnglesY"] = static_cast<float>(eulerAngles.y);
 	meta["eulerAnglesZ"] = static_cast<float>(eulerAngles.z);
 
-	meta["localScaleX"] = static_cast<float>(localScale.x);
-	meta["localScaleY"] = static_cast<float>(localScale.y);
-	meta["localScaleZ"] = static_cast<float>(localScale.z);
+	meta["localScaleX"] = static_cast<float>(sca.x);
+	meta["localScaleY"] = static_cast<float>(sca.y);
+	meta["localScaleZ"] = static_cast<float>(sca.z);
 }
 
 void ComponentTransform2D::LoadOptions(Json& meta)
@@ -40,15 +40,15 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	active = static_cast<bool>(meta["active"]);
 	canBeRemoved = static_cast<bool>(meta["removed"]);
 
-	localPosition.x = static_cast<float>(meta["localPositionX"]);
-	localPosition.y = static_cast<float>(meta["localPositionY"]);
-	localPosition.z = static_cast<float>(meta["localPositionZ"]);
+	pos.x = static_cast<float>(meta["localPositionX"]);
+	pos.y = static_cast<float>(meta["localPositionY"]);
+	pos.z = static_cast<float>(meta["localPositionZ"]);
 
 	eulerAngles.x = static_cast<float>(meta["localRotationX"]);
 	eulerAngles.y = static_cast<float>(meta["localRotationY"]);
 	eulerAngles.z = static_cast<float>(meta["localRotationZ"]);
 
-	localScale.x = static_cast<float>(meta["localScaleX"]);
-	localScale.y = static_cast<float>(meta["localScaleY"]);
-	localScale.z = static_cast<float>(meta["localScaleZ"]);
+	sca.x = static_cast<float>(meta["localScaleX"]);
+	sca.y = static_cast<float>(meta["localScaleY"]);
+	sca.z = static_cast<float>(meta["localScaleZ"]);
 }
