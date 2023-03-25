@@ -10,25 +10,26 @@
 #include "ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
+#include "Math/Quat.h"
+
+
+#include "Camera/CameraGameObject.h"
+#include "Camera/CameraEngine.h"
+#include "Camera/CameraGod.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner, false),
-	frustumOffset(1.0f), drawFrustum(true), frustumMode(ECameraFrustumMode::NORMALFRUSTUM),
-	// PlaceHolder get position from component transform
-	trans(static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM)))
+	: Component(ComponentType::CAMERA, active, owner, false)
 {
-	float aspectRatio = 16.f / 9.f;
+	camera = std::make_unique <CameraGameObject>();
+	camera->Init();
+	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
+	Update();
+}
 
-	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 2000.f);
-	frustum.SetHorizontalFovAndAspectRatio(math::DegToRad(90), aspectRatio);
-	
-	frustum.SetPos(trans->GetPosition());
-	float3x3 rotationMatrix = float3x3::FromQuat(trans->GetRotation());
-	frustum.SetFront(rotationMatrix * float3::unitZ);
-	frustum.SetUp(rotationMatrix * float3::unitY);
-
-	UpdateFrustumOffset();
+ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera):
+	Component(componentCamera)
+{
+	DuplicateCamera(componentCamera.camera.get());
 }
 
 ComponentCamera::~ComponentCamera()
@@ -37,24 +38,27 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	frustum.SetPos((float3) trans->GetGlobalPosition());
+	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	camera->SetPosition((float3)trans->GetGlobalPosition());
 
 	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
-	frustum.SetFront(rotationMatrix * float3::unitZ);
-	frustum.SetUp(rotationMatrix * float3::unitY);
+	camera->GetFrustum()->SetFront(rotationMatrix * float3::unitZ);
+	camera->GetFrustum()->SetUp(rotationMatrix * float3::unitY);
 
-	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
+	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{
-		UpdateFrustumOffset();
+		camera->RecalculateOffsetPlanes();
 	}
 }
 
 void ComponentCamera::Draw()
 {
+
 #ifdef ENGINE
-	if(drawFrustum)
-		App->debug->DrawFrustum(frustum);
+	if(camera->IsDrawFrustum())
+		App->debug->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
+
 }
 
 void ComponentCamera::SaveOptions(Json& meta)
@@ -64,9 +68,9 @@ void ComponentCamera::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 
-	meta["frustumOfset"] = (float)frustumOffset;
-	meta["drawFrustum"] = (bool)drawFrustum;
-	meta["frustumMode"] = GetNameByFrustumMode(frustumMode).c_str();
+	meta["frustumOfset"] = camera->GetFrustumOffset();
+	meta["drawFrustum"] = camera->IsDrawFrustum();
+	//meta["frustumMode"] = camera->GetFrustumMode();
 }
 
 void ComponentCamera::LoadOptions(Json& meta)
@@ -76,85 +80,17 @@ void ComponentCamera::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 
-	frustumOffset = (float)meta["frustumOfset"];
-	drawFrustum = (bool)meta["drawFrustum"];
-	frustumMode = GetFrustumModeByName(meta["frustumMode"]);
+	camera->SetFrustumOffset((float)meta["frustumOfset"]);
+	camera->SetIsDrawFrustum((bool)meta["drawFrustum"]);
+	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
-void ComponentCamera::UpdateFrustumOffset()
+CameraGameObject* ComponentCamera::GetCamera()
 {
-	math::Plane frustumPlanes[6];
-	frustum.GetPlanes(frustumPlanes);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		math::Plane plane = frustumPlanes[itPlanes];
-		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
-		offsetFrustumPlanes[itPlanes] = plane;
-	}
+	return camera.get();
 }
 
-bool ComponentCamera::IsInside(const OBB& obb)
+void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
 {
-	if (frustumMode == ECameraFrustumMode::NOFRUSTUM)
-	{
-		return false;
-	}
-
-	if (frustumMode == ECameraFrustumMode::OFFSETFRUSTUM)
-	{
-		return IsInsideOffset(obb);
-	}
-
-	math::vec cornerPoints[8];
-	math::Plane frustumPlanes[6];
-
-	frustum.GetPlanes(frustumPlanes);
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; ++itPoints)
-		{
-			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-
-		if (!onPlane)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool ComponentCamera::IsInsideOffset(const OBB& obb)
-{
-	math::vec cornerPoints[8];
-	obb.GetCornerPoints(cornerPoints);
-
-	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
-	{
-		bool onPlane = false;
-		for (int itPoints = 0; itPoints < 8; ++itPoints)
-		{
-			if (!offsetFrustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
-			{
-				onPlane = true;
-				break;
-			}
-		}
-		
-		if (!onPlane)
-		{
-			return false;
-		}
-	}
-
-	return true;
+	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
 }

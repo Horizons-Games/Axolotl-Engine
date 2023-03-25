@@ -4,9 +4,16 @@
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
+#include "Application.h"
 
 ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true),
 	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
+{
+}
+
+ComponentSpotLight::ComponentSpotLight(const ComponentSpotLight& componentSpotLight):
+	ComponentLight(componentSpotLight), radius(componentSpotLight.GetRadius()), 
+	innerAngle(componentSpotLight.GetInnerAngle()), outerAngle(componentSpotLight.GetOuterAngle())
 {
 }
 
@@ -37,7 +44,12 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw()
 {
-#ifdef ENGINE
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return;
+	}
+#endif //ENGINE
 	if (this->GetActive())
 	{
 		ComponentTransform* transform =
@@ -50,7 +62,6 @@ void ComponentSpotLight::Draw()
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius , 0.0f);
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
-#endif // ENGINE
 }
 
 void ComponentSpotLight::SaveOptions(Json& meta)

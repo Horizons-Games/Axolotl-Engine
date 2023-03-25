@@ -86,80 +86,86 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
 
     if (nodeDrawn)
     {
-        if (itemVisible)
-        {
-            ImGui::PushID(gameObjectLabel);
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
-                (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
-                    && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
-            {
-                App->scene->GetLoadedScene()->GetSceneQuadTree()
-                    ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-                gameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
-                App->scene->SetSelectedGameObject(gameObject);
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
-            }
-
-            DrawPopupMenu(gameObject);
-            ImGui::PopID();
-
-            if (!isRoot) // The root cannot be moved around
-            {
-                if (ImGui::BeginDragDropSource())
-                {
-                    UID thisID = gameObject->GetUID();
-                    ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
-
-                    ImGui::EndDragDropSource();
-                }
-            }
-
-            if (ImGui::BeginDragDropTarget())
-            {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-                {
-                    UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
-                                                                    // of the UID of the dragged GameObject
-                    GameObject* draggedGameObject =
-                        App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-                    if (draggedGameObject)
-                    {
-                        draggedGameObject->SetParent(gameObject);
-                    }
-                }
-
-                ImGui::EndDragDropTarget();
-            }
-        }
-        if (itemVisible || itemAboveCurrentScroll)
-        {
-            for (int i = 0; i < gameObject->GetChildren().size(); ++i)
-            {
-                DrawRecursiveHierarchy(gameObject->GetChildren()[i], false);
-            }
-        }
-        ImGui::TreePop();
+        App->scene->GetLoadedScene()->GetRootQuadtree()
+            ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+        App->scene->SetSelectedGameObject(gameObject);
+        App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
     }
 
-    if (!(itemVisible || itemAboveCurrentScroll))
+    // Delete a GameObject with the SUPR key
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
     {
-        stopDrawing = true;
-    }
-}
+        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+        {
+            if (gameObject == App->scene->GetSelectedGameObject())
+            {
+                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                            // change the focus to its parent
+                App->scene->GetLoadedScene()->GetRootQuadtree()->
+                    RemoveGameObjectAndChildren(gameObject->GetParent());
 
-void WindowHierarchy::DrawPopupMenu(GameObject* gameObject)
-{
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+            }
+        }
+    }
+
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
 
-        if (ImGui::MenuItem("Create child"))
+        if (ImGui::MenuItem("Create Empty child"))
         {
             App->scene->GetLoadedScene()->CreateGameObject("Empty GameObject", gameObject);
         }
+
         if (ImGui::MenuItem("Create camera"))
         {
             GameObject* newCamera =
                 App->scene->GetLoadedScene()->CreateCameraGameObject("Basic Camera", gameObject);
+        }
+        //Create Resource
+        if (ImGui::BeginMenu("Create 3D object"))
+        {
+            if (ImGui::MenuItem("Cube"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
+            }
+            if (ImGui::MenuItem("Plane"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
+            }
+            if (ImGui::MenuItem("Cylinder"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Cylinder", gameObject, Premade3D::CYLINDER);
+            }
+            if (ImGui::MenuItem("Capsule"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Capsule", gameObject, Premade3D::CAPSULE);
+            }
+            if (ImGui::MenuItem("Character"))
+            {
+                App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
+            }
+            ImGui::EndMenu();
+        }
+        //Create Light ShortCut
+        if (ImGui::BeginMenu("Create Light"))
+        {
+            if (ImGui::MenuItem("Spot"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
+            }
+            if (ImGui::MenuItem("Point"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
+            }
+            //Normally you can have multiple Directionals but just now we can't so...
+            /*if (ImGui::MenuItem("Directional"))
+            {
+                App->scene->GetLoadedScene()->CreateLightGameObject("Directional", gameObject, LightType::DIRECTIONAL);
+            }*/
+            ImGui::EndMenu();
         }
 
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
@@ -194,14 +200,53 @@ void WindowHierarchy::DrawPopupMenu(GameObject* gameObject)
                 {
                     App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                                 // change the focus to its parent
-                    App->scene->GetLoadedScene()->GetSceneQuadTree()->
+                    App->scene->GetLoadedScene()->GetRootQuadtree()->
                         RemoveGameObjectAndChildren(gameObject->GetParent());
                 }
-                App->scene->GetLoadedScene()->GetSceneQuadTree()->RemoveGameObjectAndChildren(gameObject);
+                App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }
 
         ImGui::EndPopup();
+    }
+    ImGui::PopID();
+
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
+    {
+        if (ImGui::BeginDragDropSource())
+        {
+            UID thisID = gameObject->GetUID();
+            ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+
+            ImGui::EndDragDropSource();
+        }
+    }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+        {
+            UID draggedGameObjectID = *(UID*)payload->Data; // Double pointer to keep track correctly
+                                                            // of the UID of the dragged GameObject
+            GameObject* draggedGameObject =
+                App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+            if (draggedGameObject)
+            {
+                draggedGameObject->MoveParent(gameObject);
+            }
+        }
+
+        ImGui::EndDragDropTarget();
+    }
+
+    if (nodeDrawn) // If the parent node is correctly drawn, draw its children
+    {
+        for (int i = 0; i < gameObject->GetChildren().size(); ++i)
+        {
+            DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+        }
+
+        ImGui::TreePop();
     }
 }

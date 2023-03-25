@@ -10,7 +10,8 @@ enum class ComponentType
 	MESHRENDERER, 
 	TRANSFORM, 
 	LIGHT, 
-	CAMERA
+	CAMERA,
+	PLAYER
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -23,6 +24,7 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(const Component& component);
 	virtual ~Component();
 
 	virtual void Init(); // In case any component needs an init to do something once created
@@ -43,6 +45,8 @@ public:
 	GameObject* GetOwner();
 	bool GetCanBeRemoved();
 
+	void SetOwner(GameObject* owner);
+
 protected:
 	ComponentType type;
 	bool active;
@@ -55,6 +59,11 @@ inline Component::Component(const ComponentType type,
 							GameObject* owner,
 							const bool canBeRemoved)
 	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
+{
+}
+
+inline Component::Component(const Component& component) : 
+	type(component.type), active(component.active), owner(nullptr), canBeRemoved(component.canBeRemoved)
 {
 }
 
@@ -106,6 +115,11 @@ inline bool Component::GetCanBeRemoved()
 	return canBeRemoved;
 }
 
+inline void Component::SetOwner(GameObject* owner)
+{
+	this->owner = owner;
+}
+
 const std::string GetNameByType(ComponentType type)
 {
 	switch (type)
@@ -120,6 +134,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Light";
 	case ComponentType::CAMERA:
 		return "Component_Camera";
+	case ComponentType::PLAYER:
+		return "Component_Player";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -151,6 +167,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Camera")
 	{
 		return ComponentType::CAMERA;
+	}
+
+	if (typeName == "Component_Player")
+	{
+		return ComponentType::PLAYER;
 	}
 	
 	return ComponentType::UNKNOWN;

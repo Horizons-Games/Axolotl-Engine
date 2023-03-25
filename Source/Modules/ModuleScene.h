@@ -35,7 +35,8 @@ public:
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
-	void SetSceneFromJson(Json& Json);
+	void SetSceneFromJson(Json& json);
+	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
