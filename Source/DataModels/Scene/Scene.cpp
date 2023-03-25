@@ -19,6 +19,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentImage.h"
 #include "ComponentTransform2D.h"
 
 #include "Camera/CameraGameObject.h"
@@ -169,6 +170,20 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, ComponentType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	switch (type)
+	{
+	case ComponentType::IMAGE:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		break;
+	default:
+		break;
+	}
+	return gameObject;
+}
+
 GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
@@ -201,9 +216,6 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	}
 
 	meshComponent->SetMesh(mesh);
-
-	
-
 	return gameObject;
 }
 

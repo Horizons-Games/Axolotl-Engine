@@ -35,6 +35,7 @@ public:
 	GameObject* DuplicateGameObject(const char* name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
 	GameObject* CreateCanvasGameObject(const char* name, GameObject* parent);
+	GameObject* CreateUIGameObject(const char* name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
