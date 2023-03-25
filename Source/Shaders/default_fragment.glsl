@@ -74,7 +74,7 @@ in flat int InstanceIndex;
 out vec4 outColor;
 
 readonly layout(std430, binding = 11) buffer Materials {
- Material materials[];
+    Material materials[];
 };
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)

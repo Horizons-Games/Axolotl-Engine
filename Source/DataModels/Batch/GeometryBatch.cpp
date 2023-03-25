@@ -37,6 +37,8 @@ GeometryBatch::~GeometryBatch()
 {
 	componentsInBatch.clear();
 	resourcesInfo.clear();
+	resourcesMaterial.clear();
+	instanceData.clear();
 	CleanUp();
 }
 
