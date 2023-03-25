@@ -11,6 +11,7 @@
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentCanvas.h"
+#include "../Components/ComponentImage.h"
 #include "ComponentTransform2D.h"
 
 #include "Application.h"
@@ -509,6 +510,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::IMAGE:
+		{
+			newComponent = std::make_unique<ComponentImage>(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");
