@@ -108,7 +108,7 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	float3 specularColor[1] = { resource->GetSpecularColor() };
 	
 
-	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor)  + sizeof(float) * 2;
+	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor)  + sizeof(float) * 2 + sizeof(bool);
 
 	char* cursor = new char[size];
 
@@ -136,6 +136,11 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetNormalStrength(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(bool);
+	memcpy(cursor, &resource->GetTransparent(), bytes);
 }
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
@@ -196,6 +201,13 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	fileBuffer += sizeof(float);
 
+	bool* isTransparent = new bool;
+	memcpy(isTransparent, fileBuffer, sizeof(bool));
+	resource->SetTransparent(*isTransparent);
+
+	fileBuffer += sizeof(bool);
+
 	delete shininess;
 	delete normalStrenght;
+	delete isTransparent;
 }
