@@ -25,18 +25,17 @@ struct Command
 struct Material {
 	float3 diffuse_color = float3::zero;      
 	float normal_strength = 0;
-	int has_diffuse_map   =0;   
-	int has_normal_map    =0;  
+	int has_diffuse_map = 0;   
+	int has_normal_map = 0;  
 	float smoothness = 0;
 	int has_metallic_alpha = 0;
-	float metalness = 0;           //32 //4 //location 9
-	int has_metallic_map = 0;      //36 //4 //location 10
+	float metalness = 0;				//32 //4 //location 9
+	int has_metallic_map = 0;			//36 //4 //location 10
 };
 
-struct ResourceInfo //temporary name
+struct ResourceInfo
 {
 	ResourceMesh* resourceMesh;
-	ResourceMaterial* resourceMaterial;
 	int vertexOffset;
 	int indexOffset;
 };
@@ -55,23 +54,24 @@ public:
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 	const int GetFlags() const;
-	const int GetResourceIndex() const;
 
 	bool CleanUp();
 
 private:
-	void FillEBO();
 
 	void FillBuffers();
+	void FillMaterial();
+	void FillEBO();
 
-	const GameObject* GetComponentOwner(const ResourceMesh* resourceMesh); //delete
-
-	void CreateInstance(ResourceMesh* mesh, ResourceMaterial* material);
+	void CreateInstanceResourceMesh(ResourceMesh* mesh);
+	void CreateInstanceResourceMaterial(ResourceMaterial* material);
 
 	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
 	std::vector<ComponentMeshRenderer*> components;
 	std::vector<ResourceInfo> resourcesInfo;
+	std::vector<ResourceMaterial*> resourcesMaterial;
+	std::vector<int> instanceData;
 
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
@@ -86,8 +86,6 @@ private:
 
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
-
-	unsigned int resourceMeshIndex = 0;
 
 	std::vector<Command> commands;
 	//std::vector<float4x4> modelMatrices;
@@ -104,9 +102,4 @@ private:
 inline const int GeometryBatch::GetFlags() const
 {
 	return flags;
-}
-
-inline const int GeometryBatch::GetResourceIndex() const
-{
-	return resourceMeshIndex;
 }
