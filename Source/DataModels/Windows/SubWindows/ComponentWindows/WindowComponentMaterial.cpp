@@ -112,7 +112,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				ImGui::EndCombo();
 			}
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
+			ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse);
 
 			/*static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();

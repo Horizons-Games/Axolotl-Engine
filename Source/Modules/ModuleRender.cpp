@@ -220,15 +220,15 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->engineCamera->GetCamera()->GetViewMatrix(),
-		App->engineCamera->GetCamera()->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
+		App->camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 
 	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
+	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
@@ -341,7 +341,7 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
+	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
@@ -406,7 +406,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
-	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
+	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -554,7 +554,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
 	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
-	if (material != nullptr)
+	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->GetTransparent())
 			return false;

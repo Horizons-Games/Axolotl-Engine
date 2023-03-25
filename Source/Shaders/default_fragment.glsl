@@ -212,8 +212,8 @@ void main()
         metalnessMask = texture(metallic_map, TexCoord).r;
     }
 
-    vec3 Cd = textureMat*(1.0-metalnessMask);
-    vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
+    vec3 Cd = textureMat.rgb*(1.0-metalnessMask);
+    vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
     float roughness = (1-smoothnessMat)*(1-smoothnessMat)+0.0001;
 
     //fresnel
@@ -241,7 +241,7 @@ void main()
         Lo += calculateSpotLights(norm, viewDir, Cd, f0, roughness);
     }
 
-    vec3 color = ambientValue*textureMat + Lo;      // ambient: ambientValue*textureMat
+    vec3 color = ambientValue*textureMat.rgb + Lo;      // ambient: ambientValue*textureMat
     
 	//hdr rendering
     color = color / (color + vec3(1.0));

@@ -32,7 +32,7 @@ public:
 	std::shared_ptr<ResourceTexture>& GetOcclusion();
 	//std::shared_ptr<ResourceTexture>& GetSpecular();
 	std::shared_ptr<ResourceTexture>& GetMetallicMap();
-	const float3& GetDiffuseColor();
+	const float4& GetDiffuseColor();
 	//const float3& GetSpecularColor();
 	//float& GetShininess();
 	float& GetNormalStrength();
@@ -55,7 +55,7 @@ public:
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
 	//void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
 	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic);
-	void SetDiffuseColor(float3& diffuseColor);
+	void SetDiffuseColor(float4& diffuseColor);
 	//void SetSpecularColor(float3& specularColor);
 	//void SetShininess(float shininess);
 	void SetNormalStrength(float normalStrength);
@@ -75,7 +75,7 @@ private:
 	std::shared_ptr<ResourceTexture> occlusion;
 	//std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
-	float3 diffuseColor;
+	float4 diffuseColor;
 	float3 specularColor;
 	//float shininess;
 	float normalStrength;

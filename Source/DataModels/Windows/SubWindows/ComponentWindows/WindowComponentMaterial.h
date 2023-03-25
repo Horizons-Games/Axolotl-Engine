@@ -26,7 +26,7 @@ private:
 	void DrawEmptyMaterial();
 	void InitMaterialValues();
 
-	float3 colorDiffuse;
+	float4 colorDiffuse;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> metalicMap;
 	std::shared_ptr<ResourceTexture> normalMap;
