@@ -15,15 +15,25 @@ ComponentImage::ComponentImage(bool active, GameObject* owner)
 	: Component(ComponentType::IMAGE, active, owner, true)
 {
 	//provisional TODO
-	image = App->resources->RequestResource<ResourceTexture>("Assets/Skybox/skybox.sky");
-	static const GLfloat g_vertex_buffer_data[] = {
-	-1.0f, -1.0f, 0.0f,
-	1.0f, -1.0f, 0.0f,
-	0.0f,  1.0f, 0.0f,
+	image = App->resources->RequestResource<ResourceTexture>("Assets/Textures/prop_shield_01_d.png");
+
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
 	};
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	unsigned int VBO;
+	glGenVertexArrays(1, &this->quadVAO);
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindVertexArray(this->quadVAO);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 ComponentImage::~ComponentImage()
@@ -36,25 +46,25 @@ void ComponentImage::Update()
 
 void ComponentImage::Draw()
 {
-	Program* program = App->program->GetProgram(ProgramType::SKYBOX);
-	if(program && image)
+	Program* program = App->program->GetProgram(ProgramType::SPRITE);
+	if(program)
 	{
-		image->Load();
-		glDepthMask(GL_FALSE);
+		//image->Load();
+		//glDepthMask(GL_FALSE);
 
 		program->Activate();
 
-		program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-		program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+		//program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
+		//program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBindVertexArray(this->quadVAO);
 		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, image->GetGlTexture());
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-
 		glBindVertexArray(0);
 		program->Deactivate();
-		glDepthMask(GL_TRUE);
+		//glDepthMask(GL_TRUE);
 	}
 }
 

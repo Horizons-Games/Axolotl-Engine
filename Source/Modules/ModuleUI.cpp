@@ -31,7 +31,6 @@ update_status ModuleUI::Update()
 	{
 		for (GameObject* children : canvas->GetChildren())
 		{
-
 			DrawChildren(children);
 		}
 	}

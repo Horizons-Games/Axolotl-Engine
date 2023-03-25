@@ -19,6 +19,6 @@ public:
 
 private:
 	std::shared_ptr<ResourceTexture> image;
-	unsigned int vertexbuffer;
+	unsigned int quadVAO;
 };
 
