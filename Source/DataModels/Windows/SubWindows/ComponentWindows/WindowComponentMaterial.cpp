@@ -61,7 +61,17 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			const char* renderModes[2] = { "Opaque", "Transparent" };
 
-			static int currentIndex = 0;
+			static int currentIndex;
+
+			if (!materialResource->GetTransparent()) 
+			{
+				currentIndex = 0;
+			}
+			else 
+			{
+				currentIndex = 1;
+			}
+			
 			
 			const char* currentType = renderModes[currentIndex];
 
