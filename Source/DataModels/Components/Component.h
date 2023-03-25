@@ -24,6 +24,7 @@ class Component
 {
 public:
 	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(const Component& component);
 	virtual ~Component();
 
 	virtual void Init(); // In case any component needs an init to do something once created
@@ -44,6 +45,8 @@ public:
 	GameObject* GetOwner();
 	bool GetCanBeRemoved();
 
+	void SetOwner(GameObject* owner);
+
 protected:
 	ComponentType type;
 	bool active;
@@ -56,6 +59,11 @@ inline Component::Component(const ComponentType type,
 							GameObject* owner,
 							const bool canBeRemoved)
 	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
+{
+}
+
+inline Component::Component(const Component& component) : 
+	type(component.type), active(component.active), owner(nullptr), canBeRemoved(component.canBeRemoved)
 {
 }
 
@@ -105,6 +113,11 @@ inline GameObject* Component::GetOwner()
 inline bool Component::GetCanBeRemoved()
 {
 	return canBeRemoved;
+}
+
+inline void Component::SetOwner(GameObject* owner)
+{
+	this->owner = owner;
 }
 
 const std::string GetNameByType(ComponentType type)
