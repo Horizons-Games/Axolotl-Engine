@@ -72,6 +72,9 @@ public:
 
 	void InitLights();
 
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+
+
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
 
