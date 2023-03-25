@@ -239,6 +239,12 @@
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
       <Filter>DataModels\Batch</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
@@ -522,6 +528,9 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>DataModels\Batch</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
@@ -584,9 +593,6 @@
     <Filter Include="DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enums">
-      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileSystem">
       <UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
     </Filter>
@@ -598,6 +604,9 @@
     </Filter>
     <Filter Include="DataModels\Batch">
       <UniqueIdentifier>{492b4c54-7b2e-491c-abb8-3d82ba510047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{773787e8-3d55-425d-9bee-1031740c1e9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
