@@ -694,9 +694,21 @@ void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	objectOBB = localAABB;
-	objectOBB.Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	if (transform)
+	{
+		objectOBB = localAABB;
+		objectOBB.Transform(transform->GetGlobalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
+	else
+	{
+		//TODO Calculate BoundingBox of Transform2D Object
+		ComponentTransform2D* transform2D =
+			static_cast<ComponentTransform2D*>(GetComponent(ComponentType::TRANSFORM2D));
+		objectOBB = localAABB;
+		objectOBB.Transform(transform2D->GetLocalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
 }
 
 void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)

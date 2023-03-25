@@ -163,6 +163,7 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::TRANSFORM2D);
 	gameObject->CreateComponent(ComponentType::CANVAS);
 	sceneGameObjects.push_back(gameObject);
 	sceneCanvas.push_back(gameObject);
@@ -235,7 +236,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
-	resourceModel->Load();
+	//resourceModel->Load();
 
 	std::string modelName = App->fileSystem->GetFileName(model);
 
