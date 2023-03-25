@@ -68,7 +68,7 @@ private:
 
 	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
 
-	std::vector<ComponentMeshRenderer*> components;
+	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<ResourceInfo> resourcesInfo;
 	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;

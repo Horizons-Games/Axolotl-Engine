@@ -35,7 +35,7 @@ GeometryBatch::GeometryBatch()
 
 GeometryBatch::~GeometryBatch()
 {
-	components.clear();
+	componentsInBatch.clear();
 	resourcesInfo.clear();
 	CleanUp();
 }
@@ -191,7 +191,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		CreateInstanceResourceMesh(meshShared.get());
 		CreateInstanceResourceMaterial(materialShared.get());
 		newComponent->SetBatch(this);
-		components.push_back(newComponent);
+		componentsInBatch.push_back(newComponent);
 		//storageModel.assign(modelMatrices.begin(), modelMatrices.end());
 	}
 }
@@ -200,7 +200,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
 
 	bool find = false;
-	for (ComponentMeshRenderer* compare : components)
+	for (ComponentMeshRenderer* compare : componentsInBatch)
 	{
 		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
 		{
@@ -226,7 +226,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	}
 	resourcesMaterial.erase(
 		std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
-	components.erase(std::find(components.begin(), components.end(), componentToDelete));
+	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	reserveModelSpace = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMesh());
@@ -247,7 +247,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	if (reserveModelSpace)
 	{
 		//modelMatrices.assign(storageModel.begin(), storageModel.end());
-		glBufferData(GL_SHADER_STORAGE_BUFFER, components.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		FillMaterial();
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 		reserveModelSpace = false;
@@ -261,7 +261,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
 
-	std::vector<float4x4> modelMatrices (components.size());
+	std::vector<float4x4> modelMatrices (componentsInBatch.size());
 
 	for (auto component : componentsToRender)
 	{
@@ -269,9 +269,9 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		ResourceInfo resourceInfo = FindResourceInfo(component->GetMesh().get());
 		ResourceMesh* resource = resourceInfo.resourceMesh;
 		//find position in components vector
-		auto it = std::find(components.begin(), components.end(), component);
+		auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-		int instanceIndex = it - components.begin();
+		int instanceIndex = it - componentsInBatch.begin();
 
 		modelMatrices[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -306,7 +306,7 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 		}
 	}
 
-	if (components.empty())
+	if (componentsInBatch.empty())
 	{
 		if (mesh->GetNormals().size() != 0)
 		{
