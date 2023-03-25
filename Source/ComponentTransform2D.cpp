@@ -2,7 +2,9 @@
 #include "FileSystem/Json.h"
 
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM2D, active, owner, true)
+	: Component(ComponentType::TRANSFORM2D, active, owner, true),
+	pos(float3::zero), rot(float4x4::identity), sca(float3::one),
+	rotXYZ(float3::zero), localMatrix(float4x4::identity)
 {
 }
 
@@ -51,4 +53,5 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	sca.x = static_cast<float>(meta["localScaleX"]);
 	sca.y = static_cast<float>(meta["localScaleY"]);
 	sca.z = static_cast<float>(meta["localScaleZ"]);
+	CalculateMatrices();
 }
