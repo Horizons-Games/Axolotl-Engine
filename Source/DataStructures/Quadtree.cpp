@@ -486,46 +486,6 @@ std::list<GameObject*> Quadtree::GetAllGameObjects(GameObject* gameObject)
 	return familyObjects;
 }
 
-void Quadtree::CheckRaycastIntersection(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray)
-{
-	std::queue<const Quadtree*> quadtreeQueue;
-	quadtreeQueue.push(this);
-
-	while (!quadtreeQueue.empty())
-	{
-		const Quadtree* currentQuadtree = quadtreeQueue.front();
-		quadtreeQueue.pop();
-
-		if (!ray.Intersects(currentQuadtree->boundingBox))
-		{
-			continue;
-		}
-
-		std::set<GameObject*> quadtreeGameObjects = currentQuadtree->gameObjects;
-
-		float nearDistance, farDistance;
-		for (GameObject* gameObject : quadtreeGameObjects)
-		{
-			bool hit = ray.Intersects(gameObject->GetEncapsuledAABB(), nearDistance, farDistance);
-
-			if (hit && gameObject->IsActive())
-			{
-				hitGameObjects[nearDistance] = gameObject;
-			}
-		}
-
-		if (currentQuadtree->IsLeaf())
-		{
-			continue;
-		}
-
-		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
-		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
-		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
-		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
-	}
-}
-
 void Quadtree::SaveOptions(Json& meta) {
 	Json jsonQuadtree = meta["Quadtree"];
 	Json jsonBoundingBox = jsonQuadtree["BoundingBox"];

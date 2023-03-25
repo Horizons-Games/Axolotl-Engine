@@ -22,6 +22,7 @@
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
+#include "Physics/Physics.h"
 
 CameraEngine::CameraEngine() 
 : Camera(CameraType::C_ENGINE)
@@ -66,11 +67,14 @@ bool CameraEngine::Update()
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
 				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
-				const WindowScene* windowScene = App->editor->GetScene();
 				LineSegment ray;
-				if (CreateRaycastFromMousePosition(windowScene, ray))
+				if (Physics::ScreenPointToRay(App->input->GetMousePosition(), ray))
 				{
-					CalculateHitGameObjects(ray);
+					RaycastHit hit;
+					if (Physics::Raycast(ray, hit)) 
+					{
+						SetNewSelectedGameObject(hit.gameObject);
+					}
 				}
 			}
 			// --RAYCAST CALCULATION-- //
