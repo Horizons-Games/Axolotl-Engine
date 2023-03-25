@@ -198,18 +198,27 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 
 void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
-
-	bool find = false;
+	bool findMesh = false;
+	bool findMaterial = false;
 	for (ComponentMeshRenderer* compare : componentsInBatch)
 	{
 		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
 		{
-			find = true;
+			findMesh = true;
+		}
+		if (compare->GetMaterial() == componentToDelete->GetMaterial() && compare != componentToDelete)
+		{
+			findMaterial = true;
+		}
+
+		if (findMaterial && findMesh)
+		{
 			break;
 		}
 	}
 
-	if (!find)
+
+	if (!findMesh)
 	{
 #ifdef ENGINE
 		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
@@ -223,14 +232,21 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 				break;
 			}
 		}
+#else
+		App->resources->FillResourceBin(componentToDelete->GetMesh());
+#endif //ENGINE
 	}
-	resourcesMaterial.erase(
-		std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+	if (!findMaterial)
+	{
+#ifdef ENGINE
+		resourcesMaterial.erase(
+			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	reserveModelSpace = true;
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMesh());
-}
+		App->resources->FillResourceBin(componentToDelete->GetMaterial());
+	}
 #endif //ENGINE
 }
 
