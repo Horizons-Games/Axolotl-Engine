@@ -11,6 +11,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -24,6 +25,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentCanvas.h"
+#include "Components/ComponentImage.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -48,6 +50,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
 		case ComponentType::CANVAS:
 			return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
+		case ComponentType::IMAGE:
+			return std::make_unique<WindowComponentImage>(static_cast<ComponentImage*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
