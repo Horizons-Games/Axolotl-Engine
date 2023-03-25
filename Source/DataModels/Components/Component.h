@@ -13,7 +13,8 @@ enum class ComponentType
 	LIGHT, 
 	CAMERA,
 	PLAYER,
-	CANVAS
+	CANVAS,
+	IMAGE
 };
 
 const static std::string GetNameByType(ComponentType type);

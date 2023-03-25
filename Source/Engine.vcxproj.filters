@@ -430,6 +430,9 @@
     <ClCompile Include="ComponentTransform2D.cpp">
       <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentImage.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1006,6 +1009,9 @@
       <Filter>Source\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ComponentTransform2D.h">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentImage.h">
       <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
