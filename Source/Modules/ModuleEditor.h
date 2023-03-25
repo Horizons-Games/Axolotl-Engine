@@ -7,6 +7,7 @@ class WindowDebug;
 class WindowScene;
 class WindowInspector;
 class Resource;
+class GameObject;
 
 class ModuleEditor : public Module
 {
@@ -28,8 +29,14 @@ public:
 
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
+	void RefreshInspector() const;
 
 private:
+	void CopyAnObject();
+	void PasteAnObject();
+	void CutAnObject();
+	void DuplicateAnObject();
+
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
@@ -37,6 +44,8 @@ private:
 	WindowInspector* inspector;
 	WindowScene* scene;
 	bool windowResized;
+
+	GameObject* copyObject;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

@@ -21,7 +21,7 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-
+	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
@@ -31,7 +31,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 		if (meshAsShared)
 		{
-			ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
 		}
 		else
@@ -40,7 +39,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
-
+		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
@@ -60,7 +59,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		ImGui::SameLine();
+		
 
 		bool showMeshBrowser;
 

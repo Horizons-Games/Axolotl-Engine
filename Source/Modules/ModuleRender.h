@@ -62,9 +62,6 @@ private:
 	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
 
-	//should this be here?
-	std::unique_ptr<Skybox> skybox;
-
 	GLuint frameBuffer;
 	GLuint renderedTexture;
 	GLuint depthStencilRenderbuffer;

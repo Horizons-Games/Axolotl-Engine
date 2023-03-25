@@ -61,9 +61,14 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 		resource->SetOcclusion(resourceTexture[2]);
 	}
 	
-	if (resourceTexture[3] != 0)
+	/*if (resourceTexture[3] != 0)
 	{
 		resource->SetSpecular(resourceTexture[3]);
+	}*/
+
+	if (resourceTexture[3] != 0)
+	{
+		resource->SetMetallicMap(resourceTexture[3]);
 	}
 
 	char* buffer{};
@@ -89,7 +94,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	meta["DiffuseAssetPath"] = resource->GetDiffuse() ? resource->GetDiffuse()->GetAssetsPath().c_str() : "";
 	meta["NormalAssetPath"] = resource->GetNormal() ? resource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] = resource->GetOcclusion() ? resource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
+	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
+	meta["MetallicAssetPath"] = resource->GetMetallicMap() ? resource->GetMetallicMap()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
@@ -101,11 +107,12 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
 		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
 		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
-		resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0
+		//resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0
+		resource->GetMetallicMap() ? resource->GetMetallicMap()->GetUID() : 0
 	};
 
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
-	float3 specularColor[1] = { resource->GetSpecularColor() };
+	//float3 specularColor[1] = { resource->GetSpecularColor() };
 	
 
 	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor)  + sizeof(float) * 2 + sizeof(bool);
@@ -129,10 +136,10 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	cursor += bytes;
 
-	bytes = sizeof(float);
+	/*bytes = sizeof(float);
 	memcpy(cursor, &resource->GetShininess(), bytes);
 
-	cursor += bytes;
+	cursor += bytes;*/
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetNormalStrength(), bytes);
@@ -164,14 +171,17 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	if (assetPath != "") resource->SetNormal(App->resources->RequestResource<ResourceTexture>(assetPath));
 	assetPath = meta["OcclusionAssetPath"];
 	if (assetPath != "") resource->SetOcclusion(App->resources->RequestResource<ResourceTexture>(assetPath));
-	assetPath = meta["SpecularAssetPath"];
-	if (assetPath != "") resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));
+	/*assetPath = meta["SpecularAssetPath"];
+	if (assetPath != "") resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));*/
+	assetPath = meta["MetallicAssetPath"];
+	if (assetPath != "") resource->SetMetallicMap(App->resources->RequestResource<ResourceTexture>(assetPath));
 #else
 	
 	if (texturesUIDs[0] != 0) resource->SetDiffuse(App->resources->SearchResource<ResourceTexture>(texturesUIDs[0]));
 	if (texturesUIDs[1] != 0) resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
 	if (texturesUIDs[2] != 0) resource->SetOcclusion(App->resources->SearchResource<ResourceTexture>(texturesUIDs[2]));
-	if (texturesUIDs[3] != 0) resource->SetSpecular(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
+	//if (texturesUIDs[3] != 0) resource->SetSpecular(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
+	if (texturesUIDs[3] != 0) resource->SetMetallicMap(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
 
 #endif
 
@@ -183,17 +193,17 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	fileBuffer += sizeof(difuseColor);
 
-	float3 specularColor[1];
+	/*float3 specularColor[1];
 	memcpy(specularColor, fileBuffer, sizeof(specularColor));
 	resource->SetSpecularColor(specularColor[0]);
 
-	fileBuffer += sizeof(specularColor);
+	fileBuffer += sizeof(specularColor);*/
 
-	float* shininess = new float;
+	/*float* shininess = new float;
 	memcpy(shininess, fileBuffer, sizeof(float));
-	resource->SetShininess(*shininess);
+	resource->SetShininess(*shininess);*/
 
-	fileBuffer += sizeof(float);
+	//fileBuffer += sizeof(float);
 
 	float* normalStrenght = new float;
 	memcpy(normalStrenght, fileBuffer, sizeof(float));
@@ -207,7 +217,12 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	fileBuffer += sizeof(bool);
 
-	delete shininess;
+	//delete shininess;
 	delete normalStrenght;
 	delete isTransparent;
+
+#ifdef ENGINE
+	resource->LoadLoadOptions(meta);
+#endif // ENGINE
+
 }

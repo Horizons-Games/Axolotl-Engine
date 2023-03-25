@@ -28,6 +28,11 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
+	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
+{
+}
+
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
@@ -63,8 +68,8 @@ void ComponentMeshRenderer::Draw()
 		if (program)
 		{
 			program->Activate();
-			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -102,8 +107,8 @@ void ComponentMeshRenderer::DrawHighlight()
 		if (program)
 		{
 			program->Activate();
-			const float4x4& view = App->engineCamera->GetCamera()->GetViewMatrix();
-			const float4x4& proj = App->engineCamera->GetCamera()->GetProjectionMatrix();
+			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+			const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

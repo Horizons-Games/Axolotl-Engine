@@ -33,6 +33,8 @@ public:
 	bool Init() override;
 	bool CleanUp() override;
 
+	void CreateDefaultResource(ResourceType type, const std::string& fileName);
+
 	//Create Bin and .meta from path
 	std::shared_ptr<Resource> ImportResource(const std::string& originalPath);
 	std::shared_ptr<Resource> ImportThread(const std::string& originalPath);

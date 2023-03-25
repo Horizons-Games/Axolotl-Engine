@@ -11,8 +11,11 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
+#ifndef ENGINE
+#include "ModulePlayer.h"
+#endif // !ENGINE
+
 #include "FileSystem/ModuleFileSystem.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
@@ -168,22 +171,8 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	//we really need to remove this :)
-#ifdef ENGINE
-	std::shared_ptr<ResourceSkyBox> resourceSkybox =
-		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+	//UpdateProgram();
 
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
-	}
-#else
-	//TODO How do we get skybox in game mode?
-	//We need to store the UID in the JSONscene and then loaded when unserialize?
-	//So should this be moved to the scene?
-	// Search skybox on the lib folder and save the UID of skybox? Then should be only one in ALL the asset/Folder
-	//UID skyboxUID = App->resources->GetSkyBoxResource();
-#endif
 	return true;
 }
 
@@ -216,6 +205,7 @@ update_status ModuleRender::Update()
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
+	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
 	if (skybox)
 	{
 		skybox->Draw();
@@ -224,7 +214,7 @@ update_status ModuleRender::Update()
 
 	if (App->debug->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetSceneQuadTree());
+		DrawQuadtree(App->scene->GetLoadedScene()->GetRootQuadtree());
 	}
 
 	int w, h;
@@ -239,7 +229,11 @@ update_status ModuleRender::Update()
 	bool isRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetSceneQuadTree());
-	
+
+#ifndef ENGINE
+	AddToRenderList(App->player->GetPlayer());
+#endif // !ENGINE
+
 	if (isRoot) 
 	{
 		opaqueGOToDraw.push_back(goSelected);
@@ -299,7 +293,7 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->engineCamera->GetCamera()->SetAspectRatio(float(width) / height);
+	App->camera->GetCamera()->SetAspectRatio(float(width) / height);
 #ifdef ENGINE
 	App->editor->Resized();
 #endif // ENGINE
@@ -349,8 +343,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	float3 cameraPos = App->engineCamera->GetCamera()->GetPosition();
 
-	if (App->engineCamera->GetCamera()->IsInside(quadtree->GetBoundingBox()) ||
-		App->scene->GetLoadedScene()->IsInsideACamera(quadtree->GetBoundingBox()))
+	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -420,8 +413,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->engineCamera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB())
-		|| App->scene->GetLoadedScene()->IsInsideACamera(gameObject->GetEncapsuledAABB()))
+	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
