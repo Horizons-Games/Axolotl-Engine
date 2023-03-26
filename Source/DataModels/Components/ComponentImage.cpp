@@ -39,7 +39,7 @@ void ComponentImage::Draw()
 		program->Activate();
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM2D))->GetLocalMatrix();
+					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalMatrix();
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 
 		glBindVertexArray(vao);
