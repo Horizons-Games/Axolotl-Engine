@@ -2,6 +2,7 @@
 #include "ComponentWindow.h"
 
 class ComponentImage;
+class WindowSpriteInput;
 
 class WindowComponentImage :
 	public ComponentWindow
@@ -12,5 +13,7 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+private:
+	std::unique_ptr<WindowSpriteInput> inputImage;
 };
 

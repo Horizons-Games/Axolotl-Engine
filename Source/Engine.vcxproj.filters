@@ -271,6 +271,9 @@
     <ClCompile Include="DataModels\Components\ComponentImage.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -568,6 +571,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentImage.h">
       <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
