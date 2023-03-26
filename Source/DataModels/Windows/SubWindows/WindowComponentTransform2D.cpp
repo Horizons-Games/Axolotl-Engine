@@ -23,12 +23,14 @@ void WindowComponentTransform2D::DrawWindowContents()
 		currentTranslation = asTransform->GetPosition();
 		currentRotation = asTransform->GetRotationXYZ();
 		currentScale = asTransform->GetScale();
+		currentSize = asTransform->GetSize();
 
 		currentDragSpeed = 0.025f;
 
 		translationModified = false;
 		rotationModified = false;
 		scaleModified = false;
+		sizeModified = false;
 
 		DrawTransformTable();
 
@@ -143,6 +145,33 @@ void WindowComponentTransform2D::DrawTransformTable()
 		}
 		ImGui::PopStyleVar();
 
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Size"); ImGui::SameLine();
+
+		ImGui::TableNextColumn();
+		ImGui::Text("x:"); ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+		if (ImGui::DragFloat("##XSize", &currentSize.x, currentDragSpeed,
+			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+		{
+			sizeModified = true;
+		}
+		ImGui::PopStyleVar(); ImGui::SameLine();
+
+		ImGui::Text("y:"); ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+		if (ImGui::DragFloat("##YSize", &currentSize.y, currentDragSpeed,
+			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+		{
+			sizeModified = true;
+		}
+		ImGui::PopStyleVar(); ImGui::SameLine();
+
+
+
 		ImGui::EndTable();
 	}
 }
@@ -184,7 +213,12 @@ void WindowComponentTransform2D::UpdateComponentTransform()
 			asTransform->SetScale(currentScale);
 		}
 
-		if (scaleModified || rotationModified || translationModified)
+		if (sizeModified)
+		{
+			asTransform->SetSize(currentSize);
+		}
+
+		if (scaleModified || rotationModified || translationModified || sizeModified)
 		{
 			asTransform->CalculateMatrices();
 		}

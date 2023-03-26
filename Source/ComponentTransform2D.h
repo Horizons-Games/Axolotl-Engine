@@ -23,11 +23,13 @@ public:
 	void SetRotation(const float4x4& rotation);
 	void SetEulerAngles(const float3& eulerAngles);
 	void SetScale(const float3& localScale);
+	void SetSize(const float2& newSize);
 
 	const float3& GetPosition() const;
 	const float4x4& GetRotation() const;
 	const float3& GetRotationXYZ() const;
 	const float3& GetScale() const;
+	const float2& GetSize() const;
 	const float4x4& GetLocalMatrix() const;
 
 
@@ -45,8 +47,7 @@ private:
 
 	float3 rotXYZ;
 
-	float2 anchorMax;
-	float2 anchorMin;
+	float2 size;
 
 	float2 pivot;
 	float2 sizeDelta;
@@ -83,6 +84,12 @@ inline void ComponentTransform2D::SetScale(const float3& localScale)
 	if (sca.z <= 0) sca.z = 0.0001f;
 }
 
+inline void ComponentTransform2D::SetSize(const float2& newSize)
+{
+	this->size = newSize;
+
+}
+
 
 inline const float3& ComponentTransform2D::GetPosition() const
 {
@@ -105,6 +112,12 @@ inline const float3& ComponentTransform2D::GetRotationXYZ() const
 inline const float3& ComponentTransform2D::GetScale() const
 {
 	return sca;
+}
+
+
+inline const float2& ComponentTransform2D::GetSize() const
+{
+	return size;
 }
 
 

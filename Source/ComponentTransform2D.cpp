@@ -35,6 +35,9 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["localScaleX"] = static_cast<float>(sca.x);
 	meta["localScaleY"] = static_cast<float>(sca.y);
 	meta["localScaleZ"] = static_cast<float>(sca.z);
+
+	meta["sizeX"] = static_cast<float>(size.x);
+	meta["sizeY"] = static_cast<float>(size.y);
 }
 
 void ComponentTransform2D::LoadOptions(Json& meta)
@@ -56,5 +59,8 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	sca.x = static_cast<float>(meta["localScaleX"]);
 	sca.y = static_cast<float>(meta["localScaleY"]);
 	sca.z = static_cast<float>(meta["localScaleZ"]);
+
+	size.x = static_cast<float>(meta["sizeX"]);
+	size.y = static_cast<float>(meta["sizeY"]);
 	CalculateMatrices();
 }
