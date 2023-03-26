@@ -6,6 +6,10 @@
 
 #include "FileSystem/Json.h"
 
+#include "Geometry/LineSegment.h"
+#include "Geometry/Ray.h"
+#include "Physics/Physics.h"
+
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	: Component(ComponentType::RIGIDBODY, active, owner, true)
 {
@@ -22,18 +26,35 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::Update()
 {
 #ifndef ENGINE
-
+	bool stopped = false;
 	if (isKinematic)
 	{
 		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-		float3 x;
-		float t = App->GetDeltaTime();
-		float3 x0 = transform->GetPosition();
-		float3 a = float3(0.0f, -0.5 * g * t * t*5, 0.0f);
+		float3 currentPos = transform->GetPosition();
+		Ray ray(currentPos, -float3::unitY);
+		LineSegment line(ray, 100.0f);
+		RaycastHit hit;
+		if (!stopped) 
+		{
+			Physics::Raycast(line, hit);
+			float3 x;
+			float t = App->GetDeltaTime();
+			float3 x0 = currentPos;
+			float3 a = float3(0.0f, -0.5 * g * t * t * 15, 0.0f);
 
-		x = x0 + v0 * t + a;
+			x = x0 + v0 * t + a;
 
-		transform->SetPosition(x);
+			if (hit.gameObject == nullptr || x.y > hit.hitPoint.y + 3.0f)
+			{
+				transform->SetPosition(x);
+			}
+			else 
+			{
+				x = hit.hitPoint;
+				transform->SetPosition(x);
+				stopped = true;
+			}
+		}
 	}
 #endif
 }
