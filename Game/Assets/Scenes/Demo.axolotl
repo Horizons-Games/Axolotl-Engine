@@ -68,9 +68,9 @@
         },
         {
             "GameObject": {
-                "name": "Directional_Light",
-                "uid": 8610745200656521714,
-                "parentUID": 312618134611477053,
+                "name": "Basic Camera",
+                "uid": 7635206223868113111,
+                "parentUID": 574552952226336342,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -79,12 +79,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localPos_X": -1.4363956451416016,
+                            "localPos_Y": 4.839158058166504,
+                            "localPos_Z": -3.7100436687469484,
+                            "localRot_X": 35.47134780883789,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -92,14 +92,11 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Light",
+                            "type": "Component_Camera",
                             "active": true,
                             "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
                         }
                     }
                 ]
@@ -118,8 +115,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0011036250507459045,
+                            "localPos_X": -3.725290298461914e-9,
+                            "localPos_Y": 13.151078224182129,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -153,15 +150,22 @@
                             "active": true,
                             "removed": true
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
         },
         {
             "GameObject": {
-                "name": "Basic Camera",
-                "uid": 7635206223868113111,
-                "parentUID": 574552952226336342,
+                "name": "Cube",
+                "uid": 8673936949915435317,
+                "parentUID": 312618134611477053,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -170,12 +174,57 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.4619140625,
-                            "localPos_Y": 1.54669189453125,
-                            "localPos_Z": -0.5927397608757019,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -26.678693771362306,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
+                            "localSca_X": 14.00673770904541,
+                            "localSca_Y": 0.75,
+                            "localSca_Z": 24.963109970092775
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 8823433378454803866,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12357577545104752129,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "uid": 8610745200656521714,
+                "parentUID": 312618134611477053,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 171.36427307128907,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -183,11 +232,14 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Camera",
+                            "type": "Component_Light",
                             "active": true,
                             "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": true
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
                         }
                     }
                 ]
@@ -396,12 +448,12 @@
         "BoundingBox": {
             "MinPoint": {
                 "x": -25.0,
-                "y": -10.0,
+                "y": -44.85738754272461,
                 "z": -25.0
             },
             "MaxPoint": {
                 "x": 25.0,
-                "y": 10.0,
+                "y": 19.656251907348634,
                 "z": 25.0
             }
         }

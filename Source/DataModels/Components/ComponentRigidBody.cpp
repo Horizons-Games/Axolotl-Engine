@@ -42,16 +42,18 @@ void ComponentRigidBody::Update()
 
 		bool hasHit = Physics::Raycast(line, hit);
 		float3 x;
-		//float t = App->GetDeltaTime();
-		float t = 0.05f;
+		float t = App->GetDeltaTime();
+		//float t = 0.05f;
 		float3 x0 = currentPos;
 		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
 
+		v0.y -= g * t;
 		x = x0 + v0 * t + a;
 
 		if (hasHit && x.y <= hit.hitPoint.y + (x-x0).Length())
 		{
 			x = hit.hitPoint;
+			v0 = float3::zero;
 		}
 
 		transform->SetPosition(x);
