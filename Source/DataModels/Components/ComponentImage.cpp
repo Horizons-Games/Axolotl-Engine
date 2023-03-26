@@ -15,7 +15,7 @@
 #include "FileSystem/Json.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner)
-	: Component(ComponentType::IMAGE, active, owner, true)
+	: Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
 {
 	//provisional TODO
 	LoadVBO();
@@ -41,12 +41,15 @@ void ComponentImage::Draw()
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM2D))->GetLocalMatrix();
+		const float4x4& view = float4x4::identity;
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
 		glBindVertexArray(vao);
 
 		glActiveTexture(GL_TEXTURE0);
+		glUniform3f(0, color.x, color.y, color.z);
 		glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -108,7 +111,7 @@ void ComponentImage::LoadOptions(Json& meta)
 
 void ComponentImage::LoadVBO()
 {
-	float skyboxVertices[] = {
+	float vertices[] = {
 		// positions          
 		-0.5,  0.5, 0.0f, 1.0f,
 		-0.5, -0.5, 0.0f, 0.0f,
@@ -120,7 +123,7 @@ void ComponentImage::LoadVBO()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 }
 
 void ComponentImage::CreateVAO()

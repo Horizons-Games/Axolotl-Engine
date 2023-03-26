@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Math/float3.h"
 #include <memory>
 
 class ResourceTexture;
@@ -22,11 +23,12 @@ public:
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
 
 	void LoadVBO();
-
 	void CreateVAO();
 
 private:
 	std::shared_ptr<ResourceTexture> image;
+	float3 color;
+
 	unsigned vbo;
 	unsigned vao;
 
