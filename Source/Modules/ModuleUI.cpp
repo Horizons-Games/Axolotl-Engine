@@ -29,9 +29,12 @@ update_status ModuleUI::Update()
 
 	for (GameObject* canvas : canvasScene)
 	{
-		for (GameObject* children : canvas->GetChildren())
+		if (canvas->IsEnabled())
 		{
-			DrawChildren(children);
+			for (GameObject* children : canvas->GetChildren())
+			{
+				DrawChildren(children);
+			}
 		}
 	}
 
