@@ -1,6 +1,6 @@
 #include "WindowComponentImage.h"
 
-#include "Components/ComponentImage.h"
+#include "Components/UI/ComponentImage.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowSpriteInput.h"
 #include "Resources/ResourceTexture.h"
 

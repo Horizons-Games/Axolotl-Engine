@@ -1,6 +1,6 @@
 #include "WindowComponentCanvas.h"
 
-#include "Components/ComponentCanvas.h"
+#include "Components/UI/ComponentCanvas.h"
 
 
 WindowComponentCanvas::WindowComponentCanvas(ComponentCanvas* component) :

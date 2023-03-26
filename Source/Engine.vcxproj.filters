@@ -250,12 +250,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentTransform2D.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentCanvas.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -268,11 +262,20 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentImage.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp">
+      <Filter>DataModels\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,12 +554,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentTransform2D.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentCanvas.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -569,11 +566,20 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentImage.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentImage.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentButton.h">
+      <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -639,6 +645,9 @@
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{773787e8-3d55-425d-9bee-1031740c1e9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Components\UI">
+      <UniqueIdentifier>{4746f56b-3258-4899-a57e-2547ec0008ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

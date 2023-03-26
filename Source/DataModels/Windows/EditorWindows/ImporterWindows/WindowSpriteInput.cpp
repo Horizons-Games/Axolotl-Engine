@@ -1,6 +1,6 @@
 #include "WindowSpriteInput.h"
 
-#include "Components/ComponentImage.h"
+#include "Components/UI/ComponentImage.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"

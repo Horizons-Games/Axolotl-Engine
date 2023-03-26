@@ -25,9 +25,9 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentCanvas.h"
-#include "Components/ComponentImage.h"
-#include "ComponentTransform2D.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 ComponentWindow::~ComponentWindow()
 {

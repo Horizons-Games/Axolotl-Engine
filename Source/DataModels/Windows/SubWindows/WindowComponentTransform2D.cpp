@@ -1,6 +1,6 @@
 #include "ComponentWindows/WindowComponentTransform2D.h"
 
-#include "ComponentTransform2D.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
 

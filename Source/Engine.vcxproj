@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugEngine|Win32">
@@ -279,7 +279,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -289,8 +288,6 @@
     <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentCanvas.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentImage.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
@@ -299,6 +296,10 @@
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
@@ -506,7 +507,6 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
-    <ClInclude Include="ComponentTransform2D.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -517,8 +517,6 @@
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
-    <ClInclude Include="DataModels\Components\ComponentCanvas.h" />
-    <ClInclude Include="DataModels\Components\ComponentImage.h" />
     <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
@@ -527,6 +525,10 @@
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentButton.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Program\Program.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />

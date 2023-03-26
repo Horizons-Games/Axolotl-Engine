@@ -9,7 +9,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentCanvas.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
