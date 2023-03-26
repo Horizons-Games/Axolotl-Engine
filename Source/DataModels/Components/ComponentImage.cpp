@@ -37,10 +37,12 @@ void ComponentImage::Draw()
 	{
 		image->Load();
 		program->Activate();
+		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalMatrix();
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
 		glBindVertexArray(vao);
 
