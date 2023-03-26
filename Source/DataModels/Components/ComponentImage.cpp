@@ -39,7 +39,7 @@ void ComponentImage::Draw()
 		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM2D))->GetLocalMatrix();
+					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalMatrix();
 		const float4x4& view = float4x4::identity;
 		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);

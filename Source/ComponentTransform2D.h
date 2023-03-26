@@ -26,11 +26,16 @@ public:
 	void SetSize(const float2& newSize);
 
 	const float3& GetPosition() const;
+	const float3& GetGlobalPosition() const;
 	const float4x4& GetRotation() const;
 	const float3& GetRotationXYZ() const;
+	const float4x4& GetGlobalRotation() const;
 	const float3& GetScale() const;
+	const float3& GetGlobalScale() const;
 	const float2& GetSize() const;
+
 	const float4x4& GetLocalMatrix() const;
+	const float4x4& GetGlobalMatrix() const;
 
 
 	void CalculateMatrices();
@@ -43,7 +48,12 @@ private:
 	float4x4 rot;
 	float3 sca;
 
+	float3 globalPos;
+	float4x4 globalRot;
+	float3 globalSca;
+
 	float4x4 localMatrix;
+	float4x4 globalMatrix;
 
 	float3 rotXYZ;
 
@@ -126,7 +136,25 @@ inline const float4x4& ComponentTransform2D::GetLocalMatrix() const
 	return localMatrix;
 }
 
-inline void ComponentTransform2D::CalculateMatrices()
+inline const float4x4& ComponentTransform2D::GetGlobalMatrix() const
 {
-	localMatrix = float4x4::FromTRS(pos, rot, sca);
+	return globalMatrix;
+}
+
+
+inline const float3& ComponentTransform2D::GetGlobalPosition() const
+{
+	return globalPos;
+}
+
+
+inline const float4x4& ComponentTransform2D::GetGlobalRotation() const
+{
+	return globalRot;
+}
+
+
+inline const float3& ComponentTransform2D::GetGlobalScale() const
+{
+	return globalSca;
 }

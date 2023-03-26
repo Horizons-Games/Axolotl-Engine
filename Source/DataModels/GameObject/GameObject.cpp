@@ -292,6 +292,15 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 		{
 			transform->UpdateTransformMatrices();
 		}
+		else
+		{
+			ComponentTransform2D* transform2D =
+				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			if (transform2D)
+			{
+				transform2D->CalculateMatrices();
+			}
+		}
 		children.push_back(std::move(child));
 	}
 }

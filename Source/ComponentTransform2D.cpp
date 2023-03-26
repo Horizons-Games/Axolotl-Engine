@@ -1,10 +1,14 @@
 #include "ComponentTransform2D.h"
 #include "FileSystem/Json.h"
 
+#include "GameObject/GameObject.h"
+#include "Math/float3x3.h"
+
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM2D, active, owner, true),
 	pos(float3::zero), rot(float4x4::identity), sca(float3::one),
-	rotXYZ(float3::zero), localMatrix(float4x4::identity)
+	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
 {
 }
 
@@ -63,4 +67,43 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	size.x = static_cast<float>(meta["sizeX"]);
 	size.y = static_cast<float>(meta["sizeY"]);
 	CalculateMatrices();
+}
+
+
+void ComponentTransform2D::CalculateMatrices()
+{
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
+
+	const GameObject* parent = GetOwner()->GetParent();
+
+	if (parent)
+	{
+		ComponentTransform2D* parentTransform = static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		if (parentTransform)
+		{
+
+			// Set global matrix
+			globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
+
+			globalPos = globalMatrix.TranslatePart();
+			globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
+			globalSca = globalMatrix.GetScale();
+		}
+		else
+		{
+			globalMatrix = localMatrix;
+
+			globalPos = globalMatrix.TranslatePart();
+			globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
+			globalSca = globalMatrix.GetScale();
+
+		}
+	}
+
+	for (GameObject* child : GetOwner()->GetChildren())
+	{
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(child->GetComponent(ComponentType::TRANSFORM2D));
+		childTransform->CalculateMatrices();
+	}
 }

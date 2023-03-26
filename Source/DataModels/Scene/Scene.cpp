@@ -106,6 +106,14 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool i
 		}
 
 	}
+	else
+	{
+		// Update the transform respect its parent when created
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		childTransform->CalculateMatrices();
+
+	}
 
 	return gameObject;
 }
