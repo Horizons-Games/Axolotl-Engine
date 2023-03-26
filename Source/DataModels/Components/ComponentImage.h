@@ -18,6 +18,9 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	std::shared_ptr<ResourceTexture> GetImage() const;
+	void SetImage(const std::shared_ptr<ResourceTexture>& image);
+
 	void LoadVBO();
 
 	void CreateVAO();
@@ -28,4 +31,14 @@ private:
 	unsigned vao;
 
 };
+
+inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
+{
+	return image;
+}
+
+inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& image)
+{
+	this->image = image;
+}
 

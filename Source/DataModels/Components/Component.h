@@ -141,6 +141,10 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Player";
 	case ComponentType::CANVAS:
 		return "Component_Canvas";
+	case ComponentType::TRANSFORM2D:
+		return "Component_Transform2D";
+	case ComponentType::IMAGE:
+		return "Component_Image";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -182,6 +186,16 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Canvas")
 	{
 		return ComponentType::CANVAS;
+	}
+
+	if (typeName == "Component_Transform2D")
+	{
+		return ComponentType::TRANSFORM2D;
+	}
+
+	if (typeName == "Component_Image")
+	{
+		return ComponentType::IMAGE;
 	}
 	
 	return ComponentType::UNKNOWN;

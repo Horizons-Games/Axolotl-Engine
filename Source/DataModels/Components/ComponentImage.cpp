@@ -1,4 +1,6 @@
 #include "ComponentImage.h"
+#include "ComponentTransform2D.h"
+#include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
 
@@ -16,8 +18,6 @@ ComponentImage::ComponentImage(bool active, GameObject* owner)
 	: Component(ComponentType::IMAGE, active, owner, true)
 {
 	//provisional TODO
-	image = App->resources->RequestResource<ResourceTexture>("Assets/Textures/top.png");
-	image->Load();
 	LoadVBO();
 	CreateVAO();
 }
@@ -33,10 +33,14 @@ void ComponentImage::Update()
 void ComponentImage::Draw()
 {
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
-	if(program)
+	if(program && image)
 	{
 		image->Load();
 		program->Activate();
+		const float4x4& model =
+				static_cast<ComponentTransform2D*>(GetOwner()
+					->GetComponent(ComponentType::TRANSFORM2D))->GetLocalMatrix();
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 
 		glBindVertexArray(vao);
 
@@ -59,6 +63,17 @@ void ComponentImage::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+
+	UID uidImage = 0;
+	std::string assetPath = "";
+
+	if (image)
+	{
+		uidImage = image->GetUID();
+		assetPath = image->GetAssetsPath();
+	}
+	meta["imageUID"] = (UID)uidImage;
+	meta["assetPathImage"] = assetPath.c_str();
 }
 
 void ComponentImage::LoadOptions(Json& meta)
@@ -67,6 +82,26 @@ void ComponentImage::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+
+#ifdef ENGINE
+	std::string path = meta["assetPathImage"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceTexture> resourceImage = App->resources->RequestResource<ResourceTexture>(path);
+		if (resourceImage)
+		{
+			image = resourceImage;
+		}
+	}
+#else
+	UID uidImage = meta["imageUID"];
+	std::shared_ptr<ResourceTexture> resourceImage = App->resources->SearchResource<ResourceTexture>(uidImage);
+	if (resourceImage)
+	{
+		image = resourceImage;
+	}
+#endif
 }
 
 void ComponentImage::LoadVBO()
