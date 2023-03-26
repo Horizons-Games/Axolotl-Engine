@@ -53,6 +53,10 @@ void ComponentRigidBody::Update()
 				x = hit.hitPoint;
 				transform->SetPosition(x);
 				stopped = true;
+				
+				if (hit.gameObject->CompareTag("WIN"))
+				{
+				}
 			}
 		}
 	}
@@ -70,6 +74,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+	meta["isKinematic"] = (bool)GetIsKinematic();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -78,4 +83,5 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+	SetIsKinematic((bool)meta["isKinematic"]);
 }

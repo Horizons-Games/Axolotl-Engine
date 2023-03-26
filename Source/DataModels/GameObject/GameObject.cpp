@@ -188,6 +188,7 @@ void GameObject::SaveOptions(Json& meta)
 {
 	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
+	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
@@ -205,6 +206,9 @@ void GameObject::SaveOptions(Json& meta)
 
 void GameObject::LoadOptions(Json& meta)
 {
+	std::string tag = meta["tag"];
+	SetTag(tag.c_str());
+
 	Json jsonComponents = meta["Components"];
 
 	if(jsonComponents.Size() != 0)

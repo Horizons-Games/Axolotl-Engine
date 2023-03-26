@@ -65,6 +65,11 @@ void WindowInspector::InspectSelectedGameObject()
 		{
 			char* name = (char*)lastSelectedGameObject->GetName();
 			ImGui::InputText("##GameObject", name, 24);
+			
+			char* tag = (char*)lastSelectedGameObject->GetTag();
+			ImGui::Text("Tag");
+			ImGui::SameLine();
+			ImGui::InputText("##Tag", tag, 24);
 		}
 
 		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
