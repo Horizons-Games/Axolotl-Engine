@@ -132,58 +132,91 @@ void ComponentMeshRenderer::Draw()
 					texture->Load();
 				}
 
-				glUniform1i(7, 1); //has_diffuse_map
+				glUniform1i(5, 1); //has_diffuse_map
 
 				glActiveTexture(GL_TEXTURE5);
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			}
 			else
 			{
-				glUniform1i(7, 0); //has_diffuse_map
+				glUniform1i(5, 0); //has_diffuse_map
 			}
 
-			//const float3& specularColor = material->GetSpecularColor();
-			//glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
-			//texture = material->GetSpecular();
-			//if (texture)
-			//{
-			//	if (!texture->IsLoaded())
-			//	{
-			//		texture->Load();
-			//	}
-
-			//	glUniform1i(8, 1); //has_specular_map
-			//	glActiveTexture(GL_TEXTURE6);
-			//	glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			//}
-			//else
-			//{
-			//	glUniform1i(8, 0); //has_specular_map
-			//}
+			/*const float3& specularColor = material->GetSpecularColor();
+			glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
+			texture = material->GetSpecular();
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+					glUniform1i(8, 1); //has_specular_map
+					glActiveTexture(GL_TEXTURE6);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(8, 0); //has_specular_map
+				}
+				glUniform1i(8, 1); //has_specular_map
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(8, 0); //has_specular_map
+			}*/
 
 			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
 			if (texture)
 			{
 				if (!texture->IsLoaded())
 				{
-					texture->Load();
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+
+					glActiveTexture(GL_TEXTURE6);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+					glUniform1f(4, material->GetNormalStrength()); //normal_strength
+					glUniform1i(6, 1); //has_normal_map
+				}
+				else
+				{
+					glUniform1i(6, 0); //has_normal_map
 				}
 
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-				glUniform1f(6, material->GetNormalStrength()); //normal_strength
-				glUniform1i(11, 1); //has_normal_map
-			}
-			else
-			{
-				glUniform1i(11, 0); //has_normal_map
-			}
+				/*glUniform1f(5, material->GetShininess()); //shininess
+				glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
+				*/
+				glUniform1f(7, material->GetSmoothness());
+				glUniform1f(8, material->HasMetallicAlpha());
+				glUniform1f(9, material->GetMetalness());
 
-			//glUniform1f(5, material->GetShininess()); //shininess
-			//glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
+				texture = material->GetMetallicMap();
+				if (texture)
+				{
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
 
-			float3 viewPos = App->camera->GetCamera()->GetPosition();
-			program->BindUniformFloat3("viewPos", viewPos);
+					glUniform1i(10, 1); //has_metallic_map
+					glActiveTexture(GL_TEXTURE7);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(10, 0); //has_metallic_map
+				}
+
+				float3 viewPos = App->camera->GetCamera()->GetPosition();
+				program->BindUniformFloat3("viewPos", viewPos);
+			}
 		}
 
 		program->Deactivate();
@@ -363,14 +396,18 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		//texture = material->GetSpecular();
-		//if (texture)
-		//{
-		//	texture->Unload();
-		//}
+		/*texture = material->GetSpecular();
+		if (texture)
+		{
+			texture->Unload();
+		}*/
+		texture = material->GetMetallicMap();
+		if (texture)
+		{
+			texture->Unload();
+		}
 	}
 }
-
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)
@@ -399,13 +436,20 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				texture->Unload();
 			}
 			break;
-		//case TextureType::SPECULAR:
-		//	texture = material->GetSpecular();
-		//	if (texture)
-		//	{
-		//		texture->Unload();
-		//	}
-		//	break;
+			/*case TextureType::SPECULAR:
+				texture = material->GetSpecular();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;*/
+		case TextureType::METALLIC:
+			texture = material->GetMetallicMap();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
 		}
 	}
 }

@@ -18,7 +18,7 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
 	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
 {
 }
 
@@ -35,6 +35,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
+		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
 		static char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
@@ -46,7 +47,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			meshPath = (char*)("unknown");
 		}
 
-		if (asMeshRenderer->GetMaterial())
+		if (materialAsShared)
 		{
 			DrawSetMaterial();
 		}
@@ -222,33 +223,33 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Separator();
 
-			//ImGui::Text("Specular Texture");
-			//bool showTextureBrowserSpecular = true;
-			//if (materialResource && materialResource->GetSpecular())
-			//{
-			//	texture =
-			//		std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetSpecular());
-			//	if (texture)
-			//	{
-			//		ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
-			//	}
+			ImGui::Text("Mettalic Texture");
+			bool showTextureBrowserSpecular = true;
+			if (materialResource && materialResource->GetMetallicMap())
+			{
+				texture =
+					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetMetallicMap());
+				if (texture)
+				{
+					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+				}
 
-			//	showTextureBrowserSpecular = false;
-			//}
+				showTextureBrowserSpecular = false;
+			}
 
-			//if (showTextureBrowserSpecular)
-			//{
-			//	inputTextureSpecular->DrawWindowContents();
-			//}
-			//else
-			//{
-			//	if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecular())
-			//	{
-			//		asMeshRenderer->UnloadTexture(TextureType::SPECULAR);
+			if (showTextureBrowserSpecular)
+			{
+				inputTextureMetallic->DrawWindowContents();
+			}
+			else
+			{
+				if (ImGui::Button("Remove Texture Metallic") && materialResource->GetMetallicMap())
+				{
+					asMeshRenderer->UnloadTexture(TextureType::METALLIC);
 
-			//		materialResource->SetSpecular(nullptr);
-			//	}
-			//}
+					materialResource->SetMetallicMap(nullptr);
+				}
+			}
 
 			ImGui::Separator();
 

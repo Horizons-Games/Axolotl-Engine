@@ -16,6 +16,7 @@ class ResourceMaterial;
 class ResourceMesh;
 class Json;
 class WindowMeshInput;
+class WindowMaterialInput;
 
 class ComponentMeshRenderer : public Component
 {
@@ -72,6 +73,7 @@ private:
 
 	GeometryBatch* batch;
 	WindowMeshInput* inputMesh;
+	WindowMaterialInput* inputMaterial;
 
 };
 
