@@ -11,6 +11,7 @@
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentRigidBody.h"
+#include "../Components/ComponentMockState.h"
 
 #include "Application.h"
 
@@ -499,6 +500,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::MOCKSTATE:
+		{
+			newComponent = std::make_unique<ComponentMockState>(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");

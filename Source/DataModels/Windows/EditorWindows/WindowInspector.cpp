@@ -149,6 +149,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) {
+				if (ImGui::MenuItem("Create MockState Component"))
+				{
+					AddComponentMockState();
+				}
+			}
+
 		}
 
 		else
@@ -342,4 +349,9 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
+}
+
+void WindowInspector::AddComponentMockState()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
