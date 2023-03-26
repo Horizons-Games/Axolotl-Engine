@@ -58,12 +58,15 @@ void ComponentRigidBody::Update()
 		{
 			x = hit.hitPoint;
 			v0 = float3::zero;
-			if (hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsWinState())
+			
+			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
+				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsWinState())
 			{
 				//TODO: win state
 			}
 
-			if (hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsFailState())
+			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
+				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsFailState())
 			{
 				//TODO fail state
 			}
