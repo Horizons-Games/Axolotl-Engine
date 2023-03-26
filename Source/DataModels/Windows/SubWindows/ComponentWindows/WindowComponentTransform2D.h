@@ -2,6 +2,7 @@
 #include "ComponentWindow.h"
 
 #include "Math/float3.h"
+#include "Math/float2.h"
 
 class ComponentTransform2D;
 
@@ -22,8 +23,10 @@ private:
 	float3 currentTranslation;
 	float3 currentRotation;
 	float3 currentScale;
+	float2 currentSize;
 	float currentDragSpeed;
 	bool translationModified;
 	bool rotationModified;
 	bool scaleModified;
+	bool sizeModified;
 };

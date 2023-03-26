@@ -10,6 +10,7 @@
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentPlayer.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
@@ -33,12 +34,14 @@ bool ModulePlayer::Start()
 	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
 	for (GameObject* camera : cameras)
 	{
-		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
+		componentPlayer = static_cast<ComponentPlayer*>(camera->GetParent()->GetComponent(ComponentType::PLAYER));
+		if (componentPlayer)
 		{
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
+			break;
 		}
 	}
 	return true;
@@ -46,7 +49,7 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
-	if (App->camera->GetSelectedPosition() == 0)
+	if (!componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();

@@ -26,6 +26,8 @@ void ComponentPlayer::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+
+	meta["static"] = (bool)staticPlayer;
 }
 
 void ComponentPlayer::LoadOptions(Json& meta)
@@ -34,4 +36,6 @@ void ComponentPlayer::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+
+	staticPlayer = (bool)meta["static"];
 }

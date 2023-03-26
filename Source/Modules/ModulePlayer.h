@@ -3,6 +3,7 @@
 
 class GameObject;
 class Camera;
+class ComponentPlayer;
 
 class ModulePlayer : public Module
 {
@@ -26,6 +27,7 @@ public:
 private:
 	std::unique_ptr <GameObject>  player;
 	Camera* cameraPlayer;
+	ComponentPlayer* componentPlayer;
 	float speed = 3;
 	
 };
