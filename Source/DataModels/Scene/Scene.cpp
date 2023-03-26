@@ -77,6 +77,7 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool i
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject(is3D);
+	sceneGameObjects.push_back(gameObject);
 
 	if (is3D)
 	{
@@ -85,7 +86,6 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool i
 			(gameObject->GetComponent(ComponentType::TRANSFORM));
 		childTransform->UpdateTransformMatrices();
 
-		sceneGameObjects.push_back(gameObject);
 
 		//Quadtree treatment
 		if (!rootQuadtree->InQuadrant(gameObject))
@@ -162,10 +162,9 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 {
 	assert(name != nullptr && parent != nullptr);
 
-	GameObject* gameObject = new GameObject(name, parent);
+	GameObject* gameObject = CreateGameObject(name, parent, false);
 	gameObject->CreateComponent(ComponentType::TRANSFORM2D);
 	gameObject->CreateComponent(ComponentType::CANVAS);
-	sceneGameObjects.push_back(gameObject);
 	sceneCanvas.push_back(gameObject);
 
 	return gameObject;

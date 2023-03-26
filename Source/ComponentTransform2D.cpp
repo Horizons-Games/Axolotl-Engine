@@ -27,9 +27,10 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["localPositionY"] = static_cast<float>(pos.y);
 	meta["localPositionZ"] = static_cast<float>(pos.z);
 
-	meta["eulerAnglesX"] = static_cast<float>(eulerAngles.x);
-	meta["eulerAnglesY"] = static_cast<float>(eulerAngles.y);
-	meta["eulerAnglesZ"] = static_cast<float>(eulerAngles.z);
+	float3 rotation = GetRotationXYZ();
+	meta["localRot_X"] = (float)rotation.x;
+	meta["localRot_Y"] = (float)rotation.y;
+	meta["localRot_Z"] = (float)rotation.z;
 
 	meta["localScaleX"] = static_cast<float>(sca.x);
 	meta["localScaleY"] = static_cast<float>(sca.y);
@@ -46,9 +47,11 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	pos.y = static_cast<float>(meta["localPositionY"]);
 	pos.z = static_cast<float>(meta["localPositionZ"]);
 
-	eulerAngles.x = static_cast<float>(meta["localRotationX"]);
-	eulerAngles.y = static_cast<float>(meta["localRotationY"]);
-	eulerAngles.z = static_cast<float>(meta["localRotationZ"]);
+	float3 rotation;
+	rotation.x = (float)meta["localRot_X"];
+	rotation.y = (float)meta["localRot_Y"];
+	rotation.z = (float)meta["localRot_Z"];
+	SetRotation(rotation);
 
 	sca.x = static_cast<float>(meta["localScaleX"]);
 	sca.y = static_cast<float>(meta["localScaleY"]);
