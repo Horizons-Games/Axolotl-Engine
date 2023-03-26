@@ -173,9 +173,9 @@
         },
         {
             "GameObject": {
-                "name": "DroneV2_83",
-                "uid": 6800736481084043017,
-                "parentUID": 13316232248224732269,
+                "name": "Lv1_CargoBay_FloorHill",
+                "uid": 6620442727733353908,
+                "parentUID": 8474103143192668451,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -184,33 +184,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localPos_X": 12.992932319641114,
+                            "localPos_Y": 0.01983470469713211,
+                            "localPos_Z": -7.003515720367432,
+                            "localRot_X": -90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 869891762275968672,
-                            "assetPathMaterial": "Assets/Materials/DroneV2_0.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 12251958828451708557,
-                            "assetPathMesh": "Assets/Meshes/DroneV2_83.mesh"
                         }
                     }
                 ]
@@ -263,9 +245,9 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_FloorHill",
-                "uid": 6620442727733353908,
-                "parentUID": 8474103143192668451,
+                "name": "DroneV2_83",
+                "uid": 6800736481084043017,
+                "parentUID": 13316232248224732269,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -274,15 +256,33 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 12.992932319641114,
-                            "localPos_Y": 0.01983470469713211,
-                            "localPos_Z": -7.003515720367432,
-                            "localRot_X": -90.0,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 869891762275968672,
+                            "assetPathMaterial": "Assets/Materials/DroneV2_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12251958828451708557,
+                            "assetPathMesh": "Assets/Meshes/DroneV2_83.mesh"
                         }
                     }
                 ]
@@ -344,51 +344,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_Wall2_0",
-                "uid": 4673288480710564364,
-                "parentUID": 14188801191280368115,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.340461015701294,
-                            "localPos_Y": 0.48472386598587038,
-                            "localPos_Z": 0.058686256408691409,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.4000000059604645,
-                            "localSca_Y": 0.4000000059604645,
-                            "localSca_Z": 0.4000000059604645
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 2323253204384542066,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_Wall2_0.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3546022491839104292,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_Wall2_0.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "DroneV2_65",
                 "uid": 8557707325299828884,
                 "parentUID": 41620073544885066,
@@ -427,6 +382,51 @@
                             "removed": true,
                             "meshUID": 18409233069891544602,
                             "assetPathMesh": "Assets/Meshes/DroneV2_65.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_Wall2_0",
+                "uid": 4673288480710564364,
+                "parentUID": 14188801191280368115,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.340461015701294,
+                            "localPos_Y": 0.48472386598587038,
+                            "localPos_Z": 0.058686256408691409,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.4000000059604645,
+                            "localSca_Y": 0.4000000059604645,
+                            "localSca_Z": 0.4000000059604645
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 2323253204384542066,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_Wall2_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3546022491839104292,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_Wall2_0.mesh"
                         }
                     }
                 ]
@@ -5075,7 +5075,7 @@
                             "type": "Component_Material",
                             "active": true,
                             "removed": true,
-                            "materialUID": 13829230425398117198,
+                            "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     },
@@ -5084,7 +5084,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16993242625070400632,
+                            "meshUID": 17416733472434440775,
                             "assetPathMesh": "Assets/Meshes/David.mesh"
                         }
                     }
@@ -66865,7 +66865,7 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 17143739507420777069,
+        "skyboxUID": 6409922103157209078,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     }
 }
