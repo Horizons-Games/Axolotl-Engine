@@ -95,7 +95,7 @@ void GameObject::Update()
 void GameObject::Draw() const
 {
 #ifndef ENGINE
-	if (App->editor->GetDebugOptions()->get()->GetDrawBoundingBoxes())
+	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}

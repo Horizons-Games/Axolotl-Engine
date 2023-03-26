@@ -46,7 +46,7 @@ ComponentSpotLight::~ComponentSpotLight()
 void ComponentSpotLight::Draw()
 {
 #ifndef ENGINE
-	if (!App->editor->GetDebugOptions()->get()->GetDrawSpotLight())
+	if (!App->editor->GetDebugOptions()->GetDrawSpotLight())
 	{
 		return;
 	}
