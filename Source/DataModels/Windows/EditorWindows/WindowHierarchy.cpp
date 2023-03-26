@@ -29,26 +29,12 @@ void WindowHierarchy::DrawWindowContents()
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot)
 {
-    if (isRoot)
-    {
-        stopDrawing = false;
-    }
-    else if (stopDrawing)
-    {
-        return;
-    }
-
     assert(gameObject != nullptr);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
-
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-    if (gameObject->GetChildren().empty())
-    {
-        flags |= ImGuiTreeNodeFlags_Leaf;
-    }
 
     if (isRoot)
     {
@@ -56,19 +42,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
     }
     else
     {
-        if (gameObject->IsChildSelected())
+        if (gameObject->GetChildren().empty())
         {
-            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+            flags |= ImGuiTreeNodeFlags_Leaf;
         }
 
-        /*const std::list<GameObject*>& childrenList = gameObject->GetGameObjectsInside();
-        for (GameObject* child : childrenList)
-        {
-            if (child->GetStateOfSelection() == StateOfSelection::SELECTED)
-            {
-                ImGui::SetNextItemOpen(true);
-            }
-        }*/
+        if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED
+            && StateOfSelection::SELECTED == App->scene->GetSelectedGameObject()->GetStateOfSelection())
+        {            
+            ImGui::SetNextItemOpen(true);
+        }
     }
 
     if (gameObject == App->scene->GetSelectedGameObject())
@@ -80,11 +63,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
     bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
     ImGui::PopStyleColor();
 
-    bool itemVisible = ImGui::IsItemVisible();
-    bool itemAboveCurrentScroll = ImGui::GetScrollY() >=
-        ImGui::GetItemRectMin().y - ImGui::GetWindowContentRegionMin().y - ImGui::GetWindowPos().y;
-
-    if (nodeDrawn)
+    ImGui::PushID(gameObjectLabel);
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+        (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
+            && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->GetLoadedScene()->GetRootQuadtree()
             ->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
@@ -93,7 +75,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
     }
 
     // Delete a GameObject with the SUPR key
-    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+    if (!isRoot &&
         gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
         gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
     {
@@ -160,37 +142,32 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
             {
                 App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
             }
-            //Normally you can have multiple Directionals but just now we can't so...
-            /*if (ImGui::MenuItem("Directional"))
-            {
-                App->scene->GetLoadedScene()->CreateLightGameObject("Directional", gameObject, LightType::DIRECTIONAL);
-            }*/
             ImGui::EndMenu();
         }
 
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
+        if (!isRoot) // The root can't be neither deleted nor moved up/down
         {
-            GameObject* selectedParent = gameObject->GetParent();
-            std::vector<GameObject*> parentsChildren = selectedParent->GetChildren();
-
             if (ImGui::MenuItem("Move Up"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[0] != gameObject)
+                if (!gameObject->GetParent()->GetChildren().empty() 
+                    && gameObject->GetParent()->GetChildren()[0] != gameObject)
                 {
-                    selectedParent->MoveUpChild(gameObject);
+                    gameObject->GetParent()->MoveUpChild(gameObject);
                 }
             }
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (parentsChildren.size() > 1 && parentsChildren[parentsChildren.size() - 1] != gameObject)
+                if (!gameObject->GetParent()->GetChildren().empty() 
+                    && gameObject->GetParent()
+                    ->GetChildren()[gameObject->GetParent()->GetChildren().size() - 1] != gameObject)
                 {
-                    selectedParent->MoveDownChild(gameObject);
+                    gameObject->GetParent()->MoveDownChild(gameObject);
                 }
             }
         }
 
-        if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        if (!isRoot &&
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
         {
@@ -212,7 +189,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
     }
     ImGui::PopID();
 
-    if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root cannot be moved around
+    if (!isRoot) // The root cannot be moved around
     {
         if (ImGui::BeginDragDropSource())
         {
@@ -244,9 +221,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot
     {
         for (int i = 0; i < gameObject->GetChildren().size(); ++i)
         {
-            DrawRecursiveHierarchy(gameObject->GetChildren()[i]);
+            DrawRecursiveHierarchy(gameObject->GetChildren()[i], false);
         }
-
         ImGui::TreePop();
     }
 }

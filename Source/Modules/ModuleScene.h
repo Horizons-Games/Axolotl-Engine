@@ -56,8 +56,3 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
 }
-
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
-{
-	selectedGameObject = gameObject;
-}
