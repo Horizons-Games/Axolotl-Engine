@@ -21,15 +21,13 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    if (App->scene->GetLoadedScene()->GetRoot())
-    {
-        DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot(), true);
-    }
+    assert(App->scene->GetLoadedScene()->GetRoot());
+    DrawRecursiveHierarchy(App->scene->GetLoadedScene()->GetRoot(), true);
 }
 
 void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot)
 {
-    assert(gameObject != nullptr);
+    assert(gameObject);
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
