@@ -6,7 +6,6 @@
 #include <map>
 
 #include "Geometry/Plane.h"
-#include "Geometry/LineSegment.h"
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
@@ -38,6 +37,7 @@ enum class CameraType
 
 class GameObject;
 class WindowScene;
+struct RaycastHit;
 
 class Camera
 {
@@ -97,12 +97,8 @@ public:
 	const float3& GetPosition() const;
 
 protected:
-
-	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
-
-	void CalculateHitGameObjects(const LineSegment& ray);
-	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	
+	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
 	std::unique_ptr <Frustum> frustum;
