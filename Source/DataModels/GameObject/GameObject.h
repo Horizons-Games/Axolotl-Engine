@@ -178,6 +178,7 @@ inline bool GameObject::IsActive() const
 inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
 	std::vector<GameObject*> rawChildren;
+	rawChildren.reserve(children.size());
 
 	if(!children.empty())
 		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
