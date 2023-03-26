@@ -1,6 +1,11 @@
 #include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
 
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+#include "DataStructures/Quadtree.h"
+#include "Geometry/Frustum.h"
+
 #include "GameObject/GameObject.h"
 #include "Application.h"
 
@@ -26,39 +31,32 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::Update()
 {
 #ifndef ENGINE
-	bool stopped = false;
+	
 	if (isKinematic)
 	{
 		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 		float3 currentPos = transform->GetPosition();
 		Ray ray(currentPos, -float3::unitY);
-		LineSegment line(ray, 100.0f);
+		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		RaycastHit hit;
-		if (!stopped) 
+
+		bool hasHit = Physics::Raycast(line, hit);
+		float3 x;
+		float t = App->GetDeltaTime();
+		//float t = 0.05f;
+		float3 x0 = currentPos;
+		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
+
+		v0.y -= g * t;
+		x = x0 + v0 * t + a;
+
+		if (hasHit && x.y <= hit.hitPoint.y + (x-x0).Length())
 		{
-			Physics::Raycast(line, hit);
-			float3 x;
-			float t = App->GetDeltaTime();
-			float3 x0 = currentPos;
-			float3 a = float3(0.0f, -0.5 * g * t * t * 15, 0.0f);
-
-			x = x0 + v0 * t + a;
-
-			if (hit.gameObject == nullptr || x.y > hit.hitPoint.y + 3.0f)
-			{
-				transform->SetPosition(x);
-			}
-			else 
-			{
-				x = hit.hitPoint;
-				transform->SetPosition(x);
-				stopped = true;
-				
-				if (hit.gameObject->CompareTag("WIN"))
-				{
-				}
-			}
+			x = hit.hitPoint;
+			v0 = float3::zero;
 		}
+
+		transform->SetPosition(x);
 	}
 #endif
 }
@@ -74,7 +72,6 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
-	meta["isKinematic"] = (bool)GetIsKinematic();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -83,5 +80,4 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
-	SetIsKinematic((bool)meta["isKinematic"]);
 }
