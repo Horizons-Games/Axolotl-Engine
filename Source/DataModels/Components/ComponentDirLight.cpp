@@ -3,6 +3,13 @@
 #include "Application.h"
 #include "ComponentTransform.h"
 
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
@@ -33,7 +40,7 @@ ComponentDirLight::~ComponentDirLight()
 void ComponentDirLight::Draw()
 {
 #ifndef ENGINE
-	if (!App->IsDebuggingGame())
+	if (!App->editor->GetDebugOptions()->GetDrawDirLight())
 	{
 		return;
 	}

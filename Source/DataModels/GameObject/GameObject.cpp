@@ -15,6 +15,11 @@
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleDebugDraw.h"
 
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "Scene/Scene.h"
 
 #include <queue>
@@ -113,7 +118,13 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
-	if (drawBoundingBoxes || App->IsDebuggingGame())
+#ifndef ENGINE
+	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
+#endif //ENGINE
+	if (drawBoundingBoxes)
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}
