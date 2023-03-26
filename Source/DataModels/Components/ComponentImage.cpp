@@ -9,31 +9,17 @@
 
 #include "DataModels/Program/Program.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceMesh.h"
 #include "FileSystem/Json.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner)
 	: Component(ComponentType::IMAGE, active, owner, true)
 {
 	//provisional TODO
-	image = App->resources->RequestResource<ResourceTexture>("Assets/Textures/prop_shield_01_d.png");
-
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
-	unsigned int VBO;
-	glGenVertexArrays(1, &this->quadVAO);
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBindVertexArray(this->quadVAO);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	image = App->resources->RequestResource<ResourceTexture>("Assets/Textures/top.png");
+	image->Load();
+	LoadVBO();
+	CreateVAO();
 }
 
 ComponentImage::~ComponentImage()
@@ -49,22 +35,21 @@ void ComponentImage::Draw()
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
 	if(program)
 	{
-		//image->Load();
-		//glDepthMask(GL_FALSE);
-
+		image->Load();
 		program->Activate();
 
-		//program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-		//program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+		glBindVertexArray(vao);
 
-		glBindVertexArray(this->quadVAO);
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_CUBE_MAP, image->GetGlTexture());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 		program->Deactivate();
-		//glDepthMask(GL_TRUE);
 	}
 }
 
@@ -82,4 +67,32 @@ void ComponentImage::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+}
+
+void ComponentImage::LoadVBO()
+{
+	float skyboxVertices[] = {
+		// positions          
+		-0.5,  0.5, 0.0f, 1.0f,
+		-0.5, -0.5, 0.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5,  0.5, 1.0f, 1.0f,
+		-0.5,  0.5, 0.0f, 1.0f
+	};
+
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+}
+
+void ComponentImage::CreateVAO()
+{
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+	glBindVertexArray(0);
 }

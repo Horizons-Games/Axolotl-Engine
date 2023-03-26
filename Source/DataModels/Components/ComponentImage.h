@@ -3,6 +3,7 @@
 #include <memory>
 
 class ResourceTexture;
+class ResourceMesh;
 
 class ComponentImage :
 	public Component
@@ -17,8 +18,14 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	void LoadVBO();
+
+	void CreateVAO();
+
 private:
 	std::shared_ptr<ResourceTexture> image;
-	unsigned int quadVAO;
+	unsigned vbo;
+	unsigned vao;
+
 };
 
