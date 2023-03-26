@@ -171,7 +171,6 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
-	gameObject->CreateComponent(ComponentType::TRANSFORM2D);
 	gameObject->CreateComponent(ComponentType::CANVAS);
 	sceneCanvas.push_back(gameObject);
 
