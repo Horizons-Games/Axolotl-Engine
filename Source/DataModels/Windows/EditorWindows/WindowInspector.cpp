@@ -137,6 +137,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
+				if (ImGui::MenuItem("Create RigidBody Component"))
+				{
+					AddComponentRigidBody();
+				}
+			}
+
 		}
 
 		else
@@ -325,4 +332,9 @@ void WindowInspector::ResetSelectedGameObject()
 {
 	windowsForComponentsOfSelectedObject.clear();
 	lastSelectedObjectUID = 0;
+}
+
+void WindowInspector::AddComponentRigidBody()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
 }
