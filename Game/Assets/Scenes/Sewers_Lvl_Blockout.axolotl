@@ -2,33 +2,6 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "Sewers_Lvl_Blockout",
-                "uid": 9205517506871782864,
-                "parentUID": 0,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Platform_Zone_1",
                 "uid": 17890800428607483724,
                 "parentUID": 4209807073720813841,
@@ -56,6 +29,78 @@
                             "type": "Component_Material",
                             "active": true,
                             "removed": true,
+                            "materialUID": 8566686845312335479,
+                            "assetPathMaterial": "Assets/Materials/Suelo_Toxico.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Lvl_Blockout",
+                "uid": 9205517506871782864,
+                "parentUID": 0,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Combat_Zone_1",
+                "uid": 8381148997681523193,
+                "parentUID": 4209807073720813841,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 12.160070419311524,
+                            "localPos_Y": 0.00000413625502915238,
+                            "localPos_Z": 10.153438568115235,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 2.00964093208313,
+                            "localSca_Y": 0.5974000096321106,
+                            "localSca_Z": 1.5113525390625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
                             "materialUID": 16944709532248246944,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -74,47 +119,8 @@
         },
         {
             "GameObject": {
-                "name": "Directional_Light",
-                "uid": 3112086442809709980,
-                "parentUID": 9205517506871782864,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 110.47702026367188,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Wall_Back_Left",
-                "uid": 4420748199241995164,
+                "name": "Wall_Left_Top",
+                "uid": 17841758623771094713,
                 "parentUID": 11716064768534392784,
                 "enabled": true,
                 "active": true,
@@ -124,15 +130,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.8601317405700684,
-                            "localPos_Y": 9.066221237182618,
-                            "localPos_Z": 0.00008797645568847656,
+                            "localPos_X": -2.980076789855957,
+                            "localPos_Y": 4.790724277496338,
+                            "localPos_Z": -1.6443839073181153,
                             "localRot_X": -0.0,
-                            "localRot_Y": -2.8365684977206715e-15,
-                            "localRot_Z": 180.0,
-                            "localSca_X": 0.37389662861824038,
+                            "localRot_Y": -3.9543025023023109e-14,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.5486308932304382,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 0.44774702191352847
                         }
                     },
                     {
@@ -203,33 +209,6 @@
         },
         {
             "GameObject": {
-                "name": "Floors",
-                "uid": 4209807073720813841,
-                "parentUID": 16337298506501638189,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Combat_Zone_3",
                 "uid": 17881633224675324062,
                 "parentUID": 14699057841869754003,
@@ -257,8 +236,74 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Left_Top",
-                "uid": 17841758623771094713,
+                "name": "Floors",
+                "uid": 4209807073720813841,
+                "parentUID": 16337298506501638189,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "uid": 3112086442809709980,
+                "parentUID": 9205517506871782864,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 110.47702026367188,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_Back_Left",
+                "uid": 4420748199241995164,
                 "parentUID": 11716064768534392784,
                 "enabled": true,
                 "active": true,
@@ -268,60 +313,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -2.980076789855957,
-                            "localPos_Y": 4.790724277496338,
-                            "localPos_Z": -1.6443839073181153,
+                            "localPos_X": -1.8601317405700684,
+                            "localPos_Y": 9.066221237182618,
+                            "localPos_Z": 0.00008797645568847656,
                             "localRot_X": -0.0,
-                            "localRot_Y": -3.9543025023023109e-14,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.5486308932304382,
+                            "localRot_Y": -2.8365684977206715e-15,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.37389662861824038,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 0.44774702191352847
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Combat_Zone_1",
-                "uid": 8381148997681523193,
-                "parentUID": 4209807073720813841,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 12.160070419311524,
-                            "localPos_Y": 0.00000413625502915238,
-                            "localPos_Z": 10.153438568115235,
-                            "localRot_X": -180.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 2.00964093208313,
-                            "localSca_Y": 0.5974000096321106,
-                            "localSca_Z": 1.5113525390625
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -593,9 +593,9 @@
         },
         {
             "GameObject": {
-                "name": "Corridor_1",
-                "uid": 1258110927348364165,
-                "parentUID": 4209807073720813841,
+                "name": "Wall_Front_Left",
+                "uid": 17463952283259847654,
+                "parentUID": 3903202097376748268,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -604,15 +604,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 24.277910232543947,
-                            "localPos_Y": 0.0000052170375965943098,
-                            "localPos_Z": 10.398284912109375,
-                            "localRot_X": -180.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 2.046086311340332,
-                            "localSca_Y": 0.4700000286102295,
-                            "localSca_Z": 0.5418489575386047
+                            "localPos_X": -16.488758087158204,
+                            "localPos_Y": 1.0621967315673829,
+                            "localPos_Z": 7.152557373046875e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 2.290751647344904e-14,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.3664418160915375,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -683,53 +683,8 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Front_Left",
-                "uid": 17463952283259847654,
-                "parentUID": 3903202097376748268,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -16.488758087158204,
-                            "localPos_Y": 1.0621967315673829,
-                            "localPos_Z": 7.152557373046875e-7,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 2.290751647344904e-14,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.3664418160915375,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Platform_Zone_2",
-                "uid": 13941712386887563142,
+                "name": "Corridor_1",
+                "uid": 1258110927348364165,
                 "parentUID": 4209807073720813841,
                 "enabled": true,
                 "active": true,
@@ -739,15 +694,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -5.423500061035156,
-                            "localPos_Y": 0.0000026092352527484765,
-                            "localPos_Z": 10.269929885864258,
+                            "localPos_X": 24.277910232543947,
+                            "localPos_Y": 0.0000052170375965943098,
+                            "localPos_Z": 10.398284912109375,
                             "localRot_X": -180.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -180.0,
-                            "localSca_X": 3.2472145557403566,
+                            "localSca_X": 2.046086311340332,
                             "localSca_Y": 0.4700000286102295,
-                            "localSca_Z": 1.0154973268508912
+                            "localSca_Z": 0.5418489575386047
                         }
                     },
                     {
@@ -800,9 +755,99 @@
         },
         {
             "GameObject": {
-                "name": "Platforms",
-                "uid": 16608199725092769927,
-                "parentUID": 16337298506501638189,
+                "name": "Platform_Zone_2",
+                "uid": 13941712386887563142,
+                "parentUID": 4209807073720813841,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.423500061035156,
+                            "localPos_Y": 0.0000026092352527484765,
+                            "localPos_Z": 10.269929885864258,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 3.2472145557403566,
+                            "localSca_Y": 0.4700000286102295,
+                            "localSca_Z": 1.0154973268508912
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 8566686845312335479,
+                            "assetPathMaterial": "Assets/Materials/Suelo_Toxico.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Combat_Zone_2",
+                "uid": 10324102317321101844,
+                "parentUID": 4209807073720813841,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -23.57648277282715,
+                            "localPos_Y": 0.000001018009129438724,
+                            "localPos_Z": 10.221416473388672,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 2.130078077316284,
+                            "localSca_Y": 0.5974000096321106,
+                            "localSca_Z": 2.533158302307129
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Combat_Zone_4",
+                "uid": 4536339498682386820,
+                "parentUID": 14699057841869754003,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -917,54 +962,9 @@
         },
         {
             "GameObject": {
-                "name": "Combat_Zone_2",
-                "uid": 10324102317321101844,
-                "parentUID": 4209807073720813841,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -23.57648277282715,
-                            "localPos_Y": 0.000001018009129438724,
-                            "localPos_Z": 10.221416473388672,
-                            "localRot_X": -180.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 2.130078077316284,
-                            "localSca_Y": 0.5974000096321106,
-                            "localSca_Z": 2.533158302307129
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Combat_Zone_4",
-                "uid": 4536339498682386820,
-                "parentUID": 14699057841869754003,
+                "name": "Platforms",
+                "uid": 16608199725092769927,
+                "parentUID": 16337298506501638189,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -1448,51 +1448,6 @@
         },
         {
             "GameObject": {
-                "name": "Door_Wall_Top",
-                "uid": 8372622230576086276,
-                "parentUID": 1180056587023038992,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.025493621826172,
-                            "localPos_Y": 2.811931610107422,
-                            "localPos_Z": 1.5620882511138917,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.352651447057724,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.47585850954055788
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Wall_Left",
                 "uid": 14163572207946566087,
                 "parentUID": 7776087734261347166,
@@ -1538,9 +1493,9 @@
         },
         {
             "GameObject": {
-                "name": "Platform_Zone_1",
-                "uid": 6214913738072259322,
-                "parentUID": 14699057841869754003,
+                "name": "Door_Wall_Top",
+                "uid": 8372622230576086276,
+                "parentUID": 1180056587023038992,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -1549,15 +1504,33 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": -3.025493621826172,
+                            "localPos_Y": 2.811931610107422,
+                            "localPos_Z": 1.5620882511138917,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.352651447057724,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 0.47585850954055788
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
                         }
                     }
                 ]
@@ -1610,9 +1583,9 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Left",
-                "uid": 10342884778116693742,
-                "parentUID": 6214913738072259322,
+                "name": "Platform_Zone_1",
+                "uid": 6214913738072259322,
+                "parentUID": 14699057841869754003,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -1621,78 +1594,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 8.963031768798829,
-                            "localPos_Y": 1.3030815124511719,
-                            "localPos_Z": 32.25629806518555,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.4257872402667999,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 5.2819929122924809
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Wall_Front_Right",
-                "uid": 152982696702148151,
-                "parentUID": 3903202097376748268,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -16.488758087158204,
-                            "localPos_Y": 4.990217208862305,
-                            "localPos_Z": 9.5367431640625e-7,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 2.290751647344904e-14,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.3664418160915375,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
                         }
                     }
                 ]
@@ -1765,6 +1675,96 @@
                             "localSca_X": 0.44055214524269106,
                             "localSca_Y": 1.0,
                             "localSca_Z": 3.2119393348693849
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_Front_Right",
+                "uid": 152982696702148151,
+                "parentUID": 3903202097376748268,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.488758087158204,
+                            "localPos_Y": 4.990217208862305,
+                            "localPos_Z": 9.5367431640625e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 2.290751647344904e-14,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.3664418160915375,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_Left",
+                "uid": 10342884778116693742,
+                "parentUID": 6214913738072259322,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.963031768798829,
+                            "localPos_Y": 1.3030815124511719,
+                            "localPos_Z": 32.29930114746094,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.4300000071525574,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 5.307000160217285
                         }
                     },
                     {
@@ -2015,9 +2015,9 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Right_L",
-                "uid": 3064777300938563442,
-                "parentUID": 11716064768534392784,
+                "name": "Wall_Left",
+                "uid": 1240620062337937959,
+                "parentUID": 4536339498682386820,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -2026,15 +2026,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 2.9955592155456545,
-                            "localPos_Y": 1.5877151489257813,
-                            "localPos_Z": 0.00008869171142578125,
+                            "localPos_X": -11.387819290161133,
+                            "localPos_Y": 1.291292428970337,
+                            "localPos_Z": -18.59764862060547,
                             "localRot_X": -0.0,
-                            "localRot_Y": -2.8365680742041979e-15,
-                            "localRot_Z": 90.0,
-                            "localSca_X": 0.5231255292892456,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.4381353557109833,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 2.2000725269317629
                         }
                     },
                     {
@@ -2060,9 +2060,9 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Left",
-                "uid": 1240620062337937959,
-                "parentUID": 4536339498682386820,
+                "name": "Wall_Right_L",
+                "uid": 3064777300938563442,
+                "parentUID": 11716064768534392784,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -2071,15 +2071,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -11.387819290161133,
-                            "localPos_Y": 1.291292428970337,
-                            "localPos_Z": -18.59764862060547,
+                            "localPos_X": 2.9955592155456545,
+                            "localPos_Y": 1.5877151489257813,
+                            "localPos_Z": 0.00008869171142578125,
                             "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.4381353557109833,
+                            "localRot_Y": -2.8365680742041979e-15,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 0.5231255292892456,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 2.2000725269317629
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -2150,9 +2150,9 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Right_Top",
-                "uid": 14612574012482397346,
-                "parentUID": 11716064768534392784,
+                "name": "Wall_Front_Top",
+                "uid": 12660531648455818995,
+                "parentUID": 3903202097376748268,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -2161,15 +2161,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 2.9955592155456545,
-                            "localPos_Y": 4.790724277496338,
-                            "localPos_Z": -1.6632442474365235,
+                            "localPos_X": -16.488758087158204,
+                            "localPos_Y": 2.955103874206543,
+                            "localPos_Z": 1.9904906749725342,
                             "localRot_X": -0.0,
-                            "localRot_Y": -2.8365684977206715e-15,
-                            "localRot_Z": 90.0,
-                            "localSca_X": 0.5486308932304382,
+                            "localRot_Y": 2.290751647344904e-14,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 0.3664418160915375,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 0.44774702191352847
+                            "localSca_Z": 0.3358340859413147
                         }
                     },
                     {
@@ -2195,9 +2195,9 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Front_Top",
-                "uid": 12660531648455818995,
-                "parentUID": 3903202097376748268,
+                "name": "Wall_Right_Top",
+                "uid": 14612574012482397346,
+                "parentUID": 11716064768534392784,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -2206,15 +2206,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -16.488758087158204,
-                            "localPos_Y": 2.955103874206543,
-                            "localPos_Z": 1.9904906749725342,
+                            "localPos_X": 2.9955592155456545,
+                            "localPos_Y": 4.790724277496338,
+                            "localPos_Z": -1.6632442474365235,
                             "localRot_X": -0.0,
-                            "localRot_Y": 2.290751647344904e-14,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 0.3664418160915375,
+                            "localRot_Y": -2.8365684977206715e-15,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 0.5486308932304382,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 0.3358340859413147
+                            "localSca_Z": 0.44774702191352847
                         }
                     },
                     {
@@ -2278,33 +2278,6 @@
                             "removed": true,
                             "meshUID": 16617656002427764083,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Platform_Zone_2",
-                "uid": 3903202097376748268,
-                "parentUID": 14699057841869754003,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.3327503204345704,
-                            "localPos_Y": 1.2788735628128052,
-                            "localPos_Z": 13.27998161315918,
-                            "localRot_X": -90.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.4279274642467499
                         }
                     }
                 ]
@@ -2395,6 +2368,33 @@
                             "removed": true,
                             "meshUID": 16617656002427764083,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Platform_Zone_2",
+                "uid": 3903202097376748268,
+                "parentUID": 14699057841869754003,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3327503204345704,
+                            "localPos_Y": 1.2788735628128052,
+                            "localPos_Z": 13.27998161315918,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.4279274642467499
                         }
                     }
                 ]
@@ -3365,51 +3365,6 @@
         },
         {
             "GameObject": {
-                "name": "Wall_Back_Right",
-                "uid": 17015301570708793540,
-                "parentUID": 17881633224675324062,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.7705953121185304,
-                            "localPos_Y": -30.286808013916017,
-                            "localPos_Z": 11.43539810180664,
-                            "localRot_X": -180.0,
-                            "localRot_Y": -9.57690437369818e-12,
-                            "localRot_Z": -3.867554193570655e-11,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.2648583650588989
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16617656002427764083,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Cube",
                 "uid": 1714627436865436327,
                 "parentUID": 15903770988171043353,
@@ -3448,6 +3403,51 @@
                             "removed": true,
                             "meshUID": 1804006675465548998,
                             "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_Back_Right",
+                "uid": 17015301570708793540,
+                "parentUID": 17881633224675324062,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.7705953121185304,
+                            "localPos_Y": -30.286808013916017,
+                            "localPos_Z": 11.43539810180664,
+                            "localRot_X": -180.0,
+                            "localRot_Y": -9.57690437369818e-12,
+                            "localRot_Z": -3.867554193570655e-11,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.2648583650588989
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16617656002427764083,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
                         }
                     }
                 ]
@@ -3626,8 +3626,8 @@
                             "type": "Component_Material",
                             "active": true,
                             "removed": true,
-                            "materialUID": 16944709532248246944,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                            "materialUID": 194633202040158942,
+                            "assetPathMaterial": "Assets/Materials/White.mat"
                         }
                     },
                     {
@@ -4294,6 +4294,249 @@
                             "localSca_X": 0.2891724109649658,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.1076347827911378
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1804006675465548998,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column_1",
+                "uid": 13879475176802069608,
+                "parentUID": 14699057841869754003,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.522757530212402,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 38.15548324584961,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "uid": 1233025474588531225,
+                "parentUID": 13879475176802069608,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.8990793228149415,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -2.305950164794922,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5249999761581421,
+                            "localSca_Y": 2.5999999046325685,
+                            "localSca_Z": 1.2000000476837159
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1804006675465548998,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column_2",
+                "uid": 17048989217354371063,
+                "parentUID": 14699057841869754003,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.522757530212402,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 42.267276763916019,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "uid": 2211324188156848484,
+                "parentUID": 14699057841869754003,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "uid": 13089354833893242345,
+                "parentUID": 2211324188156848484,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.368165969848633,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 44.03246307373047,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.574999988079071,
+                            "localSca_Y": 0.6000000238418579,
+                            "localSca_Z": 2.9000000953674318
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 16944709532248246944,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1804006675465548998,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "uid": 18349264162589646638,
+                "parentUID": 14699057841869754003,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.503870010375977,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 47.947444915771487,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.4749999940395355,
+                            "localSca_Y": 0.949999988079071,
+                            "localSca_Z": 0.5249999761581421
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "uid": 5698153551379207866,
+                "parentUID": 18349264162589646638,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.3473925590515137,
+                            "localPos_Z": -0.7986679077148438,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.9250000715255737,
+                            "localSca_Y": 1.399999976158142,
+                            "localSca_Z": 1.3309999704360963
                         }
                     },
                     {
