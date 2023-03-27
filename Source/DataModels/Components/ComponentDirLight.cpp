@@ -1,7 +1,8 @@
 #include "ComponentDirLight.h"
 
-#include "Application.h"
 #include "ComponentTransform.h"
+
+#include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
 #include "Modules/ModuleEditor.h"
@@ -11,6 +12,8 @@
 #endif //ENGINE
 
 #include "FileSystem/Json.h"
+
+#include "Application.h"
 
 #include "debugdraw.h"
 
@@ -45,7 +48,7 @@ void ComponentDirLight::Draw()
 		return;
 	}
 #endif //ENGINE
-	if (this->GetActive())
+	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()
