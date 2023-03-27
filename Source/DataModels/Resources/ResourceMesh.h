@@ -79,8 +79,6 @@ private:
 	std::vector<std::vector<unsigned int> > facesIndices;
 
 	OptionsMesh options;
-
-	friend class WindowComponentMeshRenderer;
 };
 
 inline ResourceType ResourceMesh::GetType() const
