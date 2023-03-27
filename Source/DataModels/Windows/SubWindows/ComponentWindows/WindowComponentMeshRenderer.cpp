@@ -10,8 +10,7 @@
 #include "DataModels/Resources/ResourceMesh.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component)),
-	meshPath(_strdup("unknown")), hadComponent(false)
+	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component))
 {
 }
 
@@ -29,19 +28,21 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 
+		char* meshPath;
+		ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
+
 		if (meshAsShared)
 		{
-			hadComponent = true;
 			//this should not be done, see issue #240
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
 		}
-		else if (hadComponent)
+		else
 		{
-			hadComponent = false;
 			meshPath = _strdup("unknown");
+			flags |= ImGuiInputTextFlags_ReadOnly;
 		}
 
-		ImGui::InputText("##Mesh path", meshPath, 128);
+		ImGui::InputText("##Mesh path", meshPath, 128, flags);
 		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
