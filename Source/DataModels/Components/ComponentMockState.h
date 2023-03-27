@@ -16,8 +16,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	bool GetIsWinState();
-	bool GetIsFailState();
+	bool GetIsWinState() const;
+	bool GetIsFailState() const;
 
 	void SetIsWinState(bool isWinState);
 	void SetIsFailState(bool isFailState);
@@ -32,12 +32,12 @@ private:
 	std::string sceneName;
 };
 
-inline bool ComponentMockState::GetIsWinState()
+inline bool ComponentMockState::GetIsWinState() const
 {
 	return this->isWinState;
 }
 
-inline bool ComponentMockState::GetIsFailState()
+inline bool ComponentMockState::GetIsFailState() const
 {
 	return this->isFailState;
 }

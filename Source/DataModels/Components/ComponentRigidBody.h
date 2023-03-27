@@ -16,7 +16,7 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	bool GetIsKinematic();
+	bool GetIsKinematic() const;
 	void SetIsKinematic(bool newIsKinematic);
 
 private:
@@ -27,7 +27,7 @@ private:
 	float3 v0;
 };
 
-inline bool ComponentRigidBody::GetIsKinematic()
+inline bool ComponentRigidBody::GetIsKinematic() const
 {
 	return this->isKinematic;
 }

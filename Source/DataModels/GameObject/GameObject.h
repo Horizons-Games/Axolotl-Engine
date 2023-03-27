@@ -98,7 +98,7 @@ public:
 	void setDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
 
-	bool CompareTag(const std::string& commingTag);
+	bool CompareTag(const std::string& commingTag) const;
 
 private:
 	bool IsAChild(const GameObject* child);
@@ -255,7 +255,7 @@ inline void GameObject::setDrawBoundingBoxes(bool newDraw)
 	drawBoundingBoxes = newDraw;
 }
 
-inline bool GameObject::CompareTag(const std::string& commingTag)
+inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
 }
