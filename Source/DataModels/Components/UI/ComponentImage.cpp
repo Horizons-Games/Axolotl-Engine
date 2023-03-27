@@ -10,6 +10,7 @@
 #include "ModuleProgram.h"
 
 #include "DataModels/Program/Program.h"
+#include "ComponentButton.h"
 #include "Resources/ResourceTexture.h"
 #include "Resources/ResourceMesh.h"
 #include "FileSystem/Json.h"
@@ -48,8 +49,9 @@ void ComponentImage::Draw()
 		glBindVertexArray(vao);
 
 		glActiveTexture(GL_TEXTURE0);
-		program->BindUniformFloat3("spriteColor", color);
-		if (image) {
+		program->BindUniformFloat3("spriteColor", GetFullColor());
+		if (image) 
+		{
 			image->Load();
 			glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
 			program->BindUniformInt("hasDiffuse", 1);
@@ -114,6 +116,16 @@ void ComponentImage::LoadOptions(Json& meta)
 		image = resourceImage;
 	}
 #endif
+}
+
+inline float3 ComponentImage::GetFullColor()
+{
+	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
+	if(button != nullptr)
+	{
+		return button->GetColorClicked();
+	}
+	return color;
 }
 
 void ComponentImage::LoadVBO()

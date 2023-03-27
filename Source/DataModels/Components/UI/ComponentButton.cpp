@@ -3,7 +3,7 @@
 #include "FileSystem/Json.h"
 
 ComponentButton::ComponentButton(bool active, GameObject* owner)
-	: Component(ComponentType::BUTTON, active, owner, true)
+	: Component(ComponentType::BUTTON, active, owner, true), colorClicked(0.5f,0.5f,0.5f),clicked(false)
 {
 }
 
@@ -35,3 +35,9 @@ void ComponentButton::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 }
+
+void ComponentButton::OnClicked()
+{
+}
+
+

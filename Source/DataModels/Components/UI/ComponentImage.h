@@ -21,6 +21,7 @@ public:
 
 	std::shared_ptr<ResourceTexture>& GetImage();
 	float3& GetColor();
+	float3 GetFullColor();
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
 
 	void LoadVBO();
