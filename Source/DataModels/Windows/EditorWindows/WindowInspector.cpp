@@ -65,6 +65,11 @@ void WindowInspector::InspectSelectedGameObject()
 		{
 			char* name = (char*)lastSelectedGameObject->GetName();
 			ImGui::InputText("##GameObject", name, 24);
+			
+			char* tag = (char*)lastSelectedGameObject->GetTag();
+			ImGui::Text("Tag");
+			ImGui::SameLine();
+			ImGui::InputText("##Tag", tag, 24);
 		}
 
 		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
@@ -141,6 +146,13 @@ void WindowInspector::InspectSelectedGameObject()
 				if (ImGui::MenuItem("Create RigidBody Component"))
 				{
 					AddComponentRigidBody();
+				}
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) {
+				if (ImGui::MenuItem("Create MockState Component"))
+				{
+					AddComponentMockState();
 				}
 			}
 
@@ -337,4 +349,9 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
+}
+
+void WindowInspector::AddComponentMockState()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }

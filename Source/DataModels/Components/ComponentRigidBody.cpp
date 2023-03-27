@@ -1,5 +1,6 @@
 #include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
+#include "ComponentMockState.h"
 
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
@@ -14,6 +15,9 @@
 #include "Geometry/LineSegment.h"
 #include "Geometry/Ray.h"
 #include "Physics/Physics.h"
+
+#include <iostream>
+
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	: Component(ComponentType::RIGIDBODY, active, owner, true)
@@ -30,8 +34,8 @@ ComponentRigidBody::~ComponentRigidBody()
 
 void ComponentRigidBody::Update()
 {
-#ifndef ENGINE
 	
+#ifndef ENGINE
 	if (isKinematic)
 	{
 		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
@@ -54,6 +58,18 @@ void ComponentRigidBody::Update()
 		{
 			x = hit.hitPoint;
 			v0 = float3::zero;
+			
+			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
+				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsWinState())
+			{
+				//TODO: win state
+			}
+
+			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
+				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsFailState())
+			{
+				//TODO fail state
+			}
 		}
 
 		transform->SetPosition(x);
@@ -63,7 +79,7 @@ void ComponentRigidBody::Update()
 
 void ComponentRigidBody::Draw()
 {
-
+	
 }
 
 void ComponentRigidBody::SaveOptions(Json& meta)
