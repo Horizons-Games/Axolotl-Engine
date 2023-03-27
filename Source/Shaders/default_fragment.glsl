@@ -1,16 +1,21 @@
 #version 460
 
+#extension GL_ARB_bindless_texture : require
+
 #define M_PI 3.1415926535897932384626433832795
 
 struct Material {
-    vec3 diffuse_color;        //0 //12 //location 3         
-    float normal_strength;     //12 //4 //location 4
-    int has_diffuse_map;       //16 //4 //location 5
-    int has_normal_map;        //20 //4 //location 6
-    float smoothness;          //24 //4 //location 7
-    int has_metallic_alpha;    //28 //4 //location 8
-    float metalness;           //32 //4 //location 9
-    int has_metallic_map;      //36 //4 //location 10
+    vec3 diffuse_color;         //0 //12
+    float normal_strength;      //12 //4
+    int has_diffuse_map;        //16 //4
+    int has_normal_map;         //20 //4
+    float smoothness;           //24 //4
+    int has_metallic_alpha;     //28 //4
+    float metalness;            //32 //4
+    int has_metallic_map;       //36 //4
+    sampler2D diffuse_map;      //40 //8
+    sampler2D normal_map;       //48 //8
+    sampler2D metallic_map;     //56 //8    //-->64
 };
 
 struct PointLight
@@ -22,7 +27,7 @@ struct PointLight
 struct SpotLight
 {
 	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16	// rgb colour+alpha intensity
+	vec4 color; 		//16 //16  	// rgb colour+alpha intensity
 	vec3 aim;			//12 //32
 	float innerAngle;	//4  //44
 	float outerAngle;	//4  //48   --> 52 
@@ -55,11 +60,6 @@ struct Light {
     vec3 position;
     vec3 color;
 };
-
-//layout(location = 3) uniform Material material; // 0-9
-layout(binding = 5) uniform sampler2D diffuse_map;
-layout(binding = 6) uniform sampler2D normal_map;
-layout(binding = 7) uniform sampler2D metallic_map;
 
 uniform Light light;
 
@@ -199,14 +199,14 @@ void main()
 
 	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord).rgb;
+        textureMat = texture(material.diffuse_map, TexCoord).rgb;
     }
     textureMat = pow(textureMat, gammaCorrection.rgb);
     
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -216,7 +216,7 @@ void main()
     float metalnessMask = material.metalness;
     float smoothnessMat = material.smoothness;
     if (material.has_metallic_map == 1) {
-        metalnessMask = texture(metallic_map, TexCoord).r;
+        metalnessMask = texture(material.metallic_map, TexCoord).r;
     }
 
     vec3 Cd = textureMat*(1.0-metalnessMask);

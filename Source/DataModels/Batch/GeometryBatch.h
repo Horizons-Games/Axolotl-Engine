@@ -23,15 +23,17 @@ struct Command
 };
 
 struct Material {
-	float3 diffuse_color = float3::zero;      
-	float normal_strength = 0;
-	int has_diffuse_map = 0;   
-	int has_normal_map = 0;  
-	float smoothness = 0;
-	int has_metallic_alpha = 0;
-	float metalness = 0;				//32 //4 //location 9
-	int has_metallic_map = 0;			//36 //4 //location 10
-	float2 padding8bytes = {0,0};
+	float3 diffuse_color = float3::zero;	//0 //12
+	float normal_strength = 0;				//12 //4
+	int has_diffuse_map = 0;				//16 //4
+	int has_normal_map = 0;					//20 //4
+	float smoothness = 0;					//24 //4
+	int has_metallic_alpha = 0;				//28 //4
+	float metalness = 0;					//32 //4
+	int has_metallic_map = 0;				//36 //4
+	uint64_t diffuse_map;					//40 //8
+	uint64_t normal_map;					//48 //8
+	uint64_t metallic_map;					//56 //8	//-->64
 };
 
 struct ResourceInfo
