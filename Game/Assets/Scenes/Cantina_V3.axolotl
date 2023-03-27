@@ -7325,41 +7325,6 @@
         },
         {
             "GameObject": {
-                "name": "Vix_Character",
-                "tag": "",
-                "uid": 1630437995701388946,
-                "parentUID": 15903199761032511603,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 11.60198974609375,
-                            "localPos_Y": 0.6352706551551819,
-                            "localPos_Z": 7.470065593719482,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 180.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.6150000095367432,
-                            "localSca_Y": 0.6152773499488831,
-                            "localSca_Z": 0.6150000095367432
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Player",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "LegoEnemyt_0",
                 "tag": "",
                 "uid": 3193721669702146447,
@@ -7409,7 +7374,7 @@
                 "name": "vix_0",
                 "tag": "",
                 "uid": 6509950760945933545,
-                "parentUID": 1630437995701388946,
+                "parentUID": 5159296902579712234,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -7501,7 +7466,7 @@
                 "name": "vix_1",
                 "tag": "",
                 "uid": 5159296902579712234,
-                "parentUID": 1630437995701388946,
+                "parentUID": 5457140795048261378,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -7510,15 +7475,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 11.60200023651123,
+                            "localPos_Y": 4.083180904388428,
+                            "localPos_Z": 7.484000205993652,
                             "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
+                            "localRot_Y": 180.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.6150000095367432,
+                            "localSca_Y": 0.6150000095367432,
+                            "localSca_Z": 0.6150000095367432
                         }
                     },
                     {
@@ -7538,6 +7503,20 @@
                             "meshUID": 3469471430032262188,
                             "assetPathMesh": "Assets/Meshes/vix_1.mesh"
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -7547,7 +7526,7 @@
                 "name": "vix_2",
                 "tag": "",
                 "uid": 12517757850238071495,
-                "parentUID": 1630437995701388946,
+                "parentUID": 5159296902579712234,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -13689,7 +13668,7 @@
                 "uid": 2669391213940941254,
                 "parentUID": 2214260397405378706,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "Components": [
                     {
                         "Component": {
@@ -13732,7 +13711,7 @@
                 "uid": 1279139177807191555,
                 "parentUID": 2214260397405378706,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "Components": [
                     {
                         "Component": {
@@ -13772,8 +13751,8 @@
             "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
-                "uid": 6470377306047754313,
-                "parentUID": 1630437995701388946,
+                "uid": 13279191032622082193,
+                "parentUID": 5159296902579712234,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -13782,15 +13761,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
+                            "localPos_X": -1.0,
+                            "localPos_Y": 1.7000000476837159,
+                            "localPos_Z": -3.0,
+                            "localRot_X": 2.424999952316284,
+                            "localRot_Y": 0.699999988079071,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 1.6260162591934205,
+                            "localSca_Y": 1.6260162591934205,
+                            "localSca_Z": 1.6260162591934205
                         }
                     },
                     {
@@ -13799,7 +13778,7 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": false
+                            "drawFrustum": true
                         }
                     }
                 ]
