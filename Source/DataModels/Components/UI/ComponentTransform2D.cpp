@@ -5,6 +5,7 @@
 #include "ComponentCanvas.h"
 #include "Math/float3x3.h"
 #include "Math/TransformOps.h"
+#include "Components/ComponentBoundingBox2D.h"
 
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM2D, active, owner, true),
@@ -109,6 +110,12 @@ void ComponentTransform2D::CalculateMatrices()
 		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
 			(child->GetComponent(ComponentType::TRANSFORM2D));
 		childTransform->CalculateMatrices();
+	}
+
+	ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
+	if (boundingBox) 
+	{
+		boundingBox->CalculateWorldBoundingBox();
 	}
 }
 

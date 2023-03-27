@@ -7,8 +7,11 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
+#include "ModuleInput.h"
 
 #include "GL/glew.h"
+#include "Physics/Physics.h"
+#include "DataModels/Components/ComponentBoundingBox2D.h"
 
 ModuleUI::ModuleUI() 
 {
@@ -49,6 +52,38 @@ update_status ModuleUI::Update()
 			for (GameObject* children : canvas->GetChildren())
 			{
 				DrawChildren(children);
+				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
+					App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+				{
+					ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(children->GetComponent(ComponentType::BOUNDINGBOX2D));
+					AABB2D aabb2d = boundingBox->GetWorldAABB();
+					float2 point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
+					if (aabb2d.Contains(point))
+					{
+						ENGINE_LOG("TRUE");
+					}
+					else
+					{
+						ENGINE_LOG("FALSE");
+					}
+
+					/*LineSegment ray;
+					if (Physics::ScreenPointToRay(App->input->GetMousePosition(), ray))
+					{
+						ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(children->GetComponent(ComponentType::BOUNDINGBOX2D));
+						AABB2D aabb2d = boundingBox->GetWorldAABB();
+						float2 point(ray.a.x, ray.a.y);
+						if (aabb2d.Contains(point))
+						{
+							ENGINE_LOG("TRUE");
+						}
+						else
+						{
+							ENGINE_LOG("FALSE");
+						}
+					}*/
+				}
+				
 			}
 		}
 	}

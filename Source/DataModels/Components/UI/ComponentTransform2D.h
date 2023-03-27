@@ -27,6 +27,7 @@ public:
 	void SetSize(const float2& newSize);
 
 	const float3& GetPosition() const;
+	const float2& GetPivot() const;
 	const float3& GetGlobalPosition() const;
 	const float4x4& GetRotation() const;
 	const float3& GetRotationXYZ() const;
@@ -113,6 +114,11 @@ inline void ComponentTransform2D::SetSize(const float2& newSize)
 inline const float3& ComponentTransform2D::GetPosition() const
 {
 	return pos;
+}
+
+inline const float2& ComponentTransform2D::GetPivot() const
+{
+	return pivot;
 }
 
 

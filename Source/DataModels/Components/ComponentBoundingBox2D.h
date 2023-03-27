@@ -6,7 +6,7 @@
 class ComponentBoundingBox2D :
     public Component
 {
-
+public:
 	ComponentBoundingBox2D(const bool active, GameObject* owner);
 	~ComponentBoundingBox2D() override;
 
@@ -17,11 +17,10 @@ class ComponentBoundingBox2D :
 	void LoadOptions(Json& meta) override;
 
 	void SetLocalBoundingBox(const AABB2D& boundingBox);
-	void CalculateWorldBoundingBox(bool force = false);
+	void CalculateWorldBoundingBox();
 	const AABB2D& GetWorldAABB() const;
 
 private:
-	bool drawOutline;
 
 	AABB2D localAABB;
 	AABB2D worldAABB;

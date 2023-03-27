@@ -192,6 +192,7 @@ GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, Comp
 	case ComponentType::BUTTON:
 		gameObject->CreateComponent(ComponentType::IMAGE);
 		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+		gameObject->CreateComponent(ComponentType::BOUNDINGBOX2D);
 		break;
 	default:
 		break;

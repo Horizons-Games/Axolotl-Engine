@@ -21,6 +21,25 @@
 #include "Geometry/Triangle.h"
 #include <queue>
 
+float2 Physics::ScreenToScenePosition(const float2& mousePosition) 
+{
+	// normalize the input to [-1, 1].
+	const WindowScene* windowScene = App->editor->GetScene();
+	ImVec2 startPosScene = windowScene->GetStartPos();
+	ImVec2 endPosScene = windowScene->GetEndPos();
+	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	{
+		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x
+			&& mousePosition.y > startPosScene.y && mousePosition.y < endPosScene.y)
+		{
+			float2 mousePositionAdjusted = mousePosition;
+			mousePositionAdjusted.x -= startPosScene.x;
+			mousePositionAdjusted.y -= startPosScene.y;
+
+			return mousePositionAdjusted;
+		}
+	}
+}
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 {
 
