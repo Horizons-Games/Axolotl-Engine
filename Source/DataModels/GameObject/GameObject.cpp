@@ -10,6 +10,8 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentRigidBody.h"
+#include "../Components/ComponentMockState.h"
 
 #include "Application.h"
 
@@ -198,6 +200,7 @@ void GameObject::SaveOptions(Json& meta)
 {
 	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
+	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
@@ -215,6 +218,9 @@ void GameObject::SaveOptions(Json& meta)
 
 void GameObject::LoadOptions(Json& meta)
 {
+	std::string tag = meta["tag"];
+	SetTag(tag.c_str());
+
 	Json jsonComponents = meta["Components"];
 
 	if(jsonComponents.Size() != 0)
@@ -498,7 +504,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentPlayer>(true, this);
 			break;
 		}
+		
+		case ComponentType::RIGIDBODY:
+		{
+			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
 
+		case ComponentType::MOCKSTATE:
+		{
+			newComponent = std::make_unique<ComponentMockState>(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");
