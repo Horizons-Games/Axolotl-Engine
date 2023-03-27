@@ -38,6 +38,10 @@ public:
 	const float4x4& GetGlobalMatrix() const;
 
 
+	float3 GetPositionRelativeToParent();
+	float3 GetScreenPosition();
+
+
 	void CalculateMatrices();
 
 
@@ -59,6 +63,8 @@ private:
 
 	float2 size;
 
+	float2 anchorMin = float2(0.5, 0.5);
+	float2 anchorMax = float2(0.5, 0.5);
 	float2 pivot;
 	float2 sizeDelta;
 };

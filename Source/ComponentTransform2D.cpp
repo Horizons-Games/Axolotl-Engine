@@ -2,13 +2,17 @@
 #include "FileSystem/Json.h"
 
 #include "GameObject/GameObject.h"
+#include "Components/ComponentCanvas.h"
 #include "Math/float3x3.h"
+#include "Math/TransformOps.h"
 
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM2D, active, owner, true),
 	pos(float3::zero), rot(float4x4::identity), sca(float3::one),
 	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
-	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
+	pivot(float2(0.5,0.5)), size(float2(50,50)),
+	anchorMin(float2(0.5, 0.5)), anchorMax(float2(0.5, 0.5))
 {
 }
 
@@ -72,7 +76,7 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 
 void ComponentTransform2D::CalculateMatrices()
 {
-	localMatrix = float4x4::FromTRS(pos, rot, sca);
+	localMatrix = float4x4::FromTRS(GetPositionRelativeToParent(), rot, sca) * float4x4::Translate(float3((-pivot + float2(0.5f, 0.5f)).Mul(size), 0.0f));
 
 	const GameObject* parent = GetOwner()->GetParent();
 
@@ -106,4 +110,46 @@ void ComponentTransform2D::CalculateMatrices()
 			(child->GetComponent(ComponentType::TRANSFORM2D));
 		childTransform->CalculateMatrices();
 	}
+}
+
+
+float3 ComponentTransform2D::GetPositionRelativeToParent()
+{
+	float2 parentSize(0, 0);
+
+	GameObject* parent = GetOwner()->GetParent();
+	if (parent != nullptr) {
+		ComponentCanvas* parentCanvas = static_cast<ComponentCanvas*>
+			(parent->GetComponent(ComponentType::CANVAS));
+		ComponentTransform2D* parentTransform2D = static_cast<ComponentTransform2D*>
+			(parent->GetComponent(ComponentType::TRANSFORM2D));
+		if (parentTransform2D != nullptr) {
+			if (parentCanvas != nullptr) {
+				parentSize = parentCanvas->GetSize() / parentCanvas->GetScreenFactor();
+			}
+			else {
+				parentSize = parentTransform2D->GetSize();
+			}
+		}
+	}
+
+	float3 positionRelativeToParent;
+	positionRelativeToParent.x = pos.x + (parentSize.x * (anchorMin.x - 0.5f));
+	positionRelativeToParent.y = pos.y + (parentSize.y * (anchorMin.y - 0.5f));
+	positionRelativeToParent.z = pos.z;
+	return positionRelativeToParent;
+}
+
+float3 ComponentTransform2D::GetScreenPosition()
+{
+	float3 screenPosition = GetPositionRelativeToParent();
+	GameObject* parent = GetOwner()->GetParent();
+	while (parent != nullptr) {
+		ComponentTransform2D* parentTransform2D = static_cast<ComponentTransform2D*>
+			(parent->GetComponent(ComponentType::TRANSFORM2D));
+		if (parentTransform2D == nullptr) break;
+		screenPosition += parentTransform2D->GetPositionRelativeToParent();
+		parent = parent->GetParent();
+	}
+	return screenPosition;
 }

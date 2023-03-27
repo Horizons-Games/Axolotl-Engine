@@ -16,5 +16,6 @@ public:
 	update_status Update();
 
 	void DrawChildren(GameObject* gameObject);
+	void RecalculateCanvasSizeAndScreenFactor();
 };
 

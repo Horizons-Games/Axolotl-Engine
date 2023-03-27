@@ -3,7 +3,7 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
-
+#include "Components/ComponentCanvas.h"
 #include "Application.h"
 
 ModuleUI::ModuleUI() 
@@ -50,5 +50,14 @@ void ModuleUI::DrawChildren(GameObject* gameObject)
 		{
 			DrawChildren(children);
 		}
+	}
+}
+
+void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
+{
+	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
+	for (GameObject* canvas : canvasScene)
+	{
+		((ComponentCanvas*)(canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
 	}
 }

@@ -19,9 +19,8 @@ public:
 	float2 GetScreenReferenceSize() const;
 	float2 GetSize();
 	float GetScreenFactor();
-private:
 	void RecalculateSizeAndScreenFactor();
-	bool AnyChildHasCanvasRenderer(const GameObject*) const;
+private:
 	bool AnyParentHasCanvas();
 
 private:
@@ -30,4 +29,21 @@ private:
 	float screenFactor;
 
 };
+
+
+inline void ComponentCanvas::SetScreenReferenceSize(float2 screenReferenceSize_) {
+	screenReferenceSize = screenReferenceSize_;
+}
+
+inline float2 ComponentCanvas::GetScreenReferenceSize() const {
+	return screenReferenceSize;
+}
+
+inline float2 ComponentCanvas::GetSize() {
+	return size;
+}
+
+inline float ComponentCanvas::GetScreenFactor() {
+	return screenFactor;
+}
 

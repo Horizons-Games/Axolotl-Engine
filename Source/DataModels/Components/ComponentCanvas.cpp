@@ -41,10 +41,12 @@ void ComponentCanvas::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+	RecalculateSizeAndScreenFactor();
 }
 
 
-void ComponentCanvas::RecalculateSizeAndScreenFactor() {
+void ComponentCanvas::RecalculateSizeAndScreenFactor() 
+{
 
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
@@ -53,18 +55,8 @@ void ComponentCanvas::RecalculateSizeAndScreenFactor() {
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }
 
-bool ComponentCanvas::AnyChildHasCanvasRenderer(const GameObject* obj) const {
-	/*bool found = obj->GetComponent<ComponentCanvasRenderer>();
-
-	for (std::vector<GameObject*>::const_iterator it = obj->GetChildren().begin(); it != obj->GetChildren().end() && !found; ++it) {
-		found = AnyChildHasCanvasRenderer(*it);
-	}
-	return found;
-	*/
-	return false;
-}
-
-bool ComponentCanvas::AnyParentHasCanvas() {
+bool ComponentCanvas::AnyParentHasCanvas() 
+{
 	GameObject* parent = GetOwner()->GetParent();
 
 	while (parent != nullptr) {
