@@ -13783,62 +13783,6 @@
                     }
                 ]
             }
-        },
-        {
-            "GameObject": {
-                "name": "Capsule",
-                "tag": "",
-                "uid": 12526480668510352119,
-                "parentUID": 15903199761032511603,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -18.067411422729493,
-                            "localPos_Y": 1.9682626724243165,
-                            "localPos_Z": 8.126373291015625,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 3373131147333875621,
-                            "assetPathMaterial": "Assets/Materials/color01.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17190841663404106931,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MockState",
-                            "active": true,
-                            "removed": true,
-                            "isWinState": false,
-                            "isFailState": false,
-                            "sceneName": "CargoBay_VS1"
-                        }
-                    }
-                ]
-            }
         }
     ],
     "Quadtree": {
