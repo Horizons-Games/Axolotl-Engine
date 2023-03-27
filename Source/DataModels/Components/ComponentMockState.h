@@ -54,7 +54,7 @@ inline void ComponentMockState::SetIsFailState(bool isFailState)
 
 inline std::string ComponentMockState::GetSceneName() const
 {
-	return sceneName.c_str();
+	return sceneName;
 }
 
 inline void ComponentMockState::SetSceneName(const std::string& newTag)
