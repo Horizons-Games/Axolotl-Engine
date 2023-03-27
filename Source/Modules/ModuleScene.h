@@ -18,11 +18,13 @@ public:
 	bool Init() override;
 	bool Start() override;
 	update_status Update() override;
+	update_status PostUpdate() override;
 
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
+	void SetSceneToLoad(const std::string& name);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -42,6 +44,7 @@ private:
 	std::unique_ptr<Scene> loadedScene;
 	std::unique_ptr<Skybox> skybox;
 	GameObject* selectedGameObject;
+	std::string sceneToLoad;
 
 	//to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
@@ -60,4 +63,9 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	selectedGameObject = gameObject;
+}
+
+inline void ModuleScene::SetSceneToLoad(const std::string& name)
+{
+	sceneToLoad = name;
 }

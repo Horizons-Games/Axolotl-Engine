@@ -206,7 +206,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertModelIntoGameObject(const char* model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
-	resourceModel->Load();
+	//resourceModel->Load();
 
 	std::string modelName = App->fileSystem->GetFileName(model);
 
