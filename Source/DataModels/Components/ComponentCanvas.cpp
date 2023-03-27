@@ -1,9 +1,16 @@
 #include "ComponentCanvas.h"
 
+#include "Application.h"
 #include "FileSystem/Json.h"
 
+#include "GameObject/GameObject.h"
+
+#include "ModuleWindow.h"
+
 ComponentCanvas::ComponentCanvas(bool active, GameObject* owner)
-	: Component(ComponentType::CANVAS, active, owner, true)
+	: Component(ComponentType::CANVAS, active, owner, true),
+	screenReferenceSize(float2(1920, 1080)), size(float2(1920, 1080)),
+	screenFactor(0.0f)
 {
 }
 
@@ -34,4 +41,38 @@ void ComponentCanvas::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+}
+
+
+void ComponentCanvas::RecalculateSizeAndScreenFactor() {
+
+	int w, h;
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	size = float2(w,h);
+	float2 factor = size.Div(screenReferenceSize);
+	screenFactor = factor.x < factor.y ? factor.x : factor.y;
+}
+
+bool ComponentCanvas::AnyChildHasCanvasRenderer(const GameObject* obj) const {
+	/*bool found = obj->GetComponent<ComponentCanvasRenderer>();
+
+	for (std::vector<GameObject*>::const_iterator it = obj->GetChildren().begin(); it != obj->GetChildren().end() && !found; ++it) {
+		found = AnyChildHasCanvasRenderer(*it);
+	}
+	return found;
+	*/
+	return false;
+}
+
+bool ComponentCanvas::AnyParentHasCanvas() {
+	GameObject* parent = GetOwner()->GetParent();
+
+	while (parent != nullptr) {
+		if ((ComponentCanvas*)(parent->GetComponent(ComponentType::CANVAS))) {
+			return true;
+		}
+		parent = parent->GetParent();
+	}
+
+	return false;
 }
