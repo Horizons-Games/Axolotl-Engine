@@ -171,6 +171,9 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
+	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	trans->SetPosition(float3(0, 0, -2));
+	trans->CalculateMatrices();
 	gameObject->CreateComponent(ComponentType::CANVAS);
 	sceneCanvas.push_back(gameObject);
 

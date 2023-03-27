@@ -1,10 +1,21 @@
 #include "ComponentCanvas.h"
 
+#include "Application.h"
 #include "FileSystem/Json.h"
 
+#include "GameObject/GameObject.h"
+
+#include "ModuleWindow.h"
+#include "ModuleEditor.h"
+
+#include "Windows/EditorWindows/WindowScene.h"
+
 ComponentCanvas::ComponentCanvas(bool active, GameObject* owner)
-	: Component(ComponentType::CANVAS, active, owner, true)
+	: Component(ComponentType::CANVAS, active, owner, true),
+	screenReferenceSize(float2(1920, 1080)), size(float2(1920, 1080)),
+	screenFactor(0.0f)
 {
+	RecalculateSizeAndScreenFactor();
 }
 
 ComponentCanvas::~ComponentCanvas()
@@ -34,4 +45,14 @@ void ComponentCanvas::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+	RecalculateSizeAndScreenFactor();
+}
+
+
+void ComponentCanvas::RecalculateSizeAndScreenFactor() 
+{
+	ImVec2 region = App->editor->GetScene()->GetAvailableRegion();
+	size = float2(region.x, region.y);
+	float2 factor = size.Div(screenReferenceSize);
+	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }

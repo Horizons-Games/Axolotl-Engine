@@ -15,7 +15,8 @@ enum class ComponentType
 	PLAYER,
 	CANVAS,
 	IMAGE,
-	BUTTON
+	BUTTON,
+	BOUNDINGBOX2D
 };
 
 const static std::string GetNameByType(ComponentType type);

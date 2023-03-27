@@ -3,8 +3,10 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleUI.h"
 #include "Scene/Scene.h"
 #include "imgui_impl_sdl.h"
+
 
 #ifdef DEBUG
 #include "optick.h"
@@ -125,6 +127,7 @@ update_status ModuleInput::Update()
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
