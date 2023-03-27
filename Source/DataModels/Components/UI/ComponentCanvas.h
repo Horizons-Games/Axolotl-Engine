@@ -20,8 +20,6 @@ public:
 	float2 GetSize();
 	float GetScreenFactor();
 	void RecalculateSizeAndScreenFactor();
-private:
-	bool AnyParentHasCanvas();
 
 private:
 	float2 screenReferenceSize;
