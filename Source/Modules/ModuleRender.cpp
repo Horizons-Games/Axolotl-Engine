@@ -251,7 +251,7 @@ update_status ModuleRender::Update()
 	}
 
 	// Draw Transparent
-	glDepthFunc(GL_ALWAYS);
+	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it)

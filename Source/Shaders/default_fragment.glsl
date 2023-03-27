@@ -196,6 +196,8 @@ void main()
     }
     textureMat = pow(textureMat, gammaCorrection);
     
+    textureMat.a = material.diffuse_color.a; //Transparency
+    
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
