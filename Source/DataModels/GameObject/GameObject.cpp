@@ -12,6 +12,7 @@
 #include "../Components/ComponentPlayer.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
+#include "../Components/UI/ComponentButton.h"
 #include "../Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
@@ -533,6 +534,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::IMAGE:
 		{
 			newComponent = std::make_unique<ComponentImage>(true, this);
+			break;
+		}
+
+		case ComponentType::BUTTON:
+		{
+			newComponent = std::make_unique<ComponentButton>(true, this);
 			break;
 		}
 

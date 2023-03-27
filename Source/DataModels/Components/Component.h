@@ -146,6 +146,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Transform2D";
 	case ComponentType::IMAGE:
 		return "Component_Image";
+	case ComponentType::BUTTON:
+		return "Component_Button";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -197,6 +199,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Image")
 	{
 		return ComponentType::IMAGE;
+	}
+
+	if (typeName == "Component_Button")
+	{
+		return ComponentType::BUTTON;
 	}
 	
 	return ComponentType::UNKNOWN;

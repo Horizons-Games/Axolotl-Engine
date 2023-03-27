@@ -185,6 +185,10 @@ GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, Comp
 	case ComponentType::IMAGE:
 		gameObject->CreateComponent(ComponentType::IMAGE);
 		break;
+	case ComponentType::BUTTON:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		gameObject->CreateComponent(ComponentType::BUTTON);
+		break;
 	default:
 		break;
 	}

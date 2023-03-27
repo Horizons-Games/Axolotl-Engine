@@ -178,7 +178,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Create Button"))
             {
-                App->scene->GetLoadedScene()->CreateGameObject("new Button", gameObject, false);
+                App->scene->GetLoadedScene()->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
             }
         }
 
