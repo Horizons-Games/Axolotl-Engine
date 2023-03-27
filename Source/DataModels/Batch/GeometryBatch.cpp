@@ -51,6 +51,15 @@ void GeometryBatch::FillBuffers()
 	std::vector<float2> texturesToRender;
 	std::vector<float3> normalsToRender;
 	std::vector<float3> tangentsToRender;
+	
+	verticesToRender.reserve(numTotalVertices);
+	texturesToRender.reserve(numTotalVertices);
+	normalsToRender.reserve(numTotalVertices);
+	if (flags & HAS_TANGENTS)
+	{
+		tangentsToRender.reserve(numTotalVertices);
+	}
+
 	for (auto resInfo : resourcesInfo)
 	{
 
