@@ -1,6 +1,7 @@
 #version 440
 
 #define M_PI 3.1415926535897932384626433832795
+#define EPSILON 1e-5
 
 struct Material {
     vec3 diffuse_color;         //location 3         
@@ -95,14 +96,26 @@ float GGXNormalDistribution(float dotNH, float roughness)
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
-    vec3 L = normalize(-directionalDir);
-    vec3 H = (L+V)/length(L+V);
-    float dotNL = max(dot(N,L), 0.0);
-    vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-    float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-    float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+//    vec3 L = normalize(-directionalDir);
+//    vec3 H = (L+V)/length(L+V);
+//    float dotNL = max(dot(N,L), 0.0);
+//    vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
+//    float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
+//    float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
 
-    return (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*directionalColor.rgb*directionalColor.a*dotNL;
+    vec3 directional = -normalize(directionalDir);
+
+	float NL = max(dot(N, directional), 0.0);
+	float NV = max(dot(N, V), 0.0) + EPSILON;
+	vec3 H = (directional + V) / length(directional + V);
+	float NH = max(dot(N, H), 0.0);
+	float LH = max(dot(directional, H), 0.0);
+
+	vec3 Fn = f0 + (1.0 - f0) * pow(max(1.0 - LH, 0.0), 5.0);
+	float Vn = 0.5 / (NL * (NV * (1 - roughness) + roughness) + NV * (NL * (1 - roughness) + roughness));
+	float NDF = GGXNormalDistribution(NH, roughness);
+
+    return (Cd*(1-f0)+0.25 * Fn * Vn * NDF)*directionalColor.rgb*directionalColor.a*NL;
 }
 
 vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -205,16 +218,19 @@ void main()
         norm = normalize(norm);
         norm = normalize(space * norm);
 	}
-
-    float metalnessMask = material.metalness;
-    float smoothnessMat = material.smoothness;
-    if (material.has_metallic_map == 1) {
-        metalnessMask = texture(metallic_map, TexCoord).r;
-    }
+    
+    vec4 colorMetallic = texture(metallic_map, TexCoord);
+//    float metalnessMask = material.metalness;
+//    float smoothnessMat = material.smoothness;
+//    if (material.has_metallic_map == 1) {
+//        metalnessMask = colorMetallic.r;
+//    }
+    float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
 
     vec3 Cd = textureMat*(1.0-metalnessMask);
     vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
-    float roughness = (1-smoothnessMat)*(1-smoothnessMat)+0.0001;
+    //float roughness = (1-smoothnessMat)*(1-smoothnessMat)+0.0001;
+    float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a))  + EPSILON;
 
     //fresnel
     //vec4 specularMat =  vec4(material.specular_color, 0.0);
