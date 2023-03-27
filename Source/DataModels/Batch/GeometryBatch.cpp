@@ -8,6 +8,7 @@
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 
 #include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
@@ -106,8 +107,44 @@ void GeometryBatch::FillMaterial()
 		resourceMaterial->GetSmoothness(),
 		resourceMaterial->HasMetallicAlpha(),
 		resourceMaterial->GetMetalness(),
-		resourceMaterial->HasMetallicMap()
+		resourceMaterial->HasMetallicMap(),
 		};
+
+		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+			newMaterial.diffuse_map = glGetTextureHandleARB(texture->GetGlTexture());
+			glMakeTextureHandleResidentARB(newMaterial.diffuse_map);
+		}
+		texture = resourceMaterial->GetNormal();
+		if (texture)
+		{
+
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			newMaterial.normal_map = glGetTextureHandleARB(texture->GetGlTexture());
+			glMakeTextureHandleResidentARB(newMaterial.normal_map);
+		}
+
+		texture = resourceMaterial->GetMetallicMap();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			newMaterial.metallic_map = glGetTextureHandleARB(texture->GetGlTexture());
+			glMakeTextureHandleResidentARB(newMaterial.metallic_map);
+		}
+
 		materialToRender.push_back(newMaterial);
 	}
 
