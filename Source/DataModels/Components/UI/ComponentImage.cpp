@@ -33,9 +33,8 @@ void ComponentImage::Update()
 void ComponentImage::Draw()
 {
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
-	if(program && image)
+	if(program)
 	{
-		image->Load();
 		program->Activate();
 		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 		const float4x4& model =
@@ -49,8 +48,16 @@ void ComponentImage::Draw()
 		glBindVertexArray(vao);
 
 		glActiveTexture(GL_TEXTURE0);
-		glUniform3f(0, color.x, color.y, color.z);
-		glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
+		program->BindUniformFloat3("spriteColor", color);
+		if (image) {
+			image->Load();
+			glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
+			program->BindUniformInt("hasDiffuse", 1);
+		}
+		else 
+		{
+			program->BindUniformInt("hasDiffuse", 0);
+		}
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 

@@ -19,7 +19,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	std::shared_ptr<ResourceTexture> GetImage() const;
+	std::shared_ptr<ResourceTexture>& GetImage();
+	float3& GetColor();
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
 
 	void LoadVBO();
@@ -34,9 +35,14 @@ private:
 
 };
 
-inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
+inline std::shared_ptr<ResourceTexture>& ComponentImage::GetImage()
 {
 	return image;
+}
+
+inline float3& ComponentImage::GetColor()
+{
+	return color;
 }
 
 inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& image)
