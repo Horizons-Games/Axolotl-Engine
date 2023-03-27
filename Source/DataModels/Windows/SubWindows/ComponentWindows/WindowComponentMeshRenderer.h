@@ -16,5 +16,8 @@ protected:
 
 private:
 	std::unique_ptr<WindowMeshInput> inputMesh;
+	//this should not be needed
+	char* meshPath;
+	bool hadComponent;
 };
 
