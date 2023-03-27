@@ -69,9 +69,9 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject();
@@ -104,9 +104,9 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
 	gameObject->MoveParent(parent);
@@ -143,7 +143,7 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	return gameObject;
 }
 
-GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponent(ComponentType::CAMERA);
@@ -152,7 +152,7 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
+GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ComponentMaterial* materialComponent =
@@ -190,7 +190,7 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	return gameObject;
 }
 
-GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, LightType type)
+GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);

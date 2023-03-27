@@ -46,8 +46,8 @@ public:
 	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
 
 	UID GetUID() const;
-	const char* GetName() const;
-	const char* GetTag() const;
+	std::string GetName() const;
+	const std::string& GetTag() const;
 	GameObject* GetParent() const;
 
 	StateOfSelection GetStateOfSelection() const;
@@ -68,8 +68,8 @@ public:
 	void Enable();
 	void Disable();
 
-	void SetName(const char* newName);
-	void SetTag(const char* newTag);
+	void SetName(const std::string& newName);
+	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void MoveParent(GameObject* newParent);
 
@@ -140,12 +140,12 @@ inline bool GameObject::IsEnabled() const
 	return enabled;
 }
 
-inline const char* GameObject::GetName() const
+inline std::string GameObject::GetName() const
 {
-	return name.c_str();
+	return name;
 }
 
-inline void GameObject::SetName(const char* newName)
+inline void GameObject::SetName(const std::string& newName)
 {
 	name = newName;
 }
@@ -165,12 +165,12 @@ inline StateOfSelection GameObject::GetStateOfSelection() const
 	return stateOfSelection;
 }
 
-inline const char* GameObject::GetTag() const
+inline const std::string& GameObject::GetTag() const
 {
-	return tag.c_str();
+	return tag;
 }
 
-inline void GameObject::SetTag(const char* newTag)
+inline void GameObject::SetTag(const std::string& newTag)
 {
 	tag = newTag;
 }

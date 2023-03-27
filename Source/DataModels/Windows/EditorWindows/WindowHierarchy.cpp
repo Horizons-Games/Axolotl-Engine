@@ -33,7 +33,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
-    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName().c_str(), gameObject);
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
     if (gameObject->GetChildren().empty())
