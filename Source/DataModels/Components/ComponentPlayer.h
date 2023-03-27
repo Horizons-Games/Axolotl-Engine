@@ -13,7 +13,5 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
-
-private:
 };
 
