@@ -6,7 +6,7 @@
 class ComponentBoundingBox2D :
     public Component
 {
-
+public:
 	ComponentBoundingBox2D(const bool active, GameObject* owner);
 	~ComponentBoundingBox2D() override;
 

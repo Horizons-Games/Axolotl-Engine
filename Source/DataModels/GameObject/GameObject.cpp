@@ -10,6 +10,7 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentBoundingBox2D.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
@@ -540,6 +541,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
+			break;
+		}
+
+		case ComponentType::BOUNDINGBOX2D:
+		{
+			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
 			break;
 		}
 

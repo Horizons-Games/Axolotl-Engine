@@ -24,6 +24,14 @@ ComponentBoundingBox2D::ComponentBoundingBox2D(bool active, GameObject* owner)
 	: Component(ComponentType::BOUNDINGBOX2D, active, owner, false),
 	localAABB({ {0, 0}, {0, 0} }), worldAABB(localAABB)
 {
+	ComponentTransform2D* transform2D = (ComponentTransform2D*)(GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+	if (transform2D) {
+		float2 minPoint = float2(-0.5f, -0.5f);
+		float2 maxPoint = float2(0.5f, 0.5f);
+
+		SetLocalBoundingBox(AABB2D(minPoint, maxPoint));
+		CalculateWorldBoundingBox();
+	}
 }
 
 ComponentBoundingBox2D::~ComponentBoundingBox2D()
@@ -33,14 +41,7 @@ ComponentBoundingBox2D::~ComponentBoundingBox2D()
 
 void ComponentBoundingBox2D::Init() 
 {
-	ComponentTransform2D* transform2D = (ComponentTransform2D*)(GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
-	if (transform2D) {
-		float2 minPoint = float2(-0.5f, -0.5f);
-		float2 maxPoint = float2(0.5f, 0.5f);
-
-		SetLocalBoundingBox(AABB2D(minPoint, maxPoint));
-		CalculateWorldBoundingBox();
-	}
+	
 }
 
 void ComponentBoundingBox2D::Update() 
@@ -71,16 +72,17 @@ void ComponentBoundingBox2D::CalculateWorldBoundingBox()
 {
 	
 	ComponentTransform2D* transform2D = (ComponentTransform2D*)(GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
-	ComponentCanvas* canvasRenderer = (ComponentCanvas*)(GetOwner()->GetComponent(ComponentType::CANVAS));
+	ComponentCanvas* canvasRenderer = (ComponentCanvas*)(GetOwner()->FoundCanvasOnAnyParent());
 	float screenFactor = 1.0f;
 	float2 screenSize(0, 0);
 	float3 position(0, 0, 0);
 	float2 pivotPosition(0, 0);
-	if (canvasRenderer != nullptr) {
-		/*screenFactor = canvasRenderer->GetCanvasScreenFactor();
-		screenSize = canvasRenderer->GetCanvasSize();
+	if (canvasRenderer) 
+	{
+		screenFactor = canvasRenderer->GetScreenFactor();
+		screenSize = canvasRenderer->GetSize();
 		position = transform2D->GetScreenPosition();
-		pivotPosition = transform2D->GetPivot();*/
+		pivotPosition = transform2D->GetPivot();
 	}
 
 	float2 pivotDifference = float2::zero;
@@ -91,12 +93,10 @@ void ComponentBoundingBox2D::CalculateWorldBoundingBox()
 		+ (localAABB.minPoint + pivotDifference).Mul(transform2D->GetSize().Mul(transform2D->GetScale().xy()).Mul(screenFactor));
 	worldAABB.maxPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f
 		+ (localAABB.maxPoint + pivotDifference).Mul(transform2D->GetSize().Mul(transform2D->GetScale().xy()).Mul(screenFactor));
-#ifndef ENGINE
-	float2 windowPos = float2(App->window->GetPositionX(), App->window->GetPositionY());
+
+	/*float2 windowPos = float2(App->window->GetPositionX(), App->window->GetPositionY());
 	worldAABB.minPoint += windowPos;
-	worldAABB.maxPoint += windowPos;
-#endif
-	
+	worldAABB.maxPoint += windowPos;*/
 }
 
 
