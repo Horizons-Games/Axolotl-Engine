@@ -47,7 +47,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/Demo.axolotl");
+		LoadSceneFromJson("Lib/Scenes/winScene2.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
