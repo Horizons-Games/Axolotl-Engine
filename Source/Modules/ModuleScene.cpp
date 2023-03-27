@@ -8,6 +8,7 @@
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModulePlayer.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -173,6 +174,14 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	SetSceneFromJson(Json);
 
 	delete buffer;
+
+#ifndef ENGINE
+	if (App->player->GetPlayer())
+	{
+
+		App->player->LoadNewPlayer();
+	}
+#endif // !ENGINE
 }
 
 void ModuleScene::SetSceneFromJson(Json& json)
