@@ -47,7 +47,7 @@ public:
 
 	UID GetUID() const;
 	std::string GetName() const;
-	const std::string& GetTag() const;
+	std::string GetTag() const;
 	GameObject* GetParent() const;
 
 	StateOfSelection GetStateOfSelection() const;
@@ -165,7 +165,7 @@ inline StateOfSelection GameObject::GetStateOfSelection() const
 	return stateOfSelection;
 }
 
-inline const std::string& GameObject::GetTag() const
+inline std::string GameObject::GetTag() const
 {
 	return tag;
 }
