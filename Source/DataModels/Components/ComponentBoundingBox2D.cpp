@@ -3,8 +3,8 @@
 #include "Application.h"
 #include "Modules/ModuleInput.h"
 
-#include "ComponentTransform2D.h"
-#include "ComponentCanvas.h"
+#include "UI/ComponentTransform2D.h"
+#include "UI/ComponentCanvas.h"
 #include "GameObject/GameObject.h"
 
 #include "Modules/ModuleWindow.h"

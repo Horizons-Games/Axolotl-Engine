@@ -3,7 +3,7 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
-#include "Components/ComponentCanvas.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"

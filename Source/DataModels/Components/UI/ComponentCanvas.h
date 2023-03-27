@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "../Component.h"
 #include "Math/float2.h"
 class ComponentCanvas :  public Component
 {

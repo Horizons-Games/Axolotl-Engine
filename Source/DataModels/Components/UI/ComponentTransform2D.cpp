@@ -2,7 +2,7 @@
 #include "FileSystem/Json.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentCanvas.h"
+#include "ComponentCanvas.h"
 #include "Math/float3x3.h"
 #include "Math/TransformOps.h"
 
