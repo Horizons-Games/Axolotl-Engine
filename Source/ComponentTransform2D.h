@@ -6,6 +6,7 @@
 #include "Math/float3.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
+#include "Math/TransformOps.h"
 
 class ComponentTransform2D : public Component
 {
@@ -36,6 +37,8 @@ public:
 
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
+
+	const float4x4 GetGlobalScaledMatrix() const;
 
 
 	float3 GetPositionRelativeToParent();
@@ -147,6 +150,10 @@ inline const float4x4& ComponentTransform2D::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
+inline const float4x4 ComponentTransform2D::GetGlobalScaledMatrix() const
+{
+	return globalMatrix * float4x4::Scale(size.x, size.y, 0.0f);
+}
 
 inline const float3& ComponentTransform2D::GetGlobalPosition() const
 {

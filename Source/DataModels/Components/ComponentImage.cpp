@@ -1,11 +1,13 @@
 #include "ComponentImage.h"
 #include "ComponentTransform2D.h"
+#include "ComponentCanvas.h"
 #include "GameObject/GameObject.h"
 
 #include "GL/glew.h"
 
 #include "Application.h"
 #include "ModuleCamera.h"
+#include "ModuleWindow.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleProgram.h"
 
@@ -36,11 +38,21 @@ void ComponentImage::Draw()
 	if(program)
 	{
 		program->Activate();
-		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+		int width, height;
+		SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, width, height);
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalMatrix();
-		const float4x4& view = float4x4::identity;
+					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalScaledMatrix();
+		float4x4 view = float4x4::identity;
+
+		ComponentCanvas* canvas = GetOwner()->FoundCanvasOnAnyParent();
+		if(canvas)
+		{
+			float factor = canvas->GetScreenFactor();
+			view = view * float4x4::Scale(factor, factor, factor);
+		}
+
 		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&view);
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
