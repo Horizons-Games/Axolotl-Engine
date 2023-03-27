@@ -27,15 +27,12 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
-		static char* meshPath = (char*)("unknown");
+		char* meshPath = (char*)("unknown");
 
 		if (meshAsShared)
 		{
+			//this should not be done, see issue #240
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
-		}
-		else
-		{
-			meshPath = (char*)("unknown");
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
