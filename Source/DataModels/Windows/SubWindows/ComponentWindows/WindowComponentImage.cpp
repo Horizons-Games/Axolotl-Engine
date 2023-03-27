@@ -24,16 +24,24 @@ void WindowComponentImage::DrawWindowContents()
 	std::shared_ptr<ResourceTexture> image = asImage->GetImage();
 	if (image)
 	{
-		image->Load();
-		ImGui::Image((void*)(intptr_t)image->GetGlTexture(), ImVec2(100, 100));
-		if (ImGui::Button("Remove Texture Diffuse"))
+		if (ImGui::BeginTable("table1", 2))
 		{
-			image->Unload();
-			asImage->SetImage(nullptr);
+			ImGui::TableNextColumn();
+			image->Load();
+			ImGui::Image((void*)(intptr_t)image->GetGlTexture(), ImVec2(100, 100));
+			ImGui::TableNextColumn();
+			if (ImGui::Button("Remove Texture Diffuse"))
+			{
+				image->Unload();
+				asImage->SetImage(nullptr);
+			}
+			ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
+			ImGui::EndTable();
 		}
 	}
 	else
 	{
 		inputImage->DrawWindowContents();
+		ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
 	}
 }
