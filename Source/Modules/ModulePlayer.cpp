@@ -46,7 +46,7 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
-	if (App->camera->GetSelectedPosition() == 0)
+	if (player && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
