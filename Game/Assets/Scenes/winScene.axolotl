@@ -240,7 +240,8 @@
                             "active": true,
                             "removed": true,
                             "isWinState": true,
-                            "isFailState": false
+                            "isFailState": false,
+                            "sceneName": "winScene"
                         }
                     }
                 ]
