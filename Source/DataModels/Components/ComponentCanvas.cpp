@@ -6,6 +6,9 @@
 #include "GameObject/GameObject.h"
 
 #include "ModuleWindow.h"
+#include "ModuleEditor.h"
+
+#include "Windows/EditorWindows/WindowScene.h"
 
 ComponentCanvas::ComponentCanvas(bool active, GameObject* owner)
 	: Component(ComponentType::CANVAS, active, owner, true),
@@ -48,10 +51,8 @@ void ComponentCanvas::LoadOptions(Json& meta)
 
 void ComponentCanvas::RecalculateSizeAndScreenFactor() 
 {
-
-	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
-	size = float2(w,h);
+	ImVec2 region = App->editor->GetScene()->GetAvailableRegion();
+	size = float2(region.x, region.y);
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }

@@ -11,7 +11,7 @@ ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 	pos(float3::zero), rot(float4x4::identity), sca(float3::one),
 	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
 	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
-	pivot(float2(0.5,0.5)), size(float2(50,50)),
+	pivot(float2(0.5,0.5)), size(float2(200,200)),
 	anchorMin(float2(0.5, 0.5)), anchorMax(float2(0.5, 0.5))
 {
 }

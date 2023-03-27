@@ -10,11 +10,14 @@
 #include "ModuleWindow.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleProgram.h"
+#include "ModuleEditor.h"
 
 #include "DataModels/Program/Program.h"
 #include "Resources/ResourceTexture.h"
 #include "Resources/ResourceMesh.h"
 #include "FileSystem/Json.h"
+
+#include "Windows/EditorWindows/WindowScene.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner)
 	: Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
@@ -38,9 +41,9 @@ void ComponentImage::Draw()
 	if(program)
 	{
 		program->Activate();
-		int width, height;
-		SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, width, height);
+		ImVec2 region = App->editor->GetScene()->GetAvailableRegion();
+		
+		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, region.x, region.y);
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalScaledMatrix();
@@ -49,6 +52,7 @@ void ComponentImage::Draw()
 		ComponentCanvas* canvas = GetOwner()->FoundCanvasOnAnyParent();
 		if(canvas)
 		{
+			canvas->RecalculateSizeAndScreenFactor();
 			float factor = canvas->GetScreenFactor();
 			view = view * float4x4::Scale(factor, factor, factor);
 		}
