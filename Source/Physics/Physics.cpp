@@ -57,7 +57,9 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
 	std::map<float, const GameObject*> hitGameObjects;
 
+#ifdef ENGINE
 	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+#endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
@@ -140,6 +142,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float thisDistance = 0.0f;
 	float minCurrentDistance = inf;
 	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
@@ -150,6 +153,10 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
 
+			if (!componentMeshRenderer) 
+			{
+				continue;
+			}
 			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
 			if (!goMeshAsShared)
@@ -181,12 +188,13 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;
 				hitNormal = triangle.NormalCCW();
+				nearestHitPoint = exactHitPoint;
 			}
 		}
 	}
 
 	hit.gameObject = newSelectedGameObject;
 	hit.distance = minCurrentDistance;
-	hit.hitPoint = exactHitPoint;
+	hit.hitPoint = nearestHitPoint;
 	hit.normal = hitNormal;
 }

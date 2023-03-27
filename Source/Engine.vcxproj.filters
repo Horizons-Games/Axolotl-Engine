@@ -250,12 +250,14 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
+    <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp">
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -533,11 +535,14 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
+    <ClInclude Include="DataModels\Components\ComponentRigidBody.h">
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h" />
+    <ClInclude Include="DataModels\Components\ComponentMockState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
