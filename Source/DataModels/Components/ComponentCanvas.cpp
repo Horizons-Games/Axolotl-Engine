@@ -12,6 +12,7 @@ ComponentCanvas::ComponentCanvas(bool active, GameObject* owner)
 	screenReferenceSize(float2(1920, 1080)), size(float2(1920, 1080)),
 	screenFactor(0.0f)
 {
+	RecalculateSizeAndScreenFactor();
 }
 
 ComponentCanvas::~ComponentCanvas()
