@@ -11,7 +11,9 @@ enum class ComponentType
 	TRANSFORM, 
 	LIGHT, 
 	CAMERA,
-	PLAYER
+	PLAYER,
+	RIGIDBODY,
+	MOCKSTATE
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -136,6 +138,10 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Camera";
 	case ComponentType::PLAYER:
 		return "Component_Player";
+	case ComponentType::RIGIDBODY:
+		return "Component_RigidBody";
+	case ComponentType::MOCKSTATE:
+		return "Component_MockState";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -172,6 +178,16 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Player")
 	{
 		return ComponentType::PLAYER;
+	}
+	
+	if (typeName == "Component_RigidBody")
+	{
+		return ComponentType::RIGIDBODY;
+	}
+
+	if (typeName == "Component_MockState")
+	{
+		return ComponentType::MOCKSTATE;
 	}
 	
 	return ComponentType::UNKNOWN;
