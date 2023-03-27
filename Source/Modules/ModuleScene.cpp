@@ -47,7 +47,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/Sewer_PreFusion.axolotl");
+		LoadSceneFromJson("Lib/Scenes/Lv1-CargoBayv3.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
