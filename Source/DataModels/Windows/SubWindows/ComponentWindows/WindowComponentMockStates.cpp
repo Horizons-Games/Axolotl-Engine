@@ -25,17 +25,22 @@ void WindowComponentMockStates::DrawWindowContents()
 
 		bool isWinState = asMockState->GetIsWinState();
 		bool isFailState = asMockState->GetIsFailState();
+		char* sceneName = (char*)asMockState->GetSceneName();
 
 		ImGui::Text("Is win state"); ImGui::SameLine();
-		if (ImGui::Checkbox("##Is win statr", &isWinState))
+		if (ImGui::Checkbox("##Is win state", &isWinState))
 		{
 			asMockState->SetIsWinState(isWinState);
 		}
 
 		ImGui::Text("Is fail state"); ImGui::SameLine();
-		if (ImGui::Checkbox("##Is fail statr", &isFailState))
+		if (ImGui::Checkbox("##Is fail state", &isFailState))
 		{
 			asMockState->SetIsFailState(isFailState);
 		}
+
+		ImGui::Text("Scene name");
+		ImGui::SameLine();
+		ImGui::InputText("##Scene name", sceneName, 24);
 	}
 }
