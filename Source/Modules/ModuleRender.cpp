@@ -408,7 +408,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
-	if (gameObject->GetParent() == nullptr)
+	if (gameObject->GetParent() == nullptr || gameObject->GetParent() == nullptr))
 	{
 		return;
 	}

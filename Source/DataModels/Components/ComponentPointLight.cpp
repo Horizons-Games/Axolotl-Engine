@@ -3,6 +3,13 @@
 
 #include "FileSystem/Json.h"
 
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "debugdraw.h"
 #include "Application.h"
 
@@ -38,7 +45,7 @@ ComponentPointLight::~ComponentPointLight()
 void ComponentPointLight::Draw()
 {
 #ifndef ENGINE
-	if (!App->IsDebuggingGame())
+	if (!App->editor->GetDebugOptions()->GetDrawPointLight())
 	{
 		return;
 	}
