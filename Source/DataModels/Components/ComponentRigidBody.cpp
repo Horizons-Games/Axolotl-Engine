@@ -59,16 +59,20 @@ void ComponentRigidBody::Update()
 			x = hit.hitPoint;
 			v0 = float3::zero;
 			
-			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
-				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsWinState())
+			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
 			{
-				//TODO: win state
-			}
+				ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
 
-			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr && 
-				static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsFailState())
-			{
-				//TODO fail state
+				if (mockState->GetIsWinState())
+				{
+					//TODO: win state
+					std::string sceneName = mockState->GetSceneName();
+					App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+				}
+				else if (mockState->GetIsFailState())
+				{
+					//TODO fail state
+				}
 			}
 		}
 
