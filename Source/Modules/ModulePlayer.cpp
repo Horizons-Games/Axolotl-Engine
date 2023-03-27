@@ -29,18 +29,7 @@ bool ModulePlayer::Init()
 bool ModulePlayer::Start()
 {
 	//Initialize the player
-
-	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
-	for (GameObject* camera : cameras)
-	{
-		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
-		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
-			App->camera->SetSelectedCamera(0);
-		}
-	}
+	LoadNewPlayer();
 	return true;
 }
 
@@ -126,5 +115,20 @@ void ModulePlayer::Rotate()
 		newRot.y += - App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
 		//trans->UpdateTransformMatrices();
+	}
+}
+
+void ModulePlayer::LoadNewPlayer()
+{
+	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	for (GameObject* camera : cameras)
+	{
+		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
+		{
+			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
+			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			App->camera->SetSelectedCamera(0);
+		}
 	}
 }
