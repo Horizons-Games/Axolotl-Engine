@@ -64,7 +64,7 @@ void ComponentRigidBody::Update()
 				if (static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsWinState())
 				{
 					//TODO: win state
-					App->scene->LoadSceneFromJson("Lib/Scenes/winScene.axolotl");
+					App->scene->SetSceneToLoad("Lib/Scenes/winScene.axolotl");
 				}
 				else if (static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE))->GetIsFailState())
 				{

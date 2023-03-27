@@ -66,6 +66,17 @@ update_status ModuleScene::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+update_status ModuleScene::PostUpdate()
+{
+	if (!sceneToLoad.empty())
+	{
+		LoadSceneFromJson(sceneToLoad);
+		sceneToLoad = "";
+	}
+
+	return update_status::UPDATE_CONTINUE;
+}
+
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
 	loadedScene = std::move(newScene);
