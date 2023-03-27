@@ -20,12 +20,9 @@
 
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
-	: Component(ComponentType::RIGIDBODY, active, owner, true)
+	: Component(ComponentType::RIGIDBODY, active, owner, true),
+	isKinematic(true), m(1.0f), g(9.81f), v0(float3(0.0f, 0.0f, 0.0f))
 {
-	isKinematic = true;
-	m = 1.0f;
-	g = 9.81;
-	v0 = float3(0.0f, 0.0f, 0.0f);
 }
 
 ComponentRigidBody::~ComponentRigidBody()
