@@ -33,6 +33,7 @@ private:
 	float smoothness;
 	float metalness;
 	float normalStrength;
+	bool isTransparent;
 
 
 	std::unique_ptr<WindowMaterialInput> inputMaterial;	   

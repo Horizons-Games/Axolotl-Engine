@@ -74,7 +74,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			static int currentIndex;
 
-			if (!materialResource->GetTransparent()) 
+			if (!isTransparent)
 			{
 				currentIndex = 0;
 			}
@@ -98,11 +98,11 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 						if (renderModes[i] == "Opaque") 
 						{
-							materialResource->SetTransparent(false);
+							isTransparent = false;
 						}
 						if (renderModes[i] == "Transparent")
 						{
-							materialResource->SetTransparent(true);
+							isTransparent = true;
 						}
 
 					}
@@ -239,6 +239,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetSmoothness(smoothness);
 				materialResource->SetMetalness(metalness);
 				materialResource->SetNormalStrength(normalStrength);
+				materialResource->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
 				App->resources->ReimportResource(materialResource->GetUID());
 			}
@@ -275,6 +276,7 @@ void WindowComponentMaterial::InitMaterialValues()
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
+			isTransparent = materialResource->GetTransparent();
 		}
 	}
 }
