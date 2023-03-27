@@ -410,7 +410,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
-	if (gameObject->GetParent() == nullptr)
+	if (gameObject == nullptr || gameObject->GetParent() == nullptr)
 	{
 		return;
 	}

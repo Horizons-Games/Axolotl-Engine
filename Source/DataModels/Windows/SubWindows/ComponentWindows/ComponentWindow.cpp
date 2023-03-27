@@ -9,6 +9,8 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -20,6 +22,8 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentRigidBody.h"
+#include "Components/ComponentMockState.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -40,6 +44,10 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 		case ComponentType::PLAYER:
 			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
+		case ComponentType::RIGIDBODY:
+			return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
+		case ComponentType::MOCKSTATE:
+			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);

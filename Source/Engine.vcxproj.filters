@@ -79,6 +79,9 @@
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -181,6 +184,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
@@ -229,16 +235,6 @@
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
-    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
-      <Filter>DataModels\Batch</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
-      <Filter>DataModels\Batch</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -254,9 +250,20 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
+      <Filter>DataModels\Batch</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
+      <Filter>DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -341,6 +348,9 @@
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentMaterial.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h">
@@ -454,6 +464,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
@@ -516,17 +529,8 @@
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
-    <ClInclude Include="DataModels\Batch\BatchFlags.h">
-      <Filter>DataModels\Batch</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Batch\BatchManager.h">
-      <Filter>DataModels\Batch</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
-      <Filter>DataModels\Batch</Filter>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
     <ClInclude Include="Physics\Physics.h">
       <Filter>Physics</Filter>
@@ -537,9 +541,23 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
+    <ClInclude Include="DataModels\Batch\BatchFlags.h">
+      <Filter>DataModels\Batch</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentRigidBody.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h" />
+    <ClInclude Include="DataModels\Components\ComponentMockState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -601,9 +619,6 @@
     </Filter>
     <Filter Include="Modules">
       <UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Batch">
-      <UniqueIdentifier>{492b4c54-7b2e-491c-abb8-3d82ba510047}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{773787e8-3d55-425d-9bee-1031740c1e9a}</UniqueIdentifier>
