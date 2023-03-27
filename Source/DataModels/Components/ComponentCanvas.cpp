@@ -55,17 +55,3 @@ void ComponentCanvas::RecalculateSizeAndScreenFactor()
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }
-
-bool ComponentCanvas::AnyParentHasCanvas() 
-{
-	GameObject* parent = GetOwner()->GetParent();
-
-	while (parent != nullptr) {
-		if ((ComponentCanvas*)(parent->GetComponent(ComponentType::CANVAS))) {
-			return true;
-		}
-		parent = parent->GetParent();
-	}
-
-	return false;
-}

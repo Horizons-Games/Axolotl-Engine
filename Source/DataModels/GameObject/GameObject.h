@@ -12,6 +12,7 @@
 
 class Component;
 class ComponentMeshRenderer;
+class ComponentCanvas;
 class Json;
 
 enum class ComponentType;
@@ -87,6 +88,8 @@ public:
 
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* Vertices, unsigned numVertices);
+
+	ComponentCanvas* FoundCanvasOnAnyParent();
 
 	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();

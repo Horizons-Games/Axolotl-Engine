@@ -735,3 +735,15 @@ void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
 }
+
+ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
+{
+	while (parent != nullptr) {
+		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
+		if (canvas) {
+			return canvas;
+		}
+		parent = parent->GetParent();
+	}
+	return nullptr;
+}
