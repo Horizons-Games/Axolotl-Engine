@@ -11,7 +11,8 @@ ResourceTexture::ResourceTexture(UID resourceUID, const std::string& fileName, c
 
 ResourceTexture::~ResourceTexture()
 {
-	this->Unload();
+	glMakeTextureHandleNonResidentARB(handle);
+	Unload();
 }
 
 void ResourceTexture::InternalLoad()
@@ -124,4 +125,13 @@ int ResourceTexture::GetWrapFilterEquivalence(TextureWrap filter)
 	default:
 		return GL_REPEAT;
 	}
+}
+
+const uint64_t& ResourceTexture::GetHandle()
+{
+	if (handle == 0)
+	{
+		handle = glGetTextureHandleARB(glTexture);
+	}
+	return handle;
 }

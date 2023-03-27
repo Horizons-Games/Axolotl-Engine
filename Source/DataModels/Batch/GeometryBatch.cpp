@@ -126,7 +126,7 @@ void GeometryBatch::FillMaterial()
 			{
 				texture->Load();
 			}
-			newMaterial.diffuse_map = glGetTextureHandleARB(texture->GetGlTexture());
+			newMaterial.diffuse_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.diffuse_map);
 		}
 		texture = resourceMaterial->GetNormal();
@@ -138,7 +138,7 @@ void GeometryBatch::FillMaterial()
 				texture->Load();
 			}
 
-			newMaterial.normal_map = glGetTextureHandleARB(texture->GetGlTexture());
+			newMaterial.normal_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.normal_map);
 		}
 
@@ -150,7 +150,7 @@ void GeometryBatch::FillMaterial()
 				texture->Load();
 			}
 
-			newMaterial.metallic_map = glGetTextureHandleARB(texture->GetGlTexture());
+			newMaterial.metallic_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.metallic_map);
 		}
 
