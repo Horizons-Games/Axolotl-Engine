@@ -94,7 +94,7 @@
         },
         {
             "GameObject": {
-                "name": "Cantina_V3",
+                "name": "CantinaSewersVS1",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -13834,7 +13834,7 @@
                             "removed": true,
                             "isWinState": false,
                             "isFailState": false,
-                            "sceneName": "CargoBay_VS1"
+                            "sceneName": "CargoBayVS1"
                         }
                     }
                 ]

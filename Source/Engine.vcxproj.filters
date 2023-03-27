@@ -257,7 +257,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -542,7 +544,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h" />
-    <ClInclude Include="DataModels\Components\ComponentMockState.h" />
+    <ClInclude Include="DataModels\Components\ComponentMockState.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
