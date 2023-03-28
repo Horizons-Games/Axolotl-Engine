@@ -18,47 +18,7 @@ EditorWindow::~EditorWindow()
 {	
 }
 
-void EditorWindow::Start()
-{
-	LoadMeta(name.c_str(), enabled);
-}
-
-void EditorWindow::LoadMeta(const std::string name,bool& enable)
-{
-	char* binaryBuffer = {};
-	std::string lib = "Lib/StateWindow/" + name + ".meta";	
-	
-	if (App->fileSystem->Exists(lib.c_str())) {
-
-		App->fileSystem->Load(lib.c_str(), binaryBuffer);
-		rapidjson::Document doc;
-		Json json(doc, doc);
-		json.fromBuffer(binaryBuffer);		
-		enable = bool(json["State"]);		
-	}
-	else {
-		enable = true;
-	}	
-	delete binaryBuffer;
-
-}
-
-void EditorWindow::UpdateMeta(bool enabled,const std::string name)
-{
-	
-		rapidjson::Document doc;
-		Json json(doc, doc);		
-		json["Type"] = "Window";
-		json["State"] = enabled;
-		rapidjson::StringBuffer buffer;
-		json.toBuffer(buffer);
-		std::string lib = "Lib/StateWindow/" + name + ".meta";				
-		App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());	
-}
-
-
-
-void EditorWindow::Draw()
+void EditorWindow::Draw(bool &enabled)
 {	
 	if (enabled)
 	{
@@ -78,10 +38,33 @@ void EditorWindow::Draw()
 	{
 		focused = false;
 	}
+	this->enabled = enabled;
+}
+
+char* EditorWindow::StateWindows()
+{
+	std::string settingsFolder = "Settings/";
+	char* binaryBuffer = {};
+	if (App->fileSystem->Exists(settingsFolder.c_str()))
+	{		
+		std::string set = "Settings/WindowsStates.cong";
+		if (App->fileSystem->Exists(set.c_str()))
+		{
+			App->fileSystem->Load(set.c_str(), binaryBuffer);
+			ENGINE_LOG(binaryBuffer)
+		}
+	}		
+	return binaryBuffer;
 	
 }
 
-void EditorWindow::CleanUp() 
+void EditorWindow::UpdateState(Json &json)
 {
-	UpdateMeta(enabled, name);
+
+	json[name.c_str()] = enabled;
+	/*rapidjson::StringBuffer buffer;
+	json.toBuffer(buffer);
+	std::string lib = "Settings/WindowsStates.cong" ;
+	App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());*/
 }
+

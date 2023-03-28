@@ -4,7 +4,7 @@
 #include "rapidjson/stringbuffer.h"
 
 #include <string>
-
+#include <vector>
 class Json 
 {
 public:
@@ -15,6 +15,7 @@ public:
 
 	bool fromBuffer(char*& buffer);
 	void toBuffer(rapidjson::StringBuffer& buffer);
+	void getVectorNames(std::vector<const char*> &vec);
 
 	template<typename T> Json operator[](const T* key) const;
 	Json operator[](const unsigned index) const;

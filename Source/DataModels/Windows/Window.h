@@ -7,7 +7,7 @@ class Window
 public:
 	virtual ~Window() {}
 
-	virtual void Draw() = 0;
+	virtual void Draw(bool &enabled) = 0;
 
 	const std::string& GetName() const;
 	bool enabled;

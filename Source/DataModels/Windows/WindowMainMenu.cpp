@@ -1,21 +1,25 @@
 #include "WindowMainMenu.h"
-
+#include"Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
 #include "SDL.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) : 
+WindowMainMenu::WindowMainMenu(Json &json ) :
 	Window("Main Menu"), showAbout(false)
-{
-	
+{	
 	enabled = defaultEnabled;
 	about = std::make_unique<WindowAbout>();
+	std::vector<const char*> names;			
+	json.getVectorNames(names);
 	
-	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
+	for (const char* name:names)
 	{
-		std::pair<std::string, std::reference_wrapper<bool>> windowNameAndEnabled = { window->GetName(), window->enabled };
-		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
+		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);
+		ENGINE_LOG("NAMES %s plus %s", name, bool(json[name])?"TRUE":"FALSE")
 	}
 }
 
@@ -23,7 +27,7 @@ WindowMainMenu::~WindowMainMenu()
 {
 }
 
-void WindowMainMenu::Draw()
+void WindowMainMenu::Draw(bool &enabled)
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -42,11 +46,11 @@ void WindowMainMenu::DrawWindowsMenu()
 	{
 		for (auto& windowNameAndEnabled : windowNamesAndEnabled)
 		{			
-			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second.get());
+			ImGui::MenuItem(windowNameAndEnabled.first.c_str(), NULL, &windowNameAndEnabled.second);
 		}
 		
 		ImGui::EndMenu();
-	}
+	}	
 }
 
 void WindowMainMenu::DrawAbout()
@@ -55,7 +59,7 @@ void WindowMainMenu::DrawAbout()
 	{
 		enabled = !showAbout;
 	}		
-	about->Draw();
+	about->Draw(enabled);
 }
 
 void WindowMainMenu::DrawGithubLink() const
@@ -77,3 +81,4 @@ void WindowMainMenu::DrawExit() const
 		SDL_PushEvent(&quitEvent);
 	}
 }
+

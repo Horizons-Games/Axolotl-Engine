@@ -1,41 +1,41 @@
 #pragma once
 
 #include "EditorWindows/WindowAbout.h"
-
+class Json;
 class WindowMainMenu : public Window
 {
 public:
-	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow> >& editorWindows);
-	~WindowMainMenu() override;
-
+	WindowMainMenu(Json &json);
+	~WindowMainMenu() override;	
 	static const std::string repositoryLink;
 
-	void Draw() override;
+	void Draw(bool &enabled=defaultEnabled) override;
 
 	bool IsWindowEnabled(int windowIndex) const;
-	void SetWindowEnabled(int windowIndex, bool &enabled);	
+	void SetWindowEnabled(int windowIndex, bool enabled);	
 private:
 	void DrawWindowsMenu();
 	void DrawAbout();
-	
 	void DrawGithubLink() const;
 	void DrawExit() const;
+	
 
 	static bool defaultEnabled;
-
+	
 	std::unique_ptr<WindowAbout> about;
 	
 	bool showAbout;
 	
-	std::vector<std::pair<std::string, std::reference_wrapper<bool>> > windowNamesAndEnabled;	
+	/*std::vector<std::pair<std::string, std::reference_wrapper<bool>> > windowNamesAndEnabled;*/
+	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
 {
-	return windowNamesAndEnabled[windowIndex].second.get();	
+	return windowNamesAndEnabled[windowIndex].second;	
 }
 
-inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool &enabled)
+inline void WindowMainMenu::SetWindowEnabled(int windowIndex, bool enabled)
 {
-	windowNamesAndEnabled[windowIndex].second.get() = &enabled;	
+	windowNamesAndEnabled[windowIndex].second = enabled;	
 }

@@ -17,11 +17,11 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
+	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
-	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
-	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
+	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
 	modules.push_back(std::unique_ptr<ModuleEngineCamera>(engineCamera = new ModuleEngineCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));

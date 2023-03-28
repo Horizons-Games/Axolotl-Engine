@@ -3,18 +3,17 @@
 #include "Windows/Window.h"
 
 #include "imgui.h"
-
+class Json;
 class EditorWindow : public Window
 {
 public:
 	virtual ~EditorWindow() override;
 
-	void Draw() override;
-
+	void Draw(bool &enabled) override;
+	 
 	bool IsFocused() const;	
-	void Start();
-	void CleanUp();
-
+	static char* StateWindows();
+	void UpdateState(Json& json);
 protected:
 	EditorWindow(const std::string& name);
 	virtual void DrawWindowContents() = 0;
@@ -27,6 +26,7 @@ private:
 	bool focused;
 	void LoadMeta(const std::string name, bool& enable);
 	void UpdateMeta(bool enabled, const std::string name);
+	
 };
 
 inline bool EditorWindow::IsFocused() const

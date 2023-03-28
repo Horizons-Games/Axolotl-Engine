@@ -14,6 +14,7 @@
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
+const std::string ModuleResources::settingsFolder = "Settings/";
 
 //creator and destructor can't be inlined
 //because we are using unique pointers with forward declarations
@@ -35,6 +36,7 @@ bool ModuleResources::Start()
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
 	CreateAssetAndLibFolders();
+	CreateFolderSettings();
 
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
@@ -337,6 +339,19 @@ void ModuleResources::CreateAssetAndLibFolders()
 		{
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
+	}
+}
+
+void ModuleResources::CreateFolderSettings()
+{
+	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
+	if (settingsFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(settingsFolder.c_str());
+	}	
+	else
+	{
+		ENGINE_LOG("JUST TRUE")
 	}
 }
 

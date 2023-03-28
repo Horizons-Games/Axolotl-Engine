@@ -11,7 +11,7 @@ SubWindow::~SubWindow()
 {
 }
 
-void SubWindow::Draw()
+void SubWindow::Draw(bool& enabled)
 {
 	if (ImGui::CollapsingHeader(name.c_str(), flags))
 	{

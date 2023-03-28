@@ -4,6 +4,9 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include "Windows/WindowMainMenu.h"
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -49,14 +52,32 @@ bool ModuleEditor::Init()
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
+	rapidjson::Document doc;
+	Json json(doc, doc);
+	char* buffer = EditorWindow::StateWindows();
+	
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
 	windows.push_back(std::make_unique<WindowInspector>());
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowFileBrowser>());
-	windows.push_back(std::make_unique<WindowConsole>());
-	mainMenu = std::make_unique<WindowMainMenu>(windows);
+	windows.push_back(std::make_unique<WindowConsole>());	
+	if(buffer==nullptr)
+	{		
+		rapidjson::StringBuffer newBuffer;
+		for (int i = 0; i < windows.size(); ++i)
+		{
+			json[windows[i].get()->GetName().c_str()]=true;
+		}
+		json.toBuffer(newBuffer);
+	}
+	else
+	{
+		json.fromBuffer(buffer);
+	}
+	
+	mainMenu = std::make_unique<WindowMainMenu>(json);
 
 	return true;
 }
@@ -65,20 +86,22 @@ bool ModuleEditor::Start()
 {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
-	for (int i = 0; i < windows.size(); ++i) 
-	{
-		windows[i].get()->Start();
-	}
-
 	return true;
 }
 
 bool ModuleEditor::CleanUp()
 {
+	rapidjson::Document doc;
+	Json json(doc, doc);	
+	
 	for (int i = 0; i < windows.size(); ++i) 
 	{
-		windows[i].get()->CleanUp();
+		windows[i].get()->UpdateState(json);		
 	}
+	rapidjson::StringBuffer buffer;
+	json.toBuffer(buffer);
+	std::string lib = "Settings/WindowsStates.cong";
+	App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -127,11 +150,9 @@ update_status ModuleEditor::Update()
 
 	mainMenu->Draw();
 	for (int i = 0; i < windows.size(); ++i) {
-		//bool windowEnabled = mainMenu->IsWindowEnabled(i);
-		//windows[i]->SetEnable(windowEnabled);
-		windows[i]->Draw();
-		//mainMenu->SetWindowEnabled(i, windows[i].get()->GetEnable());
-		//windows[i]->SetEnable(mainMenu->IsWindowEnabled(i));		
+		bool windowEnabled = mainMenu->IsWindowEnabled(i);
+		windows[i]->Draw(windowEnabled);
+		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
 
 	return status;
