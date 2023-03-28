@@ -54,6 +54,16 @@ void ComponentBoundingBox2D::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = static_cast<bool>(active);
 	meta["removed"] = static_cast<bool>(canBeRemoved);
+
+	meta["localAABB_min_x"] = (float)localAABB.minPoint.x;
+	meta["localAABB_min_y"] = (float)localAABB.minPoint.y;
+	meta["localAABB_max_x"] = (float)localAABB.maxPoint.x;
+	meta["localAABB_max_y"] = (float)localAABB.maxPoint.y;
+
+	meta["worldAABB_min_x"] = (float)worldAABB.minPoint.x;
+	meta["worldAABB_min_y"] = (float)worldAABB.minPoint.y;
+	meta["worldAABB_max_x"] = (float)worldAABB.maxPoint.x;
+	meta["worldAABB_max_y"] = (float)worldAABB.maxPoint.y;
 }
 
 void ComponentBoundingBox2D::LoadOptions(Json& meta)
@@ -61,6 +71,17 @@ void ComponentBoundingBox2D::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = static_cast<bool>(meta["active"]);
 	canBeRemoved = static_cast<bool>(meta["removed"]);
+
+	vec2d localMin = { (float)meta["localAABB_min_x"], (float)meta["localAABB_min_y"] };
+	vec2d localMax = { (float)meta["localAABB_max_x"], (float)meta["localAABB_max_y"] };
+
+	localAABB = { localMin,localMax };
+
+	vec2d worldMin = { (float)meta["worldAABB_min_x"], (float)meta["worldAABB_min_y"] };
+	vec2d worldMax = { (float)meta["worldAABB_max_x"], (float)meta["worldAABB_max_y"] };
+
+	worldAABB = { worldMin,worldMax };
+	CalculateWorldBoundingBox();
 }
 
 void ComponentBoundingBox2D::SetLocalBoundingBox(const AABB2D& boundingBox) 
@@ -70,7 +91,6 @@ void ComponentBoundingBox2D::SetLocalBoundingBox(const AABB2D& boundingBox)
 
 void ComponentBoundingBox2D::CalculateWorldBoundingBox() 
 {
-	
 	ComponentTransform2D* transform2D = (ComponentTransform2D*)(GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 	ComponentCanvas* canvasRenderer = (ComponentCanvas*)(GetOwner()->FoundCanvasOnAnyParent());
 	float screenFactor = 1.0f;

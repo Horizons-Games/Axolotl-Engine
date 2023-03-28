@@ -21,6 +21,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -190,7 +191,7 @@ GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, Comp
 		break;
 	case ComponentType::BUTTON:
 		gameObject->CreateComponent(ComponentType::IMAGE);
-		gameObject->CreateComponent(ComponentType::BUTTON);
+		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
 		gameObject->CreateComponent(ComponentType::BOUNDINGBOX2D);
 		break;
 	default:

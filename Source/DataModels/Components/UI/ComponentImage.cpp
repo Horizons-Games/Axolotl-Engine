@@ -137,9 +137,10 @@ void ComponentImage::LoadOptions(Json& meta)
 inline float3 ComponentImage::GetFullColor()
 {
 	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
-	if(button != nullptr && button->IsClicked())
+	if(button != nullptr)
 	{
-		return button->GetColorClicked();
+		if (button->IsClicked()) return button->GetColorClicked();
+		if (button->IsHovered()) return button->GetColorHovered();
 	}
 	return color;
 }
