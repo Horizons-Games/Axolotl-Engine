@@ -94,7 +94,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
-	ImportResourceFromSystem(originalPath, importedRes, importedRes->GetType());
+	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
 	return importedRes;
 }
 
