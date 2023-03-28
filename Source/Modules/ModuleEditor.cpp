@@ -308,3 +308,13 @@ void ModuleEditor::RefreshInspector() const
 #endif // ENGINE
 
 }
+
+std::pair<int, int> ModuleEditor::GetAvailableRegion()
+{
+#ifdef ENGINE
+	ImVec2 region = scene->GetAvailableRegion();
+	return std::make_pair(region.x, region.y);
+#else
+	return App->window->GetWindowSize();
+#endif
+}

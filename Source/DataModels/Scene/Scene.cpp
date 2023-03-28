@@ -19,6 +19,9 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -69,36 +72,48 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool is3D)
 {
 	assert(name != nullptr && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
-	gameObject->InitNewEmptyGameObject();
-
-	// Update the transform respect its parent when created
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
-		(gameObject->GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
-
+	gameObject->InitNewEmptyGameObject(is3D);
 	sceneGameObjects.push_back(gameObject);
 
-	//Quadtree treatment
-	if (!rootQuadtree->InQuadrant(gameObject))
+	if (is3D)
 	{
-		if (!rootQuadtree->IsFreezed())
+		// Update the transform respect its parent when created
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+
+
+		//Quadtree treatment
+		if (!rootQuadtree->InQuadrant(gameObject))
 		{
-			rootQuadtree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
+			if (!rootQuadtree->IsFreezed())
+			{
+				rootQuadtree->ExpandToFit(gameObject);
+				FillQuadtree(sceneGameObjects);
+			}
+			else
+			{
+				App->renderer->AddToRenderList(gameObject);
+			}
 		}
 		else
 		{
-			App->renderer->AddToRenderList(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
+
 	}
 	else
 	{
-		rootQuadtree->Add(gameObject);
+		// Update the transform respect its parent when created
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		childTransform->CalculateMatrices();
+
 	}
 
 	return gameObject;
@@ -152,6 +167,39 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
+GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	trans->SetPosition(float3(0, 0, -2));
+	trans->CalculateMatrices();
+	gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneCanvas.push_back(gameObject);
+
+	return gameObject;
+}
+
+GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, ComponentType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	switch (type)
+	{
+	case ComponentType::IMAGE:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		break;
+	case ComponentType::BUTTON:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+		gameObject->CreateComponent(ComponentType::BOUNDINGBOX2D);
+		break;
+	default:
+		break;
+	}
+	return gameObject;
+}
+
 GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
@@ -184,9 +232,6 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	}
 
 	meshComponent->SetMesh(mesh);
-
-	
-
 	return gameObject;
 }
 
