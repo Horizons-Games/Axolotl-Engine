@@ -10,6 +10,11 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/UI/ComponentBoundingBox2D.h"
+#include "../Components/UI/ComponentCanvas.h"
+#include "../Components/UI/ComponentImage.h"
+#include "../Components/UI/ComponentButton.h"
+#include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
 
@@ -250,9 +255,16 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
-void GameObject::InitNewEmptyGameObject()
+void GameObject::InitNewEmptyGameObject(bool is3D)
 {
-	CreateComponent(ComponentType::TRANSFORM);
+	if (is3D)
+	{
+		CreateComponent(ComponentType::TRANSFORM);
+	}
+	else 
+	{
+		CreateComponent(ComponentType::TRANSFORM2D);
+	}
 }
 
 void GameObject::MoveParent(GameObject* newParent)
@@ -298,6 +310,15 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 		if (transform != nullptr)
 		{
 			transform->UpdateTransformMatrices();
+		}
+		else
+		{
+			ComponentTransform2D* transform2D =
+				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			if (transform2D)
+			{
+				transform2D->CalculateMatrices();
+			}
 		}
 		children.push_back(std::move(child));
 	}
@@ -474,6 +495,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::TRANSFORM2D:
+		{
+			newComponent = std::make_unique<ComponentTransform2D>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHRENDERER:
 		{
 			newComponent = std::make_unique<ComponentMeshRenderer>(true, this);
@@ -508,6 +535,30 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
+
+		case ComponentType::CANVAS:
+		{
+			newComponent = std::make_unique<ComponentCanvas>(true, this);
+			break;
+		}
+
+		case ComponentType::IMAGE:
+		{
+			newComponent = std::make_unique<ComponentImage>(true, this);
+			break;
+		}
+
+		case ComponentType::BUTTON:
+		{
+			newComponent = std::make_unique<ComponentButton>(true, this);
+			break;
+		}
+
+		case ComponentType::BOUNDINGBOX2D:
+		{
+			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
 			break;
 		}
 
@@ -695,9 +746,21 @@ void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	objectOBB = localAABB;
-	objectOBB.Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	if (transform)
+	{
+		objectOBB = localAABB;
+		objectOBB.Transform(transform->GetGlobalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
+	else
+	{
+		//TODO Calculate BoundingBox of Transform2D Object
+		ComponentTransform2D* transform2D =
+			static_cast<ComponentTransform2D*>(GetComponent(ComponentType::TRANSFORM2D));
+		objectOBB = localAABB;
+		objectOBB.Transform(transform2D->GetLocalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
 }
 
 void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
@@ -712,4 +775,17 @@ void GameObject::SetParentAsChildSelected()
 		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
 		parent->SetParentAsChildSelected();
 	}
+}
+
+
+ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
+{
+	while (parent != nullptr) {
+		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
+		if (canvas) {
+			return canvas;
+		}
+		parent = parent->GetParent();
+	}
+	return nullptr;
 }

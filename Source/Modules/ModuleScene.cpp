@@ -10,6 +10,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModulePlayer.h"
 #include "Components/ComponentCamera.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -48,7 +49,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/CantinaSewersVS1.axolotl");
+		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
@@ -217,6 +218,8 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
 	std::vector<GameObject*> loadedCameras{};
+	std::vector<GameObject*> loadedCanvas{};
+	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -227,6 +230,16 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		if (!camerasOfObj.empty())
 		{
 			loadedCameras.push_back(obj);
+		}
+
+		if (obj->GetComponent(ComponentType::CANVAS) != nullptr)
+		{
+			loadedCanvas.push_back(obj);
+		}
+		Component* button = obj->GetComponent(ComponentType::BUTTON);
+		if (button != nullptr)
+		{
+			loadedInteractable.push_back(button);
 		}
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
@@ -241,17 +254,21 @@ void ModuleScene::SetSceneFromJson(Json& json)
 				directionalLight = obj;
 			}
 		}
-		//Quadtree treatment
-		if (!rootQuadtree->InQuadrant(obj))
+		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
-			if (!rootQuadtree->IsFreezed())
+			//Quadtree treatment
+			if (!rootQuadtree->InQuadrant(obj))
 			{
-				rootQuadtree->ExpandToFit(obj);
+				if (!rootQuadtree->IsFreezed())
+				{
+					rootQuadtree->ExpandToFit(obj);
+				}
 			}
-		}
-		else
-		{
-			rootQuadtree->Add(obj);
+			else
+			{
+				rootQuadtree->Add(obj);
+			}
+
 		}
 	}
 
@@ -261,13 +278,22 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	App->editor->RefreshInspector();
 	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
+	loadedScene->SetSceneCanvas(loadedCanvas);
+	loadedScene->SetSceneInteractable(loadedInteractable);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-
 	loadedScene->InitLights();
-
 }
 
+/*
+This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
+*/
+void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
+{
+	loadedScene->GetRootQuadtree()->AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject = gameObject;
+	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
+}
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
 	std::vector<std::unique_ptr<GameObject>> gameObjects{};

@@ -10,6 +10,8 @@ public:
 
 	bool Update() override;
 
+	void UpdateCameraWithMousePos();
+
 	bool IsDrawFrustum();
 	void SetIsDrawFrustum(bool newIsDrawFrustum);
 

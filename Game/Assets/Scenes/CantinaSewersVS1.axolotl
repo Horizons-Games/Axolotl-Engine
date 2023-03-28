@@ -122,6 +122,218 @@
         },
         {
             "GameObject": {
+                "name": "Floor",
+                "tag": "",
+                "uid": 9671822666168219572,
+                "parentUID": 15257032007027155734,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.0337393283843996,
+                            "localPos_Y": -0.25,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 17.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 10.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 15679419812108754704,
+                "parentUID": 1922549169695689611,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 10.271361351013184,
+                            "localPos_Y": 0.000022232532501220704,
+                            "localPos_Z": 12.096553802490235,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.05934702232480049,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.32499998807907107,
+                            "localSca_Y": 0.6000000238418579,
+                            "localSca_Z": 2.174999952316284
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LegoEnemyt_0",
+                "tag": "",
+                "uid": 14052448841073748760,
+                "parentUID": 3236669157446681995,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -5.960464477539063e-8,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 4875385651968922257,
+                            "assetPathMaterial": "Assets/Materials/LegoEnemyt_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 4861339419852754477,
+                            "assetPathMesh": "Assets/Meshes/LegoEnemyt_0.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Structure",
+                "tag": "",
+                "uid": 15257032007027155734,
+                "parentUID": 15903199761032511603,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "bith_3",
+                "tag": "",
+                "uid": 11255136109624797796,
+                "parentUID": 15555739104078994007,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 17116400262662545335,
+                            "assetPathMaterial": "Assets/Materials/bith_3.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1340068637243275974,
+                            "assetPathMesh": "Assets/Meshes/bith_3.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Cube",
                 "tag": "",
                 "uid": 15809313266614300132,
@@ -207,218 +419,6 @@
                             "removed": true,
                             "meshUID": 8982785268433629927,
                             "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LegoEnemyt_0",
-                "tag": "",
-                "uid": 14052448841073748760,
-                "parentUID": 3236669157446681995,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": -5.960464477539063e-8,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 4875385651968922257,
-                            "assetPathMaterial": "Assets/Materials/LegoEnemyt_0.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 4861339419852754477,
-                            "assetPathMesh": "Assets/Meshes/LegoEnemyt_0.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "tag": "",
-                "uid": 15679419812108754704,
-                "parentUID": 1922549169695689611,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 10.271361351013184,
-                            "localPos_Y": 0.000022232532501220704,
-                            "localPos_Z": 12.096553802490235,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.05934702232480049,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.32499998807907107,
-                            "localSca_Y": 0.6000000238418579,
-                            "localSca_Z": 2.174999952316284
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Floor",
-                "tag": "",
-                "uid": 9671822666168219572,
-                "parentUID": 15257032007027155734,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.0337393283843996,
-                            "localPos_Y": -0.25,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 17.0,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 10.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "bith_3",
-                "tag": "",
-                "uid": 11255136109624797796,
-                "parentUID": 15555739104078994007,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 17116400262662545335,
-                            "assetPathMaterial": "Assets/Materials/bith_3.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 1340068637243275974,
-                            "assetPathMesh": "Assets/Meshes/bith_3.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Structure",
-                "tag": "",
-                "uid": 15257032007027155734,
-                "parentUID": 15903199761032511603,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -9658,7 +9658,9 @@
                         "Component": {
                             "type": "Component_Player",
                             "active": true,
-                            "removed": true
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
                         }
                     },
                     {
@@ -11415,6 +11417,43 @@
                             "removed": true,
                             "meshUID": 17190841663404106931,
                             "assetPathMesh": "Assets/Meshes/Capsule.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Parkour",
+                "tag": "",
+                "uid": 14022244025025108691,
+                "parentUID": 4217487205660285763,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 13.636632919311524,
+                            "localPos_Y": 1.664926290512085,
+                            "localPos_Z": -37.46977615356445,
+                            "localRot_X": 179.99996948242188,
+                            "localRot_Y": -86.79325103759766,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
                         }
                     }
                 ]
@@ -13600,6 +13639,43 @@
         },
         {
             "GameObject": {
+                "name": "Bar",
+                "tag": "",
+                "uid": 11337616313050948272,
+                "parentUID": 4217487205660285763,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.6588656902313234,
+                            "localPos_Y": 3.564253091812134,
+                            "localPos_Z": 0.6082038879394531,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -225.75,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "bith_2",
                 "tag": "",
                 "uid": 12149227887138911339,
@@ -15126,6 +15202,16 @@
                             "removed": true,
                             "meshUID": 12864860280523043845,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MockState",
+                            "active": true,
+                            "removed": true,
+                            "isWinState": true,
+                            "isFailState": false,
+                            "sceneName": "LoseVS1"
                         }
                     }
                 ]
@@ -19063,6 +19149,16 @@
                             "removed": true,
                             "meshUID": 12864860280523043845,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MockState",
+                            "active": true,
+                            "removed": true,
+                            "isWinState": true,
+                            "isFailState": false,
+                            "sceneName": "LoseVS1"
                         }
                     }
                 ]
@@ -28614,43 +28710,6 @@
         },
         {
             "GameObject": {
-                "name": "Bar",
-                "tag": "",
-                "uid": 11337616313050948272,
-                "parentUID": 4217487205660285763,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 3.6588656902313234,
-                            "localPos_Y": 3.564253091812134,
-                            "localPos_Z": 0.6082038879394531,
-                            "localRot_X": 0.0,
-                            "localRot_Y": -225.75,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Camera",
-                            "active": true,
-                            "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Music",
                 "tag": "",
                 "uid": 12987367926546004314,
@@ -28681,43 +28740,6 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Parkour",
-                "tag": "",
-                "uid": 14022244025025108691,
-                "parentUID": 4217487205660285763,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 13.636632919311524,
-                            "localPos_Y": 1.664926290512085,
-                            "localPos_Z": -37.46977615356445,
-                            "localRot_X": 179.99996948242188,
-                            "localRot_Y": -86.79325103759766,
-                            "localRot_Z": 179.99996948242188,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Camera",
-                            "active": true,
-                            "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": true
                         }
                     }
                 ]

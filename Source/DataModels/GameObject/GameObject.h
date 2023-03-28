@@ -12,6 +12,7 @@
 
 class Component;
 class ComponentMeshRenderer;
+class ComponentCanvas;
 class Json;
 
 enum class ComponentType;
@@ -41,7 +42,7 @@ public:
 	void DrawSelected();
 	void DrawHighlight();
 
-	void InitNewEmptyGameObject();
+	void InitNewEmptyGameObject(bool is3D=true);
 
 	void AddChild(std::unique_ptr<GameObject> child);
 	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
@@ -90,6 +91,8 @@ public:
 
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* Vertices, unsigned numVertices);
+
+	ComponentCanvas* FoundCanvasOnAnyParent();
 
 	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();

@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
@@ -31,6 +32,7 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 #endif // !ENGINE
 
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
+	modules.push_back(std::unique_ptr<ModuleUI>(userInterface = new ModuleUI()));
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
 	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
 }
