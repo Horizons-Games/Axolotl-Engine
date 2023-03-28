@@ -149,6 +149,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Image";
 	case ComponentType::BUTTON:
 		return "Component_Button";
+	case ComponentType::BOUNDINGBOX2D:
+		return "Component_BoundingBox2D";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -205,6 +207,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Button")
 	{
 		return ComponentType::BUTTON;
+	}
+
+	if (typeName == "Component_BoundingBox2D")
+	{
+		return ComponentType::BOUNDINGBOX2D;
 	}
 	
 	return ComponentType::UNKNOWN;

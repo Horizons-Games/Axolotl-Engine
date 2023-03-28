@@ -22,6 +22,9 @@ public:
 	void SetClicked(bool clicked);
 	void SetHovered(bool hovered);
 
+	void SetColorClicked(float3 colorClicked);
+	void SetColorHovered(float3 colorHovered);
+
 	float3& GetColorClicked();
 	float3& GetColorHovered();
 
@@ -54,6 +57,16 @@ inline void ComponentButton::SetClicked(bool clicked)
 inline void ComponentButton::SetHovered(bool hovered)
 {
 	this->hovered = hovered;
+}
+
+inline void ComponentButton::SetColorClicked(float3 colorClicked)
+{
+	this->colorClicked = colorClicked;
+}
+
+inline void ComponentButton::SetColorHovered(float3 colorHovered)
+{
+	this->colorHovered = colorHovered;
 }
 
 inline float3& ComponentButton::GetColorClicked()

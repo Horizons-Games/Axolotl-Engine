@@ -193,6 +193,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 
 	std::vector<GameObject*> loadedCameras{};
 	std::vector<GameObject*> loadedCanvas{};
+	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
@@ -209,7 +210,11 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		{
 			loadedCanvas.push_back(obj);
 		}
-
+		Component* button = obj->GetComponent(ComponentType::BUTTON);
+		if (button != nullptr)
+		{
+			loadedInteractable.push_back(button);
+		}
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
@@ -248,11 +253,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
+	loadedScene->SetSceneInteractable(loadedInteractable);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-
 	loadedScene->InitLights();
-
 }
 
 /*
