@@ -768,6 +768,16 @@ void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
 }
 
+void GameObject::SetParentAsChildSelected()
+{
+	if (parent)
+	{
+		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+		parent->SetParentAsChildSelected();
+	}
+}
+
+
 ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
 {
 	while (parent != nullptr) {

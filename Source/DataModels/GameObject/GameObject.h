@@ -21,7 +21,8 @@ enum class LightType;
 enum class StateOfSelection
 {
 	NO_SELECTED,
-	SELECTED
+	SELECTED,
+	CHILD_SELECTED
 };
 
 class GameObject
@@ -100,6 +101,7 @@ public:
 
 	void setDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
+	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -135,6 +137,13 @@ inline UID GameObject::GetUID() const
 
 inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 {
+	if (stateOfSelection == StateOfSelection::NO_SELECTED)
+	{
+		if (parent)
+		{
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		}
+	}
 	this->stateOfSelection = stateOfSelection;
 }
 
@@ -186,6 +195,7 @@ inline bool GameObject::IsActive() const
 inline const std::vector<GameObject*> GameObject::GetChildren() const
 {
 	std::vector<GameObject*> rawChildren;
+	rawChildren.reserve(children.size());
 
 	if(!children.empty())
 		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 

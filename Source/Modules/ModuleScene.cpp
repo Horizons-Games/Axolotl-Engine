@@ -84,6 +84,12 @@ void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 	selectedGameObject = loadedScene->GetRoot();
 }
 
+void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+{
+	gameObject->SetParentAsChildSelected();
+	selectedGameObject = gameObject;
+}
+
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
 {
 	assert(gameObject != nullptr);

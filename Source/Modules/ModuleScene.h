@@ -61,11 +61,6 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 	return selectedGameObject;
 }
 
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
-{
-	selectedGameObject = gameObject;
-}
-
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
