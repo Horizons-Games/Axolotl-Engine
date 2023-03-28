@@ -1,0 +1,12 @@
+{
+    "UID": 10640907077390938574,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/LegoEnemyt_0.mesh",
+        "Assets/Meshes/LegoEnemyt_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/LegoEnemyt_0.mat",
+        "Assets/Materials/LegoEnemyt_1.mat"
+    ]
+}

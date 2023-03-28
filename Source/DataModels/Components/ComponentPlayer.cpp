@@ -1,5 +1,7 @@
 #include "ComponentPlayer.h"
 
+#include "GameObject/GameObject.h"
+
 #include "FileSystem/Json.h"
 
 ComponentPlayer::ComponentPlayer(bool active, GameObject* owner)

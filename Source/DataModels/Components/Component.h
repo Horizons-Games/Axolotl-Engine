@@ -16,7 +16,9 @@ enum class ComponentType
 	CANVAS,
 	IMAGE,
 	BUTTON,
-	BOUNDINGBOX2D
+	BOUNDINGBOX2D,
+	RIGIDBODY,
+	MOCKSTATE
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -149,6 +151,10 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Image";
 	case ComponentType::BUTTON:
 		return "Component_Button";
+	case ComponentType::RIGIDBODY:
+		return "Component_RigidBody";
+	case ComponentType::MOCKSTATE:
+		return "Component_MockState";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -205,6 +211,16 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Button")
 	{
 		return ComponentType::BUTTON;
+	}
+	
+	if (typeName == "Component_RigidBody")
+	{
+		return ComponentType::RIGIDBODY;
+	}
+
+	if (typeName == "Component_MockState")
+	{
+		return ComponentType::MOCKSTATE;
 	}
 	
 	return ComponentType::UNKNOWN;

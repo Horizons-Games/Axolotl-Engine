@@ -30,30 +30,25 @@ bool ModulePlayer::Init()
 bool ModulePlayer::Start()
 {
 	//Initialize the player
-
-	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
-	for (GameObject* camera : cameras)
-	{
-		componentPlayer = static_cast<ComponentPlayer*>(camera->GetParent()->GetComponent(ComponentType::PLAYER));
-		if (componentPlayer)
-		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
-			App->camera->SetSelectedCamera(0);
-			break;
-		}
-	}
+	LoadNewPlayer();
 	return true;
 }
 
 update_status ModulePlayer::PreUpdate()
 {
-	if (!componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
 	}
+	return update_status::UPDATE_CONTINUE;
+}
+
+update_status ModulePlayer::Update()
+{
+	player->Update();
+	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+	trans->UpdateTransformMatrices();
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -75,23 +70,23 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::Move()
 {
-	float deltaTime = App->GetDeltaTime();
+	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalFront().Normalized() * speed * deltaTime;
+		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalFront().Normalized() * speed * deltaTime;
+		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Left
@@ -99,7 +94,7 @@ void ModulePlayer::Move()
 	{
 		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 
 	//Right
@@ -107,7 +102,7 @@ void ModulePlayer::Move()
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
 	}
 }
 
@@ -118,8 +113,23 @@ void ModulePlayer::Rotate()
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		float3 newRot = trans->GetRotationXYZ();
-		newRot.z += - App->input->GetMouseMotion().x * deltaTime;
+		newRot.y += - App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
-		trans->UpdateTransformMatrices();
+		//trans->UpdateTransformMatrices();
+	}
+}
+
+void ModulePlayer::LoadNewPlayer()
+{
+	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	for (GameObject* camera : cameras)
+	{
+		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
+		{
+			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
+			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			App->camera->SetSelectedCamera(0);
+		}
 	}
 }

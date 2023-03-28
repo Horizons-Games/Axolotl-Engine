@@ -626,7 +626,6 @@ void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
 	root = std::move(newRoot);
 }
 
-
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);

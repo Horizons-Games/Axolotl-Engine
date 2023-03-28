@@ -15,6 +15,7 @@ public:
 	bool Start() override;
 
 	update_status PreUpdate();
+	update_status Update();
 
 	void Move();
 	void Rotate();
@@ -22,6 +23,8 @@ public:
 	GameObject* GetPlayer();
 	void SetPlayer(std::unique_ptr<GameObject> player);
 	Camera* GetCameraPlayer();
+
+	void LoadNewPlayer();
 
 
 private:
