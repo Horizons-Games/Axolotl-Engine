@@ -2,34 +2,6 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "WinVS1",
-                "tag": "",
-                "uid": 9351076666620844235,
-                "parentUID": 0,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "new Image",
                 "tag": "",
                 "uid": 10153650663129387206,
@@ -72,36 +44,27 @@
         },
         {
             "GameObject": {
-                "name": "Canvas",
+                "name": "WinVS1",
                 "tag": "",
-                "uid": 16561938826019233067,
-                "parentUID": 9351076666620844235,
+                "uid": 9351076666620844235,
+                "parentUID": 0,
                 "enabled": true,
                 "active": true,
                 "Components": [
                     {
                         "Component": {
-                            "type": "Component_Transform2D",
+                            "type": "Component_Transform",
                             "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": -2.0,
-                            "localRot_X": 0.0,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Canvas",
-                            "active": true,
-                            "removed": true
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -142,6 +105,43 @@
                             "color_light_Z": 0.05000000074505806,
                             "intensity": 1.0,
                             "lightType": "LightType_Ambient"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Canvas",
+                "tag": "",
+                "uid": 16561938826019233067,
+                "parentUID": 9351076666620844235,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": -2.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Canvas",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -263,7 +263,7 @@
         },
         {
             "GameObject": {
-                "name": "TryAgain",
+                "name": "Continue",
                 "tag": "",
                 "uid": 9365887114506419914,
                 "parentUID": 16561938826019233067,
@@ -293,8 +293,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 7093895573527086458,
-                            "assetPathImage": "Assets/Textures/ButtonTryAgain.png",
+                            "imageUID": 13601831036421055306,
+                            "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0
