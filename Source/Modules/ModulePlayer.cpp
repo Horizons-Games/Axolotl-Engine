@@ -69,7 +69,7 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::Move()
 {
-	float deltaTime = App->GetDeltaTime();
+	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
 	//Forward

@@ -116,7 +116,7 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 		(gameObject->GetComponent(ComponentType::TRANSFORM));
 	childTransform->UpdateTransformMatrices();
 
-	sceneGameObjects.push_back(gameObject);
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
 	//Quadtree treatment
 	if (!rootQuadtree->InQuadrant(gameObject))
@@ -580,4 +580,13 @@ std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
 {
 	root = std::move(newRoot);
+}
+
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
+{
+	sceneGameObjects.push_back(gameObject);
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
+	}
 }
