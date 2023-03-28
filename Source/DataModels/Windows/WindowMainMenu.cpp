@@ -181,13 +181,10 @@ void WindowMainMenu::BuildGame(GameBuildType buildType)
 		ENGINE_LOG("Building ReleaseGame...");
 		buildConfig = "ReleaseGame";
 		break;
-	default:
-		assert(false && "Unknown build type, never should arrive here");
-		break;
 	}
 	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
 		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
-	std::string solutionPath = "..\\Source\\Engine.sln";
+	std::string solutionPath = "..\\..\\Engine.sln";
 	std::string configurationParameter = "/p:Configuration=" + buildConfig;
 	std::string platformParameter = "/p:Platform=x64";
 
