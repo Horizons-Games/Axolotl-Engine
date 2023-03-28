@@ -298,6 +298,11 @@
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentBoundingBox2D.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
@@ -320,6 +325,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -369,14 +375,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -421,6 +430,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -476,6 +486,7 @@
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
+    <ClCompile Include="Modules\ModuleUI.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="DataModels\Scene\Scene.cpp" />
@@ -516,6 +527,11 @@
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentBoundingBox2D.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentButton.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Program\Program.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />
@@ -543,6 +559,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -594,14 +611,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -638,6 +658,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -723,6 +744,7 @@
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
+    <ClInclude Include="Modules\ModuleUI.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="DataModels\Scene\Scene.h" />

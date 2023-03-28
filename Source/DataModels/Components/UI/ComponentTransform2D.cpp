@@ -5,7 +5,7 @@
 #include "ComponentCanvas.h"
 #include "Math/float3x3.h"
 #include "Math/TransformOps.h"
-#include "Components/ComponentBoundingBox2D.h"
+#include "Components/UI/ComponentBoundingBox2D.h"
 
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM2D, active, owner, true),

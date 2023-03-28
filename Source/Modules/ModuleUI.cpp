@@ -10,7 +10,7 @@
 
 #include "GL/glew.h"
 #include "Physics/Physics.h"
-#include "Components/ComponentBoundingBox2D.h"
+#include "Components/UI/ComponentBoundingBox2D.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentButton.h"
 
