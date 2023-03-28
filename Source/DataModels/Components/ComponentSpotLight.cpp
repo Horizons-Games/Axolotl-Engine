@@ -3,8 +3,18 @@
 
 #include "FileSystem/Json.h"
 
-#include "debugdraw.h"
+#include "Modules/ModuleScene.h"
+
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "Application.h"
+
+#include "debugdraw.h"
 
 ComponentSpotLight::ComponentSpotLight() : ComponentLight(LightType::SPOT, true),
 	radius(1.0f), innerAngle(2.0f), outerAngle(2.5f)
@@ -45,12 +55,12 @@ ComponentSpotLight::~ComponentSpotLight()
 void ComponentSpotLight::Draw()
 {
 #ifndef ENGINE
-	if (!App->IsDebuggingGame())
+	if (!App->editor->GetDebugOptions()->GetDrawSpotLight())
 	{
 		return;
 	}
 #endif //ENGINE
-	if (this->GetActive())
+	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

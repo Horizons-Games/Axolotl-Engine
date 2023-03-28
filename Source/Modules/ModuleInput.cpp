@@ -4,10 +4,8 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-
-#ifdef ENGINE
 #include "imgui_impl_sdl.h"
-#endif // ENGINE
+
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -108,7 +106,13 @@ update_status ModuleInput::Update()
     {
 #ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
-#endif // ENGINE
+#else // ENGINE
+
+        if (App->IsDebuggingGame())
+        {
+            ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+        }
+#endif
 
         switch (sdlEvent.type)
         {
@@ -173,6 +177,12 @@ update_status ModuleInput::Update()
     if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
     {
         App->SwitchDebuggingGame();
+#ifndef ENGINE
+        if (!App->IsDebuggingGame())
+        {
+            SDL_ShowCursor(SDL_DISABLE);
+        }
+#endif // ENGINE
     }
 
     return status;

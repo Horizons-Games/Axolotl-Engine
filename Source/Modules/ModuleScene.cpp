@@ -8,6 +8,7 @@
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModulePlayer.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -47,7 +48,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/Demo.axolotl");
+		LoadSceneFromJson("Lib/Scenes/CantinaSewersVS1.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
@@ -61,6 +62,17 @@ update_status ModuleScene::Update()
 #endif // DEBUG
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+
+	return update_status::UPDATE_CONTINUE;
+}
+
+update_status ModuleScene::PostUpdate()
+{
+	if (!sceneToLoad.empty())
+	{
+		LoadSceneFromJson(sceneToLoad);
+		sceneToLoad = "";
+	}
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -179,6 +191,14 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	SetSceneFromJson(Json);
 
 	delete buffer;
+
+#ifndef ENGINE
+	if (App->player->GetPlayer())
+	{
+
+		App->player->LoadNewPlayer();
+	}
+#endif // !ENGINE
 }
 
 void ModuleScene::SetSceneFromJson(Json& json)

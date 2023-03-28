@@ -48,6 +48,7 @@ public:
 
 	UID GetUID() const;
 	const char* GetName() const;
+	const char* GetTag() const;
 	GameObject* GetParent() const;
 
 	StateOfSelection GetStateOfSelection() const;
@@ -69,6 +70,7 @@ public:
 	void Disable();
 
 	void SetName(const char* newName);
+	void SetTag(const char* newTag);
 	void SetParent(GameObject* newParent);
 	void MoveParent(GameObject* newParent);
 
@@ -93,11 +95,12 @@ public:
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
 	const bool isDrawBoundingBoxes() const;
-	const bool IsChildSelected();
 
 	void setDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
+
+	bool CompareTag(const std::string& commingTag) const;
 
 private:
 	bool IsAChild(const GameObject* child);
@@ -109,6 +112,7 @@ private:
 	bool enabled;
 	bool active;
 	std::string name;
+	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;
 	StateOfSelection stateOfSelection;
 
@@ -168,6 +172,16 @@ inline GameObject* GameObject::GetParent() const
 inline StateOfSelection GameObject::GetStateOfSelection() const
 {
 	return stateOfSelection;
+}
+
+inline const char* GameObject::GetTag() const
+{
+	return tag.c_str();
+}
+
+inline void GameObject::SetTag(const char* newTag)
+{
+	tag = newTag;
 }
 
 inline bool GameObject::IsActive() const
@@ -251,12 +265,7 @@ inline void GameObject::setDrawBoundingBoxes(bool newDraw)
 	drawBoundingBoxes = newDraw;
 }
 
-inline const bool GameObject::IsChildSelected()
+inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
-	if (stateOfSelection == StateOfSelection::CHILD_SELECTED)
-	{
-		stateOfSelection = StateOfSelection::NO_SELECTED;
-		return true;
-	}
-	return false;
+	return tag == commingTag;
 }

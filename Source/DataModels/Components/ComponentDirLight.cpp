@@ -1,9 +1,19 @@
 #include "ComponentDirLight.h"
 
-#include "Application.h"
 #include "ComponentTransform.h"
 
+#include "Modules/ModuleScene.h"
+
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "FileSystem/Json.h"
+
+#include "Application.h"
 
 #include "debugdraw.h"
 
@@ -33,12 +43,12 @@ ComponentDirLight::~ComponentDirLight()
 void ComponentDirLight::Draw()
 {
 #ifndef ENGINE
-	if (!App->IsDebuggingGame())
+	if (!App->editor->GetDebugOptions()->GetDrawDirLight())
 	{
 		return;
 	}
 #endif //ENGINE
-	if (this->GetActive())
+	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()
