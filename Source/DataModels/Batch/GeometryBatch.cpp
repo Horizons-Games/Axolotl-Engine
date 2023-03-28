@@ -265,7 +265,6 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		}
 	}
 
-
 	if (!findMesh)
 	{
 #ifdef ENGINE
@@ -291,6 +290,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
+	//Redo instanceData
+	instanceData.clear();
+	instanceData.reserve(componentsInBatch.size());
+	for (ComponentMeshRenderer* component : componentsInBatch)
+	{
+		CreateInstanceResourceMaterial(component->GetMaterial().get());
+	}
 	reserveModelSpace = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
