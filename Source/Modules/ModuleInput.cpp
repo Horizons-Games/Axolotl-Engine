@@ -52,7 +52,7 @@ bool ModuleInput::Init()
                         (defaultCursor.get());
 
     #else  // ENGINE
-        SDL_ShowCursor(SDL_DISABLE);
+    SetShowCursor(false);
     #endif // GAMEMODE
 
 	return ret;
@@ -183,12 +183,17 @@ update_status ModuleInput::Update()
 #ifndef ENGINE
         if (!App->IsDebuggingGame())
         {
-            SDL_ShowCursor(SDL_DISABLE);
+            SetShowCursor(false);
         }
 #endif // ENGINE
     }
 
     return status;
+}
+
+void ModuleInput::SetShowCursor(bool set)
+{
+    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
 }
 
 bool ModuleInput::CleanUp()

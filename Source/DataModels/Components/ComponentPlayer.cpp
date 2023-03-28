@@ -30,6 +30,7 @@ void ComponentPlayer::SaveOptions(Json& meta)
 	meta["removed"] = (bool)canBeRemoved;
 
 	meta["static"] = (bool)staticPlayer;
+	meta["mouse"] = (bool)mousePlayer;
 }
 
 void ComponentPlayer::LoadOptions(Json& meta)
@@ -40,4 +41,5 @@ void ComponentPlayer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	staticPlayer = (bool)meta["static"];
+	mousePlayer = (bool)meta["mouse"];
 }

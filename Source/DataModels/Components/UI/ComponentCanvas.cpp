@@ -51,8 +51,8 @@ void ComponentCanvas::LoadOptions(Json& meta)
 
 void ComponentCanvas::RecalculateSizeAndScreenFactor() 
 {
-	ImVec2 region = App->editor->GetScene()->GetAvailableRegion();
-	size = float2(region.x, region.y);
+	std::pair<int,int> region = App->editor->GetAvailableRegion();
+	size = float2(region.first, region.second);
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }

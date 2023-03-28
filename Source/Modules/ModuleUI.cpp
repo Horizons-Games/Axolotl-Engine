@@ -42,7 +42,10 @@ update_status ModuleUI::Update()
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(interactable->GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
 		AABB2D aabb2d = boundingBox->GetWorldAABB();
-		float2 point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
+		float2 point = App->input->GetMousePosition();
+#ifdef ENGINE
+		point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
+#endif // ENGINE
 		if (aabb2d.Contains(point))
 		{
 			button->SetHovered(true);

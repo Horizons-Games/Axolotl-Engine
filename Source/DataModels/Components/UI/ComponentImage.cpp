@@ -42,9 +42,9 @@ void ComponentImage::Draw()
 	if(program)
 	{
 		program->Activate();
-		ImVec2 region = App->editor->GetScene()->GetAvailableRegion();
+		std::pair<int,int> region = App->editor->GetAvailableRegion();
 		
-		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, region.x, region.y);
+		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
 		const float4x4& model =
 				static_cast<ComponentTransform2D*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalScaledMatrix();
@@ -104,6 +104,10 @@ void ComponentImage::SaveOptions(Json& meta)
 	}
 	meta["imageUID"] = (UID)uidImage;
 	meta["assetPathImage"] = assetPath.c_str();
+
+	meta["color_x"] = (float)color.x;
+	meta["color_y"] = (float)color.y;
+	meta["color_z"] = (float)color.z;
 }
 
 void ComponentImage::LoadOptions(Json& meta)
@@ -132,6 +136,10 @@ void ComponentImage::LoadOptions(Json& meta)
 		image = resourceImage;
 	}
 #endif
+
+	color.x = (float)meta["color_x"];
+	color.y = (float)meta["color_y"];
+	color.z = (float)meta["color_z"];
 }
 
 inline float3 ComponentImage::GetFullColor()

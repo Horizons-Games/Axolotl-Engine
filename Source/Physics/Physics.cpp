@@ -23,6 +23,7 @@
 
 float2 Physics::ScreenToScenePosition(const float2& mousePosition) 
 {
+#ifdef ENGINE
 	// normalize the input to [-1, 1].
 	const WindowScene* windowScene = App->editor->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
@@ -39,6 +40,8 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 			return mousePositionAdjusted;
 		}
 	}
+#endif
+	return mousePosition;
 }
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 {

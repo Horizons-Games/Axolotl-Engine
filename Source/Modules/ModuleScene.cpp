@@ -49,7 +49,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/CantinaSewersVS1.axolotl");
+		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();

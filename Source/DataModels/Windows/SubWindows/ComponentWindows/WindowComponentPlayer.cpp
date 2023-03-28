@@ -24,7 +24,14 @@ void WindowComponentPlayer::DrawWindowContents()
 
 	if (ImGui::Checkbox("Static Player", &isStatic))
 	{
-		asPlayer->SetStatic(asPlayer);
+		asPlayer->SetStatic(isStatic);
+	}
+
+	bool haveMouse = asPlayer->HaveMouseActivated();
+
+	if (ImGui::Checkbox("Mouse when Player", &haveMouse))
+	{
+		asPlayer->SetMouse(haveMouse);
 	}
 
 }

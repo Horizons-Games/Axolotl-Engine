@@ -16,8 +16,12 @@ public:
 
 	bool IsStatic();
 	void SetStatic(bool newStatic);
+
+	bool HaveMouseActivated();
+	void SetMouse(bool newMouse);
 private:
 	bool staticPlayer = false;
+	bool mousePlayer = false;
 };
 
 inline bool ComponentPlayer::IsStatic()
@@ -28,5 +32,16 @@ inline bool ComponentPlayer::IsStatic()
 inline void ComponentPlayer::SetStatic(bool newStatic)
 {
 	staticPlayer = newStatic;
+}
+
+inline bool ComponentPlayer::HaveMouseActivated()
+{
+	return mousePlayer;
+}
+
+inline void ComponentPlayer::SetMouse(bool newMouse)
+{
+	mousePlayer = newMouse;
+	staticPlayer = newMouse;
 }
 

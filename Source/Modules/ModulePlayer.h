@@ -26,6 +26,7 @@ public:
 
 	void LoadNewPlayer();
 
+	bool IsStatic();
 
 private:
 	std::unique_ptr <GameObject>  player;

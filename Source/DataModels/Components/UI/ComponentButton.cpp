@@ -1,5 +1,6 @@
 #include "ComponentButton.h"
 #include "Application.h"
+#include "ModuleScene.h"
 #include "FileSystem/Json.h"
 
 ComponentButton::ComponentButton(bool active, GameObject* owner)
@@ -62,7 +63,7 @@ void ComponentButton::LoadOptions(Json& meta)
 
 void ComponentButton::OnClicked()
 {
-	ENGINE_LOG(sceneName.c_str());
+	App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
 }
 
 

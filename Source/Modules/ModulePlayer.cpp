@@ -17,7 +17,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() {};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -60,13 +60,13 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
 {
 	player = std::move(newPlayer);
+	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
 {
 	return cameraPlayer;
 }
-
 
 void ModulePlayer::Move()
 {
@@ -130,6 +130,20 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
+			if(componentPlayer->HaveMouseActivated()) 
+			{
+				App->input->SetShowCursor(true);
+			}
+			else 
+			{
+				App->input->SetShowCursor(false);
+			}
 		}
 	}
+}
+
+
+bool ModulePlayer::IsStatic()
+{
+	return componentPlayer->IsStatic();
 }

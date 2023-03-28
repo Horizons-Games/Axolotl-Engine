@@ -2,46 +2,9 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "Canvas",
+                "name": "CreditsVS1",
                 "tag": "",
-                "uid": 11768532019124242966,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": -2.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Canvas",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "MainMenuVS1",
-                "tag": "",
-                "uid": 16986399840152337944,
+                "uid": 9351076666620844235,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
@@ -67,50 +30,10 @@
         },
         {
             "GameObject": {
-                "name": "Directional_Light",
-                "tag": "",
-                "uid": 6751946775892563900,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Ambient_Light",
                 "tag": "",
-                "uid": 915180966066979072,
-                "parentUID": 16986399840152337944,
+                "uid": 17900440653707936656,
+                "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -147,72 +70,39 @@
         },
         {
             "GameObject": {
-                "name": "new Button",
+                "name": "Directional_Light",
                 "tag": "",
-                "uid": 16475748067149301860,
-                "parentUID": 11768532019124242966,
+                "uid": 3046798869333557582,
+                "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
                 "Components": [
                     {
                         "Component": {
-                            "type": "Component_Transform2D",
+                            "type": "Component_Transform",
                             "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 50.0,
-                            "localPositionZ": 0.0,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 400.0,
-                            "sizeY": 100.0
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 0.4531910717487335,
-                            "color_y": 0.8039215803146362,
-                            "color_z": 0.4531910717487335
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Button",
-                            "active": true,
-                            "removed": true,
-                            "clicked": false,
-                            "hovered": false,
-                            "colorHovered_x": 0.699999988079071,
-                            "colorHovered_y": 0.699999988079071,
-                            "colorHovered_z": 0.699999988079071,
-                            "colorClicked_x": 0.5,
-                            "colorClicked_y": 0.5,
-                            "colorClicked_z": 0.5,
-                            "sceneName": "CantinaSewersVS1"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_BoundingBox2D",
+                            "type": "Component_Light",
                             "active": true,
                             "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 317.4583435058594,
-                            "worldAABB_min_y": 208.22915649414063,
-                            "worldAABB_max_x": 484.5416564941406,
-                            "worldAABB_max_y": 250.0
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
                         }
                     }
                 ]
@@ -222,8 +112,8 @@
             "GameObject": {
                 "name": "Empty GameObject",
                 "tag": "",
-                "uid": 15981248757803877047,
-                "parentUID": 16986399840152337944,
+                "uid": 6673980443584462006,
+                "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -259,8 +149,8 @@
             "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
-                "uid": 166302450348542042,
-                "parentUID": 15981248757803877047,
+                "uid": 9641674113056028990,
+                "parentUID": 6673980443584462006,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -294,10 +184,10 @@
         },
         {
             "GameObject": {
-                "name": "new Button",
+                "name": "Canvas",
                 "tag": "",
-                "uid": 15289730577583805728,
-                "parentUID": 11768532019124242966,
+                "uid": 16561938826019233067,
+                "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -307,7 +197,44 @@
                             "active": true,
                             "removed": true,
                             "localPositionX": 0.0,
-                            "localPositionY": -80.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": -2.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Canvas",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "new Button",
+                "tag": "",
+                "uid": 9365887114506419914,
+                "parentUID": 16561938826019233067,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -315,8 +242,8 @@
                             "localScaleX": 1.0,
                             "localScaleY": 1.0,
                             "localScaleZ": 1.0,
-                            "sizeX": 400.0,
-                            "sizeY": 100.0
+                            "sizeX": 200.0,
+                            "sizeY": 200.0
                         }
                     },
                     {
@@ -325,10 +252,7 @@
                             "active": true,
                             "removed": true,
                             "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 0.3129565417766571,
-                            "color_y": 0.6648235321044922,
-                            "color_z": 0.7254902124404907
+                            "assetPathImage": ""
                         }
                     },
                     {
@@ -344,7 +268,7 @@
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
-                            "sceneName": "CreditsVS1"
+                            "sceneName": "MainMenuVS1"
                         }
                     },
                     {
@@ -356,10 +280,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 317.4583435058594,
-                            "worldAABB_min_y": 262.53125,
-                            "worldAABB_max_x": 484.5416564941406,
-                            "worldAABB_max_y": 304.30206298828127
+                            "worldAABB_min_x": 393.2708435058594,
+                            "worldAABB_min_y": 204.2708282470703,
+                            "worldAABB_max_x": 484.7291564941406,
+                            "worldAABB_max_y": 295.7291564941406
                         }
                     }
                 ]
