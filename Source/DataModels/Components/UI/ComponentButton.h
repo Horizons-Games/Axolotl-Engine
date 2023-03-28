@@ -18,13 +18,18 @@ public:
 	void OnClicked();
 
 	bool IsClicked() const;
+	bool IsHovered() const;
 	void SetClicked(bool clicked);
+	void SetHovered(bool hovered);
 
 	float3& GetColorClicked();
+	float3& GetColorHovered();
 
 private:
 	bool clicked;
+	bool hovered;
 	float3 colorClicked;
+	float3 colorHovered;
 };
 
 inline bool ComponentButton::IsClicked() const
@@ -32,12 +37,27 @@ inline bool ComponentButton::IsClicked() const
 	return clicked;
 }
 
+inline bool ComponentButton::IsHovered() const
+{
+	return hovered;
+}
+
 inline void ComponentButton::SetClicked(bool clicked)
 {
 	this->clicked = clicked;
 }
 
+inline void ComponentButton::SetHovered(bool hovered)
+{
+	this->hovered = hovered;
+}
+
 inline float3& ComponentButton::GetColorClicked()
 {
 	return colorClicked;
+}
+
+inline float3& ComponentButton::GetColorHovered()
+{
+	return colorHovered;
 }

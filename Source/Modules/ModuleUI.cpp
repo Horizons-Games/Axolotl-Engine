@@ -3,7 +3,6 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
-#include "Components/UI/ComponentCanvas.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
@@ -11,7 +10,9 @@
 
 #include "GL/glew.h"
 #include "Physics/Physics.h"
-#include "DataModels/Components/ComponentBoundingBox2D.h"
+#include "Components/ComponentBoundingBox2D.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentButton.h"
 
 ModuleUI::ModuleUI() 
 {
@@ -32,6 +33,31 @@ bool ModuleUI::Start()
 
 update_status ModuleUI::Update()
 {
+
+	//For de objects selectable when click
+	//Mantener click mientras no se hace release del botón?
+
+	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	{
+		ComponentButton* button = static_cast<ComponentButton*>(interactable);
+		ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(interactable->GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
+		AABB2D aabb2d = boundingBox->GetWorldAABB();
+		float2 point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
+		if (aabb2d.Contains(point))
+		{
+			button->SetHovered(true);
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
+			{
+				button->SetClicked(true);
+			}
+		}
+		else
+		{
+			button->SetHovered(false);
+			button->SetClicked(false);
+		}
+	}
+
 	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
@@ -52,38 +78,6 @@ update_status ModuleUI::Update()
 			for (GameObject* children : canvas->GetChildren())
 			{
 				DrawChildren(children);
-				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
-					App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
-				{
-					ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(children->GetComponent(ComponentType::BOUNDINGBOX2D));
-					AABB2D aabb2d = boundingBox->GetWorldAABB();
-					float2 point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
-					if (aabb2d.Contains(point))
-					{
-						ENGINE_LOG("TRUE");
-					}
-					else
-					{
-						ENGINE_LOG("FALSE");
-					}
-
-					/*LineSegment ray;
-					if (Physics::ScreenPointToRay(App->input->GetMousePosition(), ray))
-					{
-						ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(children->GetComponent(ComponentType::BOUNDINGBOX2D));
-						AABB2D aabb2d = boundingBox->GetWorldAABB();
-						float2 point(ray.a.x, ray.a.y);
-						if (aabb2d.Contains(point))
-						{
-							ENGINE_LOG("TRUE");
-						}
-						else
-						{
-							ENGINE_LOG("FALSE");
-						}
-					}*/
-				}
-				
 			}
 		}
 	}
@@ -97,6 +91,28 @@ update_status ModuleUI::Update()
 	glOrtho(-1, 1, -1, 1, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
+	return update_status::UPDATE_CONTINUE;
+}
+
+update_status ModuleUI::PostUpdate()
+{
+	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	{
+		ComponentButton* button = static_cast<ComponentButton*>(interactable);
+		if(button->IsClicked())
+		{
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
+			{
+#ifndef ENGINE
+				button->OnClicked();
+#endif // ENGINE
+				//BORRAR ESTE TODO POR DIOS
+				button->OnClicked();
+				button->SetHovered(false);
+				button->SetClicked(false);
+			}
+		}
+	}
 	return update_status::UPDATE_CONTINUE;
 }
 
