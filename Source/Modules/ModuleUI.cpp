@@ -33,10 +33,6 @@ bool ModuleUI::Start()
 
 update_status ModuleUI::Update()
 {
-
-	//For de objects selectable when click
-	//Mantener click mientras no se hace release del botón?
-
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);

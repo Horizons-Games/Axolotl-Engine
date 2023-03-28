@@ -41,6 +41,7 @@ void ComponentImage::Draw()
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
 	if(program)
 	{
+
 		program->Activate();
 		std::pair<int,int> region = App->editor->GetAvailableRegion();
 		
