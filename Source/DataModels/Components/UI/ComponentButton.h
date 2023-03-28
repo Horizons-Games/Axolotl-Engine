@@ -25,11 +25,15 @@ public:
 	float3& GetColorClicked();
 	float3& GetColorHovered();
 
+	const char* GetSceneName() const;
+
 private:
 	bool clicked;
 	bool hovered;
 	float3 colorClicked;
 	float3 colorHovered;
+
+	std::string sceneName;
 };
 
 inline bool ComponentButton::IsClicked() const
@@ -60,4 +64,9 @@ inline float3& ComponentButton::GetColorClicked()
 inline float3& ComponentButton::GetColorHovered()
 {
 	return colorHovered;
+}
+
+inline const char* ComponentButton::GetSceneName() const
+{
+	return sceneName.c_str();
 }
