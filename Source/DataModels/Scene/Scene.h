@@ -6,6 +6,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
+class Component;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -31,9 +32,11 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* CreateGameObject(const char* name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const char* name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
+	GameObject* CreateCanvasGameObject(const char* name, GameObject* parent);
+	GameObject* CreateUIGameObject(const char* name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
@@ -57,6 +60,8 @@ public:
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
+	const std::vector<GameObject*>& GetSceneCanvas() const;
+	const std::vector<Component*>& GetSceneInteractable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 
@@ -65,12 +70,16 @@ public:
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetSceneCanvas(const std::vector<GameObject*>& canvas);
+	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
 	void InitNewEmptyScene();
 
 	void InitLights();
+
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
@@ -80,6 +89,8 @@ private:
 
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<GameObject*> sceneCameras;
+	std::vector<GameObject*> sceneCanvas;
+	std::vector<Component*> sceneInteractableComponents;
 
 	GameObject* ambientLight;
 	GameObject* directionalLight;
@@ -126,9 +137,29 @@ inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 	return sceneCameras;
 }
 
+inline const std::vector<GameObject*>& Scene::GetSceneCanvas() const
+{
+	return sceneCanvas;
+}
+
+inline const std::vector<Component*>& Scene::GetSceneInteractable() const
+{
+	return sceneInteractableComponents;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
+}
+
+inline void Scene::SetSceneCanvas(const std::vector<GameObject*>& canvas)
+{
+	sceneCanvas = canvas;
+}
+
+inline void Scene::SetSceneInteractable(const std::vector<Component*>& interactable)
+{
+	sceneInteractableComponents = interactable;
 }
 
 inline void Scene::SetAmbientLight(GameObject* ambientLight)

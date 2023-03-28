@@ -275,20 +275,24 @@ void CameraEngine::Focus(const OBB& obb)
 
 void CameraEngine::Focus(GameObject* gameObject)
 {
-	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
-	AABB minimalAABB;
-	std::vector<math::vec> outputArray{};
-	for (GameObject* object : insideGameObjects)
+	Component* transform = gameObject->GetComponent(ComponentType::TRANSFORM);
+	if (transform)
 	{
-		if (object)
+		std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+		AABB minimalAABB;
+		std::vector<math::vec> outputArray{};
+		for (GameObject* object : insideGameObjects)
 		{
-			outputArray.push_back(object->GetEncapsuledAABB().minPoint);
-			outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			if (object)
+			{
+				outputArray.push_back(object->GetEncapsuledAABB().minPoint);
+				outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			}
 		}
-	}
-	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
+		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 
-	Focus(minimalAABB);
+		Focus(minimalAABB);
+	}
 }
 
 void CameraEngine::Orbit(const OBB& obb)

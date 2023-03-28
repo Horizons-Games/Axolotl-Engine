@@ -31,6 +31,7 @@ public:
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 	void RefreshInspector() const;
+	std::pair<int, int> GetAvailableRegion();
 
 private:
 	void CopyAnObject();

@@ -1,6 +1,7 @@
 #version 440
 
 #define M_PI 3.1415926535897932384626433832795
+#define EPSILON 1e-4
 
 struct Material {
     vec4 diffuse_color;         //location 3         
@@ -90,7 +91,10 @@ float smithVisibility(float dotNL, float dotNV, float roughness)
 
 float GGXNormalDistribution(float dotNH, float roughness)
 {
-    return roughness*roughness/(M_PI*max((dotNH*dotNH*(roughness*roughness-1.0)+1.0)*(dotNH*dotNH*(roughness*roughness-1.0)+1.0), 0.0001));
+    float squareRoughness = roughness*roughness;
+    float squareNH = dotNH*dotNH;
+
+    return squareRoughness/(M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -102,7 +106,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
 
-    return (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*directionalColor.rgb*directionalColor.a*dotNL;
+    return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
 vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -115,18 +119,24 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 color = points[i].color.rgb;
         float radius = points[i].position.w;
         float intensity = points[i].color.a;
+
         vec3 L = normalize(FragPos-pos);
-        vec3 H = (L+V)/length(L+V);
+        vec3 H = (-L+V)/length(-L+V);
+
         float dotNL = max(dot(N,-L), 0.0);
+
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
         float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
         float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+
         // Attenuation
         float distance = length(FragPos-pos);
         float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
+
         vec3 Li = color*intensity*attenuation;
-        Lo += (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*Li*dotNL;
+
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
@@ -150,7 +160,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float cosOuter = cos(outerAngle);
 
         vec3 L = normalize(FragPos-pos);
-        vec3 H = (L+V)/length(L+V);
+        vec3 H = (-L+V)/length(-L+V);
         float dotNL = max(dot(N,-L), 0.0);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
@@ -176,7 +186,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     
         vec3 Li = color*intensity*attenuation*Catt;
             
-        Lo += (Cd*(vec3(1.0)-f0)+0.25*SV*GGXND*FS)*Li*dotNL;
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
@@ -207,16 +217,14 @@ void main()
         norm = normalize(norm);
         norm = normalize(space * norm);
 	}
-
-    float metalnessMask = material.metalness;
-    float smoothnessMat = material.smoothness;
-    if (material.has_metallic_map == 1) {
-        metalnessMask = texture(metallic_map, TexCoord).r;
-    }
+    
+    vec4 colorMetallic = texture(metallic_map, TexCoord);
+    float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
 
     vec3 Cd = textureMat.rgb*(1.0-metalnessMask);
     vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
-    float roughness = (1-smoothnessMat)*(1-smoothnessMat)+0.0001;
+    float roughness = pow(1-material.smoothness,2) + EPSILON;
+    //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a)) + EPSILON;
 
     //fresnel
     //vec4 specularMat =  vec4(material.specular_color, 0.0);

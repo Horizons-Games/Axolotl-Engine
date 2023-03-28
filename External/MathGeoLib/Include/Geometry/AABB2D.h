@@ -205,6 +205,7 @@ inline bool Contains(const AABB2D &aabb, const float3 &pt)
 /// See Christer Ericson's Real-time Collision Detection, p. 87, or
 /// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
 /// http://www.graphicsgems.org/
+/*
 template<typename Matrix>
 void AABB2DTransformAsAABB2D(AABB2D &aabb, Matrix &m)
 {
@@ -223,5 +224,5 @@ void AABB2DTransformAsAABB2D(AABB2D &aabb, Matrix &m)
 	aabb.minPoint.y = Min(ax2, bx2) + Min(ay2, by2) + m[1][3];
 	aabb.maxPoint.y = Max(ax2, bx2) + Max(ay2, by2) + m[1][3];
 }
-
+*/
 MATH_END_NAMESPACE
