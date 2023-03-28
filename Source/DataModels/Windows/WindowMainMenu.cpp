@@ -42,6 +42,7 @@ void WindowMainMenu::Draw(bool& enabled)
 	{
 		DrawFileMenu();
 		DrawWindowMenu();
+		DrawBuildGameMenu();
 		DrawHelpMenu();
 	}
 	ImGui::EndMainMenuBar();
@@ -137,9 +138,61 @@ void WindowMainMenu::DrawHelpMenu()
 	if (ImGui::BeginMenu("Help"))
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
-		if (ImGui::MenuItem("GitHub Link")) ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		if (ImGui::MenuItem("GitHub Link"))
+		{
+			ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		}
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
 }
 
+void WindowMainMenu::DrawBuildGameMenu()
+{
+	if (ImGui::BeginMenu("Build"))
+	{
+		if (ImGui::MenuItem("Debug"))
+		{
+			BuildGame(GameBuildType::DEBUG_GAME);
+		}
+		if (ImGui::MenuItem("Release"))
+		{
+			BuildGame(GameBuildType::RELEASE_GAME);
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void WindowMainMenu::BuildGame(GameBuildType buildType)
+{
+	if (!system(nullptr))
+	{
+		ENGINE_LOG("No command processor available, not building");
+		return;
+	}
+	std::string buildConfig;
+	switch (buildType)
+	{
+	case WindowMainMenu::GameBuildType::DEBUG_GAME:
+		ENGINE_LOG("Building DebugGame...");
+		buildConfig = "DebugGame";
+		break;
+	case WindowMainMenu::GameBuildType::RELEASE_GAME:
+		ENGINE_LOG("Building ReleaseGame...");
+		buildConfig = "ReleaseGame";
+		break;
+	default:
+		assert(false && "Unknown build type, never should arrive here");
+		break;
+	}
+	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
+		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
+	std::string solutionPath = "..\\Source\\Engine.sln";
+	std::string configurationParameter = "/p:Configuration=" + buildConfig;
+	std::string platformParameter = "/p:Platform=x64";
+
+	std::string command = msbuildPath + " " + solutionPath + " " + configurationParameter + " " + platformParameter;
+	
+	int result = system(command.c_str());
+	ENGINE_LOG("Build result: %d", result);
+}

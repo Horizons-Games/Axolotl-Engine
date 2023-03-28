@@ -19,12 +19,21 @@ public:
 	void SetWindowEnabled(int windowIndex, bool enabled);
 
 private:
+	enum class GameBuildType
+	{
+		DEBUG_GAME,
+		RELEASE_GAME
+	};
+
 	void DrawWindowMenu();
 	void DrawFileMenu();
 	void DrawHelpMenu();
+	void DrawBuildGameMenu();
 	void DrawPopup();
 	void CreateNewScene();
 	void Exit();
+
+	void BuildGame(GameBuildType buildType);
 
 	static bool defaultEnabled;
 
