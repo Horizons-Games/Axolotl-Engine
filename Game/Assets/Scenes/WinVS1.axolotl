@@ -2,48 +2,6 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "new Image",
-                "tag": "",
-                "uid": 10153650663129387206,
-                "parentUID": 16561938826019233067,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 100.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 1500.0,
-                            "sizeY": 900.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "WinVS1",
                 "tag": "",
                 "uid": 9351076666620844235,
@@ -65,6 +23,85 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "new Image",
+                "tag": "",
+                "uid": 10153650663129387206,
+                "parentUID": 16561938826019233067,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 1.0,
+                            "sizeX": 4000.0,
+                            "sizeY": 2160.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 8766498407347056363,
+                            "assetPathImage": "Assets/Textures/WinScreen_NoButton.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Canvas",
+                "tag": "",
+                "uid": 16561938826019233067,
+                "parentUID": 9351076666620844235,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": -2.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Canvas",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -105,43 +142,6 @@
                             "color_light_Z": 0.05000000074505806,
                             "intensity": 1.0,
                             "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Canvas",
-                "tag": "",
-                "uid": 16561938826019233067,
-                "parentUID": 9351076666620844235,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": -2.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Canvas",
-                            "active": true,
-                            "removed": true
                         }
                     }
                 ]
@@ -263,7 +263,7 @@
         },
         {
             "GameObject": {
-                "name": "new Button",
+                "name": "TryAgain",
                 "tag": "",
                 "uid": 9365887114506419914,
                 "parentUID": 16561938826019233067,
@@ -276,16 +276,16 @@
                             "active": true,
                             "removed": true,
                             "localPositionX": 0.0,
-                            "localPositionY": -450.0,
+                            "localPositionY": -460.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
                             "localScaleZ": 1.0,
-                            "sizeX": 400.0,
-                            "sizeY": 100.0
+                            "sizeX": 600.0,
+                            "sizeY": 128.0
                         }
                     },
                     {
@@ -293,11 +293,11 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 0.1987697035074234,
-                            "color_y": 0.8041589856147766,
-                            "color_z": 0.8627451062202454
+                            "imageUID": 7093895573527086458,
+                            "assetPathImage": "Assets/Textures/ButtonTryAgain.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0
                         }
                     },
                     {
@@ -325,10 +325,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 308.3541564941406,
-                            "worldAABB_min_y": 412.2916564941406,
-                            "worldAABB_max_x": 470.6458435058594,
-                            "worldAABB_max_y": 452.8645935058594
+                            "worldAABB_min_x": 283.078125,
+                            "worldAABB_min_y": 399.5771179199219,
+                            "worldAABB_max_x": 387.921875,
+                            "worldAABB_max_y": 421.9437561035156
                         }
                     }
                 ]

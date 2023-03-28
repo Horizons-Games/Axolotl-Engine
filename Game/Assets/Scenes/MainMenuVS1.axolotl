@@ -2,46 +2,6 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "Directional_Light",
-                "tag": "",
-                "uid": 6751946775892563900,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "MainMenuVS1",
                 "tag": "",
                 "uid": 16986399840152337944,
@@ -107,6 +67,46 @@
         },
         {
             "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 6751946775892563900,
+                "parentUID": 16986399840152337944,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Background",
                 "tag": "",
                 "uid": 4097662585940973282,
@@ -139,9 +139,49 @@
                             "removed": true,
                             "imageUID": 17454258005042640098,
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
-                            "color_x": 0.9460784196853638,
-                            "color_y": 0.7234717607498169,
-                            "color_z": 0.7234717607498169
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ambient_Light",
+                "tag": "",
+                "uid": 915180966066979072,
+                "parentUID": 16986399840152337944,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.05000000074505806,
+                            "color_light_Y": 0.05000000074505806,
+                            "color_light_Z": 0.05000000074505806,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
                         }
                     }
                 ]
@@ -215,46 +255,6 @@
                             "worldAABB_min_y": 245.80625915527345,
                             "worldAABB_max_x": 387.921875,
                             "worldAABB_max_y": 268.17291259765627
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Ambient_Light",
-                "tag": "",
-                "uid": 915180966066979072,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05000000074505806,
-                            "color_light_Y": 0.05000000074505806,
-                            "color_light_Z": 0.05000000074505806,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
                         }
                     }
                 ]
