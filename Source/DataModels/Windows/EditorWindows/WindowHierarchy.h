@@ -13,6 +13,6 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	void DrawRecursiveHierarchy(GameObject* gameObject, bool isRoot);
+	void DrawRecursiveHierarchy(GameObject* gameObject);
 	bool stopDrawing;
 };
