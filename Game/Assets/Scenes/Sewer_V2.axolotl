@@ -137,7 +137,7 @@
         },
         {
             "GameObject": {
-                "name": "Sewer_PreFusion",
+                "name": "Sewer_V2",
                 "uid": 9205517506871782864,
                 "parentUID": 0,
                 "enabled": true,
@@ -7562,8 +7562,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 1.8690319061279297,
-                            "localPos_Y": 1.3308032751083375,
-                            "localPos_Z": -2.277393341064453,
+                            "localPos_Y": 1.3307764530181885,
+                            "localPos_Z": -2.295543670654297,
                             "localRot_X": -0.08392937481403351,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -13339,6 +13339,1241 @@
                             "removed": true,
                             "meshUID": 12864860280523043845,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewer_Lights",
+                "uid": 458944430057837582,
+                "parentUID": 16337298506501638189,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 26.727279663085939,
+                            "localPos_Y": 1.7550568580627442,
+                            "localPos_Z": 45.18930435180664,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 17090052345947020815,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.9677600860595703,
+                            "localPos_Y": -0.42026591300964358,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 16.229999542236329,
+                            "lightType": "LightType_Point",
+                            "radius": 5.610000133514404
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 8957244365787898554,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.26344108581543,
+                            "localPos_Y": -0.42026591300964358,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 16.229999542236329,
+                            "lightType": "LightType_Point",
+                            "radius": 5.610000133514404
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 5431549280185063088,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -14.773965835571289,
+                            "localPos_Y": 0.6469728946685791,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 13.359999656677246,
+                            "lightType": "LightType_Point",
+                            "radius": 6.340000152587891
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 3094866442679320708,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.14967155456543,
+                            "localPos_Y": 0.5851094722747803,
+                            "localPos_Z": -7.029441833496094,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 11.220000267028809,
+                            "lightType": "LightType_Point",
+                            "radius": 4.070000171661377
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 503875606738450891,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.14967155456543,
+                            "localPos_Y": 0.10397136211395264,
+                            "localPos_Z": -18.71656036376953,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 11.220000267028809,
+                            "lightType": "LightType_Point",
+                            "radius": 4.070000171661377
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 14428940080356981542,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -17.270423889160158,
+                            "localPos_Y": -0.37910938262939455,
+                            "localPos_Z": -12.84798812866211,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 11.220000267028809,
+                            "lightType": "LightType_Point",
+                            "radius": 5.190000057220459
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 11376329071604168964,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -13.238239288330079,
+                            "localPos_Y": 0.10397136211395264,
+                            "localPos_Z": -25.33670997619629,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 16.799999237060548,
+                            "lightType": "LightType_Point",
+                            "radius": 7.130000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 6676921549052152499,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -12.644486427307129,
+                            "localPos_Y": 0.5215737819671631,
+                            "localPos_Z": -34.26271438598633,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.780000686645509,
+                            "lightType": "LightType_Point",
+                            "radius": 6.849999904632568
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 1159871841409603224,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -17.153207778930665,
+                            "localPos_Y": 0.5215737819671631,
+                            "localPos_Z": -34.26271438598633,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.780000686645509,
+                            "lightType": "LightType_Point",
+                            "radius": 6.079999923706055
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 10481479846172210604,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.189876556396484,
+                            "localPos_Y": 0.5215737819671631,
+                            "localPos_Z": -34.26271438598633,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.399999618530275,
+                            "lightType": "LightType_Point",
+                            "radius": 5.179999828338623
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 3921160918894630741,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.3420238494873047,
+                            "localPos_Y": 0.5215737819671631,
+                            "localPos_Z": -34.26271438598633,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.399999618530275,
+                            "lightType": "LightType_Point",
+                            "radius": 4.550000190734863
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot",
+                "uid": 13389890301062049806,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -19.027435302734376,
+                            "localPos_Y": 0.1222144365310669,
+                            "localPos_Z": -12.725849151611329,
+                            "localRot_X": 104.8963623046875,
+                            "localRot_Y": 76.9038314819336,
+                            "localRot_Z": -105.27578735351563,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9411764740943909,
+                            "color_light_Y": 0.6501119136810303,
+                            "color_light_Z": 0.04152247682213783,
+                            "intensity": 300.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 8.850000381469727,
+                            "innerAngle": 0.19722220301628114,
+                            "outerAngle": 0.3281218707561493
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot",
+                "uid": 8144258319476693232,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.0672073364257814,
+                            "localPos_Y": 0.06789195537567139,
+                            "localPos_Z": 4.337928771972656,
+                            "localRot_X": 172.53616333007813,
+                            "localRot_Y": -0.20177632570266725,
+                            "localRot_Z": -174.94529724121095,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9411764740943909,
+                            "color_light_Y": 0.6501119136810303,
+                            "color_light_Z": 0.04152247682213783,
+                            "intensity": 300.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 8.850000381469727,
+                            "innerAngle": 0.19722220301628114,
+                            "outerAngle": 0.3281218707561493
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot",
+                "uid": 717097592278079761,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.75384521484375,
+                            "localPos_Y": -0.08563005924224854,
+                            "localPos_Z": -38.21118927001953,
+                            "localRot_X": 11.937463760375977,
+                            "localRot_Y": -1.492799997329712,
+                            "localRot_Z": 175.16603088378907,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9411764740943909,
+                            "color_light_Y": 0.6501119136810303,
+                            "color_light_Z": 0.04152247682213783,
+                            "intensity": 300.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 8.850000381469727,
+                            "innerAngle": 0.19722220301628114,
+                            "outerAngle": 0.3281218707561493
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 13589656161455809453,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.25844955444336,
+                            "localPos_Y": 0.06314992904663086,
+                            "localPos_Z": -34.82902908325195,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.84000015258789,
+                            "lightType": "LightType_Point",
+                            "radius": 5.769999980926514
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 5851303144764471153,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -17.076017379760743,
+                            "localPos_Y": 0.5215737819671631,
+                            "localPos_Z": -36.50965881347656,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.780000686645509,
+                            "lightType": "LightType_Point",
+                            "radius": 4.869999885559082
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 4295548680961540528,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -24.2830810546875,
+                            "localPos_Y": -0.3072481155395508,
+                            "localPos_Z": -33.50566101074219,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.780000686645509,
+                            "lightType": "LightType_Point",
+                            "radius": 4.869999885559082
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 1088218432928742090,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -30.500934600830079,
+                            "localPos_Y": 0.04630613327026367,
+                            "localPos_Z": -35.115901947021487,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.780000686645509,
+                            "lightType": "LightType_Point",
+                            "radius": 4.869999885559082
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 14562641961317812214,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -38.63175964355469,
+                            "localPos_Y": -0.581190824508667,
+                            "localPos_Z": -35.115901947021487,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 22.299999237060548,
+                            "lightType": "LightType_Point",
+                            "radius": 5.630000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 13589436456203890537,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -48.77126693725586,
+                            "localPos_Y": -0.581190824508667,
+                            "localPos_Z": -31.79046630859375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 22.299999237060548,
+                            "lightType": "LightType_Point",
+                            "radius": 5.630000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot",
+                "uid": 16429972727532568291,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -44.02326202392578,
+                            "localPos_Y": -0.040488481521606448,
+                            "localPos_Z": -26.78845977783203,
+                            "localRot_X": 163.48583984375,
+                            "localRot_Y": 2.690030574798584,
+                            "localRot_Z": 178.98475646972657,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9411764740943909,
+                            "color_light_Y": 0.6501119136810303,
+                            "color_light_Z": 0.04152247682213783,
+                            "intensity": 300.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 8.850000381469727,
+                            "innerAngle": 0.19722220301628114,
+                            "outerAngle": 0.3281218707561493
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 7922044338130696348,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -43.931190490722659,
+                            "localPos_Y": -0.43048095703125,
+                            "localPos_Z": -27.945903778076173,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 19.610000610351564,
+                            "lightType": "LightType_Point",
+                            "radius": 2.9000000953674318
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 14202733394286551835,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -46.707191467285159,
+                            "localPos_Y": 1.003516435623169,
+                            "localPos_Z": -39.01026916503906,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 22.239999771118165,
+                            "lightType": "LightType_Point",
+                            "radius": 7.420000076293945
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 16292027819690721805,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -31.54145050048828,
+                            "localPos_Y": 1.003516435623169,
+                            "localPos_Z": -43.78896713256836,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.760000228881837,
+                            "lightType": "LightType_Point",
+                            "radius": 9.1899995803833
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 5388788475523470601,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -31.54145050048828,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -54.627601623535159,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 21.34000015258789,
+                            "lightType": "LightType_Point",
+                            "radius": 11.75
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 5005797184029419362,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -29.334272384643556,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -61.37816619873047,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.68000030517578,
+                            "lightType": "LightType_Point",
+                            "radius": 6.130000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 13956248577983130609,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -34.73284912109375,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -61.37816619873047,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.68000030517578,
+                            "lightType": "LightType_Point",
+                            "radius": 6.130000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 17256778835807680770,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -34.73284912109375,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -66.79348754882813,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.68000030517578,
+                            "lightType": "LightType_Point",
+                            "radius": 6.130000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 130204551531202651,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -30.175188064575197,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -67.9388427734375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 20.68000030517578,
+                            "lightType": "LightType_Point",
+                            "radius": 6.130000114440918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point",
+                "uid": 7257318237992739313,
+                "parentUID": 458944430057837582,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -32.2921028137207,
+                            "localPos_Y": 0.06911492347717285,
+                            "localPos_Z": -76.01654052734375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.9509803652763367,
+                            "color_light_Y": 0.588192880153656,
+                            "color_light_Z": 0.06992504000663758,
+                            "intensity": 22.770000457763673,
+                            "lightType": "LightType_Point",
+                            "radius": 13.479999542236329
                         }
                     }
                 ]
