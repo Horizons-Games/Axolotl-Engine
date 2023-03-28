@@ -37,7 +37,10 @@ void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const s
     bool exists = Exists(assetsPath.c_str());
     if (!exists)
     {
-        CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+        if (!Copy(originalPath.c_str(), assetsPath.c_str())) 
+        {
+            CopyFromOutside(originalPath.c_str(), assetsPath.c_str());
+        }
     }
 }
 

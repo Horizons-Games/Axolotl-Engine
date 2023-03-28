@@ -6,7 +6,6 @@
 #include <map>
 
 #include "Geometry/Plane.h"
-#include "Geometry/LineSegment.h"
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
@@ -27,6 +26,7 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
+#define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
 
 enum class CameraType 
 { 
@@ -37,11 +37,13 @@ enum class CameraType
 
 class GameObject;
 class WindowScene;
+struct RaycastHit;
 
 class Camera
 {
 public:
 	Camera(const CameraType type);
+	Camera(Camera& camera);
 	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
 	virtual ~Camera();
 
@@ -72,7 +74,7 @@ public:
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
 	void SetOrientation(const float3& orientation);
-	void SetLookAt(const float3& lookAt);
+	void SetLookAt(const float3& lookAt, bool& isSameRotation);
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
@@ -84,6 +86,7 @@ public:
 
 	float GetHFOV() const;
 	float GetVFOV() const;
+	float GetAspectRatio() const;
 	float GetZNear() const;
 	float GetZFar() const;
 	float GetMoveSpeed() const;
@@ -95,12 +98,8 @@ public:
 	const float3& GetPosition() const;
 
 protected:
-
-	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
-
-	void CalculateHitGameObjects(const LineSegment& ray);
-	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	
+	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
 	std::unique_ptr <Frustum> frustum;
@@ -109,7 +108,6 @@ protected:
 
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
-	Quat currentRotation = Quat::identity;
 	float aspectRatio;
 	float acceleration;
 	float moveSpeed;
@@ -192,6 +190,11 @@ inline float Camera::GetHFOV() const
 inline float Camera::GetVFOV() const
 {
 	return math::RadToDeg(frustum->VerticalFov());
+}
+
+inline float Camera::GetAspectRatio() const
+{
+	return aspectRatio;
 }
 
 inline float Camera::GetZNear() const

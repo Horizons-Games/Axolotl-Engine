@@ -1,5 +1,6 @@
 #pragma once
 #pragma warning (disable: 26495)
+#pragma warning (disable: 4005)
 
 #include "Module.h"
 #include "ModuleDebugDraw.h"
@@ -41,12 +42,31 @@ public:
 
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);
+	Camera* GetSelectedCamera() const;
+	void SetSelectedCamera(int cameraNumber);
+	int GetSelectedPosition();
+	void SetSelectedPosition(int newSelected);
+
 	
 private:
 	std::unique_ptr <Camera> camera;
+	Camera* selectedCamera;
+	int selectedPosition;
 };
 
-inline Camera* ModuleCamera::GetCamera()
+
+inline Camera* ModuleCamera::GetSelectedCamera() const
 {
-	return camera.get();
+	return selectedCamera;
+}
+
+
+inline int ModuleCamera::GetSelectedPosition()
+{
+	return selectedPosition;
+}
+
+inline void ModuleCamera::SetSelectedPosition(int newSelected)
+{
+	selectedPosition = newSelected;
 }

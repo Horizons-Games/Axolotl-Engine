@@ -22,8 +22,6 @@ bool CameraGod::Update()
 {
 	if (App->input->GetInFocus())
 	{
-
-
 		projectionMatrix = frustum->ProjectionMatrix();
 		viewMatrix = frustum->ViewMatrix();
 
@@ -37,20 +35,20 @@ bool CameraGod::Update()
 			Walk();
 		}
 		//Move and rotate with right buttons and ASDWQE
-		int mouseX, mouseY;
-		SDL_GetMouseState(&mouseX, &mouseY);
-		App->input->SetMouseMotionX(mouseX - lastMouseX);
-		App->input->SetMouseMotionY(mouseY - lastMouseY);
-
-		int width, height;
-		SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-		SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);
-
-		lastMouseX = width / 2;
-		lastMouseY = height / 2;
-
-		Move();
-		FreeLook();
+		if (!App->IsDebuggingGame())
+		{
+			KeepMouseCentered();
+			Move();
+			if (!backFromDebugging)
+			{
+				FreeLook();
+			}
+			backFromDebugging = false;
+		}
+		else
+		{
+			backFromDebugging = true;
+		}
 
 		KeyboardRotate();
 
@@ -110,4 +108,19 @@ void CameraGod::Move()
 		position += -(frustum->Up()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
+}
+
+void CameraGod::KeepMouseCentered()
+{
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+	App->input->SetMouseMotionX(float(mouseX - lastMouseX));
+	App->input->SetMouseMotionY(float(mouseY - lastMouseY));
+
+	int width, height;
+	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);	
+
+	lastMouseX = width / 2;
+	lastMouseY = height / 2;
 }
