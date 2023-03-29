@@ -99,11 +99,16 @@ update_status ModuleInput::Update()
 
     const Uint8* keyboard = SDL_GetKeyboardState(NULL);
 
-    if (keyboard[SDL_SCANCODE_LCTRL])
+    
+
+    
+
+    
+   /* if (keyboard[SDL_SCANCODE_LCTRL])
     {
         if (keyboard[SDL_SCANCODE_S])  App->editor->GetMainMenu()->ShortcutSave();
         
-    }
+    }*/
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
@@ -182,6 +187,9 @@ update_status ModuleInput::Update()
     {
         App->SwitchDebuggingGame();
     }
+
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN)
+        App->editor->GetMainMenu()->ShortcutSave();
 
     return status;
 }
