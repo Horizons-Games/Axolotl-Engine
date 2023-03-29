@@ -63,7 +63,7 @@ void GeometryBatch::FillBuffers()
 	for (auto resInfo : resourcesInfo)
 	{
 
-		ResourceMesh* resource = resInfo.resourceMesh;
+		ResourceMesh* resource = resInfo->resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
 		
@@ -122,22 +122,13 @@ void GeometryBatch::FillMaterial()
 		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
 		if (texture)
 		{
-			if (!texture->IsLoaded())
-			{
-				texture->Load();
-			}
 			newMaterial.diffuse_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.diffuse_map);
 		}
+
 		texture = resourceMaterial->GetNormal();
 		if (texture)
 		{
-
-			if (!texture->IsLoaded())
-			{
-				texture->Load();
-			}
-
 			newMaterial.normal_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.normal_map);
 		}
@@ -145,11 +136,6 @@ void GeometryBatch::FillMaterial()
 		texture = resourceMaterial->GetMetallicMap();
 		if (texture)
 		{
-			if (!texture->IsLoaded())
-			{
-				texture->Load();
-			}
-
 			newMaterial.metallic_map = texture->GetHandle();
 			glMakeTextureHandleResidentARB(newMaterial.metallic_map);
 		}
@@ -171,14 +157,14 @@ void GeometryBatch::FillEBO()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	for (auto aaa : resourcesInfo)
+	for (auto info : resourcesInfo)
 	{
-		for (unsigned int i = 0; i < aaa.resourceMesh->GetNumFaces(); ++i)
+		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); ++i)
 		{
-			assert(aaa.resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
-			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][0];
-			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][1];
-			*(indices++) = aaa.resourceMesh->GetFacesIndices()[i][2];
+			assert(info->resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
+			*(indices++) = info->resourceMesh->GetFacesIndices()[i][0];
+			*(indices++) = info->resourceMesh->GetFacesIndices()[i][1];
+			*(indices++) = info->resourceMesh->GetFacesIndices()[i][2];
 		}	
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
@@ -237,9 +223,9 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		}
 		
 		CreateInstanceResourceMesh(meshShared.get());
-		CreateInstanceResourceMaterial(materialShared.get());
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
+		reserveModelSpace = true;
 		//storageModel.assign(modelMatrices.begin(), modelMatrices.end());
 	}
 }
@@ -269,16 +255,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	{
 #ifdef ENGINE
 		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
-			if (it->resourceMesh == componentToDelete->GetMesh().get())
+			if ((*it)->resourceMesh == componentToDelete->GetMesh().get())
 			{
-				numTotalVertices -= it->resourceMesh->GetNumVertices();
-				numTotalIndices -= it->resourceMesh->GetNumIndexes();
-				numTotalFaces -= it->resourceMesh->GetNumFaces();
-				createBuffers = true;
 				resourcesInfo.erase(it);
 				break;
 			}
 		}
+		createBuffers = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMesh());
 #endif //ENGINE
@@ -290,13 +273,6 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
-	//Redo instanceData
-	instanceData.clear();
-	instanceData.reserve(componentsInBatch.size());
-	for (ComponentMeshRenderer* component : componentsInBatch)
-	{
-		CreateInstanceResourceMaterial(component->GetMaterial().get());
-	}
 	reserveModelSpace = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
@@ -306,16 +282,32 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	//componentsToRender[0]->GetOwner()->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
 	if (createBuffers)
 	{
+		//Redo info
+		numTotalVertices = 0;
+		numTotalIndices = 0;
+		numTotalFaces = 0;
+		for (auto info : resourcesInfo) {
+			info->vertexOffset = numTotalVertices;
+			info->indexOffset = numTotalIndices;
+			numTotalVertices += info->resourceMesh->GetNumVertices();
+			numTotalIndices += info->resourceMesh->GetNumIndexes();
+			numTotalFaces += info->resourceMesh->GetNumFaces();
+		}
 		FillBuffers();
 		createBuffers = false;
 	}
-	//modelMatrices.clear();
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 	if (reserveModelSpace)
 	{
+		//Redo instanceData
+		instanceData.clear();
+		instanceData.reserve(componentsInBatch.size());
+		for (ComponentMeshRenderer* component : componentsInBatch)
+		{
+			CreateInstanceResourceMaterial(component->GetMaterial().get());
+		}
 		//modelMatrices.assign(storageModel.begin(), storageModel.end());
 		glBufferData(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		FillMaterial();
@@ -336,8 +328,8 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	for (auto component : componentsToRender)
 	{
 		assert(component);
-		ResourceInfo resourceInfo = FindResourceInfo(component->GetMesh().get());
-		ResourceMesh* resource = resourceInfo.resourceMesh;
+		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
+		ResourceMesh* resource = resourceInfo->resourceMesh;
 		//find position in components vector
 		auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
@@ -350,8 +342,8 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		Command newCommand = { 
 			resource->GetNumIndexes(),	// Number of indices in the mesh
 			1,							// Number of instances to render
-			resourceInfo.indexOffset,	// Index offset in the EBO
-			resourceInfo.vertexOffset,	// Vertex offset in the VBO
+			resourceInfo->indexOffset,	// Index offset in the EBO
+			resourceInfo->vertexOffset,	// Vertex offset in the VBO
 			instanceIndex				// Instance Index
 		};
 		commands.push_back(newCommand);
@@ -368,15 +360,15 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 
 void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 {
-	for (ResourceInfo info : resourcesInfo)
+	for (ResourceInfo* info : resourcesInfo)
 	{
-		if (info.resourceMesh == mesh)
+		if (info->resourceMesh == mesh)
 		{
 			return;
 		}
 	}
 
-	if (componentsInBatch.empty())
+	if (flags == 0)
 	{
 		if (mesh->GetNormals().size() != 0)
 		{
@@ -394,15 +386,9 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 		}
 	}
 
-	ResourceInfo resourceInfo = {
-				mesh,
-				numTotalVertices,
-				numTotalIndices
-	};
+	ResourceInfo* resourceInfo = new ResourceInfo;
+	resourceInfo->resourceMesh = mesh;
 	resourcesInfo.push_back(resourceInfo);
-	numTotalVertices += mesh->GetNumVertices();
-	numTotalIndices += mesh->GetNumIndexes();
-	numTotalFaces += mesh->GetNumFaces();
 	createBuffers = true;
 }
 
@@ -423,19 +409,19 @@ void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
 		resourcesMaterial.push_back(material);
 		instanceData.push_back(resourcesMaterial.size() - 1);
 	}
-	reserveModelSpace = true;
 }
 
-ResourceInfo& GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
+ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 {
-	for (auto aaa : resourcesInfo)
+	for (auto info : resourcesInfo)
 	{
-		if (aaa.resourceMesh == mesh)
+		if (info->resourceMesh == mesh)
 		{
-			return aaa;
+			return info;
 		}
 	}
-	SDL_assert(false);; //TODO check how can do this
+	assert(false);
+	return nullptr;
 }
 
 bool GeometryBatch::CleanUp()

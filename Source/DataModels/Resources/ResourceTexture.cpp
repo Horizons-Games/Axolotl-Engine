@@ -129,6 +129,11 @@ int ResourceTexture::GetWrapFilterEquivalence(TextureWrap filter)
 
 const uint64_t& ResourceTexture::GetHandle()
 {
+	if (!IsLoaded())
+	{
+		Load();
+	}
+
 	if (handle == 0)
 	{
 		handle = glGetTextureHandleARB(glTexture);

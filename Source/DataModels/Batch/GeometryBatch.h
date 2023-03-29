@@ -69,10 +69,10 @@ private:
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
 	void CreateInstanceResourceMaterial(ResourceMaterial* material);
 
-	ResourceInfo& FindResourceInfo(ResourceMesh* mesh);
+	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
-	std::vector<ResourceInfo> resourcesInfo;
+	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;
 
