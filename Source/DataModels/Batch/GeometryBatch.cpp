@@ -144,7 +144,7 @@ void GeometryBatch::FillMaterial()
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, materials);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, instanceData.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -315,7 +315,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		reserveModelSpace = false;
 	}
 
-	commands.clear();
+	std::vector<Command> commands;
 	commands.reserve(componentsToRender.size());
 	
 	int drawCount = 0;

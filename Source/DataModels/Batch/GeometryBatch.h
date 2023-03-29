@@ -90,7 +90,6 @@ private:
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
 
-	std::vector<Command> commands;
 	//std::vector<float4x4> modelMatrices;
 	//std::vector<float4x4> storageModel;
 
