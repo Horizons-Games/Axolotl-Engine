@@ -34,7 +34,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
-    std::vector<GameObject*> children = gameObject->GetChildren();
+    //std::vector<GameObject*> children = gameObject->GetChildren();
 
     if (gameObject == App->scene->GetLoadedScene()->GetRoot())
     {
@@ -42,7 +42,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     }
     else
     {
-        if (children.empty())
+        if (gameObject->GetChildren().empty())
         {
             flags |= ImGuiTreeNodeFlags_Leaf;
         }
@@ -270,9 +270,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (nodeDrawn) // If the parent node is correctly drawn, draw its children
     {
-        for (int i = 0; i < children.size(); ++i)
+        for (GameObject* child : gameObject->GetChildren())
         {
-            DrawRecursiveHierarchy(children[i]);
+            DrawRecursiveHierarchy(child);
         }
         ImGui::TreePop();
     }
