@@ -1,6 +1,5 @@
 #pragma once
 
-#include "FileSystem/UniqueID.h"
 #include "Math/float2.h"
 #include "Math/float3.h"
 
@@ -89,9 +88,6 @@ private:
 
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
-
-	//std::vector<float4x4> modelMatrices;
-	//std::vector<float4x4> storageModel;
 
 	int numTotalVertices = 0;
 	int numTotalIndices = 0;

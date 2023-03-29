@@ -13,16 +13,13 @@
 #include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
 
-#include <gl/glew.h>
-#include <SDL_assert.h>
-
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
 GeometryBatch::GeometryBatch()
 {
-	//TODO complete
+	//initialize buffers
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &indirectBuffer);
@@ -226,7 +223,6 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
 		reserveModelSpace = true;
-		//storageModel.assign(modelMatrices.begin(), modelMatrices.end());
 	}
 }
 
@@ -308,7 +304,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		{
 			CreateInstanceResourceMaterial(component->GetMaterial().get());
 		}
-		//modelMatrices.assign(storageModel.begin(), storageModel.end());
 		glBufferData(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		FillMaterial();
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
@@ -432,7 +427,7 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &verticesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
 	glDeleteBuffers(1, &normalsBuffer);
-	glDeleteBuffers(1, &tangentsBuffer);// maybe keep the condition to check if tangent exist
+	glDeleteBuffers(1, &tangentsBuffer);
 	glDeleteBuffers(1, &transforms);
 	glDeleteBuffers(1, &materials);
 
