@@ -6,6 +6,9 @@
 
 #include "SDL.h"
 
+//debug
+#include <windows.h>
+
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
@@ -184,12 +187,16 @@ void WindowMainMenu::BuildGame(GameBuildType buildType)
 	}
 	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
 		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
-	std::string solutionPath = "..\\..\\Engine.sln";
+	std::string solutionPath = "..\\Source\\Engine.sln";
 	std::string configurationParameter = "/p:Configuration=" + buildConfig;
 	std::string platformParameter = "/p:Platform=x64";
 
 	std::string command = msbuildPath + " " + solutionPath + " " + configurationParameter + " " + platformParameter;
 	
-	int result = system(command.c_str());
-	ENGINE_LOG("Build result: %d", result);
+	/*int result = system(command.c_str());
+	ENGINE_LOG("Build result: %d", result);*/
+	char buffer[MAX_PATH];
+	::GetCurrentDirectory(MAX_PATH, buffer);
+	ENGINE_LOG("Current directory: %s", buffer);
+	ENGINE_LOG("Build command: %s", command.c_str());
 }
