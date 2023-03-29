@@ -117,10 +117,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	#endif
 			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
 		}
-		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
-		memcpy(cursor, &(meshesUIDs[0]), bytes);
-		
-		cursor += bytes;
+
+		if (node->meshRenderers.size() > 0)
+		{
+			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			memcpy(cursor, &(meshesUIDs[0]), bytes);
+
+			cursor += bytes;
+		}
 
 		std::vector<UID> materialsUIDs;
 		materialsUIDs.reserve(node->meshRenderers.size());
@@ -132,10 +136,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	#endif
 			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
 		}
-		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
-		memcpy(cursor, &(materialsUIDs[0]), bytes);
 
-		cursor += bytes;
+		if (node->meshRenderers.size() > 0)
+		{
+			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			memcpy(cursor, &(materialsUIDs[0]), bytes);
+
+			cursor += bytes;
+		}
 	}
 
 #ifdef ENGINE
