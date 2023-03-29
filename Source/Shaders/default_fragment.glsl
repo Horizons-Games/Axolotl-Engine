@@ -1,7 +1,7 @@
 #version 440
 
 #define M_PI 3.1415926535897932384626433832795
-#define EPSILON 1e-4
+#define EPSILON 1e-5
 
 struct Material {
     vec3 diffuse_color;         //location 3         
@@ -74,7 +74,7 @@ out vec4 outColor;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
-    vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
+    vec3 orthoTangent = normalize(tangent - max(dot(tangent, normal),EPSILON) * normal);
     vec3 bitangent = cross(orthoTangent, normal);
     return mat3(tangent, bitangent, normal); //TBN
 }
@@ -102,9 +102,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
     float dotNL = max(dot(N,L), 0.0);
-    vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-    float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-    float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+    vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+    float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+    float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
@@ -123,11 +123,11 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 L = normalize(FragPos-pos);
         vec3 H = (-L+V)/length(-L+V);
 
-        float dotNL = max(dot(N,-L), 0.0);
+        float dotNL = max(dot(N,-L), EPSILON);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = length(FragPos-pos);
@@ -163,9 +163,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 H = (-L+V)/length(-L+V);
         float dotNL = max(dot(N,-L), 0.0);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = dot(FragPos - pos, aim);
