@@ -1,6 +1,8 @@
 #pragma warning (disable: 26495)
 
 #include "ResourceMesh.h"
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
 
 #include "GL/glew.h"
 #include "Math/float2.h"
@@ -9,7 +11,7 @@
 
 ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), materialIndex(0)
+	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), numBones(0), materialIndex(0)
 {
 }
 
@@ -20,6 +22,7 @@ ResourceMesh::~ResourceMesh()
 
 void ResourceMesh::InternalLoad()
 {
+	CreateBones();
 	CreateVBO();
 	CreateEBO();
 	CreateVAO();
@@ -27,6 +30,9 @@ void ResourceMesh::InternalLoad()
 
 void ResourceMesh::InternalUnload()
 {
+	bones.clear();
+	attaches.clear();
+
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vao);
@@ -129,6 +135,11 @@ void ResourceMesh::CreateVAO()
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
+}
+
+void ResourceMesh::CreateBones()
+{
+
 }
 
 // For mouse-picking purposes

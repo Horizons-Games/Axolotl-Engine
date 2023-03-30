@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "Resources/ResourceMesh.h"
 
 MeshImporter::MeshImporter()
 {
@@ -31,10 +32,11 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
 	unsigned int hasTangents = !resource->GetTangents().empty();
-	unsigned int header[4] =
+	unsigned int header[5] =
 	{
 		resource->GetNumFaces(),
 		resource->GetNumVertices(),
+		resource->GetNumBones(),
 		resource->GetMaterialIndex(),
 		hasTangents
 	};
@@ -46,7 +48,14 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 		numOfVectors = 4;
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
-		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
+		+ resource->GetNumBones() * sizeof(float4x4)
+		+ resource->GetNumVertices() * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		size += resource->GetBones()[i].name.size();
+	}
 	
 	char* cursor = new char[size];
 	
@@ -93,6 +102,22 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 	{
 		bytes = sizeof(unsigned int) * 3;
 		memcpy(cursor, &(resource->GetFacesIndices()[i][0]), bytes);
+
+		cursor += bytes;
+	}
+
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		bytes = resource->GetBones()[i].name.size() + sizeof(float4x4);
+		memcpy(cursor, &(resource->GetBones()[i]), bytes);
+
+		cursor += bytes;
+	}
+
+	for (unsigned int i = 0; i < resource->GetNumVertices(); ++i)
+	{
+		bytes = 16 * (sizeof(unsigned int) + sizeof(float));
+		memcpy(cursor, &(resource->GetAttaches()[i]), bytes);
 
 		cursor += bytes;
 	}

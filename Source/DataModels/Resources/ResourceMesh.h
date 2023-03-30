@@ -4,18 +4,19 @@
 #include "Resource.h"
 
 #include "Math/float3.h"
+#include "Math/float4x4.h"
 
 struct OptionsMesh
 {
 };
 
-struct BindBone
+struct Bone
 {
 	float4x4 transform;
 	std::string name;
 };
 
-struct BindAttach
+struct Attach
 {
 	unsigned bones[4] = {0u, 0u, 0u, 0u};
 	float weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -42,24 +43,30 @@ public:
 	unsigned int GetNumVertices();
 	unsigned int GetNumFaces();
 	unsigned int GetNumIndexes();
+	unsigned int GetNumBones();
 	unsigned int GetMaterialIndex();
 	const std::vector<float3>& GetVertices();
 	const std::vector<float3>& GetTextureCoords();
 	const std::vector<float3>& GetNormals();
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
+	const std::vector<Bone>& GetBones();
+	const std::vector<Attach>& GetAttaches();
 
 	OptionsMesh& GetOptions();
 
 	void SetNumVertices(unsigned int numVertices);
 	void SetNumFaces(unsigned int numFaces);
 	void SetNumIndexes(unsigned int numIndexes);
+	void SetNumBones(unsigned int numBones);
 	void SetMaterialIndex(unsigned int materialIndex);
 	void SetVertices(const std::vector<float3>& vertices);
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
 	void SetNormals(const std::vector<float3>& normals);
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
+	void SetBones(const std::vector<Bone>& bones);
+	void SetAttaches(const std::vector<Attach>& attaches);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
@@ -71,6 +78,7 @@ private:
 	void CreateVBO();
 	void CreateEBO();
 	void CreateVAO();
+	void CreateBones();
 
 	unsigned int vbo;
 	unsigned int ebo;
@@ -80,14 +88,15 @@ private:
 	unsigned int numVertices;
 	unsigned int numFaces;
 	unsigned int numIndexes;
+	unsigned int numBones;
 	unsigned int materialIndex;
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
-	std::vector<BindBone> bones;
-	std::vector<BindAttach> attaches;
+	std::vector<Bone> bones;
+	std::vector<Attach> attaches;
 
 	OptionsMesh options;
 };
@@ -127,6 +136,11 @@ inline unsigned int ResourceMesh::GetNumIndexes()
 	return numIndexes;
 }
 
+inline unsigned int ResourceMesh::GetNumBones()
+{
+	return numBones;
+}
+
 inline unsigned int ResourceMesh::GetMaterialIndex()
 {
 	return materialIndex;
@@ -157,6 +171,16 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
+inline const std::vector<Bone>& ResourceMesh::GetBones()
+{
+	return bones;
+}
+
+inline const std::vector<Attach>& ResourceMesh::GetAttaches()
+{
+	return attaches;
+}
+
 inline OptionsMesh& ResourceMesh::GetOptions()
 {
 	return options;
@@ -176,6 +200,11 @@ inline void ResourceMesh::SetNumFaces(unsigned int numFaces)
 inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)
 {
 	this->numIndexes = numIndexes;
+}
+
+void ResourceMesh::SetNumBones(unsigned int numBones)
+{
+	this->numBones = numBones;
 }
 
 inline void ResourceMesh::SetMaterialIndex(unsigned int materialIndex)
@@ -206,4 +235,14 @@ inline void ResourceMesh::SetTangents(const std::vector<float3>& tangents)
 inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices)
 {
 	this->facesIndices = facesIndices;
+}
+
+inline void ResourceMesh::SetBones(const std::vector<Bone>& bones)
+{
+	this->bones = bones;
+}
+
+inline void ResourceMesh::SetAttaches(const std::vector<Attach>& attaches)
+{
+	this->attaches = attaches;
 }
