@@ -216,7 +216,7 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 inline const std::vector<Component*> GameObject::GetComponents() const
 {
 	std::vector<Component*> rawComponent;
-
+	rawComponent.reserve(components.size());
 	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
 		[](const std::unique_ptr<Component>& c) { return c.get(); });
 
