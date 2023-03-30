@@ -4,35 +4,72 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentLight.h"
 #include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
+#include "../Components/ComponentPlayer.h"
+#include "../Components/UI/ComponentBoundingBox2D.h"
+#include "../Components/UI/ComponentCanvas.h"
+#include "../Components/UI/ComponentImage.h"
+#include "../Components/UI/ComponentButton.h"
+#include "../Components/UI/ComponentTransform2D.h"
+#include "../Components/ComponentRigidBody.h"
+#include "../Components/ComponentMockState.h"
 
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleDebugDraw.h"
 
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "Scene/Scene.h"
 
 #include <queue>
 
 // Root constructor
-GameObject::GameObject(const char* name) : name(name), uid(UniqueID::GenerateUID()), enabled(true),
+GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
 	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
 	drawBoundingBoxes(false)
 {
 }
 
-GameObject::GameObject(const char* name, GameObject* parent) : name(name), parent(parent),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true), 
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB),
+GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::GenerateUID())
+{
+}
+
+GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
+{
+	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
+	this->parent->AddChild(std::unique_ptr<GameObject>(this));
+	this->parentUID = parent->GetUID();
+	active = (parent->IsEnabled() && parent->IsActive());
+}
+
+GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
+	uid(UniqueID::GenerateUID()), enabled(true), active(true),
+	localAABB(gameObject.localAABB), encapsuledAABB(localAABB),
+	stateOfSelection(StateOfSelection::NO_SELECTED),
 	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
-	this->parent->AddChild(std::unique_ptr<GameObject>(this));
-	active = (parent->IsEnabled() && parent->IsActive());
+	for (auto component : gameObject.GetComponents())
+	{
+		CopyComponent(component->GetType(), component);
+	}
+
+	for (auto child : gameObject.GetChildren())
+	{
+		std::unique_ptr<GameObject> newChild;
+		newChild = std::make_unique<GameObject>(static_cast<GameObject&>(*child));
+		newChild->SetParent(this);
+		AddChild(std::move(newChild));
+	}
 }
 
 GameObject::~GameObject()
@@ -89,7 +126,13 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
-	if (drawBoundingBoxes || App->IsDebuggingGame())
+#ifndef ENGINE
+	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
+#endif //ENGINE
+	if (drawBoundingBoxes)
 	{
 		App->debug->DrawBoundingBox(objectOBB);
 	}
@@ -160,7 +203,11 @@ void GameObject::DrawHighlight()
 
 void GameObject::SaveOptions(Json& meta)
 {
+	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
+	meta["tag"] = tag.c_str();
+	meta["uid"] = uid;
+	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 
@@ -171,27 +218,14 @@ void GameObject::SaveOptions(Json& meta)
 		Json jsonComponent = jsonComponents[i]["Component"];
 
 		components[i]->SaveOptions(jsonComponent);
-	}
-
-	Json jsonChildrens = meta["Childrens"];
-
-	for (int i = 0; i < children.size(); ++i)
-	{
-		Json jsonGameObject = jsonChildrens[i]["GameObject"];
-
-		children[i]->SaveOptions(jsonGameObject);
-	}
+	}	
 }
 
-void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects)
+void GameObject::LoadOptions(Json& meta)
 {
-	loadedObjects.push_back(this);
+	std::string tag = meta["tag"];
+	SetTag(tag.c_str());
 
-	uid = UniqueID::GenerateUID();
-	name = meta["name"];
-	enabled = (bool) meta["enabled"];
-	active = (bool) meta["active"];
-	
 	Json jsonComponents = meta["Components"];
 
 	if(jsonComponents.Size() != 0)
@@ -219,30 +253,21 @@ void GameObject::LoadOptions(Json& meta, std::vector<GameObject*>& loadedObjects
 			component->LoadOptions(jsonComponent);
 		}
 	}
+}
 
-	Json jsonChildrens = meta["Childrens"];
-
-	int size = jsonChildrens.Size();
-
-	if (jsonChildrens.Size() != 0) 
+void GameObject::InitNewEmptyGameObject(bool is3D)
+{
+	if (is3D)
 	{
-		for (unsigned int i = 0; i < jsonChildrens.Size(); ++i)
-		{
-			Json jsonGameObject = jsonChildrens[i]["GameObject"];
-			std::string name = jsonGameObject["name"];
-
-			GameObject* gameObject = new GameObject(name.c_str(), this);
-			gameObject->LoadOptions(jsonGameObject, loadedObjects);
-		}
+		CreateComponent(ComponentType::TRANSFORM);
+	}
+	else 
+	{
+		CreateComponent(ComponentType::TRANSFORM2D);
 	}
 }
 
-void GameObject::InitNewEmptyGameObject()
-{
-	CreateComponent(ComponentType::TRANSFORM);
-}
-
-void GameObject::SetParent(GameObject* newParent)
+void GameObject::MoveParent(GameObject* newParent)
 {
 	assert(newParent);
 
@@ -254,7 +279,14 @@ void GameObject::SetParent(GameObject* newParent)
 
 	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
 	parent = newParent;
-	parent->AddChild(std::move(pointerToThis));
+	if (pointerToThis)
+	{
+		parent->AddChild(std::move(pointerToThis));
+	}
+	else
+	{
+		parent->AddChild(std::unique_ptr<GameObject>(this));
+	}
 
 	// Update the transform respect its parent when moved around
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>
@@ -270,7 +302,24 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 
 	if (!IsAChild(child.get()))
 	{
+		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
+
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		if (transform != nullptr)
+		{
+			transform->UpdateTransformMatrices();
+		}
+		else
+		{
+			ComponentTransform2D* transform2D =
+				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			if (transform2D)
+			{
+				transform2D->CalculateMatrices();
+			}
+		}
 		children.push_back(std::move(child));
 	}
 }
@@ -304,6 +353,77 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	for (std::unique_ptr<Component>& newComponent : components)
 	{
 		this->components.push_back(std::move(newComponent));
+	}
+}
+
+void GameObject::CopyComponent(ComponentType type, Component* component)
+{
+	std::unique_ptr<Component> newComponent;
+
+	switch (type)
+	{
+	case ComponentType::TRANSFORM:
+	{
+		
+		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
+		break;
+	}
+
+	case ComponentType::MESHRENDERER:
+	{
+		newComponent = std::make_unique<ComponentMeshRenderer>(static_cast<ComponentMeshRenderer&>(*component));
+		break;
+	}
+
+	case ComponentType::MATERIAL:
+	{
+		newComponent = std::make_unique<ComponentMaterial>(static_cast<ComponentMaterial&>(*component));
+		break;
+	}
+
+
+	case ComponentType::CAMERA:
+	{
+		newComponent = std::make_unique<ComponentCamera>(static_cast<ComponentCamera&>(*component));
+		break;
+	}
+
+	case ComponentType::LIGHT:
+	{
+		CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
+		break;
+	}
+
+	default:
+		assert(false && "Wrong component type introduced");
+	}
+
+	if (newComponent)
+	{
+		newComponent->SetOwner(this);
+		components.push_back(std::move(newComponent));
+	}
+}
+
+void GameObject::CopyComponentLight(LightType type, Component* component)
+{
+	std::unique_ptr<ComponentLight> newComponent;
+
+	switch (type)
+	{
+	case LightType::POINT:
+		newComponent = std::make_unique<ComponentPointLight>(static_cast<ComponentPointLight&>(*component));
+		break;
+
+	case LightType::SPOT:
+		newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
+		break;
+	}
+
+	if (newComponent)
+	{
+		newComponent->SetOwner(this);
+		components.push_back(std::move(newComponent));
 	}
 }
 
@@ -375,6 +495,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::TRANSFORM2D:
+		{
+			newComponent = std::make_unique<ComponentTransform2D>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHRENDERER:
 		{
 			newComponent = std::make_unique<ComponentMeshRenderer>(true, this);
@@ -397,6 +523,48 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_unique<ComponentLight>(true, this);
+			break;
+		}
+
+		case ComponentType::PLAYER:
+		{
+			newComponent = std::make_unique<ComponentPlayer>(true, this);
+			break;
+		}
+		
+		case ComponentType::RIGIDBODY:
+		{
+			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
+
+		case ComponentType::CANVAS:
+		{
+			newComponent = std::make_unique<ComponentCanvas>(true, this);
+			break;
+		}
+
+		case ComponentType::IMAGE:
+		{
+			newComponent = std::make_unique<ComponentImage>(true, this);
+			break;
+		}
+
+		case ComponentType::BUTTON:
+		{
+			newComponent = std::make_unique<ComponentButton>(true, this);
+			break;
+		}
+
+		case ComponentType::BOUNDINGBOX2D:
+		{
+			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
+			break;
+		}
+
+		case ComponentType::MOCKSTATE:
+		{
+			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
 
@@ -578,12 +746,46 @@ void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	objectOBB = localAABB;
-	objectOBB.Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	if (transform)
+	{
+		objectOBB = localAABB;
+		objectOBB.Transform(transform->GetGlobalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
+	else
+	{
+		//TODO Calculate BoundingBox of Transform2D Object
+		ComponentTransform2D* transform2D =
+			static_cast<ComponentTransform2D*>(GetComponent(ComponentType::TRANSFORM2D));
+		objectOBB = localAABB;
+		objectOBB.Transform(transform2D->GetLocalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
 }
 
 void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
+}
+
+void GameObject::SetParentAsChildSelected()
+{
+	if (parent)
+	{
+		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+		parent->SetParentAsChildSelected();
+	}
+}
+
+
+ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
+{
+	while (parent != nullptr) {
+		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
+		if (canvas) {
+			return canvas;
+		}
+		parent = parent->GetParent();
+	}
+	return nullptr;
 }

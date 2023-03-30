@@ -14,6 +14,10 @@ class ModuleScene;
 class ModuleCommand;
 class ModuleCamera;
 class ModuleDebugDraw;
+class ModuleUI;
+#ifndef ENGINE
+class ModulePlayer;
+#endif //ENGINE
 class ModuleEditor;
 
 class Application
@@ -40,11 +44,15 @@ public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
 	ModuleRender* renderer;
+	ModuleUI* userInterface;
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleProgram* program;
 	ModuleResources* resources;
-	ModuleCamera* engineCamera;
+	ModuleCamera* camera;
+#ifndef ENGINE
+	ModulePlayer* player;
+#endif // ENGINE
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
 	ModuleCommand* command;

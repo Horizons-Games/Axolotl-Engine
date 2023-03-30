@@ -16,6 +16,8 @@ public:
 	void Move();
 
 private:
+	void KeepMouseCentered();
 
+	bool backFromDebugging = false;
 };
 
