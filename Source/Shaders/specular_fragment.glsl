@@ -9,8 +9,11 @@ struct Material {
     int has_diffuse_map;        //location 5
     bool has_normal_map;        //location 6
     float smoothness;           //location 7
-    float metalness;            //location 9
-    int has_metallic_map;       //location 10
+    vec3 specular_color;        //location 8
+    float shininess;            //location 9
+    int has_specular_map;       //location 10
+    int shininess_alpha;        //location 11
+    int has_shininess_map;      //location 12
 };
 
 struct PointLight
@@ -59,7 +62,7 @@ struct Light {
 layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D normal_map;
-layout(binding = 7) uniform sampler2D metallic_map;
+layout(binding = 7) uniform sampler2D specular_map;
 
 uniform Light light;
 
@@ -222,6 +225,19 @@ void main()
     vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a)) + EPSILON;
+
+    //fresnel
+    //vec4 specularMat =  vec4(material.specular_color, 0.0);
+    //if (material.has_specular_map == 1) {
+    //    specularMat = vec4(texture(specular_map, TexCoord));
+    //}
+    //specularMat = pow(specularMat, gammaCorrection);
+
+    // shininess
+    //float shininess = material.shininess;
+    //if (material.shininess_alpha == 1) {
+	//    shininess = exp2(specularMat.a * 7 + 1);
+    //}
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
