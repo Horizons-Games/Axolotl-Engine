@@ -278,15 +278,6 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	for (auto component : componentsToRender)
-	{
-		if (component->materialToUpdate)
-		{
-			FillMaterial();
-			component->materialToUpdate = false;
-		}
-
-	}
 	if (createBuffers)
 	{
 		//Redo info
@@ -426,6 +417,11 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 	}
 	assert(false);
 	return nullptr;
+}
+
+void GeometryBatch::UpdateMaterial()
+{
+	FillMaterial();
 }
 
 bool GeometryBatch::CleanUp()

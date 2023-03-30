@@ -64,8 +64,6 @@ public:
 	//const bool HasShininessAlpha() const;
 	const bool HasMetallicAlpha() const;
 
-	bool materialToUpdate = false;
-
 private:
 	bool IsMeshLoaded();
 	bool IsMaterialLoaded();

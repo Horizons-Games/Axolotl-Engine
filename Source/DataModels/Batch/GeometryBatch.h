@@ -57,6 +57,7 @@ public:
 
 	const int GetFlags() const;
 
+	void UpdateMaterial();
 	bool CleanUp();
 
 private:
