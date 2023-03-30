@@ -1,10 +1,10 @@
-# Axolot Engine
+# Axolotl Engine
 This engine has been created by [Horizons Studio](https://github.com/Pre-SuperAwesomeEngine) for UPC's Master in Advanced Programming for AAA Videogames.
 
 # Installation
 - Download the latest release
 - Unzip the file
-- Open AxolotEngine.exe
+- Open AxolotlEngine.exe
 
 # Features
 
