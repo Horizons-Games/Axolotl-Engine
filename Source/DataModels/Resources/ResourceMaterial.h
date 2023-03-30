@@ -96,32 +96,32 @@ inline ResourceType ResourceMaterial::GetType() const
 
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse()
 {
-	return this->diffuse;
+	return diffuse;
 }
 
 inline const bool& ResourceMaterial::GetTransparent()
 {
-	return this->isTransparent;
+	return isTransparent;
 }
 
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal()
 {
-	return this->normal;
+	return normal;
 }
 
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion()
 {
-	return this->occlusion;
+	return occlusion;
 }
 
 /*inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular()
 {
-	return this->specular;
+	return specular;
 }*/
 
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallicMap()
 {
-	return this->metallic;
+	return metallic;
 }
 
 inline const float4& ResourceMaterial::GetDiffuseColor()
