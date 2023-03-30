@@ -254,11 +254,11 @@ update_status ModuleRender::Update()
 
 	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
 	{
-		glEnable(GL_STENCIL_TEST);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-		glStencilMask(0xFF); // enable writing to the stencil buffer
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		goSelected->DrawSelected();
+		//glEnable(GL_STENCIL_TEST);
+		//glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		//glStencilMask(0xFF); // enable writing to the stencil buffer
+		//glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		//goSelected->DrawSelected();
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
