@@ -421,6 +421,9 @@
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentAnimation.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -989,6 +992,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAnimation.h">
+      <Filter>Source\DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,8 @@ enum class ComponentType
 	TRANSFORM, 
 	LIGHT, 
 	CAMERA,
-	PLAYER
+	PLAYER,
+	ANIMATION
 };
 
 const static std::string GetNameByType(ComponentType type);
