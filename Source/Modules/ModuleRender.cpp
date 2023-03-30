@@ -246,28 +246,28 @@ update_status ModuleRender::Update()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
+	AddToRenderList(goSelected);
 	for (auto batchAndComponents : renderMap)
 	{
 		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
 	}
 
-	//if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
-	//{
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-	//	glStencilMask(0xFF); // enable writing to the stencil buffer
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	goSelected->DrawSelected();
+	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	{
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		goSelected->DrawSelected();
 
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-	//	glLineWidth(25);
-	//	glPolygonMode(GL_FRONT, GL_LINE);
-	//	goSelected->DrawHighlight();
-	//	glPolygonMode(GL_FRONT, GL_FILL);
-	//	glLineWidth(1);
-	//	AddToRenderList(goSelected); //could be out
-	//}
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glLineWidth(25);
+		glPolygonMode(GL_FRONT, GL_LINE);
+		goSelected->DrawHighlight();
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
+		AddToRenderList(goSelected); //could be out
+	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
