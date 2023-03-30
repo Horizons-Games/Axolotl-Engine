@@ -9,6 +9,18 @@ struct OptionsMesh
 {
 };
 
+struct BindBone
+{
+	float4x4 transform;
+	std::string name;
+};
+
+struct BindAttach
+{
+	unsigned bones[4] = {0u, 0u, 0u, 0u};
+	float weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+};
+
 class ResourceMesh : virtual public Resource
 {
 public:
@@ -74,6 +86,8 @@ private:
 	std::vector<float3> normals;
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
+	std::vector<BindBone> bones;
+	std::vector<BindAttach> attaches;
 
 	OptionsMesh options;
 };
