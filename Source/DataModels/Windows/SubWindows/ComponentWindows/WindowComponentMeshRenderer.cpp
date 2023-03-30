@@ -142,6 +142,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
 			{
 				materialResource->SetDiffuseColor(colorDiffuse);
+				asMeshRenderer->materialToUpdate = true;
 			}
 
 			//static float3 colorSpecular = materialResource->GetSpecularColor();
@@ -178,6 +179,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetMetallicMap(nullptr);
 				
 				materialResource->SetChanged(true);
+				asMeshRenderer->materialToUpdate = true;
 			}
 
 			//bool hasShininessAlpha = materialResource->HasShininessAlpha();
@@ -198,6 +200,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (materialResource->GetDiffuse())
 				{
 					texture = materialResource->GetDiffuse();
+					asMeshRenderer->materialToUpdate = true;
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -218,6 +221,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::DIFFUSE);
 
 					materialResource->SetDiffuse(nullptr);
+					asMeshRenderer->materialToUpdate = true;
 				}
 			}
 
@@ -229,6 +233,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				texture =
 					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetMetallicMap());
+				asMeshRenderer->materialToUpdate = true;
 				if (texture)
 				{
 					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -248,6 +253,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::METALLIC);
 
 					materialResource->SetMetallicMap(nullptr);
+					asMeshRenderer->materialToUpdate = true;
 				}
 			}
 
@@ -258,6 +264,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource && materialResource->GetNormal())
 			{
 					texture = materialResource->GetNormal();
+					asMeshRenderer->materialToUpdate = true;
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -277,6 +284,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::NORMAL);
 
 					materialResource->SetNormal(nullptr);
+					asMeshRenderer->materialToUpdate = true;
 				}
 			}
 
@@ -285,6 +293,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asMeshRenderer->SetNormalStrenght(normalStrength);
+				asMeshRenderer->materialToUpdate = true;
 			}
 
 			ImGui::Text("");
