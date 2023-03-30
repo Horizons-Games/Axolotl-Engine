@@ -125,13 +125,14 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
 {
-	unsigned int header[4];
+	unsigned int header[5];
 	memcpy(header, fileBuffer, sizeof(header));
 
 	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
-	resource->SetMaterialIndex(header[2]);
-	bool hasTangents = header[3];
+	resource->SetNumBones(header[2]);
+	resource->SetMaterialIndex(header[3]);
+	bool hasTangents = header[4];
 
 	fileBuffer += sizeof(header);
 
