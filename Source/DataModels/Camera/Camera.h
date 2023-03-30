@@ -74,7 +74,7 @@ public:
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
 	void SetOrientation(const float3& orientation);
-	void SetLookAt(const float3& lookAt, bool& isSameRotation);
+	void SetLookAt(const float3& lookAt, float interpolationTime);
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
@@ -120,7 +120,8 @@ protected:
 
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped;
-	bool focusFlag;
+	float interpolationTime;
+	float interpolationDuration;
 	bool isFocusing;
 	int lastMouseX, lastMouseY;
 	int mouseState;

@@ -52,7 +52,7 @@ bool CameraEngine::Update()
 		//We block everything on while Focus (slerp) to avoid camera problems
 		if (isFocusing)
 		{
-			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
+			Focus(App->scene->GetSelectedGameObject());
 		}
 		else
 		{
@@ -83,7 +83,6 @@ bool CameraEngine::Update()
 			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
-				focusFlag = false;
 				App->input->SetFreeLookCursor();
 				UnlimitedCursor();
 				Move();
@@ -93,14 +92,12 @@ bool CameraEngine::Update()
 			//Zoom with mouse wheel
 			if (App->input->IsMouseWheelScrolled() && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
-				focusFlag = false;
 				Zoom();
 			}
 
 			//Move camera UP/DOWN and RIGHT/LEFT with mouse mid button
 			if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 			{
-				focusFlag = false;
 				App->input->SetMoveCursor();
 				UnlimitedCursor();
 				Move();
@@ -110,7 +107,6 @@ bool CameraEngine::Update()
 			if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
-				focusFlag = true;
 				isFocusing = true;
 			}
 
@@ -120,7 +116,6 @@ bool CameraEngine::Update()
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
 				const OBB& obb = App->scene->GetSelectedGameObject()->GetObjectOBB();
-				focusFlag = false;
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
 				Orbit(obb);
@@ -253,24 +248,45 @@ void CameraEngine::Focus(const OBB& obb)
 
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
 
-	bool isSamePosition = false;
-	if (position.Equals(endposition)) 
-	{ 
-		isSamePosition = true; 
-	}
-	else 
-	{ 
-		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed * 2);
-		SetPosition(position);
-	}
-
-	bool isSameRotation = false;
-	SetLookAt(boundingSphere.pos, isSameRotation);
-
-	if (isSamePosition && isSameRotation)
+	float currentTime = App->GetDeltaTime();
+	interpolationTime += currentTime;
+	ENGINE_LOG("t: %.6f", interpolationTime);
+	float currentTimeRelation = interpolationTime / interpolationDuration;
+	float3 nextPos = position.Lerp(endposition, currentTimeRelation);
+	ENGINE_LOG("l(t): (%.6f, %.6f, %.6f", nextPos.x, nextPos.y, nextPos.z);
+	SetPosition(nextPos);
+	SetLookAt(boundingSphere.pos, interpolationTime);
+	if (currentTimeRelation >= 1.0f) 
 	{
+		position = endposition;
+		interpolationTime = 0.0f;
 		isFocusing = false;
 	}
+	/*ENGINE_LOG("interpolation: %.6f", interpolationTime);
+
+	bool isTargetRotation = false;
+	if (position.Equals(endposition)) 
+	{
+		SetLookAt(boundingSphere.pos, interpolationTime, isTargetRotation);
+		if(isTargetRotation)
+		{
+			interpolationTime = 0.0f;
+			isFocusing = false;
+		}
+	}
+	else 
+	{
+		float currentTimeRelation = interpolationTime / interpolationDuration;
+		ENGINE_LOG("interpolation quotient: %.6f", currentTimeRelation);
+		float3 nextPos = position.Lerp(endposition, currentTimeRelation);
+		SetPosition(nextPos);
+		if (nextPos.Equals(endposition)) 
+		{
+			position = endposition;
+		}
+		SetLookAt(boundingSphere.pos, interpolationTime, isTargetRotation);
+	}*/
+	
 }
 
 void CameraEngine::Focus(GameObject* gameObject)

@@ -23,7 +23,7 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+	: type(type), mouseWarped(false), isFocusing(false), interpolationTime(0.0f), interpolationDuration(5.0f)
 {
 	frustum = std::make_unique <Frustum>();
 }
@@ -42,7 +42,8 @@ Camera::Camera(Camera& camera)
 	viewPlaneDistance(camera.viewPlaneDistance),
 	frustumMode(camera.frustumMode),
 	mouseWarped(camera.mouseWarped),
-	focusFlag(camera.focusFlag),
+	interpolationTime(camera.interpolationTime),
+	interpolationDuration(camera.interpolationDuration),
 	isFocusing(camera.isFocusing),
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
@@ -69,7 +70,7 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	viewPlaneDistance(camera->viewPlaneDistance),
 	frustumMode(camera->frustumMode),
 	mouseWarped(camera->mouseWarped),
-	focusFlag(camera->focusFlag),
+	interpolationDuration(camera->interpolationDuration),
 	isFocusing(camera->isFocusing),
 	lastMouseX(camera->lastMouseX),
 	lastMouseY(camera->lastMouseY),
@@ -343,22 +344,16 @@ void Camera::SetOrientation(const float3& orientation)
 	frustum->SetUp(orientation);
 }
 
-void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
+void Camera::SetLookAt(const float3& lookAt, float interpolationTime)
 {
 	float3 targetDirection = (lookAt - position).Normalized();
 	float3 currentDirection = frustum->Front().Normalized();
 
-	if (targetDirection.AngleBetween(currentDirection) == 0.0f)
-	{
-		isSameRotation = true;
-	}
-	else 
-	{
-		float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
-		Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
-		float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-		ApplyRotation(rotationMatrix);
-	}
+	float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, interpolationTime / interpolationDuration);
+	Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
+	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
+	ApplyRotation(rotationMatrix);
+	ENGINE_LOG("s(t): (%.6f, %.6f, %.6f", nextDirection.x, nextDirection.y, nextDirection.z);
 
 }
 
