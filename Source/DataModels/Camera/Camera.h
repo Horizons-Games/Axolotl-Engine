@@ -27,6 +27,7 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 #define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
+#define DEFAULT_INTERPOLATION_DURATION 1.0f
 
 enum class CameraType 
 { 
@@ -74,7 +75,7 @@ public:
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
 	void SetOrientation(const float3& orientation);
-	void SetLookAt(const float3& lookAt, float interpolationTime);
+	void SetLookAt(const float3& lookAt, float currentTimeRelation);
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
@@ -120,9 +121,13 @@ protected:
 
 	math::Plane offsetFrustumPlanes[6];
 	bool mouseWarped;
+
+	float3 currentFocusPos;
+	float3 currentFocusDir;
 	float interpolationTime;
 	float interpolationDuration;
 	bool isFocusing;
+
 	int lastMouseX, lastMouseY;
 	int mouseState;
 };

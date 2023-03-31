@@ -107,6 +107,8 @@ bool CameraEngine::Update()
 			if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
+				currentFocusDir = frustum->Front().Normalized();
+				currentFocusPos = position;
 				isFocusing = true;
 			}
 
@@ -237,55 +239,58 @@ void CameraEngine::Zoom()
 
 void CameraEngine::Focus(const OBB& obb)
 {
-
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
 	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum->HorizontalFov();
 	float camDistance = radius / float(sin(fov / 2.0));
-	vec camDirection = (boundingSphere.pos - frustum->Pos()).Normalized();
+	vec camDirection = (boundingSphere.pos - currentFocusPos).Normalized();
 
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
 
-	float currentTime = App->GetDeltaTime();
-	interpolationTime += currentTime;
-	ENGINE_LOG("t: %.6f", interpolationTime);
-	float currentTimeRelation = interpolationTime / interpolationDuration;
-	float3 nextPos = position.Lerp(endposition, currentTimeRelation);
-	ENGINE_LOG("l(t): (%.6f, %.6f, %.6f", nextPos.x, nextPos.y, nextPos.z);
-	SetPosition(nextPos);
-	SetLookAt(boundingSphere.pos, interpolationTime);
-	if (currentTimeRelation >= 1.0f) 
+	if (currentFocusPos.Equals(endposition) && currentFocusDir.Equals(camDirection))
 	{
-		position = endposition;
 		interpolationTime = 0.0f;
 		isFocusing = false;
 	}
-	/*ENGINE_LOG("interpolation: %.6f", interpolationTime);
-
-	bool isTargetRotation = false;
-	if (position.Equals(endposition)) 
+	else 
 	{
-		SetLookAt(boundingSphere.pos, interpolationTime, isTargetRotation);
-		if(isTargetRotation)
+		interpolationTime += App->GetDeltaTime();
+
+		float currentTimeRelation = interpolationTime / interpolationDuration;
+
+		if (currentTimeRelation >= 1.0f)
 		{
+			SetLookAt(boundingSphere.pos, 1.0f);
+			SetPosition(endposition);
+
+			currentFocusPos = endposition;
+			currentFocusDir = camDirection;
+			
 			interpolationTime = 0.0f;
 			isFocusing = false;
 		}
-	}
-	else 
-	{
-		float currentTimeRelation = interpolationTime / interpolationDuration;
-		ENGINE_LOG("interpolation quotient: %.6f", currentTimeRelation);
-		float3 nextPos = position.Lerp(endposition, currentTimeRelation);
-		SetPosition(nextPos);
-		if (nextPos.Equals(endposition)) 
+		else 
 		{
-			position = endposition;
+			if (currentFocusPos.Equals(endposition))
+			{
+				SetLookAt(boundingSphere.pos, currentTimeRelation);
+			}
+			else if (currentFocusDir.Equals(camDirection))
+			{
+				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
+				SetPosition(nextPos);
+			}
+			else
+			{
+				SetLookAt(boundingSphere.pos, currentTimeRelation);
+				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
+				SetPosition(nextPos);
+			}
 		}
-		SetLookAt(boundingSphere.pos, interpolationTime, isTargetRotation);
-	}*/
+		
+	}
 	
 }
 

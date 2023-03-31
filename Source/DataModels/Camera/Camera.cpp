@@ -23,7 +23,7 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), isFocusing(false), interpolationTime(0.0f), interpolationDuration(5.0f)
+	: type(type), mouseWarped(false), isFocusing(false), interpolationTime(0.0f), interpolationDuration(0.5f)
 {
 	frustum = std::make_unique <Frustum>();
 }
@@ -344,16 +344,14 @@ void Camera::SetOrientation(const float3& orientation)
 	frustum->SetUp(orientation);
 }
 
-void Camera::SetLookAt(const float3& lookAt, float interpolationTime)
+void Camera::SetLookAt(const float3& lookAt, float currentTimeRelation)
 {
 	float3 targetDirection = (lookAt - position).Normalized();
-	float3 currentDirection = frustum->Front().Normalized();
+	float3 nextDirection = Quat::SlerpVector(currentFocusDir, targetDirection, currentTimeRelation);
 
-	float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, interpolationTime / interpolationDuration);
 	Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
 	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 	ApplyRotation(rotationMatrix);
-	ENGINE_LOG("s(t): (%.6f, %.6f, %.6f", nextDirection.x, nextDirection.y, nextDirection.z);
 
 }
 
