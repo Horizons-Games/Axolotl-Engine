@@ -204,22 +204,39 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	delete[] indexesPointer;
 
-	////////////////////////
+	int nameSize = 0;
 
-	int size = resource->GetNumBones();
-	unsigned int* indexesPointer = new unsigned int[size];
-	bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
-	memcpy(indexesPointer, fileBuffer, bytes);
-	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
-	std::vector<std::vector<unsigned int>> faces;
-	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3)
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
-		faces.push_back(indexes);
+		nameSize += resource->GetBones()[i].name.size();
 	}
-	resource->SetFacesIndices(faces);
 
-	delete[] indexesPointer;
+	std::string* namePointer = new std::string[resource->GetNumBones()];
+	bytes = nameSize;
+	memcpy(namePointer, fileBuffer, bytes);
 
-	////////////////////////
+	float4x4* transformPointer = new float4x4[resource->GetNumBones()];
+	bytes = resource->GetNumBones() * sizeof(float4x4);
+	memcpy(transformPointer, fileBuffer, bytes);
+
+	std::vector<Bone> bones;
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		Bone bone;
+		bytes = resource->GetBones()[i].name.size();
+		memcpy(&bone.name, namePointer, bytes);
+
+		namePointer += bytes;
+
+		bytes = sizeof(float4x4);
+		memcpy(&bone.transform, transformPointer, bytes);
+
+		transformPointer += bytes;
+
+		bones.push_back(bone);
+	}
+	resource->SetBones(bones);
+
+	delete[] namePointer;
+	delete[] transformPointer;
 }
