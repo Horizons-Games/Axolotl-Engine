@@ -50,8 +50,7 @@ char* EditorWindow::StateWindows()
 		std::string set = "Settings/WindowsStates.cong";
 		if (App->fileSystem->Exists(set.c_str()))
 		{
-			App->fileSystem->Load(set.c_str(), binaryBuffer);
-			ENGINE_LOG(binaryBuffer)
+			App->fileSystem->Load(set.c_str(), binaryBuffer);			
 		}
 	}		
 	return binaryBuffer;
@@ -61,10 +60,6 @@ char* EditorWindow::StateWindows()
 void EditorWindow::UpdateState(Json &json)
 {
 
-	json[name.c_str()] = enabled;
-	/*rapidjson::StringBuffer buffer;
-	json.toBuffer(buffer);
-	std::string lib = "Settings/WindowsStates.cong" ;
-	App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());*/
+	json[name.c_str()] = enabled;	
 }
 

@@ -18,8 +18,7 @@ WindowMainMenu::WindowMainMenu(Json &json ) :
 	for (const char* name:names)
 	{
 		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
-		windowNamesAndEnabled.push_back(windowNameAndEnabled);
-		ENGINE_LOG("NAMES %s plus %s", name, bool(json[name])?"TRUE":"FALSE")
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
 	}
 }
 

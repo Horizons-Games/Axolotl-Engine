@@ -348,11 +348,7 @@ void ModuleResources::CreateFolderSettings()
 	if (settingsFolderNotCreated)
 	{
 		App->fileSystem->CreateDirectoryA(settingsFolder.c_str());
-	}	
-	else
-	{
-		ENGINE_LOG("JUST TRUE")
-	}
+	}		
 }
 
 void ModuleResources::MonitorResources()
