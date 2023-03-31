@@ -12,14 +12,22 @@ struct OptionsMesh
 
 struct Bone
 {
+	Bone() : transform(float4x4::identity), name("") {}
+	Bone(const float4x4& transform, const std::string& name) 
+		: transform(transform), name(name) {}
+
 	float4x4 transform;
 	std::string name;
 };
 
 struct Attach
 {
-	unsigned bones[4] = {0u, 0u, 0u, 0u};
-	float weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	Attach() : bones{(0u, 0u, 0u, 0u)}, weights{(0.0f, 0.0f, 0.0f, 0.0f)} {}
+	Attach(const unsigned int bones[4], const unsigned int weights[4]) 
+		: bones{(*bones)}, weights{(*weights)} {}
+
+	unsigned int bones[4];
+	float weights[4];
 };
 
 class ResourceMesh : virtual public Resource
@@ -50,8 +58,8 @@ public:
 	const std::vector<float3>& GetNormals();
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
-	const std::vector<Bone>& GetBones();
-	const std::vector<Attach>& GetAttaches();
+	const std::vector<Bone*>& GetBones();
+	const std::vector<Attach*>& GetAttaches();
 
 	OptionsMesh& GetOptions();
 
@@ -65,8 +73,8 @@ public:
 	void SetNormals(const std::vector<float3>& normals);
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
-	void SetBones(const std::vector<Bone>& bones);
-	void SetAttaches(const std::vector<Attach>& attaches);
+	void SetBones(const std::vector<Bone*>& bones);
+	void SetAttaches(const std::vector<Attach*>& attaches);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
@@ -94,8 +102,8 @@ private:
 	std::vector<float3> normals;
 	std::vector<float3> tangents{};
 	std::vector<std::vector<unsigned int> > facesIndices;
-	std::vector<Bone> bones;
-	std::vector<Attach> attaches;
+	std::vector<Bone*> bones;
+	std::vector<Attach*> attaches;
 
 	OptionsMesh options;
 };
@@ -170,12 +178,12 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
-inline const std::vector<Bone>& ResourceMesh::GetBones()
+inline const std::vector<Bone*>& ResourceMesh::GetBones()
 {
 	return bones;
 }
 
-inline const std::vector<Attach>& ResourceMesh::GetAttaches()
+inline const std::vector<Attach*>& ResourceMesh::GetAttaches()
 {
 	return attaches;
 }
@@ -236,12 +244,12 @@ inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned
 	this->facesIndices = facesIndices;
 }
 
-inline void ResourceMesh::SetBones(const std::vector<Bone>& bones)
+inline void ResourceMesh::SetBones(const std::vector<Bone*>& bones)
 {
 	this->bones = bones;
 }
 
-inline void ResourceMesh::SetAttaches(const std::vector<Attach>& attaches)
+inline void ResourceMesh::SetAttaches(const std::vector<Attach*>& attaches)
 {
 	this->attaches = attaches;
 }
