@@ -108,16 +108,26 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		bytes = resource->GetBones()[i].name.size() + sizeof(float4x4);
-		memcpy(cursor, &(resource->GetBones()[i]), bytes);
+		bytes = resource->GetBones()[i].name.size();
+		memcpy(cursor, &(resource->GetBones()[i].name), bytes);
+		
+		cursor += bytes;
+		
+		bytes = sizeof(float4x4);
+		memcpy(cursor, &(resource->GetBones()[i].transform), bytes);
 
 		cursor += bytes;
 	}
 
 	for (unsigned int i = 0; i < resource->GetNumVertices(); ++i)
 	{
-		bytes = 16 * (sizeof(unsigned int) + sizeof(float));
-		memcpy(cursor, &(resource->GetAttaches()[i]), bytes);
+		bytes = 4 * sizeof(unsigned int);
+		memcpy(cursor, &(resource->GetAttaches()[i].bones), bytes);
+
+		cursor += bytes;
+
+		bytes = 4 * sizeof(float);
+		memcpy(cursor, &(resource->GetAttaches()[i].weights), bytes);
 
 		cursor += bytes;
 	}
@@ -193,4 +203,23 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	resource->SetFacesIndices(faces);
 
 	delete[] indexesPointer;
+
+	////////////////////////
+
+	int size = resource->GetNumBones();
+	unsigned int* indexesPointer = new unsigned int[size];
+	bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
+	memcpy(indexesPointer, fileBuffer, bytes);
+	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
+	std::vector<std::vector<unsigned int>> faces;
+	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3)
+	{
+		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
+		faces.push_back(indexes);
+	}
+	resource->SetFacesIndices(faces);
+
+	delete[] indexesPointer;
+
+	////////////////////////
 }
