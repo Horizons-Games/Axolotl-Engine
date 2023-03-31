@@ -120,21 +120,18 @@ void GeometryBatch::FillMaterial()
 		if (texture)
 		{
 			newMaterial.diffuse_map = texture->GetHandle();
-			glMakeTextureHandleResidentARB(newMaterial.diffuse_map);
 		}
 
 		texture = resourceMaterial->GetNormal();
 		if (texture)
 		{
 			newMaterial.normal_map = texture->GetHandle();
-			glMakeTextureHandleResidentARB(newMaterial.normal_map);
 		}
 
 		texture = resourceMaterial->GetMetallicMap();
 		if (texture)
 		{
 			newMaterial.metallic_map = texture->GetHandle();
-			glMakeTextureHandleResidentARB(newMaterial.metallic_map);
 		}
 
 		materialToRender.push_back(newMaterial);

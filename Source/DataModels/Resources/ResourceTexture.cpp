@@ -137,6 +137,7 @@ const uint64_t& ResourceTexture::GetHandle()
 	if (handle == 0)
 	{
 		handle = glGetTextureHandleARB(glTexture);
+		glMakeTextureHandleResidentARB(handle);
 	}
 	return handle;
 }
