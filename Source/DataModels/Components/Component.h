@@ -124,6 +124,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Camera";
 	case ComponentType::PLAYER:
 		return "Component_Player";
+	case ComponentType::ANIMATION:
+		return "Component_Animation";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -162,5 +164,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::PLAYER;
 	}
 	
+	if (typeName == "Component_Animation")
+	{
+		return ComponentType::ANIMATION;
+	}
+
 	return ComponentType::UNKNOWN;
 }

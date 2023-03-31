@@ -9,6 +9,7 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentAnimation.h"
 
 #include "Application.h"
 
@@ -407,6 +408,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");

@@ -418,11 +418,14 @@
     <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
       <Filter>Source\DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAnimation.cpp">
+      <Filter>Source\DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.cpp">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
       <Filter>Source\FileSystem\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentAnimation.cpp">
-      <Filter>Source\DataModels\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -993,8 +996,11 @@
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h">
       <Filter>Source\FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentAnimation.h">
+    <ClInclude Include="DataModels\Components\ComponentAnimation.h">
       <Filter>Source\DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.h">
+      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

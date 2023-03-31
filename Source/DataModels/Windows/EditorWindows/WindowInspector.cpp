@@ -144,6 +144,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::ANIMATION)) {
+				if (ImGui::MenuItem("Create Animation Component"))
+				{
+					AddComponentAnimation();
+				}
+			}
+
 		}
 
 		else
@@ -327,6 +334,11 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentAnimation()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
 }
 
 // TODO: REMOVE
