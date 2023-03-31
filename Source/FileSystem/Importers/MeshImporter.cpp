@@ -219,21 +219,23 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	bytes = resource->GetNumBones() * sizeof(float4x4);
 	memcpy(transformPointer, fileBuffer, bytes);
 
-	std::vector<Bone> bones;
+	unsigned int nameBytes = 0u, transformBytes = 0u;
+	std::string auxName;
+	float4x4 auxTransform;
+	std::vector<Bone*> bones;
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		Bone bone;
-		bytes = resource->GetBones()[i].name.size();
-		memcpy(&bone.name, namePointer, bytes);
+		nameBytes = (*resource->GetBones()[i]).name.size();
+		memcpy(&auxName, namePointer, nameBytes);
 
-		namePointer += bytes;
+		namePointer += nameBytes;
 
-		bytes = sizeof(float4x4);
-		memcpy(&bone.transform, transformPointer, bytes);
+		transformBytes = sizeof(float4x4);
+		memcpy(&auxTransform, transformPointer, transformBytes);
+		
+		transformPointer += transformBytes;
 
-		transformPointer += bytes;
-
-		bones.push_back(bone);
+		bones.push_back(new Bone(auxTransform, auxName));
 	}
 	resource->SetBones(bones);
 

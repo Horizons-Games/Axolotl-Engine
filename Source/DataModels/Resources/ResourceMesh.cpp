@@ -18,6 +18,20 @@ ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const s
 ResourceMesh::~ResourceMesh()
 {
 	Unload();
+
+	for (const Bone* bone : bones)
+	{
+		delete bone;
+	}
+
+	bones.clear();
+
+	for (const Attach* attach : attaches)
+	{
+		delete attach;
+	}
+
+	attaches.clear();
 }
 
 void ResourceMesh::InternalLoad()
