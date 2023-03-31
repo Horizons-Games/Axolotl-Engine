@@ -239,4 +239,33 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	delete[] namePointer;
 	delete[] transformPointer;
+
+	unsigned int* bonePointer = new unsigned int[resource->GetNumVertices()];
+	bytes = 4 * resource->GetNumVertices() * sizeof(unsigned int);
+	memcpy(bonePointer, fileBuffer, bytes);
+
+	float* weightPointer = new float[resource->GetNumVertices()];
+	bytes = 4 * resource->GetNumVertices() * sizeof(float);
+	memcpy(weightPointer, fileBuffer, bytes);
+
+	std::vector<Attach> attaches;
+	for (unsigned int i = 0; i < resource->GetNumVertices(); ++i)
+	{
+		Attach attach;
+		bytes = 4 * sizeof(unsigned int);
+		memcpy(&attach.bones, bonePointer, bytes);
+
+		bonePointer += bytes;
+
+		bytes = 4 * sizeof(float);
+		memcpy(&attach.weights, weightPointer, bytes);
+
+		weightPointer += bytes;
+
+		attaches.push_back(attach);
+	}
+	resource->SetAttaches(attaches);
+
+	delete[] bonePointer;
+	delete[] weightPointer;
 }

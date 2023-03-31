@@ -78,7 +78,6 @@ private:
 	void CreateVBO();
 	void CreateEBO();
 	void CreateVAO();
-	void CreateBones();
 
 	unsigned int vbo;
 	unsigned int ebo;
@@ -202,7 +201,7 @@ inline void ResourceMesh::SetNumIndexes(unsigned int numIndexes)
 	this->numIndexes = numIndexes;
 }
 
-void ResourceMesh::SetNumBones(unsigned int numBones)
+inline void ResourceMesh::SetNumBones(unsigned int numBones)
 {
 	this->numBones = numBones;
 }

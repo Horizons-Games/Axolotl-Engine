@@ -1,12 +1,4 @@
 {
-    "UID": 14865946936766771640,
-    "Type": "Models",
-    "MeshesAssetPaths": [
-        "Assets/Meshes/Turret_0.mesh",
-        "Assets/Meshes/Turret_1.mesh"
-    ],
-    "MatAssetPaths": [
-        "Assets/Materials/Turret_0.mat",
-        "Assets/Materials/Turret_1.mat"
-    ]
+    "UID": 13439286708202027673,
+    "Type": "Models"
 }

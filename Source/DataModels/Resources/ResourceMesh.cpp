@@ -22,7 +22,6 @@ ResourceMesh::~ResourceMesh()
 
 void ResourceMesh::InternalLoad()
 {
-	CreateBones();
 	CreateVBO();
 	CreateEBO();
 	CreateVAO();
@@ -135,11 +134,6 @@ void ResourceMesh::CreateVAO()
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
-}
-
-void ResourceMesh::CreateBones()
-{
-
 }
 
 // For mouse-picking purposes
