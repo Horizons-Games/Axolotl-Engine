@@ -34,6 +34,10 @@ GeometryBatch::GeometryBatch()
 GeometryBatch::~GeometryBatch()
 {
 	componentsInBatch.clear();
+	for (ResourceInfo* resourceInfo : resourcesInfo)
+	{
+		delete resourceInfo;
+	}
 	resourcesInfo.clear();
 	resourcesMaterial.clear();
 	instanceData.clear();
