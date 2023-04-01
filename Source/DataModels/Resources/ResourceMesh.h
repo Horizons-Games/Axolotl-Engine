@@ -23,7 +23,7 @@ struct Bone
 struct Attach
 {
 	Attach() : bones{(0u, 0u, 0u, 0u)}, weights{(0.0f, 0.0f, 0.0f, 0.0f)} {}
-	Attach(const unsigned int bones[4], const unsigned int weights[4]) 
+	Attach(const unsigned int bones[4], const float weights[4]) 
 		: bones{(*bones)}, weights{(*weights)} {}
 
 	unsigned int bones[4];
