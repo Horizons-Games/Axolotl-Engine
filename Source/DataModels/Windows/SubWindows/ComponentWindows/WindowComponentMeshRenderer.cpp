@@ -202,6 +202,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (materialResource->GetDiffuse())
 				{
 					texture = materialResource->GetDiffuse();
+					texture->Load();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -232,8 +233,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetMetallicMap())
 			{
-				texture =
-					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetMetallicMap());
+				texture = materialResource->GetMetallicMap();
+				texture->Load();
 				if (texture)
 				{
 					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -264,6 +265,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource && materialResource->GetNormal())
 			{
 					texture = materialResource->GetNormal();
+					texture->Load();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -281,7 +283,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (materialResource->GetNormal())
 				{
 					asMeshRenderer->UnloadTexture(TextureType::NORMAL);
-
 					materialResource->SetNormal(nullptr);
 					asMeshRenderer->GetBatch()->updateMaterial = true;
 				}
