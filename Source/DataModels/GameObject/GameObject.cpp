@@ -10,7 +10,6 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
-#include "../Components/UI/ComponentBoundingBox2D.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
@@ -556,12 +555,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::BOUNDINGBOX2D:
-		{
-			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
-			break;
-		}
-
 		case ComponentType::MOCKSTATE:
 		{
 			newComponent = std::make_unique<ComponentMockState>(true, this);
@@ -775,17 +768,4 @@ void GameObject::SetParentAsChildSelected()
 		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
 		parent->SetParentAsChildSelected();
 	}
-}
-
-
-ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
-{
-	while (parent != nullptr) {
-		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
-		if (canvas) {
-			return canvas;
-		}
-		parent = parent->GetParent();
-	}
-	return nullptr;
 }
