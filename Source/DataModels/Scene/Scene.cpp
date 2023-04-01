@@ -169,7 +169,7 @@ GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* p
 
 GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
@@ -248,7 +248,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	gameObject->GetParent()->RemoveChild(gameObject);
 }
 
-void Scene::ConvertModelIntoGameObject(const char* model)
+void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	//resourceModel->Load();
