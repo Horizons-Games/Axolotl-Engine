@@ -49,7 +49,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ resource->GetNumBones() * sizeof(unsigned int) + resource->GetNumBones() * sizeof(float4x4)
+		+ resource->GetNumBones() * sizeof(float4x4)
 		+ resource->GetNumVertices() * (4 * sizeof(unsigned int) + 4 * sizeof(float));
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
