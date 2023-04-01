@@ -119,6 +119,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
+		asMeshRenderer->GetBatch()->UpdateMaterial();
+		asMeshRenderer->GetBatch()->updateMaterial = false;
 
 		if (materialResource)
 		{
@@ -142,7 +144,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
 			{
 				materialResource->SetDiffuseColor(colorDiffuse);
-				asMeshRenderer->GetBatch()->UpdateMaterial();
+				asMeshRenderer->GetBatch()->updateMaterial = true;
 			}
 
 			//static float3 colorSpecular = materialResource->GetSpecularColor();
@@ -179,7 +181,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetMetallicMap(nullptr);
 				
 				materialResource->SetChanged(true);
-				asMeshRenderer->GetBatch()->UpdateMaterial();
+				asMeshRenderer->GetBatch()->updateMaterial = true;
 			}
 
 			//bool hasShininessAlpha = materialResource->HasShininessAlpha();
@@ -200,7 +202,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (materialResource->GetDiffuse())
 				{
 					texture = materialResource->GetDiffuse();
-					asMeshRenderer->GetBatch()->UpdateMaterial();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -221,7 +222,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::DIFFUSE);
 
 					materialResource->SetDiffuse(nullptr);
-					asMeshRenderer->GetBatch()->UpdateMaterial();
+					asMeshRenderer->GetBatch()->updateMaterial = true;
 				}
 			}
 
@@ -233,7 +234,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				texture =
 					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetMetallicMap());
-				asMeshRenderer->GetBatch()->UpdateMaterial();
 				if (texture)
 				{
 					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -253,7 +253,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::METALLIC);
 
 					materialResource->SetMetallicMap(nullptr);
-					asMeshRenderer->GetBatch()->UpdateMaterial();
+					asMeshRenderer->GetBatch()->updateMaterial = true;
 				}
 			}
 
@@ -264,7 +264,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource && materialResource->GetNormal())
 			{
 					texture = materialResource->GetNormal();
-					asMeshRenderer->GetBatch()->UpdateMaterial();
 					if (texture)
 					{
 						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
@@ -284,7 +283,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					asMeshRenderer->UnloadTexture(TextureType::NORMAL);
 
 					materialResource->SetNormal(nullptr);
-					asMeshRenderer->GetBatch()->UpdateMaterial();
+					asMeshRenderer->GetBatch()->updateMaterial = true;
 				}
 			}
 
@@ -293,7 +292,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asMeshRenderer->SetNormalStrenght(normalStrength);
-				asMeshRenderer->GetBatch()->UpdateMaterial();
 			}
 
 			ImGui::Text("");

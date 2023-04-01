@@ -418,7 +418,10 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 
 void GeometryBatch::UpdateMaterial()
 {
-	FillMaterial();
+	if (updateMaterial)
+	{
+		FillMaterial();
+	}
 }
 
 bool GeometryBatch::CleanUp()

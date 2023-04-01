@@ -48,6 +48,9 @@ void WindowTextureInput::DoThisIfOk()
 		
 		std::shared_ptr<ResourceMaterial> material = meshRendererComponent->GetMaterial();
 
+		meshRendererComponent->GetBatch()->updateMaterial = true;
+		meshRendererComponent->GetBatch()->UpdateMaterial();
+
 		if (material)
 		{
 			switch (textureType)
@@ -67,6 +70,7 @@ void WindowTextureInput::DoThisIfOk()
 				material->SetMetallicMap(texture);
 			}
 			material->SetChanged(true);
+
 		}
 	}
 }
