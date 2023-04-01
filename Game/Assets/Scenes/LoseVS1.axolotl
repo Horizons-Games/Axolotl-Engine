@@ -24,7 +24,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 4000.0,
-                            "sizeY": 2160.0
+                            "sizeY": 2160.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 231.0,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 231.0
                         }
                     },
                     {
@@ -134,7 +142,15 @@
                             "localScaleY": 1.0,
                             "localScaleZ": 1.0,
                             "sizeX": 200.0,
-                            "sizeY": 200.0
+                            "sizeY": 200.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 231.0,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 231.0
                         }
                     },
                     {
@@ -285,7 +301,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 600.0,
-                            "sizeY": 128.0
+                            "sizeY": 128.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 315.984375,
+                            "worldAABB_min_y": 397.964599609375,
+                            "worldAABB_max_x": 433.015625,
+                            "worldAABB_max_y": 422.9312744140625
                         }
                     },
                     {
@@ -314,21 +338,6 @@
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
                             "sceneName": "CantinaSewersVS1"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_BoundingBox2D",
-                            "active": true,
-                            "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 283.078125,
-                            "worldAABB_min_y": 399.5771179199219,
-                            "worldAABB_max_x": 387.921875,
-                            "worldAABB_max_y": 421.9437561035156
                         }
                     }
                 ]
