@@ -281,9 +281,6 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["assetPathMesh"] = assetPath.c_str();
 
 	//Material
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
 
 	UID uidMaterial = 0;
 	assetPath = "";
@@ -324,9 +321,6 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 #endif
 
 	//Material
-	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
 #ifdef ENGINE
 	path = meta["assetPathMaterial"];
 	resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
