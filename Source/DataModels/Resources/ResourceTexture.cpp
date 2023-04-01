@@ -63,7 +63,10 @@ void ResourceTexture::CreateTexture()
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 
-	if (loadOptions.mipMap) glGenerateMipmap(GL_TEXTURE_2D);
+	if (loadOptions.mipMap)
+	{
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilterEquivalence(loadOptions.mag));
 

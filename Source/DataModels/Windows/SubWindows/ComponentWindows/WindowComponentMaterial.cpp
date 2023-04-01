@@ -11,6 +11,9 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+const std::vector<std::string> WindowComponentMaterial::renderModes = { "Opaque", "Transparent" };
+
+
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	ComponentWindow("MATERIAL", component), 
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
@@ -69,32 +72,29 @@ void WindowComponentMaterial::DrawSetMaterial()
 			}
 
 			ImGui::Text("");
-
-			const char* renderModes[2] = { "Opaque", "Transparent" };
-
-			static int currentIndex;
+			
 
 			if (!isTransparent)
 			{
-				currentIndex = 0;
+				currentTransparentIndex = 0;
 			}
 			else 
 			{
-				currentIndex = 1;
+				currentTransparentIndex = 1;
 			}
 			
 			
-			const char* currentType = renderModes[currentIndex];
+			const char* currentType = renderModes[currentTransparentIndex].c_str();
 
 			ImGui::Text("Render Mode:"); ImGui::SameLine();
 			if (ImGui::BeginCombo("##Render mode", currentType))
 			{
-				for (int i = 0; i < IM_ARRAYSIZE(renderModes); i++)
+				for (int i = 0; i < renderModes.size(); i++)
 				{
-					const bool isSelected = currentIndex == i;
-					if (ImGui::Selectable(renderModes[i], isSelected)) 
+					const bool isSelected = currentTransparentIndex == i;
+					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
 					{
-						currentIndex = i;
+						currentTransparentIndex = i;
 
 						if (renderModes[i] == "Opaque") 
 						{

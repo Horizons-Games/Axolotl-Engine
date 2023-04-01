@@ -360,7 +360,8 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						const ComponentTransform* transform = 
 							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr) { //If an object is at the same position as another one
+						while (transparentGOToDraw[dist] != nullptr) //If an object is at the same position as another one
+						{ 
 							float addDistance = 0.0001f;
 							dist += addDistance;
 						}
@@ -382,7 +383,8 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						const ComponentTransform* transform = 
 							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr) {
+						while (transparentGOToDraw[dist] != nullptr) 
+						{
 							float addDistance = 0.0001f;
 							dist += addDistance;
 						}
@@ -431,7 +433,8 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 				const ComponentTransform* transform =
 					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 				float dist = Length(cameraPos - transform->GetGlobalPosition());
-				while (transparentGOToDraw[dist] != nullptr) {
+				while (transparentGOToDraw[dist] != nullptr) 
+				{
 					float addDistance = 0.0001f;
 					dist += addDistance;
 				}

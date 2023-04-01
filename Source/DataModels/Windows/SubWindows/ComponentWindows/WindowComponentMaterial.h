@@ -34,6 +34,8 @@ private:
 	float metalness;
 	float normalStrength;
 	bool isTransparent;
+	int currentTransparentIndex;
+	static const std::vector<std::string> renderModes;
 
 
 	std::unique_ptr<WindowMaterialInput> inputMaterial;	   
