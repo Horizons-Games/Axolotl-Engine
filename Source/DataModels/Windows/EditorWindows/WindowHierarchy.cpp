@@ -146,17 +146,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
                 }
-                //Normally you can have multiple Directionals but just now we can't so...
-                /*if (ImGui::MenuItem("Directional"))
-                {
-                    App->scene->GetLoadedScene()->CreateLightGameObject("Directional", gameObject, LightType::DIRECTIONAL);
-                }*/
                 ImGui::EndMenu();
             }
         }
         else
         {
-
             if (ImGui::MenuItem("Create Empty 2D child"))
             {
                 App->scene->GetLoadedScene()->CreateGameObject("Empty 2D GameObject", gameObject, false);
@@ -176,24 +170,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 App->scene->GetLoadedScene()->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
             }
-            if (ImGui::MenuItem("Character"))
-            {
-                App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
-            }
-            ImGui::EndMenu();
-        }
-        //Create Light ShortCut
-        if (ImGui::BeginMenu("Create Light"))
-        {
-            if (ImGui::MenuItem("Spot"))
-            {
-                App->scene->GetLoadedScene()->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
-            }
-            if (ImGui::MenuItem("Point"))
-            {
-                App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
-            }
-            ImGui::EndMenu();
         }
 
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
@@ -235,7 +211,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
             }
         }
-
         ImGui::EndPopup();
     }
     ImGui::PopID();
