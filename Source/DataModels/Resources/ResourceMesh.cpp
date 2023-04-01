@@ -25,13 +25,6 @@ ResourceMesh::~ResourceMesh()
 	}
 
 	bones.clear();
-
-	for (const Attach* attach : attaches)
-	{
-		delete attach;
-	}
-
-	attaches.clear();
 }
 
 void ResourceMesh::InternalLoad()
@@ -44,7 +37,6 @@ void ResourceMesh::InternalLoad()
 void ResourceMesh::InternalUnload()
 {
 	bones.clear();
-	attaches.clear();
 
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);

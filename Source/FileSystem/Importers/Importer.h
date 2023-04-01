@@ -18,4 +18,6 @@ public:
 protected:
 	// Reads your own data and generates a file buffer
 	virtual void Save(const std::shared_ptr<U>& resource, char*& fileBuffer, unsigned int& size) = 0;
+
+	static constexpr unsigned int bonesPerVertex = 4;
 };

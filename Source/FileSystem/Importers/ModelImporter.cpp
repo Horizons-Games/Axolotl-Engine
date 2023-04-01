@@ -476,7 +476,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 		cursor += bytes;
 
-		for (unsigned int j = 0; j < ourMesh->mBones[i]->mNumWeights; ++j)
+		for (unsigned int j = 0; j < bonesPerVertex; ++j)
 		{
 			bytes = sizeof(unsigned int);
 			memcpy(cursor, &(ourMesh->mBones[i]->mWeights[j].mVertexId), bytes);

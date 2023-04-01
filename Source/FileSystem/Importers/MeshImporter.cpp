@@ -117,19 +117,19 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 		memcpy(cursor, &((*resource->GetBones()[i]).name), bytes);
 		
 		cursor += bytes;
-	}
 
-	for (unsigned int i = 0; i < resource->GetNumVertices(); ++i)
-	{
-		bytes = 4 * sizeof(unsigned int);
-		memcpy(cursor, &(*resource->GetAttaches()[i]->bones), bytes);
-		
-		cursor += bytes;
+		for (unsigned int j = 0; j < bonesPerVertex; ++j)
+		{
+			bytes = sizeof(unsigned int);
+			memcpy(cursor, &(resource->GetAttaches()[i]->bones[j]), bytes);
 
-		bytes = 4 * sizeof(float);
-		memcpy(cursor, &(*resource->GetAttaches()[i]->weights), bytes);
+			cursor += bytes;
 
-		cursor += bytes;
+			bytes = sizeof(float);
+			memcpy(cursor, &(resource->GetAttaches()[i]->weights[j]), bytes);
+
+			cursor += bytes;
+		}
 	}
 }
 
