@@ -38,8 +38,8 @@ struct Material {
 struct ResourceInfo
 {
 	ResourceMesh* resourceMesh;
-	int vertexOffset;
-	int indexOffset;
+	unsigned int vertexOffset;
+	unsigned int indexOffset;
 };
 
 class GeometryBatch
@@ -90,12 +90,11 @@ private:
 	bool createBuffers = true;
 	bool reserveModelSpace = true;
 
-	int numTotalVertices = 0;
-	int numTotalIndices = 0;
-	int numTotalFaces = 0;
+	unsigned int numTotalVertices = 0;
+	unsigned int numTotalIndices = 0;
+	unsigned int numTotalFaces = 0;
 
 	int flags = 0;
-	bool isloaded = false;
 };
 
 inline const int GeometryBatch::GetFlags() const

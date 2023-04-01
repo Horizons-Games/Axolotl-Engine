@@ -80,19 +80,15 @@ void GeometryBatch::FillBuffers()
 		}
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
+	glNamedBufferData(verticesBuffer, verticesToRender.size() * 3 * sizeof(float), &verticesToRender[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
+	glNamedBufferData(textureBuffer, texturesToRender.size() * 2 * sizeof(float), &texturesToRender[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
+	glNamedBufferData(normalsBuffer, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
 
 	if (flags & HAS_TANGENTS)
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-		glBufferData(GL_ARRAY_BUFFER, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
+		glNamedBufferData(tangentsBuffer, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 	}
 }
 
@@ -137,8 +133,7 @@ void GeometryBatch::FillMaterial()
 		materialToRender.push_back(newMaterial);
 	}
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, materials);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
+	glNamedBufferData(materials, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -291,9 +286,10 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		FillBuffers();
 		createBuffers = false;
 	}
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
+
 	if (reserveModelSpace)
 	{
+		glNamedBufferData(transforms, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
@@ -301,9 +297,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		{
 			CreateInstanceResourceMaterial(component->GetMaterial().get());
 		}
-		glBufferData(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		FillMaterial();
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, transforms);
 		reserveModelSpace = false;
 	}
 
@@ -325,7 +319,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		//find position in components vector
 		auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-		int instanceIndex = it - componentsInBatch.begin();
+		unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
 
 		modelMatrices[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -343,7 +337,9 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	}
 	
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, modelMatrices.size() * sizeof(float4x4), modelMatrices.data());
+	
+	glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
+	
 	glBindVertexArray(vao);
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
 	glBindVertexArray(0);
@@ -387,19 +383,20 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
 {
 	auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), material);
-
+	int index;
 	// If element was found
 	if (it != resourcesMaterial.end())
 	{
 		// calculating the index
-		int index = it - resourcesMaterial.begin();
+		index = static_cast<int>(it - resourcesMaterial.begin());
 		instanceData.push_back(index);
 	}
 	else {
 		// If the element is not
 		// present in the vector
 		resourcesMaterial.push_back(material);
-		instanceData.push_back(resourcesMaterial.size() - 1);
+		index = static_cast<int>(resourcesMaterial.size()) - 1;
+		instanceData.push_back(index);
 	}
 }
 
