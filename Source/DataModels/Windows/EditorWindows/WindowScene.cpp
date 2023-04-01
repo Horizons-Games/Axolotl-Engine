@@ -149,79 +149,84 @@ void WindowScene::DrawGuizmo()
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
 
-		float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
-
-		ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
-			(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
-
-		if (ImGuizmo::IsUsing())
+		//Guizmo 3D
+		if (static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
 		{
-			GameObject* parent = focusedObject->GetParent();
-			float3 position, scale;
-			float4x4 rotation;
-			float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
-			float4x4 localMatrix;
+			float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
-			if (parent != nullptr) {
-				const ComponentTransform* parentTransform =
-					static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+			ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
+				(ImGuizmo::MODE)gizmoCurrentMode, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
 
-				inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
-			}
-
-			localMatrix = inverseParentMatrix * modelMatrix.Transposed();
-			localMatrix.Decompose(position, rotation, scale);
-
-			switch (gizmoCurrentOperation)
+			if (ImGuizmo::IsUsing())
 			{
-			case ImGuizmo::OPERATION::TRANSLATE:
-				focusedTransform->SetPosition(position);
-				break;
-			case ImGuizmo::OPERATION::ROTATE:
-				focusedTransform->SetRotation(rotation);
-				break;
-			case ImGuizmo::OPERATION::SCALE:
-				focusedTransform->SetScale(scale);
-				break;
-			}
-			focusedTransform->UpdateTransformMatrices();
+				GameObject* parent = focusedObject->GetParent();
+				float3 position, scale;
+				float4x4 rotation;
+				float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
+				float4x4 localMatrix;
 
-			for (Component* component : focusedObject->GetComponents())
-			{
-				if (component->GetType() == ComponentType::LIGHT)
+				if (parent != nullptr) {
+					const ComponentTransform* parentTransform =
+						static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+
+					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
+				}
+
+				localMatrix = inverseParentMatrix * modelMatrix.Transposed();
+				localMatrix.Decompose(position, rotation, scale);
+
+				switch (gizmoCurrentOperation)
 				{
-					Scene* scene = App->scene->GetLoadedScene();
-					const ComponentLight* light = (ComponentLight*)component;
+				case ImGuizmo::OPERATION::TRANSLATE:
+					focusedTransform->SetPosition(position);
+					break;
+				case ImGuizmo::OPERATION::ROTATE:
+					focusedTransform->SetRotation(rotation);
+					break;
+				case ImGuizmo::OPERATION::SCALE:
+					focusedTransform->SetScale(scale);
+					break;
+				}
+				focusedTransform->UpdateTransformMatrices();
 
-					switch (light->GetLightType())
+				for (Component* component : focusedObject->GetComponents())
+				{
+					if (component->GetType() == ComponentType::LIGHT)
 					{
-					case LightType::DIRECTIONAL:
-						scene->RenderDirectionalLight();
-						break;
-					case LightType::SPOT:
-						scene->UpdateSceneSpotLights();
-						scene->RenderSpotLights();
-						break;
-					case LightType::POINT:
-						scene->UpdateScenePointLights();
-						scene->RenderPointLights();
-						break;
+						Scene* scene = App->scene->GetLoadedScene();
+						const ComponentLight* light = (ComponentLight*)component;
+
+						switch (light->GetLightType())
+						{
+						case LightType::DIRECTIONAL:
+							scene->RenderDirectionalLight();
+							break;
+						case LightType::SPOT:
+							scene->UpdateSceneSpotLights();
+							scene->RenderSpotLights();
+							break;
+						case LightType::POINT:
+							scene->UpdateScenePointLights();
+							scene->RenderPointLights();
+							break;
+						}
 					}
 				}
+			
 			}
+
+			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
+			float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
+
+			ImGuizmo::ViewManipulate(
+				viewMat.ptr(),
+				App->camera->GetCamera()->GetDistance(
+					float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
+				ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
+				ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
+				0x10101010);
+
 		}
-
-		float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
-		float viewManipulateTop = ImGui::GetWindowPos().y + VIEW_MANIPULATE_TOP_PADDING;
-
-		ImGuizmo::ViewManipulate(
-			viewMat.ptr(),
-			App->camera->GetCamera()->GetDistance(
-				float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
-			ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
-			ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
-			0x10101010);
-
 		if (ImGui::IsWindowFocused())
 		{
 			if (App->input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&

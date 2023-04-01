@@ -3,6 +3,7 @@
 
 class GameObject;
 class Camera;
+class ComponentPlayer;
 
 class ModulePlayer : public Module
 {
@@ -25,10 +26,12 @@ public:
 
 	void LoadNewPlayer();
 
+	bool IsStatic();
 
 private:
 	std::unique_ptr <GameObject>  player;
 	Camera* cameraPlayer;
+	ComponentPlayer* componentPlayer;
 	float speed = 3;
 	
 };

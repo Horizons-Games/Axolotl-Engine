@@ -26,10 +26,12 @@ public:
 	void Resized();
 
 	const WindowScene* GetScene() const;
+	const WindowDebug* GetDebugOptions() const;
 
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 	void RefreshInspector() const;
+	std::pair<int, int> GetAvailableRegion();
 
 private:
 	void CopyAnObject();
@@ -51,4 +53,9 @@ private:
 inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
+}
+
+inline const WindowDebug* ModuleEditor::GetDebugOptions() const
+{
+	return debugOptions.get();
 }

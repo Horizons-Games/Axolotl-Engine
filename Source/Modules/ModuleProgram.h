@@ -10,6 +10,7 @@ enum class ProgramType
 	MESHSHADER,
 	HIGHLIGHT,
 	SKYBOX,
+	SPRITE,
 	PROGRAM_TYPE_SIZE
 };
 

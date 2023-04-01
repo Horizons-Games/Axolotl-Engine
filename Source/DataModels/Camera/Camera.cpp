@@ -366,10 +366,7 @@ void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 {
 	if (gameObject != nullptr)
 	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()
-			->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-		App->scene->SetSelectedGameObject(gameObject);
-		App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
+		App->scene->ChangeSelectedGameObject(gameObject);
 		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

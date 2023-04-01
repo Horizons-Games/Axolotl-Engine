@@ -19,6 +19,9 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -69,36 +72,48 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent)
+GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
-	gameObject->InitNewEmptyGameObject();
-
-	// Update the transform respect its parent when created
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
-		(gameObject->GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
-
+	gameObject->InitNewEmptyGameObject(is3D);
 	sceneGameObjects.push_back(gameObject);
 
-	//Quadtree treatment
-	if (!rootQuadtree->InQuadrant(gameObject))
+	if (is3D)
 	{
-		if (!rootQuadtree->IsFreezed())
+		// Update the transform respect its parent when created
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+
+
+		//Quadtree treatment
+		if (!rootQuadtree->InQuadrant(gameObject))
 		{
-			rootQuadtree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
+			if (!rootQuadtree->IsFreezed())
+			{
+				rootQuadtree->ExpandToFit(gameObject);
+				FillQuadtree(sceneGameObjects);
+			}
+			else
+			{
+				App->renderer->AddToRenderList(gameObject);
+			}
 		}
 		else
 		{
-			App->renderer->AddToRenderList(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
+
 	}
 	else
 	{
-		rootQuadtree->Add(gameObject);
+		// Update the transform respect its parent when created
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		childTransform->CalculateMatrices();
+
 	}
 
 	return gameObject;
@@ -116,7 +131,7 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 		(gameObject->GetComponent(ComponentType::TRANSFORM));
 	childTransform->UpdateTransformMatrices();
 
-	sceneGameObjects.push_back(gameObject);
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
 	//Quadtree treatment
 	if (!rootQuadtree->InQuadrant(gameObject))
@@ -152,6 +167,39 @@ GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* p
 	return gameObject;
 }
 
+GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* parent)
+{
+	assert(name != nullptr && parent != nullptr);
+
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	trans->SetPosition(float3(0, 0, -2));
+	trans->CalculateMatrices();
+	gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneCanvas.push_back(gameObject);
+
+	return gameObject;
+}
+
+GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	switch (type)
+	{
+	case ComponentType::IMAGE:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		break;
+	case ComponentType::BUTTON:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+		gameObject->CreateComponent(ComponentType::BOUNDINGBOX2D);
+		break;
+	default:
+		break;
+	}
+	return gameObject;
+}
+
 GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
@@ -184,9 +232,6 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	}
 
 	meshComponent->SetMesh(mesh);
-
-	
-
 	return gameObject;
 }
 
@@ -580,4 +625,13 @@ std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
 {
 	root = std::move(newRoot);
+}
+
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
+{
+	sceneGameObjects.push_back(gameObject);
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
+	}
 }
