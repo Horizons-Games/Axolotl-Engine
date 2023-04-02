@@ -13,6 +13,7 @@ class ModuleResources;
 class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
+class ModuleUI;
 #ifndef ENGINE
 class ModulePlayer;
 #endif //ENGINE
@@ -42,6 +43,7 @@ public:
 	ModuleScene* scene;
 	ModuleFileSystem* fileSystem;
 	ModuleRender* renderer;
+	ModuleUI* userInterface;
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleProgram* program;

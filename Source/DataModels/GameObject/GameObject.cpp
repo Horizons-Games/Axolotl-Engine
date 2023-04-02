@@ -10,6 +10,11 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/UI/ComponentBoundingBox2D.h"
+#include "../Components/UI/ComponentCanvas.h"
+#include "../Components/UI/ComponentImage.h"
+#include "../Components/UI/ComponentButton.h"
+#include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
 
@@ -25,12 +30,10 @@
 
 #include "Scene/Scene.h"
 
-#include <queue>
-
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
-	localAABB({ {0 ,0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
+	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
 	drawBoundingBoxes(false)
 {
 }
@@ -140,62 +143,6 @@ void GameObject::Draw() const
 	}
 }
 
-void GameObject::DrawSelected()
-{
-	std::queue<const GameObject*> gameObjectQueue;
-	gameObjectQueue.push(this);
-	while (!gameObjectQueue.empty())
-	{
-		const GameObject* currentGo = gameObjectQueue.front();
-		gameObjectQueue.pop();
-		for (GameObject* child : currentGo->GetChildren())
-		{
-			if (child->IsEnabled())
-			{
-				gameObjectQueue.push(child);
-			}
-		}
-		for (const std::unique_ptr<Component>& component : currentGo->components)
-		{
-			if (component->GetActive())
-			{
-				component->Draw();
-			}
-		}
-#ifdef ENGINE
-		if (currentGo->drawBoundingBoxes)
-		{
-			App->debug->DrawBoundingBox(currentGo->objectOBB);
-		}
-
-#endif // ENGINE
-	}
-}
-
-void GameObject::DrawHighlight()
-{
-	std::queue<const GameObject*> gameObjectQueue;
-	gameObjectQueue.push(this);
-	while (!gameObjectQueue.empty())
-	{
-		const GameObject* currentGo = gameObjectQueue.front();
-		gameObjectQueue.pop();
-		for (GameObject* child : currentGo->GetChildren())
-		{
-			if (child->IsEnabled())
-			{
-				gameObjectQueue.push(child);
-			}
-		}
-		std::vector<ComponentMeshRenderer*> meshes = 
-			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (ComponentMeshRenderer* mesh : meshes) 
-		{
-			mesh->DrawHighlight();
-		}
-	}
-}
-
 void GameObject::SaveOptions(Json& meta)
 {
 	unsigned long long newParentUID = 0;
@@ -232,8 +179,8 @@ void GameObject::LoadOptions(Json& meta)
 
 			ComponentType type = GetTypeByName(jsonComponent["type"]);
 			
-			if (type == ComponentType::UNKNOWN) return;
-
+			if (type == ComponentType::UNKNOWN) 
+				continue;
 			Component* component;
 			if (type == ComponentType::LIGHT)
 			{
@@ -250,9 +197,16 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
-void GameObject::InitNewEmptyGameObject()
+void GameObject::InitNewEmptyGameObject(bool is3D)
 {
-	CreateComponent(ComponentType::TRANSFORM);
+	if (is3D)
+	{
+		CreateComponent(ComponentType::TRANSFORM);
+	}
+	else 
+	{
+		CreateComponent(ComponentType::TRANSFORM2D);
+	}
 }
 
 void GameObject::MoveParent(GameObject* newParent)
@@ -298,6 +252,15 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 		if (transform != nullptr)
 		{
 			transform->UpdateTransformMatrices();
+		}
+		else
+		{
+			ComponentTransform2D* transform2D =
+				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			if (transform2D)
+			{
+				transform2D->CalculateMatrices();
+			}
 		}
 		children.push_back(std::move(child));
 	}
@@ -474,6 +437,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::TRANSFORM2D:
+		{
+			newComponent = std::make_unique<ComponentTransform2D>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHRENDERER:
 		{
 			newComponent = std::make_unique<ComponentMeshRenderer>(true, this);
@@ -508,6 +477,30 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
+
+		case ComponentType::CANVAS:
+		{
+			newComponent = std::make_unique<ComponentCanvas>(true, this);
+			break;
+		}
+
+		case ComponentType::IMAGE:
+		{
+			newComponent = std::make_unique<ComponentImage>(true, this);
+			break;
+		}
+
+		case ComponentType::BUTTON:
+		{
+			newComponent = std::make_unique<ComponentButton>(true, this);
+			break;
+		}
+
+		case ComponentType::BOUNDINGBOX2D:
+		{
+			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
 			break;
 		}
 
@@ -695,12 +688,46 @@ void GameObject::CalculateBoundingBoxes()
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	objectOBB = localAABB;
-	objectOBB.Transform(transform->GetGlobalMatrix());
-	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	if (transform)
+	{
+		objectOBB = localAABB;
+		objectOBB.Transform(transform->GetGlobalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
+	else
+	{
+		//TODO Calculate BoundingBox of Transform2D Object
+		ComponentTransform2D* transform2D =
+			static_cast<ComponentTransform2D*>(GetComponent(ComponentType::TRANSFORM2D));
+		objectOBB = localAABB;
+		objectOBB.Transform(transform2D->GetLocalMatrix());
+		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+	}
 }
 
 void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
+}
+
+void GameObject::SetParentAsChildSelected()
+{
+	if (parent)
+	{
+		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+		parent->SetParentAsChildSelected();
+	}
+}
+
+
+ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
+{
+	while (parent != nullptr) {
+		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
+		if (canvas) {
+			return canvas;
+		}
+		parent = parent->GetParent();
+	}
+	return nullptr;
 }

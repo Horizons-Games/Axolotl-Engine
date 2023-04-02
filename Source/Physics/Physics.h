@@ -21,6 +21,7 @@ class Physics
 {
 public:
 	static bool ScreenPointToRay(const float2& mousePosition, LineSegment& ray);
+	static float2 ScreenToScenePosition(const float2& mousePosition);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
 	static bool HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance);
 

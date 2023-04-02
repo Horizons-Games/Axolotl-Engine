@@ -10,13 +10,14 @@
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentPlayer.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() {};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -35,7 +36,7 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
-	if (player && App->camera->GetSelectedPosition() == 0)
+	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
@@ -59,6 +60,7 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
 {
 	player = std::move(newPlayer);
+	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -66,10 +68,9 @@ Camera* ModulePlayer::GetCameraPlayer()
 	return cameraPlayer;
 }
 
-
 void ModulePlayer::Move()
 {
-	float deltaTime = App->GetDeltaTime();
+	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
 	//Forward
@@ -129,6 +130,20 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
+			if(componentPlayer->HaveMouseActivated()) 
+			{
+				App->input->SetShowCursor(true);
+			}
+			else 
+			{
+				App->input->SetShowCursor(false);
+			}
 		}
 	}
+}
+
+
+bool ModulePlayer::IsStatic()
+{
+	return componentPlayer->IsStatic();
 }

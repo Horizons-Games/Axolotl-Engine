@@ -86,6 +86,7 @@ public:
 
 	float GetHFOV() const;
 	float GetVFOV() const;
+	float GetAspectRatio() const;
 	float GetZNear() const;
 	float GetZFar() const;
 	float GetMoveSpeed() const;
@@ -189,6 +190,11 @@ inline float Camera::GetHFOV() const
 inline float Camera::GetVFOV() const
 {
 	return math::RadToDeg(frustum->VerticalFov());
+}
+
+inline float Camera::GetAspectRatio() const
+{
+	return aspectRatio;
 }
 
 inline float Camera::GetZNear() const
