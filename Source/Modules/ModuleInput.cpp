@@ -6,7 +6,7 @@
 #include "ModuleUI.h"
 #include "Scene/Scene.h"
 #include "imgui_impl_sdl.h"
-
+#include "Scripting.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -100,6 +100,12 @@ update_status ModuleInput::Update()
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
         status = update_status::UPDATE_STOP;
+    }
+
+    if (keyboard[SDL_SCANCODE_P])
+    {
+        int nscript = fnScripting();
+        ENGINE_LOG("%d", nscript);
     }
 
     SDL_Event sdlEvent;
