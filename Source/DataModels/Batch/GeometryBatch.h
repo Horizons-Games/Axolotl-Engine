@@ -78,28 +78,29 @@ private:
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;
+	int maxSize;
 
-	unsigned int ebo = 0;
-	unsigned int vao = 0;
+	unsigned int ebo;
+	unsigned int vao;
 	
-	unsigned int indirectBuffer = 0;
-	unsigned int verticesBuffer = 0;
-	unsigned int textureBuffer = 0;
-	unsigned int normalsBuffer = 0;
-	unsigned int tangentsBuffer = 0;
-	unsigned int transforms = 0;
-	unsigned int materials = 0;
+	unsigned int indirectBuffer;
+	unsigned int verticesBuffer;
+	unsigned int textureBuffer;
+	unsigned int normalsBuffer;
+	unsigned int tangentsBuffer;
+	unsigned int transforms;
+	unsigned int materials;
 
-	bool createBuffers = true;
-	bool reserveModelSpace = true;
+	bool createBuffers;
+	bool reserveModelSpace;
 
-	unsigned int numTotalVertices = 0;
-	unsigned int numTotalIndices = 0;
-	unsigned int numTotalFaces = 0;
+	unsigned int numTotalVertices;
+	unsigned int numTotalIndices;
+	unsigned int numTotalFaces;
 
 	Program* program;
 
-	int flags = 0;
+	int flags;
 };
 
 inline const int GeometryBatch::GetFlags() const

@@ -17,7 +17,8 @@
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
-GeometryBatch::GeometryBatch()
+GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), maxSize(0), 
+createBuffers(true), reserveModelSpace(true), flags(0)
 {
 	//initialize buffers
 	glGenVertexArrays(1, &vao);
