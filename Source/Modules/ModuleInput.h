@@ -1,6 +1,7 @@
 #pragma once
 #include "Math/float2.h"
 #include "Module.h"
+#include "SDL.h"
 
 #define NUM_MOUSEBUTTONS 5
 #define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
