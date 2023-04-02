@@ -87,6 +87,11 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
 		unsigned int nodeHeader[2] = { node->name.size(), node->meshRenderers.size() };
@@ -111,16 +116,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		meshesUIDs.reserve(node->meshRenderers.size());
 		for (int i = 0; i < node->meshRenderers.size(); i++)
 		{
-	#ifdef ENGINE
-			Json jsonMeshes = meta["MeshesAssetPaths"];
-			jsonMeshes[i] = node->meshRenderers[i].first->GetAssetsPath().c_str();
-	#endif
+#ifdef ENGINE
+			jsonMeshes[countMeshes] = node->meshRenderers[i].first->GetAssetsPath().c_str();
+#endif
 			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
-		}
 
-		if (node->meshRenderers.size() > 0)
-		{
-			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			++countMeshes;
+
+			bytes = sizeof(UID);
 			memcpy(cursor, &(meshesUIDs[0]), bytes);
 
 			cursor += bytes;
@@ -130,16 +133,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		materialsUIDs.reserve(node->meshRenderers.size());
 		for (int i = 0; i < node->meshRenderers.size(); i++)
 		{
-	#ifdef ENGINE
-			Json jsonMat = meta["MatAssetPaths"];
-			jsonMat[i] = node->meshRenderers[i].second->GetAssetsPath().c_str();
-	#endif
+#ifdef ENGINE
+			jsonMat[countMat] = node->meshRenderers[i].second->GetAssetsPath().c_str();
+#endif
 			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
-		}
 
-		if (node->meshRenderers.size() > 0)
-		{
-			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			++countMat;
+
+			bytes = sizeof(UID);
 			memcpy(cursor, &(materialsUIDs[0]), bytes);
 
 			cursor += bytes;
@@ -174,6 +175,11 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<ResourceModel::Node*> nodes;
 	nodes.reserve(header[0]);
 
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+
 	for(unsigned int i = 0; i < header[0]; ++i)
 	{
 		ResourceModel::Node* node = new ResourceModel::Node;
@@ -207,15 +213,18 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		node->meshRenderers.reserve(nodeHeader[1]);
 
 #ifdef  ENGINE
-		Json jsonMeshes = meta["MeshesAssetPaths"];
-		Json jsonMat = meta["MatAssetPaths"];
 		for (int i = 0; i < nodeHeader[1]; i++)
 		{
-			std::string meshPath = jsonMeshes[i];
-			std::string matPath = jsonMat[i];
+			std::string meshPath = jsonMeshes[countMeshes];
+			std::string matPath = jsonMat[countMat];
+
 			std::shared_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(meshPath);
 			std::shared_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(matPath);
+
 			node->meshRenderers.push_back(std::make_pair(mesh, material));
+
+			++countMeshes;
+			++countMat;
 
 			fileBuffer += sizeof(UID) * 2;
 		}
@@ -250,10 +259,10 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 }
 
 void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource,
-	const aiNode* node, int parentIdx)
+	const aiNode* node, const int parentIdx)
 {
 	std::string name = node->mName.C_Str();
-	float4x4 transform = (*(float4x4*)&node->mTransformation);
+	const float4x4 transform = (*(float4x4*)&node->mTransformation);
 	ResourceModel::Node* resourceNode = new ResourceModel::Node;
 
 	resourceNode->name = &name[0];
@@ -265,7 +274,7 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, std::
 	{
 		ENGINE_LOG("Parent node name: %s", node->mParent->mName.C_Str());
 	}
-	ENGINE_LOG("Node parentIdx: %i \n\n", parentIdx);
+	ENGINE_LOG("Node parentIdx: %i", parentIdx);
 
 	// loading meshes and materials
 	for (int i = 0; i < node->mNumMeshes; ++i)
@@ -273,12 +282,17 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, std::
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
+		ENGINE_LOG("Importing mesh %s", mesh->mName.C_Str());
+		ENGINE_LOG("Importing material %s", material->GetName().C_Str());
+
 		std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
 		std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
 
 		resourceNode->meshRenderers.push_back(std::make_pair(resourceMesh, resourceMaterial));
 	}
 	resource->AppendNode(resourceNode);
+
+	ENGINE_LOG("\n", parentIdx);
 
 	int newParentIdx = resource->GetNumNodes() - 1;
 

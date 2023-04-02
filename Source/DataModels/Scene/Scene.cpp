@@ -149,6 +149,21 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 		GameObject* gameObjectNode = CreateGameObject(&node->name[0], parentsStack.top().second);
 
+		ComponentTransform* transformNode = 
+			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
+
+		float3 pos;
+		float3 scale;
+		float4x4 rot;
+
+		node->transform.Decompose(pos, rot, scale);
+
+		transformNode->SetPosition(pos);
+		transformNode->SetRotation(rot);
+		transformNode->SetScale(scale);
+
+		transformNode->UpdateTransformMatrices();
+
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 		
 		for (std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>> meshRenderer :
