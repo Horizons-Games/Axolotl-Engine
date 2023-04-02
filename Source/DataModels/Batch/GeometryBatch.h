@@ -60,6 +60,8 @@ public:
 	void UpdateMaterial();
 	bool CleanUp();
 
+	bool updateMaterial = true;
+
 private:
 
 	void FillBuffers();

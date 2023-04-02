@@ -231,8 +231,8 @@ void GameObject::LoadOptions(Json& meta)
 
 			ComponentType type = GetTypeByName(jsonComponent["type"]);
 			
-			if (type == ComponentType::UNKNOWN) return;
-
+			if (type == ComponentType::UNKNOWN) 
+				continue;
 			Component* component;
 			if (type == ComponentType::LIGHT)
 			{

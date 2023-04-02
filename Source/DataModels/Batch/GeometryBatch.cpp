@@ -34,6 +34,10 @@ GeometryBatch::GeometryBatch()
 GeometryBatch::~GeometryBatch()
 {
 	componentsInBatch.clear();
+	for (ResourceInfo* resourceInfo : resourcesInfo)
+	{
+		delete resourceInfo;
+	}
 	resourcesInfo.clear();
 	resourcesMaterial.clear();
 	instanceData.clear();
@@ -415,7 +419,10 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 
 void GeometryBatch::UpdateMaterial()
 {
-	FillMaterial();
+	if (updateMaterial)
+	{
+		FillMaterial();
+	}
 }
 
 bool GeometryBatch::CleanUp()
