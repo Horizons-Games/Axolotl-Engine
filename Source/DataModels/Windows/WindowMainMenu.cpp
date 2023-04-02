@@ -10,8 +10,13 @@ const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-
 bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>& editorWindows) :
-	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE),
-	about(std::make_unique<WindowAbout>()), loadScene(std::make_unique<WindowLoadScene>()),
+	Window("Main Menu"),
+	showAbout(false),
+	openPopup(false),
+	isSaving(false),
+	action(Actions::NONE),
+	about(std::make_unique<WindowAbout>()),
+	loadScene(std::make_unique<WindowLoadScene>()),
 	saveScene(std::make_unique<WindowSaveScene>())
 {
 	for (const std::unique_ptr<EditorWindow>& window : editorWindows)

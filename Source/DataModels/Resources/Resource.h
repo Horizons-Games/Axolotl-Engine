@@ -87,7 +87,9 @@ inline Resource::Resource(UID resourceUID,
 						  const std::string& assetsPath,
 						  const std::string& libraryPath) :
 	uid(resourceUID),
-	fileName(fileName), assetsPath(assetsPath), libraryPath(libraryPath)
+	fileName(fileName),
+	assetsPath(assetsPath),
+	libraryPath(libraryPath)
 {
 }
 

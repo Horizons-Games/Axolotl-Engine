@@ -11,7 +11,8 @@ ResourceModel::ResourceModel(UID resourceUID,
 							 const std::string& assetsPath,
 							 const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	numMaterials(0), numMeshes(0)
+	numMaterials(0),
+	numMeshes(0)
 {
 }
 

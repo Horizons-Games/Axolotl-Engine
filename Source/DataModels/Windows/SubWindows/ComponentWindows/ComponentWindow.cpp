@@ -92,7 +92,9 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 }
 
 ComponentWindow::ComponentWindow(const std::string& name, Component* component) :
-	SubWindow(name), component(component), windowUUID(UniqueID::GenerateUUID())
+	SubWindow(name),
+	component(component),
+	windowUUID(UniqueID::GenerateUUID())
 {
 	flags |= ImGuiTreeNodeFlags_DefaultOpen;
 }

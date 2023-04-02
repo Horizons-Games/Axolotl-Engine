@@ -14,9 +14,15 @@
 #include "Scene/Scene.h"
 
 WindowScene::WindowScene() :
-	EditorWindow("Scene"), texture(0), currentWidth(0), currentHeight(0),
-	gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), gizmoCurrentMode(ImGuizmo::MODE::LOCAL),
-	manipulatedLastFrame(false), useSnap(false), snap(float3(1.f, 1.f, 1.f))
+	EditorWindow("Scene"),
+	texture(0),
+	currentWidth(0),
+	currentHeight(0),
+	gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE),
+	gizmoCurrentMode(ImGuizmo::MODE::LOCAL),
+	manipulatedLastFrame(false),
+	useSnap(false),
+	snap(float3(1.f, 1.f, 1.f))
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_MenuBar;
 }

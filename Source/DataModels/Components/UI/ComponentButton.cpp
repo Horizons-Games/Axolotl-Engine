@@ -4,8 +4,12 @@
 #include "ModuleScene.h"
 
 ComponentButton::ComponentButton(bool active, GameObject* owner) :
-	Component(ComponentType::BUTTON, active, owner, true), colorClicked(0.5f, 0.5f, 0.5f),
-	colorHovered(0.7f, 0.7f, 0.7f), clicked(false), hovered(false), sceneName("CLICKED!")
+	Component(ComponentType::BUTTON, active, owner, true),
+	colorClicked(0.5f, 0.5f, 0.5f),
+	colorHovered(0.7f, 0.7f, 0.7f),
+	clicked(false),
+	hovered(false),
+	sceneName("CLICKED!")
 {
 }
 

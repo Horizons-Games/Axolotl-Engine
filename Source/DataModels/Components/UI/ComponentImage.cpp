@@ -21,7 +21,8 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner) :
-	Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
+	Component(ComponentType::IMAGE, active, owner, true),
+	color(float3(1.0f, 1.0f, 1.0f))
 {
 	// provisional TODO
 	LoadVBO();

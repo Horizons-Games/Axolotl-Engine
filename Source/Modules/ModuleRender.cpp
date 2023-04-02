@@ -105,8 +105,13 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 }
 
 ModuleRender::ModuleRender() :
-	context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), depthStencilRenderbuffer(0),
-	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+	context(nullptr),
+	modelTypes({ "FBX" }),
+	frameBuffer(0),
+	renderedTexture(0),
+	depthStencilRenderbuffer(0),
+	vertexShader("default_vertex.glsl"),
+	fragmentShader("default_fragment.glsl")
 {
 }
 

@@ -3,8 +3,13 @@
 #include "Application.h"
 
 WindowFPS::WindowFPS() :
-	SubWindow("FPS"), fpsCaptures(100), timeCaptures(100), currentFpsIndex(0), currentTimeIndex(0),
-	fpsHist(std::vector<float>(fpsCaptures)), timeHist(std::vector<float>(timeCaptures)) // all values will be zero
+	SubWindow("FPS"),
+	fpsCaptures(100),
+	timeCaptures(100),
+	currentFpsIndex(0),
+	currentTimeIndex(0),
+	fpsHist(std::vector<float>(fpsCaptures)),
+	timeHist(std::vector<float>(timeCaptures)) // all values will be zero
 {
 }
 

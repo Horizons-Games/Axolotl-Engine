@@ -7,7 +7,9 @@
 #include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
 
 WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
-	WindowFileBrowser(), windowComponent(material), textureType(textureType)
+	WindowFileBrowser(),
+	windowComponent(material),
+	textureType(textureType)
 {
 	dialogName = "Select Texture";
 

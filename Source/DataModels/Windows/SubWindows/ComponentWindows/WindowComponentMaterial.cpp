@@ -12,7 +12,8 @@
 #include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
-	ComponentWindow("MATERIAL", component), inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	ComponentWindow("MATERIAL", component),
+	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	// inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),

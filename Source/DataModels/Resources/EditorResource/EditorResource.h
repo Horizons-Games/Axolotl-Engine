@@ -32,7 +32,8 @@ inline EditorResource<R>::EditorResource(UID resourceUID,
 										 const std::string& assetsPath,
 										 const std::string& libraryPath) :
 	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	R(resourceUID, fileName, assetsPath, libraryPath), toDelete(false)
+	R(resourceUID, fileName, assetsPath, libraryPath),
+	toDelete(false)
 {
 }
 

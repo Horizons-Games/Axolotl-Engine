@@ -11,8 +11,10 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 ComponentCanvas::ComponentCanvas(bool active, GameObject* owner) :
-	Component(ComponentType::CANVAS, active, owner, true), screenReferenceSize(float2(1920, 1080)),
-	size(float2(1920, 1080)), screenFactor(0.0f)
+	Component(ComponentType::CANVAS, active, owner, true),
+	screenReferenceSize(float2(1920, 1080)),
+	size(float2(1920, 1080)),
+	screenFactor(0.0f)
 {
 	RecalculateSizeAndScreenFactor();
 }

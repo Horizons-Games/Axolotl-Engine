@@ -8,10 +8,20 @@
 #include "Math/float3x3.h"
 
 ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner) :
-	Component(ComponentType::TRANSFORM2D, active, owner, true), pos(float3::zero), rot(float4x4::identity),
-	sca(float3::one), globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
-	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity), pivot(float2(0.5, 0.5)),
-	size(float2(200, 200)), anchorMin(float2(0.5, 0.5)), anchorMax(float2(0.5, 0.5))
+	Component(ComponentType::TRANSFORM2D, active, owner, true),
+	pos(float3::zero),
+	rot(float4x4::identity),
+	sca(float3::one),
+	globalPos(float3::zero),
+	globalRot(float4x4::identity),
+	globalSca(float3::one),
+	rotXYZ(float3::zero),
+	localMatrix(float4x4::identity),
+	globalMatrix(float4x4::identity),
+	pivot(float2(0.5, 0.5)),
+	size(float2(200, 200)),
+	anchorMin(float2(0.5, 0.5)),
+	anchorMax(float2(0.5, 0.5))
 {
 }
 

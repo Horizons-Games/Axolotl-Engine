@@ -16,16 +16,30 @@
 #include <queue>
 
 Quadtree::Quadtree(const AABB& boundingBox) :
-	boundingBox(boundingBox), parent(nullptr), isFreezed(false), quadrantCapacity(QUADRANT_CAPACITY),
-	minQuadrantSideSize(MIN_CUBE_SIZE), minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
-	frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
+	boundingBox(boundingBox),
+	parent(nullptr),
+	isFreezed(false),
+	quadrantCapacity(QUADRANT_CAPACITY),
+	minQuadrantSideSize(MIN_CUBE_SIZE),
+	minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+	frontRightNode(nullptr),
+	frontLeftNode(nullptr),
+	backLeftNode(nullptr),
+	backRightNode(nullptr)
 {
 }
 
 Quadtree::Quadtree(const AABB& boundingBox, Quadtree* parent) :
-	boundingBox(boundingBox), parent(parent), isFreezed(false), quadrantCapacity(QUADRANT_CAPACITY),
-	minQuadrantSideSize(MIN_CUBE_SIZE), minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
-	frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
+	boundingBox(boundingBox),
+	parent(parent),
+	isFreezed(false),
+	quadrantCapacity(QUADRANT_CAPACITY),
+	minQuadrantSideSize(MIN_CUBE_SIZE),
+	minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+	frontRightNode(nullptr),
+	frontLeftNode(nullptr),
+	backLeftNode(nullptr),
+	backRightNode(nullptr)
 {
 }
 

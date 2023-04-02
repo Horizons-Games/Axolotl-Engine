@@ -11,7 +11,9 @@
 #include "Physics/Physics.h"
 
 ComponentMockState::ComponentMockState(bool active, GameObject* owner) :
-	Component(ComponentType::MOCKSTATE, active, owner, true), isWinState(false), isFailState(false)
+	Component(ComponentType::MOCKSTATE, active, owner, true),
+	isWinState(false),
+	isFailState(false)
 {
 }
 

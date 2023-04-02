@@ -34,8 +34,15 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
-	name(name), uid(uid), enabled(true), active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED),
-	localAABB({ { 0, 0, 0 }, { 0, 0, 0 } }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	name(name),
+	uid(uid),
+	enabled(true),
+	active(true),
+	parent(nullptr),
+	stateOfSelection(StateOfSelection::NO_SELECTED),
+	localAABB({ { 0, 0, 0 }, { 0, 0, 0 } }),
+	encapsuledAABB(localAABB),
+	objectOBB({ localAABB }),
 	drawBoundingBoxes(false)
 {
 }
@@ -53,9 +60,16 @@ GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject
 }
 
 GameObject::GameObject(const GameObject& gameObject) :
-	name(gameObject.GetName()), parent(gameObject.GetParent()), uid(UniqueID::GenerateUID()), enabled(true),
-	active(true), localAABB(gameObject.localAABB), encapsuledAABB(localAABB),
-	stateOfSelection(StateOfSelection::NO_SELECTED), objectOBB({ localAABB }), drawBoundingBoxes(false)
+	name(gameObject.GetName()),
+	parent(gameObject.GetParent()),
+	uid(UniqueID::GenerateUID()),
+	enabled(true),
+	active(true),
+	localAABB(gameObject.localAABB),
+	encapsuledAABB(localAABB),
+	stateOfSelection(StateOfSelection::NO_SELECTED),
+	objectOBB({ localAABB }),
+	drawBoundingBoxes(false)
 {
 	for (auto component : gameObject.GetComponents())
 	{

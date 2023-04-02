@@ -21,7 +21,8 @@
 #include "FileSystem/Json.h"
 
 ComponentBoundingBox2D::ComponentBoundingBox2D(bool active, GameObject* owner) :
-	Component(ComponentType::BOUNDINGBOX2D, active, owner, false), localAABB({ { 0, 0 }, { 0, 0 } }),
+	Component(ComponentType::BOUNDINGBOX2D, active, owner, false),
+	localAABB({ { 0, 0 }, { 0, 0 } }),
 	worldAABB(localAABB)
 {
 	ComponentTransform2D* transform2D = (ComponentTransform2D*) (GetOwner()->GetComponent(ComponentType::TRANSFORM2D));

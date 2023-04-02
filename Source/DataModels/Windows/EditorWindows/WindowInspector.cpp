@@ -15,7 +15,10 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 WindowInspector::WindowInspector() :
-	EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
+	EditorWindow("Inspector"),
+	lastSelectedObjectUID(0),
+	bbDrawn(false),
+	lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }

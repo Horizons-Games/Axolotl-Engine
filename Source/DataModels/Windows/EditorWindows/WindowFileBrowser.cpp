@@ -8,8 +8,12 @@
 #include "ModuleScene.h"
 
 WindowFileBrowser::WindowFileBrowser() :
-	EditorWindow("File Browser"), title(ICON_IGFD_FOLDER " Import Asset"), dialogName("Choose File"), filters(".*"),
-	startPath("."), browserPath(fileDialogBrowser.GetCurrentPath() + "Assets")
+	EditorWindow("File Browser"),
+	title(ICON_IGFD_FOLDER " Import Asset"),
+	dialogName("Choose File"),
+	filters(".*"),
+	startPath("."),
+	browserPath(fileDialogBrowser.GetCurrentPath() + "Assets")
 {
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);

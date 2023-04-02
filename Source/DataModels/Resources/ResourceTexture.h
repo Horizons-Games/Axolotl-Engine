@@ -46,8 +46,11 @@ struct LoadOptionsTexture
 	bool mipMap;
 
 	LoadOptionsTexture() :
-		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR), mag(TextureMagFilter::LINEAR), wrapS(TextureWrap::REPEAT),
-		wrapT(TextureWrap::REPEAT), mipMap(true)
+		min(TextureMinFilter::LINEAR_MIPMAP_LINEAR),
+		mag(TextureMagFilter::LINEAR),
+		wrapS(TextureWrap::REPEAT),
+		wrapT(TextureWrap::REPEAT),
+		mipMap(true)
 	{
 	}
 };

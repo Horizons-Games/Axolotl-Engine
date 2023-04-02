@@ -10,17 +10,29 @@
 #include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
-	Component(ComponentType::TRANSFORM, active, owner, false), pos(float3::zero), rot(float4x4::identity),
-	sca(float3::one), globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
-	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	Component(ComponentType::TRANSFORM, active, owner, false),
+	pos(float3::zero),
+	rot(float4x4::identity),
+	sca(float3::one),
+	globalPos(float3::zero),
+	globalRot(float4x4::identity),
+	globalSca(float3::one),
+	rotXYZ(float3::zero),
+	localMatrix(float4x4::identity),
+	globalMatrix(float4x4::identity)
 {
 }
 
 ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform) :
-	Component(componentTransform), pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
-	sca(componentTransform.GetScale()), globalPos(componentTransform.GetGlobalPosition()),
-	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
-	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
+	Component(componentTransform),
+	pos(componentTransform.GetPosition()),
+	rot(componentTransform.GetRotation()),
+	sca(componentTransform.GetScale()),
+	globalPos(componentTransform.GetGlobalPosition()),
+	globalRot(componentTransform.GetGlobalRotation()),
+	globalSca(componentTransform.GetGlobalScale()),
+	rotXYZ(componentTransform.GetRotationXYZ()),
+	localMatrix(componentTransform.GetLocalMatrix()),
 	globalMatrix(componentTransform.GetGlobalMatrix())
 {
 }

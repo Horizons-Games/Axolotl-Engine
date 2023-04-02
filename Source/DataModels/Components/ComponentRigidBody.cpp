@@ -19,7 +19,10 @@
 #include <iostream>
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
-	Component(ComponentType::RIGIDBODY, active, owner, true), isKinematic(true), m(1.0f), g(9.81f),
+	Component(ComponentType::RIGIDBODY, active, owner, true),
+	isKinematic(true),
+	m(1.0f),
+	g(9.81f),
 	v0(float3(0.0f, 0.0f, 0.0f))
 {
 }

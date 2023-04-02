@@ -202,9 +202,18 @@ public:
 	//
 
 	DDRenderInterfaceCoreGL() :
-		mvpMatrix(), width(0), height(0), linePointProgram(0), linePointProgram_MvpMatrixLocation(-1), textProgram(0),
-		textProgram_GlyphTextureLocation(-1), textProgram_ScreenDimensions(-1), linePointVAO(0), linePointVBO(0),
-		textVAO(0), textVBO(0)
+		mvpMatrix(),
+		width(0),
+		height(0),
+		linePointProgram(0),
+		linePointProgram_MvpMatrixLocation(-1),
+		textProgram(0),
+		textProgram_GlyphTextureLocation(-1),
+		textProgram_ScreenDimensions(-1),
+		linePointVAO(0),
+		linePointVBO(0),
+		textVAO(0),
+		textVBO(0)
 	{
 		// std::printf("\n");
 		// std::printf("GL_VENDOR    : %s\n",   glGetString(GL_VENDOR));

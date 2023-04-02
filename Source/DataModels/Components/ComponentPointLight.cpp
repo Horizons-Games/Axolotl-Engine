@@ -21,22 +21,26 @@ ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, tr
 }
 
 ComponentPointLight::ComponentPointLight(const ComponentPointLight& componentPointLight) :
-	ComponentLight(componentPointLight), radius(componentPointLight.GetRadius())
+	ComponentLight(componentPointLight),
+	radius(componentPointLight.GetRadius())
 {
 }
 
 ComponentPointLight::ComponentPointLight(GameObject* parent) :
-	ComponentLight(LightType::POINT, parent, true), radius(1.0f)
+	ComponentLight(LightType::POINT, parent, true),
+	radius(1.0f)
 {
 }
 
 ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity) :
-	ComponentLight(LightType::POINT, color, intensity, true), radius(radius)
+	ComponentLight(LightType::POINT, color, intensity, true),
+	radius(radius)
 {
 }
 
 ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity, GameObject* parent) :
-	ComponentLight(LightType::POINT, color, intensity, parent, true), radius(radius)
+	ComponentLight(LightType::POINT, color, intensity, parent, true),
+	radius(radius)
 {
 }
 

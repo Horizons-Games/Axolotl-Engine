@@ -6,7 +6,8 @@
 #include "Resources/ResourceMesh.h"
 
 WindowMeshInput::WindowMeshInput(ComponentMeshRenderer* componentMesh) :
-	WindowFileBrowser(), componentMesh(componentMesh)
+	WindowFileBrowser(),
+	componentMesh(componentMesh)
 {
 	dialogName = "Select Mesh";
 	title = "Load Mesh";

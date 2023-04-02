@@ -6,7 +6,8 @@
 #include "Resources/ResourceMaterial.h"
 
 WindowMaterialInput::WindowMaterialInput(ComponentMaterial* componentMaterial) :
-	WindowFileBrowser(), componentMaterial(componentMaterial)
+	WindowFileBrowser(),
+	componentMaterial(componentMaterial)
 {
 	dialogName = "Select Material";
 	title = "Load Material";
