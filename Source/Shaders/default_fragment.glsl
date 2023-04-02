@@ -97,7 +97,10 @@ float smithVisibility(float dotNL, float dotNV, float roughness)
 
 float GGXNormalDistribution(float dotNH, float roughness)
 {
-    return roughness*roughness/(M_PI*max((dotNH*dotNH*(roughness*roughness-1.0)+1.0)*(dotNH*dotNH*(roughness*roughness-1.0)+1.0), EPSILON));
+    float squareRoughness = roughness*roughness;
+    float squareNH = dotNH*dotNH;
+
+    return squareRoughness/(M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
