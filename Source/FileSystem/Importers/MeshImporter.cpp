@@ -54,7 +54,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		size += (*resource->GetBones()[i]).name.size();
+		size += resource->GetBones()[i].name.size();
 	}
 	
 	char* cursor = new char[size];
@@ -106,29 +106,79 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 		cursor += bytes;
 	}
 
+	unsigned int verticesPerBone = 0u;
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
 		bytes = sizeof(float4x4);
-		memcpy(cursor, &((*resource->GetBones()[i]).transform), bytes);
+		memcpy(cursor, &(resource->GetBones()[i].transform), bytes);
 
 		cursor += bytes;
 
-		bytes = (*resource->GetBones()[i]).name.size();
-		memcpy(cursor, &((*resource->GetBones()[i]).name), bytes);
-		
+		bytes = resource->GetBones()[i].name.size();
+		memcpy(cursor, &(resource->GetBones()[i].name), bytes);
+
 		cursor += bytes;
 
-		for (unsigned int j = 0; j < bonesPerVertex; ++j)
+		for (unsigned int j = 0; j < resource->GetNumVertices(); ++j)
 		{
-			bytes = sizeof(unsigned int);
-			memcpy(cursor, &(resource->GetAttaches()[i]->bones[j]), bytes);
+			if (verticesPerBone == 4)
+			{
+				verticesPerBone = 0;
+				break;
+			}
+			
+			if (resource->GetAttaches()[j].bones[0] == i)
+			{
+				bytes = sizeof(unsigned int);
+				memcpy(cursor, &(j), bytes);
 
-			cursor += bytes;
+				cursor += bytes;
 
-			bytes = sizeof(float);
-			memcpy(cursor, &(resource->GetAttaches()[i]->weights[j]), bytes);
+				bytes = sizeof(float);
+				memcpy(cursor, &(resource->GetAttaches()[j].weights[0]), bytes);
 
-			cursor += bytes;
+				cursor += bytes;
+				++verticesPerBone;
+			}
+			else if (resource->GetAttaches()[j].bones[1] == i)
+			{
+				bytes = sizeof(unsigned int);
+				memcpy(cursor, &(j), bytes);
+
+				cursor += bytes;
+
+				bytes = sizeof(float);
+				memcpy(cursor, &(resource->GetAttaches()[j].weights[1]), bytes);
+
+				cursor += bytes;
+				++verticesPerBone;
+			}
+			else if (resource->GetAttaches()[j].bones[2] == i)
+			{
+				bytes = sizeof(unsigned int);
+				memcpy(cursor, &(j), bytes);
+
+				cursor += bytes;
+
+				bytes = sizeof(float);
+				memcpy(cursor, &(resource->GetAttaches()[j].weights[2]), bytes);
+
+				cursor += bytes;
+				++verticesPerBone;
+			}
+			else if (resource->GetAttaches()[j].bones[3] == i)
+			{
+				bytes = sizeof(unsigned int);
+				memcpy(cursor, &(j), bytes);
+
+				cursor += bytes;
+
+				bytes = sizeof(float);
+				memcpy(cursor, &(resource->GetAttaches()[j].weights[3]), bytes);
+
+				cursor += bytes;
+				++verticesPerBone;
+			}
 		}
 	}
 }
@@ -206,77 +256,46 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	delete[] indexesPointer;
 
-	float4x4* transformPointer = new float4x4[resource->GetNumBones()];
-	bytes = resource->GetNumBones() * sizeof(float4x4);
-	memcpy(transformPointer, fileBuffer, bytes);
-	fileBuffer += bytes;
-
-	std::vector<unsigned int> nameSizes;
-	unsigned int nameSize = 0u;
-	unsigned int auxNameSize = 0u;
+	std::vector<Bone> bones;
+	std::vector<Attach> attaches;
+	unsigned int verticesPerBone = 0u;
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		while ((fileBuffer[i + nameSize + auxNameSize]) != '\0')
+		Bone bone;
+		memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
+		fileBuffer += sizeof(float4x4);
+
+		std::string name;
+		while (*fileBuffer != '\0')
 		{
-			++auxNameSize;
+			bone.name.push_back(*fileBuffer);
+			++fileBuffer;
 		}
 
-		nameSizes.push_back(auxNameSize);
-		nameSize += auxNameSize;
-		auxNameSize = 0;
+		++fileBuffer;
+
+		bones.push_back(bone);
+
+		Attach attach;
+		for (unsigned int j = 0; j < resource->GetNumVertices(); ++j)
+		{
+			if (verticesPerBone == 4)
+			{
+				verticesPerBone = 0;
+				break;
+			}
+
+			if (*fileBuffer == j)
+			{
+				attach.bones[verticesPerBone] = i;
+				fileBuffer += sizeof(unsigned int);
+
+				memcpy(&attach.weights[verticesPerBone], fileBuffer, sizeof(float));
+				fileBuffer += sizeof(float);
+				++verticesPerBone;
+			}
+		}
+
+		attaches.push_back(attach);
 	}
-
-	char* namePointer = new char[nameSize];
-	bytes = nameSize;
-	memcpy(namePointer, fileBuffer, bytes);
-	fileBuffer += bytes;
-
-	std::string auxName;
-	float4x4 auxTransform;
-	std::vector<Bone*> bones;
-	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
-	{
-		memcpy(&auxName, namePointer, nameSizes.at(i));
-
-		namePointer += nameSizes.at(i);
-
-		memcpy(&auxTransform, transformPointer, sizeof(float4x4));
-		
-		transformPointer += sizeof(float4x4);
-
-		bones.push_back(new Bone(auxTransform, auxName));
-	}
-	resource->SetBones(bones);
-
-	delete[] namePointer;
-	delete[] transformPointer;
-
-	size = 4 * resource->GetNumVertices();
-	unsigned int* bonePointer = new unsigned int[size];
-	bytes = 4 * resource->GetNumVertices() * sizeof(unsigned int);
-	memcpy(bonePointer, fileBuffer, bytes);
-	fileBuffer += bytes;
-
-	float* weightPointer = new float[size];
-	bytes = 4 * resource->GetNumVertices() * sizeof(float);
-	memcpy(weightPointer, fileBuffer, bytes);
-	fileBuffer += bytes;
-
-	unsigned int auxBone[4] = {0u, 0u, 0u, 0u};
-	float auxWeight[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	std::vector<Attach*> attaches;
-	for (unsigned int i = 0; i + 3 < (resource->GetNumVertices() * 4); i += 4)
-	{
-		bytes = 4 * sizeof(unsigned int);
-		memcpy(&auxBone, bonePointer + i, bytes);
-
-		bytes = 4 * sizeof(float);
-		memcpy(&auxWeight, weightPointer + i, bytes);
-
-		attaches.push_back(new Attach(auxBone, auxWeight));
-	}
-	resource->SetAttaches(attaches);
-
-	delete[] bonePointer;
-	delete[] weightPointer;
 }

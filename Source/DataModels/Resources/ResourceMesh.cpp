@@ -19,12 +19,8 @@ ResourceMesh::~ResourceMesh()
 {
 	Unload();
 
-	for (const Bone* bone : bones)
-	{
-		delete bone;
-	}
-
 	bones.clear();
+	attaches.clear();
 }
 
 void ResourceMesh::InternalLoad()
