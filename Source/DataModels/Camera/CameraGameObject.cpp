@@ -5,13 +5,17 @@
 #include "ModulePlayer.h"
 #include "ModuleWindow.h"
 
-CameraGameObject::CameraGameObject() : Camera(CameraType::C_GAMEOBJECT){};
+CameraGameObject::CameraGameObject() : Camera(CameraType::C_GAMEOBJECT)
+{
+}
 
 CameraGameObject::CameraGameObject(const std::unique_ptr<Camera>& camera) : Camera(camera, CameraType::C_GAMEOBJECT)
 {
 }
 
-CameraGameObject::~CameraGameObject(){};
+CameraGameObject::~CameraGameObject()
+{
+}
 
 bool CameraGameObject::Update()
 {

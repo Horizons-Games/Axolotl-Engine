@@ -24,13 +24,17 @@
 #include "Math/float3x3.h"
 #include "Physics/Physics.h"
 
-CameraEngine::CameraEngine() : Camera(CameraType::C_ENGINE){};
+CameraEngine::CameraEngine() : Camera(CameraType::C_ENGINE)
+{
+}
 
 CameraEngine::CameraEngine(const std::unique_ptr<Camera>& camera) : Camera(camera, CameraType::C_ENGINE)
 {
 }
 
-CameraEngine::~CameraEngine(){};
+CameraEngine::~CameraEngine()
+{
+}
 
 bool CameraEngine::Update()
 {
