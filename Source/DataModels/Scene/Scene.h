@@ -32,15 +32,15 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent, bool is3D = true);
-	GameObject* DuplicateGameObject(const char* name, GameObject*, GameObject* parent);
-	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
-	GameObject* CreateCanvasGameObject(const char* name, GameObject* parent);
-	GameObject* CreateUIGameObject(const char* name, GameObject* parent, ComponentType type);
-	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
+	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
+	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
+	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
+	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
+	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
-	void ConvertModelIntoGameObject(const char* model);
+	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 

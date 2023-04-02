@@ -37,7 +37,7 @@ void ComponentMockState::SaveOptions(Json& meta)
 	meta["removed"] = (bool) canBeRemoved;
 	meta["isWinState"] = (bool) GetIsWinState();
 	meta["isFailState"] = (bool) GetIsFailState();
-	meta["sceneName"] = GetSceneName();
+	meta["sceneName"] = GetSceneName().c_str();
 }
 
 void ComponentMockState::LoadOptions(Json& meta)

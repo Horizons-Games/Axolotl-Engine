@@ -81,9 +81,9 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool is3D)
+GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject(is3D);
@@ -125,9 +125,9 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool i
 	return gameObject;
 }
 
-GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
 	gameObject->MoveParent(parent);
@@ -163,7 +163,7 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	return gameObject;
 }
 
-GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponent(ComponentType::CAMERA);
@@ -172,9 +172,9 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	ComponentTransform2D* trans =
@@ -187,7 +187,7 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, ComponentType type)
+GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	switch (type)
@@ -206,7 +206,7 @@ GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, Comp
 	return gameObject;
 }
 
-GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
+GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ComponentMaterial* materialComponent =
@@ -241,7 +241,7 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	return gameObject;
 }
 
-GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, LightType type)
+GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);
@@ -254,7 +254,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	gameObject->GetParent()->RemoveChild(gameObject);
 }
 
-void Scene::ConvertModelIntoGameObject(const char* model)
+void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	// resourceModel->Load();

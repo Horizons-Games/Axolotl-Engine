@@ -11,6 +11,8 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+const std::vector<std::string> WindowComponentMaterial::renderModes = { "Opaque", "Transparent" };
+
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
 	ComponentWindow("MATERIAL", component),
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
@@ -70,9 +72,45 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
+			if (!isTransparent)
+			{
+				currentTransparentIndex = 0;
+			}
+			else
+			{
+				currentTransparentIndex = 1;
+			}
+
+			const char* currentType = renderModes[currentTransparentIndex].c_str();
+
+			ImGui::Text("Render Mode:");
+			ImGui::SameLine();
+			if (ImGui::BeginCombo("##Render mode", currentType))
+			{
+				for (int i = 0; i < renderModes.size(); i++)
+				{
+					const bool isSelected = currentTransparentIndex == i;
+					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
+					{
+						currentTransparentIndex = i;
+
+						if (renderModes[i] == "Opaque")
+						{
+							isTransparent = false;
+						}
+						if (renderModes[i] == "Transparent")
+						{
+							isTransparent = true;
+						}
+					}
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
 			ImGui::Text("Diffuse Color:");
 			ImGui::SameLine();
-			ImGui::ColorEdit3("##Diffuse Color", (float*) &colorDiffuse);
+			ImGui::ColorEdit4("##Diffuse Color", (float*) &colorDiffuse);
 
 			/*static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
@@ -198,6 +236,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 				materialResource->SetSmoothness(smoothness);
 				materialResource->SetMetalness(metalness);
 				materialResource->SetNormalStrength(normalStrength);
+				materialResource->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
 				App->resources->ReimportResource(materialResource->GetUID());
 			}
@@ -234,6 +273,7 @@ void WindowComponentMaterial::InitMaterialValues()
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
+			isTransparent = materialResource->GetTransparent();
 		}
 	}
 }

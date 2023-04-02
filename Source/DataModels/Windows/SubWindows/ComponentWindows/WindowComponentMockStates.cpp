@@ -25,7 +25,7 @@ void WindowComponentMockStates::DrawWindowContents()
 
 		bool isWinState = asMockState->GetIsWinState();
 		bool isFailState = asMockState->GetIsFailState();
-		char* sceneName = (char*) asMockState->GetSceneName();
+		std::string sceneName = asMockState->GetSceneName();
 
 		ImGui::Text("Is win state");
 		ImGui::SameLine();
@@ -43,6 +43,10 @@ void WindowComponentMockStates::DrawWindowContents()
 
 		ImGui::Text("Scene name");
 		ImGui::SameLine();
-		ImGui::InputText("##Scene name", sceneName, 24);
+		if (ImGui::InputText("##Scene name", &sceneName[0], 24))
+		{
+			// removing c_str makes it so the setter only works when tag.size >= 17. God knows why
+			asMockState->SetSceneName(sceneName.c_str());
+		}
 	}
 }

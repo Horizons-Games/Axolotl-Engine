@@ -28,18 +28,22 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
-		static char* meshPath = (char*) ("unknown");
+
+		char* meshPath;
+		ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
 
 		if (meshAsShared)
 		{
+			// this should not be done, see issue #240
 			meshPath = (char*) (meshAsShared->GetLibraryPath().c_str());
 		}
 		else
 		{
-			meshPath = (char*) ("unknown");
+			meshPath = _strdup("unknown");
+			flags |= ImGuiInputTextFlags_ReadOnly;
 		}
 
-		ImGui::InputText("##Mesh path", meshPath, 128);
+		ImGui::InputText("##Mesh path", meshPath, 128, flags);
 		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
