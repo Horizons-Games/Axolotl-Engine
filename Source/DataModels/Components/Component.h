@@ -18,6 +18,7 @@ enum class ComponentType
 	BUTTON,
 	BOUNDINGBOX2D,
 	RIGIDBODY,
+	SCRIPT,
 	MOCKSTATE
 };
 
