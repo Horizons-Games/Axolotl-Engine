@@ -460,10 +460,6 @@ void Scene::RenderPointLights() const
 		{
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 		}
-		else
-		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
-		}
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
@@ -487,10 +483,7 @@ void Scene::RenderSpotLights() const
 
 		if (numSpot > 0)
 		{
-			for (unsigned int i = 0; i < numSpot; ++i)
-			{
-				glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
-			}
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
 		}
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
