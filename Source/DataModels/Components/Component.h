@@ -156,6 +156,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
+	case ComponentType::SCRIPT:
+		return "Component_Script";
 	case ComponentType::BOUNDINGBOX2D:
 		return "Component_BoundingBox2D";
 	default:
@@ -224,6 +226,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_RigidBody")
 	{
 		return ComponentType::RIGIDBODY;
+	}
+
+	if (typeName == "Component_Script")
+	{
+		return ComponentType::SCRIPT;
 	}
 
 	if (typeName == "Component_MockState")
