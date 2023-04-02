@@ -121,15 +121,20 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		}
 	}
 
-	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
-	wideString = std::wstring(narrowString.begin(), narrowString.end());
-	path = wideString.c_str();
+	//narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
+	//wideString = std::wstring(narrowString.begin(), narrowString.end());
+	//path = wideString.c_str();
 
 	GLint internalFormat;
 	GLenum format, type;
 
 	switch (imgResult->GetMetadata().format)
 	{
+	case DXGI_FORMAT_R8_UNORM:
+		internalFormat = GL_R8;
+		format = GL_RED;
+		type = GL_BYTE;
+		break;
 	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
 	case DXGI_FORMAT_R8G8B8A8_UNORM:
 		internalFormat = GL_RGBA8;
@@ -241,6 +246,7 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 
 	delete[] pixelsPointer;
 
+#ifndef ENGINE
 	unsigned int options[5];
 	memcpy(options, fileBuffer, sizeof(options));
 
@@ -249,4 +255,5 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 	resource->GetLoadOptions().wrapS = (TextureWrap)options[2];
 	resource->GetLoadOptions().wrapT = (TextureWrap)options[3];
 	resource->GetLoadOptions().mipMap = options[4];
+#endif // ENGINE
 }

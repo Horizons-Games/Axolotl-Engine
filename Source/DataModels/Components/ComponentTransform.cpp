@@ -17,6 +17,16 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 {
 }
 
+ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform)
+	: Component(componentTransform),
+	pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
+	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),
+	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
+	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
+	globalMatrix(componentTransform.GetGlobalMatrix())
+{
+}
+
 ComponentTransform::~ComponentTransform()
 {
 }
@@ -77,7 +87,8 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		const ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		parentTransform->CalculateMatrices();
 
 		// Set local matrix
 		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);

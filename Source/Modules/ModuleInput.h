@@ -44,6 +44,7 @@ public:
 	void SetMoveCursor();
 	void SetZoomCursor();
 	void SetDefaultCursor();
+	void SetShowCursor(bool set);
 
 	bool IsMouseWheelScrolled() const;
 

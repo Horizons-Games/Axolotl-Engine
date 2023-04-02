@@ -35,11 +35,13 @@ public:
 	virtual void SaveImporterOptions(Json& meta) = 0;
 	virtual void LoadImporterOptions(Json& meta) = 0;
 
+	virtual void SaveLoadOptions(Json& meta) = 0;
+	virtual void LoadLoadOptions(Json& meta) = 0;
+
 	bool IsLoaded() const;
 
 	bool IsChanged() const;
 	void SetChanged(bool changed);
-
 
 protected:
 	Resource(UID resourceUID, 

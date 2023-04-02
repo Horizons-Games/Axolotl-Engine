@@ -39,8 +39,15 @@ public:
 	void SaveImporterOptions(Json& meta) override {};
 	void LoadImporterOptions(Json& meta) override {};
 
+	void SaveLoadOptions(Json& meta) override {};
+	void LoadLoadOptions(Json& meta) override {};
+
+	const size_t GetNumMeshes() const;
+	const size_t GetNumMaterials() const;
 	const size_t GetNumNodes() const;
 	const std::vector<Node*>& GetNodes() const;
+	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
+	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
 
 	OptionsModel& GetOptions();
 

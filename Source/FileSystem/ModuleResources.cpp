@@ -58,6 +58,22 @@ bool ModuleResources::CleanUp()
 	return true;
 }
 
+void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
+{
+	std::shared_ptr<Resource> importedRes;
+	std::string assetsPath = CreateAssetsPath(fileName, type);
+	switch(type)
+	{
+	case ResourceType::Material:
+		assetsPath += MATERIAL_EXTENSION;
+		App->fileSystem->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	default:
+		break;
+	}
+}
+
 //Creates Binary and Meta from an Asset original path
 std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& originalPath)
 {
@@ -78,7 +94,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
-	ImportResourceFromSystem(originalPath, importedRes, importedRes->GetType());
+	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
 	return importedRes;
 }
 
@@ -271,6 +287,11 @@ void ModuleResources::ReimportResource(UID resourceUID)
 {
 	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
+	if (resource->GetType() == ResourceType::Material)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
+		ReImportMaterialAsset(materialResource);
+	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
 
@@ -289,12 +310,14 @@ void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resour
 		resource = CreateResourceOfType(meta["UID"],resource->GetFileName(),resource->GetAssetsPath(),
 			CreateLibraryPath(meta["UID"],resource->GetType()),resource->GetType());
 		resource->LoadImporterOptions(meta);
+		resource->LoadLoadOptions(meta);
 	}
 	else
 	{
 		meta["UID"] = resource->GetUID();
 		meta["Type"] = GetNameOfType(resource->GetType()).c_str();
 		resource->SaveImporterOptions(meta);
+		resource->SaveLoadOptions(meta);
 		rapidjson::StringBuffer buffer;
 		meta.toBuffer(buffer);
 		App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
@@ -465,8 +488,11 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
+	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+
+	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallicMap();
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
 	unsigned int size = 0;
@@ -474,6 +500,23 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string materialPath = materialResource->GetAssetsPath();
 
+	std::string metaPath = materialResource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+
+	meta["DiffuseAssetPath"] = materialResource->GetDiffuse() ? materialResource->GetDiffuse()->GetAssetsPath().c_str() : "";
+	meta["NormalAssetPath"] = materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
+	meta["OcclusionAssetPath"] = materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
+	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
+	meta["MetallicAssetPath"] = materialResource->GetMetallicMap() ? materialResource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 	delete fileBuffer;
 }
