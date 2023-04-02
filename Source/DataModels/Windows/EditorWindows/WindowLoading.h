@@ -6,7 +6,7 @@ class WindowLoading : public EditorWindow
 {
 public:
 	WindowLoading();
-	~WindowLoading();
+	~WindowLoading() override;
     const ImU32 col = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
 
 protected:
