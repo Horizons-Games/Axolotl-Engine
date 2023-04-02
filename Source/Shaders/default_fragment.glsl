@@ -97,14 +97,14 @@ float smithVisibility(float dotNL, float dotNV, float roughness)
 
 float GGXNormalDistribution(float dotNH, float roughness)
 {
-    return roughness*roughness/(M_PI*max((dotNH*dotNH*(roughness*roughness-1.0)+1.0)*(dotNH*dotNH*(roughness*roughness-1.0)+1.0), 0.0001));
+    return roughness*roughness/(M_PI*max((dotNH*dotNH*(roughness*roughness-1.0)+1.0)*(dotNH*dotNH*(roughness*roughness-1.0)+1.0), EPSILON));
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
-    float dotNL = max(dot(N,L), 0.0);
+    float dotNL = max(dot(N,L), EPSILON);
     vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
     float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
@@ -158,7 +158,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 L = normalize(FragPos-pos);
         vec3 H = (L+V)/length(L+V);
-        float dotNL = max(dot(N,-L), 0.0);
+        float dotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
