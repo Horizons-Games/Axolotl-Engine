@@ -117,10 +117,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	#endif
 			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
 		}
-		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
-		memcpy(cursor, &(meshesUIDs[0]), bytes);
-		
-		cursor += bytes;
+
+		if (node->meshRenderers.size() > 0)
+		{
+			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			memcpy(cursor, &(meshesUIDs[0]), bytes);
+
+			cursor += bytes;
+		}
 
 		std::vector<UID> materialsUIDs;
 		materialsUIDs.reserve(node->meshRenderers.size());
@@ -132,10 +136,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	#endif
 			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
 		}
-		bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
-		memcpy(cursor, &(materialsUIDs[0]), bytes);
 
-		cursor += bytes;
+		if (node->meshRenderers.size() > 0)
+		{
+			bytes = sizeof(UID) * (unsigned int)node->meshRenderers.size();
+			memcpy(cursor, &(materialsUIDs[0]), bytes);
+
+			cursor += bytes;
+		}
 	}
 
 #ifdef ENGINE
@@ -166,8 +174,10 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<ResourceModel::Node*> nodes;
 	nodes.reserve(header[0]);
 
-	for(unsigned int i = 0; i <= header[0]; ++i)
+	for(unsigned int i = 0; i < header[0]; ++i)
 	{
+		ResourceModel::Node* node = new ResourceModel::Node;
+
 		unsigned int nodeHeader[2];
 		bytes = sizeof(nodeHeader);
 		memcpy(nodeHeader, fileBuffer, bytes);
@@ -177,24 +187,24 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		bytes = sizeof(char) * (unsigned int)nodeHeader[0];
 		memcpy(name, fileBuffer, bytes);
 		fileBuffer += bytes;
-		nodes[i]->name = std::string(name, nodeHeader[0]);
+		node->name = std::string(name, nodeHeader[0]);
 		delete name;
 
-		float4x4* transform = nullptr;
+		float4x4* transform = new float4x4;
 		bytes = sizeof(float4x4);
 		memcpy(transform, fileBuffer, bytes);
 		fileBuffer += bytes;
-		nodes[i]->transform = *transform;
+		node->transform = *transform;
 		delete transform;
 
-		int* parent = nullptr;
+		int* parent = new int;
 		bytes = sizeof(int);
 		memcpy(parent, fileBuffer, bytes);
 		fileBuffer += bytes;
-		nodes[i]->parent = *parent;
+		node->parent = *parent;
 		delete parent;
 
-		nodes[i]->meshRenderers.reserve(nodeHeader[1]);
+		node->meshRenderers.reserve(nodeHeader[1]);
 
 #ifdef  ENGINE
 		Json jsonMeshes = meta["MeshesAssetPaths"];
@@ -205,8 +215,13 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 			std::string matPath = jsonMat[i];
 			std::shared_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(meshPath);
 			std::shared_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(matPath);
-			nodes[i]->meshRenderers.push_back(std::make_pair(mesh, material));
+			node->meshRenderers.push_back(std::make_pair(mesh, material));
+
+			fileBuffer += sizeof(UID) * 2;
 		}
+
+
+		nodes.push_back(node);
 #else
 		UID* meshesPointer = new UID[nodeHeader[1]];
 		bytes = sizeof(UID) * (unsigned int)nodeHeader[1];

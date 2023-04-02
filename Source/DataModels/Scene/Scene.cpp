@@ -142,7 +142,7 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 	{
 		const ResourceModel::Node* node = nodes[i];
 		
-		while (node->parent > parentsStack.top().first)
+		while (node->parent < parentsStack.top().first)
 		{
 			parentsStack.pop();
 		}
