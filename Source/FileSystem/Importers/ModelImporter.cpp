@@ -87,10 +87,12 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
+#ifdef ENGINE
 	Json jsonMeshes = meta["MeshesAssetPaths"];
 	Json jsonMat = meta["MatAssetPaths"];
 	unsigned int countMeshes = 0;
 	unsigned int countMat = 0;
+#endif
 
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
@@ -175,10 +177,12 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<ResourceModel::Node*> nodes;
 	nodes.reserve(header[0]);
 
+#ifdef ENGINE
 	Json jsonMeshes = meta["MeshesAssetPaths"];
 	Json jsonMat = meta["MatAssetPaths"];
 	unsigned int countMeshes = 0;
 	unsigned int countMat = 0;
+#endif
 
 	for(unsigned int i = 0; i < header[0]; ++i)
 	{
