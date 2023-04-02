@@ -1,0 +1,12 @@
+{
+    "UID": 14221606575001581438,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Head_Mesh_0.mesh",
+        "Assets/Meshes/Jaw_Mesh_upper_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Skin_0.mat",
+        "Assets/Materials/Teeth_1.mat"
+    ]
+}

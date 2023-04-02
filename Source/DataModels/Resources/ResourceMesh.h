@@ -14,8 +14,9 @@ struct Bone
 
 struct Attach
 {
-	unsigned int bones[4];
-	float weights[4];
+	unsigned int bones[4] = {0u, 0u, 0u, 0u};
+	float weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	unsigned int numBones = 0u;
 };
 
 struct OptionsMesh
@@ -67,7 +68,10 @@ public:
 	void SetTangents(const std::vector<float3>& tangents);
 	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
 	void SetBones(const std::vector<Bone>& bones);
-	void SetAttaches(const std::vector<Attach>& attaches);
+	void SetAttachResize();
+	void SetAttachBones(const unsigned int vertexId, const unsigned int boneId);
+	void SetAttachWeight(const unsigned int vertexId, const float weight);
+	void IncrementAttachNumBones(const unsigned int vertexId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
@@ -242,7 +246,22 @@ inline void ResourceMesh::SetBones(const std::vector<Bone>& bones)
 	this->bones = bones;
 }
 
-inline void ResourceMesh::SetAttaches(const std::vector<Attach>& attaches)
+inline void ResourceMesh::SetAttachResize()
 {
-	this->attaches = attaches;
+	this->attaches.resize(this->numVertices);
+}
+
+inline void ResourceMesh::SetAttachBones(const unsigned int vertexId, const unsigned int boneId)
+{
+	this->attaches[vertexId].bones[this->attaches[vertexId].numBones] = boneId;
+}
+
+inline void ResourceMesh::SetAttachWeight(const unsigned int vertexId, const float weight)
+{
+	this->attaches[vertexId].weights[this->attaches[vertexId].numBones] = weight;
+}
+
+inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
+{
+	++this->attaches[vertexId].numBones;
 }

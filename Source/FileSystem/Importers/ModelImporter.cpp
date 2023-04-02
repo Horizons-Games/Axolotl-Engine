@@ -481,15 +481,17 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
 	{
-		bytes = sizeof(float4x4);
+		bytes = sizeof(aiMatrix4x4);
 		memcpy(cursor, &(ourMesh->mBones[i]->mOffsetMatrix), bytes);
 
 		cursor += bytes;
 
 		bytes = ourMesh->mBones[i]->mName.length;
-		memcpy(cursor, &(ourMesh->mBones[i]->mName), bytes);
+		memcpy(cursor, ourMesh->mBones[i]->mName.C_Str(), bytes);
 
 		cursor += bytes;
+		*cursor = '\0';
+		++cursor;
 
 		bytes = sizeof(unsigned int);
 		memcpy(cursor, &(ourMesh->mBones[i]->mWeights[0].mVertexId), bytes);
