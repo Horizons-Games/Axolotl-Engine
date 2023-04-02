@@ -2,6 +2,46 @@
     "GameObjects": [
         {
             "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 7143593457781188557,
+                "parentUID": 5917202238635418343,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -180.0,
+                            "localRot_Y": -57.97031784057617,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Gunan_animated",
                 "tag": "",
                 "uid": 5917202238635418343,
@@ -70,46 +110,6 @@
         },
         {
             "GameObject": {
-                "name": "Directional_Light",
-                "tag": "",
-                "uid": 7143593457781188557,
-                "parentUID": 5917202238635418343,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -180.0,
-                            "localRot_Y": -57.97031784057617,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Gunan_animated",
                 "tag": "",
                 "uid": 4326554998907729143,
@@ -142,6 +142,62 @@
                 "tag": "",
                 "uid": 3504473424205327327,
                 "parentUID": 4326554998907729143,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeL",
+                "tag": "",
+                "uid": 8694482322779427761,
+                "parentUID": 6658644481462690332,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 14.799999237060547,
+                            "localPos_Y": 30.413738250732423,
+                            "localPos_Z": 33.184566497802737,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Neck",
+                "tag": "",
+                "uid": 10086379169631660257,
+                "parentUID": 1167706946983509874,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -222,10 +278,10 @@
         },
         {
             "GameObject": {
-                "name": "Neck",
+                "name": "EyeL_Mesh_0",
                 "tag": "",
-                "uid": 10086379169631660257,
-                "parentUID": 1167706946983509874,
+                "uid": 18359687398698336183,
+                "parentUID": 1711460663929884591,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -234,15 +290,33 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_X": 0.08157038688659668,
+                            "localPos_Y": -0.05780601501464844,
                             "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 3741213630410491804,
+                            "assetPathMaterial": "Assets/Materials/Eyes_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 18242336169614640462,
+                            "assetPathMesh": "Assets/Meshes/EyeL_Mesh_0.mesh"
                         }
                     }
                 ]
@@ -296,6 +370,80 @@
                             "localRot_X": 90.0,
                             "localRot_Y": 29.835542678833009,
                             "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeR_Mesh_0",
+                "tag": "",
+                "uid": 7989147040925337769,
+                "parentUID": 1895169323518282626,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Material",
+                            "active": true,
+                            "removed": true,
+                            "materialUID": 3741213630410491804,
+                            "assetPathMaterial": "Assets/Materials/Eyes_0.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6362931408388573587,
+                            "assetPathMesh": "Assets/Meshes/EyeR_Mesh_0.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeR",
+                "tag": "",
+                "uid": 12898448761094569006,
+                "parentUID": 6658644481462690332,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -14.799999237060547,
+                            "localPos_Y": 30.413740158081056,
+                            "localPos_Z": 40.748538970947269,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -482,34 +630,6 @@
         },
         {
             "GameObject": {
-                "name": "EyeL",
-                "tag": "",
-                "uid": 8694482322779427761,
-                "parentUID": 6658644481462690332,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 14.799999237060547,
-                            "localPos_Y": 30.413738250732423,
-                            "localPos_Z": 33.184566497802737,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "EyeL_Mesh",
                 "tag": "",
                 "uid": 1711460663929884591,
@@ -538,80 +658,6 @@
         },
         {
             "GameObject": {
-                "name": "EyeL_Mesh_0",
-                "tag": "",
-                "uid": 18359687398698336183,
-                "parentUID": 1711460663929884591,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.08157038688659668,
-                            "localPos_Y": -0.05780601501464844,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 3741213630410491804,
-                            "assetPathMaterial": "Assets/Materials/Eyes_0.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 18242336169614640462,
-                            "assetPathMesh": "Assets/Meshes/EyeL_Mesh_0.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "EyeR",
-                "tag": "",
-                "uid": 12898448761094569006,
-                "parentUID": 6658644481462690332,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -14.799999237060547,
-                            "localPos_Y": 30.413740158081056,
-                            "localPos_Z": 40.748538970947269,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "EyeR_Mesh",
                 "tag": "",
                 "uid": 1895169323518282626,
@@ -633,52 +679,6 @@
                             "localSca_X": 8.750041007995606,
                             "localSca_Y": 8.750041007995606,
                             "localSca_Z": 8.750041007995606
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "EyeR_Mesh_0",
-                "tag": "",
-                "uid": 7989147040925337769,
-                "parentUID": 1895169323518282626,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 3741213630410491804,
-                            "assetPathMaterial": "Assets/Materials/Eyes_0.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 6362931408388573587,
-                            "assetPathMesh": "Assets/Meshes/EyeR_Mesh_0.mesh"
                         }
                     }
                 ]
@@ -873,6 +873,80 @@
                             "removed": true,
                             "meshUID": 14912568225170938556,
                             "assetPathMesh": "Assets/Meshes/Head_Mesh_0.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 11708138657235615841,
+                "parentUID": 5917202238635418343,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 5116423407405533814,
+                "parentUID": 11708138657235615841,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
                         }
                     }
                 ]

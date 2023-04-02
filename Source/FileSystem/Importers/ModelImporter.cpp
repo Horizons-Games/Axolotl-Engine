@@ -120,10 +120,11 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMeshes[countMeshes] = node->meshRenderers[i].first->GetAssetsPath().c_str();
-#endif
-			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
 
 			++countMeshes;
+#endif
+
+			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
 
 			bytes = sizeof(UID);
 			memcpy(cursor, &(meshesUIDs[0]), bytes);
@@ -137,10 +138,10 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMat[countMat] = node->meshRenderers[i].second->GetAssetsPath().c_str();
-#endif
-			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
 
 			++countMat;
+#endif
+			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
 
 			bytes = sizeof(UID);
 			memcpy(cursor, &(materialsUIDs[0]), bytes);
