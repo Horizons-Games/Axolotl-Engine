@@ -293,6 +293,7 @@
     <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentScript.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
@@ -537,6 +538,7 @@
     <ClInclude Include="DataModels\Components\ComponentMockState.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
     <ClInclude Include="DataModels\Components\ComponentRigidBody.h" />
+    <ClInclude Include="DataModels\Components\ComponentScript.h" />
     <ClInclude Include="DataModels\Components\ComponentTransform.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
