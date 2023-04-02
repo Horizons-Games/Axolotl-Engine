@@ -39,8 +39,6 @@ public:
 
 	void Update();
 	void Draw() const;
-	void DrawSelected();
-	void DrawHighlight();
 
 	void InitNewEmptyGameObject(bool is3D=true);
 
