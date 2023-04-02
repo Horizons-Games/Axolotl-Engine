@@ -1,21 +1,22 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 6386)
+#pragma warning(disable : 26495)
+#pragma warning(disable : 6386)
 
 #include "ModelImporter.h"
 
 #include "Application.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceMesh.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "DataModels/Resources/ResourceMesh.h"
-#include "DataModels/Resources/ResourceMaterial.h"
 
 #include "Math/float3.h"
 
-#include "assimp/scene.h"     
-#include "assimp/postprocess.h"
 #include "assimp/cimport.h"
+#include "assimp/postprocess.h"
+#include "assimp/scene.h"
 
-void myCallback(const char* msg, char* userData) {
+void myCallback(const char* msg, char* userData)
+{
 	ENGINE_LOG("[assimp] %s", msg);
 }
 
@@ -45,7 +46,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 		delete buffer;
 	}
@@ -58,7 +59,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& fileBuffer, unsigned int& size)
 {
 #ifdef ENGINE
-	//Update Meta
+	// Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
 	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
@@ -68,12 +69,12 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	delete metaBuffer;
 #endif
 
-	unsigned int header[2] = { (unsigned int)resource->GetNumMeshes(), (unsigned int)resource->GetNumMaterials() };
+	unsigned int header[2] = { (unsigned int) resource->GetNumMeshes(), (unsigned int) resource->GetNumMaterials() };
 
-	size = sizeof(header) + sizeof(UID) * (unsigned int)resource->GetNumMeshes() +
-		sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	size = sizeof(header) + sizeof(UID) * (unsigned int) resource->GetNumMeshes() +
+		   sizeof(UID) * (unsigned int) resource->GetNumMaterials();
 
-	char* cursor = new char[size] {};
+	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
@@ -92,7 +93,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #endif
 		meshesUIDs.push_back(resource->GetMeshes()[i]->GetUID());
 	}
-	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
+	bytes = sizeof(UID) * (unsigned int) resource->GetNumMeshes();
 	memcpy(cursor, &(meshesUIDs[0]), bytes);
 
 	cursor += bytes;
@@ -107,20 +108,20 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #endif
 		materialsUIDs.push_back(resource->GetMaterials()[i]->GetUID());
 	}
-	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	bytes = sizeof(UID) * (unsigned int) resource->GetNumMaterials();
 	memcpy(cursor, &(materialsUIDs[0]), bytes);
 
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 #endif
 }
 
 void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> resource)
 {
 #ifdef ENGINE
-	//Update Meta
+	// Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
 	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
@@ -145,25 +146,23 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<std::shared_ptr<ResourceMaterial>> materials;
 	materials.reserve(resource->GetNumMaterials());
 
-#ifdef  ENGINE
+#ifdef ENGINE
 	Json jsonMeshes = meta["MeshesAssetPaths"];
 	for (int i = 0; i < resource->GetNumMeshes(); i++)
 	{
 		std::string meshPath = jsonMeshes[i];
-		meshes.push_back
-		(App->resources->RequestResource<ResourceMesh>(meshPath));
+		meshes.push_back(App->resources->RequestResource<ResourceMesh>(meshPath));
 	}
 
 	Json jsonMat = meta["MatAssetPaths"];
 	for (int i = 0; i < resource->GetNumMaterials(); i++)
 	{
 		std::string matPath = jsonMat[i];
-		materials.push_back
-		(App->resources->RequestResource<ResourceMaterial>(matPath));
+		materials.push_back(App->resources->RequestResource<ResourceMaterial>(matPath));
 	}
 #else
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
-	bytes = sizeof(UID) * (unsigned int)resource->GetNumMeshes();
+	bytes = sizeof(UID) * (unsigned int) resource->GetNumMeshes();
 	memcpy(meshesPointer, fileBuffer, bytes);
 	std::vector<UID> meshesUIDs(meshesPointer, meshesPointer + resource->GetNumMeshes());
 	delete[] meshesPointer;
@@ -175,7 +174,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	fileBuffer += bytes;
 
 	UID* materialsPointer = new UID[resource->GetNumMaterials()];
-	bytes = sizeof(UID) * (unsigned int)resource->GetNumMaterials();
+	bytes = sizeof(UID) * (unsigned int) resource->GetNumMaterials();
 	memcpy(materialsPointer, fileBuffer, bytes);
 	std::vector<UID> materialsUIDs(materialsPointer, materialsPointer + resource->GetNumMaterials());
 	delete[] materialsPointer;
@@ -189,9 +188,9 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	resource->SetMaterials(materials);
 }
 
-
-void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
-	std::shared_ptr<ResourceModel>& resource)
+void ModelImporter::ImportMaterials(const aiScene* scene,
+									const char* filePath,
+									std::shared_ptr<ResourceModel>& resource)
 {
 	ENGINE_LOG("---- Loading Materials ----");
 
@@ -218,7 +217,7 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 				pathTextures[0] = diffusePath;
 			}
 		}
-		//Getting the specular texture
+		// Getting the specular texture
 		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
 		{
 			std::string specularPath = "";
@@ -247,14 +246,14 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 		unsigned int size = 0;
 
 		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
-		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i)
-			+ MATERIAL_EXTENSION;
+		std::string materialPath =
+			MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i) + MATERIAL_EXTENSION;
 
 		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceMaterial> resourceMaterial =
 			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->ImportResource(materialPath));
 		materials.push_back(resourceMaterial);
-		
+
 		delete fileBuffer;
 	}
 
@@ -275,8 +274,9 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		SaveInfoMesh(ourMesh, fileBuffer, size);
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
-		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
+		App->fileSystem->Save(meshPath.c_str(), fileBuffer, size);
+		std::shared_ptr<ResourceMesh> resourceMesh =
+			std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
 		meshes.push_back(resourceMesh);
 	}
 	resource->SetMeshes(meshes);
@@ -284,15 +284,17 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
 {
-	struct stat buffer {};
+	struct stat buffer
+	{
+	};
 	std::string name = App->fileSystem->GetFileName(file.data);
 	name += App->fileSystem->GetFileExtension(file.data);
-	
+
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
 		std::string path = App->fileSystem->GetPathWithoutFile(filePath);
-		//Checking in the original fbx folder
+		// Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{
 			// Cheking in asset textures folder
@@ -314,22 +316,15 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 	{
 		dataBuffer = std::string(file.data);
 	}
-
 }
 
-void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) {
-
+void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int& size)
+{
 	unsigned int numIndexes = 3;
 
 	unsigned int hasTangents = ourMesh->mTangents != nullptr;
 
-	unsigned int header[4] = 
-	{ 
-		ourMesh->mNumFaces, 
-		ourMesh->mNumVertices, 
-		ourMesh->mMaterialIndex,
-		hasTangents
-	};
+	unsigned int header[4] = { ourMesh->mNumFaces, ourMesh->mNumVertices, ourMesh->mMaterialIndex, hasTangents };
 
 	unsigned int sizeOfVectors = sizeof(float3) * ourMesh->mNumVertices;
 	unsigned int numOfVectors = 3;
@@ -337,10 +332,10 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 	{
 		numOfVectors = 4;
 	}
-	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
-		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
-	
-	char* cursor = new char[size] {};
+	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes) +
+		   static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
+
+	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
@@ -373,7 +368,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		cursor += bytes;
 	}
 
-	if (hasTangents) 
+	if (hasTangents)
 	{
 		bytes = sizeof(float3) * ourMesh->mNumVertices;
 		memcpy(cursor, &(ourMesh->mTangents[0]), bytes);
@@ -381,7 +376,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		cursor += bytes;
 	}
 
-	for (unsigned int i = 0; i < ourMesh->mNumFaces; ++i) 
+	for (unsigned int i = 0; i < ourMesh->mNumFaces; ++i)
 	{
 		bytes = sizeof(unsigned int) * numIndexes;
 		memcpy(cursor, &(ourMesh->mFaces[i].mIndices[0]), bytes);
@@ -389,4 +384,3 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		cursor += bytes;
 	}
 }
-

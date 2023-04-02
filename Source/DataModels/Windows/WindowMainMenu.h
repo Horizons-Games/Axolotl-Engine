@@ -1,14 +1,13 @@
 #pragma once
 
-#include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
-
+#include "EditorWindows/WindowAbout.h"
 
 class WindowMainMenu : public Window
 {
 public:
-	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow> >& editorWindows);
+	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>& editorWindows);
 	~WindowMainMenu() override;
 
 	static const std::string repositoryLink;
@@ -44,10 +43,10 @@ private:
 	};
 
 	Actions action;
-	
+
 	ImGuiFileDialog fileDialogImporter;
 
-	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
+	std::vector<std::pair<std::string, bool>> windowNamesAndEnabled;
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const

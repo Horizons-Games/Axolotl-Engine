@@ -1,4 +1,4 @@
-#pragma warning (disable: 26495)
+#pragma warning(disable : 26495)
 
 #include "ComponentMeshRenderer.h"
 
@@ -7,11 +7,11 @@
 
 #include "Application.h"
 
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
-#include "FileSystem/ModuleResources.h"
-#include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
 
@@ -20,15 +20,15 @@
 #include "GL/glew.h"
 
 #ifdef ENGINE
-#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#	include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #endif // ENGINE
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
+	Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
-ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
 	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
 {
 }
@@ -41,13 +41,12 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Update()
 {
-
 }
 
 void ComponentMeshRenderer::Draw()
 {
-	//this should be in an EditorComponent class, or something of the like
-	//but for now have it here
+	// this should be in an EditorComponent class, or something of the like
+	// but for now have it here
 #ifdef ENGINE
 	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
 	{
@@ -55,7 +54,7 @@ void ComponentMeshRenderer::Draw()
 	}
 #endif // ENGINE
 
-	if (this->IsMeshLoaded()) //pointer not empty
+	if (this->IsMeshLoaded()) // pointer not empty
 	{
 		if (!mesh->IsLoaded())
 		{
@@ -70,12 +69,11 @@ void ComponentMeshRenderer::Draw()
 			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 			const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
-				static_cast<ComponentTransform*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+				static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
+			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
+			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
 
 			glBindVertexArray(mesh->GetVAO());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -93,7 +91,7 @@ void ComponentMeshRenderer::Draw()
 
 void ComponentMeshRenderer::DrawHighlight()
 {
-	if (IsMeshLoaded()) //pointer not empty
+	if (IsMeshLoaded()) // pointer not empty
 	{
 		if (!mesh->IsLoaded())
 		{
@@ -109,14 +107,13 @@ void ComponentMeshRenderer::DrawHighlight()
 			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 			const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
-				static_cast<ComponentTransform*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+				static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 			GLint programInUse;
 			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
+			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
+			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
 
 			glBindVertexArray(mesh->GetVAO());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -133,27 +130,27 @@ void ComponentMeshRenderer::DrawHighlight()
 void ComponentMeshRenderer::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = (bool) active;
+	meta["removed"] = (bool) canBeRemoved;
 
 	UID uidMesh = 0;
 	std::string assetPath = "";
 
-	if(mesh)
+	if (mesh)
 	{
 		uidMesh = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
 	}
 
-	meta["meshUID"] = (UID)uidMesh;
+	meta["meshUID"] = (UID) uidMesh;
 	meta["assetPathMesh"] = assetPath.c_str();
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 
 #ifdef ENGINE
 	std::string path = meta["assetPathMesh"];

@@ -14,4 +14,3 @@ public:
 protected:
 	std::unique_ptr<WindowFileBrowser> browser;
 };
-

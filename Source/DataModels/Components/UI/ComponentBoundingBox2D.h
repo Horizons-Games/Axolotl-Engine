@@ -3,8 +3,7 @@
 
 #include "Geometry/AABB2D.h"
 
-class ComponentBoundingBox2D :
-    public Component
+class ComponentBoundingBox2D : public Component
 {
 public:
 	ComponentBoundingBox2D(const bool active, GameObject* owner);
@@ -21,8 +20,6 @@ public:
 	const AABB2D& GetWorldAABB() const;
 
 private:
-
 	AABB2D localAABB;
 	AABB2D worldAABB;
 };
-

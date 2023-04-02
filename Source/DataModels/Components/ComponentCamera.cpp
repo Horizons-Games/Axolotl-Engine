@@ -1,4 +1,4 @@
-#pragma warning (disable: 26495)
+#pragma warning(disable : 26495)
 
 #include "ComponentCamera.h"
 
@@ -8,26 +8,24 @@
 #include "Math/float3x3.h"
 
 #include "ComponentTransform.h"
-#include "GameObject/GameObject.h"
 #include "FileSystem/Json.h"
+#include "GameObject/GameObject.h"
 #include "Math/Quat.h"
 
-
-#include "Camera/CameraGameObject.h"
 #include "Camera/CameraEngine.h"
+#include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"
 
-ComponentCamera::ComponentCamera(bool active, GameObject* owner)
-	: Component(ComponentType::CAMERA, active, owner, false)
+ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
+	Component(ComponentType::CAMERA, active, owner, false)
 {
-	camera = std::make_unique <CameraGameObject>();
+	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
 
-ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera):
-	Component(componentCamera)
+ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera) : Component(componentCamera)
 {
 	DuplicateCamera(componentCamera.camera.get());
 }
@@ -39,7 +37,7 @@ ComponentCamera::~ComponentCamera()
 void ComponentCamera::Update()
 {
 	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	camera->SetPosition((float3)trans->GetGlobalPosition());
+	camera->SetPosition((float3) trans->GetGlobalPosition());
 
 	float3x3 rotationMatrix = trans->GetGlobalRotation().Float3x3Part();
 	camera->GetFrustum()->SetFront(rotationMatrix * float3::unitZ);
@@ -53,36 +51,34 @@ void ComponentCamera::Update()
 
 void ComponentCamera::Draw()
 {
-
 #ifdef ENGINE
-	if(camera->IsDrawFrustum())
+	if (camera->IsDrawFrustum())
 		App->debug->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
-
 }
 
 void ComponentCamera::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = (bool) active;
+	meta["removed"] = (bool) canBeRemoved;
 
 	meta["frustumOfset"] = camera->GetFrustumOffset();
 	meta["drawFrustum"] = camera->IsDrawFrustum();
-	//meta["frustumMode"] = camera->GetFrustumMode();
+	// meta["frustumMode"] = camera->GetFrustumMode();
 }
 
 void ComponentCamera::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 
-	camera->SetFrustumOffset((float)meta["frustumOfset"]);
-	camera->SetIsDrawFrustum((bool)meta["drawFrustum"]);
-	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
+	camera->SetFrustumOffset((float) meta["frustumOfset"]);
+	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);
+	// frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
 CameraGameObject* ComponentCamera::GetCamera()

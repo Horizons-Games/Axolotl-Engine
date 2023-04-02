@@ -5,8 +5,11 @@
 class Program
 {
 public:
-	Program(unsigned vertexShader, unsigned fragmentShader,
-		const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName);
+	Program(unsigned vertexShader,
+			unsigned fragmentShader,
+			const std::string& vtxShaderFileName,
+			const std::string& frgShaderFileName,
+			const std::string& programName);
 	~Program();
 
 	void CleanUp();
@@ -34,7 +37,7 @@ private:
 
 inline bool Program::IsValidProgram() const
 {
-	return id !=0;
+	return id != 0;
 }
 
 inline const std::string& Program::GetFragementShaderFileName() const

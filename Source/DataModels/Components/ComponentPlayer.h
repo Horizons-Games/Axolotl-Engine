@@ -1,8 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class ComponentPlayer :
-    public Component
+class ComponentPlayer : public Component
 {
 public:
 	ComponentPlayer(bool active, GameObject* owner);
@@ -19,6 +18,7 @@ public:
 
 	bool HaveMouseActivated();
 	void SetMouse(bool newMouse);
+
 private:
 	bool staticPlayer = false;
 	bool mousePlayer = false;
@@ -44,4 +44,3 @@ inline void ComponentPlayer::SetMouse(bool newMouse)
 	mousePlayer = newMouse;
 	staticPlayer = newMouse;
 }
-

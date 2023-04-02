@@ -34,11 +34,10 @@ private:
 	float metalness;
 	float normalStrength;
 
-
-	std::unique_ptr<WindowMaterialInput> inputMaterial;	   
+	std::unique_ptr<WindowMaterialInput> inputMaterial;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
-	//std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+	// std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 };
 

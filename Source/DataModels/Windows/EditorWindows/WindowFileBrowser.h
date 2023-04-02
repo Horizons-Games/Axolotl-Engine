@@ -1,7 +1,7 @@
 #pragma once
 #include "EditorWindow.h"
-#include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "FontIcons/CustomFont.h"
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
 
 class WindowFileBrowser : public EditorWindow
 {
@@ -12,9 +12,8 @@ public:
 	void SaveAsWindow(bool& isSaving);
 	virtual void DoThisIfOk();
 	virtual void Browser();
-	
-protected:
 
+protected:
 	bool isSave = false;
 	std::string dialogName;
 	std::string title;
@@ -26,4 +25,3 @@ protected:
 	ImGuiFileDialog fileDialogImporter;
 	bool showFileDialog = false;
 };
-

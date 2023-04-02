@@ -1,16 +1,16 @@
 #pragma once
 
-#include <string>
 #include <assert.h>
+#include <string>
 
-enum class ComponentType 
+enum class ComponentType
 {
-	UNKNOWN, 
-	MATERIAL, 
-	MESHRENDERER, 
+	UNKNOWN,
+	MATERIAL,
+	MESHRENDERER,
 	TRANSFORM,
 	TRANSFORM2D,
-	LIGHT, 
+	LIGHT,
 	CAMERA,
 	PLAYER,
 	CANVAS,
@@ -61,15 +61,12 @@ protected:
 	bool canBeRemoved;
 };
 
-inline Component::Component(const ComponentType type,
-							const bool active,
-							GameObject* owner,
-							const bool canBeRemoved)
-	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
+	type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
 {
 }
 
-inline Component::Component(const Component& component) : 
+inline Component::Component(const Component& component) :
 	type(component.type), active(component.active), owner(nullptr), canBeRemoved(component.canBeRemoved)
 {
 }
@@ -131,35 +128,35 @@ const std::string GetNameByType(ComponentType type)
 {
 	switch (type)
 	{
-	case ComponentType::MATERIAL:
-		return "Component_Material";
-	case ComponentType::MESHRENDERER:
-		return "Component_MeshRenderer";
-	case ComponentType::TRANSFORM:
-		return "Component_Transform";
-	case ComponentType::LIGHT:
-		return "Component_Light";
-	case ComponentType::CAMERA:
-		return "Component_Camera";
-	case ComponentType::PLAYER:
-		return "Component_Player";
-	case ComponentType::CANVAS:
-		return "Component_Canvas";
-	case ComponentType::TRANSFORM2D:
-		return "Component_Transform2D";
-	case ComponentType::IMAGE:
-		return "Component_Image";
-	case ComponentType::BUTTON:
-		return "Component_Button";
-	case ComponentType::RIGIDBODY:
-		return "Component_RigidBody";
-	case ComponentType::MOCKSTATE:
-		return "Component_MockState";
-	case ComponentType::BOUNDINGBOX2D:
-		return "Component_BoundingBox2D";
-	default:
-		assert(false && "Wrong component type introduced");
-		return "";
+		case ComponentType::MATERIAL:
+			return "Component_Material";
+		case ComponentType::MESHRENDERER:
+			return "Component_MeshRenderer";
+		case ComponentType::TRANSFORM:
+			return "Component_Transform";
+		case ComponentType::LIGHT:
+			return "Component_Light";
+		case ComponentType::CAMERA:
+			return "Component_Camera";
+		case ComponentType::PLAYER:
+			return "Component_Player";
+		case ComponentType::CANVAS:
+			return "Component_Canvas";
+		case ComponentType::TRANSFORM2D:
+			return "Component_Transform2D";
+		case ComponentType::IMAGE:
+			return "Component_Image";
+		case ComponentType::BUTTON:
+			return "Component_Button";
+		case ComponentType::RIGIDBODY:
+			return "Component_RigidBody";
+		case ComponentType::MOCKSTATE:
+			return "Component_MockState";
+		case ComponentType::BOUNDINGBOX2D:
+			return "Component_BoundingBox2D";
+		default:
+			assert(false && "Wrong component type introduced");
+			return "";
 	}
 }
 
@@ -219,7 +216,7 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::BOUNDINGBOX2D;
 	}
-	
+
 	if (typeName == "Component_RigidBody")
 	{
 		return ComponentType::RIGIDBODY;
@@ -229,6 +226,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::MOCKSTATE;
 	}
-	
+
 	return ComponentType::UNKNOWN;
 }

@@ -14,19 +14,19 @@ struct OptionsModel
 class ResourceModel : virtual public Resource
 {
 public:
-	ResourceModel(UID resourceUID, 
-		const std::string& fileName, 
-		const std::string& assetsPath, 
-		const std::string& libraryPath);
+	ResourceModel(UID resourceUID,
+				  const std::string& fileName,
+				  const std::string& assetsPath,
+				  const std::string& libraryPath);
 	virtual ~ResourceModel() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
-	void SaveLoadOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	const size_t GetNumMeshes() const;
 	const size_t GetNumMaterials() const;

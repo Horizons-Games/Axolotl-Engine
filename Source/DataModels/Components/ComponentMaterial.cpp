@@ -1,14 +1,14 @@
-#pragma warning (disable: 4804)
-#pragma warning (disable: 4312)
+#pragma warning(disable : 4804)
+#pragma warning(disable : 4312)
 
 #include "ComponentMaterial.h"
 
 #include "Application.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "FileSystem/ModuleResources.h"
-#include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
+#include "ModuleCamera.h"
+#include "ModuleProgram.h"
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
@@ -16,13 +16,12 @@
 #include <GL/glew.h>
 
 #ifdef ENGINE
-#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+#	include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #endif // ENGINE
 #include "DataModels/Program/Program.h"
 
-
-ComponentMaterial::ComponentMaterial(bool active, GameObject* owner)
-	: Component(ComponentType::MATERIAL, active, owner, true)
+ComponentMaterial::ComponentMaterial(bool active, GameObject* owner) :
+	Component(ComponentType::MATERIAL, active, owner, true)
 {
 }
 
@@ -47,8 +46,8 @@ void ComponentMaterial::Draw()
 	{
 		program->Activate();
 
-		//this should be in an EditorComponent class, or something of the like
-		//but for now have it here
+		// this should be in an EditorComponent class, or something of the like
+		// but for now have it here
 #ifdef ENGINE
 		if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
 		{
@@ -59,7 +58,7 @@ void ComponentMaterial::Draw()
 		if (material)
 		{
 			const float3& diffuseColor = material->GetDiffuseColor();
-			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
+			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); // diffuse_color
 			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 			if (texture)
 			{
@@ -68,14 +67,14 @@ void ComponentMaterial::Draw()
 					texture->Load();
 				}
 
-				glUniform1i(5, 1); //has_diffuse_map
+				glUniform1i(5, 1); // has_diffuse_map
 
 				glActiveTexture(GL_TEXTURE5);
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			}
 			else
 			{
-				glUniform1i(5, 0); //has_diffuse_map
+				glUniform1i(5, 0); // has_diffuse_map
 			}
 
 			/*const float3& specularColor = material->GetSpecularColor();
@@ -118,12 +117,12 @@ void ComponentMaterial::Draw()
 
 				glActiveTexture(GL_TEXTURE6);
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-				glUniform1f(4, material->GetNormalStrength()); //normal_strength
-				glUniform1i(6, 1); //has_normal_map
+				glUniform1f(4, material->GetNormalStrength()); // normal_strength
+				glUniform1i(6, 1);							   // has_normal_map
 			}
 			else
 			{
-				glUniform1i(6, 0); //has_normal_map
+				glUniform1i(6, 0); // has_normal_map
 			}
 
 			/*glUniform1f(5, material->GetShininess()); //shininess
@@ -141,13 +140,13 @@ void ComponentMaterial::Draw()
 					texture->Load();
 				}
 
-				glUniform1i(10, 1); //has_metallic_map
+				glUniform1i(10, 1); // has_metallic_map
 				glActiveTexture(GL_TEXTURE7);
 				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			}
 			else
 			{
-				glUniform1i(10, 0); //has_metallic_map
+				glUniform1i(10, 0); // has_metallic_map
 			}
 
 			float3 viewPos = App->camera->GetCamera()->GetPosition();
@@ -162,8 +161,8 @@ void ComponentMaterial::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = (bool) active;
+	meta["removed"] = (bool) canBeRemoved;
 
 	UID uidMaterial = 0;
 	std::string assetPath = "";
@@ -173,13 +172,11 @@ void ComponentMaterial::SaveOptions(Json& meta)
 		uidMaterial = material->GetUID();
 		assetPath = material->GetAssetsPath();
 	}
-	meta["materialUID"] = (UID)uidMaterial;
+	meta["materialUID"] = (UID) uidMaterial;
 	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
-void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
-												const char* field, 
-												const ResourceTexture* texturePtr)
+void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, const char* field, const ResourceTexture* texturePtr)
 {
 	UID uidTexture = 0;
 
@@ -187,15 +184,15 @@ void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta,
 	{
 		uidTexture = texturePtr->GetUID();
 	}
-	meta[field] = (UID)uidTexture;
+	meta[field] = (UID) uidTexture;
 }
 
 void ComponentMaterial::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];
 	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
@@ -210,7 +207,7 @@ void ComponentMaterial::LoadOptions(Json& meta)
 #else
 	UID uidMaterial = meta["materialUID"];
 	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
-	if(resourceMaterial)
+	if (resourceMaterial)
 	{
 		SetMaterial(resourceMaterial);
 	}
@@ -220,7 +217,7 @@ void ComponentMaterial::LoadOptions(Json& meta)
 void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
 {
 	material = newMaterial;
-	
+
 	if (material)
 	{
 		material->Load();
@@ -229,7 +226,7 @@ void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& new
 
 void ComponentMaterial::UnloadTextures()
 {
-	if(material)
+	if (material)
 	{
 		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 		if (texture)
@@ -269,46 +266,47 @@ void ComponentMaterial::UnloadTexture(TextureType textureType)
 		std::shared_ptr<ResourceTexture> texture;
 		switch (textureType)
 		{
-		case TextureType::DIFFUSE:
-			texture = material->GetDiffuse();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::NORMAL:
-			texture = material->GetNormal();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::OCCLUSION:
-			texture = material->GetOcclusion();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		/*case TextureType::SPECULAR:
-			texture = material->GetSpecular();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;*/
-		case TextureType::METALLIC:
-			texture = material->GetMetallicMap();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
+			case TextureType::DIFFUSE:
+				texture = material->GetDiffuse();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::NORMAL:
+				texture = material->GetNormal();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::OCCLUSION:
+				texture = material->GetOcclusion();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			/*case TextureType::SPECULAR:
+				texture = material->GetSpecular();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;*/
+			case TextureType::METALLIC:
+				texture = material->GetMetallicMap();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
 		}
 	}
 }
 
-const float3& ComponentMaterial::GetDiffuseColor() const {
+const float3& ComponentMaterial::GetDiffuseColor() const
+{
 	return material->GetDiffuseColor();
 }
 
@@ -320,7 +318,8 @@ const float ComponentMaterial::GetShininess() const {
 	return material->GetShininess();
 }*/
 
-const float ComponentMaterial::GetNormalStrenght() const {
+const float ComponentMaterial::GetNormalStrenght() const
+{
 	return material->GetNormalStrength();
 }
 

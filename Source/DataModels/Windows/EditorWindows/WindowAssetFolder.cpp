@@ -1,7 +1,7 @@
 #include "WindowAssetFolder.h"
-#include "WindowFileBrowser.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "WindowFileBrowser.h"
 
 WindowAssetFolder::WindowAssetFolder() : EditorWindow("File Browser"), browser(std::make_unique<WindowFileBrowser>())
 {
@@ -22,18 +22,18 @@ void WindowAssetFolder::DrawWindowContents()
 		static char name[64] = "NewMaterial";
 		ImGui::InputText("Name", &name[0], 64);
 		if (ImGui::Button("Save", ImVec2(120, 0)))
-		{ 
+		{
 			App->resources->CreateDefaultResource(ResourceType::Material, name);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
-		if (ImGui::Button("Cancel", ImVec2(120, 0))) 
-		{ 
-			ImGui::CloseCurrentPopup(); 
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
 	}
-	ImGui::SameLine(0.0f,-1.0f);
+	ImGui::SameLine(0.0f, -1.0f);
 	browser->DrawWindowContents();
 }

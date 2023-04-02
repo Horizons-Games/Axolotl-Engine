@@ -29,9 +29,8 @@ public:
 	bool IsStatic();
 
 private:
-	std::unique_ptr <GameObject>  player;
+	std::unique_ptr<GameObject> player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
 	float speed = 3;
-	
 };

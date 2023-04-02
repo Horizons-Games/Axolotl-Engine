@@ -5,18 +5,17 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMaterial::WindowComponentMaterial(ComponentMaterial* component) :
-	ComponentWindow("MATERIAL", component), 
-	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	ComponentWindow("MATERIAL", component), inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
-	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
+	// inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
 {
 	InitMaterialValues();
@@ -29,7 +28,7 @@ WindowComponentMaterial::~WindowComponentMaterial()
 void WindowComponentMaterial::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
+	ImGui::Text(""); // used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
 
 	if (asMaterial)
@@ -70,8 +69,9 @@ void WindowComponentMaterial::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
+			ImGui::Text("Diffuse Color:");
+			ImGui::SameLine();
+			ImGui::ColorEdit3("##Diffuse Color", (float*) &colorDiffuse);
 
 			/*static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
@@ -96,7 +96,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 			if (diffuseTexture)
 			{
 				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+				ImGui::Image((void*) (intptr_t) diffuseTexture->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Diffuse"))
 				{
 					diffuseTexture->Unload();
@@ -106,7 +106,6 @@ void WindowComponentMaterial::DrawSetMaterial()
 			else
 			{
 				inputTextureDiffuse->DrawWindowContents();
-
 			}
 
 			ImGui::Separator();
@@ -115,22 +114,22 @@ void WindowComponentMaterial::DrawSetMaterial()
 			if (metalicMap)
 			{
 				metalicMap->Load();
-				ImGui::Image((void*)(intptr_t)metalicMap->GetGlTexture(), ImVec2(100, 100));
+				ImGui::Image((void*) (intptr_t) metalicMap->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Metallic"))
 				{
 					metalicMap->Unload();
 					metalicMap = nullptr;
 				}
 			}
-			else 
+			else
 			{
 				inputTextureMetallic->DrawWindowContents();
 			}
 
 			ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
-			
+
 			ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
-			
+
 			ImGui::Separator();
 
 			/*ImGui::Text("Specular Texture");
@@ -169,7 +168,7 @@ void WindowComponentMaterial::DrawSetMaterial()
 			if (normalMap)
 			{
 				normalMap->Load();
-				ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
+				ImGui::Image((void*) (intptr_t) normalMap->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Normal"))
 				{
 					normalMap->Unload();
@@ -225,7 +224,7 @@ void WindowComponentMaterial::InitMaterialValues()
 	if (asMaterial)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
-		if(materialResource) 
+		if (materialResource)
 		{
 			colorDiffuse = materialResource->GetDiffuseColor();
 			diffuseTexture = materialResource->GetDiffuse();

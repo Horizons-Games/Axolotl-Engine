@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.h"
 
-
 class GameObject;
 
 class ModuleUI : public Module
@@ -20,4 +19,3 @@ public:
 	void DrawChildren(GameObject* gameObject);
 	void RecalculateCanvasSizeAndScreenFactor();
 };
-

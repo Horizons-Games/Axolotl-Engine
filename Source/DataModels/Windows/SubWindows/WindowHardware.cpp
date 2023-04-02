@@ -23,7 +23,7 @@ void WindowHardware::DrawWindowContents()
 	ImGui::Text("glew Version: ");
 	ImGui::SameLine();
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), glewVersion.c_str());
-	
+
 	ImGui::Text("OpenGL Version: ");
 	ImGui::SameLine();
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), openGLVersion.c_str());
@@ -98,8 +98,8 @@ void WindowHardware::DrawWindowContents()
 
 void WindowHardware::GetSoftwareVersionsAndGPUInfo()
 {
-	//this needs to be done after all modules have been initialized this way is a bit ugly but otherwise it would
-	//require a Start/Init function in Window that would be useless for the others
+	// this needs to be done after all modules have been initialized this way is a bit ugly but otherwise it would
+	// require a Start/Init function in Window that would be useless for the others
 	if (!versionsSet)
 	{
 		GetGPUinfo();
@@ -140,20 +140,20 @@ void WindowHardware::GetSoftwareVersions()
 void WindowHardware::GetCPUinfo()
 {
 	int cacheSizeInB = SDL_GetCPUCacheLineSize();
-	int cacheSizeInKB = (int)std::ceil(cacheSizeInB / 1024.f);
+	int cacheSizeInKB = (int) std::ceil(cacheSizeInB / 1024.f);
 	int cacheSizeInKb = cacheSizeInKB * 8;
 	cpusAndCache = std::to_string(SDL_GetCPUCount()) + " (Cache: " + std::to_string(cacheSizeInKb) + "kb)";
 
 	int ramInMB = SDL_GetSystemRAM();
 	float ramInGB = ramInMB / 1000.f;
 	float ramInGb = ramInGB * 8.f;
-	//this is the value multiplied by 10 to the power of 8
-	//insted of to the power of 9, which is what Giga is
-	//this is to make rounding easier,
-	//since I can't find a way to set decimal precision
-	int ramInGbOneDecimalAux = (int)std::ceil(ramInGb * 10.f);
+	// this is the value multiplied by 10 to the power of 8
+	// insted of to the power of 9, which is what Giga is
+	// this is to make rounding easier,
+	// since I can't find a way to set decimal precision
+	int ramInGbOneDecimalAux = (int) std::ceil(ramInGb * 10.f);
 	std::string ramInGbOneDecimal = std::to_string(ramInGbOneDecimalAux);
-	//insert a dot in the penultimate position
+	// insert a dot in the penultimate position
 	ramInGbOneDecimal.insert(ramInGbOneDecimal.length() - 1, ".");
 	ram = ramInGbOneDecimal + "Gb";
 }
@@ -164,52 +164,52 @@ void WindowHardware::GetCaps()
 	{
 		sprintf_s(caps, 75, "%s3DNow, ", caps);
 	}
-	
+
 	if (SDL_HasAltiVec())
 	{
 		sprintf_s(caps, 75, "%sAltiVec, ", caps);
 	}
-	
+
 	if (SDL_HasAVX())
 	{
 		sprintf_s(caps, 75, "%sAVX, ", caps);
 	}
-	
+
 	if (SDL_HasAVX2())
 	{
 		sprintf_s(caps, 75, "%sAVX2, ", caps);
 	}
-	
+
 	if (SDL_HasMMX())
 	{
 		sprintf_s(caps, 75, "%sMMX, ", caps);
 	}
-	
+
 	if (SDL_HasRDTSC())
 	{
 		sprintf_s(caps, 75, "%sRDTSC, ", caps);
 	}
-	
+
 	if (SDL_HasSSE())
 	{
 		sprintf_s(caps, 75, "%sSSE, ", caps);
 	}
-	
+
 	if (SDL_HasSSE2())
 	{
 		sprintf_s(caps, 75, "%sSSE2, ", caps);
 	}
-	
+
 	if (SDL_HasSSE3())
 	{
 		sprintf_s(caps, 75, "%sSSE3, ", caps);
 	}
-	
+
 	if (SDL_HasSSE41())
 	{
 		sprintf_s(caps, 75, "%sSSE41, ", caps);
 	}
-	
+
 	if (SDL_HasSSE42())
 	{
 		printf_s(caps, 75, "%sSSE42, ", caps);
@@ -257,5 +257,6 @@ void WindowHardware::UpdateAvailableMemory()
 
 std::string WindowHardware::FormatVersion(unsigned int major, unsigned int minor, unsigned int patch) const
 {
-	return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);;
+	return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
+	;
 }

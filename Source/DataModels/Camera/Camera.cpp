@@ -1,16 +1,16 @@
 #include "Camera.h"
 
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModuleWindow.h"
 
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentTransform.h"
 
 #include "Resources/ResourceMesh.h"
 
@@ -18,35 +18,22 @@
 
 #include "DataStructures/Quadtree.h"
 
-#include "Math/float3x3.h"
-#include "Math/Quat.h"
 #include "Geometry/Triangle.h"
+#include "Math/Quat.h"
+#include "Math/float3x3.h"
 
-Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+Camera::Camera(const CameraType type) : type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
 {
-	frustum = std::make_unique <Frustum>();
+	frustum = std::make_unique<Frustum>();
 }
 
-Camera::Camera(Camera& camera)
-	: type(type),
-	position(camera.position),
-	projectionMatrix(camera.projectionMatrix),
-	viewMatrix(camera.viewMatrix),
-	aspectRatio(camera.aspectRatio),
-	acceleration(camera.acceleration),
-	moveSpeed(camera.moveSpeed),
-	rotationSpeed(camera.rotationSpeed),
-	mouseSpeedModifier(camera.mouseSpeedModifier),
-	frustumOffset(camera.frustumOffset),
-	viewPlaneDistance(camera.viewPlaneDistance),
-	frustumMode(camera.frustumMode),
-	mouseWarped(camera.mouseWarped),
-	focusFlag(camera.focusFlag),
-	isFocusing(camera.isFocusing),
-	lastMouseX(camera.lastMouseX),
-	lastMouseY(camera.lastMouseY),
-	mouseState(camera.mouseState),
+Camera::Camera(Camera& camera) :
+	type(type), position(camera.position), projectionMatrix(camera.projectionMatrix), viewMatrix(camera.viewMatrix),
+	aspectRatio(camera.aspectRatio), acceleration(camera.acceleration), moveSpeed(camera.moveSpeed),
+	rotationSpeed(camera.rotationSpeed), mouseSpeedModifier(camera.mouseSpeedModifier),
+	frustumOffset(camera.frustumOffset), viewPlaneDistance(camera.viewPlaneDistance), frustumMode(camera.frustumMode),
+	mouseWarped(camera.mouseWarped), focusFlag(camera.focusFlag), isFocusing(camera.isFocusing),
+	lastMouseX(camera.lastMouseX), lastMouseY(camera.lastMouseY), mouseState(camera.mouseState),
 	frustum(std::move(camera.frustum))
 {
 	if (frustumMode == EFrustumMode::offsetFrustum)
@@ -55,28 +42,16 @@ Camera::Camera(Camera& camera)
 	}
 }
 
-Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
-	: type(type),
-	position(camera->position),
-	projectionMatrix(camera->projectionMatrix),
-	viewMatrix(camera->viewMatrix),
-	aspectRatio(camera->aspectRatio),
-	acceleration(camera->acceleration),
-	moveSpeed(camera->moveSpeed),
-	rotationSpeed(camera->rotationSpeed),
-	mouseSpeedModifier(camera->mouseSpeedModifier),
-	frustumOffset(camera->frustumOffset),
-	viewPlaneDistance(camera->viewPlaneDistance),
-	frustumMode(camera->frustumMode),
-	mouseWarped(camera->mouseWarped),
-	focusFlag(camera->focusFlag),
-	isFocusing(camera->isFocusing),
-	lastMouseX(camera->lastMouseX),
-	lastMouseY(camera->lastMouseY),
-	mouseState(camera->mouseState),
-	frustum(std::move(camera->frustum))
+Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type) :
+	type(type), position(camera->position), projectionMatrix(camera->projectionMatrix), viewMatrix(camera->viewMatrix),
+	aspectRatio(camera->aspectRatio), acceleration(camera->acceleration), moveSpeed(camera->moveSpeed),
+	rotationSpeed(camera->rotationSpeed), mouseSpeedModifier(camera->mouseSpeedModifier),
+	frustumOffset(camera->frustumOffset), viewPlaneDistance(camera->viewPlaneDistance),
+	frustumMode(camera->frustumMode), mouseWarped(camera->mouseWarped), focusFlag(camera->focusFlag),
+	isFocusing(camera->isFocusing), lastMouseX(camera->lastMouseX), lastMouseY(camera->lastMouseY),
+	mouseState(camera->mouseState), frustum(std::move(camera->frustum))
 {
-	//frustum = std::make_unique <Frustum>();
+	// frustum = std::make_unique <Frustum>();
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
 		RecalculateOffsetPlanes();
@@ -236,7 +211,8 @@ bool Camera::IsInside(const AABB& aabb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -244,11 +220,11 @@ bool Camera::IsInside(const AABB& aabb)
 
 bool Camera::IsInside(const OBB& obb)
 {
-	if (frustumMode == EFrustumMode::noFrustum) 
+	if (frustumMode == EFrustumMode::noFrustum)
 	{
 		return false;
-	} 
-	if (frustumMode == EFrustumMode::offsetFrustum) 
+	}
+	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
 		return IsInsideOffset(obb);
 	}
@@ -269,7 +245,8 @@ bool Camera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -291,7 +268,8 @@ bool Camera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -308,7 +286,6 @@ void Camera::RecalculateOffsetPlanes()
 		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
 		offsetFrustumPlanes[itPlanes] = plane;
 	}
-
 }
 
 void Camera::SetHFOV(float fov)
@@ -352,14 +329,14 @@ void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
 	{
 		isSameRotation = true;
 	}
-	else 
+	else
 	{
-		float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
+		float3 nextDirection =
+			Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
 		Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
 		float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
 		ApplyRotation(rotationMatrix);
 	}
-
 }
 
 void Camera::SetNewSelectedGameObject(GameObject* gameObject)

@@ -1,10 +1,10 @@
 #pragma once
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4005)
+#pragma warning(disable : 26495)
+#pragma warning(disable : 4005)
 
+#include "Camera/Camera.h"
 #include "Module.h"
 #include "ModuleDebugDraw.h"
-#include "Camera/Camera.h"
 
 #define DEFAULT_MOVE_SPEED 9.f
 #define DEFAULT_ROTATION_DEGREE 30
@@ -47,19 +47,16 @@ public:
 	int GetSelectedPosition();
 	void SetSelectedPosition(int newSelected);
 
-	
 private:
-	std::unique_ptr <Camera> camera;
+	std::unique_ptr<Camera> camera;
 	Camera* selectedCamera;
 	int selectedPosition;
 };
-
 
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {
 	return selectedCamera;
 }
-
 
 inline int ModuleCamera::GetSelectedPosition()
 {

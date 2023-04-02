@@ -2,8 +2,7 @@
 #include "../Component.h"
 #include "Math/float3.h"
 
-class ComponentButton :
-	public Component
+class ComponentButton : public Component
 {
 public:
 	ComponentButton(bool active, GameObject* owner);

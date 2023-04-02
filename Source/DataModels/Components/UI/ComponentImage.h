@@ -6,8 +6,7 @@
 class ResourceTexture;
 class ResourceMesh;
 
-class ComponentImage :
-	public Component
+class ComponentImage : public Component
 {
 public:
 	ComponentImage(bool active, GameObject* owner);
@@ -33,7 +32,6 @@ private:
 
 	unsigned vbo;
 	unsigned vao;
-
 };
 
 inline std::shared_ptr<ResourceTexture>& ComponentImage::GetImage()
@@ -50,4 +48,3 @@ inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& ima
 {
 	this->image = image;
 }
-

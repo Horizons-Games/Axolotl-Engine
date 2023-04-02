@@ -2,24 +2,21 @@
 
 #include "ModuleScene.h"
 
-#include "Scene/Scene.h"
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
+#include "Scene/Scene.h"
 
+#include "Components/UI/ComponentBoundingBox2D.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "GL/glew.h"
 #include "Physics/Physics.h"
-#include "Components/UI/ComponentBoundingBox2D.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentButton.h"
 
-ModuleUI::ModuleUI() 
-{
-};
+ModuleUI::ModuleUI(){};
 
-ModuleUI::~ModuleUI() {
-};
+ModuleUI::~ModuleUI(){};
 
 bool ModuleUI::Init()
 {
@@ -36,7 +33,8 @@ update_status ModuleUI::Update()
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		ComponentBoundingBox2D* boundingBox = static_cast<ComponentBoundingBox2D*>(interactable->GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
+		ComponentBoundingBox2D* boundingBox =
+			static_cast<ComponentBoundingBox2D*>(interactable->GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
 		AABB2D aabb2d = boundingBox->GetWorldAABB();
 		float2 point = App->input->GetMousePosition();
 #ifdef ENGINE
@@ -60,7 +58,7 @@ update_status ModuleUI::Update()
 	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
@@ -82,8 +80,8 @@ update_status ModuleUI::Update()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	App->camera->GetCamera()->GetFrustum()->
-		SetHorizontalFovAndAspectRatio(math::DegToRad(90), App->camera->GetCamera()->GetAspectRatio());
+	App->camera->GetCamera()->GetFrustum()->SetHorizontalFovAndAspectRatio(math::DegToRad(90),
+																		   App->camera->GetCamera()->GetAspectRatio());
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -98,7 +96,7 @@ update_status ModuleUI::PostUpdate()
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		if(button->IsClicked())
+		if (button->IsClicked())
 		{
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
 			{
@@ -130,6 +128,6 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
 	for (GameObject* canvas : canvasScene)
 	{
-		((ComponentCanvas*)(canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
+		((ComponentCanvas*) (canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
 	}
 }

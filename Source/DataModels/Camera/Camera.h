@@ -1,20 +1,20 @@
 #pragma once
 
-#include <string>
-#include <memory>
 #include "Geometry/Frustum.h"
 #include <map>
+#include <memory>
+#include <string>
 
-#include "Geometry/Plane.h"
 #include "Geometry/Frustum.h"
-#include "Math/float4x4.h"
+#include "Geometry/Plane.h"
 #include "Math/Quat.h"
+#include "Math/float4x4.h"
 
-enum class EFrustumMode 
-{ 
-	normalFrustum, 
-	offsetFrustum, 
-	noFrustum 
+enum class EFrustumMode
+{
+	normalFrustum,
+	offsetFrustum,
+	noFrustum
 };
 
 #define DEFAULT_MOVE_SPEED 9.f
@@ -28,11 +28,11 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 #define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
 
-enum class CameraType 
-{ 
-	C_ENGINE, 
-	C_GOD, 
-	C_GAMEOBJECT 
+enum class CameraType
+{
+	C_ENGINE,
+	C_GOD,
+	C_GAMEOBJECT
 };
 
 class GameObject;
@@ -44,7 +44,7 @@ class Camera
 public:
 	Camera(const CameraType type);
 	Camera(Camera& camera);
-	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
+	Camera(const std::unique_ptr<Camera>& camera, const CameraType type);
 	virtual ~Camera();
 
 	virtual bool Init();
@@ -56,12 +56,11 @@ public:
 	Frustum* GetFrustum();
 
 	void ApplyRotation(const float3x3& rotationMatrix);
-	
+
 	void Run();
 	void Walk();
 	void KeyboardRotate();
 	void FreeLook();
-
 
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
@@ -98,11 +97,10 @@ public:
 	const float3& GetPosition() const;
 
 protected:
-	
 	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
-	std::unique_ptr <Frustum> frustum;
+	std::unique_ptr<Frustum> frustum;
 
 	float3 position;
 

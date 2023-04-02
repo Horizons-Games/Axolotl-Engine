@@ -16,13 +16,12 @@ class ModuleDebugDraw;
 class ModuleUI;
 #ifndef ENGINE
 class ModulePlayer;
-#endif //ENGINE
+#endif // ENGINE
 class ModuleEditor;
 
 class Application
 {
 public:
-
 	Application();
 	~Application();
 
@@ -56,7 +55,7 @@ public:
 	ModuleEditor* editor;
 
 private:
-	std::vector<std::unique_ptr<Module> > modules;
+	std::vector<std::unique_ptr<Module>> modules;
 	std::unique_ptr<Timer> appTimer;
 
 	int maxFramerate;

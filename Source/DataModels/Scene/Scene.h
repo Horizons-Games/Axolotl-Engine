@@ -102,7 +102,7 @@ private:
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
-	
+
 	AABB rootQuadtreeAABB;
 	std::unique_ptr<Quadtree> rootQuadtree;
 };
@@ -181,4 +181,3 @@ inline Skybox* Scene::GetSkybox() const
 {
 	return skybox.get();
 }
-

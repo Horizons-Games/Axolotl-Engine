@@ -2,11 +2,11 @@
 
 #include "Components/Component.h"
 
+#include "Math/Quat.h"
+#include "Math/TransformOps.h"
 #include "Math/float2.h"
 #include "Math/float3.h"
 #include "Math/float4x4.h"
-#include "Math/Quat.h"
-#include "Math/TransformOps.h"
 
 class ComponentTransform2D : public Component
 {
@@ -41,13 +41,10 @@ public:
 
 	const float4x4 GetGlobalScaledMatrix() const;
 
-
 	float3 GetPositionRelativeToParent();
 	float3 GetScreenPosition();
 
-
 	void CalculateMatrices();
-
 
 private:
 	float3 eulerAngles;
@@ -99,17 +96,18 @@ inline void ComponentTransform2D::SetScale(const float3& localScale)
 {
 	this->sca = localScale;
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+	if (sca.x <= 0)
+		sca.x = 0.0001f;
+	if (sca.y <= 0)
+		sca.y = 0.0001f;
+	if (sca.z <= 0)
+		sca.z = 0.0001f;
 }
 
 inline void ComponentTransform2D::SetSize(const float2& newSize)
 {
 	this->size = newSize;
-
 }
-
 
 inline const float3& ComponentTransform2D::GetPosition() const
 {
@@ -121,30 +119,25 @@ inline const float2& ComponentTransform2D::GetPivot() const
 	return pivot;
 }
 
-
 inline const float4x4& ComponentTransform2D::GetRotation() const
 {
 	return rot;
 }
-
 
 inline const float3& ComponentTransform2D::GetRotationXYZ() const
 {
 	return rotXYZ;
 }
 
-
 inline const float3& ComponentTransform2D::GetScale() const
 {
 	return sca;
 }
 
-
 inline const float2& ComponentTransform2D::GetSize() const
 {
 	return size;
 }
-
 
 inline const float4x4& ComponentTransform2D::GetLocalMatrix() const
 {
@@ -166,12 +159,10 @@ inline const float3& ComponentTransform2D::GetGlobalPosition() const
 	return globalPos;
 }
 
-
 inline const float4x4& ComponentTransform2D::GetGlobalRotation() const
 {
 	return globalRot;
 }
-
 
 inline const float3& ComponentTransform2D::GetGlobalScale() const
 {

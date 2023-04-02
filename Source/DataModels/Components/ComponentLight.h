@@ -1,5 +1,5 @@
 #pragma once
-#pragma warning (disable: 26495)
+#pragma warning(disable : 26495)
 
 #include "Component.h"
 
@@ -9,13 +9,13 @@
 
 #define COMPONENT_LIGHT "Light"
 
-enum class LightType 
-{ 
-	UNKNOWN, 
-	DIRECTIONAL, 
-	POINT, 
-	SPOT, 
-	AMBIENT 
+enum class LightType
+{
+	UNKNOWN,
+	DIRECTIONAL,
+	POINT,
+	SPOT,
+	AMBIENT
 };
 
 const static std::string GetNameByLightType(LightType type);
@@ -30,8 +30,7 @@ public:
 	ComponentLight(LightType type, bool canBeRemoved);
 	ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved);
 	ComponentLight(LightType type, const float3& color, float intensity, bool canBeRemoved);
-	ComponentLight(LightType type, const float3& color, float intensity, 
-					GameObject* gameObject, bool canBeRemoved);
+	ComponentLight(LightType type, const float3& color, float intensity, GameObject* gameObject, bool canBeRemoved);
 	ComponentLight(const ComponentLight& componentLight);
 
 	virtual ~ComponentLight() override;
@@ -41,10 +40,10 @@ public:
 	void Enable() override;
 	void Disable() override;
 
-	virtual void Draw() override {};
+	virtual void Draw() override{};
 
-	virtual void SaveOptions(Json& meta) override {};
-	virtual void LoadOptions(Json& meta) override {};
+	virtual void SaveOptions(Json& meta) override{};
+	virtual void LoadOptions(Json& meta) override{};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -104,17 +103,17 @@ inline const std::string GetNameByLightType(LightType type)
 {
 	switch (type)
 	{
-	case LightType::DIRECTIONAL:
-		return "LightType_Directional";
-	case LightType::POINT:
-		return "LightType_Point";
-	case LightType::SPOT:
-		return "LightType_Spot";
-	case LightType::AMBIENT:
-		return "LightType_Ambient";
-	default:
-		assert(false && "Wrong light type introduced");
-		return "";
+		case LightType::DIRECTIONAL:
+			return "LightType_Directional";
+		case LightType::POINT:
+			return "LightType_Point";
+		case LightType::SPOT:
+			return "LightType_Spot";
+		case LightType::AMBIENT:
+			return "LightType_Ambient";
+		default:
+			assert(false && "Wrong light type introduced");
+			return "";
 	}
 }
 

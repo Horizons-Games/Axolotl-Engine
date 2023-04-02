@@ -1,9 +1,9 @@
 #include "WindowMaterialInput.h"
 
 #include "Application.h"
+#include "Components/ComponentMaterial.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceMaterial.h"
-#include "Components/ComponentMaterial.h"
 
 WindowMaterialInput::WindowMaterialInput(ComponentMaterial* componentMaterial) :
 	WindowFileBrowser(), componentMaterial(componentMaterial)

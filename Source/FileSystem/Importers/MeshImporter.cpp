@@ -1,4 +1,4 @@
-#pragma warning (disable: 6386)
+#pragma warning(disable : 6386)
 
 #include "MeshImporter.h"
 
@@ -28,30 +28,26 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	delete saveBuffer;
 }
 
-void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
+void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*& fileBuffer, unsigned int& size)
 {
 	unsigned int hasTangents = !resource->GetTangents().empty();
-	unsigned int header[4] =
-	{
-		resource->GetNumFaces(),
-		resource->GetNumVertices(),
-		resource->GetMaterialIndex(),
-		hasTangents
+	unsigned int header[4] = {
+		resource->GetNumFaces(), resource->GetNumVertices(), resource->GetMaterialIndex(), hasTangents
 	};
-	
+
 	unsigned int sizeOfVectors = sizeof(float3) * resource->GetNumVertices();
 	unsigned int numOfVectors = 3;
 	if (hasTangents)
 	{
 		numOfVectors = 4;
 	}
-	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
-		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
-	
+	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3) +
+		   static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
+
 	char* cursor = new char[size];
-	
+
 	fileBuffer = cursor;
-	
+
 	unsigned int bytes = sizeof(header);
 	memcpy(cursor, header, bytes);
 
@@ -140,7 +136,7 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 	delete[] normalPointer;
 
-	if(hasTangents)
+	if (hasTangents)
 	{
 		float3* tangentPointer = new float3[resource->GetNumVertices()];
 		bytes = sizeof(float3) * resource->GetNumVertices();
@@ -159,7 +155,7 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	memcpy(indexesPointer, fileBuffer, bytes);
 	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
 	std::vector<std::vector<unsigned int>> faces;
-	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
+	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3)
 	{
 		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };
 		faces.push_back(indexes);

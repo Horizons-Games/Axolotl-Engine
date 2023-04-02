@@ -1,13 +1,16 @@
 #include "Program.h"
 
-#include "Globals.h"
 #include "GL/glew.h"
+#include "Globals.h"
 #include <MathGeoLib/Include/Math/float3.h>
 
-Program::Program(unsigned vertexShader, unsigned fragmentShader,
-	const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName) :
-	vertexShaderFileName(vtxShaderFileName), fragmentShaderFileName(frgShaderFileName), programName(programName),
-	id(glCreateProgram())
+Program::Program(unsigned vertexShader,
+				 unsigned fragmentShader,
+				 const std::string& vtxShaderFileName,
+				 const std::string& frgShaderFileName,
+				 const std::string& programName) :
+	vertexShaderFileName(vtxShaderFileName),
+	fragmentShaderFileName(frgShaderFileName), programName(programName), id(glCreateProgram())
 {
 	glAttachShader(id, vertexShader);
 	glAttachShader(id, fragmentShader);
@@ -22,7 +25,7 @@ Program::Program(unsigned vertexShader, unsigned fragmentShader,
 		if (len > 0)
 		{
 			int written = 0;
-			char* info = (char*)malloc(len);
+			char* info = (char*) malloc(len);
 			glGetProgramInfoLog(id, len, &written, info);
 			ENGINE_LOG("Program Log Info: %s", info);
 			free(info);
@@ -58,8 +61,7 @@ void Program::BindUniformFloat4x4(const std::string& name, const float* data, bo
 
 void Program::BindUniformFloat3(const std::string& name, const float3 data)
 {
-	glUniform3f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z);
+	glUniform3f(glGetUniformLocation(id, name.c_str()), data.x, data.y, data.z);
 }
 
 void Program::BindUniformFloat(const std::string& name, const float data)

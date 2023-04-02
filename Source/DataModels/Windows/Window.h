@@ -5,12 +5,14 @@
 class Window
 {
 public:
-	virtual ~Window() {}
+	virtual ~Window()
+	{
+	}
 
 	virtual void Draw(bool& enabled) = 0;
 
 	const std::string& GetName() const;
-	
+
 protected:
 	Window(const std::string& name);
 

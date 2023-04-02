@@ -30,4 +30,3 @@ public:
 	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
 	void ZipFolder(struct zip_t* zip, const char* path);
 };
-

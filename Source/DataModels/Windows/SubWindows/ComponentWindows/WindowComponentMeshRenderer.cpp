@@ -21,21 +21,21 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
+	ImGui::Text(""); // used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
-		static char* meshPath = (char*)("unknown");
+		static char* meshPath = (char*) ("unknown");
 
 		if (meshAsShared)
 		{
-			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
+			meshPath = (char*) (meshAsShared->GetLibraryPath().c_str());
 		}
 		else
 		{
-			meshPath = (char*)("unknown");
+			meshPath = (char*) ("unknown");
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
@@ -44,11 +44,10 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
-				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->SearchResource<ResourceMesh>(draggedMeshUID);
-				//And then this should be RequestResource not SearchResource
+				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
+				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				std::shared_ptr<ResourceMesh> newMesh = App->resources->SearchResource<ResourceMesh>(draggedMeshUID);
+				// And then this should be RequestResource not SearchResource
 
 				if (newMesh)
 				{
@@ -59,12 +58,10 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		
 
 		bool showMeshBrowser;
 
 		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
 
 		if (showMeshBrowser)
 		{
@@ -81,13 +78,14 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumVertices() : 0);
+			ImGui::TextColored(
+				ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ? meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumFaces() : 0); // faces = triangles
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
+							   "%i ",
+							   (meshAsShared) ? meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}

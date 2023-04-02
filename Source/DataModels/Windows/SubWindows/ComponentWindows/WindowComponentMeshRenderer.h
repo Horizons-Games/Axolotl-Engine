@@ -17,4 +17,3 @@ protected:
 private:
 	std::unique_ptr<WindowMeshInput> inputMesh;
 };
-

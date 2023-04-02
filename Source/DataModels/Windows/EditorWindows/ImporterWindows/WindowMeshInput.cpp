@@ -1,7 +1,7 @@
 #include "WindowMeshInput.h"
 
-#include "Components/ComponentMeshRenderer.h"
 #include "Application.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceMesh.h"
 

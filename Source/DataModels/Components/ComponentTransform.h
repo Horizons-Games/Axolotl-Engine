@@ -1,6 +1,6 @@
 #pragma once
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4172)
+#pragma warning(disable : 26495)
+#pragma warning(disable : 4172)
 
 #include "Components/Component.h"
 
@@ -49,7 +49,7 @@ public:
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-	
+
 private:
 	float3 pos;
 	float4x4 rot;
@@ -75,7 +75,7 @@ inline const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-inline const float4x4& ComponentTransform::GetRotation() const 
+inline const float4x4& ComponentTransform::GetRotation() const
 {
 	return rot;
 }
@@ -141,9 +141,12 @@ inline void ComponentTransform::SetScale(const float3& scale)
 {
 	sca = scale;
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+	if (sca.x <= 0)
+		sca.x = 0.0001f;
+	if (sca.y <= 0)
+		sca.y = 0.0001f;
+	if (sca.z <= 0)
+		sca.z = 0.0001f;
 }
 
 inline const float4x4& ComponentTransform::GetLocalMatrix() const

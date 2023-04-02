@@ -4,8 +4,8 @@
 #include <unordered_map>
 
 #include "../../FileSystem/UniqueID.h"
-#include <memory>
 #include <iterator>
+#include <memory>
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
@@ -42,7 +42,7 @@ public:
 	void DrawSelected();
 	void DrawHighlight();
 
-	void InitNewEmptyGameObject(bool is3D=true);
+	void InitNewEmptyGameObject(bool is3D = true);
 
 	void AddChild(std::unique_ptr<GameObject> child);
 	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
@@ -61,8 +61,7 @@ public:
 	void CopyComponent(ComponentType type, Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template <typename T,
-		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
+	template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
 	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
@@ -197,9 +196,11 @@ inline const std::vector<GameObject*> GameObject::GetChildren() const
 	std::vector<GameObject*> rawChildren;
 	rawChildren.reserve(children.size());
 
-	if(!children.empty())
-		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
+	if (!children.empty())
+		std::transform(std::begin(children),
+					   std::end(children),
+					   std::back_inserter(rawChildren),
+					   [](const std::unique_ptr<GameObject>& go) { return go.get(); });
 
 	return rawChildren;
 }
@@ -217,14 +218,15 @@ inline const std::vector<Component*> GameObject::GetComponents() const
 {
 	std::vector<Component*> rawComponent;
 
-	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
-		[](const std::unique_ptr<Component>& c) { return c.get(); });
+	std::transform(std::begin(components),
+				   std::end(components),
+				   std::back_inserter(rawComponent),
+				   [](const std::unique_ptr<Component>& c) { return c.get(); });
 
 	return rawComponent;
 }
 
-template <typename T,
-	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
+template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
 inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
 	std::vector<T*> components;

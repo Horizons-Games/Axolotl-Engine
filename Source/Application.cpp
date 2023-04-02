@@ -1,18 +1,18 @@
 #pragma once
 #include "Application.h"
-#include "ModuleWindow.h"
-#include "ModuleRender.h"
-#include "ModuleInput.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleScene.h"
+#include "ModuleCamera.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
+#include "ModuleProgram.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleUI.h"
+#include "ModuleWindow.h"
 #ifndef ENGINE
-#include "ModulePlayer.h"
+#	include "ModulePlayer.h"
 #endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;
@@ -83,7 +83,7 @@ update_status Application::Update()
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32) (1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = (appTimer->Read() - ms) / 1000.0f;
@@ -95,7 +95,7 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (int i = (int)(modules.size() - 1); i >= 0; --i)
+	for (int i = (int) (modules.size() - 1); i >= 0; --i)
 		ret = modules[i]->CleanUp();
 
 	return ret;

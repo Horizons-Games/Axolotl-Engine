@@ -1,25 +1,25 @@
 #include "ModuleScene.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModuleRender.h"
 
 #include "Scene/Scene.h"
 
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModulePlayer.h"
-#include "Components/ComponentCamera.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/ComponentLight.h"
-#include "DataModels/Skybox/Skybox.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
 
 #ifdef DEBUG
-#include "optick.h"
+#	include "optick.h"
 #endif // DEBUG
 
-ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
+ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr)
 {
 }
 
@@ -46,12 +46,12 @@ bool ModuleScene::Start()
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
-#else //ENGINE
+#else  // ENGINE
 	if (loadedScene == nullptr)
 	{
 		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
 	}
-#endif //GAMEMODE
+#endif // GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
@@ -62,7 +62,7 @@ update_status ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 
-	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	// UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -130,7 +130,7 @@ void ModuleScene::OnStop()
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
-	//clear the document
+	// clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
 
@@ -167,7 +167,7 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
@@ -196,7 +196,6 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 #ifndef ENGINE
 	if (App->player->GetPlayer())
 	{
-
 		App->player->LoadNewPlayer();
 	}
 #endif // !ENGINE
@@ -256,7 +255,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		}
 		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
-			//Quadtree treatment
+			// Quadtree treatment
 			if (!rootQuadtree->InQuadrant(obj))
 			{
 				if (!rootQuadtree->IsFreezed())
@@ -268,7 +267,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 			{
 				rootQuadtree->Add(obj);
 			}
-
 		}
 	}
 

@@ -1,9 +1,9 @@
 #include "WindowComponentAmbient.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
-#include "DataModels/Scene/Scene.h"
 #include "DataModels/Components/ComponentAmbient.h"
+#include "DataModels/Scene/Scene.h"
+#include "ModuleScene.h"
 
 WindowComponentAmbient::WindowComponentAmbient(ComponentAmbient* component) :
 	ComponentWindow("AMBIENT LIGHT", component)
@@ -32,7 +32,7 @@ void WindowComponentAmbient::DrawWindowContents()
 			ImGui::SameLine();
 
 			float3 color = asAmbient->GetColor();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			if (ImGui::ColorEdit3("MyColor##1", (float*) &color))
 			{
 				asAmbient->SetColor(color);
 				App->scene->GetLoadedScene()->RenderAmbientLight();

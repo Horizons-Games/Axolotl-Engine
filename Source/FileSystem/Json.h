@@ -5,7 +5,7 @@
 
 #include <string>
 
-class Json 
+class Json
 {
 public:
 	Json(rapidjson::Document& document, rapidjson::Value& value);
@@ -16,7 +16,8 @@ public:
 	bool fromBuffer(char*& buffer);
 	void toBuffer(rapidjson::StringBuffer& buffer);
 
-	template<typename T> Json operator[](const T* key) const;
+	template<typename T>
+	Json operator[](const T* key) const;
 	Json operator[](const unsigned index) const;
 
 	operator bool() const;

@@ -1,11 +1,11 @@
 
 #include "Application.h"
 
+#include "ModuleCamera.h"
+#include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
-#include "ModuleCamera.h"
 #include "Scene/Scene.h"
-#include "ModuleInput.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
@@ -17,10 +17,9 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr){};
 
-ModulePlayer::~ModulePlayer() {
-};
+ModulePlayer::~ModulePlayer(){};
 
 bool ModulePlayer::Init()
 {
@@ -29,7 +28,7 @@ bool ModulePlayer::Init()
 
 bool ModulePlayer::Start()
 {
-	//Initialize the player
+	// Initialize the player
 	LoadNewPlayer();
 	return true;
 }
@@ -70,39 +69,39 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::Move()
 {
-	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
+	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
-	//Forward
+	// Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		// trans->UpdateTransformMatrices();
 	}
 
-	//Backward
+	// Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		// trans->UpdateTransformMatrices();
 	}
 
-	//Left
+	// Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
+		position += trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		// trans->UpdateTransformMatrices();
 	}
 
-	//Right
+	// Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
+		position += -trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		// trans->UpdateTransformMatrices();
 	}
 }
 
@@ -113,9 +112,9 @@ void ModulePlayer::Rotate()
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		float3 newRot = trans->GetRotationXYZ();
-		newRot.y += - App->input->GetMouseMotion().x * deltaTime;
+		newRot.y += -App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
-		//trans->UpdateTransformMatrices();
+		// trans->UpdateTransformMatrices();
 	}
 }
 
@@ -130,18 +129,17 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
-			if(componentPlayer->HaveMouseActivated()) 
+			if (componentPlayer->HaveMouseActivated())
 			{
 				App->input->SetShowCursor(true);
 			}
-			else 
+			else
 			{
 				App->input->SetShowCursor(false);
 			}
 		}
 	}
 }
-
 
 bool ModulePlayer::IsStatic()
 {

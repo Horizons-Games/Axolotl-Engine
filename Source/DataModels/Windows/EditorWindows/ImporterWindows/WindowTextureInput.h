@@ -3,8 +3,7 @@
 
 class WindowComponentMaterial;
 
-class WindowTextureInput :
-    public WindowFileBrowser
+class WindowTextureInput : public WindowFileBrowser
 {
 public:
 	WindowTextureInput(WindowComponentMaterial* material, TextureType textureType);

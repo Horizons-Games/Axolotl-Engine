@@ -3,8 +3,7 @@
 
 #include "Math/float3.h"
 
-class ComponentMockState :
-	public Component
+class ComponentMockState : public Component
 {
 public:
 	ComponentMockState(bool active, GameObject* owner);
@@ -26,7 +25,6 @@ public:
 	void SetSceneName(const char* newTag);
 
 private:
-
 	bool isWinState;
 	bool isFailState;
 	std::string sceneName;
@@ -61,4 +59,3 @@ inline void ComponentMockState::SetSceneName(const char* newSceneName)
 {
 	sceneName = newSceneName;
 }
-

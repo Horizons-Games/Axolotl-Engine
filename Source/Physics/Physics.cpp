@@ -1,15 +1,15 @@
 #include "Physics.h"
 
 #include "Application.h"
+#include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#include "ModuleCamera.h"
 
-#include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
+#include "Scene/Scene.h"
 
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentTransform.h"
 
 #include "DataStructures/Quadtree.h"
 #include <DataModels/Resources/ResourceMesh.h>
@@ -17,11 +17,11 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Geometry/Frustum.h"
-#include "Math/float2.h"
 #include "Geometry/Triangle.h"
+#include "Math/float2.h"
 #include <queue>
 
-float2 Physics::ScreenToScenePosition(const float2& mousePosition) 
+float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {
 #ifdef ENGINE
 	// normalize the input to [-1, 1].
@@ -30,8 +30,8 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 	ImVec2 endPosScene = windowScene->GetEndPos();
 	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
-		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x
-			&& mousePosition.y > startPosScene.y && mousePosition.y < endPosScene.y)
+		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
+			mousePosition.y < endPosScene.y)
 		{
 			float2 mousePositionAdjusted = mousePosition;
 			mousePositionAdjusted.x -= startPosScene.x;
@@ -45,7 +45,6 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 }
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 {
-
 #ifdef ENGINE
 	// normalize the input to [-1, 1].
 	const WindowScene* windowScene = App->editor->GetScene();
@@ -53,8 +52,8 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 	ImVec2 endPosScene = windowScene->GetEndPos();
 	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
-		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x
-			&& mousePosition.y > startPosScene.y && mousePosition.y < endPosScene.y)
+		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
+			mousePosition.y < endPosScene.y)
 		{
 			float2 mousePositionAdjusted = mousePosition;
 			mousePositionAdjusted.x -= startPosScene.x;
@@ -66,12 +65,11 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 			float normalizedX = -1.0f + 2.0f * mousePositionAdjusted.x / width;
 			float normalizedY = 1.0f - 2.0f * mousePositionAdjusted.y / height;
 
-
 			ray = App->camera->GetCamera()->GetFrustum()->UnProjectLineSegment(normalizedX, normalizedY);
 			return true;
 		}
 	}
-#endif //ENGINE
+#endif // ENGINE
 	return false;
 }
 
@@ -106,19 +104,21 @@ bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nea
 	return false;
 }
 
-void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitGameObjects, 
-	const LineSegment& ray, GameObject* go)
+void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitGameObjects,
+										const LineSegment& ray,
+										GameObject* go)
 {
 	float nearDistance, farDistance;
 
-	if (HasIntersection(ray, go, nearDistance, farDistance)) 
+	if (HasIntersection(ray, go, nearDistance, farDistance))
 	{
 		hitGameObjects[nearDistance] = go;
 	}
 }
 
 void Physics::AddIntersectionQuadtree(std::map<float, const GameObject*>& hitGameObjects,
-	const LineSegment& ray, Quadtree* quadtree)
+									  const LineSegment& ray,
+									  Quadtree* quadtree)
 {
 	std::queue<const Quadtree*> quadtreeQueue;
 	quadtreeQueue.push(quadtree);
@@ -157,7 +157,8 @@ void Physics::AddIntersectionQuadtree(std::map<float, const GameObject*>& hitGam
 }
 
 void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
-	const LineSegment& ray, RaycastHit& hit)
+								const LineSegment& ray,
+								RaycastHit& hit)
 {
 	GameObject* newSelectedGameObject = nullptr;
 
@@ -172,10 +173,10 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
-				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* componentMeshRenderer =
+				static_cast<ComponentMeshRenderer*>(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
 
-			if (!componentMeshRenderer) 
+			if (!componentMeshRenderer)
 			{
 				continue;
 			}
@@ -186,8 +187,9 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				continue;
 			}
 
-			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
-				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			const float4x4& gameObjectModelMatrix =
+				static_cast<ComponentTransform*>(actualGameObject->GetComponent(ComponentType::TRANSFORM))
+					->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 
@@ -205,7 +207,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 					continue;
 				}
 
-				// Only save a gameObject when any of its triangles is hit 
+				// Only save a gameObject when any of its triangles is hit
 				// and it is the nearest triangle to the frustum
 				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 				minCurrentDistance = thisDistance;

@@ -4,9 +4,7 @@
 
 #include "Application.h"
 
-
-WindowComponentButton::WindowComponentButton(ComponentButton* component) :
-	ComponentWindow("BUTTON", component)
+WindowComponentButton::WindowComponentButton(ComponentButton* component) : ComponentWindow("BUTTON", component)
 {
 }
 
@@ -21,12 +19,11 @@ void WindowComponentButton::DrawWindowContents()
 
 	ComponentButton* asButton = static_cast<ComponentButton*>(component);
 
-	if(asButton)
+	if (asButton)
 	{
-		ImGui::ColorEdit3("Color Hovered", (float*)&asButton->GetColorHovered());
-		ImGui::ColorEdit3("Color Clicked", (float*)&asButton->GetColorClicked());
-		char* sceneName = (char*)asButton->GetSceneName();
+		ImGui::ColorEdit3("Color Hovered", (float*) &asButton->GetColorHovered());
+		ImGui::ColorEdit3("Color Clicked", (float*) &asButton->GetColorClicked());
+		char* sceneName = (char*) asButton->GetSceneName();
 		ImGui::InputText("##Scene name", sceneName, 24);
 	}
-
 }

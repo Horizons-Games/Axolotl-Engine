@@ -1,7 +1,6 @@
 #include "EditorWindow.h"
 
-EditorWindow::EditorWindow(const std::string& name) : Window(name), flags(ImGuiWindowFlags_None),
-	focused(false)
+EditorWindow::EditorWindow(const std::string& name) : Window(name), flags(ImGuiWindowFlags_None), focused(false)
 {
 }
 
@@ -20,8 +19,8 @@ void EditorWindow::Draw(bool& enabled)
 		}
 		ImGui::End();
 	}
-	//The call to ImGui::Begin can change the value of io_enabled
-	//so using "else" will cause the window to remain focused for an extra frame
+	// The call to ImGui::Begin can change the value of io_enabled
+	// so using "else" will cause the window to remain focused for an extra frame
 	if (!enabled)
 	{
 		focused = false;

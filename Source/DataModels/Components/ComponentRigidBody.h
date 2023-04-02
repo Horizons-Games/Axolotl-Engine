@@ -3,8 +3,7 @@
 
 #include "Math/float3.h"
 
-class ComponentRigidBody :
-	public Component
+class ComponentRigidBody : public Component
 {
 public:
 	ComponentRigidBody(bool active, GameObject* owner);
@@ -20,7 +19,6 @@ public:
 	void SetIsKinematic(bool newIsKinematic);
 
 private:
-
 	bool isKinematic;
 	float m;
 	float g;

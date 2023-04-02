@@ -1,23 +1,26 @@
 #include "WindowMainMenu.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
+#include "ModuleScene.h"
 
 #include "SDL.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) :
-	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
-	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
+WindowMainMenu::WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>& editorWindows) :
+	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE),
+	about(std::make_unique<WindowAbout>()), loadScene(std::make_unique<WindowLoadScene>()),
+	saveScene(std::make_unique<WindowSaveScene>())
 {
 	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
 	{
 		std::pair<std::string, bool> windowNameAndEnabled;
-		if (window->GetName() == "Configuration") windowNameAndEnabled = std::make_pair(window->GetName(), false);
-		else windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
+		if (window->GetName() == "Configuration")
+			windowNameAndEnabled = std::make_pair(window->GetName(), false);
+		else
+			windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
 		windowNamesAndEnabled.push_back(windowNameAndEnabled);
 	}
 }
@@ -28,16 +31,20 @@ WindowMainMenu::~WindowMainMenu()
 
 void WindowMainMenu::Draw(bool& enabled)
 {
-	if (openPopup) DrawPopup();
-	else if (!isSaving && action != Actions::NONE) {
+	if (openPopup)
+		DrawPopup();
+	else if (!isSaving && action != Actions::NONE)
+	{
 		if (action == Actions::NEW_SCENE)
 		{
 			CreateNewScene();
 			action = Actions::NONE;
 		}
-		else if (action == Actions::EXIT) Exit();
+		else if (action == Actions::EXIT)
+			Exit();
 	}
-	if (isSaving) saveScene->SaveAsWindow(isSaving);
+	if (isSaving)
+		saveScene->SaveAsWindow(isSaving);
 	if (ImGui::BeginMainMenuBar())
 	{
 		DrawFileMenu();
@@ -49,8 +56,8 @@ void WindowMainMenu::Draw(bool& enabled)
 
 void WindowMainMenu::Exit()
 {
-	//to make it easier in terms of coupling between classes,
-	//just push an SDL_QuitEvent to the event queue
+	// to make it easier in terms of coupling between classes,
+	// just push an SDL_QuitEvent to the event queue
 	SDL_Event quitEvent;
 	quitEvent.type = SDL_QUIT;
 	SDL_PushEvent(&quitEvent);
@@ -75,8 +82,10 @@ void WindowMainMenu::DrawPopup()
 		std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
-			else isSaving = true;
+			if (filePathName != "New Scene")
+				App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			else
+				isSaving = true;
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
 		}
@@ -107,8 +116,10 @@ void WindowMainMenu::DrawFileMenu()
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 			// We should find a way to check if the scene has already been saved
 			// Using "New Scene" is a patch
-			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
-			else isSaving = true;
+			if (filePathName != "New Scene")
+				App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			else
+				isSaving = true;
 		}
 		saveScene->DrawWindowContents();
 		if (ImGui::MenuItem("Exit"))
@@ -137,9 +148,9 @@ void WindowMainMenu::DrawHelpMenu()
 	if (ImGui::BeginMenu("Help"))
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
-		if (ImGui::MenuItem("GitHub Link")) ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		if (ImGui::MenuItem("GitHub Link"))
+			ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
 }
-

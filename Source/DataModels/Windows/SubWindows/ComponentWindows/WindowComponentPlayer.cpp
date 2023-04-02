@@ -4,9 +4,7 @@
 
 #include "Application.h"
 
-
-WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) :
-	ComponentWindow("PLAYER", component)
+WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) : ComponentWindow("PLAYER", component)
 {
 }
 
@@ -33,5 +31,4 @@ void WindowComponentPlayer::DrawWindowContents()
 	{
 		asPlayer->SetMouse(haveMouse);
 	}
-
 }

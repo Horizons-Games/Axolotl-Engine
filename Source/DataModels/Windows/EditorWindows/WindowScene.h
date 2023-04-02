@@ -49,7 +49,7 @@ private:
 inline ImVec2 WindowScene::GetStartPos() const
 {
 	return viewportBounds[0];
-}	
+}
 
 inline ImVec2 WindowScene::GetEndPos() const
 {

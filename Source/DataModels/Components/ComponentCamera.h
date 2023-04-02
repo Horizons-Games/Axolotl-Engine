@@ -2,8 +2,8 @@
 #include "Component.h"
 
 #include "Geometry/Frustum.h"
-#include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
+#include "Geometry/Plane.h"
 
 class CameraGameObject;
 
@@ -41,7 +41,6 @@ public:
 
 	void DuplicateCamera(CameraGameObject* camera);
 
-
 private:
-	std::unique_ptr <CameraGameObject> camera;
+	std::unique_ptr<CameraGameObject> camera;
 };

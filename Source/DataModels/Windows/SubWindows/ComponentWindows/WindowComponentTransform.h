@@ -28,4 +28,3 @@ private:
 	bool rotationModified;
 	bool scaleModified;
 };
-

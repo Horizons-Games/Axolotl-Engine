@@ -1,35 +1,41 @@
-#pragma warning (disable: 26495)
+#pragma warning(disable : 26495)
 
 #include "ModuleRender.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleWindow.h"
 #include "ModuleCamera.h"
-#include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleProgram.h"
 #include "ModuleScene.h"
+#include "ModuleWindow.h"
 #ifndef ENGINE
-#include "ModulePlayer.h"
+#	include "ModulePlayer.h"
 #endif // !ENGINE
 
-#include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
-#include "optick.h"
+#	include "optick.h"
 #endif // DEBUG
 
-void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
-GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+void __stdcall OurOpenGLErrorFunction(GLenum source,
+									  GLenum type,
+									  GLuint id,
+									  GLenum severity,
+									  GLsizei length,
+									  const GLchar* message,
+									  const void* userParam)
 {
-	const char* tmpSource = "", * tmpType = "", * tmpSeverity = "";
+	const char *tmpSource = "", *tmpType = "", *tmpSeverity = "";
 
-	switch (source) {
+	switch (source)
+	{
 		case GL_DEBUG_SOURCE_API:
 			tmpSource = "API";
 			break;
@@ -50,7 +56,8 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 			break;
 	};
 
-	switch (type) {
+	switch (type)
+	{
 		case GL_DEBUG_TYPE_ERROR:
 			tmpType = "Error";
 			break;
@@ -80,7 +87,8 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 			break;
 	};
 
-	switch (severity) {
+	switch (severity)
+	{
 		case GL_DEBUG_SEVERITY_HIGH:
 			tmpSeverity = "high";
 			break;
@@ -96,8 +104,9 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 	};
 }
 
-ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+ModuleRender::ModuleRender() :
+	context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), depthStencilRenderbuffer(0),
+	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
 
@@ -114,7 +123,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // we want a double buffer
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);	 // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
 	context = SDL_GL_CreateContext(App->window->GetWindow());
@@ -132,14 +141,14 @@ bool ModuleRender::Init()
 	ENGINE_LOG("OpenGL version supported %s", glGetString(GL_VERSION));
 	ENGINE_LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	glEnable(GL_DEBUG_OUTPUT); 
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); 
-	glDebugMessageCallback(&OurOpenGLErrorFunction, nullptr); 
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(&OurOpenGLErrorFunction, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
-	glEnable(GL_DEPTH_TEST);	// Enable depth test
-	glDisable(GL_CULL_FACE);	// Enable cull backward faces
-	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
+	glEnable(GL_DEPTH_TEST); // Enable depth test
+	glDisable(GL_CULL_FACE); // Enable cull backward faces
+	glFrontFace(GL_CCW);	 // Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -163,7 +172,7 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	//UpdateProgram();
+	// UpdateProgram();
 
 	return true;
 }
@@ -180,8 +189,7 @@ update_status ModuleRender::PreUpdate()
 
 	glViewport(0, 0, width, height);
 
-	glClearColor(backgroundColor.x, backgroundColor.y, 
-				 backgroundColor.z, backgroundColor.w);
+	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
@@ -212,8 +220,7 @@ update_status ModuleRender::Update()
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
 
-
-	if (isRoot) 
+	if (isRoot)
 	{
 		gameObjectsToDraw.push_back(goSelected);
 	}
@@ -225,15 +232,15 @@ update_status ModuleRender::Update()
 		}
 	}
 
-	if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
+	if (!isRoot && goSelected != nullptr && goSelected->IsActive())
 	{
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilMask(0xFF);			   // enable writing to the stencil buffer
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 		goSelected->DrawSelected();
 
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // discard the ones that are previously captured
 		glLineWidth(25);
 		glPolygonMode(GL_FRONT, GL_LINE);
 		goSelected->DrawHighlight();
@@ -248,7 +255,7 @@ update_status ModuleRender::Update()
 	{
 		return update_status::UPDATE_CONTINUE;
 	}
-#endif //ENGINE
+#endif // ENGINE
 
 	if (App->debug->IsShowingBoundingBoxes())
 	{
@@ -258,8 +265,7 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
-	App->camera->GetCamera()->GetProjectionMatrix(), w, h);
+	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(), App->camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -269,7 +275,7 @@ update_status ModuleRender::PostUpdate()
 	SDL_GL_SwapWindow(App->window->GetWindow());
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
+
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -280,7 +286,7 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(context);
 
 	glDeleteBuffers(1, &vbo);
-	
+
 	return true;
 }
 
@@ -331,13 +337,12 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	return valid;
 }
 
-
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
-		if (quadtree->IsLeaf()) 
+		if (quadtree->IsLeaf())
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
@@ -347,21 +352,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				}
 			}
 		}
-		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		else if (!gameObjectsToRender.empty()) // If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (const GameObject* gameObject : gameObjectsToRender) // We draw all these objects
 			{
 				if (gameObject->IsEnabled())
 				{
 					gameObjectsToDraw.push_back(gameObject);
 				}
 			}
-			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
+			FillRenderList(quadtree->GetFrontRightNode()); // And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
 			FillRenderList(quadtree->GetBackRightNode());
 			FillRenderList(quadtree->GetBackLeftNode());
 		}
-		else 
+		else
 		{
 			FillRenderList(quadtree->GetFrontRightNode());
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -378,7 +383,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	//If an object doesn't have transform component it doesn't need to draw
+	// If an object doesn't have transform component it doesn't need to draw
 	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
 	{
 		return;
@@ -391,7 +396,6 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 			gameObjectsToDraw.push_back(gameObject);
 		}
 	}
-	
 
 	if (!gameObject->GetChildren().empty())
 	{
@@ -418,4 +422,3 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 	}
 #endif // ENGINE
 }
-

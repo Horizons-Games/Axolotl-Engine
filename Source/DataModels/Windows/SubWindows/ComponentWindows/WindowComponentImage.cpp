@@ -6,7 +6,6 @@
 
 #include "Application.h"
 
-
 WindowComponentImage::WindowComponentImage(ComponentImage* component) :
 	ComponentWindow("IMAGE", component), inputImage(std::make_unique<WindowSpriteInput>(component))
 {
@@ -28,20 +27,20 @@ void WindowComponentImage::DrawWindowContents()
 		{
 			ImGui::TableNextColumn();
 			image->Load();
-			ImGui::Image((void*)(intptr_t)image->GetGlTexture(), ImVec2(100, 100));
+			ImGui::Image((void*) (intptr_t) image->GetGlTexture(), ImVec2(100, 100));
 			ImGui::TableNextColumn();
 			if (ImGui::Button("Remove Texture Diffuse"))
 			{
 				image->Unload();
 				asImage->SetImage(nullptr);
 			}
-			ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
+			ImGui::ColorEdit3("Color##1", (float*) &asImage->GetColor());
 			ImGui::EndTable();
 		}
 	}
 	else
 	{
 		inputImage->DrawWindowContents();
-		ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
+		ImGui::ColorEdit3("Color##1", (float*) &asImage->GetColor());
 	}
 }

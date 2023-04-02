@@ -18,4 +18,3 @@ private:
 
 	bool stopped;
 };
-

@@ -1,9 +1,9 @@
 #pragma once
-#pragma warning (disable: 26495)
+#pragma warning(disable : 26495)
 
-#include "Module.h"
 #include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include "Module.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -38,19 +38,17 @@ public:
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
 
-
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
 	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
-
 	void* context;
 	float4 backgroundColor;
 
 	unsigned vbo;
-	
+
 	std::vector<const GameObject*> gameObjectsToDraw;
 	const std::vector<std::string> modelTypes;
 

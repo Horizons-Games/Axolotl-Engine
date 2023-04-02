@@ -3,8 +3,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include "DataModels/Program/Program.h"
 #include "Application.h"
+#include "DataModels/Program/Program.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
@@ -18,18 +18,19 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
-	programs.reserve((int)ProgramType::PROGRAM_TYPE_SIZE);
+	programs.reserve((int) ProgramType::PROGRAM_TYPE_SIZE);
 	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
 	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
 	programs.push_back(CreateProgram("2D_vertex.glsl", "2D_fragment.glsl", "Sprite"));
 
-
 	return true;
 }
 
-void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName, int programType,
-	const std::string programName)
+void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName,
+								  const std::string& frgShaderFileName,
+								  int programType,
+								  const std::string programName)
 {
 	std::unique_ptr<Program> program = CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
 
@@ -39,11 +40,11 @@ void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, const st
 	}
 }
 
-std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShaderFileName, const std::string frgShaderFileName,
-	const std::string programName)
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShaderFileName,
+													  const std::string frgShaderFileName,
+													  const std::string programName)
 {
-	unsigned vertexShader =
-		CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
+	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
 	unsigned fragmentShader =
 		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
 
@@ -52,8 +53,8 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShade
 		return nullptr;
 	}
 
-	std::unique_ptr<Program> program = std::make_unique<Program>(vertexShader, fragmentShader,
-		vtxShaderFileName, frgShaderFileName, programName);
+	std::unique_ptr<Program> program =
+		std::make_unique<Program>(vertexShader, fragmentShader, vtxShaderFileName, frgShaderFileName, programName);
 
 	if (!program->IsValidProgram())
 	{
@@ -94,7 +95,7 @@ unsigned ModuleProgram::CompileShader(unsigned type, const std::string& source)
 		if (len > 0)
 		{
 			int written = 0;
-			char* info = (char*)malloc(len);
+			char* info = (char*) malloc(len);
 			glGetShaderInfoLog(shaderID, len, &written, info);
 			ENGINE_LOG("Log Info: %s", info);
 			free(info);

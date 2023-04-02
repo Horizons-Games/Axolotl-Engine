@@ -14,9 +14,8 @@ public:
 	ComponentAmbient(const float3& color, GameObject* parent);
 	~ComponentAmbient() override;
 
-	void Draw() override {};
+	void Draw() override{};
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 };
-

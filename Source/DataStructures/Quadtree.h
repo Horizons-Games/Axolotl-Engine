@@ -1,11 +1,11 @@
 #pragma once
-#include <list>
-#include <set>
-#include <map>
 #include <MathGeoLib/Include/Geometry/AABB.h>
+#include <list>
+#include <map>
+#include <set>
 
-#include "Globals.h"
 #include "Geometry/LineSegment.h"
+#include "Globals.h"
 
 class GameObject;
 class Json;
@@ -143,4 +143,3 @@ inline void Quadtree::SetMinQuadrantSideSize(float minQuadrantSideSize)
 	this->minQuadrantSideSize = minQuadrantSideSize;
 	minQuadrantDiagonalSquared = 3 * minQuadrantSideSize * minQuadrantSideSize;
 }
-
