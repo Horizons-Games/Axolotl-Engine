@@ -11,6 +11,7 @@ class ComponentMeshRenderer;
 class ResourceMesh;
 class ResourceMaterial;
 class GameObject;
+class Program;
 
 struct Command
 {
@@ -95,6 +96,8 @@ private:
 	unsigned int numTotalVertices = 0;
 	unsigned int numTotalIndices = 0;
 	unsigned int numTotalFaces = 0;
+
+	Program* program;
 
 	int flags = 0;
 };

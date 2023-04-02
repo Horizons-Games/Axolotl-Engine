@@ -29,6 +29,7 @@ GeometryBatch::GeometryBatch()
 	glGenBuffers(1, &normalsBuffer);
 	glGenBuffers(1, &tangentsBuffer);
 	glGenBuffers(1, &materials);
+	program = App->program->GetProgram(ProgramType::MESHSHADER);
 }
 
 GeometryBatch::~GeometryBatch()
@@ -310,9 +311,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	
 	int drawCount = 0;
 
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
-	program->Activate();
-
 	std::vector<float4x4> modelMatrices (componentsInBatch.size());
 
 	for (auto component : componentsToRender)
@@ -343,9 +341,12 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	
 	glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
-	
+
+	program->Activate();
 	glBindVertexArray(vao);
+
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
+
 	glBindVertexArray(0);
 	program->Deactivate();
 }
