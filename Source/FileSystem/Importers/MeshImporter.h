@@ -13,4 +13,6 @@ public:
 
 protected:
     void Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size) override;
+
+    static constexpr unsigned int bonesPerVertex = 4;
 };

@@ -52,8 +52,9 @@ public:
 	const std::vector<float3>& GetNormals();
 	const std::vector<float3>& GetTangents();
 	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
-	const std::vector<Bone>& GetBones();
-	const std::vector<Attach>& GetAttaches();
+	const std::vector<Bone>& GetBones() const ;
+	const std::vector<Attach>& GetAttaches() const;
+	const std::vector<unsigned int>& GetNumWeights() const;
 
 	OptionsMesh& GetOptions();
 
@@ -84,6 +85,8 @@ private:
 	void CreateEBO();
 	void CreateVAO();
 
+	static constexpr unsigned int bonesPerVertex = 4;
+
 	unsigned int vbo;
 	unsigned int ebo;
 	unsigned int vao;
@@ -101,6 +104,7 @@ private:
 	std::vector<std::vector<unsigned int> > facesIndices;
 	std::vector<Bone> bones;
 	std::vector<Attach> attaches;
+	std::vector<unsigned int> numWeights;
 
 	OptionsMesh options;
 };
@@ -175,14 +179,19 @@ inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndi
 	return facesIndices;
 }
 
-inline const std::vector<Bone>& ResourceMesh::GetBones()
+inline const std::vector<Bone>& ResourceMesh::GetBones() const 
 {
 	return bones;
 }
 
-inline const std::vector<Attach>& ResourceMesh::GetAttaches()
+inline const std::vector<Attach>& ResourceMesh::GetAttaches() const 
 {
 	return attaches;
+}
+
+inline const std::vector<unsigned int>& ResourceMesh::GetNumWeights() const
+{
+	return this->numWeights;
 }
 
 inline OptionsMesh& ResourceMesh::GetOptions()
@@ -263,5 +272,8 @@ inline void ResourceMesh::SetAttachWeight(const unsigned int vertexId, const flo
 
 inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
 {
-	++this->attaches[vertexId].numBones;
+	if (this->attaches[vertexId].numBones < bonesPerVertex)
+	{
+		++this->attaches[vertexId].numBones;
+	}
 }
