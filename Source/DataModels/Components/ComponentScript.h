@@ -22,7 +22,6 @@ public:
 	virtual void CleanUp() {};
 
 	const std::vector<ValidFieldType>& GetFields() const;
-	void SetFields(const std::vector<ValidFieldType>& members);
 	void RegisterField(const ValidFieldType& field);
 
 private:
@@ -32,11 +31,6 @@ private:
 inline const std::vector<ValidFieldType>& ComponentScript::GetFields() const
 {
 	return members;
-}
-
-inline void ComponentScript::SetFields(const std::vector<ValidFieldType>& members)
-{
-	this->members = members;
 }
 
 inline void ComponentScript::RegisterField(const ValidFieldType& field)
