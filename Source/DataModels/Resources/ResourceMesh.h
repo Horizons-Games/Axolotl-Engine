@@ -72,6 +72,9 @@ public:
 	void SetAttachResize();
 	void SetAttachBones(const unsigned int vertexId, const unsigned int boneId);
 	void SetAttachWeight(const unsigned int vertexId, const float weight);
+	void SetNumWeights(const std::vector<unsigned int>& numWeights);
+
+
 	void IncrementAttachNumBones(const unsigned int vertexId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
@@ -268,6 +271,11 @@ inline void ResourceMesh::SetAttachBones(const unsigned int vertexId, const unsi
 inline void ResourceMesh::SetAttachWeight(const unsigned int vertexId, const float weight)
 {
 	this->attaches[vertexId].weights[this->attaches[vertexId].numBones] = weight;
+}
+
+inline void ResourceMesh::SetNumWeights(const std::vector<unsigned int>& numWeights)
+{
+	this->numWeights = numWeights;
 }
 
 inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
