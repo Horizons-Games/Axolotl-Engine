@@ -293,6 +293,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentScript.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -613,6 +616,12 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentScript.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\Field.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -680,6 +689,9 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Reflection">
+      <UniqueIdentifier>{a7860462-3b9f-466b-9ee6-9497d8f9ca86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -171,6 +171,7 @@
     <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentScript.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
@@ -400,6 +401,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
+    <ClInclude Include="Auxiliar\Reflection\Field.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -415,6 +417,7 @@
     <ClInclude Include="DataModels\Components\ComponentMockState.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
     <ClInclude Include="DataModels\Components\ComponentRigidBody.h" />
+    <ClInclude Include="DataModels\Components\ComponentScript.h" />
     <ClInclude Include="DataModels\Components\ComponentTransform.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
