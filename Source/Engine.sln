@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine.vcxproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExternalDependencies", "..\External\ExternalDependencies.vcxproj", "{4D6EC717-F9BB-4F31-9056-8F1120F69672}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripting", "..\Scripting\Scripting.vcxproj", "{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EBCCD73A-A6B7-458D-8C04-9E787251DA0F} = {EBCCD73A-A6B7-458D-8C04-9E787251DA0F}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DebugEngine|x64 = DebugEngine|x64
@@ -34,6 +39,14 @@ Global
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseEngine|x64.Build.0 = ReleaseEngine|x64
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.ActiveCfg = ReleaseGame|x64
 		{4D6EC717-F9BB-4F31-9056-8F1120F69672}.ReleaseGame|x64.Build.0 = ReleaseGame|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.DebugEngine|x64.ActiveCfg = DebugEngine|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.DebugEngine|x64.Build.0 = DebugEngine|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.DebugGame|x64.ActiveCfg = DebugGame|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.DebugGame|x64.Build.0 = DebugGame|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.ReleaseEngine|x64.ActiveCfg = ReleaseEngine|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.ReleaseEngine|x64.Build.0 = ReleaseEngine|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.ReleaseGame|x64.ActiveCfg = ReleaseGame|x64
+		{5EF080CD-10D4-4C6A-960A-2CFC9B2C462D}.ReleaseGame|x64.Build.0 = ReleaseGame|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
