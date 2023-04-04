@@ -19,7 +19,7 @@ public:
 	~WindowInspector() override;
 
 	void SetResource(const std::weak_ptr<Resource>& resource);
-
+	void ResetSelectedGameObject();
 protected:
 	void DrawWindowContents() override;
 
@@ -39,6 +39,8 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+	void AddComponentRigidBody();
+	void AddComponentMockState();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;

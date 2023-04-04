@@ -22,6 +22,7 @@
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
+#include "Physics/Physics.h"
 
 CameraEngine::CameraEngine() 
 : Camera(CameraType::C_ENGINE)
@@ -66,11 +67,14 @@ bool CameraEngine::Update()
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
 				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
-				const WindowScene* windowScene = App->editor->GetScene();
 				LineSegment ray;
-				if (CreateRaycastFromMousePosition(windowScene, ray))
+				if (Physics::ScreenPointToRay(App->input->GetMousePosition(), ray))
 				{
-					CalculateHitGameObjects(ray);
+					RaycastHit hit;
+					if (Physics::Raycast(ray, hit)) 
+					{
+						SetNewSelectedGameObject(hit.gameObject);
+					}
 				}
 			}
 			// --RAYCAST CALCULATION-- //
@@ -271,20 +275,24 @@ void CameraEngine::Focus(const OBB& obb)
 
 void CameraEngine::Focus(GameObject* gameObject)
 {
-	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
-	AABB minimalAABB;
-	std::vector<math::vec> outputArray{};
-	for (GameObject* object : insideGameObjects)
+	Component* transform = gameObject->GetComponent(ComponentType::TRANSFORM);
+	if (transform)
 	{
-		if (object)
+		std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+		AABB minimalAABB;
+		std::vector<math::vec> outputArray{};
+		for (GameObject* object : insideGameObjects)
 		{
-			outputArray.push_back(object->GetEncapsuledAABB().minPoint);
-			outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			if (object)
+			{
+				outputArray.push_back(object->GetEncapsuledAABB().minPoint);
+				outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			}
 		}
-	}
-	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
+		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 
-	Focus(minimalAABB);
+		Focus(minimalAABB);
+	}
 }
 
 void CameraEngine::Orbit(const OBB& obb)

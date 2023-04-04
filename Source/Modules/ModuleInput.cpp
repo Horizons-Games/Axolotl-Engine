@@ -8,8 +8,10 @@
 #include "Windows/WindowMainMenu.h"
 
 #ifdef ENGINE
+#include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
-#endif // ENGINE
+
+
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -54,7 +56,7 @@ bool ModuleInput::Init()
                         (defaultCursor.get());
 
     #else  // ENGINE
-        SDL_ShowCursor(SDL_DISABLE);
+    SetShowCursor(false);
     #endif // GAMEMODE
 
 	return ret;
@@ -121,7 +123,13 @@ update_status ModuleInput::Update()
     {
 #ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
-#endif // ENGINE
+#else // ENGINE
+
+        if (App->IsDebuggingGame())
+        {
+            ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+        }
+#endif
 
         switch (sdlEvent.type)
         {
@@ -134,6 +142,7 @@ update_status ModuleInput::Update()
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -186,12 +195,23 @@ update_status ModuleInput::Update()
     if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
     {
         App->SwitchDebuggingGame();
+#ifndef ENGINE
+        if (!App->IsDebuggingGame())
+        {
+            SetShowCursor(false);
+        }
+#endif // ENGINE
     }
 
     if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN)
         App->editor->GetMainMenu()->ShortcutSave();
 
     return status;
+}
+
+void ModuleInput::SetShowCursor(bool set)
+{
+    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
 }
 
 bool ModuleInput::CleanUp()

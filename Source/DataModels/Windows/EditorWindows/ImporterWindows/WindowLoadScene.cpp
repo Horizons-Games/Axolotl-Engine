@@ -5,8 +5,8 @@
 
 WindowLoadScene::WindowLoadScene() :WindowFileBrowser()
 {
-	dialogName = " Open Scene";
-	title = ICON_IGFD_FOLDER" Open Scene";
+	dialogName = " Load Scene";
+	title = ICON_IGFD_FOLDER" Load Scene";
 	filters = SCENE_EXTENSION;
 	startPath = "Assets/Scenes";
 }

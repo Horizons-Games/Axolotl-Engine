@@ -6,7 +6,6 @@
 #include <map>
 
 #include "Geometry/Plane.h"
-#include "Geometry/LineSegment.h"
 #include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
@@ -38,11 +37,13 @@ enum class CameraType
 
 class GameObject;
 class WindowScene;
+struct RaycastHit;
 
 class Camera
 {
 public:
 	Camera(const CameraType type);
+	Camera(Camera& camera);
 	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
 	virtual ~Camera();
 
@@ -85,6 +86,7 @@ public:
 
 	float GetHFOV() const;
 	float GetVFOV() const;
+	float GetAspectRatio() const;
 	float GetZNear() const;
 	float GetZFar() const;
 	float GetMoveSpeed() const;
@@ -96,12 +98,8 @@ public:
 	const float3& GetPosition() const;
 
 protected:
-
-	bool CreateRaycastFromMousePosition(const WindowScene* windowScene, LineSegment& ray);
-
-	void CalculateHitGameObjects(const LineSegment& ray);
-	void CalculateHitSelectedGo(std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
-	void SetNewSelectedGameObject(const std::map<float, const GameObject*>& hitGameObjects, const LineSegment& ray);
+	
+	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
 	std::unique_ptr <Frustum> frustum;
@@ -192,6 +190,11 @@ inline float Camera::GetHFOV() const
 inline float Camera::GetVFOV() const
 {
 	return math::RadToDeg(frustum->VerticalFov());
+}
+
+inline float Camera::GetAspectRatio() const
+{
+	return aspectRatio;
 }
 
 inline float Camera::GetZNear() const

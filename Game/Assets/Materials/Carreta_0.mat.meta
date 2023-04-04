@@ -1,8 +1,0 @@
-{
-    "UID": 2689499897940304251,
-    "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/tanque2_TANK_TXT_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/tanque2_TANK_TXT_Normal.png",
-    "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/PanelRed_AlbedoTransparency.png"
-}
