@@ -10,7 +10,7 @@
 #ifdef ENGINE
 #include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
-
+#endif
 
 #ifdef DEBUG
 #include "optick.h"
