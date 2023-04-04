@@ -197,11 +197,16 @@ void GeometryBatch::CreateVAO()
 
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, 500 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+
 	const GLuint bindingPointModel = 10;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);	
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	
 	const GLuint bindingPointMaterial = 11;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
 	glBindVertexArray(0);
 }
@@ -339,7 +344,8 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		drawCount++;
 	}
 	
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
 	
 	glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
 
@@ -347,7 +353,8 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	glBindVertexArray(vao);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
-
+	
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
 	program->Deactivate();
 }
