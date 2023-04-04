@@ -29,8 +29,6 @@
 
 #include "Scene/Scene.h"
 
-#include <queue>
-
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
@@ -215,8 +213,8 @@ void GameObject::LoadOptions(Json& meta)
 
 			ComponentType type = GetTypeByName(jsonComponent["type"]);
 			
-			if (type == ComponentType::UNKNOWN) return;
-
+			if (type == ComponentType::UNKNOWN) 
+				continue;
 			Component* component;
 			if (type == ComponentType::LIGHT)
 			{

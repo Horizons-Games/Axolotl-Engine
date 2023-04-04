@@ -72,9 +72,9 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool is3D)
+GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
 	gameObject->InitNewEmptyGameObject(is3D);
@@ -119,9 +119,9 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent, bool i
 	return gameObject;
 }
 
-GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, GameObject* parent)
+GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
 	gameObject->MoveParent(parent);
@@ -158,7 +158,7 @@ GameObject* Scene::DuplicateGameObject(const char* name, GameObject* newObject, 
 	return gameObject;
 }
 
-GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponent(ComponentType::CAMERA);
@@ -167,9 +167,9 @@ GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* parent)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
@@ -181,7 +181,7 @@ GameObject* Scene::CreateCanvasGameObject(const char* name, GameObject* parent)
 	return gameObject;
 }
 
-GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, ComponentType type)
+GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	switch (type)
@@ -199,7 +199,7 @@ GameObject* Scene::CreateUIGameObject(const char* name, GameObject* parent, Comp
 	return gameObject;
 }
 
-GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Premade3D type)
+GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ComponentMaterial* materialComponent =
@@ -234,7 +234,7 @@ GameObject* Scene::Create3DGameObject(const char* name, GameObject* parent, Prem
 	return gameObject;
 }
 
-GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, LightType type)
+GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);
@@ -247,7 +247,7 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	gameObject->GetParent()->RemoveChild(gameObject);
 }
 
-void Scene::ConvertModelIntoGameObject(const char* model)
+void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	//resourceModel->Load();
@@ -334,168 +334,120 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 
 void Scene::GenerateLights()
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	// Ambient
 
-	if (program)
-	{
-		program->Activate();
+	glGenBuffers(1, &uboAmbient);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
 
-		// Ambient
+	const unsigned bindingAmbient = 1;
 
-		glGenBuffers(1, &uboAmbient);
-		glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		const unsigned bindingAmbient = 1;
-		program->BindUniformBlock("Ambient", bindingAmbient);
+	// Directional 
 
-		glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glGenBuffers(1, &uboDirectional);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
-		// Directional 
+	const unsigned bindingDirectional = 2;
 
-		glGenBuffers(1, &uboDirectional);
-		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-		glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		const unsigned bindingDirectional = 2;
-		program->BindUniformBlock("Directional", bindingDirectional);
+	// Point
 
-		glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	size_t numPoint = pointLights.size();
 
-		// Point
+	glGenBuffers(1, &ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-		size_t numPoint = pointLights.size();
+	const unsigned bindingPoint = 3;
 
-		glGenBuffers(1, &ssboPoint);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-		const unsigned bindingPoint = 3;
-		program->BindShaderStorageBlock("PointLights", bindingPoint);
+	// Spot
 
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	size_t numSpot = spotLights.size();
 
-		// Spot
+	glGenBuffers(1, &ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-		size_t numSpot = spotLights.size();
+	const unsigned bindingSpot = 4;
 
-		glGenBuffers(1, &ssboSpot);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
-
-		const unsigned bindingSpot = 4;
-		program->BindShaderStorageBlock("SpotLights", bindingSpot);
-
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-		program->Deactivate();
-	}
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderAmbientLight() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	ComponentLight* ambientComp =
+		static_cast<ComponentLight*>(ambientLight->GetComponent(ComponentType::LIGHT));
+	float3 ambientValue = ambientComp->GetColor();
 
-	if (program)
-	{
-		program->Activate();
-
-		ComponentLight* ambientComp =
-			static_cast<ComponentLight*>(ambientLight->GetComponent(ComponentType::LIGHT));
-		float3 ambientValue = ambientComp->GetColor();
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	
-		program->Deactivate();
-	}
+	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	ComponentTransform* dirTransform =
+		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
+	ComponentLight* dirComp =
+		static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
 
-	if (program)
-	{
-		program->Activate();
+	float3 directionalDir = dirTransform->GetGlobalForward();
+	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
 
-		ComponentTransform* dirTransform =
-			static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
-		ComponentLight* dirComp =
-			static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
-
-		float3 directionalDir = dirTransform->GetGlobalForward();
-		float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
-		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	
-		program->Deactivate();
-	}
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Scene::RenderPointLights() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	size_t numPoint = pointLights.size();
 
-	if (program)
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
+
+	if (numPoint > 0)
 	{
-		program->Activate();
-
-		size_t numPoint = pointLights.size();
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPoint);
-
-		if (numPoint > 0)
-		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
-		}
-		else
-		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
-		}
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-		program->Deactivate();
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 	}
+	else
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderSpotLights() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	size_t numSpot = spotLights.size();
 
-	if (program)
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
+
+	if (numSpot > 0)
 	{
-		program->Activate();
-		size_t numSpot = spotLights.size();
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
-
-		if (numSpot > 0)
+		for (unsigned int i = 0; i < numSpot; ++i)
 		{
-			for (unsigned int i = 0; i < numSpot; ++i)
-			{
-				glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
-			}
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
 		}
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-		program->Deactivate();
 	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::UpdateScenePointLights()
