@@ -52,24 +52,31 @@ void WindowInspector::InspectSelectedGameObject()
 
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName.c_str());
+				lastSelectedGameObject->SetName(sceneName);
 			}
 
 		}
 		else
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
+			{
+				lastSelectedGameObject->SetName(name);
+			}
 			
-			char* tag = (char*)lastSelectedGameObject->GetTag();
+			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
-			ImGui::InputText("##Tag", tag, 24);
+			if (ImGui::InputText("##Tag", &tag[0], 24))
+			{
+				//removing c_str makes it so the setter only works when tag.size >= 17. God knows why
+				lastSelectedGameObject->SetTag(tag.c_str());
+			}
 		}
 
 		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
