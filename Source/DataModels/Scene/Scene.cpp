@@ -348,7 +348,6 @@ void Scene::GenerateLights()
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
 
 		const unsigned bindingAmbient = 1;
-		program->BindUniformBlock("Ambient", bindingAmbient);
 
 		glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -360,7 +359,6 @@ void Scene::GenerateLights()
 		glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
 		const unsigned bindingDirectional = 2;
-		program->BindUniformBlock("Directional", bindingDirectional);
 
 		glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -374,7 +372,6 @@ void Scene::GenerateLights()
 		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
 		const unsigned bindingPoint = 3;
-		program->BindShaderStorageBlock("PointLights", bindingPoint);
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -385,10 +382,9 @@ void Scene::GenerateLights()
 
 		glGenBuffers(1, &ssboSpot);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
 		const unsigned bindingSpot = 4;
-		program->BindShaderStorageBlock("SpotLights", bindingSpot);
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -478,12 +474,12 @@ void Scene::RenderSpotLights() const
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 		// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
 
 		if (numSpot > 0)
 		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * spotLights.size(), &spotLights[0]);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * numSpot, &spotLights[0]);
 		}
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
