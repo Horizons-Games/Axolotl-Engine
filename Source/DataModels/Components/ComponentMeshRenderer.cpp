@@ -183,6 +183,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (mesh)
 	{
 		mesh->Load();
-		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }

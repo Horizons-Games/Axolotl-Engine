@@ -14,7 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -70,23 +70,6 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::Text("Tag");
 			ImGui::SameLine();
 			ImGui::InputText("##Tag", tag, 24);
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
-			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
-			}
-
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&

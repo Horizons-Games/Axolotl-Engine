@@ -10,7 +10,7 @@
 #include "ModuleScene.h"
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
-	ComponentWindow("TRANSFORM", component)
+	ComponentWindow("TRANSFORM", component), bbdraw(component->isDrawBoundingBoxes())
 {
 }
 
@@ -24,6 +24,18 @@ void WindowComponentTransform::DrawWindowContents()
 
 	if (asTransform)
 	{
+		if (ImGui::Checkbox("##Draw Bounding Box", &(bbdraw)))
+		{
+			asTransform->SetDrawBoundingBoxes(bbdraw);
+			for (GameObject* child : asTransform->GetOwner()->GetChildren())
+			{
+				ComponentTransform* transform = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				transform->SetDrawBoundingBoxes(bbdraw);
+			}
+		}
+		ImGui::SameLine();
+		ImGui::Text("Draw Bounding Box");
+
 		currentTranslation = asTransform->GetPosition();
 		currentRotation = asTransform->GetRotationXYZ();
 		currentScale = asTransform->GetScale();

@@ -378,13 +378,14 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
+	ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 	//If an object doesn't have transform component it doesn't need to draw
-	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
+	if (transform == nullptr)
 	{
 		return;
 	}
 
-	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
+	if (App->camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{

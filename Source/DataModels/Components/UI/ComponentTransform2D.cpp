@@ -37,10 +37,9 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["localPositionY"] = static_cast<float>(pos.y);
 	meta["localPositionZ"] = static_cast<float>(pos.z);
 
-	float3 rotation = GetRotationXYZ();
-	meta["localRot_X"] = static_cast<float>(rotation.x);
-	meta["localRot_Y"] = static_cast<float>(rotation.y);
-	meta["localRot_Z"] = static_cast<float>(rotation.z);
+	meta["localRot_X"] = static_cast<float>(rotXYZ.x);
+	meta["localRot_Y"] = static_cast<float>(rotXYZ.y);
+	meta["localRot_Z"] = static_cast<float>(rotXYZ.z);
 
 	meta["localScaleX"] = static_cast<float>(sca.x);
 	meta["localScaleY"] = static_cast<float>(sca.y);
