@@ -233,6 +233,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
 	bool findMesh = false;
 	bool findMaterial = false;
+
 	for (ComponentMeshRenderer* compare : componentsInBatch)
 	{
 		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)

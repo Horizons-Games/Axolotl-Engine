@@ -242,11 +242,14 @@ update_status ModuleRender::Update()
 
 	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	
 	AddToRenderList(goSelected);
+	
 	for (auto batchAndComponents : renderMap)
 	{
 		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
