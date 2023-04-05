@@ -18,5 +18,5 @@ public:
 	update_status PostUpdate();
 
 private:
-	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+	CAkFilePackageLowLevelIOBlocking lowLevelIO;
 };
