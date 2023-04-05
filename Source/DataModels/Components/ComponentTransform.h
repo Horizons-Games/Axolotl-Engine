@@ -45,7 +45,7 @@ public:
 	const AABB& GetLocalAABB();
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes() const;
+	bool IsDrawBoundingBoxes() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
@@ -167,7 +167,7 @@ inline const OBB& ComponentTransform::GetObjectOBB()
 	return objectOBB;
 }
 
-inline const bool ComponentTransform::isDrawBoundingBoxes() const
+inline bool ComponentTransform::IsDrawBoundingBoxes() const
 {
 	return drawBoundingBoxes;
 }
