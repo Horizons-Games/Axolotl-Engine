@@ -2,8 +2,6 @@
 
 #include "Components/Component.h"
 
-#define COMPONENT_ANIMATION "Animation"
-
 class ComponentAnimation : public Component
 {
 public:

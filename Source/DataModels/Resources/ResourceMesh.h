@@ -27,15 +27,15 @@ public:
 	unsigned int GetEBO() const;
 	unsigned int GetVAO() const;
 
-	unsigned int GetNumVertices();
-	unsigned int GetNumFaces();
-	unsigned int GetNumIndexes();
-	unsigned int GetMaterialIndex();
-	const std::vector<float3>& GetVertices();
-	const std::vector<float3>& GetTextureCoords();
-	const std::vector<float3>& GetNormals();
-	const std::vector<float3>& GetTangents();
-	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
+	unsigned int GetNumVertices() const;
+	unsigned int GetNumFaces() const;
+	unsigned int GetNumIndexes() const;
+	unsigned int GetMaterialIndex() const;
+	const std::vector<float3>& GetVertices() const;
+	const std::vector<float3>& GetTextureCoords() const;
+	const std::vector<float3>& GetNormals() const;
+	const std::vector<float3>& GetTangents() const;
+	const std::vector<std::vector<unsigned int> >& GetFacesIndices() const;
 
 	OptionsMesh& GetOptions();
 
@@ -98,47 +98,47 @@ inline unsigned int ResourceMesh::GetVAO() const
 	return vao;
 }
 
-inline unsigned int ResourceMesh::GetNumVertices()
+inline unsigned int ResourceMesh::GetNumVertices() const
 {
 	return numVertices;
 }
 
-inline unsigned int ResourceMesh::GetNumFaces()
+inline unsigned int ResourceMesh::GetNumFaces() const
 {
 	return numFaces;
 }
 
-inline unsigned int ResourceMesh::GetNumIndexes()
+inline unsigned int ResourceMesh::GetNumIndexes() const
 {
 	return numIndexes;
 }
 
-inline unsigned int ResourceMesh::GetMaterialIndex()
+inline unsigned int ResourceMesh::GetMaterialIndex() const
 {
 	return materialIndex;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetVertices()
+inline const std::vector<float3>& ResourceMesh::GetVertices() const
 {
 	return vertices;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
+inline const std::vector<float3>& ResourceMesh::GetTextureCoords() const
 {
 	return textureCoords;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetNormals()
+inline const std::vector<float3>& ResourceMesh::GetNormals() const
 {
 	return normals;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetTangents()
+inline const std::vector<float3>& ResourceMesh::GetTangents() const
 {
 	return tangents;
 }
 
-inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
+inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices() const
 {
 	return facesIndices;
 }

@@ -23,7 +23,7 @@ enum class TextureType
 
 // Application -------------
 #define TITLE "Axolotl Engine"
-#define VERSION "1.0.0"
+#define VERSION "0.0.3"
 
 // Configuration -----------
 #define MAX_FRAMERATE 80 
@@ -54,6 +54,8 @@ enum class TextureType
 #define MESHES_LIB_PATH "Lib/Meshes/"
 #define MATERIAL_PATH "Assets/Materials/"
 #define MATERIAL_LIB_PATH "Lib/Materials/"
+#define ANIMATIONS_PATH "Assets/Animations/"
+#define ANIMATIONS_LIB_PATH "Lib/Animations/"
 #define SCENE_PATH "Assets/Scenes/"
 
 // Resource extension ------
@@ -67,6 +69,7 @@ enum class TextureType
 #define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
+#define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"
 #define GENERAL_BINARY_EXTENSION ".bin"
 

@@ -8,6 +8,7 @@
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
+#include "FileSystem/Importers/AnimationImporter.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
@@ -39,6 +40,7 @@ bool ModuleResources::Init()
 	meshImporter = std::make_unique<MeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
+	animationImporter = std::make_unique<AnimationImporter>();
 
 	CreateAssetAndLibFolders();
 
@@ -259,6 +261,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::SkyBox:
 				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 				break;
+			case ResourceType::Animation:
+				animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
+				break;
 			default:
 				break;
 			}
@@ -325,6 +330,10 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		skyboxImporter->Import(originalPath.c_str(),
 			std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 		break;
+	case ResourceType::Animation:
+		animationImporter->Import(originalPath.c_str(),
+			std::dynamic_pointer_cast<ResourceAnimation>(resource));
+		break;
 	default:
 		break;
 	}
@@ -351,7 +360,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox };
+												  ResourceType::SkyBox,
+												  ResourceType::Animation};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -544,6 +554,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::Mesh;
 	}
+	else if (normalizedExtension == ANIMATION_EXTENSION)
+	{
+		return ResourceType::Animation;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -564,6 +578,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 		return "Materials";
 	case ResourceType::SkyBox:
 		return "SkyBox";
+	case ResourceType::Animation:
+		return "Animation";
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";
@@ -584,6 +600,8 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 		return ResourceType::Material;
 	if (typeName == "SkyBox")
 		return ResourceType::SkyBox;
+	if (typeName == "Animation")
+		return ResourceType::Animation;
 	return ResourceType::Unknown;
 }
 
