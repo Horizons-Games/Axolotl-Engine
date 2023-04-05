@@ -9,8 +9,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -46,6 +45,7 @@ protected:
 		AkOSChar szPath[1];	//Variable length
 	};
 public:
+	CAkMultipleFileLocation();
 	void Term();
 
 	//
@@ -62,6 +62,8 @@ public:
 	}
 
 	AKRESULT AddBasePath(const AkOSChar*   in_pszBasePath);
+
+	void SetUseSubfoldering(bool bUseSubfoldering) { m_bUseSubfoldering = bUseSubfoldering; }
 
 	AKRESULT Open( 
 		const AkOSChar* in_pszFileName,     // File name.
@@ -95,13 +97,26 @@ public:
 		AkOSChar*			in_pszBasePath = NULL	// Base path to use.  If null, the first suitable location will be given.		
 		);  
 
+	AKRESULT OutputSearchedPaths(
+		const AkOSChar* in_pszFileName,			// File name.
+		AkFileSystemFlags* in_pFlags,			///< Special flags. Can be NULL.
+		AkOpenMode in_eOpenMode,				///< File open mode (read, write, ...).
+		AkOSChar* out_searchedPath,				///< String containing all searched paths
+		AkInt32 in_pathSize						///< The maximum size of the string
+	);
+
+	AKRESULT OutputSearchedPaths(
+		AkFileID in_fileID,      				// File ID.
+		AkFileSystemFlags* in_pFlags,			// Special flags. Can be NULL.
+		AkOpenMode in_eOpenMode,				// File open mode (read, write, ...).
+		AkOSChar* out_searchedPath,				///< String containing all searched paths
+		AkInt32 in_pathSize						///< The maximum size of the string
+	);
+
 protected:
 
 	AkListBareLight<FilePath> m_Locations;
+	bool m_bUseSubfoldering; // If true, the file resolver will assume auto-generated banks and loose/streamed WEM files are organized in sub-folders
 };
 
-namespace AkMultipleFileLocation
-{
-	void ConvertFileIdToFilename(AkOSChar * out_pszTitle, AkUInt32 in_pszTitleMaxLen, AkUInt32 in_codecId, AkFileID in_fileID);
-}
 #endif //_AK_MULTI_FILE_LOCATION_H_

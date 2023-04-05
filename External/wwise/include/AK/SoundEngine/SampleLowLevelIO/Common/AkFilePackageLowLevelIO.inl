@@ -9,8 +9,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -51,10 +50,12 @@ written agreement between you and Audiokinetic Inc.
 #include "AkFilePackageLowLevelIO.h"
 #include "AkFileHelpers.h"
 #include <AK/Tools/Common/AkPlatformFuncs.h>
+#include <AK/SoundEngine/Common/AkCommonDefs.h>
 
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
 CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::CAkFilePackageLowLevelIO()
 : m_bRegisteredToLangChg( false )
+, m_bFallback( true )
 {
 }
 
@@ -86,51 +87,15 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
     )
 {
 	AkAutoLock<CAkLock> lock(m_lock);
-    // If the file is an AK sound bank, try to find the identifier in the lookup table first.
-    if ( in_eOpenMode == AK_OpenModeRead 
-		&& in_pFlags )
-    {
-		if( in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC 
-			&& in_pFlags->uCodecID == AKCODECID_BANK )
-		{
-			// Search file in each package.
-			ListFilePackages::Iterator it = m_packages.Begin();
-			while ( it != m_packages.End() )
-			{
-				AkFileID fileID = (*it)->lut.GetSoundBankID( in_pszFileName );
-
-				if ( FindPackagedFile( (T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc ) == AK_Success )
-				{
-					// Found the ID in the lut. 
-					io_bSyncOpen = true;	// File is opened, now.
-					(*it)->AddRef();
-					out_fileDesc.pPackage = (*it);
-					return AK_Success;
-				}
-				++it;
-			}
-		}
-		else if ( in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL )
-		{
-			// Search file in each package.
-			ListFilePackages::Iterator it = m_packages.Begin();
-			while ( it != m_packages.End() )
-			{
-				AkUInt64 fileID = (*it)->lut.GetExternalID( in_pszFileName );
-
-				if ( FindPackagedFile( (T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc ) == AK_Success )
-				{
-					// Found the ID in the lut. 
-					io_bSyncOpen = true;	// File is opened, now.
-					(*it)->AddRef();
-					out_fileDesc.pPackage = (*it);
-					return AK_Success;
-				}
-
-				++it;
-			}
-		}
+	AKRESULT eResult = FindInPackages(in_pszFileName, in_eOpenMode, in_pFlags, out_fileDesc);
+	if (eResult == AK_Success)
+	{
+		io_bSyncOpen = true;	// File is opened, now.
+		out_fileDesc.pPackage->AddRef();
+		return eResult;
 	}
+	if (!m_bFallback && in_eOpenMode == AK_OpenModeRead)
+		return eResult;
 
     // It is not a soundbank, or it is not in the file package LUT. Use default implementation.
     return T_LLIOHOOK_FILELOC::Open( 
@@ -153,48 +118,15 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
     )
 {
 	AkAutoLock<CAkLock> lock(m_lock);
-    // Try to find the identifier in the lookup table first.
-    if ( in_eOpenMode == AK_OpenModeRead 
-		&& in_pFlags 
-		&& in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC)
+	AKRESULT eResult = FindInPackages(in_fileID, in_eOpenMode, in_pFlags, out_fileDesc);
+	if (eResult == AK_Success)
 	{
-		// Search file in each package.
-		ListFilePackages::Iterator it = m_packages.Begin();
-		while ( it != m_packages.End() )
-		{
-			if ( FindPackagedFile( (T_PACKAGE*)(*it), in_fileID, in_pFlags, out_fileDesc ) == AK_Success )
-			{
-				// File found. Return now.
-				io_bSyncOpen = true;	// File is opened, now.
-				(*it)->AddRef();
-				out_fileDesc.pPackage = (*it);
-				return AK_Success;
-			}
-			++it;
-		}
+		io_bSyncOpen = true;	// File is opened, now.
+		out_fileDesc.pPackage->AddRef();
+		return eResult;
 	}
-	else if ( in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL )
-	{
-		// Search file in each package.
-		ListFilePackages::Iterator it = m_packages.Begin();
-		while ( it != m_packages.End() )
-		{	
-			AkOSChar szFileName[20];
-			AK_OSPRINTF(szFileName, 20, AKTEXT("%u.wem"), (unsigned int)in_fileID);
-			AkUInt64 fileID = (*it)->lut.GetExternalID(szFileName);
-
-			if ( FindPackagedFile( (T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc ) == AK_Success )
-			{
-				// Found the ID in the lut. 
-				io_bSyncOpen = true;	// File is opened, now.
-				(*it)->AddRef();
-				out_fileDesc.pPackage = (*it);
-				return AK_Success;
-			}
-
-			++it;
-		}
-	}
+	if (!m_bFallback && in_eOpenMode == AK_OpenModeRead)
+		return eResult;
 
     // If it the fileID is not in the LUT, perform standard path concatenation logic.
     return T_LLIOHOOK_FILELOC::Open( 
@@ -203,6 +135,64 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 		in_pFlags,
 		io_bSyncOpen,
 		out_fileDesc);
+}
+
+template<class T_LLIOHOOK_FILELOC, class T_PACKAGE>
+inline AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC, T_PACKAGE>::OutputSearchedPaths(
+	const AKRESULT& in_result,
+	const AkOSChar* in_pszFileName,
+	AkFileSystemFlags* in_pFlags,
+	AkOpenMode in_eOpenMode,
+	AkOSChar* out_searchedPath,
+	AkInt32 in_pathSize
+)
+{
+	if (!out_searchedPath)
+		return AK_Fail;
+	AkOSChar buf[256];
+	for (ListFilePackages::Iterator it = m_packages.Begin(); it != m_packages.End(); ++it)
+	{
+		AK_OSPRINTF(buf, 256, AKTEXT("Package #%u; "), (*it)->ID());
+		AKPLATFORM::SafeStrCat(out_searchedPath, buf, in_pathSize);
+	}
+	if (!m_bFallback && in_eOpenMode == AK_OpenModeRead)
+		return AK_Success;
+	return T_LLIOHOOK_FILELOC::OutputSearchedPaths(
+		in_result,
+		in_pszFileName,
+		in_pFlags,
+		in_eOpenMode,
+		out_searchedPath,
+		in_pathSize);
+}
+
+template<class T_LLIOHOOK_FILELOC, class T_PACKAGE>
+inline AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC, T_PACKAGE>::OutputSearchedPaths(
+	const AKRESULT& in_result,
+	const AkFileID in_fileID,
+	AkFileSystemFlags* in_pFlags,
+	AkOpenMode in_eOpenMode,
+	AkOSChar* out_searchedPath,
+	AkInt32 in_pathSize
+)
+{
+	if (!out_searchedPath)
+		return AK_Fail;
+	AkOSChar buf[256];
+	for (ListFilePackages::Iterator it = m_packages.Begin(); it != m_packages.End(); ++it)
+	{
+		AK_OSPRINTF(buf, 256, AKTEXT("Package #%u; "), (*it)->ID());
+		AKPLATFORM::SafeStrCat(out_searchedPath, buf, in_pathSize);
+	}
+	if (!m_bFallback && in_eOpenMode == AK_OpenModeRead)
+		return AK_Success;
+	return T_LLIOHOOK_FILELOC::OutputSearchedPaths(
+		in_result,
+		in_fileID,
+		in_pFlags,
+		in_eOpenMode,
+		out_searchedPath,
+		in_pathSize);
 }
 
 // Override Close: Do not close handle if file descriptor is part of the current packaged file.
@@ -326,6 +316,110 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::LoadFilePackage
 	}
 	return eRes;
 }
+
+
+template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
+AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC, T_PACKAGE>::FindInPackages(
+	const AkOSChar* in_pszFileName,     // File name.
+	AkOpenMode      in_eOpenMode,       // Open mode.
+	AkFileSystemFlags* in_pFlags,      // Special flags. Can pass NULL.
+	AkFileDesc& out_fileDesc        // Returned file descriptor.
+)
+{
+	AkAutoLock<CAkLock> lock(m_lock);
+	// If the file is an AK sound bank, try to find the identifier in the lookup table first.
+	if (in_eOpenMode == AK_OpenModeRead
+		&& in_pFlags)
+	{
+		if (in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC
+			&& AK::IsBankCodecID(in_pFlags->uCodecID))
+		{
+			// Search file in each package.
+			ListFilePackages::Iterator it = m_packages.Begin();
+			while (it != m_packages.End())
+			{
+				AkFileID fileID = (*it)->lut.GetSoundBankID(in_pszFileName);
+
+				if (FindPackagedFile((T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc) == AK_Success)
+				{
+					// Found the ID in the lut. 
+					out_fileDesc.pPackage = (*it);
+					return AK_Success;
+				}
+				++it;
+			}
+		}
+		else if (in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL)
+		{
+			// Search file in each package.
+			ListFilePackages::Iterator it = m_packages.Begin();
+			while (it != m_packages.End())
+			{
+				AkUInt64 fileID = (*it)->lut.GetExternalID(in_pszFileName);
+
+				if (FindPackagedFile((T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc) == AK_Success)
+				{
+					// Found the ID in the lut. 
+					out_fileDesc.pPackage = (*it);
+					return AK_Success;
+				}
+
+				++it;
+			}
+		}
+	}
+	return AK_FileNotFound;
+}
+
+template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
+AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC, T_PACKAGE>::FindInPackages(
+	AkFileID        in_fileID,          // File ID.
+	AkOpenMode      in_eOpenMode,       // Open mode.
+	AkFileSystemFlags* in_pFlags,      // Special flags. Can pass NULL.
+	AkFileDesc& out_fileDesc        // Returned file descriptor.
+)
+{
+	AkAutoLock<CAkLock> lock(m_lock);
+	// Try to find the identifier in the lookup table first.
+	if (in_eOpenMode == AK_OpenModeRead
+		&& in_pFlags
+		&& in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC)
+	{
+		// Search file in each package.
+		ListFilePackages::Iterator it = m_packages.Begin();
+		while (it != m_packages.End())
+		{
+			if (FindPackagedFile((T_PACKAGE*)(*it), in_fileID, in_pFlags, out_fileDesc) == AK_Success)
+			{
+				// File found. Return now.
+				out_fileDesc.pPackage = (*it);
+				return AK_Success;
+			}
+			++it;
+		}
+	}
+	else if (in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL)
+	{
+		// Search file in each package.
+		ListFilePackages::Iterator it = m_packages.Begin();
+		while (it != m_packages.End())
+		{
+			AkOSChar szFileName[20];
+			AK_OSPRINTF(szFileName, 20, AKTEXT("%u.wem"), (unsigned int)in_fileID);
+			AkUInt64 fileID = (*it)->lut.GetExternalID(szFileName);
+
+			if (FindPackagedFile((T_PACKAGE*)(*it), fileID, in_pFlags, out_fileDesc) == AK_Success)
+			{
+				// Found the ID in the lut. 
+				out_fileDesc.pPackage = (*it);
+				return AK_Success;
+			}
+
+			++it;
+		}
+	}
+	return AK_FileNotFound;
+}
 	
 // Loads a file package, with a given file package reader.
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
@@ -366,10 +460,9 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::_LoadFilePackag
 		eRes = in_reader.Read(pReadBuffer, uSizeToRead, uSizeRead, in_readerPriority );
 		if ( eRes != AK_Success || uSizeRead < sizeof(AkFilePackageHeader) )
 		{
-			AKASSERT( !"Could not read package, or package is invalid" );
 			in_reader.Close();
 			AkFree(AkMemID_Streaming, pReadBuffer);
-
+			AK::Monitor::PostString("Could not read package, or package is invalid", AK::Monitor::ErrorLevel_Error);
 			return AK_Fail;
 		}
 		AKPLATFORM::AkMemCpy(pBufferForHeader, pReadBuffer, uSizeRead);
@@ -397,8 +490,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::_LoadFilePackag
 		pFilePackageHeader );
 	if ( !out_pPackage )
 	{
-		AKASSERT( !"Could not create file package" );
 		in_reader.Close();
+		AK::Monitor::PostString("Could not create file package", AK::Monitor::ErrorLevel_Error);
         return AK_Fail;
 	}
 
@@ -482,8 +575,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadFilePacka
 			++it;
 	}
 
-	AKASSERT( !"Invalid package ID" );
-	return AK_Fail;
+	AK::Monitor::PostString("Invalid package id", AK::Monitor::ErrorLevel_Error);
+	return AK_IDNotFound;
 }
 
 // Unload all file packages.

@@ -9,8 +9,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 // 
@@ -39,8 +38,6 @@ written agreement between you and Audiokinetic Inc.
 #include <AK/SoundEngine/Common/AkSoundEngine.h>	// For string hash.
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 #include <AK/Tools/Common/AkFNVHash.h>
-
-#include "core/hepch.h"
 
 #ifdef _DEBUG
 	template<bool> struct AkCompileTimeAssert;
@@ -124,7 +121,7 @@ const CAkFilePackageLUT::AkFileEntry<AkFileID> * CAkFilePackageLUT::LookupFile(
 {
 	AKASSERT( in_pFlags && in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC );
 
-	if ( in_pFlags->uCodecID == AKCODECID_BANK 
+	if ( AK::IsBankCodecID(in_pFlags->uCodecID)
 		&& m_pSoundBanks
 		&& m_pSoundBanks->HasFiles() )
 	{

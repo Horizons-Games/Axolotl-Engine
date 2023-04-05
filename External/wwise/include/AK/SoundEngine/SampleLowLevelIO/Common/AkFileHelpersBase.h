@@ -9,8 +9,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -37,7 +36,7 @@ public:
     /// Joins input in_paths into out_path with AK_PATH_SEPARATOR for up to maxSize characters.
     /// Expect Paths to be of type "[const] AkOSChar*".
     template <typename... Paths>
-    static void JoinPath(AkOSChar* out_path, AkUInt32 maxSize, Paths... in_paths)
+    static void JoinPath(AkOSChar* out_path, AkUInt32 maxLength, Paths... in_paths)
     {
         if (out_path == nullptr)
             return;
@@ -53,9 +52,9 @@ public:
         for (AkUInt32 i = 0; i < nbPaths; ++i)
         {
             if (lastPathEmpty == false)
-                AKPLATFORM::SafeStrCat(out_path, AK_PATH_SEPARATOR, maxSize);
+                AKPLATFORM::SafeStrCat(out_path, AK_PATH_SEPARATOR, maxLength);
 
-            AKPLATFORM::SafeStrCat(out_path, paths[i], maxSize);
+            AKPLATFORM::SafeStrCat(out_path, paths[i], maxLength);
             lastPathEmpty = AKPLATFORM::OsStrLen(paths[i]) == 0;
         }
     }

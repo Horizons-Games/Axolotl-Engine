@@ -1,3 +1,4 @@
+#include "AkDefaultLowLevelIODispatcher.h"
 /*******************************************************************************
 The content of this file includes portions of the AUDIOKINETIC Wwise Technology
 released in source code form as part of the SDK installer package.
@@ -9,8 +10,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
 //////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ written agreement between you and Audiokinetic Inc.
 #include "stdafx.h"
 #include "AkDefaultLowLevelIODispatcher.h"
 #include <AK/Tools/Common/AkAssert.h>
-#include "core/hepch.h"
+
 
 CAkDefaultLowLevelIODispatcher::CAkDefaultLowLevelIODispatcher()
 :m_uNumDevices( 0 )
@@ -130,6 +130,34 @@ AKRESULT CAkDefaultLowLevelIODispatcher::Open(
 	}
 
 	return eResult; 
+}
+
+AKRESULT CAkDefaultLowLevelIODispatcher::OutputSearchedPaths(const AKRESULT& in_result, const AkOSChar* in_pszFileName, AkFileSystemFlags* in_pFlags, AkOpenMode in_eOpenMode, AkOSChar* out_searchedPath, AkInt32 in_pathSize)
+{
+	AkUInt32 uDevice = 0;
+	while (uDevice < AK_MAX_IO_DEVICES)
+	{
+		if (m_arDevices[uDevice])
+		{
+			m_arDevices[uDevice]->OutputSearchedPaths(in_result, in_pszFileName, in_pFlags, in_eOpenMode, out_searchedPath, in_pathSize);
+		}
+		++uDevice;
+	}
+	return AKPLATFORM::OsStrLen(out_searchedPath) > 0 ? AK_Success : AK_Fail;
+}
+
+AKRESULT CAkDefaultLowLevelIODispatcher::OutputSearchedPaths(const AKRESULT& in_result, const AkFileID in_fileID, AkFileSystemFlags* in_pFlags, AkOpenMode in_eOpenMode, AkOSChar* out_searchedPath, AkInt32 in_pathSize)
+{
+	AkUInt32 uDevice = 0;
+	while (uDevice < AK_MAX_IO_DEVICES)
+	{
+		if (m_arDevices[uDevice])
+		{
+			m_arDevices[uDevice]->OutputSearchedPaths(in_result, in_fileID, in_pFlags, in_eOpenMode, out_searchedPath, in_pathSize);
+		}
+		++uDevice;
+	}
+	return AKPLATFORM::OsStrLen(out_searchedPath) > 0 ? AK_Success : AK_Fail;
 }
 
 AKRESULT CAkDefaultLowLevelIODispatcher::AddDevice(

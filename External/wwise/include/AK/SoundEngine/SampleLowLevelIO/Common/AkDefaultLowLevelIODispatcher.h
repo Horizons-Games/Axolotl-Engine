@@ -9,8 +9,7 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2021.1.7  Build: 7796
-  Copyright (c) 2006-2022 Audiokinetic Inc.
+  Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -72,7 +71,23 @@ public:
         AkFileDesc &			out_fileDesc        // Returned file descriptor.
         );
 
+	virtual AKRESULT OutputSearchedPaths(
+		const AKRESULT& in_result,				///< Result of the open call
+		const AkOSChar* in_pszFileName,			///< File name.
+		AkFileSystemFlags* in_pFlags,			///< Special flags. Can be NULL.
+		AkOpenMode in_eOpenMode,				///< File open mode (read, write, ...).
+		AkOSChar* out_searchedPath,				///< String containing all searched paths
+		AkInt32 in_pathSize						///< The maximum size of the string
+	);
 
+	virtual AKRESULT OutputSearchedPaths(
+		const AKRESULT& in_result,				///< Result of the open call
+		const AkFileID in_fileID,				///< File ID.
+		AkFileSystemFlags* in_pFlags,			///< Special flags. Can be NULL.
+		AkOpenMode in_eOpenMode,				///< File open mode (read, write, ...).
+		AkOSChar* out_searchedPath,				///< String containing all searched paths
+		AkInt32 in_pathSize		   				///< The maximum size of the string
+	);
 	// 
 	// Default dispatcher services.
 	//-----------------------------------------------------------------------------
