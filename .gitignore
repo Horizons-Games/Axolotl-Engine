@@ -430,6 +430,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# Wwise
+!External/wwise/include/AK/Tools/Win32/
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 

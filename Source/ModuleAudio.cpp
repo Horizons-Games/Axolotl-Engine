@@ -120,6 +120,30 @@ bool ModuleAudio::Start()
 
 bool ModuleAudio::CleanUp()
 {
+#ifndef AK_OPTIMIZED
+    // Terminate Communication Services
+    AK::Comm::Term();
+#endif // AK_OPTIMIZED
+
+    // Terminate Spatial Audio
+    //AK::SpatialAudio::Term();
+
+    // Terminate the music engine
+    AK::MusicEngine::Term();
+
+    // Terminate the sound engine
+    AK::SoundEngine::Term();
+
+    // Terminate the streaming device and streaming manager
+    // CAkFilePackageLowLevelIOBlocking::Term() destroys its associated streaming device
+    // that lives in the Stream Manager, and unregisters itself as the File Location Resolver.
+    lowLevelIO.Term();
+    if (AK::IAkStreamMgr::Get())
+        AK::IAkStreamMgr::Get()->Destroy();
+
+    // Terminate the Memory Manager
+    AK::MemoryMgr::Term();
+
     return false;
 }
 
@@ -130,6 +154,9 @@ update_status ModuleAudio::PreUpdate()
 
 update_status ModuleAudio::Update()
 {
+    // Process bank requests, events, positions, RTPC, etc.
+    AK::SoundEngine::RenderAudio();
+
     return update_status();
 }
 
