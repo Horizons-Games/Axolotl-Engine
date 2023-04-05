@@ -3,6 +3,7 @@
 #include "Globals.h"
 
 #include "Components/Component.h"
+#include "Program/Program.h"
 
 #include <memory>
 #include "Math/float4.h"
@@ -24,6 +25,8 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void DrawMeshes(Program* program);
+	void DrawMaterial(Program* program);
 	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
