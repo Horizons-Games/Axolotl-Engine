@@ -2,16 +2,16 @@
 
 #include <assert.h>
 
-#include <AK/SoundEngine/Common/AkMemoryMgr.h> // Memory Manager interface
-#include <AK/SoundEngine/Common/AkModule.h> // Default memory manager
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include <AK/SoundEngine/Common/AkSoundEngine.h> // Sound engine
-#include <AK/MusicEngine/Common/AkMusicEngine.h> // Music Engine
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h> // Spatial Audio
-#include <AK/Tools/Common/AkPlatformFuncs.h> // Thread defines
+#include "AK/SoundEngine/Common/AkMemoryMgr.h" // Memory Manager interface
+#include "AK/SoundEngine/Common/AkModule.h" // Default memory manager
+#include "AK/SoundEngine/Common/AkStreamMgrModule.h"
+#include "AK/SoundEngine/Common/AkSoundEngine.h" // Sound engine
+#include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
+#include "AK/SpatialAudio/Common/AkSpatialAudio.h" // Spatial Audio
+#include "AK/Tools/Common/AkPlatformFuncs.h" // Thread defines
 
 #ifndef AK_OPTIMIZED
-#include <AK/Comm/AkCommunication.h>
+#include "AK/Comm/AkCommunication.h"
 #endif // AK_OPTIMIZED
 
 // Bank file names
