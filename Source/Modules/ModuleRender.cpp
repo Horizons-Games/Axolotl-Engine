@@ -529,12 +529,6 @@ void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
 		}
 		currentGo->Draw();
 		drawnGameObjects.push_back(gameObject->GetUID());
-#ifdef ENGINE
-		if (currentGo->isDrawBoundingBoxes())
-		{
-			App->debug->DrawBoundingBox(currentGo->GetObjectOBB());
-		}
-#endif // ENGINE
 	}
 }
 
