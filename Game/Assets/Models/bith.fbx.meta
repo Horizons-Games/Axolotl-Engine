@@ -1,0 +1,18 @@
+{
+    "UID": 4866086120323782151,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/bith_0.mesh",
+        "Assets/Meshes/bith_1.mesh",
+        "Assets/Meshes/bith_2.mesh",
+        "Assets/Meshes/bith_3.mesh",
+        "Assets/Meshes/bith_4.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/bith_0.mat",
+        "Assets/Materials/bith_1.mat",
+        "Assets/Materials/bith_2.mat",
+        "Assets/Materials/bith_3.mat",
+        "Assets/Materials/bith_4.mat"
+    ]
+}

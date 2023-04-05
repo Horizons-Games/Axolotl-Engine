@@ -23,6 +23,9 @@ public:
 	void SaveImporterOptions(Json& meta) override {};
 	void LoadImporterOptions(Json& meta) override {};
 
+	void SaveLoadOptions(Json& meta) override {};
+	void LoadLoadOptions(Json& meta) override {};
+
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
 	unsigned int GetVAO() const;

@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "DataModels/Scene/Scene.h"
 
 #include "DataModels/Components/ComponentPointLight.h"
@@ -61,6 +62,10 @@ void WindowComponentPointLight::DrawWindowContents()
 							App->scene->GetLoadedScene()->RenderSpotLights();
 
 							modified = true;
+							App->editor->RefreshInspector();
+							ImGui::EndCombo();
+							ImGui::EndTable();
+							return;
 						}
 					}
 

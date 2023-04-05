@@ -22,7 +22,8 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
 	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
-	
+	programs.push_back(CreateProgram("2D_vertex.glsl", "2D_fragment.glsl", "Sprite"));
+
 
 	return true;
 }
