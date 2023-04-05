@@ -20,7 +20,6 @@
 #include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
-#include "Math/float4.h"
 
 #include "GL/glew.h"
 

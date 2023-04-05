@@ -5,6 +5,7 @@
 #include "Components/Component.h"
 
 #include <memory>
+#include "Math/float4.h"
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
