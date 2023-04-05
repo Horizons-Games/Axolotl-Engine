@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 #include "Module.h"
-#include <AK/SoundEngine/SampleLowLevelIO/POSIX/AkFilePackageLowLevelIOBlocking.h>
+#include <AK/SoundEngine/SampleLowLevelIO/Win32/AkFilePackageLowLevelIOBlocking.h>
 
 class ModuleAudio : public Module
 {
@@ -18,5 +18,7 @@ public:
 	update_status PostUpdate();
 
 private:
+	void InitializeBanks();
+
 	CAkFilePackageLowLevelIOBlocking lowLevelIO;
 };

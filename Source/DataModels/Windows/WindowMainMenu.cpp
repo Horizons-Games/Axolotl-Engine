@@ -137,7 +137,7 @@ void WindowMainMenu::DrawHelpMenu()
 	if (ImGui::BeginMenu("Help"))
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
-		if (ImGui::MenuItem("GitHub Link")) ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		if (ImGui::MenuItem("GitHub Link")) ShellExecuteA(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
