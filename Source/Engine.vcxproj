@@ -297,7 +297,6 @@
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
-    <ClCompile Include="DataModels\Components\UI\ComponentBoundingBox2D.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
@@ -536,7 +535,6 @@
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
-    <ClInclude Include="DataModels\Components\UI\ComponentBoundingBox2D.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentButton.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
