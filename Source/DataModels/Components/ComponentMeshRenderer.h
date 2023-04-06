@@ -56,10 +56,11 @@ public:
 	const float GetMetalness() const;
 	const bool HasShininessAlpha() const;
 	const bool HasMetallicAlpha() const;
+
+	void UnloadTexture(TextureType textureType);
 private:
 	bool IsMeshLoaded();
 	void UnloadTextures();
-	void UnloadTexture(TextureType textureType);
 
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;

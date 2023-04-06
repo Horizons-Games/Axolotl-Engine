@@ -61,6 +61,7 @@ public:
 	void SetSmoothness(float smoothness);
 	void SetMetalness(float metalness);
 	void SetMetallicAlpha(bool metallicAlpha);
+	void SetShininessAlpha(bool shininessAlpha);
 
 protected:
 	void InternalLoad() override {};

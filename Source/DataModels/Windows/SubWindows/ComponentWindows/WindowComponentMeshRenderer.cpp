@@ -6,8 +6,12 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 
 #include "DataModels/Resources/ResourceMesh.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
 	ComponentWindow("MESH RENDERER", component), 
@@ -129,7 +133,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button("Remove Material"))
 			{
 				materialResource->Unload();
-				asMaterial->SetMaterial(nullptr);
+				asMeshRenderer->SetMaterial(nullptr);
 				return;
 			}
 
@@ -138,7 +142,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
 
-			/*static float3 colorSpecular = materialResource->GetSpecularColor();
+			static float3 colorSpecular = materialResource->GetSpecularColor();
 			ImGui::Text("Specular Color:"); ImGui::SameLine();
 			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
 			{
@@ -155,7 +159,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::SliderFloat("Shininess", &shininess,
 				0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			materialResource->SetShininess(shininess);
-			ImGui::Separator();*/
+			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
 			if (diffuseTexture)
@@ -198,7 +202,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Separator();
 
-			/*ImGui::Text("Specular Texture");
+			ImGui::Text("Specular Texture");
 			bool showTextureBrowserSpecular = true;
 			if (materialResource && materialResource->GetSpecular())
 			{
@@ -220,13 +224,13 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecular())
 				{
-					asMaterial->UnloadTexture(TextureType::SPECULAR);
+					asMeshRenderer->UnloadTexture(TextureType::SPECULAR);
 
 					materialResource->SetSpecular(nullptr);
 				}
 			}
 
-			ImGui::Separator();*/
+			ImGui::Separator();
 
 			ImGui::Separator();
 
@@ -272,11 +276,12 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 void WindowComponentMeshRenderer::DrawEmptyMaterial()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>
+																		(component);
 
-	if (asMaterial)
+	if (asMeshRenderer)
 	{
-		if (asMaterial->GetMaterial() == nullptr)
+		if (asMeshRenderer->GetMaterial() == nullptr)
 		{
 			inputMaterial->DrawWindowContents();
 		}
@@ -285,11 +290,12 @@ void WindowComponentMeshRenderer::DrawEmptyMaterial()
 
 void WindowComponentMeshRenderer::InitMaterialValues()
 {
-	ComponentMaterial* asMaterial = static_cast<ComponentMaterial*>(component);
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>
+																		(component);
 
-	if (asMaterial)
+	if (asMeshRenderer)
 	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
+		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
 		if (materialResource)
 		{
 			colorDiffuse = materialResource->GetDiffuseColor();
