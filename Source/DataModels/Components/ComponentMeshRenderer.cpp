@@ -29,6 +29,11 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 {
 }
 
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
+	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
+{
+}
+
 ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
@@ -57,7 +62,6 @@ void ComponentMeshRenderer::Draw()
 		{
 			mesh->Load();
 		}
-
 
 		Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 

@@ -16,6 +16,7 @@ class ComponentPointLight : public ComponentLight
 {
 public:
 	ComponentPointLight();
+	ComponentPointLight(const ComponentPointLight& componentPointLight);
 	ComponentPointLight(GameObject* parent);
 	ComponentPointLight(float radius, const float3& color, float intensity);
 	ComponentPointLight(float radius, const float3& color, float intensity,

@@ -21,26 +21,29 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-
+	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
-		static char* meshPath = (char*)("unknown");
+
+		char* meshPath;
+		ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
 
 		if (meshAsShared)
 		{
-			ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
+			//this should not be done, see issue #240
 			meshPath = (char*)(meshAsShared->GetLibraryPath().c_str());
 		}
 		else
 		{
-			meshPath = (char*)("unknown");
+			meshPath = _strdup("unknown");
+			flags |= ImGuiInputTextFlags_ReadOnly;
 		}
 
-		ImGui::InputText("##Mesh path", meshPath, 128);
-
+		ImGui::InputText("##Mesh path", meshPath, 128, flags);
+		ImGui::SameLine();
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
@@ -60,7 +63,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		ImGui::SameLine();
+		
 
 		bool showMeshBrowser;
 
