@@ -18,7 +18,7 @@ enum class TextureType
 	DIFFUSE, 
 	NORMAL, 
 	OCCLUSION, 
-	//SPECULAR,
+	SPECULAR,
 	METALLIC
 };
 
