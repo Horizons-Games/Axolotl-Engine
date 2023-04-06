@@ -257,6 +257,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
 			if ((*it)->resourceMesh == componentToDelete->GetMesh().get())
 			{
+				delete (*it);
 				resourcesInfo.erase(it);
 				break;
 			}
