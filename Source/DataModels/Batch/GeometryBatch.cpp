@@ -438,7 +438,7 @@ void GeometryBatch::UpdateMaterial()
 
 bool GeometryBatch::CleanUp()
 {
-	glDeleteBuffers(1,&vao);
+	glDeleteVertexArrays(1,&vao);
 	glDeleteBuffers(1,&ebo);
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &verticesBuffer);
