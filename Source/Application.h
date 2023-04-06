@@ -14,9 +14,7 @@ class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
-#ifndef ENGINE
 class ModulePlayer;
-#endif //ENGINE
 class ModuleEditor;
 
 class Application
@@ -30,6 +28,10 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	void OnPlay();
+	void OnStop();
+	void OnPause();
 
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
@@ -49,19 +51,19 @@ public:
 	ModuleProgram* program;
 	ModuleResources* resources;
 	ModuleCamera* camera;
-#ifndef ENGINE
 	ModulePlayer* player;
-#endif // ENGINE
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
 	std::unique_ptr<Timer> appTimer;
+	std::unique_ptr<Timer> onPlayTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
 	bool debuggingGame;
+	bool onPlayMode;
 };
 
 extern std::unique_ptr<Application> App;
