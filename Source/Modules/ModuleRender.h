@@ -53,7 +53,6 @@ private:
 
 	BatchManager* batchManager;
 
-	unsigned vbo;
 	unsigned uboCamera;
 
 	const std::vector<std::string> modelTypes;

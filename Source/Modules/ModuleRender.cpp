@@ -308,7 +308,6 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &uboCamera);
 	
 	return true;
