@@ -3,15 +3,7 @@
 
 #include "ComponentMaterial.h"
 
-#include "Application.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "FileSystem/ModuleResources.h"
-#include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/Json.h"
 
-#include "Resources/ResourceMaterial.h"
-#include "Resources/ResourceTexture.h"
 
 #include <GL/glew.h>
 
@@ -160,21 +152,7 @@ void ComponentMaterial::Draw()
 
 void ComponentMaterial::SaveOptions(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
-
-	UID uidMaterial = 0;
-	std::string assetPath = "";
-
-	if (material)
-	{
-		uidMaterial = material->GetUID();
-		assetPath = material->GetAssetsPath();
-	}
-	meta["materialUID"] = (UID)uidMaterial;
-	meta["assetPathMaterial"] = assetPath.c_str();
+	
 }
 
 void ComponentMaterial::SaveUIDOfResourceToMeta(Json& meta, 
@@ -227,86 +205,7 @@ void ComponentMaterial::SetMaterial(const std::shared_ptr<ResourceMaterial>& new
 	}
 }
 
-void ComponentMaterial::UnloadTextures()
-{
-	if(material)
-	{
-		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
-		if (texture)
-		{
-			texture->Unload();
-		}
 
-		texture = material->GetNormal();
-		if (texture)
-		{
-			texture->Unload();
-		}
-
-		texture = material->GetOcclusion();
-		if (texture)
-		{
-			texture->Unload();
-		}
-
-		/*texture = material->GetSpecular();
-		if (texture)
-		{
-			texture->Unload();
-		}*/
-		texture = material->GetMetallicMap();
-		if (texture)
-		{
-			texture->Unload();
-		}
-	}
-}
-
-void ComponentMaterial::UnloadTexture(TextureType textureType)
-{
-	if (material)
-	{
-		std::shared_ptr<ResourceTexture> texture;
-		switch (textureType)
-		{
-		case TextureType::DIFFUSE:
-			texture = material->GetDiffuse();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::NORMAL:
-			texture = material->GetNormal();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::OCCLUSION:
-			texture = material->GetOcclusion();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		/*case TextureType::SPECULAR:
-			texture = material->GetSpecular();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;*/
-		case TextureType::METALLIC:
-			texture = material->GetMetallicMap();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		}
-	}
-}
 
 const float3& ComponentMaterial::GetDiffuseColor() const {
 	return material->GetDiffuseColor();

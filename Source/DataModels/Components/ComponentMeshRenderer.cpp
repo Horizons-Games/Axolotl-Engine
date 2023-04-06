@@ -1,4 +1,6 @@
 #pragma warning (disable: 26495)
+#pragma warning (disable: 4804)
+#pragma warning (disable: 4312)
 
 #include "ComponentMeshRenderer.h"
 
@@ -14,10 +16,12 @@
 #include "FileSystem/Json.h"
 
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
 
 #include "GameObject/GameObject.h"
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 #ifdef ENGINE
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
@@ -29,7 +33,8 @@ ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owne
 }
 
 ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
-	Component(componentMeshRenderer), mesh(componentMeshRenderer.GetMesh())
+	Component(componentMeshRenderer), 
+	mesh(componentMeshRenderer.GetMesh()), material(componentMeshRenderer.GetMaterial())
 {
 }
 
@@ -137,16 +142,40 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["removed"] = (bool)canBeRemoved;
 
 	UID uidMesh = 0;
-	std::string assetPath = "";
+	std::string assetPathMesh = "";
 
 	if(mesh)
 	{
 		uidMesh = mesh->GetUID();
-		assetPath = mesh->GetAssetsPath();
+		assetPathMesh = mesh->GetAssetsPath();
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
-	meta["assetPathMesh"] = assetPath.c_str();
+	meta["assetPathMesh"] = assetPathMesh.c_str();
+
+	UID uidMaterial = 0;
+	std::string assetPathMaterial = "";
+
+	if (material)
+	{
+		uidMaterial = material->GetUID();
+		assetPathMaterial = material->GetAssetsPath();
+	}
+	meta["materialUID"] = (UID)uidMaterial;
+	meta["assetPathMaterial"] = assetPathMaterial.c_str();
+}
+
+void ComponentMeshRenderer::SaveUIDOfResourceToMeta(Json& meta,
+													const char* field,
+													const ResourceTexture* texturePtr)
+{
+	UID uidTexture = 0;
+
+	if (texturePtr)
+	{
+		uidTexture = texturePtr->GetUID();
+	}
+	meta[field] = (UID)uidTexture;
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -156,14 +185,27 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 #ifdef ENGINE
-	std::string path = meta["assetPathMesh"];
-	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	std::string meshPath = meta["assetPathMesh"];
+	bool resourceExists = meshPath != "" && App->fileSystem->Exists(meshPath.c_str());
 	if (resourceExists)
 	{
-		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource<ResourceMesh>(path);
+		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource
+															<ResourceMesh>(meshPath);
 		if (resourceMesh)
 		{
 			SetMesh(resourceMesh);
+		}
+	}
+
+	std::string materialPath = meta["assetPathMaterial"];
+	bool resourceExists = materialPath != "" && App->fileSystem->Exists(materialPath.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource
+															<ResourceMaterial>(materialPath);
+		if (resourceMaterial)
+		{
+			SetMaterial(resourceMaterial);
 		}
 	}
 #else
@@ -172,6 +214,13 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	if (resourceMesh)
 	{
 		SetMesh(resourceMesh);
+	}
+
+	UID uidMaterial = meta["materialUID"];
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
+	if (resourceMaterial)
+	{
+		SetMaterial(resourceMaterial);
 	}
 #endif
 }
@@ -185,4 +234,169 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 		mesh->Load();
 		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
+}
+
+void ComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
+{
+	material = newMaterial;
+
+	if (material)
+	{
+		material->Load();
+	}
+}
+void ComponentMeshRenderer::UnloadTextures()
+{
+	if (material)
+	{
+		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetNormal();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetOcclusion();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetSpecular();
+		if (texture)
+		{
+			texture->Unload();
+		}
+		texture = material->GetMetallicMap();
+		if (texture)
+		{
+			texture->Unload();
+		}
+	}
+}
+
+void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
+{
+	if (material)
+	{
+		std::shared_ptr<ResourceTexture> texture;
+		switch (textureType)
+		{
+		case TextureType::DIFFUSE:
+			texture = material->GetDiffuse();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::NORMAL:
+			texture = material->GetNormal();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::OCCLUSION:
+			texture = material->GetOcclusion();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+			case TextureType::SPECULAR:
+				texture = material->GetSpecular();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+		case TextureType::METALLIC:
+			texture = material->GetMetallicMap();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		}
+	}
+}
+
+const float3& ComponentMeshRenderer::GetDiffuseColor() const {
+	return material->GetDiffuseColor();
+}
+
+const float3& ComponentMeshRenderer::GetSpecularColor() const {
+	return material->GetSpecularColor();
+}
+
+const float ComponentMeshRenderer::GetShininess() const {
+	return material->GetShininess();
+}
+
+const float ComponentMeshRenderer::GetNormalStrenght() const {
+	return material->GetNormalStrength();
+}
+
+const float ComponentMeshRenderer::GetSmoothness() const
+{
+	return material->GetSmoothness();
+}
+
+const float ComponentMeshRenderer::GetMetalness() const
+{
+	return material->GetMetalness();
+}
+
+const bool ComponentMeshRenderer::HasShininessAlpha() const {
+	return material->HasShininessAlpha();
+}
+
+const bool ComponentMeshRenderer::HasMetallicAlpha() const
+{
+	return material->HasMetallicAlpha();
+}
+
+void ComponentMeshRenderer::SetDiffuseColor(float3& diffuseColor)
+{
+	this->material->SetDiffuseColor(diffuseColor);
+}
+
+void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
+{
+	this->material->SetSpecularColor(specularColor);
+}
+
+void ComponentMeshRenderer::SetShininess(float shininess)
+{
+	this->material->SetShininess(shininess);
+}
+
+void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetSmoothness(float smoothness)
+{
+	this->material->SetSmoothness(smoothness);
+}
+
+void ComponentMeshRenderer::SetMetalness(float metalness)
+{
+	this->material->SetMetalness(metalness);
+}
+
+void ComponentMeshRenderer::SetHasShininessAlpha(bool hasShininessAlpha)
+{
+	this->material->SetShininess(hasShininessAlpha);
+}
+
+void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
+{
+	this->material->SetMetallicAlpha(metallicAlpha);
 }

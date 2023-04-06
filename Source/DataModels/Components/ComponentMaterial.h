@@ -8,10 +8,10 @@
 #include "FileSystem/UniqueID.h"
 #include "Globals.h"
 
-class WindowTextureInput;
-class WindowMaterialInput;
+
+
 class ResourceMaterial;
-class ResourceTexture;
+
 class Json;
 
 class ComponentMaterial : public Component
@@ -31,12 +31,12 @@ public:
 
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseColor(float3& diffuseColor);
-	//void SetSpecularColor(float3& specularColor);
-	//void SetShininess(float shininess);
+	void SetSpecularColor(float3& specularColor);
+	void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
 	void SetMetalness(float metalness);
-	//void SetHasShininessAlpha(bool hasShininessAlpha);
+	void SetHasShininessAlpha(bool hasShininessAlpha);
 	void SetMetallicAlpha(bool metallicAlpha);
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
@@ -54,12 +54,5 @@ private:
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
-	std::shared_ptr<ResourceMaterial> material;
-
-	friend class WindowComponentMaterial;
+	
 };
-
-inline std::shared_ptr<ResourceMaterial> ComponentMaterial::GetMaterial() const
-{
-	return material;
-}
