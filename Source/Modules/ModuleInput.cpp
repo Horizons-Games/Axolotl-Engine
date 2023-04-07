@@ -99,7 +99,14 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        status = update_status::UPDATE_STOP;
+        if (App->GetIsOnPlayMode())
+        {
+            App->OnStopPlay();
+        }
+        else
+        {
+            status = update_status::UPDATE_STOP;
+        }
     }
 
     SDL_Event sdlEvent;

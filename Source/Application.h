@@ -30,12 +30,13 @@ public:
 	bool CleanUp();
 
 	void OnPlay();
-	void OnStop();
+	void OnStopPlay();
 	void OnPause();
 
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
+	bool GetIsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
@@ -63,7 +64,7 @@ private:
 	int maxFramerate;
 	float deltaTime = 0.f;
 	bool debuggingGame;
-	bool onPlayMode;
+	bool isOnPlayMode;
 };
 
 extern std::unique_ptr<Application> App;
@@ -81,6 +82,11 @@ inline int Application::GetMaxFrameRate() const
 inline float Application::GetDeltaTime() const
 {
 	return deltaTime;
+}
+
+inline bool Application::GetIsOnPlayMode() const
+{
+	return isOnPlayMode;
 }
 
 inline bool Application::IsDebuggingGame() const

@@ -17,7 +17,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr), speed(3), isPlayerLoad(false){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -36,19 +36,47 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
+	
 	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
 	}
+#ifdef ENGINE
+	if (isPlayerLoad && App->GetIsOnPlayMode())
+	{
+		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+		{
+			Move();
+			Rotate();
+		}
+	}
+
+#else //ENGINE
+	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+	{
+		Move();
+		Rotate();
+	}
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModulePlayer::Update()
 {
+#ifdef ENGINE
+	if (isPlayerLoad && App->GetIsOnPlayMode())
+	{
+		player->Update();
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+	}
+	
+#else //ENGINE
 	player->Update();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	trans->UpdateTransformMatrices();
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -138,8 +166,12 @@ void ModulePlayer::LoadNewPlayer()
 			{
 				App->input->SetShowCursor(false);
 			}
+			isPlayerLoad = true;
+			return;
 		}
 	}
+	isPlayerLoad = false;
+	ENGINE_LOG("Player is not load");
 }
 
 

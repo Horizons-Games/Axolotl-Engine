@@ -16,7 +16,7 @@
 constexpr int FRAMES_BUFFER = 50;
 
 Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
-								onPlayMode(false), onPlayTimer(std::make_unique<Timer>())
+								isOnPlayMode(false), onPlayTimer(std::make_unique<Timer>())
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
@@ -62,7 +62,8 @@ bool Application::Start()
 
 update_status Application::Update()
 {
-	float ms = appTimer->Read();
+	float ms;
+	(isOnPlayMode) ? ms = onPlayTimer->Read() : ms = appTimer->Read();
 
 	update_status ret = update_status::UPDATE_CONTINUE;
 
@@ -75,14 +76,16 @@ update_status Application::Update()
 	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PostUpdate();
 
-	float dt = (appTimer->Read() - ms) / 1000.0f;
+	float dt;
+	(isOnPlayMode) ? dt = (onPlayTimer->Read() - ms) / 1000.0f : dt = (appTimer->Read() - ms) / 1000.0f;
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	deltaTime = (appTimer->Read() - ms) / 1000.0f;
+	(isOnPlayMode) ?
+		deltaTime = (onPlayTimer->Read() - ms) / 1000.0f : deltaTime = (appTimer->Read() - ms) / 1000.0f;
 
 	return ret;
 }
@@ -99,11 +102,16 @@ bool Application::CleanUp()
 
 void Application::OnPlay()
 {
-
+	onPlayTimer->Start();
+	isOnPlayMode = true;
+	player->LoadNewPlayer();
 }
 
-void Application::OnStop()
+void Application::OnStopPlay()
 {
+	onPlayTimer->Stop();
+	isOnPlayMode = false;
+	input->SetShowCursor(true);
 }
 
 void Application::OnPause()
