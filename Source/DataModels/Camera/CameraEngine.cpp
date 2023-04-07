@@ -117,7 +117,10 @@ bool CameraEngine::Update()
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				const OBB& obb = App->scene->GetSelectedGameObject()->GetObjectOBB();
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(App->scene->GetSelectedGameObject()->GetComponent(ComponentType::TRANSFORM));
+				const OBB& obb = transform->GetObjectOBB();
+
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
 				Orbit(obb);
@@ -306,8 +309,10 @@ void CameraEngine::Focus(GameObject* gameObject)
 		{
 			if (object)
 			{
-				outputArray.push_back(object->GetEncapsuledAABB().minPoint);
-				outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(object->GetComponent(ComponentType::TRANSFORM));
+				outputArray.push_back(transform->GetEncapsuledAABB().minPoint);
+				outputArray.push_back(transform->GetEncapsuledAABB().maxPoint);
 			}
 		}
 		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());

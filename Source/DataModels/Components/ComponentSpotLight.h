@@ -11,6 +11,7 @@ struct SpotLight
 	float3 aim;
 	float innerAngle = 0.0f;
 	float outAngle = 0.0f;
+	float3 padding = { 0, 0, 0 };
 };
 
 class Json;
