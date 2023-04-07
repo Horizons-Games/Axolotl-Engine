@@ -31,7 +31,7 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
-	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
+	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(false)
 {
 }
 
@@ -49,7 +49,7 @@ GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject
 
 GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
 	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	stateOfSelection(StateOfSelection::NO_SELECTED)
+	stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(gameObject.staticObject)
 {
 	for (auto component : gameObject.GetComponents())
 	{
@@ -137,6 +137,7 @@ void GameObject::SaveOptions(Json& meta)
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
+	meta["static"] = (bool) staticObject;
 
 	Json jsonComponents = meta["Components"];
 
@@ -152,6 +153,9 @@ void GameObject::LoadOptions(Json& meta)
 {
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
+
+	staticObject = true;
+	//staticObject = meta["static"];
 
 	Json jsonComponents = meta["Components"];
 
