@@ -91,6 +91,8 @@ private:
 	void CreateEBO();
 	void CreateVAO();
 
+	/* Due to GPU limitations, the number of bones influencing a single vertex 
+	must be limited. The most widespread limitation is 4 bones per vertex.*/
 	static constexpr unsigned int bonesPerVertex = 4;
 
 	unsigned int vbo;
