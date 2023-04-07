@@ -6,11 +6,8 @@
 #include "ModuleEditor.h"
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
-
-#ifdef ENGINE
 #include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
-#endif
 
 #ifdef DEBUG
 #include "optick.h"
@@ -203,9 +200,10 @@ update_status ModuleInput::Update()
 #endif // ENGINE
     }
 
+#ifdef ENGINE
     if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN)
         App->editor->GetMainMenu()->ShortcutSave();
-
+#endif
     return status;
 }
 
