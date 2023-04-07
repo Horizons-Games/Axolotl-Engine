@@ -50,11 +50,11 @@ public:
 	unsigned int GetNumIndexes();
 	unsigned int GetNumBones();
 	unsigned int GetMaterialIndex();
-	const std::vector<float3>& GetVertices();
-	const std::vector<float3>& GetTextureCoords();
-	const std::vector<float3>& GetNormals();
-	const std::vector<float3>& GetTangents();
-	const std::vector<std::vector<unsigned int> >& GetFacesIndices();
+	const std::vector<float3>& GetVertices() const;
+	const std::vector<float3>& GetTextureCoords() const;
+	const std::vector<float3>& GetNormals() const;
+	const std::vector<float3>& GetTangents() const;
+	const std::vector<std::vector<unsigned int> >& GetFacesIndices() const;
 	const std::vector<Bone>& GetBones() const ;
 	const std::vector<Attach>& GetAttaches() const;
 	const std::vector<unsigned int>& GetNumWeights() const;
@@ -162,27 +162,27 @@ inline unsigned int ResourceMesh::GetMaterialIndex()
 	return materialIndex;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetVertices()
+inline const std::vector<float3>& ResourceMesh::GetVertices() const
 {
 	return vertices;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetTextureCoords()
+inline const std::vector<float3>& ResourceMesh::GetTextureCoords() const
 {
 	return textureCoords;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetNormals()
+inline const std::vector<float3>& ResourceMesh::GetNormals() const
 {
 	return normals;
 }
 
-inline const std::vector<float3>& ResourceMesh::GetTangents()
+inline const std::vector<float3>& ResourceMesh::GetTangents() const
 {
 	return tangents;
 }
 
-inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices()
+inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices() const
 {
 	return facesIndices;
 }
