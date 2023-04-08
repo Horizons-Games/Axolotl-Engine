@@ -77,6 +77,7 @@ public:
 
 	bool IsStatic();
 	void SetStatic(bool newStatic);
+	void SpreadStatic();
 
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);

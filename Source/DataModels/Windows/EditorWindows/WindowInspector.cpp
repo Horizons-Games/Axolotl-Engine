@@ -73,6 +73,7 @@ void WindowInspector::InspectSelectedGameObject()
 			if (ImGui::Checkbox("Static", &staticness))
 			{
 				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SpreadStatic();
 			}
 
 			std::string tag = lastSelectedGameObject->GetTag();

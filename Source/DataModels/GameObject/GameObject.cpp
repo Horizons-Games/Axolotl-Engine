@@ -674,3 +674,13 @@ void GameObject::SetParentAsChildSelected()
 		parent->SetParentAsChildSelected();
 	}
 }
+
+void GameObject::SpreadStatic()
+{
+	for (GameObject* child : GetChildren())
+	{
+		child->SetStatic(staticObject);
+		child->SpreadStatic();
+
+	}
+}
