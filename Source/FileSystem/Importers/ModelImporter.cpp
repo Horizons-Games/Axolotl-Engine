@@ -67,6 +67,13 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
+
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	Json jsonAnims = meta["AnimAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+	unsigned int countAnim = 0;
 #endif
 	
 	size = (sizeof(float4x4) + sizeof(int) + sizeof(unsigned int) * 2) * resource->GetNumNodes();
@@ -96,15 +103,6 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	cursor += bytes;
 
-#ifdef ENGINE
-	Json jsonMeshes = meta["MeshesAssetPaths"];
-	Json jsonMat = meta["MatAssetPaths"];
-	Json jsonAnims = meta["AnimAssetPaths"];
-	unsigned int countMeshes = 0;
-	unsigned int countMat = 0;
-	unsigned int countAnim = 0;
-#endif
-
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
 		unsigned int nodeHeader[2] = { node->name.size(), node->meshRenderers.size() };
@@ -131,12 +129,9 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMeshes[countMeshes] = node->meshRenderers[i].first->GetAssetsPath().c_str();
-
 			++countMeshes;
 #endif
-
 			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
-
 			bytes = sizeof(UID);
 			memcpy(cursor, &(meshesUIDs[0]), bytes);
 
@@ -149,7 +144,6 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMat[countMat] = node->meshRenderers[i].second->GetAssetsPath().c_str();
-
 			++countMat;
 #endif
 			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
@@ -193,6 +187,13 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
+
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	Json jsonAnims = meta["AnimAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+	unsigned int countAnim = 0;
 #endif
 
 	unsigned int header[2];
@@ -202,13 +203,6 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 	std::vector<ResourceModel::Node*> nodes;
 	nodes.reserve(header[0]);
-
-#ifdef ENGINE
-	Json jsonMeshes = meta["MeshesAssetPaths"];
-	Json jsonMat = meta["MatAssetPaths"];
-	unsigned int countMeshes = 0;
-	unsigned int countMat = 0;
-#endif
 
 	for(unsigned int i = 0; i < header[0]; ++i)
 	{
@@ -288,9 +282,6 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	animations.reserve(header[1]);
 
 #ifdef  ENGINE
-	Json jsonAnims = meta["AnimAssetPaths"];
-	unsigned int countAnim = 0;
-
 	for (unsigned int i = 0; i < header[1]; ++i)
 	{
 		std::string animPath = jsonAnims[countAnim];
