@@ -58,8 +58,6 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 		channelName = std::string(name, nodeHeader[0]);
 		delete[] name;
 
-		fileBuffer += bytes;
-
 		float3* positionsPointer = new float3[nodeHeader[1]];
 		bytes = sizeof(float3) * nodeHeader[1];
 		memcpy(positionsPointer, fileBuffer, bytes);
@@ -90,12 +88,12 @@ void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource,
 
 	size = (sizeof(unsigned int) * 3) * resource->GetNumChannels() + sizeof(header) + sizeof(double);
 
-	for (auto it = resource->GetChannels().begin(); it != resource->GetChannels().end(); ++it)
+	for (auto it: resource->GetChannels())
 	{
-		ResourceAnimation::Channel* channel = it->second;
+		ResourceAnimation::Channel* channel = it.second;
 		size += sizeof(float3) * channel->positions.size();
 		size += sizeof(Quat) * channel->rotations.size();
-		size += sizeof(char)* it->first.length();
+		size += sizeof(char)* it.first.length();
 	}
 
 	char* cursor = new char[size] {};
@@ -114,13 +112,13 @@ void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource,
 
 	cursor += bytes;
 
-	for (auto it = resource->GetChannels().begin(); it != resource->GetChannels().end(); ++it)
+	for (auto it : resource->GetChannels())
 	{
-		ResourceAnimation::Channel* channel = it->second;
+		ResourceAnimation::Channel* channel = it.second;
 
 		unsigned int nodeHeader[3] =
 		{
-			it->first.length(),
+			it.first.length(),
 			channel->positions.size(),
 			channel->rotations.size(),
 		};
@@ -130,8 +128,8 @@ void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource,
 
 		cursor += bytes;
 
-		bytes = sizeof(char) * it->first.length();
-		memcpy(cursor, &it->first, bytes);
+		bytes = sizeof(char) * it.first.length();
+		memcpy(cursor, &it.first, bytes);
 
 		cursor += bytes;
 
