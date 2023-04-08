@@ -60,6 +60,7 @@ inline WindowMainMenu* ModuleEditor::GetMainMenu() const
 {
 	return mainMenu.get();
 }
+
 inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
