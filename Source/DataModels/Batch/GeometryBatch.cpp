@@ -5,7 +5,9 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
+
 #include "GameObject/GameObject.h"
+
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
@@ -13,11 +15,13 @@
 #include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
 
+#include "Math/float2.h"
+
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
-GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), maxSize(0), 
+GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
 createBuffers(true), reserveModelSpace(true), flags(0)
 {
 	//initialize buffers

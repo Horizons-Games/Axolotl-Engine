@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Math/float2.h"
 #include "Math/float3.h"
 
 #include <vector>
@@ -78,7 +77,6 @@ private:
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;
-	int maxSize;
 
 	unsigned int ebo;
 	unsigned int vao;
