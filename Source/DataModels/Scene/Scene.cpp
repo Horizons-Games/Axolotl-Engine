@@ -579,3 +579,27 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
 	}
 }
+
+void Scene::AddStaticObject(GameObject* gameObject)
+{
+	rootQuadtree->Add(gameObject);
+}
+
+void Scene::RemoveNonStaticObject(GameObject* gameObject)
+{
+	rootQuadtree->Remove(gameObject);
+}
+
+void Scene::RemoveNonStaticObject(GameObject* gameObject)
+{
+	for (std::vector<GameObject*>::iterator it = nonStaticObjects.begin();
+		it != nonStaticObjects.end(); ++it)
+	{
+		if (*it == gameObject)
+		{
+			nonStaticObjects.erase(it);
+			break;
+		}
+	}
+
+}
