@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 
-class ResourceAnimation : public Resource
+class ResourceAnimation : virtual public Resource
 {
 public:
 struct Channel
@@ -25,6 +25,13 @@ public:
 	~ResourceAnimation() override;
 
 	ResourceType GetType() const override;
+
+	void SaveImporterOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override {};
+
+	void SaveLoadOptions(Json& meta) override {};
+	void LoadLoadOptions(Json& meta) override {};
+
 	std::unordered_map<std::string, Channel*> GetChannels() const;
 	unsigned int GetNumChannels() const;
 	double GetDuration() const;

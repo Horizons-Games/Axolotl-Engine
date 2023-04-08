@@ -47,7 +47,7 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 		std::string channelName;
 
 		unsigned int nodeHeader[3];
-		bytes = sizeof(header);
+		bytes = sizeof(nodeHeader);
 		memcpy(nodeHeader, fileBuffer, bytes);
 		fileBuffer += bytes;
 

@@ -14,6 +14,7 @@
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceAnimation.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
@@ -149,6 +150,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		break;
 	case ResourceType::SkyBox:
 		res = std::shared_ptr<EditorResource<ResourceSkyBox>>(new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
+	case ResourceType::Animation:
+		res = std::shared_ptr<EditorResource<ResourceAnimation>>(new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
 	default:
 		return nullptr;

@@ -55,8 +55,8 @@ enum class TextureType
 #define MESHES_LIB_PATH "Lib/Meshes/"
 #define MATERIAL_PATH "Assets/Materials/"
 #define MATERIAL_LIB_PATH "Lib/Materials/"
-#define ANIMATIONS_PATH "Assets/Animations/"
-#define ANIMATIONS_LIB_PATH "Lib/Animations/"
+#define ANIMATION_PATH "Assets/Animation/"
+#define ANIMATION_LIB_PATH "Lib/Animation/"
 #define SCENE_PATH "Assets/Scenes/"
 
 // Resource extension ------
