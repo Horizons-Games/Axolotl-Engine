@@ -293,17 +293,17 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
-      <Filter>Source\DataModels\Resources</Filter>
+    <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAnimation.cpp">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.cpp">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
-      <Filter>Source\FileSystem\Importers</Filter>
+    <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
+      <Filter>DataModels\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -625,17 +625,17 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resources\ResourceAnimation.h">
-      <Filter>Source\DataModels\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h">
-      <Filter>Source\FileSystem\Importers</Filter>
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAnimation.h">
-      <Filter>Source\DataModels\Components</Filter>
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.h">
-      <Filter>Source\DataModels\Windows\SubWindows\ComponentWindows</Filter>
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceAnimation.h">
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
