@@ -58,6 +58,7 @@ public:
 
 	void SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations);
 	const std::vector<std::shared_ptr<ResourceAnimation>>& GetAnimations() const;
+	const size_t GetNumAnimations() const;
 
 protected:
 	void InternalLoad() override;
@@ -98,6 +99,11 @@ inline void ResourceModel::SetNodes(const std::vector<Node*>& nodes)
 inline const std::vector<std::shared_ptr<ResourceAnimation>>& ResourceModel::GetAnimations() const
 {
 	return animations;
+}
+
+inline const size_t ResourceModel::GetNumAnimations() const
+{
+	return animations.size();
 }
 
 inline void ResourceModel::SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations)

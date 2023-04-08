@@ -77,7 +77,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		size += sizeof(char) * node->name.size();
 	}
 
-	unsigned int header[1] = { (unsigned int)resource->GetNumNodes() };
+	size += sizeof(UID) * resource->GetNumAnimations();
+
+	unsigned int header[2] = 
+	{ 
+		(unsigned int)resource->GetNumNodes(),
+		(unsigned int)resource->GetNumAnimations()
+	};
+
 	size += sizeof(header);
 
 	char* cursor = new char[size] {};
@@ -92,8 +99,10 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #ifdef ENGINE
 	Json jsonMeshes = meta["MeshesAssetPaths"];
 	Json jsonMat = meta["MatAssetPaths"];
+	Json jsonAnims = meta["AnimAssetPaths"];
 	unsigned int countMeshes = 0;
 	unsigned int countMat = 0;
+	unsigned int countAnim = 0;
 #endif
 
 	for (ResourceModel::Node* node : resource->GetNodes())
@@ -152,6 +161,20 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		}
 	}
 
+	std::vector<UID> animationsUIDs;
+	animationsUIDs.reserve(resource->GetNumAnimations());
+	for (int i = 0; i < resource->GetNumAnimations(); i++)
+	{
+#ifdef ENGINE
+		jsonAnims[countAnim] = resource->GetAnimations()[i]->GetAssetsPath().c_str();
+		++countAnim;
+#endif
+		animationsUIDs.push_back(resource->GetAnimations()[i]->GetUID());
+		bytes = sizeof(UID);
+		memcpy(cursor, &(animationsUIDs[0]), bytes);
+		cursor += bytes;
+	}
+
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
@@ -172,7 +195,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	delete metaBuffer;
 #endif
 
-	unsigned int header[1];
+	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
 	memcpy(header, fileBuffer, bytes);
 	fileBuffer += bytes;
@@ -235,8 +258,6 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 			fileBuffer += sizeof(UID) * 2;
 		}
-
-
 		nodes.push_back(node);
 #else
 		UID* meshesPointer = new UID[nodeHeader[1]];
@@ -261,8 +282,38 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		}
 #endif
 	}
-
 	resource->SetNodes(nodes);
+
+	std::vector<std::shared_ptr<ResourceAnimation>> animations;
+	animations.reserve(header[1]);
+
+#ifdef  ENGINE
+	Json jsonAnims = meta["AnimAssetPaths"];
+	unsigned int countAnim = 0;
+
+	for (unsigned int i = 0; i < header[1]; ++i)
+	{
+		std::string animPath = jsonAnims[countAnim];
+
+		std::shared_ptr<ResourceAnimation> anim = App->resources->RequestResource<ResourceAnimation>(animPath);
+		animations.push_back(anim);
+		++countAnim;
+		fileBuffer += sizeof(UID);
+	}
+#else
+	UID* animationsPointer = new UID[header[1]];
+	bytes = sizeof(UID) * (unsigned int)header[1];
+	memcpy(animationsPointer, fileBuffer, bytes);
+	std::vector<UID> animationsUIDs(animationsPointer, animationsPointer + header[1]);
+	delete[] animationsPointer;
+	fileBuffer += bytes;
+	for (int i = 0; i < animationsUIDs.size(); i++)
+	{
+		std::shared_ptr<ResourceAnimation> anim = App->resources->SearchResource<ResourceAnimation>(animationsUIDs[i]);
+		animations.push_back(anim);
+	}
+#endif
+	resource->SetAnimations(animations);
 }
 
 void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr<ResourceModel>& resource)
