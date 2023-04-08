@@ -34,8 +34,8 @@ public:
 	void OnPause();
 	void OnStop();
 
-	void AddGameObjectAndChildrens();
-	void RemoveGameObjectAndChildrens();
+	void AddGameObjectAndChildrens(GameObject* object);
+	void RemoveGameObjectAndChildrens(GameObject* object);
 
 
 
@@ -46,8 +46,8 @@ private:
 	void SetSceneFromJson(Json& json);
 	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
 
-	void AddGameObject(GameObject*);
-	void RemoveGameObject();
+	void AddGameObject(GameObject* object);
+	void RemoveGameObject(GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;

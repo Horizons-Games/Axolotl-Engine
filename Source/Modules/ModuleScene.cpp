@@ -257,17 +257,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
 			//Quadtree treatment
-			if (!rootQuadtree->InQuadrant(obj))
-			{
-				if (!rootQuadtree->IsFreezed())
-				{
-					rootQuadtree->ExpandToFit(obj);
-				}
-			}
-			else
-			{
-				rootQuadtree->Add(obj);
-			}
+			AddGameObject(obj);
 
 		}
 	}
@@ -290,10 +280,11 @@ This have the same functionality as SetSelectedGameObject but implies changes in
 */
 void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 {
-	loadedScene->GetRootQuadtree()->AddGameObjectAndChildren(selectedGameObject);
+	AddGameObjectAndChildrens(selectedGameObject);
 	selectedGameObject = gameObject;
-	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
+	RemoveGameObjectAndChildrens(selectedGameObject);
 }
+
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
 	std::vector<std::unique_ptr<GameObject>> gameObjects{};
