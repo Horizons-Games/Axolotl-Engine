@@ -154,14 +154,7 @@ void GameObject::LoadOptions(Json& meta)
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
 
-	if (meta["static"])
-	{
-		staticObject = (bool)meta["static"];
-	}
-	else
-	{
-		staticObject = true;
-	}
+	staticObject = (bool)meta["static"];
 
 	Json jsonComponents = meta["Components"];
 
