@@ -365,3 +365,51 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 	}
 	return loadedObjects;
 }
+
+
+void ModuleScene::AddGameObjectAndChildrens(GameObject* object)
+{
+	AddGameObject(object);
+
+	for (GameObject* children : object->GetChildren())
+	{
+		AddGameObjectAndChildrens(children);
+	}
+
+}
+
+void ModuleScene::RemoveGameObjectAndChildrens(GameObject* object)
+{
+	RemoveGameObject(object);
+
+	for (GameObject* children : object->GetChildren())
+	{
+		RemoveGameObjectAndChildrens(children);
+	}
+}
+
+
+void ModuleScene::AddGameObject(GameObject* object)
+{
+	if (object->IsStatic())
+	{
+		loadedScene->AddStaticObject(object);
+	}
+	else
+	{
+		loadedScene->AddNonStaticObject(object);
+	}
+}
+
+void ModuleScene::RemoveGameObject(GameObject* object)
+{
+	if (object->IsStatic())
+	{
+		loadedScene->RemoveStaticObject(object);
+	}
+	else
+	{
+		loadedScene->RemoveNonStaticObject(object);
+	}
+
+}
