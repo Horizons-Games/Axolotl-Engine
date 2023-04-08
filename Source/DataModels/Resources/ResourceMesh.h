@@ -199,7 +199,7 @@ inline const std::vector<Attach>& ResourceMesh::GetAttaches() const
 
 inline const std::vector<unsigned int>& ResourceMesh::GetNumWeights() const
 {
-	return this->numWeights;
+	return numWeights;
 }
 
 inline OptionsMesh& ResourceMesh::GetOptions()
@@ -265,17 +265,17 @@ inline void ResourceMesh::SetBones(const std::vector<Bone>& bones)
 
 inline void ResourceMesh::SetAttachResize()
 {
-	this->attaches.resize(this->numVertices);
+	attaches.resize(numVertices);
 }
 
 inline void ResourceMesh::SetAttachBones(const unsigned int vertexId, const unsigned int boneId)
 {
-	this->attaches[vertexId].bones[this->attaches[vertexId].numBones] = boneId;
+	attaches[vertexId].bones[attaches[vertexId].numBones] = boneId;
 }
 
 inline void ResourceMesh::SetAttachWeight(const unsigned int vertexId, const float weight)
 {
-	this->attaches[vertexId].weights[this->attaches[vertexId].numBones] = weight;
+	attaches[vertexId].weights[attaches[vertexId].numBones] = weight;
 }
 
 inline void ResourceMesh::SetNumWeights(const std::vector<unsigned int>& numWeights)
@@ -285,8 +285,8 @@ inline void ResourceMesh::SetNumWeights(const std::vector<unsigned int>& numWeig
 
 inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
 {
-	if (this->attaches[vertexId].numBones < bonesPerVertex)
+	if (attaches[vertexId].numBones < bonesPerVertex)
 	{
-		++this->attaches[vertexId].numBones;
+		++attaches[vertexId].numBones;
 	}
 }
