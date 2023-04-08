@@ -1,13 +1,14 @@
 #include "WindowTextureInput.h"
 
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
+
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
-	WindowFileBrowser(), windowComponent(material), textureType(textureType)
+WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* mesh, TextureType textureType) :
+	WindowFileBrowser(), windowComponent(mesh), textureType(textureType)
 {
 	dialogName = "Select Texture";
 
@@ -22,9 +23,9 @@ WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, Textur
 	case TextureType::OCCLUSION:
 		title = "Load Occlusion";
 		break;
-	/*case TextureType::SPECULAR:
+	case TextureType::SPECULAR:
 		title = "Load Specular";
-		break;*/
+		break;
 	case TextureType::METALLIC:
 		title = "Load Metallic";
 		break;
@@ -56,6 +57,9 @@ void WindowTextureInput::DoThisIfOk()
 			windowComponent->SetNormal(texture);
 			break;
 		case TextureType::OCCLUSION:
+			break;
+		case TextureType::SPECULAR:
+			windowComponent->SetSpecular(texture);
 			break;
 		case TextureType::METALLIC:
 			windowComponent->SetMetalic(texture);

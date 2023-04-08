@@ -19,7 +19,7 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR)),
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
 {
 	InitMaterialValues();
@@ -203,31 +203,19 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Separator();
 
 			ImGui::Text("Specular Texture");
-			bool showTextureBrowserSpecular = true;
-			if (materialResource && materialResource->GetSpecular())
+			if (specularMap)
 			{
-				texture =
-					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetSpecular());
-				if (texture)
+				specularMap->Load();
+				ImGui::Image((void*)(intptr_t)specularMap->GetGlTexture(), ImVec2(100, 100));
+				if (ImGui::Button("Remove Texture Specular"))
 				{
-					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+					specularMap->Unload();
+					specularMap = nullptr;
 				}
-
-				showTextureBrowserSpecular = false;
-			}
-
-			if (showTextureBrowserSpecular)
-			{
-				inputTextureSpecular->DrawWindowContents();
 			}
 			else
 			{
-				if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecular())
-				{
-					asMeshRenderer->UnloadTexture(TextureType::SPECULAR);
-
-					materialResource->SetSpecular(nullptr);
-				}
+				inputTextureSpecular->DrawWindowContents();
 			}
 
 			ImGui::Separator();
@@ -262,6 +250,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				materialResource->SetDiffuseColor(colorDiffuse);
 				materialResource->SetDiffuse(diffuseTexture);
+				materialResource->SetSpecular(specularMap);
 				materialResource->SetMetallicMap(metalicMap);
 				materialResource->SetNormal(normalMap);
 				materialResource->SetSmoothness(smoothness);
@@ -300,6 +289,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 		{
 			colorDiffuse = materialResource->GetDiffuseColor();
 			diffuseTexture = materialResource->GetDiffuse();
+			specularMap = materialResource->GetSpecular();
 			metalicMap = materialResource->GetMetallicMap();
 			normalMap = materialResource->GetNormal();
 			smoothness = materialResource->GetSmoothness();

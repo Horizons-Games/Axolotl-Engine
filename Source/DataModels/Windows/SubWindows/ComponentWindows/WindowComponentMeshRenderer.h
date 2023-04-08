@@ -17,6 +17,7 @@ public:
 	~WindowComponentMeshRenderer() override;
 
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
+	void SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap);
 	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
 protected:
@@ -32,6 +33,7 @@ private:
 
 	float3 colorDiffuse;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
+	std::shared_ptr<ResourceTexture> specularMap;
 	std::shared_ptr<ResourceTexture> metalicMap;
 	std::shared_ptr<ResourceTexture> normalMap;
 	float smoothness;
@@ -48,6 +50,11 @@ private:
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
 {
 	this->diffuseTexture = diffuseTexture;
+}
+
+inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap)
+{
+	this->specularMap = specularMap;
 }
 
 inline void WindowComponentMeshRenderer::SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap)

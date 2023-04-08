@@ -289,8 +289,8 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 #ifdef ENGINE
 	std::string meshPath = meta["assetPathMesh"];
-	bool resourceExists = meshPath != "" && App->fileSystem->Exists(meshPath.c_str());
-	if (resourceExists)
+	bool meshExists = meshPath != "" && App->fileSystem->Exists(meshPath.c_str());
+	if (meshExists)
 	{
 		std::shared_ptr<ResourceMesh> resourceMesh = App->resources->RequestResource
 															<ResourceMesh>(meshPath);
@@ -301,8 +301,8 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 
 	std::string materialPath = meta["assetPathMaterial"];
-	bool resourceExists = materialPath != "" && App->fileSystem->Exists(materialPath.c_str());
-	if (resourceExists)
+	bool materialExists = materialPath != "" && App->fileSystem->Exists(materialPath.c_str());
+	if (materialExists)
 	{
 		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource
 															<ResourceMaterial>(materialPath);
