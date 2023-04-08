@@ -76,6 +76,8 @@ public:
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
+	void AddStaticObject(GameObject* gameObject);
+	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(GameObject* gameObject);
 
@@ -193,30 +195,9 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects()
 	return nonStaticObjects;
 }
 
+
+
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.push_back(gameObject);
-}
-
-inline void Scene::RemoveNonStaticObject(GameObject* gameObject)
-{
-	for (std::vector<GameObject*>::iterator it = nonStaticObjects.begin();
-		it!= nonStaticObjects.end(); ++it)
-	{
-		if (*it == gameObject)
-		{
-			nonStaticObjects.erase(gO);
-			break;
-		}
-	}
-
-	for (std::vector<GameObject*>::iterator it = sceneCameras.begin();
-		it != sceneCameras.end(); ++it)
-	{
-		if (father == *it)
-		{
-			sceneCameras.erase(it);
-			return;
-		}
-	}
 }

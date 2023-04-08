@@ -585,7 +585,7 @@ void Scene::AddStaticObject(GameObject* gameObject)
 	rootQuadtree->Add(gameObject);
 }
 
-void Scene::RemoveNonStaticObject(GameObject* gameObject)
+void Scene::RemoveStaticObject(GameObject* gameObject)
 {
 	rootQuadtree->Remove(gameObject);
 }
