@@ -35,6 +35,9 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	diffuseColor.x = (float) meta["diffuseColor_x"];
 	diffuseColor.y = (float) meta["diffuseColor_y"];
 	diffuseColor.z = (float) meta["diffuseColor_z"];
+	oldDiffuseColor.x = (float)meta["diffuseColor_x"];
+	oldDiffuseColor.y = (float)meta["diffuseColor_y"];
+	oldDiffuseColor.z = (float)meta["diffuseColor_z"];
 	specularColor.x = (float) meta["specularColor_x"];
 	specularColor.y = (float) meta["specularColor_y"];
 	specularColor.z = (float) meta["specularColor_z"];

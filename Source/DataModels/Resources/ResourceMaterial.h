@@ -33,6 +33,7 @@ public:
 	//std::shared_ptr<ResourceTexture>& GetSpecular();
 	std::shared_ptr<ResourceTexture>& GetMetallicMap();
 	const float4& GetDiffuseColor();
+	const float4& GetOldDiffuseColor();
 	//const float3& GetSpecularColor();
 	//float& GetShininess();
 	float& GetNormalStrength();
@@ -56,6 +57,7 @@ public:
 	//void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
 	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetDiffuseColor(float4& diffuseColor);
+	void SetOldDiffuseColor(float4& diffuseColor);
 	//void SetSpecularColor(float3& specularColor);
 	//void SetShininess(float shininess);
 	void SetNormalStrength(float normalStrength);
@@ -76,6 +78,7 @@ private:
 	//std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
 	float4 diffuseColor;
+	float4 oldDiffuseColor;
 	float3 specularColor;
 	//float shininess;
 	float normalStrength;
@@ -127,6 +130,11 @@ inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallicMap()
 inline const float4& ResourceMaterial::GetDiffuseColor()
 {
 	return diffuseColor;
+}
+
+inline const float4& ResourceMaterial::GetOldDiffuseColor()
+{
+	return oldDiffuseColor;
 }
 
 /*inline const float3& ResourceMaterial::GetSpecularColor()
@@ -222,6 +230,11 @@ inline void ResourceMaterial::SetMetallicMap(const std::shared_ptr<ResourceTextu
 inline void ResourceMaterial::SetDiffuseColor(float4& diffuseColor)
 {
 	this->diffuseColor = diffuseColor;
+}
+
+inline void ResourceMaterial::SetOldDiffuseColor(float4& diffuseColor)
+{
+	this->oldDiffuseColor = diffuseColor;
 }
 
 /*inline void ResourceMaterial::SetSpecularColor(float3& specularColor)
