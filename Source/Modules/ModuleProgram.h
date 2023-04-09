@@ -7,7 +7,8 @@ class Program;
 
 enum class ProgramType 
 {
-	MESHSHADER,
+	DEFAULT,
+	SPECULAR,
 	HIGHLIGHT,
 	SKYBOX,
 	SPRITE,

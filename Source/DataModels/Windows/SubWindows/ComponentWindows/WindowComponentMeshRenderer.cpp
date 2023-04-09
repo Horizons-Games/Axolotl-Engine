@@ -20,7 +20,10 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
-	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
+	shaderTypes{"Default", "Specular"},
+	shaderTypesIdx(0),
+	isShaderSelected(false)
 {
 	InitMaterialValues();
 }
@@ -135,6 +138,28 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
 				return;
+			}
+
+			ImGui::Text("");
+
+			ImGui::Text("Shaders");
+			if (ImGui::BeginListBox(" ", ImVec2(200, 50)))
+			{
+				for (unsigned int i = 0; i < IM_ARRAYSIZE(shaderTypes); ++i)
+				{
+					isShaderSelected = (shaderTypesIdx == i);
+					if (ImGui::Selectable(shaderTypes[i], isShaderSelected))
+					{
+						shaderTypesIdx = i;
+					}
+
+					if (isShaderSelected)
+					{
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+
+				ImGui::EndListBox();
 			}
 
 			ImGui::Text("");

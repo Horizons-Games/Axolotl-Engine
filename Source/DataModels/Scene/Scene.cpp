@@ -329,7 +329,7 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 
 void Scene::GenerateLights()
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 	if (program)
 	{
@@ -393,7 +393,7 @@ void Scene::GenerateLights()
 
 void Scene::RenderAmbientLight() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 	if (program)
 	{
@@ -413,7 +413,7 @@ void Scene::RenderAmbientLight() const
 
 void Scene::RenderDirectionalLight() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 	if (program)
 	{
@@ -438,7 +438,7 @@ void Scene::RenderDirectionalLight() const
 
 void Scene::RenderPointLights() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 	if (program)
 	{
@@ -467,7 +467,7 @@ void Scene::RenderPointLights() const
 
 void Scene::RenderSpotLights() const
 {
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 	if (program)
 	{

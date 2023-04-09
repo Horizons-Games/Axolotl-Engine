@@ -72,7 +72,7 @@ void ComponentMeshRenderer::Draw()
 			mesh->Load();
 		}
 
-		Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+		Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 
 		if (program)
 		{

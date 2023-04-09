@@ -12,6 +12,7 @@ class ResourceTexture;
 
 class WindowComponentMeshRenderer : public ComponentWindow
 {
+
 public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
@@ -45,6 +46,10 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
+
+	const char* shaderTypes[2];
+	unsigned int shaderTypesIdx;
+	bool isShaderSelected;
 };
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
