@@ -105,15 +105,18 @@ void Application::OnPlay()
 	onPlayTimer->Start();
 	isOnPlayMode = true;
 	player->LoadNewPlayer();
+	if (!player->GetIsLoadPlayer())
+	{
+		isOnPlayMode = false;
+	}
 }
 
 void Application::OnStopPlay()
 {
-	onPlayTimer->Stop();
 	isOnPlayMode = false;
 	input->SetShowCursor(true);
 	player->UnloadNewPlayer();
-
+	onPlayTimer->Stop();
 }
 
 void Application::OnPause()

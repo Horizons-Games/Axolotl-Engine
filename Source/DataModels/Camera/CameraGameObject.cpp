@@ -31,7 +31,6 @@ bool CameraGameObject::Update()
 		{
 			UpdateCameraWithMousePos();
 		}
-
 	}
 	return true;
 }

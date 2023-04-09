@@ -11,9 +11,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -234,6 +232,10 @@ update_status ModuleRender::Update()
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
+	if (App->GetIsOnPlayMode())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
 
 	if (isRoot) 
 	{

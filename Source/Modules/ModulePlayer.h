@@ -23,6 +23,7 @@ public:
 	GameObject* GetPlayer();
 	void SetPlayer(std::unique_ptr<GameObject> player);
 	Camera* GetCameraPlayer();
+	bool GetIsLoadPlayer();
 
 	void LoadNewPlayer();
 	void UnloadNewPlayer();
@@ -38,3 +39,8 @@ private:
 	bool isPlayerLoad;
 	
 };
+
+inline bool ModulePlayer::GetIsLoadPlayer()
+{
+	return isPlayerLoad;
+}

@@ -142,9 +142,9 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 			}
 			else
 			{
-				camera->SetPosition(selectedCamera->GetPosition());
-				camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
-				camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
+				//camera->SetPosition(selectedCamera->GetPosition());
+				//camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
+				//camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
 			}
 		}
 		else
