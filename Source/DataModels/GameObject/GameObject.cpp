@@ -371,11 +371,6 @@ void GameObject::DeactivateChildren()
 {
 	active = false;
 
-	if (children.empty())
-	{
-		return;
-	}
-
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
@@ -385,11 +380,6 @@ void GameObject::DeactivateChildren()
 void GameObject::ActivateChildren()
 {
 	active = (parent->IsActive() && parent->IsEnabled());
-
-	if (children.empty())
-	{
-		return;
-	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
@@ -427,7 +417,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		
 		case ComponentType::CAMERA:
 		{
 			newComponent = std::make_unique<ComponentCamera>(true, this);
