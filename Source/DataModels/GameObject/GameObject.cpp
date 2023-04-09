@@ -205,7 +205,6 @@ void GameObject::MoveParent(GameObject* newParent)
 	}
 
 	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
-	parent = newParent;
 	if (pointerToThis)
 	{
 		parent->AddChild(std::move(pointerToThis));
@@ -215,10 +214,6 @@ void GameObject::MoveParent(GameObject* newParent)
 		parent->AddChild(std::unique_ptr<GameObject>(this));
 	}
 
-	// Update the transform respect its parent when moved around
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
-		(GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
