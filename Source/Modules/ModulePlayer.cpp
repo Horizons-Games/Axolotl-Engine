@@ -126,7 +126,7 @@ void ModulePlayer::LoadNewPlayer()
 	{
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
+			SetPlayer(std::unique_ptr<GameObject>(camera->GetParent()->GetParent()->UnlinkChild(camera->GetParent())));
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
