@@ -4,6 +4,7 @@
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
 #include "ModuleInput.h"
 
@@ -37,11 +38,11 @@ bool ModulePlayer::Start()
 update_status ModulePlayer::PreUpdate()
 {
 	
-	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+	/*if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
-	}
+	}*/
 #ifdef ENGINE
 	if (isPlayerLoad && App->GetIsOnPlayMode())
 	{
@@ -159,6 +160,7 @@ void ModulePlayer::LoadNewPlayer()
 				SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
 				cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 				cameraPlayer->Init();
+				cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
 				App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
 			}
 			App->camera->SetSelectedCamera(0);
@@ -187,7 +189,6 @@ void ModulePlayer::UnloadNewPlayer()
 	App->camera->SetSelectedCamera(-1);
 	isPlayerLoad = false;
 }
-
 
 bool ModulePlayer::IsStatic()
 {
