@@ -99,14 +99,7 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        if (App->GetIsOnPlayMode())
-        {
-            App->OnStopPlay();
-        }
-        else
-        {
-            status = update_status::UPDATE_STOP;
-        }
+        status = update_status::UPDATE_STOP;      
     }
 
     SDL_Event sdlEvent;
@@ -193,6 +186,16 @@ update_status ModuleInput::Update()
             SetShowCursor(false);
         }
 #endif // ENGINE
+    }
+
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
+    {
+        if (App->GetIsOnPlayMode())
+        {
+            App->OnStopPlay();
+        }
     }
 
     return status;

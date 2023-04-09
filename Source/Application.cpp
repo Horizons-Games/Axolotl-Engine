@@ -112,6 +112,8 @@ void Application::OnStopPlay()
 	onPlayTimer->Stop();
 	isOnPlayMode = false;
 	input->SetShowCursor(true);
+	player->UnloadNewPlayer();
+
 }
 
 void Application::OnPause()

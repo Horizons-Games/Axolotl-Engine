@@ -8,9 +8,7 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 
 #include "Scene/Scene.h"
@@ -134,7 +132,25 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	{
 #ifdef ENGINE
 		selectedPosition = 0;
-		selectedCamera = camera.get();
+		if (App->GetIsOnPlayMode())
+		{
+			selectedCamera = App->player->GetCameraPlayer();
+			if (!selectedCamera)
+			{
+				selectedPosition = 1;
+				selectedCamera = camera.get();
+			}
+			else
+			{
+				camera->SetPosition(selectedCamera->GetPosition());
+				camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
+				camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
+			}
+		}
+		else
+		{
+			selectedCamera = camera.get();
+		}
 #else
 		selectedPosition = 0;
 		selectedCamera = App->player->GetCameraPlayer();

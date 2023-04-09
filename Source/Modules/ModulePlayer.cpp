@@ -154,9 +154,13 @@ void ModulePlayer::LoadNewPlayer()
 	{
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			if (camera->GetParent() != player.get()) 
+			{
+				SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
+				cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
+				cameraPlayer->Init();
+				App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			}
 			App->camera->SetSelectedCamera(0);
 			if(componentPlayer->HaveMouseActivated()) 
 			{
@@ -172,6 +176,16 @@ void ModulePlayer::LoadNewPlayer()
 	}
 	isPlayerLoad = false;
 	ENGINE_LOG("Player is not load");
+}
+
+void ModulePlayer::UnloadNewPlayer()
+{
+	if (player)
+	{
+		App->scene->GetLoadedScene()->GetRootQuadtree()->AddGameObjectAndChildren(player.get());
+	}
+	App->camera->SetSelectedCamera(-1);
+	isPlayerLoad = false;
 }
 
 

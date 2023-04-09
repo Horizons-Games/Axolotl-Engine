@@ -25,6 +25,7 @@ public:
 	Camera* GetCameraPlayer();
 
 	void LoadNewPlayer();
+	void UnloadNewPlayer();
 
 	bool IsStatic();
 
