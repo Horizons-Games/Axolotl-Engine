@@ -33,8 +33,10 @@ public:
 	void LoadLoadOptions(Json& meta) override {};
 
 	std::unordered_map<std::string, Channel*> GetChannels() const;
+	Channel* GetChannel(std::string name);
 	unsigned int GetNumChannels() const;
 	double GetDuration() const;
+
 	void SetDuration(double duration);
 	void SetChannels(std::unordered_map<std::string, ResourceAnimation::Channel*> channels);
 
@@ -60,6 +62,11 @@ inline double ResourceAnimation::GetDuration() const
 inline std::unordered_map<std::string, ResourceAnimation::Channel*> ResourceAnimation::GetChannels() const
 {
 	return channels;
+}
+
+inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(std::string name)
+{
+	return channels[name];
 }
 
 inline unsigned int ResourceAnimation::GetNumChannels() const
