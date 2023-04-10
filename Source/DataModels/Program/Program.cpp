@@ -62,6 +62,12 @@ void Program::BindUniformFloat3(const std::string& name, const float3 data)
 		data.x, data.y, data.z);
 }
 
+void Program::BindUniformFloat4(const std::string& name, const float4 data)
+{
+	glUniform4f(glGetUniformLocation(id, name.c_str()),
+		data.x, data.y, data.z, data.w);
+}
+
 void Program::BindUniformFloat(const std::string& name, const float data)
 {
 	glUniform1f(glGetUniformLocation(id, name.c_str()), data);
