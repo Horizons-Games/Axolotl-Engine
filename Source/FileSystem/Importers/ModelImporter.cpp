@@ -199,7 +199,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		memcpy(name, fileBuffer, bytes);
 		fileBuffer += bytes;
 		node->name = std::string(name, nodeHeader[0]);
-		delete name;
+		delete[] name;
 
 		float4x4* transform = new float4x4;
 		bytes = sizeof(float4x4);
