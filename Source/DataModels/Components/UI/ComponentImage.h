@@ -24,16 +24,9 @@ public:
 	float3 GetFullColor();
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
 
-	void LoadVBO();
-	void CreateVAO();
-
 private:
 	std::shared_ptr<ResourceTexture> image;
 	float3 color;
-
-	unsigned vbo;
-	unsigned vao;
-
 };
 
 inline std::shared_ptr<ResourceTexture>& ComponentImage::GetImage()

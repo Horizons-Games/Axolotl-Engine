@@ -11,6 +11,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleUI.h"
 
 #include "DataModels/Program/Program.h"
 #include "ComponentButton.h"
@@ -23,9 +24,6 @@
 ComponentImage::ComponentImage(bool active, GameObject* owner)
 	: Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
 {
-	//provisional TODO
-	LoadVBO();
-	CreateVAO();
 }
 
 ComponentImage::~ComponentImage()
@@ -64,7 +62,7 @@ void ComponentImage::Draw()
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(vao);
+		glBindVertexArray(App->userInterface->GetQuadVAO());
 
 		glActiveTexture(GL_TEXTURE0);
 		program->BindUniformFloat3("spriteColor", GetFullColor());
@@ -153,32 +151,4 @@ inline float3 ComponentImage::GetFullColor()
 		if (button->IsHovered()) return button->GetColorHovered();
 	}
 	return color;
-}
-
-void ComponentImage::LoadVBO()
-{
-	float vertices[] = {
-		// positions          
-		-0.5,  0.5, 0.0f, 1.0f,
-		-0.5, -0.5, 0.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5,  0.5, 1.0f, 1.0f,
-		-0.5,  0.5, 0.0f, 1.0f
-	};
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-}
-
-void ComponentImage::CreateVAO()
-{
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-	glBindVertexArray(0);
 }
