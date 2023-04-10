@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "Resources/ResourceMesh.h"
 
 MeshImporter::MeshImporter()
 {
@@ -31,10 +32,11 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fileBuffer, unsigned int& size)
 {
 	unsigned int hasTangents = !resource->GetTangents().empty();
-	unsigned int header[4] =
+	unsigned int header[5] =
 	{
 		resource->GetNumFaces(),
 		resource->GetNumVertices(),
+		resource->GetNumBones(),
 		resource->GetMaterialIndex(),
 		hasTangents
 	};
@@ -46,7 +48,14 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 		numOfVectors = 4;
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
-		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
+		+ resource->GetNumBones() * sizeof(float4x4)
+		+ resource->GetNumVertices() * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		size += resource->GetBones()[i].name.size();
+	}
 	
 	char* cursor = new char[size];
 	
@@ -96,17 +105,55 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 		cursor += bytes;
 	}
+
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		bytes = sizeof(float4x4);
+		memcpy(cursor, &(resource->GetBones()[i].transform), bytes);
+
+		cursor += bytes;
+
+		bytes = resource->GetBones()[i].name.size() + sizeof('\0');
+		memcpy(cursor, resource->GetBones()[i].name.c_str(), bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(unsigned int);
+		memcpy(cursor, &(resource->GetNumWeights()[i]), bytes);
+
+		cursor += bytes;
+
+		for (unsigned int j = 0; j < resource->GetNumVertices(); ++j)
+		{	
+			for (unsigned int k = 0; k < resource->GetAttaches()[j].numBones; ++k)
+			{
+				if (resource->GetAttaches()[j].bones[k] == i)
+				{
+					bytes = sizeof(unsigned int);
+					memcpy(cursor, &(j), bytes);
+
+					cursor += bytes;
+
+					bytes = sizeof(float);
+					memcpy(cursor, &(resource->GetAttaches()[j].weights[k]), bytes);
+
+					cursor += bytes;
+				}
+			}
+		}
+	}
 }
 
 void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> resource)
 {
-	unsigned int header[4];
+	unsigned int header[5];
 	memcpy(header, fileBuffer, sizeof(header));
 
 	resource->SetNumFaces(header[0]);
 	resource->SetNumVertices(header[1]);
-	resource->SetMaterialIndex(header[2]);
-	bool hasTangents = header[3];
+	resource->SetNumBones(header[2]);
+	resource->SetMaterialIndex(header[3]);
+	bool hasTangents = header[4];
 
 	fileBuffer += sizeof(header);
 
@@ -166,5 +213,50 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	}
 	resource->SetFacesIndices(faces);
 
+	fileBuffer += bytes;
+
 	delete[] indexesPointer;
+
+	std::vector<Bone> bones;
+	std::vector<unsigned int> allNumWeights;
+	resource->SetAttachResize();
+	unsigned int vertexId = 0u;
+	float vertexWeight = 0.0f;
+	unsigned int numWeights = 0u;
+	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
+	{
+		Bone bone;
+		memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
+		fileBuffer += sizeof(float4x4);
+
+		while(fileBuffer[bone.name.length()] != '\0')
+		{
+			bone.name.push_back(fileBuffer[bone.name.length()]);
+		}
+
+		fileBuffer += bone.name.length() + sizeof('\0');
+
+		bones.push_back(bone);
+
+		memcpy(&numWeights, fileBuffer, sizeof(unsigned int));
+		fileBuffer += sizeof(unsigned int);
+		allNumWeights.push_back(numWeights);
+
+		for (unsigned int j = 0; j < numWeights; ++j)
+		{	
+			memcpy(&vertexId, fileBuffer, sizeof(unsigned int));
+
+			resource->SetAttachBones(vertexId, i);
+			fileBuffer += sizeof(unsigned int);
+
+			memcpy(&vertexWeight, fileBuffer, sizeof(float));
+			resource->SetAttachWeight(vertexId, vertexWeight);
+			fileBuffer += sizeof(float);
+
+			resource->IncrementAttachNumBones(vertexId);
+		}
+	}
+
+	resource->SetBones(bones);
+	resource->SetNumWeights(allNumWeights);
 }

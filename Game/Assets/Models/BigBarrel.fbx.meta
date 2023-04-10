@@ -2,9 +2,9 @@
     "UID": 11184967023809633043,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/BigBarrel_0.mesh"
+        "Assets/Meshes/Scene.086_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/BigBarrel_0.mat"
+        "Assets/Materials/Tank_Biohazard.003_0.mat"
     ]
 }

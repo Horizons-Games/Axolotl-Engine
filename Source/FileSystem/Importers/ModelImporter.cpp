@@ -218,7 +218,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		memcpy(name, fileBuffer, bytes);
 		fileBuffer += bytes;
 		node->name = std::string(name, nodeHeader[0]);
-		delete name;
+		delete[] name;
 
 		float4x4* transform = new float4x4;
 		bytes = sizeof(float4x4);
@@ -561,10 +561,11 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	unsigned int hasTangents = ourMesh->mTangents != nullptr;
 
-	unsigned int header[4] = 
+	unsigned int header[5] = 
 	{ 
 		ourMesh->mNumFaces, 
-		ourMesh->mNumVertices, 
+		ourMesh->mNumVertices,
+		ourMesh->mNumBones,
 		ourMesh->mMaterialIndex,
 		hasTangents
 	};
@@ -576,7 +577,14 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		numOfVectors = 4;
 	}
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
-		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors);
+		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
+		+ ourMesh->mNumBones * sizeof(float4x4)
+		+ ourMesh->mNumVertices * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+
+	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
+	{
+		size += ourMesh->mBones[i]->mName.length;
+	}
 	
 	char* cursor = new char[size] {};
 
@@ -625,6 +633,37 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 		memcpy(cursor, &(ourMesh->mFaces[i].mIndices[0]), bytes);
 
 		cursor += bytes;
+	}
+
+	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
+	{
+		bytes = sizeof(aiMatrix4x4);
+		memcpy(cursor, &(ourMesh->mBones[i]->mOffsetMatrix), bytes);
+
+		cursor += bytes;
+
+		bytes = ourMesh->mBones[i]->mName.length + sizeof('\0');
+		memcpy(cursor, ourMesh->mBones[i]->mName.C_Str(), bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(unsigned int);
+		memcpy(cursor, &(ourMesh->mBones[i]->mNumWeights), bytes);
+
+		cursor += bytes;
+
+		for (unsigned int j = 0; j < ourMesh->mBones[i]->mNumWeights; ++j)
+		{
+			bytes = sizeof(unsigned int);
+			memcpy(cursor, &(ourMesh->mBones[i]->mWeights[j].mVertexId), bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(float);
+			memcpy(cursor, &(ourMesh->mBones[i]->mWeights[j].mWeight), bytes);
+
+			cursor += bytes;
+		}
 	}
 }
 

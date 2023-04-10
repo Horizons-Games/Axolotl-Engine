@@ -9,13 +9,16 @@
 
 ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), materialIndex(0)
+	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), numBones(0), materialIndex(0)
 {
 }
 
 ResourceMesh::~ResourceMesh()
 {
 	Unload();
+
+	bones.clear();
+	attaches.clear();
 }
 
 void ResourceMesh::InternalLoad()
@@ -27,6 +30,8 @@ void ResourceMesh::InternalLoad()
 
 void ResourceMesh::InternalUnload()
 {
+	bones.clear();
+
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vao);
