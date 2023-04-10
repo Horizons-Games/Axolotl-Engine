@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/Component.h"
+#include "ModuleProgram.h"
 
 #include "Math/float3.h"
 
@@ -45,6 +46,8 @@ public:
 	void SetMetalness(float metalness);
 	void SetHasShininessAlpha(bool hasShininessAlpha);
 	void SetMetallicAlpha(bool metallicAlpha);
+	void SetShaderTypeDefault();
+	void SetShaderTypeSpecular();
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
@@ -59,6 +62,8 @@ public:
 
 	void UnloadTexture(TextureType textureType);
 private:
+	void DrawDefault();
+	void DrawSpecular();
 	bool IsMeshLoaded();
 	void UnloadTextures();
 
@@ -66,6 +71,7 @@ private:
 	std::shared_ptr<ResourceMaterial> material;
 
 	WindowMeshInput* inputMesh;
+	ProgramType shaderType;
 };
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const

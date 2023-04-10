@@ -47,6 +47,7 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 
+	/*Index 0 is the default shader and index 1 is the specular shader.*/
 	const char* shaderTypes[2];
 	unsigned int shaderTypesIdx;
 	bool isShaderSelected;

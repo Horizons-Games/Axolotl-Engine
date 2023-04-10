@@ -10,7 +10,6 @@
 #include "Application.h"
 
 #include "ModuleCamera.h"
-#include "ModuleProgram.h"
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
@@ -28,7 +27,8 @@
 #endif // ENGINE
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true)
+	: Component(ComponentType::MESHRENDERER, active, owner, true), 
+	shaderType(ProgramType::DEFAULT)
 {
 }
 
@@ -51,8 +51,21 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
+	switch (shaderType)
+	{
+		case ProgramType::DEFAULT:
+			DrawDefault();
+			break;
+		case ProgramType::SPECULAR:
+			DrawSpecular();
+			break;
+	}
+}
+
+void ComponentMeshRenderer::DrawDefault()
+{
 	//this should be in an EditorComponent class, or something of the like
-	//but for now have it here
+//but for now have it here
 #ifdef ENGINE
 	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
 	{
@@ -168,7 +181,7 @@ void ComponentMeshRenderer::Draw()
 
 				glUniform1f(5, material->GetShininess()); //shininess
 				glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
-				
+
 				glUniform1f(7, material->GetSmoothness());
 				glUniform1i(8, material->HasMetallicAlpha());
 				glUniform1f(9, material->GetMetalness());
@@ -197,6 +210,11 @@ void ComponentMeshRenderer::Draw()
 			program->Deactivate();
 		}
 	}
+}
+
+void ComponentMeshRenderer::DrawSpecular()
+{
+
 }
 
 void ComponentMeshRenderer::DrawHighlight()
@@ -502,4 +520,14 @@ void ComponentMeshRenderer::SetHasShininessAlpha(bool hasShininessAlpha)
 void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
 {
 	this->material->SetMetallicAlpha(metallicAlpha);
+}
+
+void ComponentMeshRenderer::SetShaderTypeDefault()
+{
+	this->shaderType = ProgramType::DEFAULT;
+}
+
+void ComponentMeshRenderer::SetShaderTypeSpecular()
+{
+	this->shaderType = ProgramType::SPECULAR;
 }

@@ -151,6 +151,16 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					if (ImGui::Selectable(shaderTypes[i], isShaderSelected))
 					{
 						shaderTypesIdx = i;
+
+						switch (shaderTypesIdx)
+						{
+							case 0:		// Default
+								static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeDefault();
+								break;
+							case 1:		// Specular
+								static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeSpecular();
+								break;
+						}
 					}
 
 					if (isShaderSelected)
@@ -164,125 +174,195 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
-
-			static float3 colorSpecular = materialResource->GetSpecularColor();
-			ImGui::Text("Specular Color:"); ImGui::SameLine();
-			if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+			switch (shaderTypesIdx)
 			{
-				materialResource->SetSpecularColor(colorSpecular);
-			}
+				case 0:				// Default
 
-			ImGui::Text("");
+					ImGui::Text("Diffuse Color:"); ImGui::SameLine();
+					ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
 
-			bool hasShininessAlpha = materialResource->HasShininessAlpha();
-			ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
-			materialResource->SetShininessAlpha(hasShininessAlpha);
+					ImGui::Text("");
 
-			float shininess = materialResource->GetShininess();
-			ImGui::SliderFloat("Shininess", &shininess,
-				0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-			materialResource->SetShininess(shininess);
-			ImGui::Separator();
+					ImGui::Text("Diffuse Texture");
+					if (diffuseTexture)
+					{
+						diffuseTexture->Load();
+						ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Diffuse"))
+						{
+							diffuseTexture->Unload();
+							diffuseTexture = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureDiffuse->DrawWindowContents();
 
-			ImGui::Text("Diffuse Texture");
-			if (diffuseTexture)
-			{
-				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Diffuse"))
-				{
-					diffuseTexture->Unload();
-					diffuseTexture = nullptr;
-				}
-			}
-			else
-			{
-				inputTextureDiffuse->DrawWindowContents();
+					}
 
-			}
+					ImGui::Separator();
 
-			ImGui::Separator();
+					ImGui::Text("Metallic Texture");
+					if (metalicMap)
+					{
+						metalicMap->Load();
+						ImGui::Image((void*)(intptr_t)metalicMap->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Metallic"))
+						{
+							metalicMap->Unload();
+							metalicMap = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureMetallic->DrawWindowContents();
+					}
 
-			ImGui::Text("Metallic Texture");
-			if (metalicMap)
-			{
-				metalicMap->Load();
-				ImGui::Image((void*)(intptr_t)metalicMap->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Metallic"))
-				{
-					metalicMap->Unload();
-					metalicMap = nullptr;
-				}
-			}
-			else
-			{
-				inputTextureMetallic->DrawWindowContents();
-			}
+					ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
 
-			ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
+					ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
 
-			ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
+					ImGui::Separator();
 
-			ImGui::Separator();
+					ImGui::Text("Normal Texture");
+					if (normalMap)
+					{
+						normalMap->Load();
+						ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Normal"))
+						{
+							normalMap->Unload();
+							normalMap = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureNormal->DrawWindowContents();
+					}
 
-			ImGui::Text("Specular Texture");
-			if (specularMap)
-			{
-				specularMap->Load();
-				ImGui::Image((void*)(intptr_t)specularMap->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Specular"))
-				{
-					specularMap->Unload();
-					specularMap = nullptr;
-				}
-			}
-			else
-			{
-				inputTextureSpecular->DrawWindowContents();
-			}
+					ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
+					ImGui::Text("");
+					ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+					if (ImGui::Button("Reset"))
+					{
+						InitMaterialValues();
+					}
+					ImGui::SameLine(ImGui::GetWindowWidth() - 70);
+					if (ImGui::Button("Apply"))
+					{
+						materialResource->SetDiffuseColor(colorDiffuse);
+						materialResource->SetDiffuse(diffuseTexture);
+						materialResource->SetSpecular(specularMap);
+						materialResource->SetMetallicMap(metalicMap);
+						materialResource->SetNormal(normalMap);
+						materialResource->SetSmoothness(smoothness);
+						materialResource->SetMetalness(metalness);
+						materialResource->SetNormalStrength(normalStrength);
+						materialResource->SetChanged(true);
+						App->resources->ReimportResource(materialResource->GetUID());
+					}
 
-			ImGui::Separator();
+					break;
+				case 1:				// Specular
 
-			ImGui::Separator();
+					ImGui::Text("Diffuse Color:"); ImGui::SameLine();
+					ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse);
 
-			ImGui::Text("Normal Texture");
-			if (normalMap)
-			{
-				normalMap->Load();
-				ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
-				if (ImGui::Button("Remove Texture Normal"))
-				{
-					normalMap->Unload();
-					normalMap = nullptr;
-				}
-			}
-			else
-			{
-				inputTextureNormal->DrawWindowContents();
-			}
+					static float3 colorSpecular = materialResource->GetSpecularColor();
+					ImGui::Text("Specular Color:"); ImGui::SameLine();
+					if (ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular))
+					{
+						materialResource->SetSpecularColor(colorSpecular);
+					}
 
-			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
-			ImGui::Text("");
-			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
-			if (ImGui::Button("Reset"))
-			{
-				InitMaterialValues();
-			}
-			ImGui::SameLine(ImGui::GetWindowWidth() - 70);
-			if (ImGui::Button("Apply"))
-			{
-				materialResource->SetDiffuseColor(colorDiffuse);
-				materialResource->SetDiffuse(diffuseTexture);
-				materialResource->SetSpecular(specularMap);
-				materialResource->SetMetallicMap(metalicMap);
-				materialResource->SetNormal(normalMap);
-				materialResource->SetSmoothness(smoothness);
-				materialResource->SetMetalness(metalness);
-				materialResource->SetNormalStrength(normalStrength);
-				materialResource->SetChanged(true);
-				App->resources->ReimportResource(materialResource->GetUID());
+					ImGui::Text("");
+
+					bool hasShininessAlpha = materialResource->HasShininessAlpha();
+					ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
+					materialResource->SetShininessAlpha(hasShininessAlpha);
+
+					float shininess = materialResource->GetShininess();
+					ImGui::SliderFloat("Shininess", &shininess,
+						0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+					materialResource->SetShininess(shininess);
+					ImGui::Separator();
+
+					ImGui::Text("Diffuse Texture");
+					if (diffuseTexture)
+					{
+						diffuseTexture->Load();
+						ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Diffuse"))
+						{
+							diffuseTexture->Unload();
+							diffuseTexture = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureDiffuse->DrawWindowContents();
+
+					}
+
+					ImGui::Separator();
+
+					ImGui::Text("Specular Texture");
+					if (specularMap)
+					{
+						specularMap->Load();
+						ImGui::Image((void*)(intptr_t)specularMap->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Specular"))
+						{
+							specularMap->Unload();
+							specularMap = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureSpecular->DrawWindowContents();
+					}
+
+					ImGui::Separator();
+
+					ImGui::Text("Normal Texture");
+					if (normalMap)
+					{
+						normalMap->Load();
+						ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
+						if (ImGui::Button("Remove Texture Normal"))
+						{
+							normalMap->Unload();
+							normalMap = nullptr;
+						}
+					}
+					else
+					{
+						inputTextureNormal->DrawWindowContents();
+					}
+
+					ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
+					ImGui::Text("");
+					ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+					if (ImGui::Button("Reset"))
+					{
+						InitMaterialValues();
+					}
+					ImGui::SameLine(ImGui::GetWindowWidth() - 70);
+					if (ImGui::Button("Apply"))
+					{
+						materialResource->SetDiffuseColor(colorDiffuse);
+						materialResource->SetDiffuse(diffuseTexture);
+						materialResource->SetSpecular(specularMap);
+						materialResource->SetMetallicMap(metalicMap);
+						materialResource->SetNormal(normalMap);
+						materialResource->SetSmoothness(smoothness);
+						materialResource->SetMetalness(metalness);
+						materialResource->SetNormalStrength(normalStrength);
+						materialResource->SetChanged(true);
+						App->resources->ReimportResource(materialResource->GetUID());
+					}
+
+					break;
 			}
 		}
 	}
