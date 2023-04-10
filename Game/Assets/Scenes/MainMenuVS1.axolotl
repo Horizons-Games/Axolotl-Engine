@@ -2,6 +2,46 @@
     "GameObjects": [
         {
             "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 6751946775892563900,
+                "parentUID": 16986399840152337944,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "MainMenuVS1",
                 "tag": "",
                 "uid": 16986399840152337944,
@@ -58,9 +98,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
+                            "worldAABB_min_y": 302.0,
                             "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_max_y": 302.0
                         }
                     },
                     {
@@ -68,46 +108,6 @@
                             "type": "Component_Canvas",
                             "active": true,
                             "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Directional_Light",
-                "tag": "",
-                "uid": 6751946775892563900,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
                         }
                     }
                 ]
@@ -143,9 +143,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
+                            "worldAABB_min_y": 302.0,
                             "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_max_y": 302.0
                         }
                     },
                     {
@@ -157,7 +157,77 @@
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Start",
+                "tag": "",
+                "uid": 16475748067149301860,
+                "parentUID": 11768532019124242966,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": -20.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 1.0,
+                            "sizeX": 600.0,
+                            "sizeY": 128.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 315.984375,
+                            "worldAABB_min_y": 297.3187561035156,
+                            "worldAABB_max_x": 433.015625,
+                            "worldAABB_max_y": 322.2854309082031
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 6451604834349348989,
+                            "assetPathImage": "Assets/Textures/Play.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "clicked": false,
+                            "hovered": false,
+                            "colorHovered_x": 0.6470588445663452,
+                            "colorHovered_y": 0.6470588445663452,
+                            "colorHovered_z": 0.6470588445663452,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.43627452850341799,
+                            "colorClicked_y": 0.43627452850341799,
+                            "colorClicked_z": 0.43627452850341799,
+                            "colorClicked_w": 1.0,
+                            "sceneName": "CantinaSewersVS1"
                         }
                     }
                 ]
@@ -198,72 +268,6 @@
                             "color_light_Z": 0.05000000074505806,
                             "intensity": 1.0,
                             "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Start",
-                "tag": "",
-                "uid": 16475748067149301860,
-                "parentUID": 11768532019124242966,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": -20.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 1.0,
-                            "sizeX": 600.0,
-                            "sizeY": 128.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 226.31874084472657,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 251.28541564941407
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 6451604834349348989,
-                            "assetPathImage": "Assets/Textures/Play.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Button",
-                            "active": true,
-                            "removed": true,
-                            "clicked": false,
-                            "hovered": false,
-                            "colorHovered_x": 0.6470588445663452,
-                            "colorHovered_y": 0.6470588445663452,
-                            "colorHovered_z": 0.6470588445663452,
-                            "colorClicked_x": 0.43627452850341799,
-                            "colorClicked_y": 0.43627452850341799,
-                            "colorClicked_z": 0.43627452850341799,
-                            "sceneName": "CantinaSewersVS1"
                         }
                     }
                 ]
@@ -373,9 +377,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 266.109375,
+                            "worldAABB_min_y": 337.109375,
                             "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 289.515625
+                            "worldAABB_max_y": 360.515625
                         }
                     },
                     {
@@ -387,7 +391,8 @@
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -400,9 +405,11 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
                             "sceneName": "ControlsVS1"
                         }
                     }
@@ -439,9 +446,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 305.11981201171877,
+                            "worldAABB_min_y": 376.11981201171877,
                             "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 328.52606201171877
+                            "worldAABB_max_y": 399.52606201171877
                         }
                     },
                     {
@@ -453,7 +460,8 @@
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -466,9 +474,11 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
                             "sceneName": "CreditsVS1"
                         }
                     }
@@ -505,9 +515,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 67.15625,
+                            "worldAABB_min_y": 138.15625,
                             "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 67.15625
+                            "worldAABB_max_y": 138.15625
                         }
                     },
                     {
@@ -519,7 +529,8 @@
                             "assetPathImage": "Assets/Textures/Group 13.png",
                             "color_x": 0.6617647409439087,
                             "color_y": 0.6487889885902405,
-                            "color_z": 0.6487889885902405
+                            "color_z": 0.6487889885902405,
+                            "color_w": 1.0
                         }
                     }
                 ]
@@ -555,9 +566,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 102.265625,
+                            "worldAABB_min_y": 173.265625,
                             "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 102.265625
+                            "worldAABB_max_y": 173.265625
                         }
                     },
                     {
@@ -569,7 +580,8 @@
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     }
                 ]

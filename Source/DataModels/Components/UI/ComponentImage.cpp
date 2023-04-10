@@ -22,7 +22,7 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner)
-	: Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
+	: Component(ComponentType::IMAGE, active, owner, true), color(float4(1.0f, 1.0f, 1.0f, 1.0f))
 {
 }
 
@@ -39,6 +39,8 @@ void ComponentImage::Draw()
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
 	if(program)
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		program->Activate();
 		std::pair<int,int> region = App->editor->GetAvailableRegion();
@@ -65,7 +67,7 @@ void ComponentImage::Draw()
 		glBindVertexArray(App->userInterface->GetQuadVAO());
 
 		glActiveTexture(GL_TEXTURE0);
-		program->BindUniformFloat3("spriteColor", GetFullColor());
+		program->BindUniformFloat4("spriteColor", GetFullColor());
 		if (image) 
 		{
 			image->Load();
@@ -83,6 +85,7 @@ void ComponentImage::Draw()
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+		glDisable(GL_BLEND);
 		program->Deactivate();
 	}
 }
@@ -91,8 +94,8 @@ void ComponentImage::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
 
 	UID uidImage = 0;
 	std::string assetPath = "";
@@ -102,20 +105,21 @@ void ComponentImage::SaveOptions(Json& meta)
 		uidImage = image->GetUID();
 		assetPath = image->GetAssetsPath();
 	}
-	meta["imageUID"] = (UID)uidImage;
+	meta["imageUID"] = static_cast<UID>(uidImage);
 	meta["assetPathImage"] = assetPath.c_str();
 
-	meta["color_x"] = (float)color.x;
-	meta["color_y"] = (float)color.y;
-	meta["color_z"] = (float)color.z;
+	meta["color_x"] = static_cast<float>(color.x);
+	meta["color_y"] = static_cast<float>(color.y);
+	meta["color_z"] = static_cast<float>(color.z);
+	meta["color_w"] = static_cast<float>(color.w);
 }
 
 void ComponentImage::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
 
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
@@ -137,12 +141,13 @@ void ComponentImage::LoadOptions(Json& meta)
 	}
 #endif
 
-	color.x = (float)meta["color_x"];
-	color.y = (float)meta["color_y"];
-	color.z = (float)meta["color_z"];
+	color.x = static_cast<float>(meta["color_x"]);
+	color.y = static_cast<float>(meta["color_y"]);
+	color.z = static_cast<float>(meta["color_z"]);
+	color.w = static_cast<float>(meta["color_w"]);
 }
 
-inline float3 ComponentImage::GetFullColor()
+inline float4 ComponentImage::GetFullColor()
 {
 	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
 	if(button != nullptr)

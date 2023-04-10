@@ -2,6 +2,34 @@
     "GameObjects": [
         {
             "GameObject": {
+                "name": "WinVS1",
+                "tag": "",
+                "uid": 9351076666620844235,
+                "parentUID": 0,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "new Image",
                 "tag": "",
                 "uid": 10153650663129387206,
@@ -30,9 +58,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
+                            "worldAABB_min_y": 302.0,
                             "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_max_y": 302.0
                         }
                     },
                     {
@@ -44,7 +72,8 @@
                             "assetPathImage": "Assets/Textures/WinScreen_NoButton.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     }
                 ]
@@ -52,27 +81,44 @@
         },
         {
             "GameObject": {
-                "name": "WinVS1",
+                "name": "Canvas",
                 "tag": "",
-                "uid": 9351076666620844235,
-                "parentUID": 0,
+                "uid": 16561938826019233067,
+                "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
                 "Components": [
                     {
                         "Component": {
-                            "type": "Component_Transform",
+                            "type": "Component_Transform2D",
                             "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": -2.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 302.0,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 302.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Canvas",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -113,51 +159,6 @@
                             "color_light_Z": 0.05000000074505806,
                             "intensity": 1.0,
                             "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Canvas",
-                "tag": "",
-                "uid": 16561938826019233067,
-                "parentUID": 9351076666620844235,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": -2.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0,
-                            "localAABB_min_x": 0.0,
-                            "localAABB_min_y": 0.0,
-                            "localAABB_max_x": 0.0,
-                            "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Canvas",
-                            "active": true,
-                            "removed": true
                         }
                     }
                 ]
@@ -307,9 +308,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 397.964599609375,
+                            "worldAABB_min_y": 468.964599609375,
                             "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 422.9312744140625
+                            "worldAABB_max_y": 493.9312744140625
                         }
                     },
                     {
@@ -321,7 +322,8 @@
                             "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -334,9 +336,11 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
                             "sceneName": "MainMenuVS1"
                         }
                     }
