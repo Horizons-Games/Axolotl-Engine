@@ -11,6 +11,7 @@
 
 class ResourceMesh;
 class ResourceMaterial;
+class ResourceAnimation;
 
 struct OptionsModel
 {
@@ -55,6 +56,10 @@ public:
 
 	void AppendNode(Node* node);
 
+	void SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations);
+	const std::vector<std::shared_ptr<ResourceAnimation>>& GetAnimations() const;
+	const size_t GetNumAnimations() const;
+
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
@@ -63,6 +68,7 @@ private:
 	OptionsModel options;
 
 	std::vector<Node*> nodes;
+	std::vector<std::shared_ptr<ResourceAnimation>> animations;
 };
 
 inline ResourceType ResourceModel::GetType() const
@@ -89,6 +95,22 @@ inline void ResourceModel::SetNodes(const std::vector<Node*>& nodes)
 {
 	this->nodes = nodes;
 }
+
+inline const std::vector<std::shared_ptr<ResourceAnimation>>& ResourceModel::GetAnimations() const
+{
+	return animations;
+}
+
+inline const size_t ResourceModel::GetNumAnimations() const
+{
+	return animations.size();
+}
+
+inline void ResourceModel::SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations)
+{
+	this->animations = animations;
+}
+
 
 inline void ResourceModel::AppendNode(Node* node)
 {

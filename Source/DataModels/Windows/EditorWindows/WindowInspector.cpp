@@ -149,6 +149,13 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::ANIMATION)) {
+				if (ImGui::MenuItem("Create Animation Component"))
+				{
+					AddComponentAnimation();
+				}
+			}
+			
 			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
 				if (ImGui::MenuItem("Create RigidBody Component"))
 				{
@@ -345,6 +352,11 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentAnimation()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
 }
 
 void WindowInspector::ResetSelectedGameObject()

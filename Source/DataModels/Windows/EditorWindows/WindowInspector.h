@@ -39,6 +39,8 @@ private:
 	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+	void AddComponentAnimation();
+
 	void AddComponentRigidBody();
 	void AddComponentMockState();
 

@@ -8,6 +8,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceAnimation.h"
 
 #include "Math/float3.h"
 
@@ -39,6 +40,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	if (scene)
 	{
 		ImportNode(scene, filePath, resource, scene->mRootNode, -1);
+		ImportAnimations(scene, resource);
 		aiReleaseImport(scene);
 
 		char* buffer{};
@@ -65,6 +67,13 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
+
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	Json jsonAnims = meta["AnimAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+	unsigned int countAnim = 0;
 #endif
 	
 	size = (sizeof(float4x4) + sizeof(int) + sizeof(unsigned int) * 2) * resource->GetNumNodes();
@@ -75,7 +84,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		size += sizeof(char) * node->name.size();
 	}
 
-	unsigned int header[1] = { (unsigned int)resource->GetNumNodes() };
+	size += sizeof(UID) * resource->GetNumAnimations();
+
+	unsigned int header[2] = 
+	{ 
+		(unsigned int)resource->GetNumNodes(),
+		(unsigned int)resource->GetNumAnimations()
+	};
+
 	size += sizeof(header);
 
 	char* cursor = new char[size] {};
@@ -86,13 +102,6 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	memcpy(cursor, header, bytes);
 
 	cursor += bytes;
-
-#ifdef ENGINE
-	Json jsonMeshes = meta["MeshesAssetPaths"];
-	Json jsonMat = meta["MatAssetPaths"];
-	unsigned int countMeshes = 0;
-	unsigned int countMat = 0;
-#endif
 
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
@@ -120,12 +129,9 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMeshes[countMeshes] = node->meshRenderers[i].first->GetAssetsPath().c_str();
-
 			++countMeshes;
 #endif
-
 			meshesUIDs.push_back(node->meshRenderers[i].first->GetUID());
-
 			bytes = sizeof(UID);
 			memcpy(cursor, &(meshesUIDs[0]), bytes);
 
@@ -138,7 +144,6 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 		{
 #ifdef ENGINE
 			jsonMat[countMat] = node->meshRenderers[i].second->GetAssetsPath().c_str();
-
 			++countMat;
 #endif
 			materialsUIDs.push_back(node->meshRenderers[i].second->GetUID());
@@ -148,6 +153,20 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 			cursor += bytes;
 		}
+	}
+
+	std::vector<UID> animationsUIDs;
+	animationsUIDs.reserve(resource->GetNumAnimations());
+	for (int i = 0; i < resource->GetNumAnimations(); i++)
+	{
+#ifdef ENGINE
+		jsonAnims[countAnim] = resource->GetAnimations()[i]->GetAssetsPath().c_str();
+		++countAnim;
+#endif
+		animationsUIDs.push_back(resource->GetAnimations()[i]->GetUID());
+		bytes = sizeof(UID);
+		memcpy(cursor, &(animationsUIDs[0]), bytes);
+		cursor += bytes;
 	}
 
 #ifdef ENGINE
@@ -168,22 +187,22 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
+
+	Json jsonMeshes = meta["MeshesAssetPaths"];
+	Json jsonMat = meta["MatAssetPaths"];
+	Json jsonAnims = meta["AnimAssetPaths"];
+	unsigned int countMeshes = 0;
+	unsigned int countMat = 0;
+	unsigned int countAnim = 0;
 #endif
 
-	unsigned int header[1];
+	unsigned int header[2];
 	unsigned int bytes = sizeof(header);
 	memcpy(header, fileBuffer, bytes);
 	fileBuffer += bytes;
 
 	std::vector<ResourceModel::Node*> nodes;
 	nodes.reserve(header[0]);
-
-#ifdef ENGINE
-	Json jsonMeshes = meta["MeshesAssetPaths"];
-	Json jsonMat = meta["MatAssetPaths"];
-	unsigned int countMeshes = 0;
-	unsigned int countMat = 0;
-#endif
 
 	for(unsigned int i = 0; i < header[0]; ++i)
 	{
@@ -233,8 +252,6 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 			fileBuffer += sizeof(UID) * 2;
 		}
-
-
 		nodes.push_back(node);
 #else
 		UID* meshesPointer = new UID[nodeHeader[1]];
@@ -259,12 +276,62 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		}
 #endif
 	}
-
 	resource->SetNodes(nodes);
+
+	std::vector<std::shared_ptr<ResourceAnimation>> animations;
+	animations.reserve(header[1]);
+
+#ifdef  ENGINE
+	for (unsigned int i = 0; i < header[1]; ++i)
+	{
+		std::string animPath = jsonAnims[countAnim];
+
+		std::shared_ptr<ResourceAnimation> anim = App->resources->RequestResource<ResourceAnimation>(animPath);
+		animations.push_back(anim);
+		++countAnim;
+		fileBuffer += sizeof(UID);
+	}
+#else
+	UID* animationsPointer = new UID[header[1]];
+	bytes = sizeof(UID) * (unsigned int)header[1];
+	memcpy(animationsPointer, fileBuffer, bytes);
+	std::vector<UID> animationsUIDs(animationsPointer, animationsPointer + header[1]);
+	delete[] animationsPointer;
+	fileBuffer += bytes;
+	for (int i = 0; i < animationsUIDs.size(); i++)
+	{
+		std::shared_ptr<ResourceAnimation> anim = App->resources->SearchResource<ResourceAnimation>(animationsUIDs[i]);
+		animations.push_back(anim);
+	}
+#endif
+	resource->SetAnimations(animations);
 }
 
-void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, std::shared_ptr<ResourceModel>& resource,
-	const aiNode* node, const int parentIdx)
+void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr<ResourceModel>& resource)
+{
+	std::vector<std::shared_ptr<ResourceAnimation>> animations;
+	animations.reserve(scene->mNumAnimations);
+
+	for (int i = 0; i < scene->mNumAnimations; ++i)
+	{
+		aiAnimation* animation = scene->mAnimations[i];
+
+		char* fileBuffer{};
+		unsigned int size = 0;
+		SaveInfoAnimation(animation, fileBuffer, size);
+
+		std::string animationName = animation->mName.C_Str();
+		std::string animationPath = ANIMATION_PATH + animationName + ANIMATION_EXTENSION;
+
+		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
+		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
+		animations.push_back(resourceAnimation);
+	}
+	resource->SetAnimations(animations);
+}
+
+void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const std::shared_ptr<ResourceModel>& resource,
+	const aiNode* node, int parentIdx)
 {
 	std::string name = node->mName.C_Str();
 	const float4x4 transform = (*(float4x4*)&node->mTransformation);
@@ -418,7 +485,77 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 
 }
 
-void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) {
+void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileBuffer, unsigned int& size) 
+{
+	unsigned int header[1] =
+	{
+		animation->mNumChannels
+	};
+
+	size = (sizeof(unsigned int) * 3) * animation->mNumChannels + sizeof(header) + sizeof(double);
+
+	for (int i = 0; i < animation->mNumChannels; ++i)
+	{
+		size += sizeof(float3) * animation->mChannels[i]->mNumPositionKeys;
+		size += sizeof(Quat) * animation->mChannels[i]->mNumRotationKeys;
+		size += sizeof(char) * animation->mChannels[i]->mNodeName.length;
+	}
+
+	char* cursor = new char[size] {};
+
+	fileBuffer = cursor;
+
+	unsigned int bytes = sizeof(header);
+	memcpy(cursor, header, bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(double);
+	memcpy(cursor, &animation->mDuration, bytes);
+
+	cursor += bytes;
+
+	for (int i = 0; i < animation->mNumChannels; ++i)
+	{
+		aiNodeAnim* nodeAnim = animation->mChannels[i];
+
+		unsigned int nodeHeader[3] =
+		{
+			nodeAnim->mNodeName.length,
+			nodeAnim->mNumPositionKeys,
+			nodeAnim->mNumRotationKeys,
+		};
+
+		bytes = sizeof(nodeHeader);
+		memcpy(cursor, nodeHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(char) * nodeAnim->mNodeName.length;
+		memcpy(cursor, &(nodeAnim->mNodeName.data[0]), bytes);
+
+		cursor += bytes;
+
+		if (nodeAnim->mPositionKeys != nullptr)
+		{
+			bytes = sizeof(float3) * nodeAnim->mNumPositionKeys;
+			memcpy(cursor, &(nodeAnim->mPositionKeys[0]), bytes);
+
+			cursor += bytes;
+		}
+
+		if (nodeAnim->mRotationKeys != nullptr)
+		{
+			bytes = sizeof(Quat) * nodeAnim->mNumRotationKeys;
+			memcpy(cursor, &(nodeAnim->mRotationKeys[0]), bytes);
+
+			cursor += bytes;
+		}
+	}
+}
+
+void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) 
+{
 
 	unsigned int numIndexes = 3;
 

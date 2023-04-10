@@ -13,6 +13,7 @@ enum class ComponentType
 	LIGHT, 
 	CAMERA,
 	PLAYER,
+	ANIMATION,
 	CANVAS,
 	IMAGE,
 	BUTTON,
@@ -143,6 +144,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Camera";
 	case ComponentType::PLAYER:
 		return "Component_Player";
+	case ComponentType::ANIMATION:
+		return "Component_Animation";
 	case ComponentType::CANVAS:
 		return "Component_Canvas";
 	case ComponentType::TRANSFORM2D:
@@ -230,5 +233,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::MOCKSTATE;
 	}
 	
+	if (typeName == "Component_Animation")
+	{
+		return ComponentType::ANIMATION;
+	}
+
 	return ComponentType::UNKNOWN;
 }

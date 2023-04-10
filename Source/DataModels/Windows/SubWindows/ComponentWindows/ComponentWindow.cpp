@@ -11,6 +11,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
@@ -28,6 +29,7 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
@@ -58,6 +60,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 		case ComponentType::PLAYER:
 			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
+		case ComponentType::ANIMATION:
+			return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 		case ComponentType::CANVAS:
 			return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
 		case ComponentType::IMAGE:
@@ -69,7 +73,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 		case ComponentType::MOCKSTATE:
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 		case ComponentType::LIGHT:
-		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{

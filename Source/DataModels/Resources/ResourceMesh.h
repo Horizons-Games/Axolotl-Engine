@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #pragma warning (disable: 26495)
 
 #include "Resource.h"
@@ -45,11 +45,11 @@ public:
 	unsigned int GetEBO() const;
 	unsigned int GetVAO() const;
 
-	unsigned int GetNumVertices();
-	unsigned int GetNumFaces();
-	unsigned int GetNumIndexes();
-	unsigned int GetNumBones();
-	unsigned int GetMaterialIndex();
+	unsigned int GetNumVertices() const;
+	unsigned int GetNumFaces() const;
+	unsigned int GetNumIndexes() const;
+	unsigned int GetNumBones() const;
+	unsigned int GetMaterialIndex() const;
 	const std::vector<float3>& GetVertices() const;
 	const std::vector<float3>& GetTextureCoords() const;
 	const std::vector<float3>& GetNormals() const;
@@ -137,27 +137,27 @@ inline unsigned int ResourceMesh::GetVAO() const
 	return vao;
 }
 
-inline unsigned int ResourceMesh::GetNumVertices()
+inline unsigned int ResourceMesh::GetNumVertices() const
 {
 	return numVertices;
 }
 
-inline unsigned int ResourceMesh::GetNumFaces()
+inline unsigned int ResourceMesh::GetNumFaces() const
 {
 	return numFaces;
 }
 
-inline unsigned int ResourceMesh::GetNumIndexes()
+inline unsigned int ResourceMesh::GetNumIndexes() const
 {
 	return numIndexes;
 }
 
-inline unsigned int ResourceMesh::GetNumBones()
+inline unsigned int ResourceMesh::GetNumBones() const
 {
 	return numBones;
 }
 
-inline unsigned int ResourceMesh::GetMaterialIndex()
+inline unsigned int ResourceMesh::GetMaterialIndex() const
 {
 	return materialIndex;
 }
