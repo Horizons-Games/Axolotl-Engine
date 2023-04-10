@@ -5,7 +5,7 @@
 
 ResourceTexture::ResourceTexture(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	glTexture(0), width(0), height(0), format(0), internalFormat(0), imageType(0), pixelsSize(0)
+	glTexture(0), width(0), height(0), format(0), internalFormat(0), imageType(0), pixelsSize(0), handle(0)
 {
 }
 

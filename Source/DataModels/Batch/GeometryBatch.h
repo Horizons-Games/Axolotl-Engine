@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Math/float2.h"
 #include "Math/float3.h"
 
 #include <vector>
@@ -11,6 +10,7 @@ class ComponentMeshRenderer;
 class ResourceMesh;
 class ResourceMaterial;
 class GameObject;
+class Program;
 
 struct Command
 {
@@ -38,8 +38,8 @@ struct Material {
 struct ResourceInfo
 {
 	ResourceMesh* resourceMesh;
-	int vertexOffset;
-	int indexOffset;
+	unsigned int vertexOffset;
+	unsigned int indexOffset;
 };
 
 class GeometryBatch
@@ -60,6 +60,8 @@ public:
 	void UpdateMaterial();
 	bool CleanUp();
 
+	bool updateMaterial = true;
+
 private:
 
 	void FillBuffers();
@@ -76,26 +78,27 @@ private:
 	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;
 
-	unsigned int ebo = 0;
-	unsigned int vao = 0;
+	unsigned int ebo;
+	unsigned int vao;
 	
-	unsigned int indirectBuffer = 0;
-	unsigned int verticesBuffer = 0;
-	unsigned int textureBuffer = 0;
-	unsigned int normalsBuffer = 0;
-	unsigned int tangentsBuffer = 0;
-	unsigned int transforms = 0;
-	unsigned int materials = 0;
+	unsigned int indirectBuffer;
+	unsigned int verticesBuffer;
+	unsigned int textureBuffer;
+	unsigned int normalsBuffer;
+	unsigned int tangentsBuffer;
+	unsigned int transforms;
+	unsigned int materials;
 
-	bool createBuffers = true;
-	bool reserveModelSpace = true;
+	bool createBuffers;
+	bool reserveModelSpace;
 
-	int numTotalVertices = 0;
-	int numTotalIndices = 0;
-	int numTotalFaces = 0;
+	unsigned int numTotalVertices;
+	unsigned int numTotalIndices;
+	unsigned int numTotalFaces;
 
-	int flags = 0;
-	bool isloaded = false;
+	Program* program;
+
+	int flags;
 };
 
 inline const int GeometryBatch::GetFlags() const
