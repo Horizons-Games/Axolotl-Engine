@@ -25,6 +25,13 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 {
 }
 
+ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
+	: Component(componentRigidBody),
+	isKinematic(componentRigidBody.isKinematic), m(componentRigidBody.m), g(componentRigidBody.g), v0(componentRigidBody.v0)
+{
+}
+
+
 ComponentRigidBody::~ComponentRigidBody()
 {
 }

@@ -102,7 +102,7 @@ protected:
 	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
-	std::unique_ptr <Frustum> frustum;
+	Frustum* frustum;
 
 	float3 position;
 
@@ -133,7 +133,7 @@ inline CameraType Camera::GetType()
 
 inline Frustum* Camera::GetFrustum()
 {
-	return this->frustum.get();
+	return frustum;
 }
 
 inline const float3& Camera::GetPosition() const

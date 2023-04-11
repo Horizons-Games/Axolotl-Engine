@@ -19,7 +19,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr), speed(3), isPlayerLoad(false){};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr), lastPlayer(nullptr), componentPlayer(nullptr), speed(3), isPlayerLoad(false){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -90,7 +90,6 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
 {
 	player = std::move(newPlayer);
-	player->SetParent(nullptr);
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
@@ -157,14 +156,23 @@ void ModulePlayer::LoadNewPlayer()
 	{
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
-			if (camera->GetParent() != player.get()) 
+			
+			SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
+			lastPlayer = camera->GetParent();
+			// look for the player's camera
+			std::vector<GameObject*> children = player.get()->GetChildren();
+			for (auto child : children)
 			{
-				SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-				cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-				cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
-				App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player.get());
-				App->camera->SetSelectedCamera(0);
+				if (!child->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA).empty())
+				{
+					cameraPlayer = static_cast<ComponentCamera*>(child->GetComponent(ComponentType::CAMERA))->GetCamera();
+					cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
+				}
 			}
+
+			lastPlayer->Disable();
+			App->camera->SetSelectedCamera(0);
+			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
 				App->input->SetShowCursor(true);
@@ -183,12 +191,9 @@ void ModulePlayer::LoadNewPlayer()
 
 void ModulePlayer::UnloadNewPlayer()
 {
-	if (player)
-	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()->AddGameObjectAndChildren(player.get());
-	}
 	App->camera->SetSelectedCamera(-1);
-	App->scene->GetLoadedScene()->GetRoot()->AddChild(std::move(player));
+	lastPlayer->Enable();
+	player = nullptr;
 	isPlayerLoad = false;
 }
 

@@ -32,6 +32,7 @@ public:
 
 private:
 	std::unique_ptr <GameObject>  player;
+	GameObject* lastPlayer;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
 

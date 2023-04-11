@@ -6,6 +6,7 @@ class ComponentPlayer :
 {
 public:
 	ComponentPlayer(bool active, GameObject* owner);
+	ComponentPlayer(const ComponentPlayer& componentPlayer);
 	~ComponentPlayer() override;
 
 	void Update() override;
