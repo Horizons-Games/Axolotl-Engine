@@ -1,20 +1,15 @@
 #version 440
 
 struct Material {
-    vec3 diffuse_color;
-    sampler2D diffuse_map;
-    vec3 specular_color;
-    sampler2D specular_map;
-    float shininess;
-    sampler2D normal_map;
-    float normal_strength;
-    vec3 ambient;
-    
-    int has_diffuse_map;
-    int has_specular_map;
-    int shininess_alpha;
-    int has_shininess_map;
-    bool has_normal_map;
+    vec3 diffuse_color;         //location 3
+    vec3 specular_color;        //location 4
+    float normal_strength;      //location 5
+    float smoothness;           //location 6
+
+    int has_diffuse_map;        //location 7
+    int has_specular_map;       //location 8
+    int has_normal_map;         //location 9
+    int has_smoothness_map;     //location 10
 };
 
 struct PointLight
@@ -60,9 +55,11 @@ struct Light {
     vec3 color;
 };
 
-//out vec4 color;
+layout(location = 3) uniform Material material; // 0-9
+layout(binding = 5) uniform sampler2D diffuse_map;
+layout(binding = 6) uniform sampler2D normal_map;
+layout(binding = 7) uniform sampler2D specular_map;
 
-uniform Material material;
 uniform Light light;
 
 in vec3 fragTangent;
@@ -87,7 +84,7 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
-vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculateDirectionalLight(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
     float dotNL = max(dot(N,L), 0.0);
@@ -99,9 +96,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
     vec3 R = reflect(L, N);
 
     float dotVR = max(dot(V,R), 0.0001);
-    float spec = pow(dotVR,shininess);
+    float spec = pow(dotVR,smoothness);
 
-    vec3 numerator = (shininess + 2) * fresnel * spec;
+    vec3 numerator = (smoothness + 2) * fresnel * spec;
     vec3 specular = numerator / 2;
     vec3 kD = vec3(1.0) - specular;
     vec3 diffuse = kD * texDiffuse;
@@ -111,7 +108,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float shininess, vec3 f0, vec3 te
     return Lo;
 }
 
-vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
 {
     vec3 Lo = vec3(0.0);
 
@@ -137,9 +134,9 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
         vec3 R = reflect(L, N);
 
         float dotVR = max(dot(V,R), 0.0001);
-        float spec = pow(dotVR,shininess);
+        float spec = pow(dotVR, smoothness);
 
-        vec3 numerator = (shininess + 2) * fresnel * spec;
+        vec3 numerator = (smoothness + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
         vec3 kD = vec3(1.0) - specular;
         vec3 diffuse = kD * texDiffuse;
@@ -150,7 +147,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiff
     return Lo;
 }
 
-vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffuse)
+vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
 {
     vec3 Lo = vec3(0.0);
 
@@ -168,11 +165,6 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
         float cosOuter = cos(outerAngle);
 
         vec3 L = normalize(FragPos - pos);
-
-        float theta = dot(L, normalize(-aim));
-
-        //if(theta > cosOuter) 
-        //{ 
         float dotNL = max(dot(N, -L), 0.0);
 
         vec3 fresnel  = fresnelSchlick(dotNL, f0);
@@ -199,9 +191,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float shininess, vec3 f0, vec3 texDiffu
         vec3 R = reflect(L, N);
 
         float dotVR = max(dot(V,R), 0.0001);
-        float spec = pow(dotVR,shininess);
+        float spec = pow(dotVR, smoothness);
 
-        vec3 numerator = (shininess + 2) * fresnel * spec;
+        vec3 numerator = (smoothness + 2) * fresnel * spec;
         vec3 specular = numerator / 2;
         vec3 kD = vec3(1.0) - specular;
         vec3 diffuse = kD * texDiffuse;
@@ -221,14 +213,14 @@ void main()
 
 	vec3 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(material.diffuse_map, TexCoord).rgb; 
+        textureMat = texture(diffuse_map, TexCoord).rgb; 
         textureMat = pow(textureMat, vec3(2.2));
     }
     
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -238,31 +230,31 @@ void main()
     //fresnel
     vec4 specularMat =  vec4(material.specular_color, 0.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(material.specular_map, TexCoord));
+        specularMat = vec4(texture(specular_map, TexCoord));
         specularMat = pow(specularMat, vec4(2.2));
     }
 
     vec3 f0 =  specularMat.rgb;
 
-    // shininess
-    float shininess = material.shininess;
-    if (material.shininess_alpha == 1) {
-	    shininess = exp2(specularMat.a * 7 + 1);
+    // smoothness
+    float smoothness = material.smoothness;
+    if (material.has_smoothness_map == 1) {
+	    smoothness = exp2(specularMat.a * 7 + 1);
     }
     
     // ambient
     vec3 ambient = ambientValue * textureMat;
 
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, shininess, f0, textureMat);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, smoothness, f0, textureMat);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculatePointLights(norm, viewDir, smoothness, f0, textureMat);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, shininess, f0, textureMat);
+        Lo += calculateSpotLights(norm, viewDir, smoothness, f0, textureMat);
     }
 
     vec3 color = ambient + Lo;

@@ -1,16 +1,18 @@
 #version 440
 
-#define M_PI 3.1415926535897932384626433832795
+#define PI 3.1415926538
 #define EPSILON 1e-4
 
 struct Material {
     vec3 diffuse_color;         //location 3         
     float normal_strength;      //location 4
-    int has_diffuse_map;        //location 5
-    bool has_normal_map;        //location 6
-    float smoothness;           //location 7
-    float metalness;            //location 9
-    int has_metallic_map;       //location 10
+    float smoothness;           //location 5
+    float metalness;            //location 6
+    
+    int has_diffuse_map;        //location 7
+    int has_metallic_map;       //location 8
+    int has_normal_map;        //location 9
+    int has_smoothness_map;     //location 10
 };
 
 struct PointLight
@@ -93,7 +95,7 @@ float GGXNormalDistribution(float dotNH, float roughness)
     float squareRoughness = roughness*roughness;
     float squareNH = dotNH*dotNH;
 
-    return squareRoughness/(M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
+    return squareRoughness/(PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
