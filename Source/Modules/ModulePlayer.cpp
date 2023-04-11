@@ -19,7 +19,8 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr), lastPlayer(nullptr), componentPlayer(nullptr), speed(3), isPlayerLoad(false){};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr), lastPlayer(nullptr),
+	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -38,12 +39,6 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
-	
-	/*if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
-	{
-		Move();
-		Rotate();
-	}*/
 #ifdef ENGINE
 	if (isPlayerLoad && App->GetIsOnPlayMode())
 	{
@@ -69,11 +64,13 @@ update_status ModulePlayer::Update()
 #ifdef ENGINE
 	if (isPlayerLoad && App->GetIsOnPlayMode())
 	{
-		player->Update();
-		if (isPlayerLoad)
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+		
+		if (readyToEliminate)
 		{
-			ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
-			trans->UpdateTransformMatrices();
+			App->OnStopPlay();
+			readyToEliminate = false;
 		}
 	}
 	

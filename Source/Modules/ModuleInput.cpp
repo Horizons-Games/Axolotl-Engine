@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
 #include "Scene/Scene.h"
@@ -196,7 +197,7 @@ update_status ModuleInput::Update()
     {
         if (App->GetIsOnPlayMode())
         {
-            App->OnStopPlay();
+            App->player->SetReadyToEliminate(true);
         }
     }
 

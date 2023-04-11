@@ -3,6 +3,7 @@
 #include "ComponentMockState.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
 #include "Geometry/Frustum.h"
@@ -75,7 +76,8 @@ void ComponentRigidBody::Update()
 						//TODO: win state
 					#ifdef ENGINE			
 						ENGINE_LOG("Next scene should be %s", mockState->GetSceneName());
-						App->OnStopPlay();
+						App->player->SetReadyToEliminate(true);
+						return;
 					#else
 						std::string sceneName = mockState->GetSceneName();
 						App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");

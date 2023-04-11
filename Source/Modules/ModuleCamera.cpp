@@ -140,12 +140,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 				selectedPosition = 1;
 				selectedCamera = camera.get();
 			}
-			else
-			{
-				//camera->SetPosition(selectedCamera->GetPosition());
-				//camera->GetFrustum()->SetFront(selectedCamera->GetFrustum()->Front());
-				//camera->GetFrustum()->SetUp(selectedCamera->GetFrustum()->Up());
-			}
 		}
 		else
 		{

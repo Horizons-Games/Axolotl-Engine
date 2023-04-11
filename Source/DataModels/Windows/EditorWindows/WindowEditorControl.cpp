@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 WindowEditorControl::WindowEditorControl() : EditorWindow("Editor Control")
 {
@@ -27,7 +28,7 @@ void WindowEditorControl::DrawWindowContents()
 
     if (ImGui::ArrowButton((App->GetIsOnPlayMode()) ? "##Stop" : "##Play", ImGuiDir_Right))
     {
-        (App->GetIsOnPlayMode()) ? App->OnStopPlay() : App->OnPlay();
+        (App->GetIsOnPlayMode()) ? App->player->SetReadyToEliminate(true) : App->OnPlay();
     }
     ImGui::SameLine();
 

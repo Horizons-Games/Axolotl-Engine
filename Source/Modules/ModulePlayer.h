@@ -30,6 +30,8 @@ public:
 
 	bool IsStatic();
 
+	void SetReadyToEliminate(bool readyToEliminate);
+
 private:
 	std::unique_ptr <GameObject>  player;
 	GameObject* lastPlayer;
@@ -38,10 +40,16 @@ private:
 
 	float speed;
 	bool isPlayerLoad;
+	bool readyToEliminate;
 	
 };
 
 inline bool ModulePlayer::GetIsLoadPlayer()
 {
 	return isPlayerLoad;
+}
+
+inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
+{
+	this->readyToEliminate =  readyToEliminate;
 }
