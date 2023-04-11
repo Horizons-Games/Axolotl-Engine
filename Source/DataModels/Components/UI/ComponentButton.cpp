@@ -52,7 +52,7 @@ void ComponentButton::LoadOptions(Json& meta)
 	colorHovered.x = static_cast<float>(meta["colorHovered_x"]);
 	colorHovered.y = static_cast<float>(meta["colorHovered_y"]);
 	colorHovered.z = static_cast<float>(meta["colorHovered_z"]);
-	colorHovered.z = static_cast<float>(meta["colorHovered_w"]);
+	colorHovered.w = static_cast<float>(meta["colorHovered_w"]);
 
 	colorClicked.x = static_cast<float>(meta["colorClicked_x"]);
 	colorClicked.y = static_cast<float>(meta["colorClicked_y"]);
