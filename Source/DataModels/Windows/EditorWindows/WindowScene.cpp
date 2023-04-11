@@ -8,6 +8,7 @@
 #include "Modules/ModuleCamera.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleInput.h"
+#include "Modules/ModuleUI.h"
 
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
@@ -294,6 +295,7 @@ void WindowScene::ManageResize()
 		App->camera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
+		App->userInterface->RecalculateCanvasSizeAndScreenFactor();
 	}
 	
 	auto windowSize = ImGui::GetWindowSize();

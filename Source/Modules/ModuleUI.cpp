@@ -129,10 +129,15 @@ void ModuleUI::DrawChildren(GameObject* gameObject)
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
-	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
-	for (GameObject* canvas : canvasScene)
+	for (GameObject* canvas : App->scene->GetLoadedScene()->GetSceneCanvas())
 	{
 		((ComponentCanvas*)(canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
+	}
+
+	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	{
+		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		transform->CalculateWorldBoundingBox();
 	}
 }
 
