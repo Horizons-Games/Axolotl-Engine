@@ -312,6 +312,22 @@
     <ClInclude Include="ImGuiFileDialog\stb\stb_image_resize.h">
       <Filter>ImGui\ImGuiFileDialog\stb</Filter>
     </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFileHelpers.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIOBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIODeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -470,6 +486,18 @@
     <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>ImGui\ImGuiFileDialog</Filter>
     </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHookStubs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Include\Geometry\KDTree.inl">

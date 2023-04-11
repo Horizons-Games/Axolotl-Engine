@@ -236,6 +236,22 @@
     <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFileHelpers.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIOBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIODeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FontIcons\CustomFont.cpp">
@@ -368,6 +384,18 @@
     <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHookStubs.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">
@@ -429,6 +457,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -547,7 +576,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick;..\External\wwise\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>

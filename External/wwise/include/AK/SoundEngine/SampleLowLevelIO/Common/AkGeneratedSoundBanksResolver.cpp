@@ -12,7 +12,7 @@ written agreement between you and Audiokinetic Inc.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include "stdafx.h"
+#include "AK/SoundEngine/SampleLowLevelIO/Win32/stdafx.h"
 
 #include "AkGeneratedSoundBanksResolver.h"
 
