@@ -73,8 +73,13 @@ void ComponentRigidBody::Update()
 					if (mockState->GetIsWinState())
 					{
 						//TODO: win state
+					#ifdef ENGINE			
+						ENGINE_LOG("Next scene should be %s", mockState->GetSceneName());
+						App->OnStopPlay();
+					#else
 						std::string sceneName = mockState->GetSceneName();
 						App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+					#endif				
 					}
 					else if (mockState->GetIsFailState())
 					{

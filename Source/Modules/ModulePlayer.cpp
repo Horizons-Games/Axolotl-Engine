@@ -70,8 +70,11 @@ update_status ModulePlayer::Update()
 	if (isPlayerLoad && App->GetIsOnPlayMode())
 	{
 		player->Update();
-		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
-		trans->UpdateTransformMatrices();
+		if (isPlayerLoad)
+		{
+			ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+			trans->UpdateTransformMatrices();
+		}
 	}
 	
 #else //ENGINE
@@ -156,7 +159,7 @@ void ModulePlayer::LoadNewPlayer()
 	{
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
-			
+#ifdef ENGINE
 			SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
 			lastPlayer = camera->GetParent();
 			// look for the player's camera
@@ -172,7 +175,13 @@ void ModulePlayer::LoadNewPlayer()
 
 			lastPlayer->Disable();
 			App->camera->SetSelectedCamera(0);
-			
+#else
+			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
+			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			App->camera->SetSelectedCamera(0);
+
+#endif // ENGINE			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
 				App->input->SetShowCursor(true);
