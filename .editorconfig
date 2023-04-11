@@ -3,8 +3,7 @@
 # top-most EditorConfig file
 root = true
 
-# Matches multiple files with brace expansion notation
-[*.{h,cpp}]
+[*]
 charset = utf-8
 indent_style = tab
 indent_size = tab
