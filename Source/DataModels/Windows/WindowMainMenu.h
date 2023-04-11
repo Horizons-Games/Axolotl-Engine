@@ -16,6 +16,7 @@ public:
 
 	bool IsWindowEnabled(int windowIndex) const;
 	void SetWindowEnabled(int windowIndex, bool enabled);
+	void ShortcutSave();
 
 private:
 	void DrawWindowMenu();

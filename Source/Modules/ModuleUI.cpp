@@ -8,9 +8,9 @@
 #include "ModuleWindow.h"
 #include "Scene/Scene.h"
 
-#include "Components/UI/ComponentBoundingBox2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentTransform2D.h"
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
@@ -33,9 +33,9 @@ update_status ModuleUI::Update()
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		ComponentBoundingBox2D* boundingBox =
-			static_cast<ComponentBoundingBox2D*>(interactable->GetOwner()->GetComponent(ComponentType::BOUNDINGBOX2D));
-		AABB2D aabb2d = boundingBox->GetWorldAABB();
+		ComponentTransform2D* transform =
+			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		AABB2D aabb2d = transform->GetWorldAABB();
 		float2 point = App->input->GetMousePosition();
 #ifdef ENGINE
 		point = Physics::ScreenToScenePosition(App->input->GetMousePosition());

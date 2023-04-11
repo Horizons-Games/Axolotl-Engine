@@ -60,6 +60,4 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow>> windowsForComponentsOfSelectedObject;
-
-	bool bbDrawn;
 };

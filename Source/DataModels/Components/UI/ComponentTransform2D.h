@@ -2,11 +2,15 @@
 
 #include "Components/Component.h"
 
+#include "Geometry/AABB2D.h"
+
 #include "Math/Quat.h"
 #include "Math/TransformOps.h"
 #include "Math/float2.h"
 #include "Math/float3.h"
 #include "Math/float4x4.h"
+
+class ComponentCanvas;
 
 class ComponentTransform2D : public Component
 {
@@ -25,6 +29,7 @@ public:
 	void SetEulerAngles(const float3& eulerAngles);
 	void SetScale(const float3& localScale);
 	void SetSize(const float2& newSize);
+	void SetLocalBoundingBox(const AABB2D& boundingBox);
 
 	const float3& GetPosition() const;
 	const float2& GetPivot() const;
@@ -38,15 +43,20 @@ public:
 
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
-
 	const float4x4 GetGlobalScaledMatrix() const;
 
+	const AABB2D& GetWorldAABB() const;
+
+	void CalculateMatrices();
+	ComponentCanvas* WhichCanvasContainsMe();
+
+private:
 	float3 GetPositionRelativeToParent();
 	float3 GetScreenPosition();
 
-	void CalculateMatrices();
+	ComponentCanvas* RecursiveWhichCanvasContainsMe(const GameObject* object);
+	void CalculateWorldBoundingBox();
 
-private:
 	float3 eulerAngles;
 
 	float3 pos;
@@ -68,6 +78,9 @@ private:
 	float2 anchorMax = float2(0.5, 0.5);
 	float2 pivot;
 	float2 sizeDelta;
+
+	AABB2D localAABB;
+	AABB2D worldAABB;
 };
 
 inline void ComponentTransform2D::SetPosition(const float3& localPosition)
@@ -107,6 +120,11 @@ inline void ComponentTransform2D::SetScale(const float3& localScale)
 inline void ComponentTransform2D::SetSize(const float2& newSize)
 {
 	this->size = newSize;
+}
+
+inline void ComponentTransform2D::SetLocalBoundingBox(const AABB2D& boundingBox)
+{
+	localAABB = boundingBox;
 }
 
 inline const float3& ComponentTransform2D::GetPosition() const
@@ -167,4 +185,9 @@ inline const float4x4& ComponentTransform2D::GetGlobalRotation() const
 inline const float3& ComponentTransform2D::GetGlobalScale() const
 {
 	return globalSca;
+}
+
+inline const AABB2D& ComponentTransform2D::GetWorldAABB() const
+{
+	return worldAABB;
 }

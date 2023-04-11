@@ -4,11 +4,9 @@
 #include <unordered_map>
 
 #include "../../FileSystem/UniqueID.h"
+#include "MathGeoLib/Include/Math/vec2d.h"
 #include <iterator>
 #include <memory>
-
-#include "Geometry/AABB.h"
-#include "Geometry/OBB.h"
 
 class Component;
 class ComponentMeshRenderer;
@@ -86,17 +84,6 @@ public:
 	void MoveUpChild(GameObject* childToMove);
 	void MoveDownChild(GameObject* childToMove);
 
-	void CalculateBoundingBoxes();
-	void Encapsule(const vec* Vertices, unsigned numVertices);
-
-	ComponentCanvas* FoundCanvasOnAnyParent();
-
-	const AABB& GetLocalAABB();
-	const AABB& GetEncapsuledAABB();
-	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes() const;
-
-	void setDrawBoundingBoxes(bool newDraw);
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
 
@@ -118,11 +105,6 @@ private:
 
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
-
-	AABB localAABB;
-	AABB encapsuledAABB;
-	OBB objectOBB;
-	bool drawBoundingBoxes;
 
 	friend class WindowInspector;
 };
@@ -238,34 +220,6 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 	}
 
 	return components;
-}
-
-inline const AABB& GameObject::GetLocalAABB()
-{
-	CalculateBoundingBoxes();
-	return localAABB;
-}
-
-inline const AABB& GameObject::GetEncapsuledAABB()
-{
-	CalculateBoundingBoxes();
-	return encapsuledAABB;
-}
-
-inline const OBB& GameObject::GetObjectOBB()
-{
-	CalculateBoundingBoxes();
-	return objectOBB;
-}
-
-inline const bool GameObject::isDrawBoundingBoxes() const
-{
-	return drawBoundingBoxes;
-}
-
-inline void GameObject::setDrawBoundingBoxes(bool newDraw)
-{
-	drawBoundingBoxes = newDraw;
 }
 
 inline bool GameObject::CompareTag(const std::string& commingTag) const

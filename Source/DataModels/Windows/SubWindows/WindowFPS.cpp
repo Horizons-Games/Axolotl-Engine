@@ -1,6 +1,7 @@
 #include "WindowFPS.h"
 
 #include "Application.h"
+#include "Modules/ModuleWindow.h"
 
 WindowFPS::WindowFPS() :
 	SubWindow("FPS"),
@@ -55,5 +56,11 @@ void WindowFPS::DrawWindowContents()
 		// remove the first element and increase the size of the vector back
 		timeHist.erase(timeHist.begin());
 		timeHist.push_back(0);
+	}
+
+	bool vsyncActive = App->window->GetVsync();
+	if (ImGui::Checkbox("Vsync", &vsyncActive))
+	{
+		App->window->SetVsync(vsyncActive);
 	}
 }

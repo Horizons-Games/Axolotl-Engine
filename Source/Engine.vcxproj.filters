@@ -287,9 +287,6 @@
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
       <Filter>DataModels\Components\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\UI\ComponentBoundingBox2D.cpp">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
@@ -605,9 +602,6 @@
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\UI\ComponentBoundingBox2D.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">

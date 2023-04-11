@@ -17,7 +17,6 @@
 WindowInspector::WindowInspector() :
 	EditorWindow("Inspector"),
 	lastSelectedObjectUID(0),
-	bbDrawn(false),
 	lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
@@ -80,23 +79,6 @@ void WindowInspector::InspectSelectedGameObject()
 				// removing c_str makes it so the setter only works when tag.size >= 17. God knows why
 				lastSelectedGameObject->SetTag(tag.c_str());
 			}
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
-			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
-			}
-
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&

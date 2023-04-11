@@ -12,7 +12,6 @@
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentTransform.h"
-#include "../Components/UI/ComponentBoundingBox2D.h"
 #include "../Components/UI/ComponentButton.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
@@ -37,11 +36,7 @@ GameObject::GameObject(const std::string& name, UID uid) :
 	enabled(true),
 	active(true),
 	parent(nullptr),
-	stateOfSelection(StateOfSelection::NO_SELECTED),
-	localAABB({ { 0, 0, 0 }, { 0, 0, 0 } }),
-	encapsuledAABB(localAABB),
-	objectOBB({ localAABB }),
-	drawBoundingBoxes(false)
+	stateOfSelection(StateOfSelection::NO_SELECTED)
 {
 }
 
@@ -63,11 +58,7 @@ GameObject::GameObject(const GameObject& gameObject) :
 	uid(UniqueID::GenerateUID()),
 	enabled(true),
 	active(true),
-	localAABB(gameObject.localAABB),
-	encapsuledAABB(localAABB),
-	stateOfSelection(StateOfSelection::NO_SELECTED),
-	objectOBB({ localAABB }),
-	drawBoundingBoxes(false)
+	stateOfSelection(StateOfSelection::NO_SELECTED)
 {
 	for (auto component : gameObject.GetComponents())
 	{
@@ -137,16 +128,6 @@ void GameObject::Update()
 
 void GameObject::Draw() const
 {
-#ifndef ENGINE
-	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
-	{
-		App->debug->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->debug->DrawBoundingBox(objectOBB);
-	}
 	for (const std::unique_ptr<Component>& component : components)
 	{
 		if (component->GetActive())
@@ -505,12 +486,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::BOUNDINGBOX2D:
-		{
-			newComponent = std::make_unique<ComponentBoundingBox2D>(true, this);
-			break;
-		}
-
 		case ComponentType::MOCKSTATE:
 		{
 			newComponent = std::make_unique<ComponentMockState>(true, this);
@@ -687,31 +662,6 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 	}
 }
 
-void GameObject::CalculateBoundingBoxes()
-{
-	ComponentTransform* transform = static_cast<ComponentTransform*>(GetComponent(ComponentType::TRANSFORM));
-	if (transform)
-	{
-		objectOBB = localAABB;
-		objectOBB.Transform(transform->GetGlobalMatrix());
-		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
-	}
-	else
-	{
-		// TODO Calculate BoundingBox of Transform2D Object
-		ComponentTransform2D* transform2D =
-			static_cast<ComponentTransform2D*>(GetComponent(ComponentType::TRANSFORM2D));
-		objectOBB = localAABB;
-		objectOBB.Transform(transform2D->GetLocalMatrix());
-		encapsuledAABB = objectOBB.MinimalEnclosingAABB();
-	}
-}
-
-void GameObject::Encapsule(const vec* Vertices, unsigned numVertices)
-{
-	localAABB = localAABB.MinimalEnclosingAABB(Vertices, numVertices);
-}
-
 void GameObject::SetParentAsChildSelected()
 {
 	if (parent)
@@ -719,18 +669,4 @@ void GameObject::SetParentAsChildSelected()
 		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
 		parent->SetParentAsChildSelected();
 	}
-}
-
-ComponentCanvas* GameObject::FoundCanvasOnAnyParent()
-{
-	while (parent != nullptr)
-	{
-		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
-		if (canvas)
-		{
-			return canvas;
-		}
-		parent = parent->GetParent();
-	}
-	return nullptr;
 }

@@ -171,24 +171,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			{
 				App->scene->GetLoadedScene()->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
 			}
-			if (ImGui::MenuItem("Character"))
-			{
-				App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
-			}
-			ImGui::EndMenu();
-		}
-		// Create Light ShortCut
-		if (ImGui::BeginMenu("Create Light"))
-		{
-			if (ImGui::MenuItem("Spot"))
-			{
-				App->scene->GetLoadedScene()->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
-			}
-			if (ImGui::MenuItem("Point"))
-			{
-				App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
-			}
-			ImGui::EndMenu();
 		}
 
 		if (gameObject !=
@@ -236,7 +218,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 				return;
 			}
 		}
-
 		ImGui::EndPopup();
 	}
 	ImGui::PopID();

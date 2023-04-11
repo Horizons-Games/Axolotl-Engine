@@ -27,4 +27,6 @@ private:
 	bool translationModified;
 	bool rotationModified;
 	bool scaleModified;
+
+	bool bbdraw;
 };

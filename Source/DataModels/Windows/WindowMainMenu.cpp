@@ -159,3 +159,16 @@ void WindowMainMenu::DrawHelpMenu()
 	}
 	about->Draw(showAbout);
 }
+
+void WindowMainMenu::ShortcutSave()
+{
+	std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+	if (filePathName != "New Scene")
+	{
+		App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+	}
+	else
+	{
+		isSaving = true;
+	}
+}
