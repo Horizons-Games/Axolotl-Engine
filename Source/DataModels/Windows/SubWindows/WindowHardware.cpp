@@ -148,7 +148,7 @@ void WindowHardware::GetCPUinfo()
 	float ramInGB = ramInMB / 1000.f;
 	float ramInGb = ramInGB * 8.f;
 	// this is the value multiplied by 10 to the power of 8
-	// insted of to the power of 9, which is what Giga is
+	// instead of to the power of 9, which is what Giga is
 	// this is to make rounding easier,
 	// since I can't find a way to set decimal precision
 	int ramInGbOneDecimalAux = (int) std::ceil(ramInGb * 10.f);

@@ -49,7 +49,6 @@ public:
 
 	LoadOptionsMaterial& GetLoadOptions();
 
-	// Sets
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);

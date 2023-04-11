@@ -21,11 +21,7 @@ public:
 	void SaveImporterOptions(Json& meta) override{};
 	void LoadImporterOptions(Json& meta) override{};
 
-	// Getters
-
 	OptionsScene& GetOptions();
-
-	// Setters
 
 protected:
 	void InternalLoad() override{};

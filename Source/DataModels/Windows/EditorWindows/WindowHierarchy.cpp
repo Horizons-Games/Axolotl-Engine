@@ -29,7 +29,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
 	assert(gameObject);
 
-	// Delete a GameObject with the SUPR key
+	// Delete a GameObject with the `Delete / Supr` key
 	if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
 		gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
 		gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())

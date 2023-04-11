@@ -19,7 +19,7 @@ void WindowDebug::Draw(bool& enabled)
 {
 	if (App->IsDebuggingGame())
 	{
-		// De momento asi estoy activando el cursor
+		// Activating the cursor like this for now
 		SDL_ShowCursor(SDL_ENABLE);
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(
