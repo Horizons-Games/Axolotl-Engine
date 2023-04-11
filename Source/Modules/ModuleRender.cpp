@@ -485,7 +485,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected)
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && !App->GetIsOnPlayMode())
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}
