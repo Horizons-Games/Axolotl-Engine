@@ -17,6 +17,7 @@ public:
 
 	bool IsWindowEnabled(int windowIndex) const;
 	void SetWindowEnabled(int windowIndex, bool enabled);
+	void ShortcutSave();
 
 private:
 	void DrawWindowMenu();
@@ -48,6 +49,7 @@ private:
 	ImGuiFileDialog fileDialogImporter;
 
 	std::vector<std::pair<std::string, bool> > windowNamesAndEnabled;
+	
 };
 
 inline bool WindowMainMenu::IsWindowEnabled(int windowIndex) const
