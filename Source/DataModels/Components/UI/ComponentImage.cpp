@@ -159,10 +159,17 @@ inline float3 ComponentImage::GetFullColor()
 
 void ComponentImage::LoadVBO()
 {
-	float vertices[] = { // positions
-						 -0.5, 0.5,	 0.0f, 1.0f, -0.5, -0.5, 0.0f, 0.0f, 0.5,  -0.5, 1.0f, 0.0f,
-						 0.5,  -0.5, 1.0f, 0.0f, 0.5,  0.5,	 1.0f, 1.0f, -0.5, 0.5,	 0.0f, 1.0f
+	// clang-format off
+	float vertices[] = {
+		// positions          
+		-0.5,  0.5, 0.0f, 1.0f,
+		-0.5, -0.5, 0.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5,  0.5, 1.0f, 1.0f,
+		-0.5,  0.5, 0.0f, 1.0f
 	};
+	// clang-format on
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
