@@ -142,9 +142,9 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	{
 		rootQuadtree->Add(gameObject);
 	}
-	App->scene->AddGameObjectAndChildrens(App->scene->GetSelectedGameObject());
+	App->scene->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 	App->scene->SetSelectedGameObject(gameObject);
-	App->scene->RemoveGameObjectAndChildrens(gameObject);
+	App->scene->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }

@@ -280,9 +280,9 @@ This have the same functionality as SetSelectedGameObject but implies changes in
 */
 void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 {
-	AddGameObjectAndChildrens(selectedGameObject);
+	AddGameObjectAndChildren(selectedGameObject);
 	selectedGameObject = gameObject;
-	RemoveGameObjectAndChildrens(selectedGameObject);
+	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
@@ -358,24 +358,24 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 }
 
 
-void ModuleScene::AddGameObjectAndChildrens(GameObject* object)
+void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
 	AddGameObject(object);
 
 	for (GameObject* children : object->GetChildren())
 	{
-		AddGameObjectAndChildrens(children);
+		AddGameObjectAndChildren(children);
 	}
 
 }
 
-void ModuleScene::RemoveGameObjectAndChildrens(GameObject* object)
+void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 {
 	RemoveGameObject(object);
 
 	for (GameObject* children : object->GetChildren())
 	{
-		RemoveGameObjectAndChildrens(children);
+		RemoveGameObjectAndChildren(children);
 	}
 }
 

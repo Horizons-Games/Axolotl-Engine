@@ -58,7 +58,7 @@ public:
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
-	const std::vector<GameObject*>& GetNonStaticObjects();
+	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	const std::vector<GameObject*>& GetSceneCanvas() const;
@@ -190,7 +190,7 @@ inline Skybox* Scene::GetSkybox() const
 	return skybox.get();
 }
 
-inline const std::vector<GameObject*>& Scene::GetNonStaticObjects()
+inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 {
 	return nonStaticObjects;
 }

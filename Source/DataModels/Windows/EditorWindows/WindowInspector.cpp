@@ -70,6 +70,7 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 			ImGui::SameLine();
 			bool staticness = lastSelectedGameObject->IsStatic();
+			//This should be changed into a pop-up windows 
 			if (ImGui::Checkbox("Static", &staticness))
 			{
 				lastSelectedGameObject->SetStatic(staticness);

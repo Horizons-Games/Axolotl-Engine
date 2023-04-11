@@ -34,8 +34,8 @@ public:
 	void OnPause();
 	void OnStop();
 
-	void AddGameObjectAndChildrens(GameObject* object);
-	void RemoveGameObjectAndChildrens(GameObject* object);
+	void AddGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(GameObject* object);
 
 
 
