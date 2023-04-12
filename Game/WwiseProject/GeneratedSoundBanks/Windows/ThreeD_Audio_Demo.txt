@@ -1,0 +1,18 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2266299534	Play_Sandstep			\3D_Audio_Demo\Play_Sandstep	
+	4057320454	Play_3D_Audio_Demo			\3D_Audio_Demo\Play_3D_Audio_Demo	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	154378389	waves	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\waves_74B5A651.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Spatialized Ambience\waves		362448
+	180276440	FS_Dirt_02	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\Dirt\FS_Dirt_02_E0C4BE95.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Hero Sounds\Dirt_Footsteps\FS_Dirt_02		12048
+	325907009	seagull1	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\seagull1_91CB1A55.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Spatialized Ambience\repeat_seagulls\seagulls\seagull1		188232
+	380879024	FS_Dirt_04	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\Dirt\FS_Dirt_04_E0C4BE95.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Hero Sounds\Dirt_Footsteps\FS_Dirt_04		11436
+	443382262	FS_Dirt_01	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\Dirt\FS_Dirt_01_E0C4BE95.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Hero Sounds\Dirt_Footsteps\FS_Dirt_01		10140
+	757197798	FS_Dirt_03	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\Dirt\FS_Dirt_03_E0C4BE95.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Hero Sounds\Dirt_Footsteps\FS_Dirt_03		12300
+	992856116	seagull2	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\seagull2_91CB1A55.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Spatialized Ambience\repeat_seagulls\seagulls\seagull2		233520
+	1007342877	seagull3	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\seagull3_91CB1A55.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Spatialized Ambience\repeat_seagulls\seagulls\seagull3		45060
+	1069088662	seagull4	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\seagull4_91CB1A55.wem		\Actor-Mixer Hierarchy\3D_Audio_Demo\Spatialized Ambience\repeat_seagulls\seagulls\seagull4		79188
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	520833791	piano_quad	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\piano_quad_94C07633.wem	520833791.wem	\Actor-Mixer Hierarchy\3D_Audio_Demo\Music\piano_quad	Composed & produced by Hugo Bédard
+

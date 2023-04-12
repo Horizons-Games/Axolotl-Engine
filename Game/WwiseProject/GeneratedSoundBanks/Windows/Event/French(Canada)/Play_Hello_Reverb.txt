@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3795249249	Play_Hello_Reverb			\Default Work Unit\AutobanksDemo\Play_Hello_Reverb	
+
+Effect plug-ins	ID	Name	Type				Notes
+	1980001864	Cathedral_Holy	Wwise RoomVerb			
+

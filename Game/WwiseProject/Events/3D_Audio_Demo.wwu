@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9342D351-4509-4EE0-A552-4239D68C9D72}" SchemaVersion="110">
+	<Events>
+		<WorkUnit Name="3D_Audio_Demo" ID="{9342D351-4509-4EE0-A552-4239D68C9D72}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_3D_Audio_Demo" ID="{024BA134-54E0-4699-BBF6-08E702EAB339}">
+					<ChildrenList>
+						<Action Name="" ID="{646FA541-C5A7-4B8B-AA9D-A11971E002CF}" ShortID="985057551">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="repeat_seagulls" ID="{22F80BDE-3279-4299-A15A-796633579EF9}" WorkUnitID="{875EE732-41A2-46B4-81D3-18BD32F634A1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{82C2B7D2-6F1C-40C4-9A5E-CE41A31F6E5B}" ShortID="576008743">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="waves" ID="{9237D803-E6BE-4005-BAF2-0128161ED6D8}" WorkUnitID="{875EE732-41A2-46B4-81D3-18BD32F634A1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{B71D1C17-C2A7-4D56-AEB6-D3DF490D15DF}" ShortID="726797945">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="piano_quad" ID="{54EE7258-6A09-4A84-A678-22928AFA3C81}" WorkUnitID="{875EE732-41A2-46B4-81D3-18BD32F634A1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Sandstep" ID="{54EC87CF-D7B1-4558-93A9-30D47F14F6D6}">
+					<ChildrenList>
+						<Action Name="" ID="{5770C09E-768F-4D00-9B27-BFD4B7B30857}" ShortID="74503746">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Dirt_Footsteps" ID="{FED1D288-2973-4EB7-912A-DFD37F16CFC5}" WorkUnitID="{875EE732-41A2-46B4-81D3-18BD32F634A1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

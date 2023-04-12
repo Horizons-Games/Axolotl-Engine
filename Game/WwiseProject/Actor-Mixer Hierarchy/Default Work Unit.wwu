@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{88012962-D6A8-4400-BC86-DF1A5980EDFA}" SchemaVersion="110">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{88012962-D6A8-4400-BC86-DF1A5980EDFA}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="Hello" ID="{5BA74442-2DEC-4370-AD70-97FC17EBF05D}" ShortID="39">
+					<PropertyList>
+						<Property Name="CenterPercentage" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+						<Property Name="IsLoopingInfinite" Type="bool" Value="False"/>
+						<Property Name="IsVoice" Type="bool" Value="True"/>
+						<Property Name="Priority" Type="int16">
+							<ValueList>
+								<Value>100</Value>
+								<Value Platform="Switch">100</Value>
+								<Value Platform="iOS">100</Value>
+								<Value Platform="Mac">100</Value>
+								<Value Platform="PS4">100</Value>
+								<Value Platform="Windows">100</Value>
+								<Value Platform="PS5">100</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Voice" ID="{E6582A3A-9DF1-4AF7-B55C-0E717D979AF8}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Voices" ID="{FCDDF691-8885-4A61-BF35-24E9EA98700E}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Hello" ID="{2B2BB61A-EDDE-4219-B3ED-88AA9F94C541}">
+							<Language>English(US)</Language>
+							<AudioFile>Hello.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="399670944"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="Hello" ID="{674384D4-6A32-4654-A11D-36459C45AE69}">
+							<Language>French(Canada)</Language>
+							<AudioFile>Hello.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="306982885"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Hello" ID="{2B2BB61A-EDDE-4219-B3ED-88AA9F94C541}" Platform="Linked"/>
+						<ActiveSource Name="Hello" ID="{674384D4-6A32-4654-A11D-36459C45AE69}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Markers_Test" ID="{447BE3DF-9FCC-438D-B834-95621EDCBB98}" ShortID="323164640">
+					<PropertyList>
+						<Property Name="CenterPercentage" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Voice" ID="{E6582A3A-9DF1-4AF7-B55C-0E717D979AF8}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Marker_Test_001" ID="{1B6ECDE4-A688-4993-B8EA-FF25B22057AB}">
+							<PropertyList>
+								<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+								<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+								<Property Name="MarkerInputMode" Type="int16" Value="2"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+								<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>Marker_Test_001.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="544694784"/>
+							</MediaIDList>
+							<PluginInnerObjectList>
+								<List Name="Markers">
+									<PluginInnerObject Name="" ID="{3A5E7FEC-5B89-4BF3-8347-C5F270D189B1}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="In this tutorial,"/>
+											<Property Name="Time" Type="Real64" Value="0.0342291666666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{49A86AE5-8D39-4EFD-8013-EB8B727D7EF8}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="we will look at creating"/>
+											<Property Name="Time" Type="Real64" Value="1.13060416666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{6BB5BECF-2BE6-45A6-84DF-22B92B94B797}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="actor-mixers"/>
+											<Property Name="Time" Type="Real64" Value="2.13354166666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{36E6CB1F-EBF6-467D-80C1-0CA76AD85843}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="and control buses."/>
+											<Property Name="Time" Type="Real64" Value="2.87454166666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{0F953175-3AA0-4857-8D54-91E5E78277F2}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="We will also look at the"/>
+											<Property Name="Time" Type="Real64" Value="4.25391666666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{A02365F8-B1CF-49E3-9047-B4D2ED550BFE}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="actor-mixer and master-mixer structures"/>
+											<Property Name="Time" Type="Real64" Value="5.15022916666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{AE631BF9-1F0B-4FA9-B432-69073DD5F785}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Label" Type="string" Value="and how to manage these structures efficiently."/>
+											<Property Name="Time" Type="Real64" Value="7.64704166666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+									<PluginInnerObject Name="" ID="{E779D8CA-4AFB-4A04-ACA8-B6F496CBBE19}" PluginName="Marker" CompanyID="0" PluginID="993">
+										<PropertyList>
+											<Property Name="Time" Type="Real64" Value="9.53979166666667"/>
+										</PropertyList>
+									</PluginInnerObject>
+								</List>
+							</PluginInnerObjectList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Marker_Test_001" ID="{1B6ECDE4-A688-4993-B8EA-FF25B22057AB}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<BlendContainer Name="Engine" ID="{DD540EA0-95C1-4CB0-B446-15C3F29C7959}" ShortID="900776192">
+					<PropertyList>
+						<Property Name="Lowpass" Type="int16">
+							<ValueList>
+								<Value>37</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Engine_3000" ID="{B3F782B8-E527-41AB-B57A-73ACEEEC55FB}" ShortID="245489792">
+							<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Porsche_Outside_On-Load_3000_01" ID="{B99A61E4-468E-438D-B901-57DAA78484AA}">
+									<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this 
+Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be 
+used or modified for a commercial purpose nor for public demonstration.</Comment>
+									<Language>SFX</Language>
+									<AudioFile>Porsche_Outside_On-Load_3000_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="77544352"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{589190E3-2E98-4C8A-914D-4574322FFD3D}" ShortID="4806062">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{4319DE2D-86D4-4D6E-BC52-E95EE60545A8}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-1902</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-1129</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-597</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>139</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>653</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>1049</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>1643</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>2084</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Porsche_Outside_On-Load_3000_01" ID="{B99A61E4-468E-438D-B901-57DAA78484AA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Engine_4000" ID="{F0855C20-1B09-4860-9913-4D9FA5DC7180}" ShortID="995925760">
+							<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Porsche_Outside_On-Load_4000_01" ID="{8FF8DEC7-6D14-4C1F-A2AC-4A53F19A7BB0}">
+									<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this 
+Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be 
+used or modified for a commercial purpose nor for public demonstration.</Comment>
+									<Language>SFX</Language>
+									<AudioFile>Porsche_Outside_On-Load_4000_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="486600864"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{17EFF602-C143-448D-B1E2-E3BCA6611AA3}" ShortID="260025248">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{9245E19F-0BE4-4D8D-889F-372C9199E152}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-2400</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-1627</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-1095</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>-359</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>155</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>551</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>1145</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>1586</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Porsche_Outside_On-Load_4000_01" ID="{8FF8DEC7-6D14-4C1F-A2AC-4A53F19A7BB0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Engine_6000" ID="{8ED2B399-3C71-4EF9-80F6-70C2367C0927}" ShortID="661488448">
+							<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Porsche_Outside_On-Load_6000_01" ID="{C3CC3E0D-A6CB-441A-8E85-4B1E4DA6A8FE}">
+									<Comment>Audiokinetic Inc. All rights reserved.
+Audio content provided by Tinitus, Inc.
+With the help of the Conservatory of Recording Arts and Sciences.
+© 2007 Tinitus, Inc.
+www.tinitus.net
+
+The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this 
+Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be 
+used or modified for a commercial purpose nor for public demonstration.</Comment>
+									<Language>SFX</Language>
+									<AudioFile>Porsche_Outside_On-Load_6000_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="401675520"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{CDDF6978-BC5A-4E50-B6C9-62AD283E1E05}" ShortID="238650448">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{F0438553-7AE5-4FDB-B96D-8EBB4920231B}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-3102</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-2329</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-1797</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>-1061</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>-547</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>-151</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>443</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>884</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Porsche_Outside_On-Load_6000_01" ID="{C3CC3E0D-A6CB-441A-8E85-4B1E4DA6A8FE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<BlendTrackList>
+						<BlendTrack Name="Blend Track" ID="{BE05A2F2-6E49-4C46-B79F-AE2ADA275201}" ShortID="270968384">
+							<PropertyList>
+								<Property Name="EnableCrossFading" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="LayerCrossFadeControlInput">
+									<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+								</Reference>
+							</ReferenceList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{A871E0D8-10FE-4C98-8C06-BEF0C355ECF9}" ShortID="913248384">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{122896A0-0A3C-4566-B8E3-391502A5335A}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-1.04618</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<BlendTrackAssocList>
+								<BlendTrackAssoc>
+									<ItemRef Name="Engine_3000" ID="{B3F782B8-E527-41AB-B57A-73ACEEEC55FB}"/>
+									<CrossfadingInfo>
+										<LeftEdgePos>1000</LeftEdgePos>
+										<LeftFadingMode>Automatic</LeftFadingMode>
+										<RightEdgePos>4122.86694981632</RightEdgePos>
+										<RightFadingMode>Automatic</RightFadingMode>
+										<RightFadingSegmentShape>Exp2</RightFadingSegmentShape>
+									</CrossfadingInfo>
+								</BlendTrackAssoc>
+								<BlendTrackAssoc>
+									<ItemRef Name="Engine_4000" ID="{F0855C20-1B09-4860-9913-4D9FA5DC7180}"/>
+									<CrossfadingInfo>
+										<LeftEdgePos>1941.979529216</LeftEdgePos>
+										<LeftFadingMode>Automatic</LeftFadingMode>
+										<LeftFadingSegmentShape>Log2</LeftFadingSegmentShape>
+										<RightEdgePos>6416.3825057792</RightEdgePos>
+										<RightFadingMode>Automatic</RightFadingMode>
+										<RightFadingSegmentShape>Exp2</RightFadingSegmentShape>
+									</CrossfadingInfo>
+								</BlendTrackAssoc>
+								<BlendTrackAssoc>
+									<ItemRef Name="Engine_6000" ID="{8ED2B399-3C71-4EF9-80F6-70C2367C0927}"/>
+									<CrossfadingInfo>
+										<LeftEdgePos>4588.73735479296</LeftEdgePos>
+										<LeftFadingMode>Automatic</LeftFadingMode>
+										<LeftFadingSegmentShape>Log2</LeftFadingSegmentShape>
+										<RightEdgePos>10000</RightEdgePos>
+										<RightFadingMode>Automatic</RightFadingMode>
+									</CrossfadingInfo>
+								</BlendTrackAssoc>
+							</BlendTrackAssocList>
+						</BlendTrack>
+					</BlendTrackList>
+				</BlendContainer>
+				<Sound Name="Microphone" ID="{DE905730-2690-4B1F-A21D-5CDFF373ED98}" ShortID="105868392">
+					<PropertyList>
+						<Property Name="BypassEffect1" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="Effect0">
+							<Custom>
+								<Effect Name="Default (Custom)" ID="{7F4B07D8-C838-435D-B4EC-3E3213D1BB17}" ShortID="656632019" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+									<PropertyList>
+										<Property Name="OutputGain" Type="Real32" Value="11"/>
+										<Property Name="Ratio" Type="Real32" Value="50"/>
+										<Property Name="ReleaseTime" Type="Real32" Value="0.1"/>
+									</PropertyList>
+								</Effect>
+							</Custom>
+						</Reference>
+						<Reference Name="Effect1">
+							<Custom CreatedFrom="{D20F3717-EBA2-4E3A-84F8-C8BD431563FB}">
+								<Effect Name="Echoes_Linear (Define custom)" ID="{7EF8F484-2490-40AA-A10D-B4295B46A7F0}" ShortID="748014606" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3"/>
+							</Custom>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SourcePlugin Name="Audio Input" ID="{A8B026D3-4334-4C4B-B829-3E0F86D38E08}" ShortID="340541280" PluginName="Wwise Audio Input" CompanyID="0" PluginID="200">
+							<PropertyList>
+								<Property Name="AudioInputGain" Type="Real32" Value="0"/>
+							</PropertyList>
+							<Language>SFX</Language>
+						</SourcePlugin>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Audio Input" ID="{A8B026D3-4334-4C4B-B829-3E0F86D38E08}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Positioning_Demo" ID="{909498C3-C3D7-403B-A189-832A2B6674BD}" ShortID="1013554424">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="CenterPercentage" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="TEST" ID="{25F18D70-26B2-4DED-B075-E604291CD27C}" WorkUnitID="{FA0B1D22-7FD9-4D5C-AE85-F167ACFF5AAC}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SourcePlugin Name="Tone Generator" ID="{5045A975-22B2-404A-9085-3F09BAA13431}" ShortID="216464226" PluginName="Wwise Tone Generator" CompanyID="0" PluginID="102">
+							<PropertyList>
+								<Property Name="AttackTime" Type="Real32" Value="0.02"/>
+								<Property Name="DurMode" Type="int32" Value="1"/>
+								<Property Name="FixDur" Type="Real32" Value="0.06"/>
+								<Property Name="ReleaseTime" Type="Real32" Value="0.02"/>
+								<Property Name="SustainTime" Type="Real32" Value="0.02"/>
+								<Property Name="WaveType" Type="int32" Value="5"/>
+							</PropertyList>
+							<Language>SFX</Language>
+						</SourcePlugin>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Tone Generator" ID="{5045A975-22B2-404A-9085-3F09BAA13431}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Folder Name="BGM Demo" ID="{52468003-8793-4F9F-BF10-7C5863733A82}" ShortID="302124742">
+					<ChildrenList>
+						<Sound Name="NonRecordableMusic" ID="{25C31C5B-9955-46C8-BC4C-DA953F59FFFD}" ShortID="986248011">
+							<PropertyList>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Music" ID="{7A8858E3-8A2D-4BB7-A53D-2DE16D1A752B}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Muted for User Music" ID="{C0577AEB-0E9B-4632-844A-A7C82B58D4B4}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Guitar" ID="{1DE0C005-C746-4438-9EC1-D1433E1CA1F3}">
+									<PropertyList>
+										<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Guitar.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1028934394"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Guitar" ID="{1DE0C005-C746-4438-9EC1-D1433E1CA1F3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="RecordableMusic" ID="{F31BBA14-D4C1-4D38-9E60-F3C22386D5B3}" ShortID="520869836">
+							<PropertyList>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4810BCA9-BA17-4C9F-B065-1F1CB8AC7DEE}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bass160Fight3" ID="{B4358C30-8C57-4FD9-B063-3DD1225D6CF6}">
+									<PropertyList>
+										<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Bass160Fight3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="663670250"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Bass160Fight3" ID="{B4358C30-8C57-4FD9-B063-3DD1225D6CF6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Sound Name="SynthOne" ID="{AD153565-0E01-40C6-8100-2C9AB22393B8}" ShortID="284991516">
+					<PropertyList>
+						<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+						<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SourcePlugin Name="Wwise Synth One" ID="{ABCC380C-4406-4C69-83EF-2304FAB28CF5}" ShortID="702118206" PluginName="Wwise Synth One" CompanyID="0" PluginID="148">
+							<PropertyList>
+								<Property Name="FrequencyMode" Type="int32" Value="1"/>
+								<Property Name="Osc1Pwm" Type="Real32" Value="61"/>
+								<Property Name="Osc1Waveform" Type="int32" Value="2"/>
+								<Property Name="Osc2Level" Type="Real32" Value="-11"/>
+								<Property Name="Osc2Pwm" Type="Real32" Value="51"/>
+								<Property Name="Osc2Transpose" Type="int32" Value="-2400"/>
+								<Property Name="Osc2Waveform" Type="int32" Value="2"/>
+								<Property Name="OverSampling" Type="bool" Value="False"/>
+							</PropertyList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{B370D49E-398D-447C-828E-21B79434B0AB}" ShortID="705178945">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="OutputLevel"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<Custom>
+															<ModulatorEnvelope Name="Modulator Envelope (Custom)" ID="{0AABDC9E-A1F2-457C-8E34-D577BEAA416C}" ShortID="150695989">
+																<PropertyList>
+																	<Property Name="EnvelopeAttackTime" Type="Real64" Value="0.1"/>
+																	<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.1"/>
+																</PropertyList>
+															</ModulatorEnvelope>
+														</Custom>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{32A02B05-2520-4F1A-81A1-02811851A6B7}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-96</YPos>
+																		<Flags>21</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1</XPos>
+																		<YPos>0</YPos>
+																		<Flags>53</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<Language>SFX</Language>
+						</SourcePlugin>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{3D33C105-7D4F-41C6-993A-F5227013B0CD}" ShortID="941010785">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="CC #1: Modulation" ID="{B618CBBE-04FA-4149-A36B-37B8A1F2B642}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{A646E5DE-DF60-4A80-9BCB-14D826812D22}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>127</XPos>
+																<YPos>66</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+					<ActiveSourceList>
+						<ActiveSource Name="Wwise Synth One" ID="{ABCC380C-4406-4C69-83EF-2304FAB28CF5}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Folder Name="Prepare Demo" ID="{4B3580F7-9C73-4FE4-8C72-5754DA6E2847}" ShortID="585973327">
+					<ChildrenList>
+						<ActorMixer Name="Areas" ID="{26077E39-E665-40E4-9F34-CB74AFA90BB2}" ShortID="202339707">
+							<PropertyList>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="Area1" ID="{11478EEE-AD48-44E2-AAA4-A61B7BB6457A}" ShortID="496788336">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Ambience_40" ID="{908EF553-C46F-4D53-B431-D7E2902D2825}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+												<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+												<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+												<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Ambience_40.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="124871431"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Ambience_40" ID="{908EF553-C46F-4D53-B431-D7E2902D2825}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Area2" ID="{C9055DA3-BB6F-4FD6-AD11-18CFA8B875AD}" ShortID="670811533">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="waves" ID="{16F70F4D-ACDC-4C58-8F8D-017868DF0ECB}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+												<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+												<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+												<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>waves.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="546260782"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="waves" ID="{16F70F4D-ACDC-4C58-8F8D-017868DF0ECB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</ActorMixer>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Autobanks Demo" ID="{A6EAD7D5-3922-4FE3-9CD6-7B62F49E1051}" ShortID="90818857">
+					<ChildrenList>
+						<Sound Name="Hello_Reverb" ID="{690E0B04-9D41-4793-8102-C0F5105BE1ED}" ShortID="957196112">
+							<PropertyList>
+								<Property Name="CenterPercentage" Type="int32">
+									<ValueList>
+										<Value>100</Value>
+									</ValueList>
+								</Property>
+								<Property Name="IsLoopingInfinite" Type="bool" Value="False"/>
+								<Property Name="IsVoice" Type="bool" Value="True"/>
+								<Property Name="Priority" Type="int16">
+									<ValueList>
+										<Value>100</Value>
+										<Value Platform="Switch">100</Value>
+										<Value Platform="iOS">100</Value>
+										<Value Platform="Mac">100</Value>
+										<Value Platform="PS4">100</Value>
+										<Value Platform="Windows">100</Value>
+										<Value Platform="PS5">100</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Voice" ID="{E6582A3A-9DF1-4AF7-B55C-0E717D979AF8}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="Effect0" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+									<ObjectRef Name="Cathedral_Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voices" ID="{FCDDF691-8885-4A61-BF35-24E9EA98700E}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Hello" ID="{C850C720-466C-4A17-9F2E-B60919D4FF4F}">
+									<Language>English(US)</Language>
+									<AudioFile>Hello.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="399670944"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="Hello" ID="{291DD482-5208-4EE2-BB9E-434781ED0181}">
+									<Language>French(Canada)</Language>
+									<AudioFile>Hello.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="306982885"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Hello" ID="{C850C720-466C-4A17-9F2E-B60919D4FF4F}" Platform="Linked"/>
+								<ActiveSource Name="Hello" ID="{291DD482-5208-4EE2-BB9E-434781ED0181}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

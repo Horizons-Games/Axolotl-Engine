@@ -14,6 +14,7 @@ class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
+class ModuleAudio;
 #ifndef ENGINE
 class ModulePlayer;
 #endif //ENGINE
@@ -49,6 +50,7 @@ public:
 	ModuleProgram* program;
 	ModuleResources* resources;
 	ModuleCamera* camera;
+	ModuleAudio* audio;
 #ifndef ENGINE
 	ModulePlayer* player;
 #endif // ENGINE

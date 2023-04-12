@@ -1,0 +1,27 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3854155799	Play_Footsteps			\Default Work Unit\Play_Footsteps	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	1834394558	Surface			\Footsteps With Multiple Variables\Surface	
+
+Switch	ID	Name	Switch Group			Notes
+	2058049674	Wood	Surface			
+	2185786256	Gravel	Surface			
+	2195636714	Dirt	Surface			
+	2473969246	Metal	Surface			
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	246300162	Footstep_Weight			\Footsteps With Multiple Variables\Footstep_Weight	0 is a light footstep and 100 is a heavy footstep.  This RTPC drives the Footstep_Weight switch
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	121114457	metalsheet_walk_heel_04_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_04_3072F83F.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Heel\metalsheet_walk_heel_04_res		2436
+	209481135	metalsheet_walk_heel_02_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_02_D16A5F95.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Heel\metalsheet_walk_heel_02_res		3444
+	241699658	metalsheet_walk_toe_02_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_02_23722A9A.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Toe\metalsheet_walk_toe_02_res		3228
+	269683302	metalsheet_walk_toe_01_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_01_E79DA5E8.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Toe\metalsheet_walk_toe_01_res		5460
+	535268333	metalsheet_walk_toe_03_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_03_1E3D9834.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Toe\metalsheet_walk_toe_03_res		7188
+	664900215	metalsheet_walk_heel_01_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_01_B3B2686D.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Heel\metalsheet_walk_heel_01_res		3156
+	667657885	metalsheet_walk_toe_04_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_04_D764F0DE.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Toe\metalsheet_walk_toe_04_res		5892
+	715100575	metalsheet_walk_heel_03_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_03_C45E0466.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Heel\metalsheet_walk_heel_03_res		3588
+	753066208	metalsheet_walk_toe_05_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_05_70130705.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Toe\metalsheet_walk_toe_05_res		6144
+	906530360	metalsheet_walk_heel_05_res	C:\Jenkins\ws\wwise_v2022.1\Wwise\SDK\samples\IntegrationDemo\WwiseProject\.cache\Windows\SFX\Footsteps\MetalSheet\Footstep_Walking_Hardmetal_05_56BC4476.wem		\Actor-Mixer Hierarchy\Footsteps With Multiple Variables\Footsteps\Metal_Any\Heel\metalsheet_walk_heel_05_res		3264
+

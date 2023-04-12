@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{875EE732-41A2-46B4-81D3-18BD32F634A1}" SchemaVersion="110">
+	<AudioObjects>
+		<WorkUnit Name="3D_Audio_Demo" ID="{875EE732-41A2-46B4-81D3-18BD32F634A1}" PersistMode="Standalone">
+			<ChildrenList>
+				<ActorMixer Name="Spatialized Ambience" ID="{9E515555-F9D8-4146-9E2C-063891DAC1BA}" ShortID="992740904">
+					<PropertyList>
+						<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+						<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Environments" ID="{E977EBE2-57B9-46C3-A4EE-CC06C269DB1B}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="waves" ID="{9237D803-E6BE-4005-BAF2-0128161ED6D8}" ShortID="718663556">
+							<PropertyList>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="waves" ID="{31DB2766-AD51-45D2-92A5-A610DDDE6D40}">
+									<PropertyList>
+										<Property Name="CrossfadeDuration" Type="Real64" Value="158.874"/>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.270921681475498"/>
+										<Property Name="LoopBegin" Type="Real64" Value="0.119205539849219"/>
+										<Property Name="LoopEnd" Type="Real64" Value="9.94752503567582"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+										<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>waves.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="154378389"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{8A4F1ED4-1B31-4480-A585-6362616DA549}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-50.9803921568627"/>
+										<Property Name="PanY" Type="Real64" Value="31.5068493150685"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ActiveSourceList>
+								<ActiveSource Name="waves" ID="{31DB2766-AD51-45D2-92A5-A610DDDE6D40}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="repeat_seagulls" ID="{22F80BDE-3279-4299-A15A-796633579EF9}" ShortID="928596133">
+							<PropertyList>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+								<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
+								<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="1"/>
+								<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="3">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{1B062E3B-5E26-44E7-8D09-11DEE2A37F4E}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="2"/>
+													<Property Name="Min" Type="Real64" Value="-2"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="seagulls" ID="{734BE003-E13A-4021-A0E4-FFB2BD4DCF9F}" ShortID="632085681">
+									<PropertyList>
+										<Property Name="3DPosition" Type="int16" Value="1"/>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="1"/>
+										<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="5"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Environments" ID="{E977EBE2-57B9-46C3-A4EE-CC06C269DB1B}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="seagull4" ID="{FD4956F7-BEE1-4628-A8AD-C960182D4B67}" ShortID="934326213">
+											<PropertyList>
+												<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+												<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="seagull4" ID="{8D78E8F9-7DFC-4697-B3C3-6D7BC5BBC351}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>seagull4.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1069088662"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="seagull4" ID="{8D78E8F9-7DFC-4697-B3C3-6D7BC5BBC351}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="seagull3" ID="{83593B85-C144-411C-8317-B2B32A7D72B4}" ShortID="367961651">
+											<PropertyList>
+												<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+												<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="seagull3" ID="{5E728EAD-202C-4B19-BB63-229DB6FA6A0F}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>seagull3.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1007342877"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="seagull3" ID="{5E728EAD-202C-4B19-BB63-229DB6FA6A0F}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="seagull2" ID="{B4FA9BEF-089E-4C0F-8423-113F522D4343}" ShortID="352296577">
+											<PropertyList>
+												<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+												<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="seagull2" ID="{5DD9280B-0507-4B1C-B35E-CF1F7323D12B}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>seagull2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="992856116"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="seagull2" ID="{5DD9280B-0507-4B1C-B35E-CF1F7323D12B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="seagull1" ID="{B61C4E29-64F4-4DCD-BC97-64E83C06F8BD}" ShortID="1033833667">
+											<PropertyList>
+												<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+												<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="seagull1" ID="{A6338573-6E9D-428A-AAFC-6C0A86C553FA}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>seagull1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="325907009"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="seagull1" ID="{A6338573-6E9D-428A-AAFC-6C0A86C553FA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<PositioningInfo>
+										<Position Name="" ID="{D0795907-F9B2-47BD-AD94-34813928A73D}">
+											<PropertyList>
+												<Property Name="NewPathForEachSound" Type="bool" Value="True"/>
+												<Property Name="PlayMechanismRandomOrSequence" Type="int16" Value="1"/>
+											</PropertyList>
+											<ChildrenList>
+												<Path2D Name="path1" ID="{422A902E-3281-4FEB-AFC7-18D0096CB9E5}">
+													<PointList>
+														<Point>
+															<XPos>6.93333</XPos>
+															<YPos>82.25806</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+														<Point>
+															<XPos>80.8</XPos>
+															<YPos>34.94624</YPos>
+															<Flags>0</Flags>
+															<Time>5000</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+												<Path2D Name="path2" ID="{2DA4CA4C-C98E-4534-92E6-D09947497133}">
+													<PointList>
+														<Point>
+															<XPos>48</XPos>
+															<YPos>-36.55914</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+														<Point>
+															<XPos>71.2</XPos>
+															<YPos>22.5806451612903</YPos>
+															<Flags>0</Flags>
+															<Time>5000</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+												<Path2D Name="path3" ID="{80508720-149E-494B-9667-F80E9947D3BC}">
+													<PointList>
+														<Point>
+															<XPos>-20.8</XPos>
+															<YPos>-62.90323</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+														<Point>
+															<XPos>52</XPos>
+															<YPos>-43.54839</YPos>
+															<Flags>0</Flags>
+															<Time>5000</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+												<Path2D Name="path4" ID="{0F8B7639-1D2E-4F82-8DE9-43FF15C3D555}">
+													<PointList>
+														<Point>
+															<XPos>-49.06667</XPos>
+															<YPos>86.55914</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+														<Point>
+															<XPos>-46.66667</XPos>
+															<YPos>-75.80645</YPos>
+															<Flags>0</Flags>
+															<Time>5000</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+												<Path2D Name="path5" ID="{81ECD8A8-80E2-4219-8AE0-D2A86380BF3E}">
+													<PointList>
+														<Point>
+															<XPos>-16</XPos>
+															<YPos>89.24731</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+														<Point>
+															<XPos>-80.8</XPos>
+															<YPos>30.1075268817204</YPos>
+															<Flags>0</Flags>
+															<Time>5000</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+											</ChildrenList>
+										</Position>
+									</PositioningInfo>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<Playlist>
+								<ItemRef Name="seagulls" ID="{734BE003-E13A-4021-A0E4-FFB2BD4DCF9F}"/>
+							</Playlist>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Hero Sounds" ID="{00DC3823-557C-472E-BF9E-85DA0B98C706}" ShortID="510500270">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="CenterPercentage" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+						<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="TEST" ID="{25F18D70-26B2-4DED-B075-E604291CD27C}" WorkUnitID="{FA0B1D22-7FD9-4D5C-AE85-F167ACFF5AAC}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Sounds" ID="{9710B44F-0296-40F1-BB0B-DEFC366464DC}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="Dirt_Footsteps" ID="{FED1D288-2973-4EB7-912A-DFD37F16CFC5}" ShortID="997883789">
+							<PropertyList>
+								<Property Name="BelowThresholdBehavior" Type="int16" Value="1"/>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+								<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Environmental Bus" ID="{53D0C673-DFDE-4CD6-92E6-5A1C2D92FBE1}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="FS_Dirt_01" ID="{226957BC-A102-42A1-86DF-D82A201F8714}" ShortID="414630652">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="FS_Dirt_01" ID="{CD4AF65A-E243-40C8-8024-217743B978D6}">
+											<PropertyList>
+												<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Footsteps\Dirt\FS_Dirt_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="443382262"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="FS_Dirt_01" ID="{CD4AF65A-E243-40C8-8024-217743B978D6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="FS_Dirt_02" ID="{14F2BB05-9BA8-439F-A42E-878F9B227074}" ShortID="782139588">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="FS_Dirt_02" ID="{693749B2-7C52-426A-A5D3-54615F31DAC2}">
+											<PropertyList>
+												<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Footsteps\Dirt\FS_Dirt_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="180276440"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="FS_Dirt_02" ID="{693749B2-7C52-426A-A5D3-54615F31DAC2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="FS_Dirt_03" ID="{F848E4B5-FA41-4442-8DBF-4F36DDC99768}" ShortID="425999306">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="FS_Dirt_03" ID="{6231BDC0-E77C-410D-8FC2-942B2C104479}">
+											<PropertyList>
+												<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Footsteps\Dirt\FS_Dirt_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="757197798"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="FS_Dirt_03" ID="{6231BDC0-E77C-410D-8FC2-942B2C104479}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="FS_Dirt_04" ID="{0C6323E1-BBA5-4BA3-A2A0-FB3A0110E7B7}" ShortID="520138124">
+									<PropertyList>
+										<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+										<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="FS_Dirt_04" ID="{5FD2C7BB-C960-4919-B523-8593FE3BC8EB}">
+											<PropertyList>
+												<Property Name="LoopEnd" Type="Real64" Value="-1"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Footsteps\Dirt\FS_Dirt_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="380879024"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="FS_Dirt_04" ID="{5FD2C7BB-C960-4919-B523-8593FE3BC8EB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Music" ID="{204E6365-C9F8-4548-810B-10C8F331B874}" ShortID="199329151">
+					<PropertyList>
+						<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+						<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="BGM" ID="{4C9139BD-220D-47AF-8F52-67E41A185701}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="piano_quad" ID="{54EE7258-6A09-4A84-A678-22928AFA3C81}" ShortID="678823939">
+							<Comment>Composed &amp; produced by Hugo Bédard</Comment>
+							<PropertyList>
+								<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+								<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="SFX" ID="{3A429FCB-87D8-458B-B315-DBE8023064B3}" WorkUnitID="{5793A36C-0278-4AE3-B21C-4737AF9F120D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="piano_quad" ID="{628B783C-DE48-4556-8678-0890D55C45D5}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+										<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+										<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+										<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>piano_quad.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="520833791"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="piano_quad" ID="{628B783C-DE48-4556-8678-0890D55C45D5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

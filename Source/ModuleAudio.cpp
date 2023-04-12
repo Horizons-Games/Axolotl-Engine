@@ -15,10 +15,10 @@
 #endif // AK_OPTIMIZED
 
 // Bank file names
-//#define BANKNAME_INIT L"Init.bnk"
-//#define BANKNAME_CAR L"Car.bnk"
-//#define BANKNAME_HUMAN L"Human.bnk"
-//#define BANKNAME_MARKERTEST L"MarkerTest.bnk"
+#define BANKNAME_INIT L"Init.bnk"
+#define BANKNAME_CAR L"Car.bnk"
+#define BANKNAME_HUMAN L"Human.bnk"
+#define BANKNAME_MARKERTEST L"MarkerTest.bnk"
 
 
 ModuleAudio::ModuleAudio()
@@ -116,12 +116,14 @@ bool ModuleAudio::Init()
     }
 #endif // AK_OPTIMIZED
 
-    return false;
+    InitializeBanks();
+
+    return true;
 }
 
 bool ModuleAudio::Start()
 {
-    return false;
+    return true;
 }
 
 bool ModuleAudio::CleanUp()
@@ -150,12 +152,12 @@ bool ModuleAudio::CleanUp()
     // Terminate the Memory Manager
     AK::MemoryMgr::Term();
 
-    return false;
+    return true;
 }
 
 update_status ModuleAudio::PreUpdate()
 {
-    return update_status();
+    return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleAudio::Update()
@@ -163,32 +165,32 @@ update_status ModuleAudio::Update()
     // Process bank requests, events, positions, RTPC, etc.
     AK::SoundEngine::RenderAudio();
 
-    return update_status();
+    return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleAudio::PostUpdate()
 {
-    return update_status();
+    return update_status::UPDATE_CONTINUE;
 }
 
 void ModuleAudio::InitializeBanks() {
     // Setup banks path
 //
 
-    //lowLevelIO.SetBasePath(AKTEXT("../../../samples/IntegrationDemo/WwiseProject/GeneratedSoundBanks/Windows/"));
+    lowLevelIO.SetBasePath(AKTEXT("WwiseProject/GeneratedSoundBanks/Windows"));
 
-    //AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
+    AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
     //// Load banks synchronously (from file name).
-    //AkBankID bankID; // Not used. These banks can be unloaded with their file name.
+    AkBankID bankID; // Not used. These banks can be unloaded with their file name.
 
 
-    //AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
-    //assert(eResult == AK_Success);
-    //eResult = AK::SoundEngine::LoadBank(BANKNAME_CAR, bankID);
-    //assert(eResult == AK_Success);
-    //eResult = AK::SoundEngine::LoadBank(BANKNAME_HUMAN, bankID);
-    //assert(eResult == AK_Success);
-    //eResult = AK::SoundEngine::LoadBank(BANKNAME_MARKERTEST, bankID);
-    //assert(eResult == AK_Success);
+    AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_CAR, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_HUMAN, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_MARKERTEST, bankID);
+    assert(eResult == AK_Success);
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginInfo Platform="Windows" BasePlatform="Windows">
+	<PluginLibs>
+		<PluginLib LibName="Wwise Tone Generator" LibId="6684674" Type="Source" DLL="AkToneGen" StaticLib="AkToneSource"/>
+		<PluginLib LibName="Wwise Parametric EQ" LibId="6881283" Type="Effect" DLL="AkParametricEQ" StaticLib="AkParametricEQFX"/>
+		<PluginLib LibName="Wwise Delay" LibId="6946819" Type="Effect" DLL="AkDelay" StaticLib="AkDelayFX"/>
+		<PluginLib LibName="Wwise Peak Limiter" LibId="7208963" Type="Effect" DLL="AkPeakLimiter" StaticLib="AkPeakLimiterFX"/>
+		<PluginLib LibName="Wwise RoomVerb" LibId="7733251" Type="Effect" DLL="AkRoomVerb" StaticLib="AkRoomVerbFX"/>
+		<PluginLib LibName="Wwise Stereo Delay" LibId="8847363" Type="Effect" DLL="AkStereoDelay" StaticLib="AkStereoDelayFX"/>
+		<PluginLib LibName="Wwise Synth One" LibId="9699330" Type="Source" DLL="AkSynthOne" StaticLib="AkSynthOneSource"/>
+		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
+		<PluginLib LibName="Communication" LibId="11534343" Type="AudioDevice"/>
+		<PluginLib LibName="Controller Headphones" LibId="11599879" Type="AudioDevice"/>
+		<PluginLib LibName="Controller Speaker" LibId="11730951" Type="AudioDevice"/>
+		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
+		<PluginLib LibName="Wwise Audio Input" LibId="13107202" Type="Source" DLL="AkAudioInput" StaticLib="AkAudioInputSource"/>
+		<PluginLib LibName="Wwise System Output Settings" LibId="58982409" Type="Metadata"/>
+	</PluginLibs>
+	<FileHash>{2628ED07-4168-0206-7A50-1F6C1767B37F}</FileHash>
+</PluginInfo>

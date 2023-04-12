@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlatformInfo>
+	<Platform Name="Windows" BasePlatform="Windows" Generator="2022.1.3.8179"/>
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile>../../myExternalSources/ExtSourceList.wsources</ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>../../.cache/ExternalSources/Windows</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DefaultAlign>16</DefaultAlign>
+	<Settings>
+		<AutoSoundBankDefinition>true</AutoSoundBankDefinition>
+		<CopyLooseStreamedMediaFiles>true</CopyLooseStreamedMediaFiles>
+		<SubFoldersForGeneratedFiles>false</SubFoldersForGeneratedFiles>
+		<RemoveUnusedGeneratedFiles>false</RemoveUnusedGeneratedFiles>
+		<SourceControlGeneratedFiles>false</SourceControlGeneratedFiles>
+		<GenerateHeaderFile>true</GenerateHeaderFile>
+		<GenerateContentTxtFile>true</GenerateContentTxtFile>
+		<GenerateMetadataXML>true</GenerateMetadataXML>
+		<GenerateMetadataJSON>false</GenerateMetadataJSON>
+		<GenerateAllBanksMetadata>true</GenerateAllBanksMetadata>
+		<GeneratePerBankMetadata>false</GeneratePerBankMetadata>
+		<UseSoundBankNames>true</UseSoundBankNames>
+		<AllowExceedingMaxSize>false</AllowExceedingMaxSize>
+		<MaxAttenuationInfo>false</MaxAttenuationInfo>
+		<EstimatedDurationInfo>false</EstimatedDurationInfo>
+		<PrintObjectGuid>false</PrintObjectGuid>
+		<PrintObjectPath>false</PrintObjectPath>
+	</Settings>
+	<FileHash>{AB4B5663-2E94-FD9F-F91C-B77783A8B1F1}</FileHash>
+</PlatformInfo>

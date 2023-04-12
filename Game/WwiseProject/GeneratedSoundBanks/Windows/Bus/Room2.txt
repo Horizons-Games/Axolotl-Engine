@@ -1,0 +1,6 @@
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	1359360138	Room2			\Default Work Unit\Master Audio Bus\3D_Bus_Demo\Wet_Path_3D\Room2	
+
+Effect plug-ins	ID	Name	Type				Notes
+	2112490296	Hangar_Env	Wwise RoomVerb			
+

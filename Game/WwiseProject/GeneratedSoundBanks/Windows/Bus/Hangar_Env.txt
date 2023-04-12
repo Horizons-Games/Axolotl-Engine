@@ -1,0 +1,6 @@
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	2112490296	Hangar_Env			\Default Work Unit\Master Audio Bus\Environmental Bus\Hangar_Env	
+
+Effect plug-ins	ID	Name	Type				Notes
+	2112490296	Hangar_Env	Wwise RoomVerb			
+

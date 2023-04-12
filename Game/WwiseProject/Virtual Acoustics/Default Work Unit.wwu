@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{29A1513D-DE40-46AD-A8D8-FF9DA7D4F056}" SchemaVersion="110">
+	<VirtualAcoustics>
+		<WorkUnit Name="Default Work Unit" ID="{29A1513D-DE40-46AD-A8D8-FF9DA7D4F056}" PersistMode="Standalone">
+			<ChildrenList>
+				<AcousticTexture Name="Brick" ID="{9D8C757C-EE29-4635-BA12-4621C8EF4532}">
+					<PropertyList>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="55"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="35"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="13"/>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</AcousticTexture>
+				<AcousticTexture Name="Drywall" ID="{1549B088-CA49-4725-85AC-7C87964A2C48}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="15"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</AcousticTexture>
+			</ChildrenList>
+		</WorkUnit>
+	</VirtualAcoustics>
+</WwiseDocument>
