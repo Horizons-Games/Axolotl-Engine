@@ -293,6 +293,9 @@
     <ClCompile Include="Scripting\LogSystem.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="Scripting\ScriptFactory.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -613,10 +616,13 @@
     <ClInclude Include="Scripting\IScript.h">
       <Filter>Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\ScriptTable.h">
+    <ClInclude Include="Scripting\SystemTable.h">
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\LogSystem.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptFactory.h">
       <Filter>Scripting</Filter>
     </ClInclude>
   </ItemGroup>

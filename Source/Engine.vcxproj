@@ -177,7 +177,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE;DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -518,6 +518,7 @@
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
+    <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -792,7 +793,8 @@
     <ClInclude Include="Physics\Physics.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />
-    <ClInclude Include="Scripting\ScriptTable.h" />
+    <ClInclude Include="Scripting\ScriptFactory.h" />
+    <ClInclude Include="Scripting\SystemTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
