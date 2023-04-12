@@ -14,12 +14,15 @@
 #include "DataModels/Resources/ResourceTexture.h"
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("MESH RENDERER", component), inputMesh(std::make_unique<WindowMeshInput>(component)), inputMaterial(std::make_unique<WindowMaterialInput>(component)),
-	inputTextureDiffuse(std::make_unique<WindowTextureInput>(component, TextureType::DIFFUSE)),
-	inputTextureNormal(std::make_unique<WindowTextureInput>(component, TextureType::NORMAL)),
-	//inputTextureSpecular(std::make_unique<WindowTextureInput>(component, TextureType::SPECULAR))
-	inputTextureMetallic(std::make_unique<WindowTextureInput>(component, TextureType::METALLIC))
+	ComponentWindow("MESH RENDERER", component),
+	inputMesh(std::make_unique<WindowMeshInput>(component)),
+	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
+	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
+	//inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
 {
+	InitMaterialValues();
 }
 
 WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
@@ -119,8 +122,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
-		asMeshRenderer->GetBatch()->UpdateMaterial();
-		asMeshRenderer->GetBatch()->updateMaterial = false;
+		if (updateMaterials)
+		{
+		asMeshRenderer->GetBatch()->FillMaterial();
+		updateMaterials = false;
+		}
 
 		if (materialResource)
 		{
@@ -139,12 +145,27 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			static float3 colorDiffuse = materialResource->GetDiffuseColor();
+			colorDiffuse = materialResource->GetDiffuseColor();
+			oldColorDiffuse = materialResource->GetOldDiffuseColor();
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			if (ImGui::ColorEdit3("##Diffuse Color", (float*)&colorDiffuse))
+			if (!reset)
 			{
-				materialResource->SetDiffuseColor(colorDiffuse);
-				asMeshRenderer->GetBatch()->updateMaterial = true;
+				if (ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse))
+				{
+					materialResource->SetDiffuseColor(colorDiffuse);
+					updateMaterials = true;
+				}
+
+			}
+			else
+			{
+				if (ImGui::ColorEdit4("##Diffuse Color", (float*)&oldColorDiffuse))
+				{
+					materialResource->SetDiffuseColor(oldColorDiffuse);
+					materialResource->SetOldDiffuseColor(oldColorDiffuse);
+					updateMaterials = true;
+				}
+				reset = false;
 			}
 
 			//static float3 colorSpecular = materialResource->GetSpecularColor();
@@ -173,15 +194,14 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
 				asMeshRenderer->UnloadTextures();
-				
+
 				materialResource->SetDiffuse(nullptr);
 				materialResource->SetNormal(nullptr);
 				materialResource->SetOcclusion(nullptr);
 				//materialResource->SetSpecular(nullptr);
 				materialResource->SetMetallicMap(nullptr);
-				
+
 				materialResource->SetChanged(true);
-				asMeshRenderer->GetBatch()->updateMaterial = true;
 			}
 
 			//bool hasShininessAlpha = materialResource->HasShininessAlpha();
@@ -195,107 +215,113 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
-			bool showTextureBrowserDiffuse = true;
-			std::shared_ptr<ResourceTexture> texture;
-			if (materialResource)
+			if (diffuseTexture)
 			{
-				if (materialResource->GetDiffuse())
+				diffuseTexture->Load();
+				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+				if (ImGui::Button("Remove Texture Diffuse"))
 				{
-					texture = materialResource->GetDiffuse();
-					texture->Load();
-					if (texture)
-					{
-						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
-					}
-
-					showTextureBrowserDiffuse = false;
+					diffuseTexture->Unload();
+					diffuseTexture = nullptr;
 				}
-			}
-
-			if (showTextureBrowserDiffuse)
-			{
-				inputTextureDiffuse->DrawWindowContents();
 			}
 			else
 			{
-				if (ImGui::Button("Remove Texture Diffuse") && materialResource->GetDiffuse())
-				{
-					asMeshRenderer->UnloadTexture(TextureType::DIFFUSE);
+				inputTextureDiffuse->DrawWindowContents();
 
-					materialResource->SetDiffuse(nullptr);
-					asMeshRenderer->GetBatch()->updateMaterial = true;
-				}
 			}
 
 			ImGui::Separator();
 
-			ImGui::Text("Mettalic Texture");
-			bool showTextureBrowserSpecular = true;
-			if (materialResource && materialResource->GetMetallicMap())
+			ImGui::Text("Metallic Texture");
+			if (metalicMap)
 			{
-				texture = materialResource->GetMetallicMap();
-				texture->Load();
+				metalicMap->Load();
+				ImGui::Image((void*)(intptr_t)metalicMap->GetGlTexture(), ImVec2(100, 100));
+				if (ImGui::Button("Remove Texture Metallic"))
+				{
+					metalicMap->Unload();
+					metalicMap = nullptr;
+				}
+			}
+			else
+			{
+				inputTextureMetallic->DrawWindowContents();
+			}
+
+			ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
+
+			ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
+
+			ImGui::Separator();
+
+			/*ImGui::Text("Specular Texture");
+			bool showTextureBrowserSpecular = true;
+			if (materialResource && materialResource->GetSpecular())
+			{
+				texture =
+					std::dynamic_pointer_cast<ResourceTexture>(materialResource->GetSpecular());
 				if (texture)
 				{
 					ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
 				}
-
 				showTextureBrowserSpecular = false;
 			}
-
 			if (showTextureBrowserSpecular)
 			{
-				inputTextureMetallic->DrawWindowContents();
+				inputTextureSpecular->DrawWindowContents();
 			}
 			else
 			{
-				if (ImGui::Button("Remove Texture Metallic") && materialResource->GetMetallicMap())
+				if (ImGui::Button("Remove Texture Specular") && materialResource->GetSpecular())
 				{
-					asMeshRenderer->UnloadTexture(TextureType::METALLIC);
-
-					materialResource->SetMetallicMap(nullptr);
-					asMeshRenderer->GetBatch()->updateMaterial = true;
+					asMaterial->UnloadTexture(TextureType::SPECULAR);
+					materialResource->SetSpecular(nullptr);
 				}
 			}
+			ImGui::Separator();*/
 
 			ImGui::Separator();
 
 			ImGui::Text("Normal Texture");
-			bool showTextureBrowserNormal = true;
-			if (materialResource && materialResource->GetNormal())
+			if (normalMap)
 			{
-					texture = materialResource->GetNormal();
-					texture->Load();
-					if (texture)
-					{
-						ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
-					}
-
-					showTextureBrowserNormal = false;
+				normalMap->Load();
+				ImGui::Image((void*)(intptr_t)normalMap->GetGlTexture(), ImVec2(100, 100));
+				if (ImGui::Button("Remove Texture Normal"))
+				{
+					normalMap->Unload();
+					normalMap = nullptr;
+				}
 			}
-
-			if (showTextureBrowserNormal)
+			else
 			{
 				inputTextureNormal->DrawWindowContents();
 			}
-			else if (ImGui::Button("Remove Texture Normal"))
-			{
-				if (materialResource->GetNormal())
-				{
-					asMeshRenderer->UnloadTexture(TextureType::NORMAL);
-					materialResource->SetNormal(nullptr);
-					asMeshRenderer->GetBatch()->updateMaterial = true;
-				}
-			}
 
-			float normalStrength = asMeshRenderer->GetNormalStrenght();
-			if (ImGui::DragFloat("Normal Strength", &normalStrength,
-				0.01f, 0.0001f, std::numeric_limits<float>::max()))
-			{
-				asMeshRenderer->SetNormalStrenght(normalStrength);
-			}
+			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
 
 			ImGui::Text("");
+			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+			if (ImGui::Button("Reset"))
+			{
+				ResetValue();
+			}
+			ImGui::SameLine(ImGui::GetWindowWidth() - 70);
+			if (ImGui::Button("Apply"))
+			{
+				materialResource->SetOldDiffuseColor(colorDiffuse);
+				materialResource->SetDiffuseColor(colorDiffuse);
+				materialResource->SetDiffuse(diffuseTexture);
+				materialResource->SetMetallicMap(metalicMap);
+				materialResource->SetNormal(normalMap);
+				materialResource->SetSmoothness(smoothness);
+				materialResource->SetMetalness(metalness);
+				materialResource->SetNormalStrength(normalStrength);
+				materialResource->SetChanged(true);
+				App->resources->ReimportResource(materialResource->GetUID());
+				updateMaterials = true;
+			}
 		}
 	}
 }
@@ -313,3 +339,37 @@ void WindowComponentMeshRenderer::DrawEmptyMaterial()
 	}
 }
 
+void WindowComponentMeshRenderer::InitMaterialValues()
+{
+	ComponentMeshRenderer* asMaterial = static_cast<ComponentMeshRenderer*>(component);
+	if (asMaterial)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
+		if (materialResource)
+		{
+			colorDiffuse = materialResource->GetDiffuseColor();
+			diffuseTexture = materialResource->GetDiffuse();
+			metalicMap = materialResource->GetMetallicMap();
+			normalMap = materialResource->GetNormal();
+			smoothness = materialResource->GetSmoothness();
+			metalness = materialResource->GetMetalness();
+			normalStrength = materialResource->GetNormalStrength();
+		}
+	}
+}
+
+void WindowComponentMeshRenderer::ResetValue()
+{
+	ComponentMeshRenderer* asMaterial = static_cast<ComponentMeshRenderer*>(component);
+	if (asMaterial)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
+		if (materialResource)
+		{
+			materialResource->SetDiffuseColor(oldColorDiffuse);
+		}
+	}
+	reset = true;
+	updateMaterials = true;
+	InitMaterialValues();
+}
