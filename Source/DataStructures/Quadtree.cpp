@@ -73,37 +73,16 @@ void Quadtree::Add(GameObject* gameObject)
 		}
 		else
 		{
-
-			bool inFrontRight = frontRightNode->InQuadrant(gameObject);
-			bool inFrontLeft = frontLeftNode->InQuadrant(gameObject);
-			bool inBackRight = backRightNode->InQuadrant(gameObject);
-			bool inBackLeft = backLeftNode->InQuadrant(gameObject);
-
-			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft)
-			{
-				gameObjects.insert(gameObject);
-			}
-			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft)
-			{
-				gameObjects.insert(gameObject);
-			}
-			else
-			{
-				frontRightNode->Add(gameObject);
-				frontLeftNode->Add(gameObject);
-				backRightNode->Add(gameObject);
-				backLeftNode->Add(gameObject);
-			}
+			frontRightNode->Add(gameObject);
+			frontLeftNode->Add(gameObject);
+			backRightNode->Add(gameObject);
+			backLeftNode->Add(gameObject);
 		}
 	}
 }
 
 void Quadtree::GetFamilyObjects(std::set<GameObject*>& familyGameObjects)
 {
-	for (GameObject* gameObject : gameObjects)
-	{
-		familyGameObjects.insert(gameObject);
-	}
 
 	if (!IsLeaf())
 	{
@@ -135,44 +114,20 @@ void Quadtree::GetFamilyObjects(std::set<GameObject*>& familyGameObjects)
 			familyGameObjects.insert(gameObject);
 		}
 	}
+	else 
+	{
+
+		for (GameObject* gameObject : gameObjects)
+		{
+			familyGameObjects.insert(gameObject);
+		}
+	}
 }
 
 bool Quadtree::Remove(const GameObject* gameObject)
 {
 	bool removed = false;
-	if ((!IsLeaf() && !gameObjects.empty()))
-	{
-		std::set<GameObject*>::iterator it =
-			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
-		if (it != gameObjects.end())
-		{
-			gameObjects.erase(it);
-			removed = SmartRemove();
-		}
-		else
-		{
-			bool childrenRemovedObject = frontRightNode->Remove(gameObject);
-			childrenRemovedObject += frontLeftNode->Remove(gameObject);
-			childrenRemovedObject += backRightNode->Remove(gameObject);
-			childrenRemovedObject += backLeftNode->Remove(gameObject);
-
-			if (childrenRemovedObject)
-			{
-				removed = SmartRemove();
-			}
-		}
-	}
-	else if (IsLeaf())
-	{
-		std::set<GameObject*>::iterator it =
-			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
-		if (it != gameObjects.end())
-		{
-			gameObjects.erase(it);
-			removed = true;
-		}
-	}
-	else
+	if (!IsLeaf())
 	{
 		bool childrenRemovedObject = frontRightNode->Remove(gameObject);
 		childrenRemovedObject += frontLeftNode->Remove(gameObject);
@@ -182,6 +137,16 @@ bool Quadtree::Remove(const GameObject* gameObject)
 		if (childrenRemovedObject)
 		{
 			removed = SmartRemove();
+		}
+	}
+	else
+	{
+		std::set<GameObject*>::iterator it =
+			std::find(gameObjects.begin(), gameObjects.end(), gameObject);
+		if (it != gameObjects.end())
+		{
+			gameObjects.erase(it);
+			removed = true;
 		}
 	}
 	return removed;
@@ -281,27 +246,11 @@ void Quadtree::RedistributeGameObjects(GameObject* gameObject)
 	{
 		if (*it)
 		{
-			bool inFrontRight = frontRightNode->InQuadrant(*it);
-			bool inFrontLeft = frontLeftNode->InQuadrant(*it);
-			bool inBackRight = backRightNode->InQuadrant(*it);
-			bool inBackLeft = backLeftNode->InQuadrant(*it);
-
-			if (inFrontRight && inFrontLeft && inBackRight && inBackLeft)
-			{
-				++it;
-			}
-			else if (!inFrontRight && !inFrontLeft && !inBackRight && !inBackLeft)
-			{
-				++it;
-			}
-			else
-			{
-				if (inFrontRight) frontRightNode->Add(*it);
-				if (inFrontLeft) frontLeftNode->Add(*it);
-				if (inBackRight) backRightNode->Add(*it);
-				if (inBackLeft) backLeftNode->Add(*it);
-				it = gameObjects.erase(it);
-			}
+			frontRightNode->Add(*it);
+			frontLeftNode->Add(*it);
+			backRightNode->Add(*it);
+			backLeftNode->Add(*it);
+			it = gameObjects.erase(it);
 		}
 	}
 }
