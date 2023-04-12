@@ -293,6 +293,7 @@ void WindowScene::ManageResize()
 	if (widthChanged || heightChanged) // window was resized
 	{ 
 		App->camera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->camera->RecalculateOrthoProjectionMatrix();
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 		App->userInterface->RecalculateCanvasSizeAndScreenFactor();

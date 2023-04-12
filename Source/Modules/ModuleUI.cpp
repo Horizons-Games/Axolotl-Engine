@@ -136,7 +136,8 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
-		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform = 
+			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 		transform->CalculateWorldBoundingBox();
 	}
 }
