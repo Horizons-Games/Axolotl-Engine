@@ -299,6 +299,9 @@
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceScript.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -630,6 +633,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentScript.h">
       <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceScript.h">
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

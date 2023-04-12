@@ -309,6 +309,7 @@
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceScript.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Skybox\Skybox.cpp" />
@@ -558,6 +559,7 @@
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
     <ClInclude Include="DataModels\Resources\ResourceModel.h" />
     <ClInclude Include="DataModels\Resources\ResourceScene.h" />
+    <ClInclude Include="DataModels\Resources\ResourceScript.h" />
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Skybox\Skybox.h" />
