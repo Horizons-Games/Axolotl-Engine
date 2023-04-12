@@ -517,6 +517,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="Scripting\LogSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -790,6 +791,7 @@
     </ClInclude>
     <ClInclude Include="Physics\Physics.h" />
     <ClInclude Include="Scripting\IScript.h" />
+    <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\ScriptTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
