@@ -34,6 +34,21 @@
     <Filter Include="ImGui\ImGuiFileDialog\dirent">
       <UniqueIdentifier>{efa2ea3e-da59-47dc-a2d7-a2c6ebff6b0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RuntimeCompiler">
+      <UniqueIdentifier>{814213ba-f222-452f-bdb1-0120d8411c89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeCompiler\FileWatcher">
+      <UniqueIdentifier>{9f598cea-ae97-4c75-ab88-9bd83f44c4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem">
+      <UniqueIdentifier>{a4876c9e-d910-41e6-b351-5cc6bca4814e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem\SimpleSerializer">
+      <UniqueIdentifier>{29242396-53ad-48c7-8882-79a2699a0eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem\ObjectFactorySystem">
+      <UniqueIdentifier>{8dc987a7-4388-4c5f-a3d8-ae16353302ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">
@@ -312,6 +327,90 @@
     <ClInclude Include="ImGuiFileDialog\stb\stb_image_resize.h">
       <Filter>ImGui\ImGuiFileDialog\stb</Filter>
     </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\AUArray.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\BuildTool.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\Compiler.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\FileChangeNotifier.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\FileSystemUtils.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\ICompilerLogger.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\IFileChangeNotifier.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherImpl.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32_AltImpl.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IObject.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IObjectFactorySystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IRuntimeObjectSystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ISimpleSerializer.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterface.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterfacePerModule.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeInclude.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeLinkLibrary.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeObjectSystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeProtector.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeSourceDependency.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeTracking.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.h">
+      <Filter>RuntimeObjectSystem\SimpleSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.h">
+      <Filter>RuntimeObjectSystem\ObjectFactorySystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -470,6 +569,48 @@
     <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>ImGui\ImGuiFileDialog</Filter>
     </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\FileChangeNotifier.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\ObjectInterfacePerModuleSource.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformWindows.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.cpp">
+      <Filter>RuntimeObjectSystem\SimpleSerializer</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.cpp">
+      <Filter>RuntimeObjectSystem\ObjectFactorySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Include\Geometry\KDTree.inl">
@@ -498,6 +639,9 @@
     </None>
     <None Include="ImGuiFileDialog\dirent\ChangeLog">
       <Filter>ImGui\ImGuiFileDialog\dirent</Filter>
+    </None>
+    <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
