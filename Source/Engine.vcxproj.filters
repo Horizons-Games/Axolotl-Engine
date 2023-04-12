@@ -296,6 +296,12 @@
     <ClCompile Include="ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentAudioSource.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudioListener.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -618,6 +624,12 @@
     </ClInclude>
     <ClInclude Include="ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAudioSource.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAudioListener.h">
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

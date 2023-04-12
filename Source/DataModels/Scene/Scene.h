@@ -39,6 +39,7 @@ public:
 	GameObject* CreateUIGameObject(const char* name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
+	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
 	void ConvertModelIntoGameObject(const char* model);
 

@@ -22,6 +22,7 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
+#include "ComponentAudioSource.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -239,6 +240,14 @@ GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, L
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);
+	return gameObject;
+}
+
+GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponentAudioSource();
+
 	return gameObject;
 }
 

@@ -81,6 +81,7 @@ public:
 
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
+	Component* CreateComponentAudioSource();
 	bool RemoveComponent(const Component* component);
 	Component* GetComponent(ComponentType type) const;
 

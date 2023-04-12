@@ -17,6 +17,7 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../ComponentAudioSource.h"
 
 #include "Application.h"
 
@@ -614,6 +615,25 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	return nullptr;
 }
+
+Component* GameObject::CreateComponentAudioSource()
+{
+	std::unique_ptr<Component> newComponent;
+
+	newComponent = std::make_unique<ComponentAudioSource>(true, this);
+		
+
+	if (newComponent)
+	{
+		Component* referenceBeforeMove = newComponent.get();
+		components.push_back(std::move(newComponent));
+		return referenceBeforeMove;
+	}
+
+	return nullptr;
+}
+
+
 
 bool GameObject::RemoveComponent(const Component* component)
 {

@@ -18,7 +18,8 @@ enum class ComponentType
 	BUTTON,
 	BOUNDINGBOX2D,
 	RIGIDBODY,
-	MOCKSTATE
+	MOCKSTATE,
+	AUDIOSOURCE
 };
 
 const static std::string GetNameByType(ComponentType type);
