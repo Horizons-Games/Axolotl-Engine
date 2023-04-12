@@ -27,13 +27,13 @@ public:
 	ResourceType GetType() const override;
 
 	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
-
 	void SaveLoadOptions(Json& meta) override {};
+
+	void LoadImporterOptions(Json& meta) override {};
 	void LoadLoadOptions(Json& meta) override {};
 
 	std::unordered_map<std::string, Channel*> GetChannels() const;
-	Channel* GetChannel(std::string name);
+	Channel* GetChannel(const std::string &name) const;
 	unsigned int GetNumChannels() const;
 	double GetDuration() const;
 
@@ -64,9 +64,14 @@ inline std::unordered_map<std::string, ResourceAnimation::Channel*> ResourceAnim
 	return channels;
 }
 
-inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(std::string name)
+inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(const std::string& name) const
 {
-	return channels[name];
+	auto it = channels.find(name);
+	if (it != channels.end())
+	{
+		return it->second;
+	}
+	return nullptr;
 }
 
 inline unsigned int ResourceAnimation::GetNumChannels() const

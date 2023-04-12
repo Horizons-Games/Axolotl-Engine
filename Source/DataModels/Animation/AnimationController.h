@@ -3,18 +3,22 @@
 #include "Math/Quat.h"
 #include "Math/float3.h"
 
+#include <memory>
+
 class ResourceAnimation;
 
 class AnimationController
 {
 public:
-	AnimationController(ResourceAnimation* resource);
+	AnimationController();
 	~AnimationController();
 
-	void Play();
+	void Play(std::shared_ptr<ResourceAnimation> resource, bool loop);
 	void Stop();
+	
 	void Update();
-	void GetTransform(char* name, float3& pos, Quat& rot);
+
+	bool GetTransform(char* name, float3& pos, Quat& rot);
 
 private:
 	float3 Interpolate(const float3& first, const float3& second, float lambda);
@@ -23,6 +27,6 @@ private:
 	unsigned int currentTime;
 	bool loop;
 	bool play;
-	ResourceAnimation* resource;
+	std::shared_ptr<ResourceAnimation> resource;
 };
 
