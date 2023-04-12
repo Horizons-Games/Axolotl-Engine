@@ -607,6 +607,9 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\IScript.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -674,6 +677,9 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{bc030c15-1dfc-463d-97b4-05025d05b0c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
