@@ -129,7 +129,7 @@ void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource,
 		cursor += bytes;
 
 		bytes = sizeof(char) * it.first.length();
-		memcpy(cursor, &it.first, bytes);
+		memcpy(cursor, it.first.c_str(), bytes);
 
 		cursor += bytes;
 
