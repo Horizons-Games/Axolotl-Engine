@@ -610,6 +610,9 @@
     <ClInclude Include="Scripting\IScript.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\ScriptTable.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
