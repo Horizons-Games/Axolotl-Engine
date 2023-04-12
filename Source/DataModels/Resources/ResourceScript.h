@@ -18,6 +18,7 @@ public:
 	ResourceType GetType() const override;
 
 	const char* GetScriptPath();
+	ObjectId* GetScriptId();
 
 	void SaveImporterOptions(Json& meta) override {};
 	void LoadImporterOptions(Json& meta) override {};
@@ -26,6 +27,7 @@ public:
 	void LoadLoadOptions(Json& meta) override {};
 private:
 	const char* scriptPath;
+	ObjectId* scriptId;
 };
 
 inline ResourceType ResourceScript::GetType() const
@@ -36,4 +38,9 @@ inline ResourceType ResourceScript::GetType() const
 inline const char* ResourceScript::GetScriptPath() 
 {
 	return scriptPath;
+}
+
+inline ObjectId* ResourceScript::GetScriptId()
+{
+	return scriptId;
 }

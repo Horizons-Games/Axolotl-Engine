@@ -2,6 +2,8 @@
 #include "Component.h"
 
 class Json;
+class IScript;
+class ResourceScript;
 
 class ComponentScript : public Component
 {
@@ -17,5 +19,8 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
+private:
+	IScript* script;
+	ResourceScript* resourceScript;
 };
 
