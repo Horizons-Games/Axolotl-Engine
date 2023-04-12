@@ -151,6 +151,7 @@ void GameObject::SaveOptions(Json& meta)
 	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
+	meta["rootBoneUID"] = rootBone ? rootBone->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
 	meta["active"] = (bool) active;
 

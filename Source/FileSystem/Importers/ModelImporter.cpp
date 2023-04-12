@@ -6,6 +6,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceAnimation.h"

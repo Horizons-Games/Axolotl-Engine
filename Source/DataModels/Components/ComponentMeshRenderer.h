@@ -31,6 +31,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+	void SetBones(const std::vector<GameObject*>& bones);
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
@@ -44,8 +45,15 @@ private:
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;
 
+	std::vector<GameObject*> bones;
+
 	WindowMeshInput* inputMesh;
 };
+
+inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)
+{
+	this->bones = bones;
+}
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {

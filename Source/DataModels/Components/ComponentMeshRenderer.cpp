@@ -54,7 +54,14 @@ void ComponentMeshRenderer::Init()
 
 void ComponentMeshRenderer::Update()
 {
+	const std::vector<Bone>& bindBones = mesh->GetBones();
 
+	for (unsigned int i = 0; i < bones.size(); ++i)
+	{
+		skinPalette[i] = static_cast<ComponentTransform*>
+			(bones[i]->GetComponent(ComponentType::TRANSFORM))
+			->GetGlobalMatrix() * bindBones[i].transform;
+	}
 }
 
 void ComponentMeshRenderer::Draw()

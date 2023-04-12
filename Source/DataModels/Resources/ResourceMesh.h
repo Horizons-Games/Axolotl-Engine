@@ -77,7 +77,6 @@ public:
 	void SetAttachWeight(const unsigned int vertexId, const float weight);
 	void SetNumWeights(const std::vector<unsigned int>& numWeights);
 
-
 	void IncrementAttachNumBones(const unsigned int vertexId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
