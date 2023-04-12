@@ -17,7 +17,8 @@ enum class ComponentType
 	IMAGE,
 	BUTTON,
 	RIGIDBODY,
-	MOCKSTATE
+	MOCKSTATE,
+	SCRIPT
 };
 
 const static std::string GetNameByType(ComponentType type);

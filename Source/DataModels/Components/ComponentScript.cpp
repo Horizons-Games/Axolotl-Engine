@@ -4,8 +4,8 @@
 
 #include "FileSystem/Json.h"
 
-ComponentScript::ComponentScript(bool active, GameObject* owner)
-	: Component(ComponentType::PLAYER, active, owner, true)
+ComponentScript::ComponentScript(bool active, GameObject* owner) : 
+	Component(ComponentType::SCRIPT, active, owner, true)
 {
 }
 
