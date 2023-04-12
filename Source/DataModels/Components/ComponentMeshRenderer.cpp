@@ -40,6 +40,18 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		mesh->Unload();
 }
 
+void ComponentMeshRenderer::Init()
+{
+	const unsigned int numBones = mesh->GetNumBones();
+
+	skinPalette.resize(numBones);
+
+	for (unsigned int i = 0; i < numBones; ++i) 
+	{
+		skinPalette[i] = float4x4::identity;
+	}
+}
+
 void ComponentMeshRenderer::Update()
 {
 

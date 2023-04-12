@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/Component.h"
+#include "Math/float4x4.h"
 
 #include <memory>
 
@@ -18,6 +19,8 @@ public:
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
+	void Init() override;
+
 	void Update() override;
 
 	void Draw() override;
@@ -31,6 +34,8 @@ public:
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
+
+	std::vector<float4x4> skinPalette;
 
 private:
 	bool IsMeshLoaded();

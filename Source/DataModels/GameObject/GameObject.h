@@ -49,6 +49,7 @@ public:
 	std::string GetName() const;
 	std::string GetTag() const;
 	GameObject* GetParent() const;
+	GameObject* GetRootBone() const;
 
 	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
@@ -72,6 +73,7 @@ public:
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void MoveParent(GameObject* newParent);
+	void SetRootBone(GameObject* newRootBone);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -118,6 +120,7 @@ private:
 	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
+	GameObject* rootBone;
 	std::vector<std::unique_ptr<GameObject>> children;
 
 	AABB localAABB;
@@ -165,9 +168,20 @@ inline void GameObject::SetParent(GameObject* newParent)
 	parent = newParent;
 }
 
+inline void GameObject::SetRootBone(GameObject* newRootBone)
+{
+	rootBone = newRootBone;
+}
+
+
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline GameObject* GameObject::GetRootBone() const
+{
+	return rootBone;
 }
 
 inline StateOfSelection GameObject::GetStateOfSelection() const
