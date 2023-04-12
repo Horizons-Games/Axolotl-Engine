@@ -58,15 +58,12 @@ public:
 
 	const int GetFlags() const;
 
-	void UpdateMaterial();
 	bool CleanUp();
-
-	bool updateMaterial = true;
+	void FillMaterial();
 
 private:
 
 	void FillBuffers();
-	void FillMaterial();
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);

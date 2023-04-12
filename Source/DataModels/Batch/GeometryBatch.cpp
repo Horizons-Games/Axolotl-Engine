@@ -428,14 +428,6 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 	return nullptr;
 }
 
-void GeometryBatch::UpdateMaterial()
-{
-	if (updateMaterial)
-	{
-		FillMaterial();
-	}
-}
-
 bool GeometryBatch::CleanUp()
 {
 	glDeleteVertexArrays(1,&vao);
