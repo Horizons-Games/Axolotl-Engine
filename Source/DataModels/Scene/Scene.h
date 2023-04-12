@@ -4,6 +4,7 @@
 #include "Geometry/AABB.h"
 
 #include "Resources/ResourceModel.h"
+#include "Resources/ResourceMesh.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -84,6 +85,8 @@ public:
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
 private:
+	bool FindRootBone(const std::string& nodeName, 
+		const std::string& parentName, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;

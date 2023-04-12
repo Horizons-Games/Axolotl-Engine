@@ -8,8 +8,6 @@
 
 #include "FileSystem/ModuleResources.h"
 
-#include "Resources/ResourceModel.h"
-#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
@@ -338,6 +336,31 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
+}
+
+bool Scene::FindRootBone(const std::string& nodeName,
+	const std::string& parentName, const std::vector<Bone>& bones)
+{
+	bool isNode = false, isParentNode = false;
+
+	for (unsigned int i = 0; i < bones.size(); ++i)
+	{
+		if (bones[i].name == nodeName)
+		{
+			isNode = true;
+		}
+		else if (bones[i].name == parentName)
+		{
+			isParentNode = true;
+		}
+	}
+
+	if (isNode && !isParentNode)
+	{
+		return true;
+	}
+	
+	return false;
 }
 
 void Scene::RemoveFatherAndChildren(const GameObject* father)
