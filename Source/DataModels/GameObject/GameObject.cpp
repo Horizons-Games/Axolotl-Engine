@@ -16,6 +16,7 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentScript.h"
 
 #include "Application.h"
 
@@ -33,6 +34,7 @@
 GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED)
 {
+	initialized = false;
 }
 
 GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::GenerateUID())
@@ -502,6 +504,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
+
+		case ComponentType::SCRIPT:
+		{
+			initialized = true;
+			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+
 
 		default:
 			assert(false && "Wrong component type introduced");

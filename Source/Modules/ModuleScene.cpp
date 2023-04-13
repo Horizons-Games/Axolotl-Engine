@@ -15,6 +15,8 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "Components/ComponentScript.h"
+#include "ScriptFactory.h"
+#include "IScript.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -66,6 +68,8 @@ update_status ModuleScene::Update()
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 	//UPDATE ALL THE SCRIPTS
 	std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
+	IScript* script = App->scriptFactory->CreateScript(gameobjects[0], "..\Game\Scripts\ChangeName.cpp");
+	Component* cscript = gameobjects[0]->CreateComponent(ComponentType::SCRIPT);
 	for (int i = 0; i < gameobjects.size(); ++i) {
 		ComponentScript* script = static_cast<ComponentScript*>(gameobjects[i]->GetComponent(ComponentType::SCRIPT));
 		if(script) script->Update();

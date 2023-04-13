@@ -102,6 +102,7 @@ private:
 	std::string name;
 	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;
+	bool initialized;
 	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
