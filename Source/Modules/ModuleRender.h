@@ -56,7 +56,7 @@ private:
 
 	unsigned vbo;
 	
-	std::vector<const GameObject*> opaqueGOToDraw;
+	std::set<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;

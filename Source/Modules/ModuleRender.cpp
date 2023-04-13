@@ -234,10 +234,9 @@ update_status ModuleRender::Update()
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
-
 	if (isRoot) 
 	{
-		opaqueGOToDraw.push_back(goSelected);
+		opaqueGOToDraw.insert(goSelected);
 	}
 
 	AddToRenderList(goSelected);
@@ -354,7 +353,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform = 
@@ -377,7 +376,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform = 
@@ -428,7 +427,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		if (gameObject->IsEnabled())
 		{
 			if (!CheckIfTransparent(gameObject))
-				opaqueGOToDraw.push_back(gameObject);
+				opaqueGOToDraw.insert(gameObject);
 			else
 			{
 				const ComponentTransform* transform =
