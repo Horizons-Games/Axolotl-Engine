@@ -3,7 +3,7 @@
 #ifndef ISCRIPT_INCLUDED
 #define ISCRIPT_INCLUDED
 
-#include "IObject.h"
+//#include "RuntimeCompiler/"
 
 class GameObject;
 

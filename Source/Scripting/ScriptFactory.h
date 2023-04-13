@@ -13,17 +13,16 @@ class ComponentScript;
 class ScriptFactory : public IObjectFactoryListener
 {
 public:
-	ScriptFactory(GameObject* o);
+	ScriptFactory();
 	virtual ~ScriptFactory();
 	bool Init();
 	bool MainLoop();
-	ComponentScript* CreateScript(GameObject* owner, const char* path);
+	IScript* CreateScript(GameObject* owner, const char* path);
 	ObjectId GetScript(const char* name);
 	virtual void OnConstructorsAdded();
 private:
 	void IncludeDirs();
 
-	GameObject* owner;
 
 	//Runtime Systems
 	ICompilerLogger* m_pCompilerLogger;

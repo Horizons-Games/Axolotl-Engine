@@ -15,11 +15,9 @@
 #undef GetObject
 #endif
 
-ScriptFactory::ScriptFactory(GameObject* o) : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0), m_pScript(0)
+ScriptFactory::ScriptFactory() : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0), m_pScript(0)
 {
-	owner = o;
-	AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
-	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
+
 }
 
 
@@ -27,24 +25,13 @@ ScriptFactory::~ScriptFactory()
 {
 	if (m_pRuntimeObjectSystem)
 	{
-		// clean temp object files
 		m_pRuntimeObjectSystem->CleanObjectFiles();
 	}
-
 	if (m_pRuntimeObjectSystem && m_pRuntimeObjectSystem->GetObjectFactorySystem())
 	{
 		m_pRuntimeObjectSystem->GetObjectFactorySystem()->RemoveListener(this);
 
-		/*for (int i = 0; i < scripts.size(); ++i) {
-			delete scripts[i];
-		}
-		for (int i = 0; i < objectsIds.size(); ++i) {
-			IObject* pObj = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetObject(objectsIds[i]);
-			delete pObj;
-		}*/
 	}
-	//scripts.clear();
-	//objectsIds.clear();
 	delete m_pRuntimeObjectSystem;
 	delete m_pCompilerLogger;
 }
@@ -55,7 +42,6 @@ bool ScriptFactory::Init()
 	//Initialise the RuntimeObjectSystem
 	m_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	g_SystemTable = new SystemTable();
-	g_SystemTable->owner = this->owner;
 
 
 	m_pCompilerLogger = new LogSystem();
@@ -65,7 +51,6 @@ bool ScriptFactory::Init()
 		return false;
 	}
 
-
 	m_pRuntimeObjectSystem->GetObjectFactorySystem()->AddListener(this);
 
 	IncludeDirs();
@@ -73,9 +58,7 @@ bool ScriptFactory::Init()
 	return true;
 }
 
-ComponentScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
-	ComponentScript *c = new ComponentScript();
-	c->SetOwner(owner);
+IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
 	m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
 	m_pRuntimeObjectSystem->CompileAll(true);
 	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(path);
@@ -90,7 +73,8 @@ ComponentScript* ScriptFactory::CreateScript(GameObject* owner, const char* path
 			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
 			//return false;
 		}
-		objectId = pObj->GetObjectId();
+		return m_pScript;
+		//objectId = pObj->GetObjectId();
 		//return objectId;
 	}
 
@@ -98,24 +82,17 @@ ComponentScript* ScriptFactory::CreateScript(GameObject* owner, const char* path
 
 void ScriptFactory::OnConstructorsAdded()
 {
-	//IAUDynArray<IObjectConstructor*> constructors = new IAUDynArray<IObjectConstructor*>();
-	//IAUDynArray constructors = new IAUDynArray();
-	//m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll();
-	
-	
-	
-	
-	
-	
-	
-	// This could have resulted in a change of object pointer, so release old and get new one.
-	if (m_pScript)
+	AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
+	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
+	for (size_t i = 0; i < constructors.Size(); i++)
 	{
-		IObject* pObj = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetObject(m_ObjectId);
-		pObj->GetInterface(&m_pScript);
-		if (0 == m_pScript)
+		IObject* object = constructors[i]->GetConstructedObject(InterfaceIDEnum::IID_IOBJECT);
+		IScript* script;
+		//This have to be the script
+		object->GetInterface(&script);
+		if (0 == script)
 		{
-			delete pObj;
+			delete object;
 			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
 		}
 	}
@@ -146,10 +123,7 @@ bool ScriptFactory::MainLoop()
 		}
 		const float deltaTime = 1.0f;
 		m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
-		/*for (int i = 0; i < scripts.size(); ++i) {
-			scripts[i]->Update(deltaTime);
-		}*/
-		Sleep(1000);
+		//Sleep(1000);
 	}
 
 	return true;
