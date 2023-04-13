@@ -34,6 +34,7 @@ private:
 	char* StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
+	static const std::string set;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

@@ -29,6 +29,7 @@ static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
 const std::string ModuleEditor::settingsFolder = "Settings/";
+const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
 ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
@@ -101,9 +102,8 @@ bool ModuleEditor::CleanUp()
 		json[windows[i].get()->GetName().c_str()] = mainMenu.get()->IsWindowEnabled(i);				
 	}
 	rapidjson::StringBuffer buffer;
-	json.toBuffer(buffer);
-	std::string lib = "Settings/WindowsStates.conf";
-	App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	json.toBuffer(buffer);	
+	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -195,8 +195,7 @@ char* ModuleEditor::StateWindows()
 	std::string settingsFolder = "Settings/";
 	char* binaryBuffer = {};
 	if (App->fileSystem->Exists(settingsFolder.c_str()))
-	{
-		std::string set = "Settings/WindowsStates.conf";
+	{		
 		if (App->fileSystem->Exists(set.c_str()))
 		{
 			App->fileSystem->Load(set.c_str(), binaryBuffer);
