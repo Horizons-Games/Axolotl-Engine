@@ -622,6 +622,9 @@
     <ClInclude Include="Auxiliar\Reflection\Field.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
+      <Filter>Auxiliar\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -692,6 +695,9 @@
     </Filter>
     <Filter Include="Auxiliar\Reflection">
       <UniqueIdentifier>{a7860462-3b9f-466b-9ee6-9497d8f9ca86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Utils">
+      <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

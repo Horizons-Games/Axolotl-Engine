@@ -88,7 +88,7 @@
       <PreprocessorDefinitions>ENGINE;DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,7 +104,7 @@
       <PreprocessorDefinitions>DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,7 +123,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,7 +144,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -402,6 +402,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

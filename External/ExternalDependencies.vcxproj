@@ -344,6 +344,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
@@ -357,6 +358,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
@@ -370,6 +372,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
@@ -383,6 +386,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
