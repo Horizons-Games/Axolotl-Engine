@@ -264,6 +264,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	std::stack<std::pair<int, GameObject*>> parentsStack;
 	std::vector<ResourceModel::Node*> nodes = resourceModel->GetNodes();
+	std::vector<GameObject*> gameObjectNodes;
 
 	parentsStack.push(std::make_pair(-1, gameObjectModel));
 
@@ -280,6 +281,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		ComponentTransform* transformNode = 
 			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
+		gameObjectNodes.push_back(gameObjectNode);
 
 		float3 pos;
 		float3 scale;
@@ -320,6 +322,24 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 					->CreateComponent(ComponentType::MESHRENDERER));
 			meshRenderer->SetMesh(mesh);
+			gameObjectNodes.push_back(gameObjectModelMesh);
+		}
+	}
+
+	for (GameObject* sceneGameObject : sceneGameObjects)
+	{
+		for (Component* component :
+			sceneGameObject->GetComponents())
+		{
+			if (component->GetType() == ComponentType::MESHRENDERER)
+			{
+				ComponentMeshRenderer* meshRenderer = 
+					static_cast<ComponentMeshRenderer*>(component);
+
+				meshRenderer->SetBones(CacheBoneHierarchy(
+					FindRootBone(root.get(), meshRenderer->GetMesh()->GetBones()),
+					meshRenderer->GetMesh()->GetBones()));
+			}
 		}
 	}
 }
@@ -338,29 +358,69 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-bool Scene::FindRootBone(const std::string& nodeName,
-	const std::string& parentName, const std::vector<Bone>& bones)
+GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones)
 {
-	bool isNode = false, isParentNode = false;
-
-	for (unsigned int i = 0; i < bones.size(); ++i)
+	if (node->GetParent())
 	{
-		if (bones[i].name == nodeName)
+		bool isNode = false, isParentNode = false;
+
+		for (GameObject* child : node->GetChildren())
 		{
-			isNode = true;
-		}
-		else if (bones[i].name == parentName)
-		{
-			isParentNode = true;
+			for (const Bone& bone : bones)
+			{
+				if (child->GetName() == bone.name)
+				{
+					isNode = true;
+				}
+				else if (child->GetParent()->GetName() == bone.name)
+				{
+					isParentNode = true;
+				}
+			}
+
+			if (isNode && !isParentNode)
+			{
+				return child;
+			}
 		}
 	}
 
-	if (isNode && !isParentNode)
-	{
-		return true;
-	}
+	GameObject* rootBone = nullptr;
 	
-	return false;
+	for (GameObject* child : node->GetChildren())
+	{
+		rootBone = FindRootBone(child, bones);
+
+		if (rootBone)
+		{
+			return rootBone;
+		}
+	}
+}
+
+const std::vector<GameObject*>& Scene::CacheBoneHierarchy(
+	GameObject* gameObjectNode,
+	const std::vector<Bone>& bones)
+{
+	std::vector<GameObject*> boneHierarchy;
+	boneHierarchy.push_back(gameObjectNode);
+
+	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
+
+	for (GameObject* child : children)
+	{
+		for (const Bone& bone : bones)
+		{
+			if (child->GetName() == bone.name)
+			{
+				const std::vector<GameObject*>& newBoneHierarchy = 
+					CacheBoneHierarchy(child, bones);
+				boneHierarchy.insert(boneHierarchy.cend(), newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
+			}
+		}
+	}
+
+	return boneHierarchy;
 }
 
 void Scene::RemoveFatherAndChildren(const GameObject* father)

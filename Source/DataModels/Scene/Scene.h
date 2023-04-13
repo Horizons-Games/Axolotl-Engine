@@ -85,8 +85,10 @@ public:
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
 private:
-	bool FindRootBone(const std::string& nodeName, 
-		const std::string& parentName, const std::vector<Bone>& bones);
+	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
+	const std::vector<GameObject*>& CacheBoneHierarchy(
+		GameObject* gameObjectNode,
+		const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;
