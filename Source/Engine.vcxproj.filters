@@ -293,16 +293,10 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleAudio.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentAudioSource.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentAudioListener.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentAudioSource.cpp" />
+    <ClCompile Include="Modules\ModuleAudio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -623,16 +617,10 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleAudio.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentAudioSource.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentAudioListener.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h" />
+    <ClInclude Include="DataModels\Components\ComponentAudioListener.h" />
+    <ClInclude Include="DataModels\Components\ComponentAudioSource.h" />
+    <ClInclude Include="Modules\ModuleAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

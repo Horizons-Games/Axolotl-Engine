@@ -35,7 +35,7 @@
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMockState.h"
-#include "ComponentAudioSource.h"
+#include "Components/ComponentAudioSource.h"
 
 ComponentWindow::~ComponentWindow()
 {

@@ -1,5 +1,5 @@
 #include "WindowComponentAudioSource.h"
-#include "ComponentAudioSource.h"
+#include "Components/ComponentAudioSource.h"
 
 WindowComponentAudioSource::WindowComponentAudioSource(ComponentAudioSource* component):
 	ComponentWindow("Audio Source", component)
