@@ -52,3 +52,8 @@ void ComponentMockState::LoadOptions(Json& meta)
 	SetIsFailState((bool)meta["isFailState"]);
 	SetSceneName(tag.c_str());
 }
+
+void ComponentMockState::SetSceneName(const std::string& newTag)
+{
+	sceneName = newTag;
+}
