@@ -57,3 +57,7 @@ inline std::string ComponentMockState::GetSceneName() const
 	return sceneName;
 }
 
+inline void ComponentMockState::SetSceneName(const std::string& newTag)
+{
+	sceneName = newTag;
+}
