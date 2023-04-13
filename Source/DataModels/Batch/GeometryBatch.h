@@ -53,9 +53,10 @@ public:
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
+	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
-
+	void CreateInstanceResourceMaterial(ResourceMaterial* material);
 	const int GetFlags() const;
 
 	bool CleanUp();
@@ -67,7 +68,7 @@ private:
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
-	void CreateInstanceResourceMaterial(ResourceMaterial* material);
+
 
 	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
 

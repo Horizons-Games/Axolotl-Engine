@@ -281,6 +281,22 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 #endif //ENGINE
 }
 
+
+void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
+{
+	resourcesMaterial.erase(
+			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+
+	//Redo instanceData
+	instanceData.clear();
+	instanceData.reserve(componentsInBatch.size());
+	for (ResourceMaterial* component : resourcesMaterial)
+	{
+		CreateInstanceResourceMaterial(component);
+	}
+
+}
+
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
 	if (createBuffers)
