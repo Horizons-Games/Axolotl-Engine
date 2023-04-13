@@ -168,7 +168,7 @@ bool Quadtree::SmartRemove()
 	return childrenDeleted;
 }
 
-bool Quadtree::InQuadrant(GameObject* gameObject)
+bool Quadtree::InQuadrant(const GameObject* gameObject) const
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
@@ -181,7 +181,7 @@ bool Quadtree::InQuadrant(GameObject* gameObject)
 		objectAABB.minPoint.z <= boundingBox.maxPoint.z;
 }
 
-bool Quadtree::EntireInQuadrant(GameObject* gameObject)
+bool Quadtree::EntireInQuadrant(const GameObject* gameObject) const
 {
 	ComponentTransform* transform =
 		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
