@@ -14,6 +14,7 @@
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
+#include "Components/ComponentScript.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -63,7 +64,12 @@ update_status ModuleScene::Update()
 #endif // DEBUG
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
-
+	//UPDATE ALL THE SCRIPTS
+	std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
+	for (int i = 0; i < gameobjects.size(); ++i) {
+		ComponentScript* script = static_cast<ComponentScript*>(gameobjects[i]->GetComponent(ComponentType::SCRIPT));
+		if(script) script->Update();
+	}
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -117,6 +123,14 @@ void ModuleScene::OnPlay()
 
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
+
+
+	//INITIALIZE ALL THE SCRIPTS
+	std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
+	for (int i = 0; i < gameobjects.size(); ++i) {
+		ComponentScript* script = static_cast<ComponentScript*>(gameobjects[i]->GetComponent(ComponentType::SCRIPT));
+		script->Init();
+	}
 }
 
 void ModuleScene::OnPause()

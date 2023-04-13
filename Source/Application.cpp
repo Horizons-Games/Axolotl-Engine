@@ -41,7 +41,7 @@ Application::~Application()
 
 bool Application::Init()
 {
-	scriptFactory = new ScriptFactory();
+	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
 	bool ret = true;
 

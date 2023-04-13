@@ -57,8 +57,8 @@ public:
 	ModulePlayer* player;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
-
-	ScriptFactory* scriptFactory;
+	
+	std::unique_ptr<ScriptFactory> scriptFactory;
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
