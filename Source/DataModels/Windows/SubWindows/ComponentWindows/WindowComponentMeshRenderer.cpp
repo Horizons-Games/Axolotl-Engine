@@ -184,27 +184,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::EndCombo();
 			}
 
-
-				colorDiffuse = materialResource->GetDiffuseColor();
-				oldColorDiffuse = materialResource->GetOldDiffuseColor();
 				ImGui::Text("Diffuse Color:"); ImGui::SameLine();
-			if (!reset)
-			{
-				if (ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse))
-				{
-					materialResource->SetDiffuseColor(colorDiffuse);
-				}
-
-			}
-			else
-			{
-				if (ImGui::ColorEdit4("##Diffuse Color", (float*)&oldColorDiffuse))
-				{
-					materialResource->SetDiffuseColor(oldColorDiffuse);
-					materialResource->SetOldDiffuseColor(oldColorDiffuse);
-				}
-					reset = false;
-			}
+				ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse);
 
 			//static float3 colorSpecular = materialResource->GetSpecularColor();
 			//ImGui::Text("Specular Color:"); ImGui::SameLine();
@@ -342,12 +323,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
 			if (ImGui::Button("Reset"))
 			{
-				ResetValue();
+				InitMaterialValues();
 			}
 			ImGui::SameLine(ImGui::GetWindowWidth() - 70);
 			if (ImGui::Button("Apply"))
 			{
-				materialResource->SetOldDiffuseColor(colorDiffuse);
 				materialResource->SetDiffuseColor(colorDiffuse);
 				materialResource->SetDiffuse(diffuseTexture);
 				materialResource->SetMetallicMap(metalicMap);
@@ -379,6 +359,7 @@ void WindowComponentMeshRenderer::DrawEmptyMaterial()
 void WindowComponentMeshRenderer::InitMaterialValues()
 {
 	ComponentMeshRenderer* asMaterial = static_cast<ComponentMeshRenderer*>(component);
+
 	if (asMaterial)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
@@ -394,19 +375,4 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			isTransparent = materialResource->GetTransparent();
 		}
 	}
-}
-
-void WindowComponentMeshRenderer::ResetValue()
-{
-	ComponentMeshRenderer* asMaterial = static_cast<ComponentMeshRenderer*>(component);
-	if (asMaterial)
-	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
-		if (materialResource)
-		{
-			materialResource->SetDiffuseColor(oldColorDiffuse);
-		}
-	}
-	reset = true;
-	InitMaterialValues();
 }

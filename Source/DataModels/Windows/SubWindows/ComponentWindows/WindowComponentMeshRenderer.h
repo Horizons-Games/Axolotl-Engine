@@ -26,7 +26,6 @@ private:
 	void DrawSetMaterial();
 	void DrawEmptyMaterial();
 	void InitMaterialValues();
-	void ResetValue();
 
 	float4 colorDiffuse;
 	float4 oldColorDiffuse;
