@@ -6,6 +6,7 @@
 #include "EngineLog.h"
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
+#include "Components/ComponentScript.h"
 #include "SystemTable.h"
 #include <conio.h>
 
@@ -17,6 +18,8 @@
 ScriptFactory::ScriptFactory(GameObject* o) : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0), m_pScript(0)
 {
 	owner = o;
+	AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
+	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
 }
 
 
@@ -32,16 +35,16 @@ ScriptFactory::~ScriptFactory()
 	{
 		m_pRuntimeObjectSystem->GetObjectFactorySystem()->RemoveListener(this);
 
-		for (int i = 0; i < scripts.size(); ++i) {
+		/*for (int i = 0; i < scripts.size(); ++i) {
 			delete scripts[i];
 		}
 		for (int i = 0; i < objectsIds.size(); ++i) {
 			IObject* pObj = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetObject(objectsIds[i]);
 			delete pObj;
-		}
+		}*/
 	}
-	scripts.clear();
-	objectsIds.clear();
+	//scripts.clear();
+	//objectsIds.clear();
 	delete m_pRuntimeObjectSystem;
 	delete m_pCompilerLogger;
 }
@@ -70,14 +73,13 @@ bool ScriptFactory::Init()
 	return true;
 }
 
-void ScriptFactory::CreateScript(const char* path) {
+ComponentScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
+	ComponentScript *c = new ComponentScript();
+	c->SetOwner(owner);
 	m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
 	m_pRuntimeObjectSystem->CompileAll(true);
-}
-
-ObjectId ScriptFactory::GetScript(const char* name) {
-	// construct first object
-	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
+	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(path);
+	ObjectId objectId;
 	if (pCtor)
 	{
 		IObject* pObj = pCtor->Construct();
@@ -88,14 +90,24 @@ ObjectId ScriptFactory::GetScript(const char* name) {
 			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
 			//return false;
 		}
-		m_ObjectId = pObj->GetObjectId();
-		return m_ObjectId;
+		objectId = pObj->GetObjectId();
+		//return objectId;
 	}
-	return {};
+
 }
 
 void ScriptFactory::OnConstructorsAdded()
 {
+	//IAUDynArray<IObjectConstructor*> constructors = new IAUDynArray<IObjectConstructor*>();
+	//IAUDynArray constructors = new IAUDynArray();
+	//m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll();
+	
+	
+	
+	
+	
+	
+	
 	// This could have resulted in a change of object pointer, so release old and get new one.
 	if (m_pScript)
 	{
@@ -134,9 +146,9 @@ bool ScriptFactory::MainLoop()
 		}
 		const float deltaTime = 1.0f;
 		m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
-		for (int i = 0; i < scripts.size(); ++i) {
+		/*for (int i = 0; i < scripts.size(); ++i) {
 			scripts[i]->Update(deltaTime);
-		}
+		}*/
 		Sleep(1000);
 	}
 

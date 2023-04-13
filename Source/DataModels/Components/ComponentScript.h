@@ -16,6 +16,9 @@ public:
 	~ComponentScript() override;
 
 	void Draw() override {};
+	void Update() override {};
+
+	void SetPath(const char* path);
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
@@ -24,3 +27,6 @@ private:
 	ResourceScript* resourceScript;
 };
 
+inline void ComponentScript::SetPath(const char* path){
+	
+}

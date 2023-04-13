@@ -8,6 +8,7 @@ struct IRuntimeObjectSystem;
 struct SystemTable;
 struct ObjectId;
 class GameObject;
+class ComponentScript;
 
 class ScriptFactory : public IObjectFactoryListener
 {
@@ -16,7 +17,7 @@ public:
 	virtual ~ScriptFactory();
 	bool Init();
 	bool MainLoop();
-	void CreateScript(const char* path);
+	ComponentScript* CreateScript(GameObject* owner, const char* path);
 	ObjectId GetScript(const char* name);
 	virtual void OnConstructorsAdded();
 private:
@@ -27,12 +28,9 @@ private:
 	//Runtime Systems
 	ICompilerLogger* m_pCompilerLogger;
 	IRuntimeObjectSystem* m_pRuntimeObjectSystem;
+	IScript* m_pScript;
 
 	//Runtime object
-	IScript* m_pScript;
-	ObjectId m_ObjectId;
-	std::vector<IScript*> scripts;
-	std::vector<ObjectId> objectsIds;
 	SystemTable* g_SystemTable;
 };
 #endif // SCRIPTFACTORYY_INCLUDED
