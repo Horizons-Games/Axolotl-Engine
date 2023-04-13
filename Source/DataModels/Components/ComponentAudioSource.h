@@ -21,6 +21,6 @@ public:
 	void PostEvent();
 
 private:
-
+	uint64_t sourceID;
 
 };

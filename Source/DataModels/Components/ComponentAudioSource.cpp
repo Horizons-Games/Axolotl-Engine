@@ -6,11 +6,16 @@
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     : Component(ComponentType::AUDIOSOURCE, active, owner, true)
 {
+    sourceID = owner->GetUID();
+
+    AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName());
+
     PostEvent();
 }
 
 ComponentAudioSource::~ComponentAudioSource()
 {
+    AK::SoundEngine::UnregisterGameObj(sourceID);
 }
 
 void ComponentAudioSource::Update()
@@ -43,15 +48,8 @@ void ComponentAudioSource::Disable()
 
 void ComponentAudioSource::PostEvent()
 {
-    AkGameObjectID gameObj = owner->GetUID();
-
-    AK::SoundEngine::RegisterGameObj(gameObj);
-
-
     AkPlayingID playingID = AK::SoundEngine::PostEvent(
-        L"Play_Engine",                   // Name of the Event (not case sensitive).
-
-        gameObj                             // Associated game object ID
-
+        L"Play_Engine",    // Name of the Event (not case sensitive).
+        sourceID           // Associated game object ID
     );
 }

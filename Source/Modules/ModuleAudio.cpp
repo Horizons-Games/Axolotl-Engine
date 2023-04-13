@@ -128,6 +128,8 @@ bool ModuleAudio::Start()
 
 bool ModuleAudio::CleanUp()
 {
+    AK::SoundEngine::UnregisterAllGameObj();
+
 #ifndef AK_OPTIMIZED
     // Terminate Communication Services
     AK::Comm::Term();
