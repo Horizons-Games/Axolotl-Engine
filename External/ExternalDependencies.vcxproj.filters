@@ -336,9 +336,6 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h">
       <Filter>wwise</Filter>
     </ClInclude>
-    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h">
-      <Filter>wwise</Filter>
-    </ClInclude>
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h">
       <Filter>wwise</Filter>
     </ClInclude>
@@ -354,10 +351,13 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.h">
       <Filter>wwise</Filter>
     </ClInclude>
-    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h">
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h">
       <Filter>wwise</Filter>
     </ClInclude>
-    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h">
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h">
       <Filter>wwise</Filter>
     </ClInclude>
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h">
@@ -521,18 +521,6 @@
     <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>ImGui\ImGuiFileDialog</Filter>
     </ClCompile>
-    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp">
-      <Filter>wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp">
-      <Filter>wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp">
-      <Filter>wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp">
-      <Filter>wwise</Filter>
-    </ClCompile>
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp">
       <Filter>wwise</Filter>
     </ClCompile>
@@ -555,6 +543,18 @@
       <Filter>wwise</Filter>
     </ClCompile>
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHookStubs.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp">
       <Filter>wwise</Filter>
     </ClCompile>
   </ItemGroup>
