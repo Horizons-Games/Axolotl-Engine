@@ -24,7 +24,7 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "AK/SoundEngine/SampleLowLevelIO/Win32/stdafx.h"
+#include "stdafx.h"
 #include "AkFilePackage.h"
 
 // Destroy file package and free memory.
