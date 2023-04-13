@@ -14,7 +14,6 @@
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
-const std::string ModuleResources::settingsFolder = "Settings/";
 
 //creator and destructor can't be inlined
 //because we are using unique pointers with forward declarations
@@ -35,8 +34,7 @@ bool ModuleResources::Start()
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
-	CreateAssetAndLibFolders();
-	CreateFolderSettings();
+	CreateAssetAndLibFolders();	
 
 	//remove file separator from library folder
 	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
@@ -319,8 +317,7 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox,
-												  ResourceType::Window
+												  ResourceType::SkyBox,												  
 	};
 	for (ResourceType type : allResourceTypes)
 	{
@@ -340,15 +337,6 @@ void ModuleResources::CreateAssetAndLibFolders()
 			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
 		}
 	}
-}
-
-void ModuleResources::CreateFolderSettings()
-{
-	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
-	if (settingsFolderNotCreated)
-	{
-		App->fileSystem->CreateDirectoryA(settingsFolder.c_str());
-	}		
 }
 
 void ModuleResources::MonitorResources()
@@ -523,9 +511,7 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 	case ResourceType::Material:
 		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox";
-	case ResourceType::Window:
-		return "StateWindow";
+		return "SkyBox";	
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";

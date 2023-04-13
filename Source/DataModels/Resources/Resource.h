@@ -12,8 +12,7 @@ enum class ResourceType
 	Mesh,
 	Scene,
 	Material,
-	SkyBox,
-	Window,
+	SkyBox,	
 };
 
 class Resource

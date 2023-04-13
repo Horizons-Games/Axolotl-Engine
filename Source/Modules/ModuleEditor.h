@@ -31,6 +31,9 @@ private:
 	WindowScene* scene;
 
 	bool windowResized;
+	char* StateWindows();
+	void CreateFolderSettings();
+	static const std::string settingsFolder;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

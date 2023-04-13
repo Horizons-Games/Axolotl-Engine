@@ -40,26 +40,3 @@ void EditorWindow::Draw(bool &enabled)
 	}
 	this->enabled = enabled;
 }
-
-char* EditorWindow::StateWindows()
-{
-	std::string settingsFolder = "Settings/";
-	char* binaryBuffer = {};
-	if (App->fileSystem->Exists(settingsFolder.c_str()))
-	{		
-		std::string set = "Settings/WindowsStates.cong";
-		if (App->fileSystem->Exists(set.c_str()))
-		{
-			App->fileSystem->Load(set.c_str(), binaryBuffer);			
-		}
-	}		
-	return binaryBuffer;
-	
-}
-
-void EditorWindow::UpdateState(Json &json)
-{
-
-	json[name.c_str()] = enabled;	
-}
-

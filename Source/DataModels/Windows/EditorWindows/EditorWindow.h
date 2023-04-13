@@ -11,9 +11,7 @@ public:
 
 	void Draw(bool &enabled) override;
 	 
-	bool IsFocused() const;	
-	static char* StateWindows();
-	void UpdateState(Json& json);
+	bool IsFocused() const;			
 protected:
 	EditorWindow(const std::string& name);
 	virtual void DrawWindowContents() = 0;

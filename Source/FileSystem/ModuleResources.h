@@ -62,8 +62,7 @@ private:
 								  ResourceType type);
 
 	//folder and file management
-	void CreateAssetAndLibFolders();
-	void CreateFolderSettings();
+	void CreateAssetAndLibFolders();	
 	void MonitorResources();
 	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
@@ -77,8 +76,7 @@ private:
 	const std::string CreateLibraryPath(const std::string& fileName, ResourceType type);
 
 	static const std::string assetsFolder;
-	static const std::string libraryFolder;
-	static const std::string settingsFolder;
+	static const std::string libraryFolder;	
 	std::map<UID, std::shared_ptr<Resource> > resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;

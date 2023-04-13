@@ -28,6 +28,7 @@ static bool configOpened = true;
 static bool consoleOpened = true;
 static bool aboutOpened = false;
 static bool propertiesOpened = true;
+const std::string ModuleEditor::settingsFolder = "Settings/";
 
 ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
@@ -54,7 +55,7 @@ bool ModuleEditor::Init()
 
 	rapidjson::Document doc;
 	Json json(doc, doc);
-	char* buffer = EditorWindow::StateWindows();
+	char* buffer = StateWindows();
 	
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
@@ -86,6 +87,7 @@ bool ModuleEditor::Start()
 {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
+	CreateFolderSettings();
 	return true;
 }
 
@@ -96,11 +98,11 @@ bool ModuleEditor::CleanUp()
 	
 	for (int i = 0; i < windows.size(); ++i) 
 	{
-		windows[i].get()->UpdateState(json);		
+		json[windows[i].get()->GetName().c_str()] = mainMenu.get()->IsWindowEnabled(i);				
 	}
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);
-	std::string lib = "Settings/WindowsStates.cong";
+	std::string lib = "Settings/WindowsStates.conf";
 	App->fileSystem->Save(lib.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -186,4 +188,29 @@ void ModuleEditor::Resized()
 bool ModuleEditor::IsSceneFocused() const
 {
 	return scene->IsFocused();
+}
+
+char* ModuleEditor::StateWindows()
+{
+	std::string settingsFolder = "Settings/";
+	char* binaryBuffer = {};
+	if (App->fileSystem->Exists(settingsFolder.c_str()))
+	{
+		std::string set = "Settings/WindowsStates.conf";
+		if (App->fileSystem->Exists(set.c_str()))
+		{
+			App->fileSystem->Load(set.c_str(), binaryBuffer);
+		}
+	}
+	return binaryBuffer;
+
+}
+
+void ModuleEditor::CreateFolderSettings()
+{
+	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
+	if (settingsFolderNotCreated)
+	{
+		App->fileSystem->CreateDirectoryA(settingsFolder.c_str());
+	}
 }
