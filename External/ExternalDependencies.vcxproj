@@ -417,6 +417,7 @@
     <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\Include\Math\float2.inl" />
     <None Include="MathGeoLib\Include\Math\Matrix.inl" />
+    <None Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.inl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FontIcons\CustomFont.png">
