@@ -74,6 +74,7 @@ public:
 	void SetAspectRatio(float aspect);
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
+	void SetRotation(const Quat& rotation);
 	void SetOrientation(const float3& orientation);
 	void SetLookAt(const float3& lookAt, float currentTimeRelation);
 	void SetMoveSpeed(float speed);
@@ -106,7 +107,7 @@ protected:
 	std::unique_ptr <Frustum> frustum;
 
 	float3 position;
-
+	Quat rotation;
 	float4x4 projectionMatrix;
 	float4x4 viewMatrix;
 	float aspectRatio;

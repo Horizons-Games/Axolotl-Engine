@@ -31,6 +31,7 @@ Camera::Camera(const CameraType type)
 Camera::Camera(Camera& camera)
 	: type(type),
 	position(camera.position),
+	rotation(camera.rotation),
 	projectionMatrix(camera.projectionMatrix),
 	viewMatrix(camera.viewMatrix),
 	aspectRatio(camera.aspectRatio),
@@ -132,6 +133,19 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 
 	frustum->SetFront(rotationMatrix.MulDir(oldFront));
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
+
+	this->rotation = rotationMatrix.ToQuat();
+}
+
+void Camera::SetRotation(const Quat& rotation)
+{
+	vec oldFront = frustum->Front().Normalized();
+	vec oldUp = frustum->Up().Normalized();
+
+	frustum->SetFront(rotation.Transform(oldFront));
+	frustum->SetUp(rotation.Transform(oldUp));
+
+	this->rotation = rotation;
 }
 
 void Camera::Run()
