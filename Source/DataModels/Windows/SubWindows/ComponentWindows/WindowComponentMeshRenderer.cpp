@@ -16,7 +16,7 @@
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
 	ComponentWindow("MESH RENDERER", component),
 	inputMesh(std::make_unique<WindowMeshInput>(component)),
-	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputMaterial(std::make_unique<WindowMaterialInput>(this)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	//inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
@@ -40,6 +40,14 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
 		static char* meshPath = (char*)("unknown");
+
+		if (newMaterial)
+		{
+			asMeshRenderer->SetMaterial(material);
+			asMeshRenderer->GetBatch()->CreateInstanceResourceMaterial(material.get());
+			updateMaterials = true;
+			newMaterial = false;
+		}
 
 		if (meshAsShared)
 		{
@@ -138,8 +146,10 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::SameLine();
 			if (ImGui::Button("Remove Material"))
 			{
+				asMeshRenderer->GetBatch()->DeleteMaterial(asMeshRenderer);
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
+				updateMaterials = true;
 				return;
 			}
 
@@ -200,8 +210,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetOcclusion(nullptr);
 				//materialResource->SetSpecular(nullptr);
 				materialResource->SetMetallicMap(nullptr);
-
 				materialResource->SetChanged(true);
+				updateMaterials = true;
 			}
 
 			//bool hasShininessAlpha = materialResource->HasShininessAlpha();
@@ -223,6 +233,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					diffuseTexture->Unload();
 					diffuseTexture = nullptr;
+					updateMaterials = true;
 				}
 			}
 			else
@@ -242,6 +253,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					metalicMap->Unload();
 					metalicMap = nullptr;
+					updateMaterials = true;
 				}
 			}
 			else
@@ -292,6 +304,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					normalMap->Unload();
 					normalMap = nullptr;
+					updateMaterials = true;
 				}
 			}
 			else

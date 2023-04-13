@@ -8,6 +8,7 @@ class WindowMeshInput;
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceTexture;
+class ResourceMaterial;
 
 class WindowComponentMeshRenderer : public ComponentWindow
 {
@@ -15,9 +16,13 @@ public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
 
+	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
 	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
+
+	bool updateMaterials = false;
+	bool newMaterial = false;
 
 protected:
 	void DrawWindowContents() override;
@@ -32,13 +37,13 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	//std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
-	bool updateMaterials = false;
 
 	void InitMaterialValues();
 	void ResetValue();
 
 	float3 colorDiffuse;
 	float3 oldColorDiffuse;
+	std::shared_ptr<ResourceMaterial> material;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> metalicMap;
 	std::shared_ptr<ResourceTexture> normalMap;
@@ -49,9 +54,15 @@ private:
 	int currentTransparentIndex;
 	static const std::vector<std::string> renderModes;
 
-	bool reset = false;
+	ComponentMeshRenderer* oldComponent;
 
+	bool reset = false;
 };
+
+inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
+{
+	this->material = material;
+}
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
 {
