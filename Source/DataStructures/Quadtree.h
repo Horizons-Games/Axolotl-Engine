@@ -60,6 +60,8 @@ public:
 
 	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
 
+	void RecalculateQuadtree();
+
 private:
 	std::set<GameObject*> gameObjects;
 	AABB boundingBox;

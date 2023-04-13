@@ -473,3 +473,30 @@ void Quadtree::LoadOptions(Json& meta) {
 	AABB boundingBox = AABB(float3(minPointX, minPointY, minPointZ), float3(maxPointX, maxPointY, maxPointZ));
 	SetBoundingBox(boundingBox);
 }
+
+/*
+Recalculate Quadtree
+Info: the Quadtree in which this function is called get all objects 
+from his structure, delete it childrens and redone the structure
+*/
+void Quadtree::RecalculateQuadtree()
+{
+	std::set<GameObject*> familyGameObjects;
+	this->GetFamilyObjects(familyGameObjects);
+	this->ResetChildren();
+	if (familyGameObjects.size() < quadrantCapacity || boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
+	{
+		gameObjects = familyGameObjects;
+	}
+	else
+	{
+		this->Subdivide();
+		for (GameObject* obj: familyGameObjects)
+		{
+			frontRightNode->Add(obj);
+			frontLeftNode->Add(obj);
+			backRightNode->Add(obj);
+			backLeftNode->Add(obj);
+		}
+	}
+}
