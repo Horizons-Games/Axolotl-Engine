@@ -240,6 +240,62 @@ void CameraEngine::Zoom()
 	SetPosition(position);
 }
 
+//void CameraEngine::Focus(const OBB& obb)
+//{
+//	Sphere boundingSphere = obb.MinimalEnclosingSphere();
+//
+//	float radius = boundingSphere.r;
+//	if (boundingSphere.r < 1.f) radius = 1.f;
+//	float fov = frustum->HorizontalFov();
+//	float camDistance = radius / float(sin(fov / 2.0));
+//	vec camDirection = (boundingSphere.pos - currentFocusPos).Normalized();
+//
+//	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
+//
+//	if (currentFocusPos.Equals(endposition) && currentFocusDir.Equals(camDirection))
+//	{
+//		interpolationTime = 0.0f;
+//		isFocusing = false;
+//	}
+//	else 
+//	{
+//		interpolationTime += App->GetDeltaTime();
+//
+//		float currentTimeRelation = interpolationTime / interpolationDuration;
+//
+//		if (currentTimeRelation >= 1.0f)
+//		{
+//			SetLookAt(boundingSphere.pos, 1.0f);
+//			SetPosition(endposition);
+//
+//			currentFocusPos = endposition;
+//			currentFocusDir = camDirection;
+//			
+//			interpolationTime = 0.0f;
+//			isFocusing = false;
+//		}
+//		else 
+//		{
+//			if (currentFocusPos.Equals(endposition))
+//			{
+//				SetLookAt(boundingSphere.pos, currentTimeRelation);
+//			}
+//			else if (currentFocusDir.Equals(camDirection))
+//			{
+//				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
+//				SetPosition(nextPos);
+//			}
+//			else
+//			{
+//				SetLookAt(boundingSphere.pos, currentTimeRelation);
+//				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
+//				SetPosition(nextPos);
+//			}
+//		}
+//		
+//	}
+//	
+//}
 void CameraEngine::Focus(const OBB& obb)
 {
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
@@ -252,50 +308,43 @@ void CameraEngine::Focus(const OBB& obb)
 
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
 
-	if (currentFocusPos.Equals(endposition) && currentFocusDir.Equals(camDirection))
+	float deltaTime = App->GetDeltaTime();
+	float positionK = 5.0f; 
+	float rotationK = 5.0f; 
+
+	float3 positionError = endposition - GetPosition();
+	float3 newPosition = GetPosition() + positionError * positionK * deltaTime;
+	SetPosition(newPosition);
+
+	float3 targetDirection = (boundingSphere.pos - newPosition).Normalized();
+	Quat targetRotation = Quat::LookAt(frustum->Front(), targetDirection, frustum->Up(), float3::unitY);
+	Quat currentRotation = Quat::LookAt(frustum->Front(), currentFocusDir, frustum->Up(), float3::unitY);
+
+	Quat rotationError = targetRotation * currentRotation.Inverted();
+	float3 rotationAxis;
+	float rotationAngle;
+	rotationError.ToAxisAngle(rotationAxis, rotationAngle);
+
+	float3 angularVelocity = rotationAxis * rotationAngle * rotationK;
+	Quat deltaRotation = Quat::RotateAxisAngle(angularVelocity.Normalized(), angularVelocity.Length() * deltaTime);
+
+	Quat newRotation = deltaRotation * currentRotation;
+	float3x3 rotationMatrix = float3x3::FromQuat(newRotation);
+	ApplyRotation(rotationMatrix);
+
+	if (positionError.Length() < 0.01f && rotationError.Length() < 0.01f) 
 	{
-		interpolationTime = 0.0f;
+		currentFocusPos = endposition;
+		currentFocusDir = targetDirection;
 		isFocusing = false;
 	}
-	else 
+	else
 	{
-		interpolationTime += App->GetDeltaTime();
-
-		float currentTimeRelation = interpolationTime / interpolationDuration;
-
-		if (currentTimeRelation >= 1.0f)
-		{
-			SetLookAt(boundingSphere.pos, 1.0f);
-			SetPosition(endposition);
-
-			currentFocusPos = endposition;
-			currentFocusDir = camDirection;
-			
-			interpolationTime = 0.0f;
-			isFocusing = false;
-		}
-		else 
-		{
-			if (currentFocusPos.Equals(endposition))
-			{
-				SetLookAt(boundingSphere.pos, currentTimeRelation);
-			}
-			else if (currentFocusDir.Equals(camDirection))
-			{
-				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
-				SetPosition(nextPos);
-			}
-			else
-			{
-				SetLookAt(boundingSphere.pos, currentTimeRelation);
-				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
-				SetPosition(nextPos);
-			}
-		}
-		
+		isFocusing = true;
 	}
-	
 }
+
+
 
 void CameraEngine::Focus(GameObject* gameObject)
 {
