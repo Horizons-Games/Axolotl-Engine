@@ -308,39 +308,53 @@ void CameraEngine::Focus(const OBB& obb)
 
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
 
+	Quat targetRotation = Quat::LookAt(frustum->Front(), camDirection, frustum->Up(), float3::unitY);
+	Quat currentRotation = frustum->WorldMatrix().RotatePart().ToQuat();
+
 	float deltaTime = App->GetDeltaTime();
-	float positionK = 5.0f; 
-	float rotationK = 5.0f; 
 
-	float3 positionError = endposition - GetPosition();
-	float3 newPosition = GetPosition() + positionError * positionK * deltaTime;
-	SetPosition(newPosition);
+	//Pos and Rot error distances
+	float3 positionError = endposition - position;
+	Quat rotationError = currentRotation.Inverted() * targetRotation;
 
-	float3 targetDirection = (boundingSphere.pos - newPosition).Normalized();
-	Quat targetRotation = Quat::LookAt(frustum->Front(), targetDirection, frustum->Up(), float3::unitY);
-	Quat currentRotation = Quat::LookAt(frustum->Front(), currentFocusDir, frustum->Up(), float3::unitY);
+	float positionErrorMagnitude = positionError.Length();
+	float rotationErrorMagnitude = rotationError.Length();
 
-	Quat rotationError = targetRotation * currentRotation.Inverted();
-	float3 rotationAxis;
-	float rotationAngle;
-	rotationError.ToAxisAngle(rotationAxis, rotationAngle);
+	//Threshold target achieved
+	float positionThreshold = 0.01f;
+	float rotationThreshold = 0.01f;
 
-	float3 angularVelocity = rotationAxis * rotationAngle * rotationK;
-	Quat deltaRotation = Quat::RotateAxisAngle(angularVelocity.Normalized(), angularVelocity.Length() * deltaTime);
-
-	Quat newRotation = deltaRotation * currentRotation;
-	float3x3 rotationMatrix = float3x3::FromQuat(newRotation);
-	ApplyRotation(rotationMatrix);
-
-	if (positionError.Length() < 0.01f && rotationError.Length() < 0.01f) 
+	if (positionErrorMagnitude < positionThreshold && rotationErrorMagnitude < rotationThreshold)
 	{
 		currentFocusPos = endposition;
-		currentFocusDir = targetDirection;
+		currentFocusDir = camDirection;
 		isFocusing = false;
 	}
 	else
 	{
-		isFocusing = true;
+		
+		if (isFocusing)
+		{
+			float KpPosition = 10.0f;
+			float KpRotation = 10.0f;
+
+			//Position proportional
+			float3 velocityPosition = positionError * KpPosition;
+			float3 nextPos = position + velocityPosition * deltaTime;
+			SetPosition(nextPos);
+
+			//Rotation proportional
+			float3 axis;
+			float angle;
+			rotationError.ToAxisAngle(axis, angle);
+			float3 velocityRotation = axis * angle * KpRotation;
+			Quat angularVelocityQuat(0, velocityRotation.x, velocityRotation.y, velocityRotation.z);
+			Quat deltaRotation = currentRotation.Mul(angularVelocityQuat).Mul(currentRotation.Inverted()).Mul(Quat(0.5f * deltaTime, 0, 0, 0));
+			Quat nextRotation = currentRotation.Mul(deltaRotation);
+			nextRotation.Normalize();
+			float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
+			ApplyRotation(rotationMatrix);
+		}
 	}
 }
 
