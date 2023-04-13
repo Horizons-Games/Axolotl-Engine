@@ -246,7 +246,7 @@ GameObject* Scene::CreateLightGameObject(const char* name, GameObject* parent, L
 GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponentAudioSource();
+	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
 
 	return gameObject;
 }

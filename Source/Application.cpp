@@ -27,8 +27,8 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
-	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModuleAudio>(audio = new ModuleAudio()));
+	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 #ifndef ENGINE
 	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
 #endif // !ENGINE

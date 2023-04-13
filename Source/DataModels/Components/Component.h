@@ -158,6 +158,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_MockState";
 	case ComponentType::BOUNDINGBOX2D:
 		return "Component_BoundingBox2D";
+	case ComponentType::AUDIOSOURCE:
+		return "Component_AudioSource";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -229,6 +231,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_MockState")
 	{
 		return ComponentType::MOCKSTATE;
+	}
+
+	if (typeName == "Component_AudioSource")
+	{
+		return ComponentType::AUDIOSOURCE;
 	}
 	
 	return ComponentType::UNKNOWN;

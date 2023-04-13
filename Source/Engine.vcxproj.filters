@@ -302,6 +302,7 @@
     <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -631,6 +632,7 @@
     <ClInclude Include="ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

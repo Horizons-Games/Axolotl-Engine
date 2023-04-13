@@ -1,9 +1,10 @@
 #include "ComponentAudioSource.h"
 #include "ModuleAudio.h"
+#include "DataModels/GameObject/GameObject.h"
 
 
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
-    : Component(ComponentType::PLAYER, active, owner, true)
+    : Component(ComponentType::AUDIOSOURCE, active, owner, true)
 {
     PostEvent();
 }
@@ -42,7 +43,7 @@ void ComponentAudioSource::Disable()
 
 void ComponentAudioSource::PostEvent()
 {
-    AkGameObjectID gameObj = 639345804U;
+    AkGameObjectID gameObj = owner->GetUID();
 
     AK::SoundEngine::RegisterGameObj(gameObj);
 

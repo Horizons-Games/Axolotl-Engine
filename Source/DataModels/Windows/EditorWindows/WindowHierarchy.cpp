@@ -153,7 +153,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }*/
                 ImGui::EndMenu();
             }
-            //Create Light ShortCut
+            
             if (ImGui::BeginMenu("Audio"))
             {
                 if (ImGui::MenuItem("Audio Source"))

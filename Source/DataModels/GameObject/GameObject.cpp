@@ -569,6 +569,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
 		default:
 			assert(false && "Wrong component type introduced");
 	}
@@ -615,24 +621,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	return nullptr;
 }
-
-Component* GameObject::CreateComponentAudioSource()
-{
-	std::unique_ptr<Component> newComponent;
-
-	newComponent = std::make_unique<ComponentAudioSource>(true, this);
-		
-
-	if (newComponent)
-	{
-		Component* referenceBeforeMove = newComponent.get();
-		components.push_back(std::move(newComponent));
-		return referenceBeforeMove;
-	}
-
-	return nullptr;
-}
-
 
 
 bool GameObject::RemoveComponent(const Component* component)
