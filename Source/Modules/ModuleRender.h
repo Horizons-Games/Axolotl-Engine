@@ -66,6 +66,9 @@ private:
 	GLuint renderedTexture;
 	GLuint depthStencilRenderbuffer;
 
+	GLuint frameCubemapBuffer;
+	GLuint envCubemap;
+
 	std::string vertexShader;
 	std::string fragmentShader;
 

@@ -103,7 +103,8 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+	depthStencilRenderbuffer(0), frameCubemapBuffer(0), envCubemap(0), 
+	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
 
