@@ -103,7 +103,7 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), frameCubemapBuffer(0), envCubemap(0), 
+	depthStencilRenderbuffer(0), cubemapFBO(0), envCubemap(0), 
 	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
@@ -165,6 +165,8 @@ bool ModuleRender::Init()
 	// Set the list of draw buffers.
 	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+
+	GenerateIrradianceCubemap();
 
 	return true;
 }
@@ -554,6 +556,35 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 		{
 			mesh->DrawHighlight();
 		}
+	}
+}
+
+void ModuleRender::GenerateIrradianceCubemap()
+{
+	const float3 front[6] =	{ float3::unitX, -float3::unitX, float3::unitY,
+								-float3::unitY, float3::unitZ, -float3::unitZ };
+	float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ,
+						-float3::unitZ, -float3::unitY, -float3::unitY };
+	Frustum frustum;
+	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
+	frustum.SetPos(float3::zero);
+	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	
+	glGenFramebuffers(1, &cubemapFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, cubemapFBO);
+
+	glGenTextures(1, &envCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+
+	// TODO: Create and Bind Frame Buffer and Create Irradiance Cubemap
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			envCubemap, 0);
+		frustum.SetFront(front[i]);
+		frustum.SetUp(up[i]);
+		// TODO: Draw Unit Cube using frustum view and projection matrices
 	}
 }
 
