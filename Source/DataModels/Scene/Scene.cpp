@@ -336,9 +336,14 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				ComponentMeshRenderer* meshRenderer = 
 					static_cast<ComponentMeshRenderer*>(component);
 
-				meshRenderer->SetBones(CacheBoneHierarchy(
-					FindRootBone(root.get(), meshRenderer->GetMesh()->GetBones()),
-					meshRenderer->GetMesh()->GetBones()));
+				const std::vector<Bone>& bones = 
+					meshRenderer->GetMesh()->GetBones();
+
+				if (!bones.empty())
+				{
+					meshRenderer->SetBones(CacheBoneHierarchy(
+						FindRootBone(root.get(), bones), bones));
+				}
 			}
 		}
 	}
@@ -384,6 +389,16 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 			}
 		}
 	}
+	else
+	{
+		for (const Bone& bone : bones)
+		{
+			if (node->GetName() == bone.name)
+			{
+				return node;
+			}
+		}
+	}
 
 	GameObject* rootBone = nullptr;
 	
@@ -396,6 +411,8 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 			return rootBone;
 		}
 	}
+
+	return nullptr;
 }
 
 const std::vector<GameObject*>& Scene::CacheBoneHierarchy(
