@@ -547,18 +547,24 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 		if (nodeAnim->mPositionKeys != nullptr)
 		{
-			bytes = sizeof(float3) * nodeAnim->mNumPositionKeys;
-			memcpy(cursor, &(nodeAnim->mPositionKeys[0]), bytes);
+			for (int i = 0; i < nodeAnim->mNumPositionKeys; ++i)
+			{
+				bytes = sizeof(float3);
+				memcpy(cursor, &(nodeAnim->mPositionKeys[i].mValue), bytes);
 
-			cursor += bytes;
+				cursor += bytes;
+			}
 		}
 
 		if (nodeAnim->mRotationKeys != nullptr)
 		{
-			bytes = sizeof(Quat) * nodeAnim->mNumRotationKeys;
-			memcpy(cursor, &(nodeAnim->mRotationKeys[0]), bytes);
+			for (int i = 0; i < nodeAnim->mNumRotationKeys; ++i)
+			{
+				bytes = sizeof(Quat);
+				memcpy(cursor, &(nodeAnim->mRotationKeys[i].mValue), bytes);
 
-			cursor += bytes;
+				cursor += bytes;
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-
 #include "ComponentAnimation.h"
 #include "ComponentTransform.h"
 #include "Globals.h"
@@ -8,6 +7,8 @@
 #include "FileSystem/Json.h"
 
 #include "GameObject/GameObject.h"
+
+#include "debugdraw.h"
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
 	: Component(ComponentType::ANIMATION, active, owner, false) 
@@ -60,6 +61,24 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw()
 {
+	DrawBones(owner);
+}
+
+void ComponentAnimation::DrawBones(GameObject* parent)
+{
+	ComponentTransform* parentTransform = 
+		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+
+	std::vector<GameObject*> children = parent->GetChildren();
+	for (GameObject* child : children)
+	{
+		ComponentTransform* childTransform =
+			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+
+		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue, 5);
+
+		DrawBones(child);
+	}
 }
 
 void ComponentAnimation::SaveOptions(Json& meta)

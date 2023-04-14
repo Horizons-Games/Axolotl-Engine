@@ -20,6 +20,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void DrawBones(GameObject* parent);
+
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 

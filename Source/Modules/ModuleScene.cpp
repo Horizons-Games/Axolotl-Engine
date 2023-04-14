@@ -71,7 +71,7 @@ update_status ModuleScene::Update()
 			ComponentAnimation* animation =
 				static_cast<ComponentAnimation*>(object->GetComponent(ComponentType::ANIMATION));
 
-			//animation->Update();
+			animation->Update();
 		}
 	}
 #endif // DEBUG
