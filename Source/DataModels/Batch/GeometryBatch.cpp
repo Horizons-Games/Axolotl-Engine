@@ -18,7 +18,7 @@
 #endif // !ENGINE
 
 GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), maxSize(0), 
-createBuffers(true), reserveModelSpace(true), flags(0)
+createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", ""))
 {
 	//initialize buffers
 	glGenVertexArrays(1, &vao);
@@ -43,6 +43,7 @@ GeometryBatch::~GeometryBatch()
 	resourcesInfo.clear();
 	resourcesMaterial.clear();
 	instanceData.clear();
+	delete defaultMaterial;
 	CleanUp();
 }
 
@@ -271,12 +272,10 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	{
 #ifdef ENGINE
 		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get());
-		int index;
 		// If element was found
 		if (it != resourcesMaterial.end())
 		{
-			resourcesMaterial.erase(
-				std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+			resourcesMaterial.erase(it);
 		}
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
@@ -324,11 +323,11 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		{
 			if (component->GetMaterial())
 			{
-			CreateInstanceResourceMaterial(component->GetMaterial().get());
+				CreateInstanceResourceMaterial(component->GetMaterial().get());
 			}
 			else
 			{
-			CreateInstanceResourceMaterial(defaultMaterial);
+				CreateInstanceResourceMaterial(defaultMaterial);
 			}
 		}
 		FillMaterial();

@@ -20,7 +20,8 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	//inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
-	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
+	reset(false), newMaterial(false)
 {
 	InitMaterialValues();
 }
@@ -44,8 +45,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		if (newMaterial)
 		{
 			asMeshRenderer->SetMaterial(material);
-			asMeshRenderer->GetBatch()->reserveModelSpace = true;
-			updateMaterials = true;
+			asMeshRenderer->GetBatch()->ReserveModelSpace();
 			newMaterial = false;
 		}
 
@@ -129,12 +129,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 	if (asMeshRenderer)
 	{
+		bool updateMaterials = false;
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
-		if (updateMaterials)
-		{
-		asMeshRenderer->GetBatch()->FillMaterial();
-		updateMaterials = false;
-		}
 
 		if (materialResource)
 		{
@@ -149,7 +145,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->GetBatch()->DeleteMaterial(asMeshRenderer);
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
-				updateMaterials = true;
 				return;
 			}
 
@@ -165,7 +160,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					materialResource->SetDiffuseColor(colorDiffuse);
 					updateMaterials = true;
 				}
-
 			}
 			else
 			{
@@ -198,7 +192,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					removeButtonLabel = "Remove Textures";
 				}
-
 			}
 
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
@@ -239,7 +232,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			else
 			{
 				inputTextureDiffuse->DrawWindowContents();
-
 			}
 
 			ImGui::Separator();
@@ -336,6 +328,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				updateMaterials = true;
 			}
 		}
+
+		if (updateMaterials)
+		{
+			asMeshRenderer->GetBatch()->FillMaterial();
+		}
 	}
 }
 
@@ -383,6 +380,5 @@ void WindowComponentMeshRenderer::ResetValue()
 		}
 	}
 	reset = true;
-	updateMaterials = true;
 	InitMaterialValues();
 }

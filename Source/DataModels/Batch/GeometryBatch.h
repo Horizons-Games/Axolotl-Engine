@@ -50,19 +50,22 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
+	const int GetFlags() const;
+
 	void CreateVAO();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
+	
 	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
 
-	const int GetFlags() const;
+	void FillMaterial();
+
+	void ReserveModelSpace();
 
 	bool CleanUp();
-	void FillMaterial();
-	bool reserveModelSpace;
 
 private:
 
@@ -92,13 +95,13 @@ private:
 	unsigned int materials;
 
 	bool createBuffers;
-
+	bool reserveModelSpace;
 
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
 
-	ResourceMaterial* defaultMaterial = new ResourceMaterial(0, "", "", "");
+	ResourceMaterial* defaultMaterial;
 
 	Program* program;
 
@@ -108,4 +111,9 @@ private:
 inline const int GeometryBatch::GetFlags() const
 {
 	return flags;
+}
+
+inline void GeometryBatch::ReserveModelSpace()
+{
+	reserveModelSpace = true;
 }

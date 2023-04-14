@@ -21,9 +21,6 @@ public:
 	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
 
-	bool updateMaterials = false;
-	bool newMaterial = false;
-
 protected:
 	void DrawWindowContents() override;
 
@@ -56,12 +53,14 @@ private:
 
 	ComponentMeshRenderer* oldComponent;
 
-	bool reset = false;
+	bool reset;
+	bool newMaterial;
 };
 
 inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
 {
 	this->material = material;
+	newMaterial = true;
 }
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
