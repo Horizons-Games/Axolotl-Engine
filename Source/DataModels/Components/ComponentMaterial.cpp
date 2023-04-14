@@ -16,7 +16,7 @@
 #include <GL/glew.h>
 
 #ifdef ENGINE
-#	include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #endif // ENGINE
 #include "DataModels/Program/Program.h"
 

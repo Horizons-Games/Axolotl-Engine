@@ -12,20 +12,20 @@
 #include "Windows/WindowDebug.h"
 #include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
-#	include "Windows/EditorWindows/WindowAssetFolder.h"
-#	include "Windows/EditorWindows/WindowConfiguration.h"
-#	include "Windows/EditorWindows/WindowConsole.h"
-#	include "Windows/EditorWindows/WindowEditorControl.h"
-#	include "Windows/EditorWindows/WindowHierarchy.h"
-#	include "Windows/EditorWindows/WindowInspector.h"
-#	include "Windows/EditorWindows/WindowResources.h"
-#	include "Windows/EditorWindows/WindowScene.h"
+	#include "Windows/EditorWindows/WindowAssetFolder.h"
+	#include "Windows/EditorWindows/WindowConfiguration.h"
+	#include "Windows/EditorWindows/WindowConsole.h"
+	#include "Windows/EditorWindows/WindowEditorControl.h"
+	#include "Windows/EditorWindows/WindowHierarchy.h"
+	#include "Windows/EditorWindows/WindowInspector.h"
+	#include "Windows/EditorWindows/WindowResources.h"
+	#include "Windows/EditorWindows/WindowScene.h"
 #else
-#	include "Windows/EditorWindows/EditorWindow.h"
+	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
 
 #ifdef DEBUG
-#	include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
 #include <ImGui/ImGuizmo.h>

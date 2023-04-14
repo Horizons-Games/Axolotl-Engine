@@ -102,7 +102,11 @@ std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& origi
 {
 	std::promise<std::shared_ptr<Resource>> p;
 	std::future<std::shared_ptr<Resource>> f = p.get_future();
-	std::thread importThread = std::thread([&]() { p.set_value(ImportResource(originalPath)); });
+	std::thread importThread = std::thread(
+		[&]()
+		{
+			p.set_value(ImportResource(originalPath));
+		});
 	importThread.detach();
 	return f.get();
 }

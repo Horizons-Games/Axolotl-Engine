@@ -180,7 +180,10 @@ inline const std::vector<GameObject*> GameObject::GetChildren() const
 		std::transform(std::begin(children),
 					   std::end(children),
 					   std::back_inserter(rawChildren),
-					   [](const std::unique_ptr<GameObject>& go) { return go.get(); });
+					   [](const std::unique_ptr<GameObject>& go)
+					   {
+						   return go.get();
+					   });
 
 	return rawChildren;
 }
@@ -201,7 +204,10 @@ inline const std::vector<Component*> GameObject::GetComponents() const
 	std::transform(std::begin(components),
 				   std::end(components),
 				   std::back_inserter(rawComponent),
-				   [](const std::unique_ptr<Component>& c) { return c.get(); });
+				   [](const std::unique_ptr<Component>& c)
+				   {
+					   return c.get();
+				   });
 
 	return rawComponent;
 }

@@ -12,7 +12,7 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 #ifndef ENGINE
-#	include "ModulePlayer.h"
+	#include "ModulePlayer.h"
 #endif // !ENGINE
 
 #include "Components/ComponentMaterial.h"
@@ -27,7 +27,7 @@
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
-#	include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
 void __stdcall OurOpenGLErrorFunction(GLenum source,

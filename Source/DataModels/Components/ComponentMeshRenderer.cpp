@@ -20,7 +20,7 @@
 #include "GL/glew.h"
 
 #ifdef ENGINE
-#	include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #endif // ENGINE
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :

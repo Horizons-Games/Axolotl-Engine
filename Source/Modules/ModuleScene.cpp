@@ -16,7 +16,7 @@
 #include "ModulePlayer.h"
 
 #ifdef DEBUG
-#	include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
 ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr)

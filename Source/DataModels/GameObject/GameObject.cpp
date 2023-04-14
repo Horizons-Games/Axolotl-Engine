@@ -23,8 +23,8 @@
 #include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
-#	include "Modules/ModuleEditor.h"
-#	include "Windows/WindowDebug.h"
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
 #endif // ENGINE
 
 #include "Scene/Scene.h"

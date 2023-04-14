@@ -12,7 +12,7 @@
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
 #ifndef ENGINE
-#	include "ModulePlayer.h"
+	#include "ModulePlayer.h"
 #endif // ENGINE
 
 constexpr int FRAMES_BUFFER = 50;

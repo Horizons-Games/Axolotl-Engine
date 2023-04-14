@@ -49,7 +49,7 @@ void ResourceMesh::CreateVBO()
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-							// position			//uv				//normal
+							// position			// uv				// normal
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2 + sizeof(float) * 3);
 	// tangents
 	if (tangents.size() != 0)

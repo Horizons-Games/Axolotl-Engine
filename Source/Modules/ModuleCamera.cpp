@@ -9,7 +9,7 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 #ifndef ENGINE
-#	include "ModulePlayer.h"
+	#include "ModulePlayer.h"
 #endif // !ENGINE
 
 #include "Scene/Scene.h"
@@ -30,7 +30,7 @@
 #include "Math/float3x3.h"
 
 #ifdef ENGINE
-#	include "Camera/CameraEngine.h"
+	#include "Camera/CameraEngine.h"
 #endif // ENGINE
 #include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"

@@ -10,7 +10,7 @@
 #include "imgui_impl_sdl.h"
 
 #ifdef DEBUG
-#	include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
