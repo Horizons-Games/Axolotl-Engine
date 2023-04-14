@@ -109,10 +109,11 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-	rotation = Quat::identity;
+	
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
+	rotation = Quat::identity;
 
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -135,7 +136,7 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 	frustum->SetFront(rotationMatrix.MulDir(oldFront));
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
 
-	this->rotation = rotationMatrix.ToQuat();
+	rotation = rotationMatrix.ToQuat();
 	
 }
 
@@ -206,25 +207,9 @@ void Camera::FreeLook()
 	float3x3 y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
 	float3x3 xy = x * y;
 
-	vec oldUp = frustum->Up().Normalized();
-	vec oldFront = frustum->Front().Normalized();
-
-	float3 newUp = xy.MulDir(oldUp);
-
-	if (newUp.y > 0.f)
-	{
-		frustum->SetUp(xy.MulDir(oldUp));
-		frustum->SetFront(xy.MulDir(oldFront));
-	}
-	else
-	{
-		y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), 0);
-		xy = x * y;
-
-		frustum->SetUp(xy.MulDir(oldUp));
-		frustum->SetFront(xy.MulDir(oldFront));
-	}
+	ApplyRotation(xy);
 }
+
 
 bool Camera::IsInside(const AABB& aabb)
 {

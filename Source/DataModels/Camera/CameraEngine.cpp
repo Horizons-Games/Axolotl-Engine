@@ -334,26 +334,18 @@ void CameraEngine::Focus(const OBB& obb)
 		if (!rotationAchieved)
 		{
 			//Rotation proportional
-			float KpRotation = 5.0f;
-			float3 up = frustum->Up().Normalized();
-			float3 desiredUp = float3::unitY;
-			if (abs(1.0f - camDirection.Dot(float3::unitY)) < 0.0001f)
-			{
-				desiredUp = float3::unitZ;
-			}
+			float KpRotation = 15.0f;
 
-			assert(localForward.IsNormalized());
-			assert(camDirection.IsNormalized());
+			
+			Quat targetRotation = Quat::RotateFromTo(localForward, camDirection);
+			targetRotation.Normalize();
 
-			float lerpFactor = KpRotation * deltaTime;
-			float3 lerpedUp = float3::Lerp(up, desiredUp, lerpFactor);
-			Quat targetRotation = Quat::LookAt(localForward, camDirection, up, lerpedUp);
-			//targetRotation.Normalize();
 
-			Quat rotationError = targetRotation * rotation.Normalized().Inverted();
-			//rotationError.Normalize();
+			rotation.Normalize();
+			Quat rotationError = targetRotation * rotation.Inverted();
+			rotationError.Normalize();
 
-			if (rotationError.Equals(Quat::identity, 0.001f)) 
+			if (rotationError.Equals(Quat::identity, 0.05f)) 
 			{
 				isFocusing = false;
 				return;
@@ -361,8 +353,17 @@ void CameraEngine::Focus(const OBB& obb)
 			float3 axis;
 			float angle;
 			rotationError.ToAxisAngle(axis, angle);
+			axis.Normalize();
 
+			float maxRotationSpeed = 1.0f;
 			float3 velocityRotation = axis * angle * KpRotation;
+
+			
+			if (velocityRotation.Length() > maxRotationSpeed)
+			{
+				velocityRotation = velocityRotation.Normalized() * maxRotationSpeed;
+			}
+
 
 			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
 			//angularVelocityQuat.Normalize();
@@ -384,7 +385,8 @@ void CameraEngine::Focus(const OBB& obb)
 			
 			assert(!ContainsNaN(rotationMatrix) && !ContainsInf(rotationMatrix));
 
-			ApplyRotation(rotationMatrix);
+			ApplyRotationWithFixedUp(rotationMatrix, float3::unitY);
+			//rotation = nextRotation;
 		}
 
 	}
