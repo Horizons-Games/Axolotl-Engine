@@ -24,7 +24,7 @@ private:
 	float3 Interpolate(const float3& first, const float3& second, float lambda);
 	Quat Interpolate(const Quat& first, const Quat& second, float lambda);
 
-	unsigned int currentTime;
+	float currentTime;
 	bool loop;
 	bool play;
 	std::shared_ptr<ResourceAnimation> resource;

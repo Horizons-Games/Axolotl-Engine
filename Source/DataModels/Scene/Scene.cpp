@@ -258,10 +258,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
 	std::vector<std::shared_ptr<ResourceAnimation>> animations = resourceModel->GetAnimations();
-	//resourceModel->Load();
-
-	std::shared_ptr<ResourceAnimation> firstAnim = animations[0];
-
 	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
@@ -302,8 +298,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		transformNode->SetRotation(rot);
 		transformNode->SetScale(scale);
 
-		transformNode->UpdateTransformMatrices();
-
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 		
 		for (std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>> meshRenderer :
@@ -332,6 +326,8 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 					->CreateComponent(ComponentType::MESHRENDERER));
 			meshRenderer->SetMesh(mesh);
 		}
+
+		static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 	}
 }
 

@@ -348,6 +348,15 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 	}
 	ENGINE_LOG("Node parentIdx: %i", parentIdx);
 
+	float3 pos;
+	float4x4 rot; 
+	float3 scale;
+
+	transform.Decompose(pos, rot, scale);
+
+	ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)", 
+		pos.x, pos.y, pos.z, RadToDeg(rot.ToEulerXYZ().x), RadToDeg(rot.ToEulerXYZ().y), RadToDeg(rot.ToEulerXYZ().z), scale.x, scale.y, scale.z);
+
 	// loading meshes and materials
 	for (int i = 0; i < node->mNumMeshes; ++i)
 	{

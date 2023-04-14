@@ -1,6 +1,7 @@
 
 #include "ComponentAnimation.h"
 #include "ComponentTransform.h"
+#include "Globals.h"
 
 #include "Animation/AnimationController.h"
 
@@ -38,7 +39,9 @@ void ComponentAnimation::Update()
 
 	if (animations.size() > 0)
 	{
-		for (GameObject* child : owner->GetChildren())
+		std::list<GameObject*> children = owner->GetGameObjectsInside();
+
+		for (auto child : children)
 		{
 			float3 pos;
 			Quat rot;
@@ -51,6 +54,7 @@ void ComponentAnimation::Update()
 				transform->SetRotation(float4x4(rot));
 			}
 		}
+		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 	}
 }
 
