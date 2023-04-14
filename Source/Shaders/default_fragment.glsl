@@ -206,7 +206,7 @@ void main()
     if (material.has_diffuse_map == 1) {
         textureMat = texture(diffuse_map, TexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection);
+    textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
     
     textureMat.a = material.diffuse_color.a; //Transparency
     
@@ -257,7 +257,7 @@ void main()
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2));
+    color = pow(color, vec3(1.0/gammaCorrection));
    
     outColor = vec4(color, textureMat.a);
 }
