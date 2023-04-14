@@ -5,13 +5,17 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
+
 #include "GameObject/GameObject.h"
+
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 
 #include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
+
+#include "Math/float2.h"
 
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
