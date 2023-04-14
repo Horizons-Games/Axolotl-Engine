@@ -15,7 +15,7 @@ public:
 
 	bool fromBuffer(char*& buffer);
 	void toBuffer(rapidjson::StringBuffer& buffer);
-	void getVectorNames(std::vector<const char*> &vec);
+	std::vector<const char*> GetVectorNames();
 
 	template<typename T> Json operator[](const T* key) const;
 	Json operator[](const unsigned index) const;

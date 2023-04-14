@@ -10,11 +10,9 @@ bool WindowMainMenu::defaultEnabled = true;
 WindowMainMenu::WindowMainMenu(Json &json ) :
 	Window("Main Menu"), showAbout(false)
 {		
-	about = std::make_unique<WindowAbout>();
-	std::vector<const char*> names;			
-	json.getVectorNames(names);
+	about = std::make_unique<WindowAbout>();	
 	
-	for (const char* name:names)
+	for (const char* name: json.GetVectorNames())
 	{
 		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
 		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
