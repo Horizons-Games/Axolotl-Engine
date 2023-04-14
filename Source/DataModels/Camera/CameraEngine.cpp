@@ -307,105 +307,81 @@ void CameraEngine::Focus(const OBB& obb)
 
 	float3 camDirection = (boundingSphere.pos - position).Normalized();
 	float3 localForward = frustum->Front().Normalized();
+
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
+	Quat targetRotation = Quat::RotateFromTo(localForward, camDirection);
+	targetRotation.Normalize();
+	
+	bool positionAchieved = false;
+	bool rotationAchieved = false;
+	
+	
+	float deltaTime = App->GetDeltaTime();
 
-	//bool rotationAchieved = localForward.Cross(camDirection).Length() <= 0.01;
-	bool rotationAchieved = localForward.Cross(camDirection).Equals(float3::zero);
-	bool positionAchieved = endposition.Equals(position);
-	if ((rotationAchieved && positionAchieved))
+	if (!positionAchieved)
 	{
-		isFocusing = false;
-	}
-	else
-	{
-		float deltaTime = App->GetDeltaTime();
-
-		if (!positionAchieved)
+		//Position proportional
+		float3 positionError = endposition - position;
+		if (positionError.Equals(float3::zero, 0.05f)) 
 		{
-			//Position proportional
-			float3 positionError = endposition - position;
+			positionAchieved = true;
+		}
+		else 
+		{
 			float KpPosition = 5.0f;
 			float3 velocityPosition = positionError * KpPosition;
 			float3 nextPos = position + velocityPosition * deltaTime;
 			SetPosition(nextPos);
 		}
+		
+	}
 
 
-		if (!rotationAchieved)
+	if (!rotationAchieved)
+	{
+		//Rotation proportional
+		Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+		rotationError.Normalize();
+
+		if (rotationError.Equals(Quat::identity, 0.05f)) 
 		{
-			//Rotation proportional
-			float KpRotation = 15.0f;
-
-			
-			Quat targetRotation = Quat::RotateFromTo(localForward, camDirection);
-			targetRotation.Normalize();
-
-
-			rotation.Normalize();
-			Quat rotationError = targetRotation * rotation.Inverted();
-			rotationError.Normalize();
-
-			if (rotationError.Equals(Quat::identity, 0.05f)) 
-			{
-				isFocusing = false;
-				return;
-			}
+			rotationAchieved = true;
+		}
+		else 
+		{
+			float KpRotation = 0.05f;
 			float3 axis;
 			float angle;
 			rotationError.ToAxisAngle(axis, angle);
 			axis.Normalize();
 
-			float maxRotationSpeed = 1.0f;
 			float3 velocityRotation = axis * angle * KpRotation;
-
-			
-			if (velocityRotation.Length() > maxRotationSpeed)
-			{
-				velocityRotation = velocityRotation.Normalized() * maxRotationSpeed;
-			}
-
-
 			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-			//angularVelocityQuat.Normalize();
-
 			Quat wq_0 = angularVelocityQuat * rotation;
-			//wq_0.Normalize();
+
 
 			float deltaValue = 0.5f * deltaTime;
 			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-			//deltaRotation.Normalize();
 
 			Quat nextRotation(rotation.x + deltaRotation.x,
 				rotation.y + deltaRotation.y,
 				rotation.z + deltaRotation.z,
 				rotation.w + deltaRotation.w);
 			nextRotation.Normalize();
-			
+
 			float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-			
-			assert(!ContainsNaN(rotationMatrix) && !ContainsInf(rotationMatrix));
 
 			ApplyRotationWithFixedUp(rotationMatrix, float3::unitY);
-			//rotation = nextRotation;
 		}
-
+		
 	}
+
+	if (positionAchieved && rotationAchieved) 
+	{
+		isFocusing = false;
+	}
+
 }
-
-/*float3 eulerAngles = targetRotation.ToEulerXYZ();
-			float maxRoll = DegToRad(5.0f);
-			eulerAngles.z = Clamp(eulerAngles.z, -maxRoll, maxRoll);
-			targetRotation = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);*/
-
-/*Quat targetRotation;
-			float3 cross = localForward.Cross(camDirection);
-			targetRotation.x = cross.x;
-			targetRotation.y = cross.y;
-			targetRotation.z = cross.z;
-			targetRotation.w = math::Sqrt(pow(localForward.Length(),2) * (pow(camDirection.Length(), 2))) + localForward.Dot(camDirection);
-			targetRotation.Normalize();*/
-
-
 void CameraEngine::Focus(GameObject* gameObject)
 {
 	Component* transform = gameObject->GetComponent(ComponentType::TRANSFORM);
