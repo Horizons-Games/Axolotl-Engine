@@ -80,7 +80,7 @@ bool ModuleEditor::Init()
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
-
+	delete buffer;
 	return true;
 }
 
@@ -192,7 +192,6 @@ bool ModuleEditor::IsSceneFocused() const
 
 char* ModuleEditor::StateWindows()
 {
-	std::string settingsFolder = "Settings/";
 	char* binaryBuffer = {};
 	if (App->fileSystem->Exists(settingsFolder.c_str()))
 	{		
