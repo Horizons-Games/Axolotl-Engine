@@ -36,10 +36,8 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 
 	void InitMaterialValues();
-	void ResetValue();
 
 	float3 colorDiffuse;
-	float3 oldColorDiffuse;
 	std::shared_ptr<ResourceMaterial> material;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> metalicMap;
