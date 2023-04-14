@@ -371,15 +371,19 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 
 		for (GameObject* child : node->GetChildren())
 		{
+			isNode = false;
+			isParentNode = false;
+
 			for (const Bone& bone : bones)
 			{
-				if (child->GetName() == bone.name)
-				{
-					isNode = true;
-				}
-				else if (child->GetParent()->GetName() == bone.name)
+				if (child->GetParent()->GetName() == bone.name)
 				{
 					isParentNode = true;
+					break;
+				}
+				else if (child->GetName() == bone.name)
+				{
+					isNode = true;
 				}
 			}
 
