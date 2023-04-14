@@ -21,7 +21,7 @@
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
-GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), maxSize(0), 
+GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
 createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", ""))
 {
 	//initialize buffers
