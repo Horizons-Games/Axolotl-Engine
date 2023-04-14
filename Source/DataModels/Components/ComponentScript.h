@@ -5,7 +5,6 @@
 
 #include <vector>
 #include <variant>
-#include <any>
 
 #define REGISTER_FIELD(Name, Type, TypeEnum) \
 	Field<Type> field( \
