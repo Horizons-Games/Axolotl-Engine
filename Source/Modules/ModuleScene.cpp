@@ -362,9 +362,9 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
 	AddGameObject(object);
 
-	for (GameObject* children : object->GetChildren())
+	for (GameObject* child : object->GetChildren())
 	{
-		AddGameObjectAndChildren(children);
+		AddGameObjectAndChildren(child);
 	}
 
 }
@@ -373,9 +373,9 @@ void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 {
 	RemoveGameObject(object);
 
-	for (GameObject* children : object->GetChildren())
+	for (GameObject* child : object->GetChildren())
 	{
-		RemoveGameObjectAndChildren(children);
+		RemoveGameObjectAndChildren(child);
 	}
 }
 
