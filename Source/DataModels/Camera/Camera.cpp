@@ -60,6 +60,7 @@ Camera::Camera(Camera& camera)
 Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	: type(type),
 	position(camera->position),
+	rotation(camera->rotation),
 	projectionMatrix(camera->projectionMatrix),
 	viewMatrix(camera->viewMatrix),
 	aspectRatio(camera->aspectRatio),
@@ -108,7 +109,7 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-
+	rotation = Quat::identity;
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
@@ -135,6 +136,7 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
 
 	this->rotation = rotationMatrix.ToQuat();
+	
 }
 
 void Camera::SetRotation(const Quat& rotation)
