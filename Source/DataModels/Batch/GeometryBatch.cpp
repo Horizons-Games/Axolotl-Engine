@@ -270,8 +270,14 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMaterial)
 	{
 #ifdef ENGINE
-		resourcesMaterial.erase(
-			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get());
+		int index;
+		// If element was found
+		if (it != resourcesMaterial.end())
+		{
+			resourcesMaterial.erase(
+				std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+		}
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	reserveModelSpace = true;

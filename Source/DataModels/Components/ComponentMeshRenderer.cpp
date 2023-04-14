@@ -46,11 +46,11 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		batch->DeleteComponent(this);
 		mesh->Unload();
 	}
-	//if (material)
-	//{
-	//	batch->DeleteComponent(this);
-	//	material->Unload();
-	//}
+	if (material)
+	{
+		//batch->DeleteComponent(this);
+		material->Unload();
+	}
 }
 
 void ComponentMeshRenderer::Update()
