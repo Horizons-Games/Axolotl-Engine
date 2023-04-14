@@ -1,6 +1,7 @@
 #include "WindowFileBrowser.h"
 
 #include "Application.h"
+#include "Auxiliar/Utils/ConvertU8String.h"
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -9,54 +10,63 @@
 
 WindowFileBrowser::WindowFileBrowser() :
 	EditorWindow("File Browser"),
-	title(ICON_IGFD_FOLDER " Import Asset"),
+	title(ConvertU8String(ICON_IGFD_FOLDER) + " Import Asset"),
 	dialogName("Choose File"),
 	filters(".*"),
 	startPath("."),
 	browserPath(fileDialogBrowser.GetCurrentPath() + "Assets")
 {
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
-	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
-	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".h", ImVec4(0.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
-	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".hpp", ImVec4(0.0f, 0.0f, 1.0f, 0.9f), ICON_IGFD_FILE);
+	fileDialogBrowser.SetFileStyle(
+		IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
+	fileDialogBrowser.SetFileStyle(
+		IGFD_FileStyleByExtention, ".h", ImVec4(0.0f, 1.0f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
+	fileDialogBrowser.SetFileStyle(
+		IGFD_FileStyleByExtention, ".hpp", ImVec4(0.0f, 0.0f, 1.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".md", ImVec4(1.0f, 0.0f, 1.0f, 0.9f));
 	fileDialogBrowser.SetFileStyle(
-		IGFD_FileStyleByExtention, ".png", ImVec4(0.0f, 1.0f, 1.0f, 0.9f), ICON_IGFD_FILE_PIC);
+		IGFD_FileStyleByExtention, ".png", ImVec4(0.0f, 1.0f, 1.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE_PIC));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByExtention, ".gif", ImVec4(0.0f, 1.0f, 0.5f, 0.9f), "[GIF]");
-	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByTypeDir, nullptr, ImVec4(0.5f, 1.0f, 0.9f, 0.9f), ICON_IGFD_FOLDER);
 	fileDialogBrowser.SetFileStyle(
-		IGFD_FileStyleByTypeFile, "CMakeLists.txt", ImVec4(0.1f, 0.5f, 0.5f, 0.9f), ICON_IGFD_ADD);
-	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "doc", ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ICON_IGFD_FILE_PIC);
+		IGFD_FileStyleByTypeDir, nullptr, ImVec4(0.5f, 1.0f, 0.9f, 0.9f), ConvertU8String(ICON_IGFD_FOLDER));
+	fileDialogBrowser.SetFileStyle(
+		IGFD_FileStyleByTypeFile, "CMakeLists.txt", ImVec4(0.1f, 0.5f, 0.5f, 0.9f), ConvertU8String(ICON_IGFD_ADD));
+	fileDialogBrowser.SetFileStyle(
+		IGFD_FileStyleByFullName, "doc", ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE_PIC));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByTypeDir | IGFD_FileStyleByContainedInFullName,
 								   ".git",
 								   ImVec4(0.9f, 0.2f, 0.0f, 0.9f),
-								   ICON_IGFD_BOOKMARK);
+								   ConvertU8String(ICON_IGFD_BOOKMARK));
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByTypeFile | IGFD_FileStyleByContainedInFullName,
 								   ".git",
 								   ImVec4(0.5f, 0.8f, 0.5f, 0.9f),
-								   ICON_IGFD_SAVE);
+								   ConvertU8String(ICON_IGFD_SAVE));
 
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
-	fileDialogImporter.SetFileStyle(IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
-	fileDialogImporter.SetFileStyle(IGFD_FileStyleByExtention, ".h", ImVec4(0.0f, 1.0f, 0.0f, 0.9f), ICON_IGFD_FILE);
-	fileDialogImporter.SetFileStyle(IGFD_FileStyleByExtention, ".hpp", ImVec4(0.0f, 0.0f, 1.0f, 0.9f), ICON_IGFD_FILE);
+	fileDialogImporter.SetFileStyle(
+		IGFD_FileStyleByExtention, ".cpp", ImVec4(1.0f, 1.0f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
+	fileDialogImporter.SetFileStyle(
+		IGFD_FileStyleByExtention, ".h", ImVec4(0.0f, 1.0f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
+	fileDialogImporter.SetFileStyle(
+		IGFD_FileStyleByExtention, ".hpp", ImVec4(0.0f, 0.0f, 1.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE));
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByExtention, ".md", ImVec4(1.0f, 0.0f, 1.0f, 0.9f));
 	fileDialogImporter.SetFileStyle(
-		IGFD_FileStyleByExtention, ".png", ImVec4(0.0f, 1.0f, 1.0f, 0.9f), ICON_IGFD_FILE_PIC);
+		IGFD_FileStyleByExtention, ".png", ImVec4(0.0f, 1.0f, 1.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE_PIC));
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByExtention, ".gif", ImVec4(0.0f, 1.0f, 0.5f, 0.9f), "[GIF]");
-	fileDialogImporter.SetFileStyle(IGFD_FileStyleByTypeDir, nullptr, ImVec4(0.5f, 1.0f, 0.9f, 0.9f), ICON_IGFD_FOLDER);
 	fileDialogImporter.SetFileStyle(
-		IGFD_FileStyleByTypeFile, "CMakeLists.txt", ImVec4(0.1f, 0.5f, 0.5f, 0.9f), ICON_IGFD_ADD);
+		IGFD_FileStyleByTypeDir, nullptr, ImVec4(0.5f, 1.0f, 0.9f, 0.9f), ConvertU8String(ICON_IGFD_FOLDER));
 	fileDialogImporter.SetFileStyle(
-		IGFD_FileStyleByFullName, "doc", ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ICON_IGFD_FILE_PIC);
+		IGFD_FileStyleByTypeFile, "CMakeLists.txt", ImVec4(0.1f, 0.5f, 0.5f, 0.9f), ConvertU8String(ICON_IGFD_ADD));
+	fileDialogImporter.SetFileStyle(
+		IGFD_FileStyleByFullName, "doc", ImVec4(0.9f, 0.2f, 0.0f, 0.9f), ConvertU8String(ICON_IGFD_FILE_PIC));
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByTypeDir | IGFD_FileStyleByContainedInFullName,
 									".git",
 									ImVec4(0.9f, 0.2f, 0.0f, 0.9f),
-									ICON_IGFD_BOOKMARK);
+									ConvertU8String(ICON_IGFD_BOOKMARK));
 	fileDialogImporter.SetFileStyle(IGFD_FileStyleByTypeFile | IGFD_FileStyleByContainedInFullName,
 									".git",
 									ImVec4(0.5f, 0.8f, 0.5f, 0.9f),
-									ICON_IGFD_SAVE);
+									ConvertU8String(ICON_IGFD_SAVE));
 }
 
 WindowFileBrowser::~WindowFileBrowser()
@@ -111,7 +121,7 @@ void WindowFileBrowser::DrawWindowContents()
 		fileDialogImporter.Close();
 	}
 
-	if (title == ICON_IGFD_FOLDER " Import Asset")
+	if (title == ConvertU8String(ICON_IGFD_FOLDER) + " Import Asset")
 	{
 		Browser();
 	}

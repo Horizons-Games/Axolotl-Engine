@@ -1,13 +1,14 @@
 #include "WindowSaveScene.h"
 
 #include "Application.h"
+#include "Auxiliar/Utils/ConvertU8String.h"
 #include "ModuleScene.h"
 
 WindowSaveScene::WindowSaveScene() : WindowFileBrowser()
 {
 	isSave = true;
 	dialogName = " Save As...";
-	title = ICON_IGFD_SAVE " Save As...";
+	title = ConvertU8String(ICON_IGFD_SAVE) + " Save As...";
 	filters = SCENE_EXTENSION;
 	startPath = "Assets/Scenes";
 }
