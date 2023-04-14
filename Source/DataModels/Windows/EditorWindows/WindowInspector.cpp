@@ -72,10 +72,10 @@ void WindowInspector::InspectSelectedGameObject()
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
+			tag.resize(24);
 			if (ImGui::InputText("##Tag", &tag[0], 24))
 			{
-				//removing c_str makes it so the setter only works when tag.size >= 17. God knows why
-				lastSelectedGameObject->SetTag(tag.c_str());
+				lastSelectedGameObject->SetTag(tag);
 			}
 		}
 
