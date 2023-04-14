@@ -419,12 +419,16 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 	return nullptr;
 }
 
-const std::vector<GameObject*>& Scene::CacheBoneHierarchy(
+const std::vector<GameObject*> Scene::CacheBoneHierarchy(
 	GameObject* gameObjectNode,
 	const std::vector<Bone>& bones)
 {
 	std::vector<GameObject*> boneHierarchy;
-	boneHierarchy.push_back(gameObjectNode);
+
+	if (gameObjectNode->GetName().find("$AssimpFbx$") == std::string::npos)
+	{
+		boneHierarchy.push_back(gameObjectNode);
+	}
 
 	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
 
@@ -432,11 +436,21 @@ const std::vector<GameObject*>& Scene::CacheBoneHierarchy(
 	{
 		for (const Bone& bone : bones)
 		{
-			if (child->GetName() == bone.name)
+			const std::string& name = child->GetName();
+
+			if (name == bone.name || 
+				name.find("$AssimpFbx$") != std::string::npos)
 			{
-				const std::vector<GameObject*>& newBoneHierarchy = 
+				const std::vector<GameObject*>& newBoneHierarchy =
 					CacheBoneHierarchy(child, bones);
-				boneHierarchy.insert(boneHierarchy.cend(), newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
+
+				if (!newBoneHierarchy.empty())
+				{
+					boneHierarchy.insert(boneHierarchy.cend(), 
+						newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
+				}
+
+				break;
 			}
 		}
 	}

@@ -86,7 +86,7 @@ public:
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
-	const std::vector<GameObject*>& CacheBoneHierarchy(
+	const std::vector<GameObject*> CacheBoneHierarchy(
 		GameObject* gameObjectNode,
 		const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
