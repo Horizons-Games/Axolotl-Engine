@@ -35,13 +35,6 @@ public:
 	const std::vector<ValidFieldType>& GetFields() const;
 
 private:
-
-	//TODO: Remove, only for demo
-	float GetTest() { return test; }
-	void SetTest(float test) { this->test = test; }
-
-	float test = 0;
-
 	std::vector<ValidFieldType> members;
 };
 
