@@ -2,6 +2,7 @@
 
 #include "Math/float2.h"
 #include "Math/float3.h"
+#include "Resources/ResourceMaterial.h"
 
 #include <vector>
 
@@ -56,11 +57,12 @@ public:
 	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
-	void CreateInstanceResourceMaterial(ResourceMaterial* material);
+
 	const int GetFlags() const;
 
 	bool CleanUp();
 	void FillMaterial();
+	bool reserveModelSpace;
 
 private:
 
@@ -68,7 +70,7 @@ private:
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
-
+	void CreateInstanceResourceMaterial(ResourceMaterial* material);
 
 	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
 
@@ -90,11 +92,13 @@ private:
 	unsigned int materials;
 
 	bool createBuffers;
-	bool reserveModelSpace;
+
 
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
+
+	ResourceMaterial* defaultMaterial = new ResourceMaterial(0, "", "", "");
 
 	Program* program;
 

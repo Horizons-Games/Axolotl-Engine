@@ -286,15 +286,7 @@ void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 {
 	resourcesMaterial.erase(
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
-
-	//Redo instanceData
-	instanceData.clear();
-	instanceData.reserve(componentsInBatch.size());
-	for (ResourceMaterial* component : resourcesMaterial)
-	{
-		CreateInstanceResourceMaterial(component);
-	}
-
+	reserveModelSpace = true;
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
@@ -324,7 +316,14 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		instanceData.reserve(componentsInBatch.size());
 		for (ComponentMeshRenderer* component : componentsInBatch)
 		{
+			if (component->GetMaterial())
+			{
 			CreateInstanceResourceMaterial(component->GetMaterial().get());
+			}
+			else
+			{
+			CreateInstanceResourceMaterial(defaultMaterial);
+			}
 		}
 		FillMaterial();
 		reserveModelSpace = false;
