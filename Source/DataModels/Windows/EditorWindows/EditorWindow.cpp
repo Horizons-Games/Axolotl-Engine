@@ -37,6 +37,5 @@ void EditorWindow::Draw(bool &enabled)
 	if (!enabled)
 	{
 		focused = false;
-	}
-	this->enabled = enabled;
+	}	
 }

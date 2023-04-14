@@ -9,8 +9,7 @@ public:
 
 	virtual void Draw(bool &enabled) = 0;
 
-	const std::string& GetName() const;
-	bool enabled;
+	const std::string& GetName() const;	
 protected:
 	Window(const std::string& name);	
 	std::string name;

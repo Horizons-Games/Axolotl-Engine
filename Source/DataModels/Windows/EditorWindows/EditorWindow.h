@@ -3,7 +3,6 @@
 #include "Windows/Window.h"
 
 #include "imgui.h"
-class Json;
 class EditorWindow : public Window
 {
 public:
@@ -21,10 +20,7 @@ protected:
 	
 
 private:
-	bool focused;
-	void LoadMeta(const std::string name, bool& enable);
-	void UpdateMeta(bool enabled, const std::string name);
-	
+	bool focused;	
 };
 
 inline bool EditorWindow::IsFocused() const

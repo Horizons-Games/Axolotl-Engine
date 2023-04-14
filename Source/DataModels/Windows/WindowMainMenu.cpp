@@ -9,8 +9,7 @@ bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(Json &json ) :
 	Window("Main Menu"), showAbout(false)
-{	
-	enabled = defaultEnabled;
+{		
 	about = std::make_unique<WindowAbout>();
 	std::vector<const char*> names;			
 	json.getVectorNames(names);
@@ -56,9 +55,9 @@ void WindowMainMenu::DrawAbout()
 {
 	if (ImGui::MenuItem("About"))
 	{
-		enabled = !showAbout;
+		showAbout = !showAbout;
 	}		
-	about->Draw(enabled);
+	about->Draw(showAbout);
 }
 
 void WindowMainMenu::DrawGithubLink() const
