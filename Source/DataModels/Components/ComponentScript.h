@@ -7,8 +7,14 @@
 #include <variant>
 #include <any>
 
-#define REGISTER_FIELD(Name, Type) \
-	this->RegisterField(#Name, [this] { return this->Get##name(); }, [this](std::any value) { this->Set##name(value); }), FieldType::##Type)
+#define REGISTER_FIELD(Name, Type, TypeEnum) \
+	Field<Type> field( \
+		#Name, \
+		[this] { return this->Get##Name(); }, \
+		[this](const Type& value) { this->Set##Name(value); }, \
+		FieldType::##TypeEnum \
+	); \
+	this->members.push_back(field);
 
 //for now only allow floats
 using ValidFieldType = std::variant<Field<float>>;
@@ -28,10 +34,14 @@ public:
 
 	const std::vector<ValidFieldType>& GetFields() const;
 
-protected:
-	void RegisterField(const std::string& name, const std::function<std::any(void)>& getter, const std::function<void(const std::any&)> setter, FieldType type);
-
 private:
+
+	//TODO: Remove, only for demo
+	float GetTest() { return test; }
+	void SetTest(float test) { this->test = test; }
+
+	float test = 0;
+
 	std::vector<ValidFieldType> members;
 };
 
