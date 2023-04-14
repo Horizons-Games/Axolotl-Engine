@@ -57,6 +57,9 @@ public:
 	Frustum* GetFrustum();
 
 	void ApplyRotation(const float3x3& rotationMatrix);
+	void ApplyRotation(const Quat& rotationQuat);
+	void ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const float3& fixedUp);
+	void ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp);
 	
 	void Run();
 	void Walk();

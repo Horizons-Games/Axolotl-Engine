@@ -49,7 +49,7 @@ bool CameraEngine::Update()
 
 	if (sceneFocused)
 	{
-		//We block everything on while Focus (slerp) to avoid camera problems
+		
 		if (isFocusing)
 		{
 			Focus(App->scene->GetSelectedGameObject());
@@ -369,9 +369,8 @@ void CameraEngine::Focus(const OBB& obb)
 				rotation.w + deltaRotation.w);
 			nextRotation.Normalize();
 
-			float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
+			ApplyRotationWithFixedUp(nextRotation, float3::unitY);
 
-			ApplyRotationWithFixedUp(rotationMatrix, float3::unitY);
 		}
 		
 	}

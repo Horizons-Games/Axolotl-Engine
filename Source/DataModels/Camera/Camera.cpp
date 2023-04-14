@@ -140,6 +140,52 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 	
 }
 
+void Camera::ApplyRotation(const Quat& rotationQuat)
+{
+	Quat currentRotation = rotation;
+
+	Quat newRotation = rotationQuat * currentRotation;
+	newRotation.Normalize();
+
+	float3x3 newRotationMatrix = float3x3::FromQuat(newRotation);
+	frustum->SetFront(newRotationMatrix.MulDir(frustum->Front().Normalized()));
+	frustum->SetUp(newRotationMatrix.MulDir(frustum->Up().Normalized()));
+
+	rotation = newRotation;
+}
+
+void Camera::ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const float3& fixedUp)
+{
+	float3 oldFront = frustum->Front().Normalized();
+
+	float3 newFront = rotationMatrix.MulDir(oldFront);
+	float3 newRight = fixedUp.Cross(newFront).Normalized();
+	float3 newUp = newFront.Cross(newRight);
+
+	frustum->SetFront(newFront);
+	frustum->SetUp(newUp);
+
+	rotation = rotationMatrix.ToQuat();
+}
+
+void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp)
+{
+	/*Quat currentRotation = rotation;
+
+	Quat newRotation = rotationQuat * currentRotation;
+	newRotation.Normalize();*/
+	
+	float3 newFront = rotationQuat.Transform(frustum->Front().Normalized());
+	float3 newRight = fixedUp.Cross(newFront).Normalized();
+	float3 newUp = newFront.Cross(newRight);
+
+	frustum->SetFront(newFront);
+	frustum->SetUp(newUp);
+
+	rotation = rotationQuat;
+}
+
+
 void Camera::SetRotation(const Quat& rotation)
 {
 	vec oldFront = frustum->Front().Normalized();
@@ -203,12 +249,17 @@ void Camera::FreeLook()
 	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 
-	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
-	float3x3 y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
-	float3x3 xy = x * y;
+	
+	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
+	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
 
-	ApplyRotation(xy);
+	
+	Quat combinedRotation = rotationY * rotationX;
+
+	
+	ApplyRotation(combinedRotation);
 }
+
 
 
 bool Camera::IsInside(const AABB& aabb)
