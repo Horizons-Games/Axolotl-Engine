@@ -2,6 +2,8 @@
 #include "Component.h"
 #include "IScript.h"
 
+#include <memory>
+
 class Json;
 class IScript;
 
@@ -9,63 +11,50 @@ class IScript;
 class ComponentScript : public Component
 {
 public:
-
-	ComponentScript();
-
 	ComponentScript(bool active, GameObject* owner);
 
 	~ComponentScript() override;
 
+	virtual void Init() override;
+	virtual void Start();
+	virtual void PreUpdate();
+	virtual void Update() override;
+	virtual void PostUpdate();
+	virtual void CleanUp();
+	
 	void Draw() override {};
-	void Update() override {};
-
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	const char* GetConstructName();
+	std::string GetConstructName();
 
-	void SetConstuctor(const char* constructor);
-	void SetScript(IScript* script);
+	void SetConstuctor(const std::string& constructor);
+	void SetScript(std::unique_ptr<IScript> script);
 	IScript* GetScript();
 
-	bool isInialized();
-	bool isStarted();
-	void Init() override;
 private:
-	bool initialized;
-	bool started;
-	IScript* script;
-	const char* constructName;
+	std::unique_ptr<IScript> script;
+	std::string constructName;
 };
 
 
-inline const char* ComponentScript::GetConstructName() {
+inline std::string ComponentScript::GetConstructName()
+{
 	return constructName;
 }
 
-inline IScript* ComponentScript::GetScript(){
-	return script;
-}
-
-inline void ComponentScript::SetScript(IScript* script) {
-	this->script = script;
-}
-
-inline bool ComponentScript::isInialized() {
-	return initialized;
-}
-
-inline bool ComponentScript::isStarted() {
-	return started;
-}
-
-inline void ComponentScript::Init()
+inline IScript* ComponentScript::GetScript()
 {
-	initialized = true;
-	script->Init();
+	return script.get();
 }
 
-inline void ComponentScript::SetConstuctor(const char* constructor) {
+inline void ComponentScript::SetScript(std::unique_ptr<IScript> script)
+{
+	this->script = std::move(script);
+}
+
+inline void ComponentScript::SetConstuctor(const std::string& constructor)
+{
 	this->constructName = constructor;
 }

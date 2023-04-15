@@ -72,42 +72,28 @@ update_status ModuleScene::Update()
 	//UPDATE ALL THE SCRIPTS
 	std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
 	if (App->GetIsOnPlayMode()){
-		if (!App->scriptFactory->isCompiling()) {
+		if (!App->scriptFactory->IsCompiling()) {
 			//Carregar tots els scripts que ja estan
-			std::vector<GameObject*> gameObjects = loadedScene->GetSceneGameObjects();
-			for (int i = 0; i < gameObjects.size(); ++i) {
-				std::vector<Component*> components = gameObjects[i]->GetComponents();
-				for (int j = 0; j < components.size(); ++j) {
-					ComponentType type = components[j]->GetType();
-					if (type == ComponentType::SCRIPT) {
-						ComponentScript* script = static_cast<ComponentScript*>(components[j]);
-						if (script->isInialized()) {
-							IScript *iscript = script->GetScript();
-							script->GetScript()->Update(App->GetDeltaTime());
-							//if (script->isStarted()) {
-							//}
-							//else script->Start();
-						}
-						else script->Init();
-					}
+			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			{
+				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+				{
+					componentScript->Update();
 				} 
 			}
 			App->scriptFactory->UpdateNotifier();
 		}
-		if (App->scriptFactory->isCompiled()) {
+		if (App->scriptFactory->IsCompiled()) {
 			App->scriptFactory->LoadCompiledModules();
-			std::vector<GameObject*> gameObjects = loadedScene->GetSceneGameObjects();
-			for (int i = 0; i < gameObjects.size(); ++i) {
-				std::vector<Component*> components = gameObjects[i]->GetComponents();
-				for (int j = 0; j < components.size(); ++j) {
-					ComponentType type = components[j]->GetType();
-					if (type == ComponentType::SCRIPT) {
-						ComponentScript* script = static_cast<ComponentScript*>(components[j]);
-						IScript* iscript = App->scriptFactory->GetScript(script->GetConstructName());
-						iscript->SetApplication(App.get());
-						iscript->SetGameObject(gameObjects[i]);
-						script->SetScript(iscript);
-					}
+			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			{
+				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+				{
+					std::unique_ptr<IScript> script =
+						App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
+					script->SetApplication(App.get());
+					script->SetGameObject(gameObject);
+					componentScript->SetScript(std::move(script));
 				}
 			}
 		}
@@ -264,10 +250,10 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 			ComponentType type = components[j]->GetType();
 			if (type == ComponentType::SCRIPT) {
 				ComponentScript* script = static_cast<ComponentScript*>(components[j]);
-				const char* constructor = script->GetConstructName();
-				IScript* iscript = App->scriptFactory->GetScript(constructor);
+				std::string constructor = script->GetConstructName();
+				std::unique_ptr<IScript> iscript = App->scriptFactory->GetScript(constructor.c_str());
 				iscript->SetGameObject(gameObjects[i]);
-				script->SetScript(iscript);
+				script->SetScript(std::move(iscript));
 			}
 		}
 	}

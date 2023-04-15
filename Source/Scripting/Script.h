@@ -16,8 +16,18 @@ RUNTIME_COMPILER_LINKLIBRARY("DirectXTex.lib");
 class Script : public TInterface<IID_IUPDATEABLE, IScript>
 {
 public:
-	virtual void Init() = 0;
-	virtual void Start() = 0;
+	virtual ~Script() override = default;
+
+	virtual void Init() override {};
+	virtual void Start() override {};
+	virtual void PreUpdate(float deltaTime) override {};
+	virtual void Update(float deltaTime) override
+	{
+		ENGINE_LOG("Update");
+	}
+	virtual void PostUpdate(float deltaTime) override {};
+	virtual void CleanUp() override {};
+
 	virtual void SetGameObject(GameObject* owner)
 	{
 		this->owner = owner;
@@ -25,11 +35,6 @@ public:
 	virtual void SetApplication(Application* app)
 	{
 		this->App = app;
-	}
-	virtual void Update(float deltaTime) 
-	{
-		ENGINE_LOG("Update");
-		
 	}
 	void Serialize(ISimpleSerializer* pSerializer) override
 	{

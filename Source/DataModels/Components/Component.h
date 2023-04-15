@@ -155,6 +155,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
+	case ComponentType::SCRIPT:
+		return "Component_Script";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -221,6 +223,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_MockState")
 	{
 		return ComponentType::MOCKSTATE;
+	}
+
+	if (typeName == "Component_Script")
+	{
+		return ComponentType::SCRIPT;
 	}
 	
 	return ComponentType::UNKNOWN;

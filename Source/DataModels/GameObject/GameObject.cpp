@@ -339,7 +339,7 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 	case ComponentType::SCRIPT:
 	{
 
-		newComponent = std::make_unique<ComponentScript>(static_cast<ComponentScript&>(*component));
+		//newComponent = std::make_unique<ComponentScript>(static_cast<ComponentScript&>(*component));
 		break;
 	}
 

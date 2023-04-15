@@ -1,7 +1,7 @@
 #pragma once
 #include "EngineLog.h"
-#include "SystemTable.h"
-#include "Script.h"
+#include "Scripting\Script.h"
+#include "Scripting\SystemTable.h"
 #include "ISimpleSerializer.h"
 
 #include "GameObject/GameObject.h"

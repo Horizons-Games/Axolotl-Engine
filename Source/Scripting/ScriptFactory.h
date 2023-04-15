@@ -1,9 +1,9 @@
 #pragma once
-#ifndef SCRIPTFACTORY_INCLUDED
-#define SCRIPTFACTORY_INCLUDED
-#include "ObjectFactorySystem/ObjectFactorySystem.h"
 
-struct IScript;
+#include "ObjectFactorySystem/ObjectFactorySystem.h"
+#include <memory>
+
+class IScript;
 struct IRuntimeObjectSystem;
 struct SystemTable;
 struct ObjectId;
@@ -20,14 +20,14 @@ public:
 	//IScript* CreateScript(GameObject* owner, const char* path);
 
 	//IScript* GetScript(GameObject* owner, const char* path);
-	IScript* GetScript(const char* name);
+	std::unique_ptr<IScript> GetScript(const char* name);
 	void AddScript(const char* path);
 	void RecompileAll();
 	void UpdateNotifier();
 	void LoadCompiledModules();
 	virtual void OnConstructorsAdded();
-	bool isCompiling();
-	bool isCompiled();
+	bool IsCompiling();
+	bool IsCompiled();
 	std::vector<const char*> GetConstructors();
 private:
 	void IncludeDirs();
@@ -36,9 +36,7 @@ private:
 	//Runtime Systems
 	ICompilerLogger* m_pCompilerLogger;
 	IRuntimeObjectSystem* m_pRuntimeObjectSystem;
-	IScript* m_pScript;
 
 	//Runtime object
 	SystemTable* g_SystemTable;
 };
-#endif // SCRIPTFACTORYY_INCLUDED

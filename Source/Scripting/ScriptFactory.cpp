@@ -3,6 +3,7 @@
 #include "LogSystem.h"
 #include "IObject.h"
 #include "IScript.h"
+#include "Script.h"
 #include "EngineLog.h"
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
@@ -15,7 +16,7 @@
 #undef GetObject
 #endif
 
-ScriptFactory::ScriptFactory() : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0), m_pScript(0)
+ScriptFactory::ScriptFactory() : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0)
 {
 	
 }
@@ -59,26 +60,6 @@ bool ScriptFactory::Init()
 	IncludeDirs();
 
 	return true;
-}
-
-
-IScript* ScriptFactory::GetScript(const char* name) {
-	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
-	ObjectId objectId;
-	if (pCtor)
-	{
-		IObject* pObj = pCtor->Construct();
-		pObj->GetInterface(&m_pScript);
-		if (0 == m_pScript)
-		{
-			delete pObj;
-			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
-			//return false;
-		}
-		//objectId = pObj->GetObjectId();
-		//return objectId;
-	}
-	return m_pScript;
 }
 
 void ScriptFactory::AddScript(const char* path)
@@ -133,11 +114,11 @@ IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
 }
 */
 
-bool ScriptFactory::isCompiling() {
+bool ScriptFactory::IsCompiling() {
 	return m_pRuntimeObjectSystem->GetIsCompiling();
 }
 
-bool ScriptFactory::isCompiled() {
+bool ScriptFactory::IsCompiled() {
 	return m_pRuntimeObjectSystem->GetIsCompiledComplete();
 }
 
@@ -199,6 +180,28 @@ bool ScriptFactory::MainLoop()
 	}
 
 	return true;
+}
+
+std::unique_ptr<IScript> ScriptFactory::GetScript(const char* name)
+{
+	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
+	ObjectId objectId;
+	if (pCtor)
+	{
+		IObject* pObj = pCtor->Construct();
+		IScript* script;
+		pObj->GetInterface(&script);
+		if (script == nullptr)
+		{
+			delete pObj;
+			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
+			//return false;
+		}
+		//objectId = pObj->GetObjectId();
+		//return objectId;
+		return std::unique_ptr<IScript>(script);
+	}
+	return nullptr;
 }
 
 void ScriptFactory::IncludeDirs() {
