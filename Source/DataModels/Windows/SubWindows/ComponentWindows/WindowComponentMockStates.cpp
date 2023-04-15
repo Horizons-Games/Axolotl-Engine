@@ -41,10 +41,10 @@ void WindowComponentMockStates::DrawWindowContents()
 
 		ImGui::Text("Scene name");
 		ImGui::SameLine();
+		sceneName.resize(24);
 		if (ImGui::InputText("##Scene name", &sceneName[0], 24))
 		{
-			//removing c_str makes it so the setter only works when tag.size >= 17. God knows why
-			asMockState->SetSceneName(sceneName.c_str());
+			asMockState->SetSceneName(sceneName);
 		}
 	}
 }
