@@ -2,13 +2,19 @@
 
 #include "Application.h"
 #include "ModuleFileSystem.h"
-#include "Json.h"
 
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
+
+#include "Resources/EditorResource/EditorResource.h"
+#include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceTexture.h"
+
+#include "Auxiliar/CollectionAwareDeleter.h"
 
 #include <future>
 
@@ -25,7 +31,7 @@ ModuleResources::~ModuleResources()
 {
 }
 
-bool ModuleResources::Start()
+bool ModuleResources::Init()
 {
 	monitorResources = true;
 	modelImporter = std::make_unique<ModelImporter>();
@@ -36,21 +42,45 @@ bool ModuleResources::Start()
 
 	CreateAssetAndLibFolders();	
 
-	//remove file separator from library folder
-	LoadResourceStored(libraryFolder.substr(0, libraryFolder.length() - 1).c_str());
-#if !defined(GAME)
+#ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 #endif
 	return true;
 }
 
-UID ModuleResources::ImportResource(const std::string& originalPath)
+bool ModuleResources::CleanUp()
 {
-	ResourceType type = FindTypeByPath(originalPath);
+#ifdef ENGINE
+	monitorResources = false;
+	monitorThread.join();
+#endif
+	resources.clear();
+	return true;
+}
+
+void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
+{
+	std::shared_ptr<Resource> importedRes;
+	std::string assetsPath = CreateAssetsPath(fileName, type);
+	switch(type)
+	{
+	case ResourceType::Material:
+		assetsPath += MATERIAL_EXTENSION;
+		App->fileSystem->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	default:
+		break;
+	}
+}
+
+//Creates Binary and Meta from an Asset original path
+std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& originalPath)
+{
+	ResourceType type = FindTypeByExtension(originalPath);
 	if (type == ResourceType::Unknown)
 	{
 		ENGINE_LOG("Extension not supported");
-		return 0;
 	}
 	std::string fileName = App->fileSystem->GetFileName(originalPath);
 	std::string extension = App->fileSystem->GetFileExtension(originalPath);
@@ -62,22 +92,16 @@ UID ModuleResources::ImportResource(const std::string& originalPath)
 	if (!resourceExists)
 		App->fileSystem->CopyFileInAssets(originalPath, assetsPath);
 
-	UID uid;
-
-	if (!ExistsResourceWithAssetsPath(assetsPath, uid))
-	{
-		std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
-		AddResource(importedRes, originalPath);
-		uid = importedRes->GetUID();
-	}
-	
-	return uid;
+	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
+	CreateMetaFileOfResource(importedRes);
+	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
+	return importedRes;
 }
 
-UID ModuleResources::ImportThread(const std::string& originalPath)
+std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& originalPath)
 {
-	std::promise<UID> p;
-	std::future<UID> f = p.get_future();
+	std::promise<std::shared_ptr<Resource>> p;
+	std::future<std::shared_ptr<Resource>> f = p.get_future();
 	std::thread importThread = std::thread(
 		[&]() 
 		{
@@ -93,7 +117,7 @@ std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& 
 															 ResourceType type)
 {
 	UID uid = UniqueID::GenerateUID();
-	const std::string libraryPath = CreateLibraryPath(fileName, type);
+	const std::string libraryPath = CreateLibraryPath(uid, type);
 	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
 }
 
@@ -103,27 +127,52 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 																const std::string& libraryPath,
 																ResourceType type)
 {
+#ifdef ENGINE
+	std::shared_ptr<EditorResourceInterface> res = nullptr;
 	switch (type)
 	{
 	case ResourceType::Model:
-		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+		res = std::shared_ptr<EditorResource<ResourceModel>>(new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
 	case ResourceType::Texture:
-		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+		res = std::shared_ptr<EditorResource<ResourceTexture>>(new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
 	case ResourceType::Mesh:
-		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+		res = std::shared_ptr<EditorResource<ResourceMesh>>(new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
-	case ResourceType::Scene:
+	case ResourceType::Scene: //TODO
+		return nullptr;
 	case ResourceType::Material:
-		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+		res = std::shared_ptr<EditorResource<ResourceMaterial>>(new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
 	case ResourceType::SkyBox:
-		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+		res = std::shared_ptr<EditorResource<ResourceSkyBox>>(new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
 	default:
 		return nullptr;
 	}
+
+	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
+	return res;
+#else
+	switch (type)
+	{
+	case ResourceType::Model:
+		return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Texture:
+		return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Mesh:
+		return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Scene: //TODO
+		return nullptr;
+	case ResourceType::Material:
+		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::SkyBox:
+		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+	default:
+		return nullptr;
+	}
+#endif // ENGINE
 }
 
 void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath)
@@ -136,22 +185,23 @@ void ModuleResources::AddResource(std::shared_ptr<Resource>& resource, const std
 	resources.insert({ uid, resource });
 }
 
-void ModuleResources::DeleteResource(UID uidToDelete)
+void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete)
 {
-	std::string libPath = resources[uidToDelete]->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
-	std::string metaPath = resources[uidToDelete]->GetLibraryPath() + META_EXTENSION;
+	resToDelete->MarkToDelete();
+
+	std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
 	App->fileSystem->Delete(metaPath.c_str());
 	App->fileSystem->Delete(libPath.c_str());
 
-	std::shared_ptr<Resource> resToDelete = RequestResource(uidToDelete).lock();
 	if (resToDelete)
 	{
 		if (resToDelete->GetType() == ResourceType::Model)
 		{
-			std::shared_ptr<ResourceModel> modelToDelete = std::static_pointer_cast<ResourceModel>(resToDelete);
-			for (UID meshUID : modelToDelete->GetMeshesUIDs())
+			std::shared_ptr<ResourceModel> modelToDelete = std::dynamic_pointer_cast<ResourceModel>(resToDelete);
+			for (const std::shared_ptr<ResourceMesh>& mesh : modelToDelete->GetMeshes())
 			{
-				DeleteResource(meshUID);
+				DeleteResource(std::dynamic_pointer_cast<EditorResourceInterface>(mesh));
 			}
 		}
 		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
@@ -160,10 +210,10 @@ void ModuleResources::DeleteResource(UID uidToDelete)
 		}
 	}
 
-	resources.erase(uidToDelete);
+	resources.erase(resToDelete->GetUID());
 }
 
-void ModuleResources::LoadResourceStored(const char* filePath)
+std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePath, const char* fileNameToStore)
 {
 	std::vector<std::string> files = App->fileSystem->ListFiles(filePath);
 	for (size_t i = 0; i < files.size(); i++)
@@ -173,98 +223,105 @@ void ModuleResources::LoadResourceStored(const char* filePath)
 		const char* file = path.c_str();
 		if (App->fileSystem->IsDirectory(file))
 		{
-			LoadResourceStored(file);
+			std::shared_ptr<Resource> resource = LoadResourceStored(file, fileNameToStore);
+			if (resource) return resource;
 		}
 		else 
 		{
-			if (App->fileSystem->GetFileExtension(path) != ".meta")
+			if (App->fileSystem->GetFileName(file) == fileNameToStore)
 			{
-				ImportResourceFromLibrary(file);
+				std::string fileName = App->fileSystem->GetFileName(file);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(file);
+				std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->fileSystem->GetPathWithoutExtension(file), type);
+
+				ImportResourceFromLibrary(resource);
+
+				return resource;
 			}
+		}
+	}
+
+	return nullptr;
+}
+
+void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resource)
+{
+	std::string libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+
+	if (resource->GetType() != ResourceType::Unknown && App->fileSystem->Exists(libPath.c_str()))
+	{
+		if (resource != nullptr)
+		{
+			char* binaryBuffer = {};
+			App->fileSystem->Load(libPath.c_str(), binaryBuffer);
+
+			switch (resource->GetType())
+			{
+			case ResourceType::Model:
+				modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+				break;
+			case ResourceType::Texture:
+				textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
+				break;
+			case ResourceType::Mesh:
+				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+				break;
+			case ResourceType::Scene:
+				break;
+			case ResourceType::Material:
+				materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
+				break;
+			case ResourceType::SkyBox:
+				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+				break;
+			default:
+				break;
+			}
+			return;
 		}
 	}
 }
 
-void ModuleResources::ImportResourceFromLibrary(const std::string& libraryPath)
+void ModuleResources::ReimportResource(UID resourceUID)
 {
-	std::string libraryPathWithoutExtension = App->fileSystem->GetPathWithoutExtension(libraryPath);
-	std::string metaPath = libraryPathWithoutExtension + META_EXTENSION;
-	
-	if (App->fileSystem->Exists(metaPath.c_str())){
+	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
+	CreateMetaFileOfResource(resource);
+	if (resource->GetType() == ResourceType::Material)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
+		ReImportMaterialAsset(materialResource);
+	}
+	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+}
+
+void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)
+{
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+
+	if (!resource->IsChanged() && App->fileSystem->Exists(metaPath.c_str()))
+	{
 		char* metaBuffer = {};
 		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
-
-		rapidjson::Document doc;
-		Json Json(doc, doc);
-
-		Json.fromBuffer(metaBuffer);
-
-		UID uid = (UID)Json["UID"];
-		ResourceType type = GetTypeOfName(std::string(Json["Type"]));
-
-		if (type != ResourceType::Unknown)
-		{
-			std::string fileName = App->fileSystem->GetFileName(libraryPathWithoutExtension);
-			std::string assetsPath = CreateAssetsPath(fileName, type);
-			assetsPath = App->fileSystem->GetPathWithExtension(assetsPath);
-			std::shared_ptr<Resource> resource = 
-				CreateResourceOfType(uid, fileName, assetsPath, libraryPathWithoutExtension, type);
-			
-			if (resource != nullptr)
-			{
-				char* binaryBuffer = {};
-				App->fileSystem->Load(libraryPath.c_str(), binaryBuffer);
-
-				switch (type)
-				{
-				case ResourceType::Model:
-					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
-					break;
-				case ResourceType::Texture:
-					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
-					break;
-				case ResourceType::Mesh:
-					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
-					break;
-				case ResourceType::Scene:
-					break;
-				case ResourceType::Material:
-					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
-					break;
-				case ResourceType::SkyBox:
-					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
-					skybox = uid;
-					break;
-				default:
-					break;
-				}
-
-				resources.insert({ uid, resource });
-			}
-		}
+		meta.fromBuffer(metaBuffer);
+		delete metaBuffer;
+		resource = CreateResourceOfType(meta["UID"],resource->GetFileName(),resource->GetAssetsPath(),
+			CreateLibraryPath(meta["UID"],resource->GetType()),resource->GetType());
+		resource->LoadImporterOptions(meta);
+		resource->LoadLoadOptions(meta);
 	}
-}
-
-const UID ModuleResources::GetSkyBoxResource()
-{
-	return skybox;
-}
-
-void ModuleResources::CreateMetaFileOfResource(const std::shared_ptr<Resource>& resource)
-{
-	rapidjson::Document doc;
-	Json Json(doc, doc);
-
-	Json["UID"] = resource->GetUID();
-	Json["Type"] = GetNameOfType(resource->GetType()).c_str();
-	resource->SaveOptions(Json);
-	rapidjson::StringBuffer buffer;
-	Json.toBuffer(buffer);
-
-	std::string path = resource->GetLibraryPath() + META_EXTENSION;
-
-	App->fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
-
+	else
+	{
+		meta["UID"] = resource->GetUID();
+		meta["Type"] = GetNameOfType(resource->GetType()).c_str();
+		resource->SaveImporterOptions(meta);
+		resource->SaveLoadOptions(meta);
+		rapidjson::StringBuffer buffer;
+		meta.toBuffer(buffer);
+		App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	}
 }
 
 void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
@@ -298,15 +355,15 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 
 void ModuleResources::CreateAssetAndLibFolders()
 {
-	bool assetsFolderNotCreated = !App->fileSystem->Exists(assetsFolder.c_str());
+	bool assetsFolderNotCreated = !App->fileSystem->Exists(ASSETS_PATH);
 	if (assetsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(assetsFolder.c_str());
+		App->fileSystem->CreateDirectoryA(ASSETS_PATH);
 	}
-	bool libraryFolderNotCreated = !App->fileSystem->Exists(libraryFolder.c_str());
+	bool libraryFolderNotCreated = !App->fileSystem->Exists(LIB_PATH);
 	if (libraryFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(libraryFolder.c_str());
+		App->fileSystem->CreateDirectoryA(LIB_PATH);
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill:
@@ -323,14 +380,14 @@ void ModuleResources::CreateAssetAndLibFolders()
 	{
 		std::string folderOfType = GetFolderOfType(type);
 
-		std::string assetsFolderOfType = assetsFolder + folderOfType;
+		std::string assetsFolderOfType = ASSETS_PATH + folderOfType;
 		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
 		if (assetsFolderOfTypeNotCreated)
 		{
 			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
 		}
 
-		std::string libraryFolderOfType = libraryFolder + folderOfType;
+		std::string libraryFolderOfType = LIB_PATH + folderOfType;
 		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
 		if (libraryFolderOfTypeNotCreated)
 		{
@@ -344,61 +401,64 @@ void ModuleResources::MonitorResources()
 	while (monitorResources) 
 	{
 		CreateAssetAndLibFolders();
-		std::vector<UID> toRemove;
-		std::vector<std::shared_ptr<Resource> > toImport;
-		std::vector<std::shared_ptr<Resource> > toCreateLib;
-		std::vector<std::shared_ptr<Resource> > toCreateMeta;
-		std::map<UID, std::shared_ptr<Resource> >::iterator it;
+		std::vector<std::shared_ptr<EditorResourceInterface>> toRemove;
+		std::vector<std::shared_ptr<Resource>> toImport;
+		std::vector<std::shared_ptr<Resource>> toCreateLib;
+		std::vector<std::shared_ptr<Resource>> toCreateMeta;
+		std::map<UID, std::weak_ptr<Resource> >::iterator it;
 		for (it = resources.begin(); it != resources.end(); ++it)
 		{
-			if (it->second->GetType() != ResourceType::Mesh &&
-				!App->fileSystem->Exists(it->second->GetAssetsPath().c_str()))
+			const std::shared_ptr<Resource>& resource = it->second.lock();
+			if (resource)
 			{
-				toRemove.push_back(it->first);
-			}
-			else 
-			{
-				std::string libraryPathWithExtension =
-					App->fileSystem->GetPathWithExtension(it->second->GetLibraryPath());
+				if (resource->GetType() != ResourceType::Mesh &&
+					!App->fileSystem->Exists(resource->GetAssetsPath().c_str()))
+				{
+					toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(resource));
+				}
+				else
+				{
+					std::string libraryPathWithExtension =
+						App->fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-				if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
-					!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
-					it->second->IsChanged())
-				{
-					toCreateLib.push_back(it->second);
-					it->second->SetChanged(false);
-				}
-				if (!App->fileSystem->Exists((it->second->GetLibraryPath() + META_EXTENSION).c_str()))
-				{
-					toCreateMeta.push_back(it->second);
-				}
-						 //these type's assets are binary files changed in runtime
-				else if (it->second->GetType() != ResourceType::Mesh &&
-						 it->second->GetType() != ResourceType::Material)
-				{
-					long long assetTime =
-						App->fileSystem->GetModificationDate(it->second->GetAssetsPath().c_str());
-					long long libTime =
-						App->fileSystem->GetModificationDate((it->second->GetLibraryPath() + META_EXTENSION).c_str());
-					if (assetTime > libTime)
+					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+						!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
+						resource->IsChanged())
 					{
-						toImport.push_back(it->second);
+						toCreateLib.push_back(resource);
+						resource->SetChanged(false);
+					}
+					if (!App->fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
+					{
+						toCreateMeta.push_back(resource);
+					}
+					//these type's assets are binary files changed in runtime
+					else if (resource->GetType() != ResourceType::Mesh &&
+						resource->GetType() != ResourceType::Material)
+					{
+						long long assetTime =
+							App->fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
+						long long libTime =
+							App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
+						if (assetTime > libTime)
+						{
+							toImport.push_back(resource);
+						}
 					}
 				}
 			}
 		}
 		//Remove resources
-		for (UID resUID : toRemove)
+		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
 		{
-			DeleteResource(resUID);
-
+			DeleteResource(resource);
 		}
 		//Import resources
-		for (std::shared_ptr<Resource> resource : toImport)
+		for (std::shared_ptr<Resource>& resource : toImport)
 		{
 			AddResource(resource, resource->GetAssetsPath());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateLib)
+		for (std::shared_ptr<Resource>& resource : toCreateLib)
 		{
 			if (resource->GetType() == ResourceType::Material) 
 			{
@@ -407,7 +467,7 @@ void ModuleResources::MonitorResources()
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
-		for (std::shared_ptr<Resource> resource : toCreateMeta)
+		for (std::shared_ptr<Resource>& resource : toCreateMeta)
 		{
 			CreateMetaFileOfResource(resource);
 		}
@@ -420,17 +480,20 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 {
 	std::vector<std::string> pathTextures;
 
-	std::shared_ptr<ResourceTexture> textureDiffuse = RequestResource<ResourceTexture>(materialResource->GetDiffuseUID()).lock();
+	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
 	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureNormal = RequestResource<ResourceTexture>(materialResource->GetNormalUID()).lock();
+	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
 	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureOcclusion = RequestResource<ResourceTexture>(materialResource->GetOcclusionrUID()).lock();
+	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
 
-	std::shared_ptr<ResourceTexture> textureSpecular = RequestResource<ResourceTexture>(materialResource->GetSpecularUID()).lock();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");
+	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+
+	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallicMap();
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
 	unsigned int size = 0;
@@ -438,25 +501,58 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string materialPath = materialResource->GetAssetsPath();
 
+	std::string metaPath = materialResource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+
+	meta["DiffuseAssetPath"] = materialResource->GetDiffuse() ? materialResource->GetDiffuse()->GetAssetsPath().c_str() : "";
+	meta["NormalAssetPath"] = materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
+	meta["OcclusionAssetPath"] = materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
+	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
+	meta["MetallicAssetPath"] = materialResource->GetMetallicMap() ? materialResource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+
+	rapidjson::StringBuffer buffer;
+	meta.toBuffer(buffer);
+	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 	delete fileBuffer;
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
 {
-	std::map<UID, std::shared_ptr<Resource> >::iterator it;
+	std::map<UID, std::weak_ptr<Resource> >::iterator it;
 	for (it = resources.begin(); it != resources.end(); it++)
 	{
-		if (it->second->GetAssetsPath() == assetsPath)
+		std::shared_ptr<Resource> resourceAsShared = it->second.lock();
+
+		if (resourceAsShared->GetAssetsPath() == assetsPath)
 		{
-			resourceUID = it->second->GetUID();
+			resourceUID = resourceAsShared->GetUID();
 			return true;
 		}
 	}
 	return false;
 }
 
-ResourceType ModuleResources::FindTypeByPath(const std::string& path)
+ResourceType ModuleResources::FindTypeByFolder(const std::string& path)
+{
+	std::string pathWithOutFile = App->fileSystem->GetPathWithoutFile(path);
+	std::string::size_type libPathPos = pathWithOutFile.find(LIB_PATH);
+	
+	if (libPathPos != std::string::npos) 
+	{
+		pathWithOutFile.erase(libPathPos, std::string(LIB_PATH).length());
+		pathWithOutFile.pop_back();
+	}
+
+	return GetTypeOfName(pathWithOutFile);
+}
+
+ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 {
 	std::string fileExtension = App->fileSystem->GetFileExtension(path);
 	std::string normalizedExtension = "";
@@ -548,10 +644,10 @@ const std::string ModuleResources::CreateAssetsPath(const std::string& fileName,
 	return assetsPath;
 }
 
-const std::string ModuleResources::CreateLibraryPath(const std::string& fileName, ResourceType type)
+const std::string ModuleResources::CreateLibraryPath(UID resourceUID, ResourceType type)
 {
 	std::string libraryPath = libraryFolder;
 	libraryPath += GetFolderOfType(type);
-	libraryPath += fileName;
+	libraryPath += std::to_string(resourceUID);
 	return libraryPath;
 }

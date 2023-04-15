@@ -2,13 +2,14 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "DataModels/Scene/Scene.h"
 
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 
 WindowComponentPointLight::WindowComponentPointLight(ComponentPointLight* component) :
-	ComponentWindow("POINT LIGHT", component)
+	WindowComponentLight("POINT LIGHT", component)
 {
 }
 
@@ -61,6 +62,10 @@ void WindowComponentPointLight::DrawWindowContents()
 							App->scene->GetLoadedScene()->RenderSpotLights();
 
 							modified = true;
+							App->editor->RefreshInspector();
+							ImGui::EndCombo();
+							ImGui::EndTable();
+							return;
 						}
 					}
 
@@ -78,8 +83,17 @@ void WindowComponentPointLight::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asPointLight->GetIntensity();
-			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, 1.0f))
+			if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, max_intensity))
 			{
+				if (intensity > max_intensity)
+				{
+					intensity = max_intensity;
+				}
+				else if (intensity < 0.0f)
+				{
+					intensity = 0.0f;
+				}
+
 				asPointLight->SetIntensity(intensity);
 				modified = true;
 			}

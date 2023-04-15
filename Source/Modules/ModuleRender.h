@@ -28,8 +28,6 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
 
-	void SetShaders(const std::string& vertexShader, const std::string& fragmentShader);
-
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
@@ -38,28 +36,31 @@ public:
 	const std::string& GetFragmentShader() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const GameObject* gameObject);
-
+	void AddToRenderList(GameObject* gameObject);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+	//const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
+	bool CheckIfTransparent(const GameObject* gameObject);
+	void DrawGameObject(const GameObject* gameObject);
+	void DrawSelectedHighlightGameObject(GameObject* gameObject);
+	void DrawSelectedAndChildren(GameObject* gameObject);
+	void DrawHighlight(GameObject* gameObject);
 
 	void* context;
 	float4 backgroundColor;
 
 	unsigned vbo;
 	
-	std::vector<const GameObject*> gameObjectsToDraw;
+	std::vector<const GameObject*> opaqueGOToDraw;
+	std::map<float, const GameObject*> transparentGOToDraw;
+	//to avoid gameobjects being drawn twice
+	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
-
-	//should this be here?
-	//Note (David Martin): Nope, but at 14/2 still alive
-	std::unique_ptr<Skybox> skybox;
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
@@ -94,9 +95,4 @@ inline const std::string& ModuleRender::GetVertexShader() const
 inline const std::string& ModuleRender::GetFragmentShader() const
 {
 	return fragmentShader;
-}
-
-inline const std::vector<const GameObject*> ModuleRender::GetGameObjectsToDraw() const
-{
-	return gameObjectsToDraw;
 }

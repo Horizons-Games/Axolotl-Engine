@@ -1,0 +1,18 @@
+{
+    "UID": 2981809712707399195,
+    "Type": "Materials",
+    "diffuseColor_x": 1.0,
+    "diffuseColor_y": 1.0,
+    "diffuseColor_z": 0.0,
+    "specularColor_x": 0.0,
+    "specularColor_y": 0.0,
+    "specularColor_z": 0.0,
+    "normalStrength": 1.0,
+    "smoothness": 0.5,
+    "metalness": 0.0,
+    "hasMetallicAlpha": false,
+    "DiffuseAssetPath": "Assets/Textures/ELECTRIC_SPOT_v1_lambert1_BaseMap.png",
+    "NormalAssetPath": "Assets/Textures/ELECTRIC_SPOT_v1_lambert1_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetallicAssetPath": ""
+}

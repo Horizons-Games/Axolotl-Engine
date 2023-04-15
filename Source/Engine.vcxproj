@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="DebugEngine|Win32">
+      <Configuration>DebugEngine</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="DebugGame|Win32">
+      <Configuration>DebugGame</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="DebugGame|x64">
+      <Configuration>DebugGame</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="ReleaseEngine|Win32">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugEngine|x64">
+      <Configuration>DebugEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseEngine|x64">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|Win32">
+      <Configuration>ReleaseGame</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|x64">
+      <Configuration>ReleaseGame</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -25,26 +41,52 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -56,32 +98,56 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
@@ -93,23 +159,51 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>ENGINE;DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\DirectXTex\libs\Debug_lib;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,7 +219,44 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>ENGINE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -133,82 +264,43 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\assimp;..\External\DirectXTex\libs\Release_lib;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\External\FontIcons\CustomFont.cpp" />
-    <ClCompile Include="..\External\ImGuiFileDialog\ImGuiFileDialog.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_impl_sdl.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="..\External\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Algorithm\SAT.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\AABB.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Capsule.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Circle2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Frustum.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Line.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\OBB.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\PBVolume.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Plane.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polygon.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Ray.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Sphere.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\BitOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Callstack.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float2.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x3.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float3x4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4d.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\float4x4.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3.c" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\grisu3_cpp.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathFunc.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathLog.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MathOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\MiniFloat.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Polynomial.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\Quat.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\SSEMath.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Math\TransformOps.cpp" />
-    <ClCompile Include="..\External\MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Camera\Camera.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Camera\CameraGameObject.cpp" />
+    <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentBoundingBoxes.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTransform.cpp" />
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
@@ -219,36 +311,160 @@
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Skybox\Skybox.cpp" />
     <ClCompile Include="DataModels\Timer\Timer.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp" />
-    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\WindowDebug.cpp" />
+    <ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp" />
     <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
@@ -261,126 +477,73 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
-    <ClCompile Include="Modules\ModuleEditor.cpp" />
-    <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
+    <ClCompile Include="Modules\ModuleDebugDraw.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleCamera.cpp" />
     <ClCompile Include="Modules\ModuleInput.cpp" />
+    <ClCompile Include="Modules\ModulePlayer.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
+    <ClCompile Include="Modules\ModuleUI.cpp" />
     <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="FileSystem\UniqueID.cpp" />
     <ClCompile Include="DataModels\Scene\Scene.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Physics\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\External\FontIcons\CustomFont.h" />
-    <ClInclude Include="..\External\FontIcons\CustomImGuiFileDialogConfig.h" />
-    <ClInclude Include="..\External\ImGuiFileDialog\dirent\dirent.h" />
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialog.h" />
-    <ClInclude Include="..\External\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image.h" />
-    <ClInclude Include="..\External\ImGuiFileDialog\stb\stb_image_resize.h" />
-    <ClInclude Include="..\External\ImGui\imconfig.h" />
-    <ClInclude Include="..\External\ImGui\imgui.h" />
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\External\ImGui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\External\ImGui\imgui_impl_sdl.h" />
-    <ClInclude Include="..\External\ImGui\imgui_internal.h" />
-    <ClInclude Include="..\External\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="..\External\ImGui\imstb_textedit.h" />
-    <ClInclude Include="..\External\ImGui\imstb_truetype.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\GJK2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\Random\LCG.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Algorithm\SAT.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\AABB2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Capsule.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Circle2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Frustum.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeometryAll.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\GeomType.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\HitInfo.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\KDTree.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Line.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\LineSegment2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\OBB2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\PBVolume.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Plane.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polygon2DRef.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Polyhedron.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\QuadTree.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Ray.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Sphere.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\Triangle2D.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathBuildConfig.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLib.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\MathGeoLibFwd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\assume.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitFuncs.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\BitOps.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Callstack.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FixedPoint.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float2.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float3x4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4d.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_neon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4x4_sse.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_neon.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\float4_sse.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\FloatCmp.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\grisu3.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\InclWindows.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Interpolate.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathAll.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathConstants.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathFunc.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathLog.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathNamespace.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MathTypes.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MatrixProxy.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MiniFloat.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\MultiLineMacro.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\myassert.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Polynomial.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Quat.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\quat_simd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Rect.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Reinterpret.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\simd.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\SSEMath.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\sse_mathfun.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\Swap.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\TransformOps.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Math\vec2d.h" />
-    <ClInclude Include="..\External\MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Camera\Camera.h" />
+    <ClInclude Include="DataModels\Camera\CameraEngine.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraGameObject.h" />
+    <ClInclude Include="DataModels\Camera\CameraGod.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
-    <ClInclude Include="DataModels\Components\ComponentBoundingBoxes.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
-    <ClInclude Include="DataModels\Components\ComponentMaterial.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
+    <ClInclude Include="DataModels\Components\ComponentMockState.h" />
+    <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
+    <ClInclude Include="DataModels\Components\ComponentRigidBody.h" />
     <ClInclude Include="DataModels\Components\ComponentTransform.h" />
     <ClInclude Include="DataModels\Components\ComponentDirLight.h" />
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentButton.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Program\Program.h" />
+    <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />
+    <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h" />
     <ClInclude Include="DataModels\Resources\Resource.h" />
     <ClInclude Include="DataModels\Resources\ResourceMaterial.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
@@ -390,40 +553,185 @@
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Skybox\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBoundingBoxes.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h" />
-    <ClInclude Include="DataModels\Windows\Window.h" />
-    <ClInclude Include="DataModels\Windows\WindowMainMenu.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\Window.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\WindowDebug.h" />
+    <ClInclude Include="DataModels\Windows\WindowMainMenu.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataStructures\Quadtree.h" />
-    <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="debug_draw.hpp" />
+    <ClInclude Include="debugdraw.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="debug_draw.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="EngineLog.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
@@ -437,33 +745,41 @@
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
-    <ClInclude Include="Modules\ModuleDebugDraw.h" />
-    <ClInclude Include="Modules\ModuleEditor.h" />
-    <ClInclude Include="Modules\ModuleEngineCamera.h" />
+    <ClInclude Include="Modules\ModuleDebugDraw.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleEditor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleCamera.h" />
     <ClInclude Include="Modules\ModuleInput.h" />
+    <ClInclude Include="Modules\ModulePlayer.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
+    <ClInclude Include="Modules\ModuleUI.h" />
     <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="FileSystem\UniqueID.h" />
     <ClInclude Include="DataModels\Scene\Scene.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\External\FontIcons\CustomFont.ifs" />
-    <None Include="..\External\ImGuiFileDialog\dirent\ChangeLog" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\KDTree.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\QuadTree.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
-    <None Include="..\External\MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
-    <None Include="..\External\MathGeoLib\Include\Math\float2.inl" />
-    <None Include="..\External\MathGeoLib\Include\Math\Matrix.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\External\FontIcons\CustomFont.png" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Physics\Physics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

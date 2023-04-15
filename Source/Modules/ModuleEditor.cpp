@@ -3,35 +3,44 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleInput.h"
 
-#include "FileSystem/Json.h"
+#include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "FileSystem/Json.h"
+
 #include "Windows/WindowMainMenu.h"
+#include "Windows/WindowDebug.h"
+#ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
 #include "Windows/EditorWindows/WindowConfiguration.h"
 #include "Windows/EditorWindows/WindowInspector.h"
 #include "Windows/EditorWindows/WindowHierarchy.h"
 #include "Windows/EditorWindows/WindowEditorControl.h"
+#include "Windows/EditorWindows/WindowResources.h"
+#include "Windows/EditorWindows/WindowAssetFolder.h"
+#else
+#include "Windows/EditorWindows/EditorWindow.h"
+#endif
 
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 #include <ImGui/imgui_internal.h>
 #include <ImGui/imgui_impl_sdl.h>
 #include <ImGui/imgui_impl_opengl3.h>
+#include <ImGui/ImGuizmo.h>
 
 #include <FontIcons/CustomFont.cpp>
 
-static bool cameraOpened = true;
-static bool configOpened = true;
-static bool consoleOpened = true;
-static bool aboutOpened = false;
-static bool propertiesOpened = true;
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
 {
 }
 
@@ -54,18 +63,20 @@ bool ModuleEditor::Init()
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
+#ifdef ENGINE
 	rapidjson::Document doc;
 	Json json(doc, doc);
-	char* buffer = StateWindows();
+	std::string buffer = StateWindows();
 	
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
-	windows.push_back(std::make_unique<WindowInspector>());
+	windows.push_back(std::make_unique<WindowResources>());
+	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
-	windows.push_back(std::make_unique<WindowFileBrowser>());
+	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());	
-	if(buffer==nullptr)
+	if(!buffer.empty())
 	{		
 		rapidjson::StringBuffer newBuffer;
 		for (int i = 0; i < windows.size(); ++i)
@@ -76,11 +87,16 @@ bool ModuleEditor::Init()
 	}
 	else
 	{
-		json.fromBuffer(buffer);
+		char* bufferPointer = buffer.data();
+		json.fromBuffer(bufferPointer);
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
-	delete buffer;
+	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
+#else
+	debugOptions = std::make_unique<WindowDebug>();
+#endif
+
 	return true;
 }
 
@@ -107,8 +123,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	
-	windows.clear();
 
 	return true;
 }
@@ -118,18 +132,52 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
+
+#ifdef ENGINE
+	ImGuizmo::BeginFrame();
+	ImGuizmo::Enable(true);
+#endif
 	
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
+#ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
+#endif // DEBUG
 
-	update_status status = update_status::UPDATE_CONTINUE;
-
+#ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	{
+		CopyAnObject();
+	}
+	
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
+	{
+		PasteAnObject();
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+	{
+		CutAnObject();
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+	{
+		DuplicateAnObject();
+	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -145,6 +193,30 @@ update_status ModuleEditor::Update()
 	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
+
+	static bool firstTime = true;
+	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	{
+		firstTime = false;
+
+		ImGui::DockBuilderRemoveNode(dockSpaceId); // clear any previous layout
+		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
+		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
+
+		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceId);
+		ImGuiID dockIdRight = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
+		ImGuiID dockIdDown = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
+		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
+		ImGui::DockBuilderDockWindow("Console", dockIdDown);
+		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
+		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
+		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
+		ImGui::DockBuilderDockWindow("Hierarchy", dockIdLeft);
+		ImGui::DockBuilderDockWindow("Scene", dockSpaceId);
+		ImGui::DockBuilderFinish(dockSpaceId);
+	}
+
 	ImGui::End();
 
 	//disable ALT key triggering nav menu
@@ -156,8 +228,11 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
+#else
+	debugOptions->Draw();
+#endif
 
-	return status;
+	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::PostUpdate()
@@ -187,10 +262,92 @@ void ModuleEditor::Resized()
 
 bool ModuleEditor::IsSceneFocused() const
 {
+#ifdef ENGINE
 	return scene->IsFocused();
+#else
+	return true;
+#endif
 }
 
-char* ModuleEditor::StateWindows()
+void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
+{
+#ifdef ENGINE
+	this->inspector->SetResource(resource);
+#endif
+}
+
+void ModuleEditor::CopyAnObject()
+{
+	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
+	{
+		copyObject = std::make_unique<GameObject>(*App->scene->GetSelectedGameObject());
+	}
+	
+}
+
+void ModuleEditor::PasteAnObject()
+{
+	if(copyObject)
+	{
+		if (App->scene->GetSelectedGameObject())
+		{
+			App->scene->GetLoadedScene()->
+				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetSelectedGameObject());
+		}
+		else
+		{
+			App->scene->GetLoadedScene()->
+				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetLoadedScene()->GetRoot());
+		}
+	}
+}
+
+void ModuleEditor::CutAnObject()
+{
+	CopyAnObject();
+
+	GameObject* gameObject = App->scene->GetSelectedGameObject();
+	App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+																			// change the focus to its parent
+	App->scene->GetLoadedScene()->GetRootQuadtree()->
+		RemoveGameObjectAndChildren(gameObject->GetParent());
+
+	App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+}
+
+void ModuleEditor::DuplicateAnObject()
+{
+	if (App->scene->GetSelectedGameObject() 
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot()
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight()
+		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
+	{
+		App->scene->GetLoadedScene()->
+			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
+				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
+	}
+}
+
+void ModuleEditor::RefreshInspector() const
+{
+#ifdef ENGINE
+	inspector->ResetSelectedGameObject();
+#endif // ENGINE
+
+}
+
+std::pair<int, int> ModuleEditor::GetAvailableRegion()
+{
+#ifdef ENGINE
+	ImVec2 region = scene->GetAvailableRegion();
+	return std::make_pair(region.x, region.y);
+#else
+	return App->window->GetWindowSize();
+#endif
+}
+std::string ModuleEditor::StateWindows()
 {
 	char* binaryBuffer = {};
 	if (App->fileSystem->Exists(settingsFolder.c_str()))
@@ -200,7 +357,7 @@ char* ModuleEditor::StateWindows()
 			App->fileSystem->Load(set.c_str(), binaryBuffer);
 		}
 	}
-	return binaryBuffer;
+	return std::string(binaryBuffer);
 
 }
 

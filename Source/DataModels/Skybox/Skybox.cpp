@@ -3,51 +3,71 @@
 #include "GL/glew.h"
 
 #include "Application.h"
+#include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 
 #include "ModuleProgram.h"
-#include "ModuleEngineCamera.h"
+#include "ModuleCamera.h"
 #include "DataModels/Program/Program.h"
+#include "FileSystem/Json.h"
 
-Skybox::Skybox(const std::weak_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes),
-    skyboxUID(0ULL)
+Skybox::Skybox() : skyboxRes(nullptr)
 {
-    std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
-    if (skyboxAsShared)
-    {
-        skyboxAsShared->Load();
-    }
+}
+
+Skybox::Skybox(const std::shared_ptr<ResourceSkyBox>& skyboxRes) : skyboxRes(skyboxRes)
+{
 }
 
 Skybox::~Skybox()
 {
 }
 
-void Skybox::Draw()
+void Skybox::Draw() const
 {
-    glDepthMask(GL_FALSE);
 
-    std::shared_ptr<Program> program = App->program->GetProgram(ProgramType::SKYBOX);
-    if (program) 
+    Program* program = App->program->GetProgram(ProgramType::SKYBOX);
+    if (program && skyboxRes) 
     {
+        skyboxRes->Load();
+        glDepthMask(GL_FALSE);
+
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->engineCamera->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->engineCamera->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
-        std::shared_ptr<ResourceSkyBox> skyboxAsShared = this->skyboxRes.lock();
-        if (skyboxAsShared)
-        {
-            glBindVertexArray(skyboxAsShared->GetVAO());
-            glActiveTexture(GL_TEXTURE0);
+        glBindVertexArray(skyboxRes->GetVAO());
+        glActiveTexture(GL_TEXTURE0);
 
-            glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxAsShared->GetGlTexture());
+        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxRes->GetGlTexture());
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
-            glBindVertexArray(0);
-            program->Deactivate();
-            glDepthMask(GL_TRUE);
-        }
+        glBindVertexArray(0);
+        program->Deactivate();
+        glDepthMask(GL_TRUE);
     }
+}
+
+void Skybox::SaveOptions(Json& json) const
+{
+    Json jsonSkybox = json["Skybox"];
+
+    jsonSkybox["skyboxUID"] = skyboxRes->GetUID();
+    jsonSkybox["skyboxAssetPath"] = skyboxRes->GetAssetsPath().c_str();
+}
+
+void Skybox::LoadOptions(Json& json)
+{
+    Json jsonSkybox = json["Skybox"];
+
+    UID resUID = jsonSkybox["skyboxUID"];
+    std::string resPath = jsonSkybox["skyboxAssetPath"];
+
+#ifdef ENGINE
+    skyboxRes = App->resources->RequestResource<ResourceSkyBox>(resPath);
+#else
+    skyboxRes = App->resources->SearchResource<ResourceSkyBox>(resUID);
+#endif // ENGINE
 }

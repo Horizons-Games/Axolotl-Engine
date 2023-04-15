@@ -4,50 +4,65 @@
 #include "Resource.h"
 #include "Math/float3.h"
 
-struct OptionsMaterial
+class ResourceTexture;
+
+struct LoadOptionsMaterial
 {
 };
 
-class ResourceMaterial : public Resource
+class ResourceMaterial : virtual public Resource
 {
 public:
 	ResourceMaterial(UID resourceUID, 
 					const std::string& fileName, 
 					const std::string& assetsPath, 
 					const std::string& libraryPath);
-	~ResourceMaterial() override;
+	virtual ~ResourceMaterial() override;
 
 	ResourceType GetType() const override;
 
-	void SaveOptions(Json& meta) override {};
-	void LoadOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override {};
 
-	UID& GetDiffuseUID();
-	UID& GetNormalUID();
-	UID& GetOcclusionrUID();
-	UID& GetSpecularUID();
-	float3& GetDiffuseColor();
-	float3& GetSpecularColor();
-	float& GetShininess();
+	void SaveLoadOptions(Json& meta) override;
+	void LoadLoadOptions(Json& meta) override;
+
+	std::shared_ptr<ResourceTexture>& GetDiffuse();
+	std::shared_ptr<ResourceTexture>& GetNormal();
+	std::shared_ptr<ResourceTexture>& GetOcclusion();
+	//std::shared_ptr<ResourceTexture>& GetSpecular();
+	std::shared_ptr<ResourceTexture>& GetMetallicMap();
+	const float4& GetDiffuseColor();
+	//const float3& GetSpecularColor();
+	//float& GetShininess();
 	float& GetNormalStrength();
-	bool haveDiffuse();
-	bool haveNormal();
-	bool haveOcclusion();
-	bool haveSpecular();
-	bool HaveShininessAlpha();
+	float& GetSmoothness();
+	float& GetMetalness();
+	const bool& GetTransparent();
+	bool HasDiffuse();
+	bool HasNormal();
+	bool HasOcclusion();
+	//bool HasSpecular();
+	//bool HasShininessAlpha();
+	bool HasMetallicMap();
+	bool HasMetallicAlpha();
 
-
-	std::shared_ptr<OptionsMaterial>& GetOptions();
+	LoadOptionsMaterial& GetLoadOptions();
 
 	//Sets
-	void SetDiffuseUID(UID& diffuseUID);
-	void SetNormalUID(UID& normalUID);
-	void SetOcclusionUID(UID& occlusionUID);
-	void SetSpecularUID(UID& specularUID);
-	void SetDiffuseColor(float3& diffuseColor);
-	void SetSpecularColor(float3& specularColor);
-	void SetShininess(float& shininess);
-	void SetNormalStrength(float& normalStrength);
+	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
+	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
+	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
+	//void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic);
+	void SetDiffuseColor(float4& diffuseColor);
+	//void SetSpecularColor(float3& specularColor);
+	//void SetShininess(float shininess);
+	void SetNormalStrength(float normalStrength);
+	void SetSmoothness(float smoothness);
+	void SetMetalness(float metalness);
+	void SetMetallicAlpha(bool metallicAlpha);
+	void SetTransparent(bool isTransparent);
 
 protected:
 	void InternalLoad() override {};
@@ -55,23 +70,24 @@ protected:
 
 private:
 
-	UID diffuseUID;
-	UID normalUID;
-	UID occlusionUID;
-	UID specularUID;
-	float3 diffuseColor;
+	std::shared_ptr<ResourceTexture> diffuse;
+	std::shared_ptr<ResourceTexture> normal;
+	std::shared_ptr<ResourceTexture> occlusion;
+	//std::shared_ptr<ResourceTexture> specular;
+	std::shared_ptr<ResourceTexture> metallic;
+	float4 diffuseColor;
+	float4 oldDiffuseColor;
 	float3 specularColor;
-	float shininess;
+	//float shininess;
 	float normalStrength;
+	float smoothness;
+	float metalness;
+	bool isTransparent;
 
-	//TODO change UID or leave this here meanwhile this is for MaterialImporter and Component Material charge
-	bool hasDiffuse;
-	bool hasNormal;
-	bool hasOcclusion;
-	bool hasSpecular;
-	bool shininessAlpha;
+	//bool shininessAlpha;
+	bool hasMetallicAlpha;
 
-	std::shared_ptr<OptionsMaterial> options;
+	LoadOptionsMaterial loadOptions;
 };
 
 inline ResourceType ResourceMaterial::GetType() const
@@ -79,32 +95,42 @@ inline ResourceType ResourceMaterial::GetType() const
 	return ResourceType::Material;
 }
 
-inline UID& ResourceMaterial::GetDiffuseUID()
+inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse()
 {
-	return diffuseUID;
+	return diffuse;
 }
 
-inline UID& ResourceMaterial::GetNormalUID()
+inline const bool& ResourceMaterial::GetTransparent()
 {
-	return normalUID;
+	return isTransparent;
 }
 
-inline UID& ResourceMaterial::GetOcclusionrUID()
+inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal()
 {
-	return occlusionUID;
+	return normal;
 }
 
-inline UID& ResourceMaterial::GetSpecularUID()
+inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion()
 {
-	return specularUID;
+	return occlusion;
 }
 
-inline float3& ResourceMaterial::GetDiffuseColor()
+/*inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular()
+{
+	return specular;
+}*/
+
+inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallicMap()
+{
+	return metallic;
+}
+
+inline const float4& ResourceMaterial::GetDiffuseColor()
 {
 	return diffuseColor;
 }
 
-inline float3& ResourceMaterial::GetSpecularColor()
+/*inline const float3& ResourceMaterial::GetSpecularColor()
 {
 	return specularColor;
 }
@@ -112,83 +138,129 @@ inline float3& ResourceMaterial::GetSpecularColor()
 inline float& ResourceMaterial::GetShininess()
 {
 	return shininess;
-}
+}*/
 
 inline float& ResourceMaterial::GetNormalStrength()
 {
 	return normalStrength;
 }
 
-inline std::shared_ptr<OptionsMaterial>& ResourceMaterial::GetOptions()
+inline float& ResourceMaterial::GetSmoothness()
 {
-	return options;
+	return smoothness;
 }
 
-inline bool ResourceMaterial::haveDiffuse()
+inline float& ResourceMaterial::GetMetalness()
 {
-	return hasDiffuse;
+	return metalness;
 }
 
-inline bool ResourceMaterial::haveNormal()
+inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
 {
-	return hasNormal;
+	return loadOptions;
 }
 
-inline bool ResourceMaterial::haveOcclusion()
+inline bool ResourceMaterial::HasDiffuse()
 {
-	return hasOcclusion;
+	return diffuse != nullptr;
 }
 
-inline bool ResourceMaterial::haveSpecular()
+inline bool ResourceMaterial::HasNormal()
 {
-	return hasSpecular;
+	return normal != nullptr;
 }
 
-inline bool ResourceMaterial::HaveShininessAlpha()
+inline bool ResourceMaterial::HasOcclusion()
+{
+	return occlusion != nullptr;
+}
+
+/*inline bool ResourceMaterial::HasSpecular()
+{
+	return specular != nullptr;
+}
+
+inline bool ResourceMaterial::HasShininessAlpha()
 {
 	return shininessAlpha;  
-}
+}*/
 
-inline void ResourceMaterial::SetDiffuseUID(UID& diffuseUID)
+inline bool ResourceMaterial::HasMetallicMap()
 {
-	this->diffuseUID = diffuseUID;
-	hasDiffuse = true;
+	return metallic != nullptr;
 }
 
-inline void ResourceMaterial::SetNormalUID(UID& normalUID)
+inline bool ResourceMaterial::HasMetallicAlpha()
 {
-	this->normalUID = normalUID;
-	hasNormal = true;
+	return hasMetallicAlpha;
 }
 
-inline void ResourceMaterial::SetOcclusionUID(UID& occlusionUID)
+inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
 {
-	this->occlusionUID = occlusionUID;
-	occlusionUID = true;
+	this->diffuse = diffuse;
 }
 
-inline void ResourceMaterial::SetSpecularUID(UID& specularUID)
+inline void ResourceMaterial::SetNormal(const std::shared_ptr<ResourceTexture>& normal)
 {
-	this->specularUID = specularUID;
-	hasSpecular = true;
+	this->normal = normal;
 }
 
-inline void ResourceMaterial::SetDiffuseColor(float3& diffuseColor)
+inline void ResourceMaterial::SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion)
+{
+	this->occlusion = occlusion;
+}
+
+/*inline void ResourceMaterial::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
+{
+	this->specular = specular;
+}*/
+
+inline void ResourceMaterial::SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic)
+{
+	this->metallic = metallic;
+}
+
+inline void ResourceMaterial::SetDiffuseColor(float4& diffuseColor)
 {
 	this->diffuseColor = diffuseColor;
 }
 
-inline void ResourceMaterial::SetSpecularColor(float3& specularColor)
+/*inline void ResourceMaterial::SetSpecularColor(float3& specularColor)
 {
 	this->specularColor = specularColor;
 }
 
-inline void ResourceMaterial::SetShininess(float& shininess)
+inline void ResourceMaterial::SetShininess(float shininess)
 {
 	this->shininess = shininess;
-}
+}*/
 
-inline void ResourceMaterial::SetNormalStrength(float& normalStrength)
+inline void ResourceMaterial::SetNormalStrength(float normalStrength)
 {
 	this->normalStrength = normalStrength;
+}
+
+inline void ResourceMaterial::SetSmoothness(float smoothness)
+{
+	this->smoothness = smoothness;
+}
+
+inline void ResourceMaterial::SetMetalness(float metalness)
+{
+	this->metalness = metalness;
+}
+
+inline void ResourceMaterial::SetMetallicAlpha(bool metallicAlpha)
+{
+	hasMetallicAlpha = metallicAlpha;
+}
+
+/*inline void ResourceMaterial::SetShininessAlpha(bool shininessAlpha)
+{
+	this->shininessAlpha = shininessAlpha;
+}*/
+
+inline void ResourceMaterial::SetTransparent(bool isTransparent)
+{
+	this->isTransparent = isTransparent;
 }

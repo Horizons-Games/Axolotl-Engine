@@ -3,10 +3,15 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
-
+#include "Windows/WindowMainMenu.h"
+#include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
+
+#ifdef DEBUG
 #include "optick.h"
+#endif // DEBUG
 
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
 {
@@ -28,31 +33,37 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
-    freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
-    orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
-    moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
-    zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
-    freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
-    orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
-    moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
-    zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
+    #ifdef ENGINE
+        freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
+        orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
+        moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
+        zoomSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ZOOMSURFACE));
+        freeLookCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(freeLookSurface.get(), 0, 0));
+        orbitCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(orbitSurface.get(), 0, 0));
+        moveCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(moveSurface.get(), 0, 0));
+        zoomCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (SDL_CreateColorCursor(zoomSurface.get(), 0, 0));
 
-    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
-                    std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
-    this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
-                    (defaultCursor.get());
+        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor = 
+                        std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
+        this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
+                        (defaultCursor.get());
 
+    #else  // ENGINE
+    SetShowCursor(false);
+    #endif // GAMEMODE
 
 	return ret;
 }
 
 update_status ModuleInput::Update()
 {
+#ifdef DEBUG
     OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
 
     update_status status = update_status::UPDATE_CONTINUE;
 
@@ -96,7 +107,15 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+#ifdef ENGINE
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+#else // ENGINE
+
+        if (App->IsDebuggingGame())
+        {
+            ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+        }
+#endif
 
         switch (sdlEvent.type)
         {
@@ -109,6 +128,15 @@ update_status ModuleInput::Update()
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+            }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
+            {
+                inFocus = false;
+            }
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+            {
+                inFocus = true;
             }
 
             break;
@@ -150,7 +178,27 @@ update_status ModuleInput::Update()
 
     }
 
+    if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
+    {
+        App->SwitchDebuggingGame();
+#ifndef ENGINE
+        if (!App->IsDebuggingGame())
+        {
+            SetShowCursor(false);
+        }
+#endif // ENGINE
+    }
+
+#ifdef ENGINE
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
+        App->editor->GetMainMenu()->ShortcutSave();}
+#endif
     return status;
+}
+
+void ModuleInput::SetShowCursor(bool set)
+{
+    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
 }
 
 bool ModuleInput::CleanUp()

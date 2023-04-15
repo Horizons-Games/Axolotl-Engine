@@ -7,10 +7,34 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
+#include "Math/float3x3.h"
+
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
-	pos(float3::zero), rot(Quat::identity), sca(float3::one), rotXYZ(float3::zero),
-	localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
+	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
+	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	drawBoundingBoxes(false)
+{
+}
+
+ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform)
+	: Component(componentTransform),
+	pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
+	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),
+	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
+	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
+	globalMatrix(componentTransform.GetGlobalMatrix()), localAABB(componentTransform.localAABB), 
+	encapsuledAABB(localAABB), drawBoundingBoxes(false)
 {
 }
 
@@ -20,13 +44,108 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
-	CalculateLocalMatrix();
-	CalculateGlobalMatrix();
+	// Empty for now
+}
+
+void ComponentTransform::Draw()
+{
+#ifndef ENGINE
+	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
+#endif //ENGINE
+	if (drawBoundingBoxes)
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
+}
+
+void ComponentTransform::SaveOptions(Json& meta)
+{
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
+
+	meta["localPos_X"] = static_cast<float>(pos.x);
+	meta["localPos_Y"] = static_cast<float>(pos.y);
+	meta["localPos_Z"] = static_cast<float>(pos.z);
+
+	meta["localRot_X"] = static_cast<float>(rotXYZ.x);
+	meta["localRot_Y"] = static_cast<float>(rotXYZ.y);
+	meta["localRot_Z"] = static_cast<float>(rotXYZ.z);
+
+	meta["localSca_X"] = static_cast<float>(sca.x);
+	meta["localSca_Y"] = static_cast<float>(sca.y);
+	meta["localSca_Z"] = static_cast<float>(sca.z);
+}
+
+void ComponentTransform::LoadOptions(Json& meta)
+{
+	type = GetTypeByName(meta["type"]);
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
+
+	pos.x = static_cast<float>(meta["localPos_X"]);
+	pos.y = static_cast<float>(meta["localPos_Y"]);
+	pos.z = static_cast<float>(meta["localPos_Z"]);
+		
+	float3 rotation;
+	rotation.x = static_cast<float>(meta["localRot_X"]);
+	rotation.y = static_cast<float>(meta["localRot_Y"]);
+	rotation.z = static_cast<float>(meta["localRot_Z"]);
+	SetRotation(rotation);
+				    
+	sca.x = static_cast<float>(meta["localSca_X"]);
+	sca.y = static_cast<float>(meta["localSca_Y"]);
+	sca.z = static_cast<float>(meta["localSca_Z"]);
+
+	CalculateMatrices();
+}
+
+void ComponentTransform::CalculateMatrices()
+{
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
+
+	const GameObject* parent = GetOwner()->GetParent();
+
+	if (parent)
+	{
+		ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+		parentTransform->CalculateMatrices();
+
+		// Set local matrix
+		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+
+		// Set global matrix
+		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
+
+		globalPos = globalMatrix.TranslatePart();
+		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
+		globalSca = globalMatrix.GetScale();
+	}
+}
+
+void ComponentTransform::UpdateTransformMatrices()
+{
+	CalculateMatrices();
+	GetOwner()->Update();
+
+	if (GetOwner()->GetChildren().empty())
+		return;
+
+
+	for (GameObject* child : GetOwner()->GetChildren())
+	{
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(child->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+	}
 }
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
-												   bool translationModified, 
-												   bool rotationModified)
+	bool translationModified,
+	bool rotationModified)
 {
 	switch (lightComponent->GetLightType())
 	{
@@ -53,102 +172,14 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 	}
 }
 
-void ComponentTransform::SaveOptions(Json& meta)
+void ComponentTransform::CalculateBoundingBoxes()
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
-	meta["localPos_X"] = (float)pos.x;
-	meta["localPos_Y"] = (float)pos.y;
-	meta["localPos_Z"] = (float)pos.z;
-
-	float3 rotation = GetRotationXYZ();
-	meta["localRot_X"] = (float)rotation.x;
-	meta["localRot_Y"] = (float)rotation.y;
-	meta["localRot_Z"] = (float)rotation.z;
-
-	meta["localSca_X"] = (float)sca.x;
-	meta["localSca_Y"] = (float)sca.y;
-	meta["localSca_Z"] = (float)sca.z;
+	objectOBB = localAABB;
+	objectOBB.Transform(globalMatrix);
+	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
-void ComponentTransform::LoadOptions(Json& meta)
+void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
 {
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
-	pos.x = (float) meta["localPos_X"];
-	pos.y = (float) meta["localPos_Y"];
-	pos.z = (float) meta["localPos_Z"];
-		
-	float3 rotation;
-	rotation.x = (float) meta["localRot_X"];
-	rotation.y = (float) meta["localRot_Y"];
-	rotation.z = (float) meta["localRot_Z"];
-	SetRotation(rotation);
-				    
-	sca.x = (float) meta["localSca_X"];
-	sca.y = (float) meta["localSca_Y"];
-	sca.z = (float) meta["localSca_Z"];
-
-	CalculateLocalMatrix();
-	if(GetOwner()->GetParent()) 
-		CalculateGlobalMatrix();
-}
-
-void ComponentTransform::CalculateLocalMatrix()
-{
-	float4x4 localMatrix = float4x4::FromTRS((float3)GetPosition(), (Quat)GetRotation(), (float3)GetScale());
-
-	SetLocalMatrix(localMatrix);
-}
-
-void ComponentTransform::CalculateGlobalMatrix()
-{
-	const GameObject* parent = GetOwner()->GetParent();
-	assert(parent);
-
-	float3 parentPos, parentSca, localPos, localSca;
-	Quat parentRot, localRot;
-
-	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-
-	parentTransform->GetGlobalMatrix().Decompose(parentPos, parentRot, parentSca);
-	GetLocalMatrix().Decompose(localPos, localRot, localSca);
-
-	float3 position = localPos + parentPos;
-	Quat rotation = localRot * parentRot;
-	float3 scale = parentSca.Mul(localSca);
-
-	float4x4 globalMatrix = float4x4::FromTRS(position, rotation, scale);
-	SetGlobalMatrix(globalMatrix);
-}
-
-const float3& ComponentTransform::GetGlobalPosition() const
-{
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalPos;
-}
-
-const Quat& ComponentTransform::GetGlobalRotation() const
-{
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalRot;
-}
-
-const float3& ComponentTransform::GetGlobalScale() const
-{
-	float3 globalPos, globalSca;
-	Quat globalRot;
-	globalMatrix.Decompose(globalPos, globalRot, globalSca);
-
-	return globalSca;
+	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
 }

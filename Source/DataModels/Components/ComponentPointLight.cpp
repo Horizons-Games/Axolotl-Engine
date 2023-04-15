@@ -3,14 +3,30 @@
 
 #include "FileSystem/Json.h"
 
+#include "Modules/ModuleScene.h"
+
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
+#include "Application.h"
+
 #include "debugdraw.h"
 
 ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true), radius (1.0f)
 {
 }
 
+ComponentPointLight::ComponentPointLight(const ComponentPointLight& componentPointLight) :
+	ComponentLight(componentPointLight), radius(componentPointLight.GetRadius())
+{
+}
+
 ComponentPointLight::ComponentPointLight(GameObject* parent) :
-	ComponentLight(LightType::SPOT, parent, true), radius(1.0f)
+	ComponentLight(LightType::POINT, parent, true), radius(1.0f)
 {
 }
 
@@ -31,7 +47,13 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw()
 {
-	if (GetActive())
+#ifndef ENGINE
+	if (!App->editor->GetDebugOptions()->GetDrawPointLight())
+	{
+		return;
+	}
+#endif //ENGINE
+	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

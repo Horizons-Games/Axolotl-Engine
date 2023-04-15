@@ -2,7 +2,18 @@
 
 #include "ComponentTransform.h"
 
+#include "Modules/ModuleScene.h"
+
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "FileSystem/Json.h"
+
+#include "Application.h"
 
 #include "debugdraw.h"
 
@@ -31,7 +42,13 @@ ComponentDirLight::~ComponentDirLight()
 
 void ComponentDirLight::Draw()
 {
-	if (GetActive())
+#ifndef ENGINE
+	if (!App->editor->GetDebugOptions()->GetDrawDirLight())
+	{
+		return;
+	}
+#endif //ENGINE
+	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

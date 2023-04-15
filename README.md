@@ -1,5 +1,5 @@
 # Axolot Engine
-This engine has been created by [Horizons Studio](https://github.com/Pre-SuperAwesomeEngine) for UPC's Master in Advanced Programming for AAA Videogames.
+This engine has been created by [Horizons Games](https://github.com/Pre-SuperAwesomeEngine) for UPC's Master in Advanced Programming for AAA Videogames.
 
 # Installation
 - Download the latest release
@@ -27,7 +27,7 @@ This engine has been created by [Horizons Studio](https://github.com/Pre-SuperAw
 - Build the Spatial Partitioning structure Based on QuadTree.
 - Have cull the objects/QuadTree that are inside the camera frustum.
 - The list of objects of the scene can be obtained by iterating the QuadTree.
-- Draw Based on intersection Frustum/Quadtree <- When A quadTree is in the frustum draw it objects or call the intersection of their childs .
+- Draw Based on intersection Frustum/Quadtree <- When a quadtree is in the frustum draw it objects or call the intersection of their childs.
 - Created Camera Object that apply Frustum to the Scene
 - Draw Debug Utilities as Quadtree Bounding Box, objects bounding box and Frustum
 

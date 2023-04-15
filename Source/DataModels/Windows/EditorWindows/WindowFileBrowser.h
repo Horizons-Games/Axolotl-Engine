@@ -9,11 +9,11 @@ public:
 	WindowFileBrowser();
 	virtual ~WindowFileBrowser() override;
 	void DrawWindowContents() override;
+	void SaveAsWindow(bool& isSaving);
 	virtual void DoThisIfOk();
 	virtual void Browser();
 	
 protected:
-	ImVec2 GetStartingSize() const override;
 
 	bool isSave = false;
 	std::string dialogName;
@@ -27,7 +27,3 @@ protected:
 	bool showFileDialog = false;
 };
 
-inline ImVec2 WindowFileBrowser::GetStartingSize() const
-{
-	return ImVec2(900, 250);
-}

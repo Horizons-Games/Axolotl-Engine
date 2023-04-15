@@ -2,11 +2,12 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
+#include "Auxiliar/Utils/ConvertU8String.h"
 
 WindowLoadScene::WindowLoadScene() :WindowFileBrowser()
 {
-	dialogName = " Load Scene File";
-	title = ICON_IGFD_FOLDER" Load Scene File";
+	dialogName = " Load Scene";
+	title = ConvertU8String(ICON_IGFD_FOLDER) + " Load Scene";
 	filters = SCENE_EXTENSION;
 	startPath = "Assets/Scenes";
 }
