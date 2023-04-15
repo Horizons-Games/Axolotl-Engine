@@ -19,7 +19,7 @@ public:
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
-	void Init() override;
+	void InitBones();
 
 	void Update() override;
 

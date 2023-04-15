@@ -40,7 +40,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		mesh->Unload();
 }
 
-void ComponentMeshRenderer::Init()
+void ComponentMeshRenderer::InitBones()
 {
 	const unsigned int numBones = mesh->GetNumBones();
 
@@ -58,7 +58,7 @@ void ComponentMeshRenderer::Update()
 	{
 		const std::vector<Bone>& bindBones = mesh->GetBones();
 
-		for (unsigned int i = 0; i < bones.size(); ++i)
+		for (unsigned int i = 0; i < bindBones.size(); ++i)
 		{
 			skinPalette[i] = static_cast<ComponentTransform*>
 				(bones[i]->GetComponent(ComponentType::TRANSFORM))
