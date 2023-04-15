@@ -293,6 +293,9 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>DataModels\Cubemap</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceCubemap.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -615,6 +618,9 @@
     </ClInclude>
     <ClInclude Include="Cubemap.h">
       <Filter>DataModels\Cubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceCubemap.h">
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
