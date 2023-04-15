@@ -17,7 +17,7 @@
 
 ScriptFactory::ScriptFactory() : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0), m_pScript(0)
 {
-
+	
 }
 
 
@@ -25,7 +25,8 @@ ScriptFactory::~ScriptFactory()
 {
 	if (m_pRuntimeObjectSystem)
 	{
-		m_pRuntimeObjectSystem->CleanObjectFiles();
+		//Aixo falla
+		//m_pRuntimeObjectSystem->CleanObjectFiles();
 	}
 	if (m_pRuntimeObjectSystem && m_pRuntimeObjectSystem->GetObjectFactorySystem())
 	{
@@ -45,7 +46,9 @@ bool ScriptFactory::Init()
 
 
 	m_pCompilerLogger = new LogSystem();
-	if (!m_pRuntimeObjectSystem->Initialise(m_pCompilerLogger, g_SystemTable))
+
+	//Tener un RuntimeObjectSystem por cada script
+	if (!m_pRuntimeObjectSystem->Initialise(m_pCompilerLogger, 0))
 	{
 		m_pRuntimeObjectSystem = 0;
 		return false;
@@ -58,10 +61,59 @@ bool ScriptFactory::Init()
 	return true;
 }
 
-IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
+
+IScript* ScriptFactory::GetScript(const char* name) {
+	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
+	ObjectId objectId;
+	if (pCtor)
+	{
+		IObject* pObj = pCtor->Construct();
+		pObj->GetInterface(&m_pScript);
+		if (0 == m_pScript)
+		{
+			delete pObj;
+			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
+			//return false;
+		}
+		//objectId = pObj->GetObjectId();
+		//return objectId;
+	}
+	return m_pScript;
+}
+
+void ScriptFactory::AddScript(const char* path)
+{
 	m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
+	m_pRuntimeObjectSystem->CleanObjectFiles();
 	m_pRuntimeObjectSystem->CompileAll(true);
-	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(path);
+}
+
+void ScriptFactory::RecompileAll()
+{
+	
+
+	m_pRuntimeObjectSystem->CompileAll(true);
+}
+
+
+std::vector<const char*> ScriptFactory::GetConstructors(){
+	AUDynArray<IObjectConstructor*> constructors;
+	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
+	std::vector<const char*> constructorsName;
+	for (int i = 0; i < constructors.Size(); ++i) {
+		constructorsName.push_back(constructors[i]->GetName());
+	}
+	return constructorsName;
+}
+
+
+
+/*
+IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
+	//m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
+	m_pRuntimeObjectSystem->CleanObjectFiles();
+	m_pRuntimeObjectSystem->CompileAll(true);
+	/*IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(path);
 	ObjectId objectId;
 	if (pCtor)
 	{
@@ -77,12 +129,32 @@ IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
 		//objectId = pObj->GetObjectId();
 		//return objectId;
 	}
-
+	return m_pScript;
 }
+*/
+
+bool ScriptFactory::isCompiling() {
+	return m_pRuntimeObjectSystem->GetIsCompiling();
+}
+
+bool ScriptFactory::isCompiled() {
+	return m_pRuntimeObjectSystem->GetIsCompiledComplete();
+}
+
+void ScriptFactory::LoadCompiledModules() {
+	m_pRuntimeObjectSystem->LoadCompiledModule();
+}
+
+void ScriptFactory::UpdateNotifier() {
+	const float deltaTime = 1.0f;
+	m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
+}
+
+
 
 void ScriptFactory::OnConstructorsAdded()
 {
-	AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
+	/*AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
 	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
 	for (size_t i = 0; i < constructors.Size(); i++)
 	{
@@ -95,7 +167,7 @@ void ScriptFactory::OnConstructorsAdded()
 			delete object;
 			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
 		}
-	}
+	}*/
 }
 
 
@@ -140,11 +212,17 @@ void ScriptFactory::IncludeDirs() {
 	FileSystemUtils::Path modules = basePath / "Modules";
 	m_pRuntimeObjectSystem->AddIncludeDir(modules.c_str());
 
-	FileSystemUtils::Path scripts = basePath / "Scripts";
-	m_pRuntimeObjectSystem->AddIncludeDir(scripts.c_str());
+	FileSystemUtils::Path scripting = basePath / "Scripting";
+	m_pRuntimeObjectSystem->AddIncludeDir(scripting.c_str());
 
 	FileSystemUtils::Path external = basePath.ParentPath() / "External";
 	m_pRuntimeObjectSystem->AddIncludeDir(external.c_str());
+
+	FileSystemUtils::Path runtimeCompiler = basePath.ParentPath() / "External" / "RuntimeCompiler" / "Include";
+	m_pRuntimeObjectSystem->AddIncludeDir(runtimeCompiler.c_str());
+
+	FileSystemUtils::Path runtimeObjectSystem = basePath.ParentPath() / "External" / "RuntimeObjectSystem";
+	m_pRuntimeObjectSystem->AddIncludeDir(runtimeObjectSystem.c_str());
 
 	FileSystemUtils::Path mathGeoLib = external / "MathGeoLib" / "Include";
 	m_pRuntimeObjectSystem->AddIncludeDir(mathGeoLib.c_str());

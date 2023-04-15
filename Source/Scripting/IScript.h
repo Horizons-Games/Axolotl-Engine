@@ -1,19 +1,17 @@
 #pragma once
-
-#ifndef ISCRIPT_INCLUDED
-#define ISCRIPT_INCLUDED
-
 #include "IObject.h"
-
 class GameObject;
+class Application;
 
-struct IScript : public IObject
+class IScript : public IObject
 {
-	virtual void Init() = 0;
-	virtual void Start() = 0;
-	virtual void PreUpdate() = 0;
-	virtual void Update(float deltaTime) = 0;
-	virtual void PostUpdate() = 0;
+	public:
+		virtual void Init() = 0;
+		virtual void Start() = 0;
+		virtual void SetGameObject(GameObject* owner) = 0;
+		virtual void SetApplication(Application* app) = 0;
+		virtual void Update(float deltaTime) = 0;
+	protected:
+		GameObject *owner;
+		Application* App;
 };
-
-#endif // ISCRIPT_INCLUDED

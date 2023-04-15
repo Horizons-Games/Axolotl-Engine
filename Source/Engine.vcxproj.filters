@@ -305,6 +305,15 @@
     <ClCompile Include="..\Game\Scripts\ChangeName.cpp">
       <Filter>Scripting\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Prueba.cpp">
+      <Filter>Scripting\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentScript.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\OtraPrueba.cpp">
+      <Filter>Scripting\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -622,9 +631,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\IScript.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\SystemTable.h">
       <Filter>Scripting</Filter>
     </ClInclude>
@@ -643,11 +649,14 @@
     <ClInclude Include="Scripting\Script.h">
       <Filter>Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\IUpdateable.h">
+    <ClInclude Include="Scripting\IScript.h">
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\InterfacesIds.h">
       <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentScript.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

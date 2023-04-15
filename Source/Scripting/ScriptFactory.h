@@ -17,9 +17,18 @@ public:
 	virtual ~ScriptFactory();
 	bool Init();
 	bool MainLoop();
-	IScript* CreateScript(GameObject* owner, const char* path);
-	ObjectId GetScript(const char* name);
+	//IScript* CreateScript(GameObject* owner, const char* path);
+
+	//IScript* GetScript(GameObject* owner, const char* path);
+	IScript* GetScript(const char* name);
+	void AddScript(const char* path);
+	void RecompileAll();
+	void UpdateNotifier();
+	void LoadCompiledModules();
 	virtual void OnConstructorsAdded();
+	bool isCompiling();
+	bool isCompiled();
+	std::vector<const char*> GetConstructors();
 private:
 	void IncludeDirs();
 

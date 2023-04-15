@@ -112,6 +112,9 @@ void Application::OnPlay()
 	{
 		isOnPlayMode = false;
 	}
+	//Active Scripts
+	scene->OnPlay();
+
 }
 
 void Application::OnStopPlay()

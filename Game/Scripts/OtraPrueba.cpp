@@ -7,19 +7,19 @@
 #include "GameObject/GameObject.h"
 #include "Application.h"
 
-class ChangeNameClass : public Script
+class OtraPrueba : public Script
 {
 public:
 	virtual void Init() override {
-		ENGINE_LOG("ChangeNameClass Init");
+		ENGINE_LOG("OtraPrueba Init");
 	}
 
 	virtual void Start() override {
-	
+
 	}
 	virtual void Update(float deltaTime)
 	{
-		owner->SetName("pruebfdwga");
+		owner->SetName("Secondary");
 	}
 };
-REGISTERCLASS(ChangeNameClass);
+REGISTERCLASS(OtraPrueba);

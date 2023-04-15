@@ -41,6 +41,7 @@ private:
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentScript();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
