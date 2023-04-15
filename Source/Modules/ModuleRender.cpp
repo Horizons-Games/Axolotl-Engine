@@ -229,6 +229,11 @@ update_status ModuleRender::Update()
 	bool isRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
+	}
 
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
@@ -410,7 +415,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
-	if (gameObject->GetParent() == nullptr || gameObject->GetParent() == nullptr)
+	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}

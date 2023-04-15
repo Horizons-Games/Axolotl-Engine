@@ -2,85 +2,13 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "MainMenuVS1",
-                "tag": "",
-                "uid": 16986399840152337944,
-                "parentUID": 0,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Canvas",
-                "tag": "",
-                "uid": 11768532019124242966,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": -2.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0,
-                            "localAABB_min_x": 0.0,
-                            "localAABB_min_y": 0.0,
-                            "localAABB_max_x": 0.0,
-                            "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Canvas",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
                 "uid": 6751946775892563900,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -115,12 +43,88 @@
         },
         {
             "GameObject": {
+                "name": "MainMenuVS1",
+                "tag": "",
+                "uid": 16986399840152337944,
+                "parentUID": 0,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Canvas",
+                "tag": "",
+                "uid": 11768532019124242966,
+                "parentUID": 16986399840152337944,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": -2.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Canvas",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Background",
                 "tag": "",
                 "uid": 4097662585940973282,
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -142,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
                         }
                     },
                     {
@@ -165,52 +169,13 @@
         },
         {
             "GameObject": {
-                "name": "Ambient_Light",
-                "tag": "",
-                "uid": 915180966066979072,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05000000074505806,
-                            "color_light_Y": 0.05000000074505806,
-                            "color_light_Z": 0.05000000074505806,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Start",
                 "tag": "",
                 "uid": 16475748067149301860,
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -232,10 +197,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 226.31874084472657,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 251.28541564941407
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 335.4000244140625,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 373.26666259765627
                         }
                     },
                     {
@@ -271,12 +236,54 @@
         },
         {
             "GameObject": {
+                "name": "Ambient_Light",
+                "tag": "",
+                "uid": 915180966066979072,
+                "parentUID": 16986399840152337944,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.05000000074505806,
+                            "color_light_Y": 0.05000000074505806,
+                            "color_light_Z": 0.05000000074505806,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Empty GameObject",
                 "tag": "",
                 "uid": 15981248757803877047,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -314,6 +321,7 @@
                 "parentUID": 15981248757803877047,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -351,6 +359,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -372,10 +381,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 266.109375,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 289.515625
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 395.75,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 431.25
                         }
                     },
                     {
@@ -417,6 +426,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -438,10 +448,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 305.11981201171877,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 328.52606201171877
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 454.9166564941406,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 490.4166564941406
                         }
                     },
                     {
@@ -483,6 +493,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -504,10 +515,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 67.15625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 67.15625
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 94.00001525878906,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 94.00001525878906
                         }
                     },
                     {
@@ -533,6 +544,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -554,10 +566,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 102.265625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 102.265625
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 147.25001525878907,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 147.25001525878907
                         }
                     },
                     {

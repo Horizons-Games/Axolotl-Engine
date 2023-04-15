@@ -68,7 +68,15 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				lastSelectedGameObject->SetName(name);
 			}
-			
+			ImGui::SameLine();
+			bool staticness = lastSelectedGameObject->IsStatic();
+			//This should be changed into a pop-up windows 
+			if (ImGui::Checkbox("Static", &staticness))
+			{
+				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SpreadStatic();
+			}
+
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();

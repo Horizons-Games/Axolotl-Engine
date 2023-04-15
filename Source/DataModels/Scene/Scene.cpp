@@ -88,21 +88,13 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 
 
 		//Quadtree treatment
-		if (!rootQuadtree->InQuadrant(gameObject))
+		if (gameObject->IsStatic())
 		{
-			if (!rootQuadtree->IsFreezed())
-			{
-				rootQuadtree->ExpandToFit(gameObject);
-				FillQuadtree(sceneGameObjects);
-			}
-			else
-			{
-				App->renderer->AddToRenderList(gameObject);
-			}
+			AddStaticObject(gameObject);
 		}
 		else
 		{
-			rootQuadtree->Add(gameObject);
+			AddNonStaticObject(gameObject);
 		}
 
 	}
@@ -149,10 +141,9 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	{
 		rootQuadtree->Add(gameObject);
 	}
-	App->scene->GetLoadedScene()->GetRootQuadtree()
-		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 	App->scene->SetSelectedGameObject(gameObject);
-	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
+	App->scene->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
@@ -573,4 +564,43 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
 	}
+}
+
+void Scene::AddStaticObject(GameObject* gameObject)
+{
+	//Quadtree treatment
+	if (!rootQuadtree->InQuadrant(gameObject))
+	{
+		if (!rootQuadtree->IsFreezed())
+		{
+			rootQuadtree->Add(gameObject);
+		}
+		else
+		{
+			AddNonStaticObject(gameObject);
+		}
+	}
+	else
+	{
+		rootQuadtree->Add(gameObject);
+	}
+}
+
+void Scene::RemoveStaticObject(GameObject* gameObject)
+{
+	rootQuadtree->Remove(gameObject);
+}
+
+void Scene::RemoveNonStaticObject(GameObject* gameObject)
+{
+	for (std::vector<GameObject*>::iterator it = nonStaticObjects.begin();
+		it != nonStaticObjects.end(); ++it)
+	{
+		if (*it == gameObject)
+		{
+			nonStaticObjects.erase(it);
+			break;
+		}
+	}
+
 }
