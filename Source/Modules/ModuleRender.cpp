@@ -19,7 +19,6 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentMaterial.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
 
@@ -558,7 +557,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
+	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->GetTransparent())

@@ -4,7 +4,6 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
@@ -22,7 +21,6 @@
 #include "Components/ComponentAmbient.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
-#include "Components/ComponentMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -46,8 +44,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 	{
 		switch (component->GetType())
 		{
-		case ComponentType::MATERIAL:
-			return std::make_unique<WindowComponentMaterial>(static_cast<ComponentMaterial*>(component));
 		case ComponentType::MESHRENDERER:
 			return std::make_unique<WindowComponentMeshRenderer>(static_cast<ComponentMeshRenderer*>(component));
 		case ComponentType::TRANSFORM2D:
