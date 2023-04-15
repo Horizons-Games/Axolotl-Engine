@@ -4,7 +4,6 @@
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
-#include "../Components/ComponentMaterial.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMockState.h"
 #include "../Components/ComponentPlayer.h"
@@ -307,12 +306,6 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 			break;
 		}
 
-		case ComponentType::MATERIAL:
-		{
-			newComponent = std::make_unique<ComponentMaterial>(static_cast<ComponentMaterial&>(*component));
-			break;
-		}
-
 		case ComponentType::CAMERA:
 		{
 			newComponent = std::make_unique<ComponentCamera>(static_cast<ComponentCamera&>(*component));
@@ -435,12 +428,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::MESHRENDERER:
 		{
 			newComponent = std::make_unique<ComponentMeshRenderer>(true, this);
-			break;
-		}
-
-		case ComponentType::MATERIAL:
-		{
-			newComponent = std::make_unique<ComponentMaterial>(true, this);
 			break;
 		}
 

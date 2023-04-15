@@ -37,7 +37,6 @@ private:
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
-	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
 	void AddComponentRigidBody();

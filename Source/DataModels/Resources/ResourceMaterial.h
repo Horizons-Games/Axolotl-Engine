@@ -74,6 +74,7 @@ private:
 	// std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
 	float4 diffuseColor;
+	float4 oldDiffuseColor;
 	float3 specularColor;
 	// float shininess;
 	float normalStrength;

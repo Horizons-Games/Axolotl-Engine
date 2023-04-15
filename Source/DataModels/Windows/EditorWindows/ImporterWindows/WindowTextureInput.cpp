@@ -1,12 +1,11 @@
 #include "WindowTextureInput.h"
-
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
+WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* material, TextureType textureType) :
 	WindowFileBrowser(),
 	windowComponent(material),
 	textureType(textureType)
