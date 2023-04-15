@@ -23,8 +23,6 @@ CommandComponentEnabled::CommandComponentEnabled(Component* comp, bool* enable, 
 
 CommandComponentEnabled::~CommandComponentEnabled()
 {
-	delete comp;
-	delete enable;
 }
 
 std::unique_ptr<Command> CommandComponentEnabled::Execute()
