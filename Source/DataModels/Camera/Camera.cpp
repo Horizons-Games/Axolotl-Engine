@@ -46,7 +46,7 @@ Camera::Camera(Camera& camera)
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
 	mouseState(camera.mouseState),
-	frustum(new Frustum(*camera.frustum))
+	frustum(std::unique_ptr<Frustum>(new Frustum(*camera.frustum)))
 {
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
