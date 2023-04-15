@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ComponentAnimation.h"
 #include "ComponentTransform.h"
 #include "Globals.h"
@@ -5,6 +6,7 @@
 #include "Animation/AnimationController.h"
 
 #include "FileSystem/Json.h"
+#include "FileSystem/ModuleResources.h"
 
 #include "GameObject/GameObject.h"
 
@@ -61,23 +63,62 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw()
 {
-	DrawBones(owner);
+	std::shared_ptr<ResourceModel> resource = owner->GetModel();
+
+	DrawBones(resource->GetNodes());
 }
 
-void ComponentAnimation::DrawBones(GameObject* parent)
+void ComponentAnimation::DrawBones(GameObject* parent, GameObject* lastNonExtraNode) const
 {
 	ComponentTransform* parentTransform = 
 		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
+	ComponentTransform* lastTransform =
+		static_cast<ComponentTransform*>(lastNonExtraNode->GetComponent(ComponentType::TRANSFORM));
+
 	std::vector<GameObject*> children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
-		ComponentTransform* childTransform =
+		if (child->GetName().find("$AssimpFbx$") == std::string::npos)
+		{
+			ComponentTransform* childTransform =
+				static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+
+			dd::line(childTransform->GetGlobalPosition(), lastTransform->GetGlobalPosition(), dd::colors::Blue);
+			dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
+
+			DrawBones(child, child);
+		}
+		else
+		{
+			DrawBones(child, lastNonExtraNode);
+		}
+		
+	}
+}
+
+void ComponentAnimation::DrawBones(std::vector<ResourceModel::Node*> nodes) const
+{
+	std::map<std::string, ComponentTransform*> childrenTransforms;
+	std::list<GameObject*> children = owner->GetGameObjectsInside();
+
+	for (GameObject* child : children)
+	{
+		childrenTransforms[child->GetName()] = 
 			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+	}
+	
+	for (ResourceModel::Node* node : nodes)
+	{
+		dd::axisTriad(childrenTransforms[node->name]->GetGlobalMatrix(), 0.1f, 2.0f);
 
-		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue, 5);
+		if (node->parent != -1)
+		{
+			ComponentTransform* parentTransform = childrenTransforms[nodes[node->parent]->name];
 
-		DrawBones(child);
+			dd::line(childrenTransforms[node->name]->GetGlobalPosition(), parentTransform->GetGlobalPosition(), 
+				dd::colors::Blue);
+		}
 	}
 }
 

@@ -261,10 +261,14 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
+	gameObjectModel->SetModel(resourceModel);
 
-	ComponentAnimation* animation =
-		static_cast<ComponentAnimation*>(gameObjectModel->CreateComponent(ComponentType::ANIMATION));
-	animation->SetAnimations(animations);
+	if (animations.size() > 0)
+	{
+		ComponentAnimation* animation =
+			static_cast<ComponentAnimation*>(gameObjectModel->CreateComponent(ComponentType::ANIMATION));
+		animation->SetAnimations(animations);
+	}
 	
 	// For each node of the model, create its child GameObjects in preOrder and
 	// assign its corresponding vector of pairs <Material, Mesh>

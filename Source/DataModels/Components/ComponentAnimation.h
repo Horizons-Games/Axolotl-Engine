@@ -2,6 +2,8 @@
 
 #include "Components/Component.h"
 
+#include "Resources/ResourceModel.h"
+
 #include <vector>
 #include <memory>
 
@@ -20,7 +22,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void DrawBones(GameObject* parent);
+	void DrawBones(GameObject* parent, GameObject* lastNonExtraNode) const;
+	void DrawBones(std::vector<ResourceModel::Node*> nodes) const;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
