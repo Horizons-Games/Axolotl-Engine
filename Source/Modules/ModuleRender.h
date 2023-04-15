@@ -51,8 +51,6 @@ private:
 	void DrawSelectedAndChildren(GameObject* gameObject);
 	void DrawHighlight(GameObject* gameObject);
 
-	void GenerateIrradianceCubemap();
-
 	void* context;
 	float4 backgroundColor;
 
@@ -67,10 +65,6 @@ private:
 	GLuint frameBuffer;
 	GLuint renderedTexture;
 	GLuint depthStencilRenderbuffer;
-
-	GLuint cubemapFBO;
-	GLuint captureRBO;
-	GLuint envCubemap;
 
 	std::string vertexShader;
 	std::string fragmentShader;

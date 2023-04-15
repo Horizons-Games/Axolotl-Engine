@@ -290,6 +290,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -610,6 +613,9 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Cubemap.h">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -680,6 +686,9 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Cubemap">
+      <UniqueIdentifier>{e6de1d9d-d6ec-4f99-957d-b73e5d0acbd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
