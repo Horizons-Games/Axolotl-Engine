@@ -6,8 +6,19 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
+class Component;
 class GameObject;
 class Quadtree;
+class Skybox;
+
+enum class Premade3D
+{
+	CUBE,
+	PLANE,
+	CYLINDER,
+	CAPSULE,
+	CHARACTER
+};
 
 class Scene
 {
@@ -21,10 +32,15 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
-	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
+	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
+	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
+	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
+	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
+	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
 	void DestroyGameObject(GameObject* gameObject);
-	void ConvertModelIntoGameObject(const char* model);
+	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
@@ -41,15 +57,21 @@ public:
 	GameObject* GetRoot();
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
-	Quadtree * GetSceneQuadTree() const;
+	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
+	const std::vector<GameObject*>& GetSceneCanvas() const;
+	const std::vector<Component*>& GetSceneInteractable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
+	Skybox* GetSkybox() const;
 
 	void SetRoot(std::unique_ptr<GameObject> newRoot);
-	void SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree);
+	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
+	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetSceneCanvas(const std::vector<GameObject*>& canvas);
+	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
@@ -57,14 +79,18 @@ public:
 
 	void InitLights();
 
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+
 private:
 	void RemoveFatherAndChildren(const GameObject* father);
 
-	UID uid;
+	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<GameObject*> sceneCameras;
+	std::vector<GameObject*> sceneCanvas;
+	std::vector<Component*> sceneInteractableComponents;
 
 	GameObject* ambientLight;
 	GameObject* directionalLight;
@@ -78,13 +104,8 @@ private:
 	unsigned ssboSpot;
 	
 	AABB rootQuadtreeAABB;
-	std::unique_ptr<Quadtree> sceneQuadTree;
+	std::unique_ptr<Quadtree> rootQuadtree;
 };
-
-inline UID Scene::GetUID() const
-{
-	return uid;
-}
 
 inline GameObject* Scene::GetRoot()
 {
@@ -116,9 +137,29 @@ inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 	return sceneCameras;
 }
 
+inline const std::vector<GameObject*>& Scene::GetSceneCanvas() const
+{
+	return sceneCanvas;
+}
+
+inline const std::vector<Component*>& Scene::GetSceneInteractable() const
+{
+	return sceneInteractableComponents;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
+}
+
+inline void Scene::SetSceneCanvas(const std::vector<GameObject*>& canvas)
+{
+	sceneCanvas = canvas;
+}
+
+inline void Scene::SetSceneInteractable(const std::vector<Component*>& interactable)
+{
+	sceneInteractableComponents = interactable;
 }
 
 inline void Scene::SetAmbientLight(GameObject* ambientLight)
@@ -131,8 +172,13 @@ inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 	this->directionalLight = directionalLight;
 }
 
-inline Quadtree* Scene::GetSceneQuadTree() const
+inline Quadtree* Scene::GetRootQuadtree() const
 {
-	return sceneQuadTree.get();
+	return rootQuadtree.get();
+}
+
+inline Skybox* Scene::GetSkybox() const
+{
+	return skybox.get();
 }
 

@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Modules/ModuleProgram.h"
+#include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
 
 #include "FileSystem/ModuleResources.h"
@@ -10,16 +11,23 @@
 #include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceSkyBox.h"
 
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentMaterial.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
 
-Scene::Scene() : uid(0), root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
-	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), sceneQuadTree(nullptr),
+#include "Camera/CameraGameObject.h"
+#include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Program/Program.h"
+
+Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
+	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE/2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
@@ -36,7 +44,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 	{
 		if (gameObject)
 		{
-			sceneQuadTree->Add(gameObject);
+			rootQuadtree->Add(gameObject);
 		}
 	}
 }
@@ -48,9 +56,8 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 	{
 		if (cameraGameObject)
 		{
-			ComponentCamera* camera =
-				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-			if (camera && camera->IsInside(obb))
+			ComponentCamera* camera = static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
+			if (camera && camera->GetCamera()->IsInside(obb))
 			{
 				return true;
 			}
@@ -64,26 +71,73 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
-	assert(name != nullptr && parent != nullptr);
+	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(name, parent);
-	gameObject->InitNewEmptyGameObject();
+	gameObject->InitNewEmptyGameObject(is3D);
+	sceneGameObjects.push_back(gameObject);
+
+	if (is3D)
+	{
+		// Update the transform respect its parent when created
+		ComponentTransform* childTransform = static_cast<ComponentTransform*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM));
+		childTransform->UpdateTransformMatrices();
+
+
+		//Quadtree treatment
+		if (!rootQuadtree->InQuadrant(gameObject))
+		{
+			if (!rootQuadtree->IsFreezed())
+			{
+				rootQuadtree->ExpandToFit(gameObject);
+				FillQuadtree(sceneGameObjects);
+			}
+			else
+			{
+				App->renderer->AddToRenderList(gameObject);
+			}
+		}
+		else
+		{
+			rootQuadtree->Add(gameObject);
+		}
+
+	}
+	else
+	{
+		// Update the transform respect its parent when created
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		childTransform->CalculateMatrices();
+
+	}
+
+	return gameObject;
+}
+
+GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
+{
+	assert(!name.empty() && parent != nullptr);
+
+	GameObject* gameObject = new GameObject(*newObject);
+	gameObject->MoveParent(parent);
 
 	// Update the transform respect its parent when created
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>
 		(gameObject->GetComponent(ComponentType::TRANSFORM));
 	childTransform->UpdateTransformMatrices();
 
-	sceneGameObjects.push_back(gameObject);
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
 	//Quadtree treatment
-	if (!sceneQuadTree->InQuadrant(gameObject))
+	if (!rootQuadtree->InQuadrant(gameObject))
 	{
-		if (!sceneQuadTree->IsFreezed())
+		if (!rootQuadtree->IsFreezed())
 		{
-			sceneQuadTree->ExpandToFit(gameObject);
+			rootQuadtree->ExpandToFit(gameObject);
 			FillQuadtree(sceneGameObjects);
 		}
 		else
@@ -93,18 +147,94 @@ GameObject* Scene::CreateGameObject(const char* name, GameObject* parent)
 	}
 	else
 	{
-		sceneQuadTree->Add(gameObject);
+		rootQuadtree->Add(gameObject);
 	}
+	App->scene->GetLoadedScene()->GetRootQuadtree()
+		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->SetSelectedGameObject(gameObject);
+	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
 
-GameObject* Scene::CreateCameraGameObject(const char* name, GameObject* parent)
+GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponent(ComponentType::CAMERA);
 	sceneCameras.push_back(gameObject);
 
+	return gameObject;
+}
+
+GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* parent)
+{
+	assert(!name.empty() && parent != nullptr);
+
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	trans->SetPosition(float3(0, 0, -2));
+	trans->CalculateMatrices();
+	gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneCanvas.push_back(gameObject);
+
+	return gameObject;
+}
+
+GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent, false);
+	switch (type)
+	{
+	case ComponentType::IMAGE:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		break;
+	case ComponentType::BUTTON:
+		gameObject->CreateComponent(ComponentType::IMAGE);
+		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+		break;
+	default:
+		break;
+	}
+	return gameObject;
+}
+
+GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	ComponentMeshRenderer* meshComponent =
+		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	meshComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	std::shared_ptr<ResourceMesh> mesh;
+
+	switch (type)
+	{
+	case Premade3D::CUBE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+		break;
+	case Premade3D::PLANE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+		break;
+	case Premade3D::CYLINDER:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+		break;
+	case Premade3D::CAPSULE:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+		break;
+	case Premade3D::CHARACTER:
+		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+		break;
+	default:
+		break;
+	}
+
+	meshComponent->SetMesh(mesh);
+	return gameObject;
+}
+
+GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponentLight(type);
 	return gameObject;
 }
 
@@ -114,10 +244,10 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 	gameObject->GetParent()->RemoveChild(gameObject);
 }
 
-void Scene::ConvertModelIntoGameObject(const char* model)
+void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
-	resourceModel->Load();
+	//resourceModel->Load();
 
 	std::string modelName = App->fileSystem->GetFileName(model);
 
@@ -142,14 +272,12 @@ void Scene::ConvertModelIntoGameObject(const char* model)
 
 		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
 
-		ComponentMaterial* materialRenderer =
-			static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
-		materialRenderer->SetMaterial(material);
-
 		ComponentMeshRenderer* meshRenderer =
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
+		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
+
 	}
 }
 
@@ -201,10 +329,6 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 
 void Scene::GenerateLights()
 {
-	const unsigned program = App->program->GetProgram();
-	
-	glUseProgram(program);
-
 	// Ambient
 
 	glGenBuffers(1, &uboAmbient);
@@ -212,8 +336,6 @@ void Scene::GenerateLights()
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
 
 	const unsigned bindingAmbient = 1;
-	const unsigned uniformBlockIxAmbient = glGetUniformBlockIndex(program, "Ambient");
-	glUniformBlockBinding(program, uniformBlockIxAmbient, bindingAmbient);
 
 	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -225,8 +347,6 @@ void Scene::GenerateLights()
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
 	const unsigned bindingDirectional = 2;
-	const unsigned uniformBlockIxDir = glGetUniformBlockIndex(program, "Directional");
-	glUniformBlockBinding(program, uniformBlockIxDir, bindingDirectional);
 
 	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -240,8 +360,6 @@ void Scene::GenerateLights()
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingPoint = 3;
-	const unsigned storageBlckIxPoint = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "PointLights");
-	glShaderStorageBlockBinding(program, storageBlckIxPoint, bindingPoint);
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -252,11 +370,9 @@ void Scene::GenerateLights()
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 80 * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingSpot = 4;
-	const unsigned storageBlckIxSpot = glGetProgramResourceIndex(program, GL_SHADER_STORAGE_BLOCK, "SpotLights");
-	glShaderStorageBlockBinding(program, storageBlckIxSpot, bindingSpot);
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -264,10 +380,6 @@ void Scene::GenerateLights()
 
 void Scene::RenderAmbientLight() const
 {
-	const unsigned program = App->program->GetProgram();
-
-	glUseProgram(program);
-
 	ComponentLight* ambientComp =
 		static_cast<ComponentLight*>(ambientLight->GetComponent(ComponentType::LIGHT));
 	float3 ambientValue = ambientComp->GetColor();
@@ -279,10 +391,6 @@ void Scene::RenderAmbientLight() const
 
 void Scene::RenderDirectionalLight() const
 {
-	const unsigned program = App->program->GetProgram();
-
-	glUseProgram(program);
-
 	ComponentTransform* dirTransform =
 		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
 	ComponentLight* dirComp =
@@ -299,10 +407,6 @@ void Scene::RenderDirectionalLight() const
 
 void Scene::RenderPointLights() const
 {
-	const unsigned program = App->program->GetProgram();
-
-	glUseProgram(program);
-
 	size_t numPoint = pointLights.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
@@ -313,33 +417,24 @@ void Scene::RenderPointLights() const
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 	}
-	else
-	{
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
-	}
-	
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderSpotLights() const
 {
-	const unsigned program = App->program->GetProgram();
 	size_t numSpot = spotLights.size();
 
-	glUseProgram(program);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * numSpot, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSpot);
 
 	if (numSpot > 0)
 	{
-		for (unsigned int i = 0; i < numSpot; ++i)
-		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + 64 * i, 64, &spotLights[i]);
-		}
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(SpotLight) * numSpot, &spotLights[0]);
 	}
-	
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -414,20 +509,26 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
-	uid = UniqueID::GenerateUID();
-
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
 	sceneGameObjects.push_back(root.get());
 
-	sceneQuadTree = std::make_unique<Quadtree>(rootQuadtreeAABB);
+	rootQuadtree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
 	ambientLight = CreateGameObject("Ambient_Light", root.get());
 	ambientLight->CreateComponentLight(LightType::AMBIENT);
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+
+	std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (resourceSkybox)
+	{
+		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
 
 	InitLights();
 }
@@ -445,17 +546,31 @@ void Scene::InitLights()
 	RenderSpotLights();
 }
 
-void Scene::SetSceneQuadTree(std::unique_ptr<Quadtree> quadtree)
+void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
-	sceneQuadTree = std::move(quadtree);
+	rootQuadtree = std::move(quadtree);
+}
+
+void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
+{
+	this->skybox = std::move(skybox);
 }
 
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 {
-	return std::move(sceneQuadTree);
+	return std::move(rootQuadtree);
 }
 
 void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
 {
 	root = std::move(newRoot);
+}
+
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
+{
+	sceneGameObjects.push_back(gameObject);
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
+	}
 }

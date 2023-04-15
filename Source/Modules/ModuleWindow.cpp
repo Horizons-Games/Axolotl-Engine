@@ -39,6 +39,7 @@ bool ModuleWindow::Init()
 			width, height, flags);
 
 		window = std::unique_ptr<SDL_Window, SDLWindowDestroyer>(windowRawPointer);
+		SetVsync(false);
 
 		if(window == nullptr)
 		{
@@ -128,6 +129,12 @@ void ModuleWindow::SetBrightness(float brightness)
 	{
 		ENGINE_LOG("Error setting window brightness: %s", &SDL_GetError()[0]);
 	}
+}
+
+void ModuleWindow::SetVsync(bool vsyncactive)
+{
+	vsync = vsyncactive;
+	SDL_GL_SetSwapInterval(vsyncactive);
 }
 
 SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)

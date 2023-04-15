@@ -11,6 +11,7 @@ struct SpotLight
 	float3 aim;
 	float innerAngle = 0.0f;
 	float outAngle = 0.0f;
+	float3 padding = { 0, 0, 0 };
 };
 
 class Json;
@@ -19,6 +20,7 @@ class ComponentSpotLight : public ComponentLight
 {
 public:
 	ComponentSpotLight();
+	ComponentSpotLight(const ComponentSpotLight& componentSpotLight);
 	ComponentSpotLight(GameObject* parent);
 	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
 					   const float3& color, float intensity);

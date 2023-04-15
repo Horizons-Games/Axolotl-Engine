@@ -3,6 +3,7 @@
 #include "ImGui/imgui.h"
 
 #include "Application.h"
+#include "GL/glew.h"
 
 bool WindowDebug::defaultEnabled = true;
 
@@ -18,6 +19,8 @@ void WindowDebug::Draw(bool& enabled)
 {
 	if (App->IsDebuggingGame())
 	{
+		//De momento asi estoy activando el cursor
+		SDL_ShowCursor(SDL_ENABLE);
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 								ImGuiCond_Always,
@@ -26,7 +29,15 @@ void WindowDebug::Draw(bool& enabled)
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		if (ImGui::Begin(this->name.c_str(), NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
 		{
-			ImGui::TextUnformatted("cucu");
+			if(ImGui::Checkbox("Wireframe Mode", &wireframeMode))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, wireframeMode ? GL_LINE : GL_FILL);
+			}
+			ImGui::Checkbox("Draw Bounding Boxes", &drawBoundingBoxes);
+			ImGui::Checkbox("Draw Spot Lights", &drawSpotLight);
+			ImGui::Checkbox("Draw Directional Lights", &drawDirLight);
+			ImGui::Checkbox("Draw Point Lights", &drawPointLight);
+
 			ImGui::End();
 		}
 	}

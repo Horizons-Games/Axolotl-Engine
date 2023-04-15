@@ -14,10 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), 
-	showSaveScene(true), showLoadScene(true), loadScene(std::make_unique<WindowLoadScene>()),
-	saveScene(std::make_unique<WindowSaveScene>()), lastSelectedObjectUID(0), bbDrawn(false),
-	lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -45,10 +42,6 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	//TODO: REMOVE AFTER, HERE WE GO
-	DrawButtomsSaveAndLoad();
-	ImGui::Separator();
-
 	lastSelectedGameObject = App->scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
@@ -59,36 +52,31 @@ void WindowInspector::InspectSelectedGameObject()
 
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName.c_str());
+				lastSelectedGameObject->SetName(sceneName);
 			}
 
 		}
 		else
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
+				lastSelectedGameObject->SetName(name);
 			}
-
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
+			
+			std::string tag = lastSelectedGameObject->GetTag();
+			ImGui::Text("Tag");
+			ImGui::SameLine();
+			tag.resize(24);
+			if (ImGui::InputText("##Tag", &tag[0], 24))
+			{
+				lastSelectedGameObject->SetTag(tag);
+			}
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
@@ -118,13 +106,6 @@ void WindowInspector::InspectSelectedGameObject()
 				AddComponentMeshRenderer();
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MATERIAL)) {
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
-			}
-
 			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
@@ -134,6 +115,27 @@ void WindowInspector::InspectSelectedGameObject()
 				if (ImGui::MenuItem("Create Point Light Component"))
 				{
 					AddComponentLight(LightType::POINT);
+				}
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) {
+				if (ImGui::MenuItem("Create Player Component"))
+				{
+					AddComponentPlayer();
+				}
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
+				if (ImGui::MenuItem("Create RigidBody Component"))
+				{
+					AddComponentRigidBody();
+				}
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) {
+				if (ImGui::MenuItem("Create MockState Component"))
+				{
+					AddComponentMockState();
 				}
 			}
 
@@ -171,7 +173,6 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
-
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -307,20 +308,28 @@ void WindowInspector::AddComponentMeshRenderer()
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
-void WindowInspector::AddComponentMaterial()
-{
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
-}
-
 void WindowInspector::AddComponentLight(LightType type)
 {
 	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
-// TODO: REMOVE
-void WindowInspector::DrawButtomsSaveAndLoad()
+void WindowInspector::AddComponentPlayer()
 {
-	loadScene->DrawWindowContents();
-	ImGui::SameLine();
-	saveScene->DrawWindowContents();
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::ResetSelectedGameObject()
+{
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
+}
+
+void WindowInspector::AddComponentRigidBody()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
+}
+
+void WindowInspector::AddComponentMockState()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }

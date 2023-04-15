@@ -2,12 +2,15 @@
 
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModulePlayer.h"
 #include "Components/ComponentCamera.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -46,9 +49,7 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		//TODO
-		LoadSceneFromJson("Lib/Scenes/Final_Scene.axolotl");
-		//loadedScene = CreateEmptyScene();
+		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
 	}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
@@ -66,9 +67,27 @@ update_status ModuleScene::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+update_status ModuleScene::PostUpdate()
+{
+	if (!sceneToLoad.empty())
+	{
+		LoadSceneFromJson(sceneToLoad);
+		sceneToLoad = "";
+	}
+
+	return update_status::UPDATE_CONTINUE;
+}
+
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
 	loadedScene = std::move(newScene);
+	selectedGameObject = loadedScene->GetRoot();
+}
+
+void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
+{
+	gameObject->SetParentAsChildSelected();
+	selectedGameObject = gameObject;
 }
 
 void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
@@ -129,7 +148,19 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	GameObject* root = loadedScene->GetRoot();
 	root->SetName(App->fileSystem->GetFileName(name).c_str());
-	root->SaveOptions(jsonScene);
+
+	Json jsonGameObjects = jsonScene["GameObjects"];
+	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+	}
+
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->SaveOptions(jsonScene);
+
+	const Skybox* skybox = loadedScene->GetSkybox();
+	skybox->SaveOptions(jsonScene);
 
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
@@ -161,31 +192,54 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	SetSceneFromJson(Json);
 
 	delete buffer;
+
+#ifndef ENGINE
+	if (App->player->GetPlayer())
+	{
+
+		App->player->LoadNewPlayer();
+	}
+#endif // !ENGINE
 }
 
-void ModuleScene::SetSceneFromJson(Json& Json)
+void ModuleScene::SetSceneFromJson(Json& json)
 {
-	std::unique_ptr<GameObject> newRoot = std::make_unique<GameObject>(std::string(Json["name"]).c_str());
-
 	loadedScene = std::make_unique<Scene>();
 
-	std::vector<GameObject*> loadedObjects{};
-	newRoot->LoadOptions(Json, loadedObjects);
+	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->LoadOptions(json);
 
-	loadedScene->SetSceneQuadTree(std::make_unique<Quadtree>(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-		float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))));
-	Quadtree* sceneQuadtree = loadedScene->GetSceneQuadTree();
+	loadedScene->SetSkybox(std::make_unique<Skybox>());
+	Skybox* skybox = loadedScene->GetSkybox();
+	skybox->LoadOptions(json);
+
+	Json gameObjects = json["GameObjects"];
+	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
+
 	std::vector<GameObject*> loadedCameras{};
+	std::vector<GameObject*> loadedCanvas{};
+	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
 	{
-		sceneQuadtree = loadedScene->GetSceneQuadTree();
+		rootQuadtree = loadedScene->GetRootQuadtree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
 		if (!camerasOfObj.empty())
 		{
 			loadedCameras.push_back(obj);
+		}
+
+		if (obj->GetComponent(ComponentType::CANVAS) != nullptr)
+		{
+			loadedCanvas.push_back(obj);
+		}
+		Component* button = obj->GetComponent(ComponentType::BUTTON);
+		if (button != nullptr)
+		{
+			loadedInteractable.push_back(button);
 		}
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
@@ -200,30 +254,114 @@ void ModuleScene::SetSceneFromJson(Json& Json)
 				directionalLight = obj;
 			}
 		}
-		//Quadtree treatment
-		if (!sceneQuadtree->InQuadrant(obj))
+		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
-			if (!sceneQuadtree->IsFreezed())
+			//Quadtree treatment
+			if (!rootQuadtree->InQuadrant(obj))
 			{
-				sceneQuadtree->ExpandToFit(obj);
+				if (!rootQuadtree->IsFreezed())
+				{
+					rootQuadtree->ExpandToFit(obj);
+				}
 			}
-		}
-		else
-		{
-			sceneQuadtree->Add(obj);
+			else
+			{
+				rootQuadtree->Add(obj);
+			}
+
 		}
 	}
 
-	App->renderer->FillRenderList(sceneQuadtree);
+	App->renderer->FillRenderList(rootQuadtree);
 
-	loadedScene->SetRoot(std::move(newRoot));
 	selectedGameObject = loadedScene->GetRoot();
-
+	App->editor->RefreshInspector();
 	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
+	loadedScene->SetSceneCanvas(loadedCanvas);
+	loadedScene->SetSceneInteractable(loadedInteractable);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-
 	loadedScene->InitLights();
+}
 
+/*
+This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
+*/
+void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
+{
+	loadedScene->GetRootQuadtree()->AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject = gameObject;
+	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
+}
+std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
+{
+	std::vector<std::unique_ptr<GameObject>> gameObjects{};
+	std::unordered_map<UID, GameObject*> gameObjectMap{};
+	std::unordered_map<UID, UID> childParentMap{};
+	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		std::string name = jsonGameObject["name"];
+		UID uid = jsonGameObject["uid"];
+		UID parentUID = jsonGameObject["parentUID"];
+		bool enabled = jsonGameObject["enabled"];
+		bool active = jsonGameObject["active"];
+		std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(name, uid);
+		gameObject->LoadOptions(jsonGameObject);
+		gameObjectMap[uid] = gameObject.get();
+		childParentMap[uid] = parentUID;
+		enabledAndActive[uid] = std::make_pair(enabled, active);
+		gameObjects.push_back(std::move(gameObject));
+	}
+
+	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
+	{
+		std::unique_ptr<GameObject> gameObject = std::move(*it);
+		UID uid = gameObject->GetUID();
+		UID parent = childParentMap[uid];
+
+		if (parent == 0)
+		{
+			loadedScene->SetRoot(std::move(gameObject));
+			continue;
+		}
+
+		GameObject* parentGameObject = gameObjectMap[parent];
+		parentGameObject->AddChild(std::move(gameObject));
+	}
+
+	std::vector<GameObject*> loadedObjects{};
+	for (const auto& uidAndGameObject : gameObjectMap)
+	{
+		GameObject* gameObject = uidAndGameObject.second;
+		loadedObjects.push_back(gameObject);
+
+		if (gameObject == loadedScene->GetRoot())
+		{
+			continue;
+		}
+
+		bool enabled = enabledAndActive[gameObject->GetUID()].first;
+		bool active = enabledAndActive[gameObject->GetUID()].second;
+		if (enabled)
+		{
+			gameObject->Enable();
+		}
+		else
+		{
+			gameObject->Disable();
+		}
+		if (active)
+		{
+			gameObject->ActivateChildren();
+		}
+		else
+		{
+			gameObject->DeactivateChildren();
+		}
+	}
+	return loadedObjects;
 }

@@ -1,0 +1,10 @@
+{
+    "UID": 12928638816761440002,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_Door_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_Door_0.mat"
+    ]
+}

@@ -31,27 +31,49 @@ void ResourceTexture::SaveImporterOptions(Json& meta)
 	meta["flipHorizontal"] = importOptions.flipHorizontal;
 }
 
+
 void ResourceTexture::LoadImporterOptions(Json& meta)
 {
 	importOptions.flipVertical = meta["flipVertical"];
 	importOptions.flipHorizontal = meta["flipHorizontal"];
 }
 
+void ResourceTexture::SaveLoadOptions(Json& meta)
+{
+	meta["min"] = (int)loadOptions.min;
+	meta["mag"] = (int)loadOptions.mag;
+	meta["wrapS"] = (int)loadOptions.wrapS;
+	meta["wrapT"] = (int)loadOptions.wrapT;
+	meta["mipMap"] = loadOptions.mipMap;
+}
+
+void ResourceTexture::LoadLoadOptions(Json& meta)
+{
+	loadOptions.min = (TextureMinFilter)(int)meta["min"];
+	loadOptions.mag = (TextureMagFilter)(int)meta["mag"];
+	loadOptions.wrapS = (TextureWrap)(int)meta["wrapS"];
+	loadOptions.wrapT = (TextureWrap)(int)meta["wrapT"];
+	loadOptions.mipMap = (bool)meta["mipMap"];
+}
+
 void ResourceTexture::CreateTexture()
 {
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
+
+	if (loadOptions.mipMap)
+	{
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilterEquivalence(loadOptions.mag));
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilterEquivalence(loadOptions.min));
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapFilterEquivalence(loadOptions.wrapS));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapFilterEquivalence(loadOptions.wrapT));
-
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
-
-	if(loadOptions.mipMap) glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GetWrapFilterEquivalence(loadOptions.wrapS));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GetWrapFilterEquivalence(loadOptions.wrapT));
 }
 
 int ResourceTexture::GetMagFilterEquivalence(TextureMagFilter filter) 

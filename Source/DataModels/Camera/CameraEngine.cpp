@@ -22,6 +22,7 @@
 #include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
+#include "Physics/Physics.h"
 
 CameraEngine::CameraEngine() 
 : Camera(CameraType::C_ENGINE)
@@ -52,7 +53,6 @@ bool CameraEngine::Update()
 		if (isFocusing)
 		{
 			if (focusFlag) Focus(App->scene->GetSelectedGameObject());
-			Rotate();
 		}
 		else
 		{
@@ -67,11 +67,14 @@ bool CameraEngine::Update()
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
 				App->input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
-				const WindowScene* windowScene = App->editor->GetScene();
 				LineSegment ray;
-				if (CreateRaycastFromMousePosition(windowScene, ray))
+				if (Physics::ScreenPointToRay(App->input->GetMousePosition(), ray))
 				{
-					CalculateHitGameObjects(ray);
+					RaycastHit hit;
+					if (Physics::Raycast(ray, hit)) 
+					{
+						SetNewSelectedGameObject(hit.gameObject);
+					}
 				}
 			}
 			// --RAYCAST CALCULATION-- //
@@ -116,7 +119,9 @@ bool CameraEngine::Update()
 				App->input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				App->input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				const OBB& obb = App->scene->GetSelectedGameObject()->GetObjectOBB();
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(App->scene->GetSelectedGameObject()->GetComponent(ComponentType::TRANSFORM));
+				const OBB& obb = transform->GetObjectOBB();
 				focusFlag = false;
 				App->input->SetOrbitCursor();
 				UnlimitedCursor();
@@ -239,6 +244,7 @@ void CameraEngine::Zoom()
 
 void CameraEngine::Focus(const OBB& obb)
 {
+
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
@@ -247,31 +253,50 @@ void CameraEngine::Focus(const OBB& obb)
 	float camDistance = radius / float(sin(fov / 2.0));
 	vec camDirection = (boundingSphere.pos - frustum->Pos()).Normalized();
 
-	//position = boundingSphere.pos - (camDirection * camDistance);
-
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
-	position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed);
 
-	SetPosition(position);
-	SetLookAt(boundingSphere.pos);
+	bool isSamePosition = false;
+	if (position.Equals(endposition)) 
+	{ 
+		isSamePosition = true; 
+	}
+	else 
+	{ 
+		position = position.Lerp(endposition, App->GetDeltaTime() * rotationSpeed * 2);
+		SetPosition(position);
+	}
+
+	bool isSameRotation = false;
+	SetLookAt(boundingSphere.pos, isSameRotation);
+
+	if (isSamePosition && isSameRotation)
+	{
+		isFocusing = false;
+	}
 }
 
 void CameraEngine::Focus(GameObject* gameObject)
 {
-	std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
-	AABB minimalAABB;
-	std::vector<math::vec> outputArray{};
-	for (GameObject* object : insideGameObjects)
+	Component* transform = gameObject->GetComponent(ComponentType::TRANSFORM);
+	if (transform)
 	{
-		if (object)
+		std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+		AABB minimalAABB;
+		std::vector<math::vec> outputArray{};
+		for (GameObject* object : insideGameObjects)
 		{
-			outputArray.push_back(object->GetEncapsuledAABB().minPoint);
-			outputArray.push_back(object->GetEncapsuledAABB().maxPoint);
+			if (object)
+			{
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(object->GetComponent(ComponentType::TRANSFORM));
+				outputArray.push_back(transform->GetEncapsuledAABB().minPoint);
+				outputArray.push_back(transform->GetEncapsuledAABB().maxPoint);
+			}
 		}
-	}
-	minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
+		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 
-	Focus(minimalAABB);
+		Focus(minimalAABB);
+	}
 }
 
 void CameraEngine::Orbit(const OBB& obb)
@@ -330,20 +355,4 @@ void CameraEngine::UnlimitedCursor()
 		SDL_WarpMouseInWindow(App->window->GetWindow(), mouseX, 0);
 		mouseWarped = true;
 	}
-}
-
-void CameraEngine::Rotate()
-{
-	float yaw = 0.f, pitch = 0.f;
-
-	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
-
-	Quat pitchQuat(frustum->WorldRight(), pitch * App->GetDeltaTime() * rotationSpeed * acceleration);
-	Quat yawQuat(float3::unitY, yaw * App->GetDeltaTime() * rotationSpeed * acceleration);
-
-	float3x3 rotationMatrixX = float3x3::FromQuat(pitchQuat);
-	float3x3 rotationMatrixY = float3x3::FromQuat(yawQuat);
-	float3x3 rotationDeltaMatrix = rotationMatrixY * rotationMatrixX;
-
-	ApplyRotation(rotationDeltaMatrix);
 }
