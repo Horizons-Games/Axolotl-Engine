@@ -561,7 +561,12 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 			for (int i = 0; i < nodeAnim->mNumRotationKeys; ++i)
 			{
 				bytes = sizeof(Quat);
-				memcpy(cursor, &(nodeAnim->mRotationKeys[i].mValue), bytes);
+				Quat* rotation = new Quat(
+					nodeAnim->mRotationKeys[i].mValue.x, nodeAnim->mRotationKeys[i].mValue.y, 
+					nodeAnim->mRotationKeys[i].mValue.z, nodeAnim->mRotationKeys[i].mValue.w);
+
+				memcpy(cursor, rotation, bytes);
+				delete rotation;
 
 				cursor += bytes;
 			}
