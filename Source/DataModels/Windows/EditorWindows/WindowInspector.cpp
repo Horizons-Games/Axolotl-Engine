@@ -155,6 +155,19 @@ void WindowInspector::InspectSelectedGameObject()
 					AddComponentMockState();
 				}
 			}
+			
+			if (ImGui::MenuItem("Create AudioSource Component"))
+			{
+				AddComponentAudioSource();
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)) {
+				if (ImGui::MenuItem("Create AudioListener Component"))
+				{
+					AddComponentAudioListener();
+				}
+			}
+			
 
 		}
 
@@ -354,4 +367,14 @@ void WindowInspector::AddComponentRigidBody()
 void WindowInspector::AddComponentMockState()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}
+
+void WindowInspector::AddComponentAudioSource()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOSOURCE);
+}
+
+void WindowInspector::AddComponentAudioListener()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOLISTENER);
 }

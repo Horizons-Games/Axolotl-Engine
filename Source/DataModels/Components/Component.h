@@ -19,7 +19,8 @@ enum class ComponentType
 	BOUNDINGBOX2D,
 	RIGIDBODY,
 	MOCKSTATE,
-	AUDIOSOURCE
+	AUDIOSOURCE,
+	AUDIOLISTENER
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -160,6 +161,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_BoundingBox2D";
 	case ComponentType::AUDIOSOURCE:
 		return "Component_AudioSource";
+	case ComponentType::AUDIOLISTENER:
+		return "Component_AudioListener";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -236,6 +239,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_AudioSource")
 	{
 		return ComponentType::AUDIOSOURCE;
+	}
+
+	if (typeName == "Component_AudioListener")
+	{
+		return ComponentType::AUDIOLISTENER;
 	}
 	
 	return ComponentType::UNKNOWN;

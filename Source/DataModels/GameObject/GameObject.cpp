@@ -18,6 +18,7 @@
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
 #include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentAudioListener.h"
 
 #include "Application.h"
 
@@ -572,6 +573,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::AUDIOSOURCE:
 		{
 			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
 			break;
 		}
 

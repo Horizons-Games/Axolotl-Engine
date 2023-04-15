@@ -17,6 +17,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -36,6 +37,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMockState.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAudioListener.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -70,6 +72,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
 		case ComponentType::AUDIOSOURCE:
 			return std::make_unique<WindowComponentAudioSource>(static_cast<ComponentAudioSource*>(component));
+		case ComponentType::AUDIOLISTENER:
+			return std::make_unique<WindowComponentAudioListener>(static_cast<ComponentAudioListener*>(component));
 		case ComponentType::MOCKSTATE:
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 		case ComponentType::LIGHT:
