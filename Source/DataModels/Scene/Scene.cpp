@@ -434,10 +434,10 @@ const std::vector<GameObject*> Scene::CacheBoneHierarchy(
 
 	for (GameObject* child : children)
 	{
+		const std::string& name = child->GetName();
+
 		for (const Bone& bone : bones)
 		{
-			const std::string& name = child->GetName();
-
 			if (name == bone.name || 
 				name.find("$AssimpFbx$") != std::string::npos)
 			{
