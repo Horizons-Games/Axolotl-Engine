@@ -478,7 +478,6 @@
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleCommand.cpp" />
-    <ClCompile Include="Modules\ModuleEngineCamera.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
@@ -750,7 +749,6 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
     <ClInclude Include="Modules\ModuleCommand.h" />
-    <ClInclude Include="Modules\ModuleEngineCamera.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
