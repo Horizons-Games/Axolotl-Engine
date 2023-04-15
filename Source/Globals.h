@@ -64,6 +64,7 @@ enum class TextureType
 #define TIF_TEXTURE_EXTENSION ".tif"
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
+#define HDR_TEXTURE_EXTENSION ".hdr"
 #define SCENE_EXTENSION ".axolotl"
 #define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"

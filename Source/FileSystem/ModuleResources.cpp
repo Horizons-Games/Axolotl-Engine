@@ -567,7 +567,7 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	}
 	else if (normalizedExtension == JPG_TEXTURE_EXTENSION || normalizedExtension == PNG_TEXTURE_EXTENSION || 
 			normalizedExtension == TIF_TEXTURE_EXTENSION || normalizedExtension == DDS_TEXTURE_EXTENSION || 
-			normalizedExtension == TGA_TEXTURE_EXTENSION) 
+			normalizedExtension == TGA_TEXTURE_EXTENSION || normalizedExtension == HDR_TEXTURE_EXTENSION)
 	{
 		return ResourceType::Texture;
 	}
