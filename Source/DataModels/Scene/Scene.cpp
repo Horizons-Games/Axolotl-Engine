@@ -22,6 +22,8 @@
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Program/Program.h"

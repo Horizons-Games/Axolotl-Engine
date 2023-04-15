@@ -2,14 +2,17 @@
 #pragma warning (disable: 26495)
 
 #include "Module.h"
-#include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include "Math/float4.h"
+
+#include <map>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Quadtree;
+class GameObject;
 
 class ModuleRender : public Module
 {
@@ -68,6 +71,8 @@ private:
 
 	std::string vertexShader;
 	std::string fragmentShader;
+
+	Cubemap* cubemap;
 
 	friend class ModuleEditor;
 };

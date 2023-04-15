@@ -14,6 +14,7 @@
 #include "Components/ComponentLight.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataStructures/Quadtree.h"
 
 #ifdef DEBUG
 #include "optick.h"

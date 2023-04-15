@@ -20,9 +20,10 @@
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataStructures/Quadtree.h"
 #include "Components/ComponentMeshRenderer.h"
 
-#include "GameObject/GameObject.h"
+#include "DataModels/GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
