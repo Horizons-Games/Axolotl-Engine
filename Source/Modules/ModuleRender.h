@@ -69,6 +69,7 @@ private:
 	GLuint depthStencilRenderbuffer;
 
 	GLuint cubemapFBO;
+	GLuint captureRBO;
 	GLuint envCubemap;
 
 	std::string vertexShader;

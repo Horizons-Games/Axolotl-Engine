@@ -11,6 +11,7 @@ enum class ProgramType
 	HIGHLIGHT,
 	SKYBOX,
 	SPRITE,
+	IRRADIANCE_MAP,
 	PROGRAM_TYPE_SIZE
 };
 

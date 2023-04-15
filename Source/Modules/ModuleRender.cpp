@@ -22,6 +22,7 @@
 #include "Components/ComponentMaterial.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "DataModels/Program/Program.h"
 
 #include "GameObject/GameObject.h"
 
@@ -103,7 +104,7 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), cubemapFBO(0), envCubemap(0), 
+	depthStencilRenderbuffer(0), cubemapFBO(0), envCubemap(0), captureRBO(0),
 	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
@@ -166,8 +167,6 @@ bool ModuleRender::Init()
 	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
-	GenerateIrradianceCubemap();
-
 	return true;
 }
 
@@ -176,6 +175,8 @@ bool ModuleRender::Start()
 	ENGINE_LOG("--------- Render Start ----------");
 
 	//UpdateProgram();
+
+	GenerateIrradianceCubemap();
 
 	return true;
 }
@@ -570,13 +571,36 @@ void ModuleRender::GenerateIrradianceCubemap()
 	frustum.SetPos(float3::zero);
 	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 	
+	// TODO: Create and Bind Frame Buffer and Create Irradiance Cubemap
 	glGenFramebuffers(1, &cubemapFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, cubemapFBO);
+	glGenRenderbuffers(1, &captureRBO);
 
+	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 	glGenTextures(1, &envCubemap);
+	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		// note that we store each face with 16 bit floating point values
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F,
+			512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	// TODO: Create and Bind Frame Buffer and Create Irradiance Cubemap
+	/*std::shared_ptr<ResourceSkyBox> resourceSkybox =
+		App->resources->RequestResource<ResourceSkyBox>("Assets/Cubemaps/SunsetSkyboxHDR.hdr");*/
+
+	Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
+	irradianceProgram->Activate();
+	float4x4 projMatrix = frustum.ProjectionMatrix();
+	irradianceProgram->BindUniformFloat4x4("proj", (const float*)&projMatrix, GL_TRUE);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -585,7 +609,13 @@ void ModuleRender::GenerateIrradianceCubemap()
 		frustum.SetFront(front[i]);
 		frustum.SetUp(up[i]);
 		// TODO: Draw Unit Cube using frustum view and projection matrices
+		float4x4 viewMatrix = frustum.ViewMatrix();
+		irradianceProgram->BindUniformFloat4x4("proj", (const float*)&viewMatrix, GL_TRUE);
 	}
+
+	irradianceProgram->Deactivate();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
