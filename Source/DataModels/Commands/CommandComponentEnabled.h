@@ -17,11 +17,15 @@ private:
 	bool desiredValue;
 };
 
-CommandComponentEnabled::CommandComponentEnabled(Component* comp, bool* enable, bool desiredValue) : comp(comp), enable(enable), desiredValue(desiredValue)
+CommandComponentEnabled::CommandComponentEnabled(Component* comp, bool* enable, bool desiredValue) : comp(comp), 
+						enable(enable), desiredValue(desiredValue)
 {}
 
 CommandComponentEnabled::~CommandComponentEnabled()
-{}
+{
+	delete comp;
+	delete enable;
+}
 
 std::unique_ptr<Command> CommandComponentEnabled::Execute()
 {
