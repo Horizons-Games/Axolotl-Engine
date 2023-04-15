@@ -29,7 +29,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
 	assert(gameObject);
 
-	// Delete a GameObject with the `Delete / Supr` key
+	// Delete a GameObject with the SUPR key
 	if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
 		gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
 		gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
@@ -203,10 +203,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 				{
 					App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed,
 																				// change the focus to its parent
-					App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(
-						gameObject->GetParent());
+					App->scene->RemoveGameObjectAndChildren(gameObject->GetParent());
 				}
-				App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
+				App->scene->RemoveGameObjectAndChildren(gameObject);
 				App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
 
 				ImGui::EndPopup();

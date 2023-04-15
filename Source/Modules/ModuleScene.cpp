@@ -256,17 +256,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
 			// Quadtree treatment
-			if (!rootQuadtree->InQuadrant(obj))
-			{
-				if (!rootQuadtree->IsFreezed())
-				{
-					rootQuadtree->ExpandToFit(obj);
-				}
-			}
-			else
-			{
-				rootQuadtree->Add(obj);
-			}
+			AddGameObject(obj);
 		}
 	}
 
@@ -288,10 +278,11 @@ This have the same functionality as SetSelectedGameObject but implies changes in
 */
 void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 {
-	loadedScene->GetRootQuadtree()->AddGameObjectAndChildren(selectedGameObject);
+	AddGameObjectAndChildren(selectedGameObject);
 	selectedGameObject = gameObject;
-	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
+	RemoveGameObjectAndChildren(selectedGameObject);
 }
+
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
 	std::vector<std::unique_ptr<GameObject>> gameObjects{};
@@ -362,4 +353,48 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		}
 	}
 	return loadedObjects;
+}
+
+void ModuleScene::AddGameObjectAndChildren(GameObject* object)
+{
+	AddGameObject(object);
+
+	for (GameObject* child : object->GetChildren())
+	{
+		AddGameObjectAndChildren(child);
+	}
+}
+
+void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
+{
+	RemoveGameObject(object);
+
+	for (GameObject* child : object->GetChildren())
+	{
+		RemoveGameObjectAndChildren(child);
+	}
+}
+
+void ModuleScene::AddGameObject(GameObject* object)
+{
+	if (object->IsStatic())
+	{
+		loadedScene->AddStaticObject(object);
+	}
+	else
+	{
+		loadedScene->AddNonStaticObject(object);
+	}
+}
+
+void ModuleScene::RemoveGameObject(GameObject* object)
+{
+	if (object->IsStatic())
+	{
+		loadedScene->RemoveStaticObject(object);
+	}
+	else
+	{
+		loadedScene->RemoveNonStaticObject(object);
+	}
 }
