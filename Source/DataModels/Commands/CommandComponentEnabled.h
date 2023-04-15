@@ -29,15 +29,18 @@ CommandComponentEnabled::~CommandComponentEnabled()
 
 std::unique_ptr<Command> CommandComponentEnabled::Execute()
 {
+	std::unique_ptr<CommandComponentEnabled> reverse;
 	if (desiredValue)
 	{
 		comp->Enable();
 		*enable = true;
-		std::unique_ptr<CommandComponentEnabled> reverse = std::make_unique<CommandComponentEnabled>(comp, enable, false);
-		return reverse;
+		reverse = std::make_unique<CommandComponentEnabled>(comp, enable, false);
 	}
-	comp->Disable();
-	*enable = false;
-	std::unique_ptr<CommandComponentEnabled> reverse = std::make_unique<CommandComponentEnabled>(comp, enable, true);
+	else
+	{
+		comp->Disable();
+		*enable = false;
+		reverse = std::make_unique<CommandComponentEnabled>(comp, enable, true);
+	}
 	return reverse;
 }
