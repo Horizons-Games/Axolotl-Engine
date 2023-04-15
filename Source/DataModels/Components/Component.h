@@ -6,7 +6,6 @@
 enum class ComponentType 
 {
 	UNKNOWN, 
-	MATERIAL, 
 	MESHRENDERER, 
 	TRANSFORM,
 	TRANSFORM2D,
@@ -130,8 +129,6 @@ const std::string GetNameByType(ComponentType type)
 {
 	switch (type)
 	{
-	case ComponentType::MATERIAL:
-		return "Component_Material";
 	case ComponentType::MESHRENDERER:
 		return "Component_MeshRenderer";
 	case ComponentType::TRANSFORM:
@@ -162,11 +159,6 @@ const std::string GetNameByType(ComponentType type)
 
 const ComponentType GetTypeByName(const std::string& typeName)
 {
-	if (typeName == "Component_Material")
-	{
-		return ComponentType::MATERIAL;
-	}
-
 	if (typeName == "Component_MeshRenderer")
 	{
 		return ComponentType::MESHRENDERER;
