@@ -22,7 +22,7 @@
 #endif // !ENGINE
 
 GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
-createBuffers(true), reserveModelSpace(true), flags(0)
+createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", ""))
 {
 	//initialize buffers
 	glGenVertexArrays(1, &vao);
@@ -47,6 +47,7 @@ GeometryBatch::~GeometryBatch()
 	resourcesInfo.clear();
 	resourcesMaterial.clear();
 	instanceData.clear();
+	delete defaultMaterial;
 	CleanUp();
 }
 
@@ -274,8 +275,12 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMaterial)
 	{
 #ifdef ENGINE
-		resourcesMaterial.erase(
-			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get());
+		// If element was found
+		if (it != resourcesMaterial.end())
+		{
+			resourcesMaterial.erase(it);
+		}
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	reserveModelSpace = true;
@@ -283,6 +288,14 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
 	}
 #endif //ENGINE
+}
+
+
+void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
+{
+	resourcesMaterial.erase(
+			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+	reserveModelSpace = true;
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
@@ -312,7 +325,14 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		instanceData.reserve(componentsInBatch.size());
 		for (ComponentMeshRenderer* component : componentsInBatch)
 		{
-			CreateInstanceResourceMaterial(component->GetMaterial().get());
+			if (component->GetMaterial())
+			{
+				CreateInstanceResourceMaterial(component->GetMaterial().get());
+			}
+			else
+			{
+				CreateInstanceResourceMaterial(defaultMaterial);
+			}
 		}
 		FillMaterial();
 		reserveModelSpace = false;
@@ -430,14 +450,6 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 	}
 	assert(false);
 	return nullptr;
-}
-
-void GeometryBatch::UpdateMaterial()
-{
-	if (updateMaterial)
-	{
-		FillMaterial();
-	}
 }
 
 bool GeometryBatch::CleanUp()
