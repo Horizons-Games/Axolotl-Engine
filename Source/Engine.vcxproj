@@ -406,7 +406,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -659,7 +662,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

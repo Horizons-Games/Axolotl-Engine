@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#include "Math/float3.h"
+
 class ComponentMeshCollider :
 	public Component
 {
@@ -16,6 +18,9 @@ public:
 
 	bool GetIsTrigger() const;
 	void SetIsTrigger(bool newIsKinematic);
+
+	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size) const;
+	void GetMinMaxPoints(std::vector<float3>& startingPoints, std::vector<float3>& points) const;
 
 private:
 
