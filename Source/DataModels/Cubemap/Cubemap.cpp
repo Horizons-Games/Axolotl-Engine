@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 
+#include "FileSystem/ModuleResources.h"
+
 #include "DataModels/Program/Program.h"
 
 #include "Resources/ResourceTexture.h"
@@ -47,6 +49,7 @@ Cubemap::Cubemap()
 	irradianceProgram->Activate();
 	float4x4 projMatrix = frustum.ProjectionMatrix();
 	irradianceProgram->BindUniformFloat4x4("proj", (const float*)&projMatrix, GL_TRUE);
+    hdrTexture = App->resources->RequestResource<ResourceTexture>("Assets/Cubemaps/SunsetSkyboxHDR.hdr");;
     hdrTexture->Load();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, hdrTexture->GetGlTexture());
