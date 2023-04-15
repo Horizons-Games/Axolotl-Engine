@@ -50,12 +50,10 @@ public:
 	std::string GetName() const;
 	std::string GetTag() const;
 	GameObject* GetParent() const;
-	std::shared_ptr<ResourceModel> GetModel() const;
 
 	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
-	std::shared_ptr<ResourceModel> SetModel(std::shared_ptr<ResourceModel> model);
 
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
@@ -128,8 +126,6 @@ private:
 	OBB objectOBB;
 	bool drawBoundingBoxes;
 
-	std::shared_ptr<ResourceModel> resourceModel = nullptr;
-
 	friend class WindowInspector;
 };
 
@@ -175,11 +171,6 @@ inline GameObject* GameObject::GetParent() const
 	return parent;
 }
 
-inline std::shared_ptr<ResourceModel> GameObject::GetModel() const
-{
-	return resourceModel;
-}
-
 inline StateOfSelection GameObject::GetStateOfSelection() const
 {
 	return stateOfSelection;
@@ -219,11 +210,6 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 	{
 		this->children.push_back(std::move(newChild));
 	}
-}
-
-inline std::shared_ptr<ResourceModel> GameObject::SetModel(std::shared_ptr<ResourceModel> model)
-{
-	return this->resourceModel = model;
 }
 
 inline const std::vector<Component*> GameObject::GetComponents() const

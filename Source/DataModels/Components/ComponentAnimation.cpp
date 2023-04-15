@@ -63,9 +63,7 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw()
 {
-	std::shared_ptr<ResourceModel> resource = owner->GetModel();
-
-	DrawBones(resource->GetNodes());
+	DrawBones(owner, owner);
 }
 
 void ComponentAnimation::DrawBones(GameObject* parent, GameObject* lastNonExtraNode) const
@@ -94,31 +92,6 @@ void ComponentAnimation::DrawBones(GameObject* parent, GameObject* lastNonExtraN
 			DrawBones(child, lastNonExtraNode);
 		}
 		
-	}
-}
-
-void ComponentAnimation::DrawBones(std::vector<ResourceModel::Node*> nodes) const
-{
-	std::map<std::string, ComponentTransform*> childrenTransforms;
-	std::list<GameObject*> children = owner->GetGameObjectsInside();
-
-	for (GameObject* child : children)
-	{
-		childrenTransforms[child->GetName()] = 
-			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-	}
-	
-	for (ResourceModel::Node* node : nodes)
-	{
-		dd::axisTriad(childrenTransforms[node->name]->GetGlobalMatrix(), 0.1f, 2.0f);
-
-		if (node->parent != -1)
-		{
-			ComponentTransform* parentTransform = childrenTransforms[nodes[node->parent]->name];
-
-			dd::line(childrenTransforms[node->name]->GetGlobalPosition(), parentTransform->GetGlobalPosition(), 
-				dd::colors::Blue);
-		}
 	}
 }
 

@@ -261,7 +261,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
-	gameObjectModel->SetModel(resourceModel);
 
 	if (animations.size() > 0)
 	{

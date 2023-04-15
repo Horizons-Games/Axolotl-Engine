@@ -35,7 +35,7 @@
 GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
 	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), 
 	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }), 
-	drawBoundingBoxes(false), resourceModel(nullptr)
+	drawBoundingBoxes(false)
 {
 }
 
@@ -55,7 +55,7 @@ GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName())
 	uid(UniqueID::GenerateUID()), enabled(true), active(true),
 	localAABB(gameObject.localAABB), encapsuledAABB(localAABB),
 	stateOfSelection(StateOfSelection::NO_SELECTED),
-	objectOBB({ localAABB }), drawBoundingBoxes(false), resourceModel(nullptr)
+	objectOBB({ localAABB }), drawBoundingBoxes(false)
 {
 	for (auto component : gameObject.GetComponents())
 	{
