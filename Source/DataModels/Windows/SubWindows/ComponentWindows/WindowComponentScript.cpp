@@ -14,7 +14,12 @@ WindowComponentScript::~WindowComponentScript()
 {
 }
 
-void WindowComponentScript::DrawWindowContents() {
+void WindowComponentScript::DrawWindowContents()
+{
+	DrawEnableAndDeleteComponent();
+
+	ImGui::Text("");
+
 	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(this->component);
 	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), constructors.size(), 3))

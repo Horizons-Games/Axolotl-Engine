@@ -311,23 +311,6 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	SetSceneFromJson(Json);
 
 	//Load Script objects
-	std::vector<GameObject*> gameObjects = loadedScene->GetSceneGameObjects();
-	for(int i = 0; i < gameObjects.size(); ++i)
-	{
-		std::vector<Component*> components = gameObjects[i]->GetComponents();
-		for (int j = 0; j < components.size(); ++j)
-		{
-			ComponentType type = components[j]->GetType();
-			if (type == ComponentType::SCRIPT)
-			{
-				ComponentScript* script = static_cast<ComponentScript*>(components[j]);
-				std::string constructor = script->GetConstructName();
-				IScript* iscript = App->scriptFactory->GetScript(constructor.c_str());
-				iscript->SetGameObject(gameObjects[i]);
-				script->SetScript(iscript);
-			}
-		}
-	}
 	delete buffer;
 
 #ifndef ENGINE

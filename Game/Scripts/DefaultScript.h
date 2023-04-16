@@ -23,7 +23,16 @@ public:
 	{
 		this->value = value;
 	}
+	float GetValue2() const
+	{
+		return value3;
+	}
+	void SetValue2(float value)
+	{
+		this->value3 = value;
+	}
 
 private:
 	float value;
+	float value3;
 };

@@ -50,6 +50,10 @@ inline IScript* ComponentScript::GetScript()
 
 inline void ComponentScript::SetScript(IScript* script)
 {
+	if (this->script)
+	{
+		script->SetFields(this->script->GetFields());
+	}
 	this->script = script;
 }
 
