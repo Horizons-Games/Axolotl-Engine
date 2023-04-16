@@ -16,10 +16,14 @@ public:
 	void Move();
 	void UnlimitedCursor();
 	void Zoom();
-	void Focus(const OBB& obb);
+	void FocusProportional(const OBB& obb);
+	void FocusInterpolated(const OBB& obb);
 	void Focus(GameObject* gameObject);
 	void Orbit(const OBB& obb);
 
 private:
+
+	float3 currentFocusPos;
+	float3 currentFocusDir;
 
 };

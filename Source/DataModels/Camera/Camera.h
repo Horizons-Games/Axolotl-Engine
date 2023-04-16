@@ -75,14 +75,17 @@ public:
 	void SetAspectRatio(float aspect);
 	void SetPlaneDistance(float zNear, float zFar);
 	void SetPosition(const float3& position);
-	void SetRotation(const Quat& rotation);
 	void SetOrientation(const float3& orientation);
-	void SetLookAt(const float3& lookAt, float currentTimeRelation);
 	void SetMoveSpeed(float speed);
 	void SetRotationSpeed(float speed);
 	void SetFrustumOffset(float offset);
 	void SetFrustumMode(EFrustumMode mode);
 	void SetViewPlaneDistance(float distance);
+	void SetKpPosition(float KpPosition);
+	void SetKpRotation(float KpRotation);
+	void SetInterpolationDuration(float interpolationDuration);
+	void SetFocusing(bool isFocusing);
+	void SetUsingProportionalController(bool isUsingProportionalController);
 
 	const float4x4& GetProjectionMatrix() const;
 	const float4x4& GetViewMatrix() const;
@@ -97,8 +100,14 @@ public:
 	float GetDistance(const float3& point) const;
 	float GetFrustumOffset() const;
 	float GetViewPlaneDistance() const;
+	bool IsFocusing() const;
+	bool IsUsingProportionalController() const;
+	float GetKpPosition() const;
+	float GetKpRotation() const;
+	float GetInterpolationDuration() const;
 	EFrustumMode GetFrustumMode() const;
 	const float3& GetPosition() const;
+	const Quat& GetRotation() const;
 
 protected:
 	
@@ -120,12 +129,16 @@ protected:
 	float viewPlaneDistance;
 
 	EFrustumMode frustumMode;
-
 	math::Plane offsetFrustumPlanes[6];
-	bool mouseWarped;
 
 	bool isFocusing;
+	bool isUsingProportionalController;
+	float KpPosition;
+	float KpRotation;
+	float interpolationTime;
+	float interpolationDuration;
 
+	bool mouseWarped;
 	int lastMouseX, lastMouseY;
 	int mouseState;
 };
@@ -145,9 +158,39 @@ inline const float3& Camera::GetPosition() const
 	return position;
 }
 
+inline const Quat& Camera::GetRotation() const
+{
+	return rotation;
+}
+
+inline float Camera::GetKpPosition() const
+{
+	return KpPosition;
+}
+
+inline float Camera::GetKpRotation() const
+{
+	return KpRotation;
+}
+
+inline float Camera::GetInterpolationDuration() const
+{
+	return interpolationDuration;
+}
+
 inline float Camera::GetViewPlaneDistance() const
 {
 	return viewPlaneDistance;
+}
+
+inline bool Camera::IsFocusing() const
+{
+	return isFocusing;
+}
+
+inline bool Camera::IsUsingProportionalController() const
+{
+	return isUsingProportionalController;
 }
 
 inline void Camera::SetMoveSpeed(float speed)
@@ -174,6 +217,31 @@ inline void Camera::SetViewPlaneDistance(float distance)
 {
 	viewPlaneDistance = distance;
 	frustum->SetViewPlaneDistances(0.1f, distance);
+}
+
+inline void Camera::SetKpPosition(float Kp)
+{
+	KpPosition = Kp;
+}
+
+inline void Camera::SetKpRotation(float Kp)
+{
+	KpRotation = Kp;
+}
+
+inline void Camera::SetInterpolationDuration(float duration)
+{
+	interpolationDuration = duration;
+}
+
+inline void Camera::SetFocusing(bool focusing)
+{
+	isFocusing = focusing;
+}
+
+inline void Camera::SetUsingProportionalController(bool focusController)
+{
+	isUsingProportionalController = focusController;
 }
 
 inline const float4x4& Camera::GetProjectionMatrix() const

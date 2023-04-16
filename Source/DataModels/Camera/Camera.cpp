@@ -23,7 +23,7 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), isFocusing(false)
+	: type(type), mouseWarped(false), isFocusing(false), isUsingProportionalController(false)
 {
 	frustum = std::make_unique <Frustum>();
 }
@@ -42,8 +42,13 @@ Camera::Camera(Camera& camera)
 	frustumOffset(camera.frustumOffset),
 	viewPlaneDistance(camera.viewPlaneDistance),
 	frustumMode(camera.frustumMode),
-	mouseWarped(camera.mouseWarped),
 	isFocusing(camera.isFocusing),
+	isUsingProportionalController(camera.isUsingProportionalController),
+	KpPosition(camera.KpPosition),
+	KpRotation(camera.KpRotation),
+	interpolationTime(camera.interpolationTime),
+	interpolationDuration(camera.interpolationDuration),
+	mouseWarped(camera.mouseWarped),
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
 	mouseState(camera.mouseState),
@@ -69,8 +74,13 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	frustumOffset(camera->frustumOffset),
 	viewPlaneDistance(camera->viewPlaneDistance),
 	frustumMode(camera->frustumMode),
-	mouseWarped(camera->mouseWarped),
 	isFocusing(camera->isFocusing),
+	isUsingProportionalController(camera->isUsingProportionalController),
+	KpPosition(camera->KpPosition),
+	KpRotation(camera->KpRotation),
+	interpolationTime(camera->interpolationTime),
+	interpolationDuration(camera->interpolationDuration),
+	mouseWarped(camera->mouseWarped),
 	lastMouseX(camera->lastMouseX),
 	lastMouseY(camera->lastMouseY),
 	mouseState(camera->mouseState),
@@ -112,6 +122,11 @@ bool Camera::Init()
 	frustum->SetUp(float3::unitY);
 	rotation = Quat::identity;
 
+	interpolationDuration = 0.5f;
+	interpolationTime = 0.0f;
+	KpPosition = 5.0f;
+	KpRotation = 0.05f;
+
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
 		RecalculateOffsetPlanes();
@@ -127,8 +142,8 @@ bool Camera::Start()
 
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
 {
-	vec oldFront = frustum->Front().Normalized();
-	vec oldUp = frustum->Up().Normalized();
+	float3 oldFront = frustum->Front().Normalized();
+	float3 oldUp = frustum->Up().Normalized();
 
 	frustum->SetFront(rotationMatrix.MulDir(oldFront));
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
@@ -139,16 +154,13 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 
 void Camera::ApplyRotation(const Quat& rotationQuat)
 {
-	Quat currentRotation = rotation;
+	float3 oldFront = frustum->Front().Normalized();
+	float3 oldUp = frustum->Up().Normalized();
 
-	Quat newRotation = rotationQuat * currentRotation;
-	newRotation.Normalize();
+	frustum->SetFront(rotationQuat.Transform(oldFront));
+	frustum->SetUp(rotationQuat.Transform(oldUp));
 
-	float3x3 newRotationMatrix = float3x3::FromQuat(newRotation);
-	frustum->SetFront(newRotationMatrix.MulDir(frustum->Front().Normalized()));
-	frustum->SetUp(newRotationMatrix.MulDir(frustum->Up().Normalized()));
-
-	rotation = newRotation;
+	rotation = rotationQuat;
 }
 
 void Camera::ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const float3& fixedUp)
@@ -167,7 +179,6 @@ void Camera::ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const floa
 
 void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp)
 {
-	
 	float3 newFront = rotationQuat.Transform(frustum->Front().Normalized());
 	float3 newRight = fixedUp.Cross(newFront).Normalized();
 	float3 newUp = newFront.Cross(newRight);
