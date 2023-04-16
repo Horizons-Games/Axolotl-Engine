@@ -11,13 +11,13 @@ class Application;
 	Field<Type> field( \
 		#Name, \
 		[this] { return this->Get##Name(); }, \
-		[this](const Type& value) { this->Set##Name(value); }, \
-		FieldType::##TypeEnum \
+		[this](const Type& value) { this->Set##Name(value); } \
 	); \
-	this->members.push_back(field);
+	this->members.push_back(std::make_pair(FieldType::TypeEnum, field));
 
 //for now only allow floats
 using ValidFieldType = std::variant<Field<float>>;
+using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
 {
@@ -34,15 +34,15 @@ public:
 	virtual void SetGameObject(GameObject* owner) = 0;
 	virtual void SetApplication(Application* app) = 0;
 
-	const std::vector<ValidFieldType>& GetFields() const;
+	const std::vector<TypeFieldPair>& GetFields() const;
 
 protected:
 	GameObject* owner;
 	Application* App;
-	std::vector<ValidFieldType> members;
+	std::vector<TypeFieldPair> members;
 };
 
-inline const std::vector<ValidFieldType>& IScript::GetFields() const
+inline const std::vector<TypeFieldPair>& IScript::GetFields() const
 {
 	return members;
 }

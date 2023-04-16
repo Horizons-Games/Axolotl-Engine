@@ -29,12 +29,21 @@ void WindowComponentScript::DrawWindowContents() {
 	IScript* scriptObject = script->GetScript();
 	if (scriptObject)
 	{
-		for (ValidFieldType member : scriptObject->GetFields())
+		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 		{
-			Field<float> value = std::get<Field<float>>(member);
-			float valueValue = value.getter();
-			ImGui::SliderFloat(value.name.c_str(), &valueValue, 0, 10);
-			value.setter(valueValue);
+			ValidFieldType member = enumAndMember.second;
+			switch (enumAndMember.first)
+			{
+			case FieldType::FLOAT:
+			{
+				Field<float> floatField = std::get<Field<float>>(member);
+				float value = floatField.getter();
+				ImGui::SliderFloat(floatField.name.c_str(), &value, 0, 10);
+				floatField.setter(value);
+			}
+			default:
+				break;
+			}
 		}
 	}
 }

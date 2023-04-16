@@ -15,16 +15,13 @@ public:
 	const std::string name;
 	const std::function<T(void)> getter;
 	const std::function<void(const T&)> setter;
-	FieldType type;
 
 	Field(const std::string& name,
 		  const std::function<T(void)>& getter,
-		  const std::function<void(const T&)>& setter,
-		  FieldType type) :
+		  const std::function<void(const T&)>& setter) :
 		name(name),
 		getter(getter),
-		setter(setter),
-		type(type)
+		setter(setter)
 	{
 	}
 
