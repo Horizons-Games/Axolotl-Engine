@@ -120,7 +120,7 @@ void ComponentWindow::DrawEnableComponent()
 		bool enable = component->GetActive();
 		if (ImGui::Checkbox(ss.str().c_str(), &enable))
 		{
-			App->command->CreateAndExecuteCommand<CommandComponentEnabled>(component, &enable, enable);
+			App->command->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
 		}
 	}
 }
