@@ -11,6 +11,7 @@ class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
+class ModuleCommand;
 class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
@@ -58,6 +59,7 @@ public:
 	ModulePlayer* player;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
+	ModuleCommand* command;
 	
 	std::unique_ptr<ScriptFactory> scriptFactory;
 

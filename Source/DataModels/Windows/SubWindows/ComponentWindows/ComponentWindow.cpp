@@ -1,5 +1,7 @@
 #include "ComponentWindow.h"
 
+#include <sstream>
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
@@ -36,6 +38,10 @@
 #include "Components/ComponentMockState.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
+
+#include "ComponentWindow.h"
+#include "ModuleCommand.h"
+#include "Commands/CommandComponentEnabled.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -120,9 +126,10 @@ void ComponentWindow::DrawEnableComponent()
 
 		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->IsEnabled();
-		ImGui::Checkbox(ss.str().c_str(), &enable);
-
-		(enable) ? component->Enable() : component->Disable();
+		if (ImGui::Checkbox(ss.str().c_str(), &enable))
+		{
+			App->command->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
+		}
 	}
 }
 

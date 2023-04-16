@@ -10,6 +10,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleCommand.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
@@ -21,6 +22,7 @@ Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), deb
 								isOnPlayMode(false), onPlayTimer(Timer())
 {
 	// Order matters: they will Init/start/update in this order
+	modules.push_back(std::unique_ptr<ModuleCommand>(command = new ModuleCommand()));
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
