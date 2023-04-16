@@ -45,9 +45,9 @@ bool ScriptFactory::Init()
 	m_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	g_SystemTable = new SystemTable();
 
-
 	m_pCompilerLogger = new LogSystem();
 
+	m_pRuntimeObjectSystem->SetAdditionalCompileOptions("/std:c++20");
 	//Tener un RuntimeObjectSystem por cada script
 	if (!m_pRuntimeObjectSystem->Initialise(m_pCompilerLogger, 0))
 	{
