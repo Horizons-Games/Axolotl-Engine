@@ -19,7 +19,6 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentMaterial.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
 
@@ -230,6 +229,11 @@ update_status ModuleRender::Update()
 	bool isRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
+	}
 
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
@@ -411,7 +415,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
-	if (gameObject->GetParent() == nullptr || gameObject->GetParent() == nullptr)
+	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
@@ -558,7 +562,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
+	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->GetTransparent())

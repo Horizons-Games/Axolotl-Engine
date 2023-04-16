@@ -61,4 +61,3 @@ inline void ComponentMockState::SetSceneName(const std::string& newTag)
 {
 	sceneName = newTag;
 }
-
