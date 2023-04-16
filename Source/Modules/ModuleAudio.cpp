@@ -19,6 +19,7 @@
 #define BANKNAME_CAR L"Car.bnk"
 #define BANKNAME_HUMAN L"Human.bnk"
 #define BANKNAME_MARKERTEST L"MarkerTest.bnk"
+#define BANKNAME_BGM L"BGM.bnk"
 
 
 ModuleAudio::ModuleAudio()
@@ -194,5 +195,7 @@ void ModuleAudio::InitializeBanks() {
     eResult = AK::SoundEngine::LoadBank(BANKNAME_HUMAN, bankID);
     assert(eResult == AK_Success);
     eResult = AK::SoundEngine::LoadBank(BANKNAME_MARKERTEST, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_BGM, bankID);
     assert(eResult == AK_Success);
 }
