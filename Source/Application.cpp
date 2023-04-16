@@ -114,7 +114,6 @@ void Application::OnPlay()
 	}
 	//Active Scripts
 	scene->OnPlay();
-
 }
 
 void Application::OnStopPlay()
@@ -123,6 +122,7 @@ void Application::OnStopPlay()
 	input->SetShowCursor(true);
 	player->UnloadNewPlayer();
 	onPlayTimer->Stop();
+	scene->OnStop();
 }
 
 void Application::OnPause()

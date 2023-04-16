@@ -2,9 +2,11 @@
 #include "ObjectInterfacePerModule.h"
 #include "IScript.h"
 #include "InterfacesIds.h"
-#include "EngineLog.h"
 #include "SystemTable.h"
 #include "ISimpleSerializer.h"
+
+#include "GameObject/GameObject.h"
+#include "Application.h"
 
 #include "RuntimeLinkLibrary.h"
 RUNTIME_COMPILER_LINKLIBRARY("ExternalDependencies.lib");
@@ -36,10 +38,4 @@ public:
 	{
 		this->App = app;
 	}
-	void Serialize(ISimpleSerializer* pSerializer) override
-	{
-		SERIALIZE(owner);
-		SERIALIZE(App);
-	}
-
 };

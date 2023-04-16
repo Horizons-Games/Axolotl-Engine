@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugEngine|Win32">
+      <Configuration>DebugEngine</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugEngine|x64">
+      <Configuration>DebugEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugGame|Win32">
+      <Configuration>DebugGame</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugGame|x64">
+      <Configuration>DebugGame</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseEngine|Win32">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseEngine|x64">
+      <Configuration>ReleaseEngine</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|Win32">
+      <Configuration>ReleaseGame</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseGame|x64">
+      <Configuration>ReleaseGame</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d5bc1d60-63ef-4fce-8e72-44191cfbf371}</ProjectGuid>
+    <RootNamespace>MathGeoLib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="MathGeoLib\Include\Algorithm\GJK.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\GJK2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\Random\LCG.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\SAT.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\AABB.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\AABB2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Capsule.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Circle.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Circle2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Frustum.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\GeometryAll.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\GeomType.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\HitInfo.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\KDTree.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Line.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\LineSegment.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\LineSegment2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\OBB.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\OBB2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\PBVolume.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Plane.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polygon.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polygon2DRef.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polyhedron.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\QuadTree.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Ray.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Sphere.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Triangle.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Triangle2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\TriangleMesh.h" />
+    <ClInclude Include="MathGeoLib\Include\MathBuildConfig.h" />
+    <ClInclude Include="MathGeoLib\Include\MathGeoLib.h" />
+    <ClInclude Include="MathGeoLib\Include\MathGeoLibFwd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\assume.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\BitFuncs.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\BitOps.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Callstack.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\FixedPoint.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float2.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3x3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3x4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4d.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4_neon.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4_sse.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4_neon.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4_sse.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\FloatCmp.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\grisu3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\InclWindows.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Interpolate.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathAll.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathConstants.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathFunc.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathLog.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathNamespace.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathTypes.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MatrixProxy.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MiniFloat.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MultiLineMacro.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\myassert.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Polynomial.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Quat.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\quat_simd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Rect.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Reinterpret.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\simd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\SSEMath.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\sse_mathfun.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Swap.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
+    <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MathGeoLib\Include\Algorithm\GJK.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\GJK2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\Random\LCG.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\SAT.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\AABB.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Capsule.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Circle.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Circle2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Frustum.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Line.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\LineSegment.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\LineSegment2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\OBB.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\PBVolume.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Plane.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Polygon.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Polyhedron.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Ray.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Sphere.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Triangle.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Triangle2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\TriangleMesh.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\BitOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Callstack.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float2.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3x3.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3x4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4d.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4x4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\grisu3.c" />
+    <ClCompile Include="MathGeoLib\Include\Math\grisu3_cpp.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathFunc.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathLog.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MiniFloat.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Polynomial.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Quat.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MathGeoLib\Include\Geometry\KDTree.inl" />
+    <None Include="MathGeoLib\Include\Geometry\QuadTree.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
+    <None Include="MathGeoLib\Include\Math\float2.inl" />
+    <None Include="MathGeoLib\Include\Math\Matrix.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

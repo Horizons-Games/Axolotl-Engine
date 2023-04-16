@@ -1,11 +1,6 @@
 #pragma once
-#include "EngineLog.h"
-#include "Scripting\Script.h"
-#include "Scripting\SystemTable.h"
-#include "ISimpleSerializer.h"
 
-#include "GameObject/GameObject.h"
-#include "Application.h"
+#include "Script.h"
 
 class OtraPrueba : public Script
 {
@@ -17,9 +12,5 @@ public:
 	virtual void Start() override {
 
 	}
-	virtual void Update(float deltaTime)
-	{
-		owner->SetName("Secondary");
-	}
+	virtual void Update(float deltaTime);
 };
-REGISTERCLASS(OtraPrueba);

@@ -20,10 +20,10 @@ void WindowComponentScript::DrawWindowContents() {
 	{
 		ComponentScript* script = static_cast<ComponentScript*>(this->component);
 		script->SetConstuctor(constructors[current_item]);
-		std::unique_ptr<IScript> Iscript = App->scriptFactory->GetScript(constructors[current_item]);
+		IScript* Iscript = App->scriptFactory->GetScript(constructors[current_item]);
 		Iscript->SetGameObject(component->GetOwner());
 		Iscript->SetApplication(App.get());
-		script->SetScript(std::move(Iscript));
+		script->SetScript(Iscript);
 		ENGINE_LOG("DRAW WINDOWS CONTENTS");
 	}
 }

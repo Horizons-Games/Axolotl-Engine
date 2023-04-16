@@ -156,6 +156,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\ChangeName.cpp" />
+    <ClCompile Include="..\Game\Scripts\OtraPrueba.cpp" />
+    <ClCompile Include="..\Game\Scripts\Prueba.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
@@ -187,7 +190,6 @@
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
-    <ClCompile Include="DataModels\Resources\ResourceScript.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
     <ClCompile Include="DataModels\Skybox\Skybox.cpp" />
@@ -402,6 +404,9 @@
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\ChangeName.h" />
+    <ClInclude Include="..\Game\Scripts\OtraPrueba.h" />
+    <ClInclude Include="..\Game\Scripts\Prueba.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
@@ -440,7 +445,6 @@
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
     <ClInclude Include="DataModels\Resources\ResourceModel.h" />
     <ClInclude Include="DataModels\Resources\ResourceScene.h" />
-    <ClInclude Include="DataModels\Resources\ResourceScript.h" />
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Skybox\Skybox.h" />

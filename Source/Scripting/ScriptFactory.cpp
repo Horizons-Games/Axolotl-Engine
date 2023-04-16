@@ -87,19 +87,23 @@ std::vector<const char*> ScriptFactory::GetConstructors()
 	return constructorsName;
 }
 
-bool ScriptFactory::IsCompiling() {
+bool ScriptFactory::IsCompiling()
+{
 	return m_pRuntimeObjectSystem->GetIsCompiling();
 }
 
-bool ScriptFactory::IsCompiled() {
+bool ScriptFactory::IsCompiled()
+{
 	return m_pRuntimeObjectSystem->GetIsCompiledComplete();
 }
 
-void ScriptFactory::LoadCompiledModules() {
+void ScriptFactory::LoadCompiledModules() 
+{
 	m_pRuntimeObjectSystem->LoadCompiledModule();
 }
 
-void ScriptFactory::UpdateNotifier() {
+void ScriptFactory::UpdateNotifier()
+{
 	const float deltaTime = 1.0f;
 	m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
 }
@@ -124,38 +128,7 @@ void ScriptFactory::OnConstructorsAdded()
 	}*/
 }
 
-
-
-bool ScriptFactory::MainLoop()
-{
-	//check status of any compile
-	if (m_pRuntimeObjectSystem->GetIsCompiledComplete())
-	{
-		// load module when compile complete
-		m_pRuntimeObjectSystem->LoadCompiledModule();
-	}
-
-	if (!m_pRuntimeObjectSystem->GetIsCompiling())
-	{
-		static int numUpdates = 0;
-		//ENGINE_LOG("\nMain Loop - press q to quit. Updates every second. Update: %d \n", numUpdates);
-		if (_kbhit())
-		{
-			int ret = _getche();
-			if ('q' == ret)
-			{
-				return false;
-			}
-		}
-		const float deltaTime = 1.0f;
-		m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
-		//Sleep(1000);
-	}
-
-	return true;
-}
-
-std::unique_ptr<IScript> ScriptFactory::GetScript(const char* name)
+IScript* ScriptFactory::GetScript(const char* name)
 {
 	IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
 	ObjectId objectId;
@@ -172,7 +145,7 @@ std::unique_ptr<IScript> ScriptFactory::GetScript(const char* name)
 		}
 		//objectId = pObj->GetObjectId();
 		//return objectId;
-		return std::unique_ptr<IScript>(script);
+		return script;
 	}
 	return nullptr;
 }

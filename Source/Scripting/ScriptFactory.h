@@ -16,9 +16,8 @@ public:
 	ScriptFactory();
 	virtual ~ScriptFactory();
 	bool Init();
-	bool MainLoop();
 
-	std::unique_ptr<IScript> GetScript(const char* name);
+	IScript* GetScript(const char* name);
 	void AddScript(const char* path);
 	void RecompileAll();
 	void UpdateNotifier();

@@ -30,11 +30,12 @@ public:
 	std::string GetConstructName();
 
 	void SetConstuctor(const std::string& constructor);
-	void SetScript(std::unique_ptr<IScript> script);
+	void SetScript(IScript* script);
 	IScript* GetScript();
 
 private:
-	std::unique_ptr<IScript> script;
+	//This will be managed by the runtime library
+	IScript* script;
 	std::string constructName;
 };
 
@@ -46,12 +47,12 @@ inline std::string ComponentScript::GetConstructName()
 
 inline IScript* ComponentScript::GetScript()
 {
-	return script.get();
+	return script;
 }
 
-inline void ComponentScript::SetScript(std::unique_ptr<IScript> script)
+inline void ComponentScript::SetScript(IScript* script)
 {
-	this->script = std::move(script);
+	this->script = script;
 }
 
 inline void ComponentScript::SetConstuctor(const std::string& constructor)

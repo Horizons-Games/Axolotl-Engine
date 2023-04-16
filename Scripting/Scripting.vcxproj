@@ -27,9 +27,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Game\Scripts\ChangeName.h" />
-    <ClInclude Include="..\Game\Scripts\OtraPrueba.h" />
-    <ClInclude Include="..\Game\Scripts\Prueba.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

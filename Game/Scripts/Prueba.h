@@ -1,11 +1,6 @@
 #pragma once
-#include "EngineLog.h"
-#include "Scripting\Script.h"
-#include "Scripting\SystemTable.h"
-#include "ISimpleSerializer.h"
 
-#include "GameObject/GameObject.h"
-#include "Application.h"
+#include "Scripting\Script.h"
 
 class Prueba : public Script
 {
@@ -21,4 +16,3 @@ public:
 		owner->SetName("prueba");
 	}
 };
-REGISTERCLASS(Prueba);

@@ -62,6 +62,54 @@ bool ModuleScene::Start()
 	return true;
 }
 
+update_status ModuleScene::PreUpdate()
+{
+	if (App->scriptFactory->IsCompiled())
+	{
+		App->scriptFactory->LoadCompiledModules();
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				IScript* script =
+					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
+				script->SetApplication(App.get());
+				script->SetGameObject(gameObject);
+				componentScript->SetScript(script);
+
+				componentScript->Init();
+			}
+		}
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				componentScript->Start();
+			}
+		}
+	}
+
+	if (!App->scriptFactory->IsCompiling())
+	{
+		App->scriptFactory->UpdateNotifier();
+	}
+
+	if (App->GetIsOnPlayMode())
+	{
+		if (!App->scriptFactory->IsCompiling())
+		{
+			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			{
+				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+				{
+					componentScript->PreUpdate();
+				}
+			}
+		}
+	}
+	return update_status::UPDATE_CONTINUE;
+}
+
 update_status ModuleScene::Update()
 {
 #ifdef DEBUG
@@ -69,32 +117,17 @@ update_status ModuleScene::Update()
 #endif // DEBUG
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
-	//UPDATE ALL THE SCRIPTS
-	std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
-	if (App->GetIsOnPlayMode()){
-		if (!App->scriptFactory->IsCompiling()) {
-			//Carregar tots els scripts que ja estan
+	
+	if (App->GetIsOnPlayMode())
+	{
+		if (!App->scriptFactory->IsCompiling()) 
+		{
 			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 			{
 				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 				{
 					componentScript->Update();
 				} 
-			}
-			App->scriptFactory->UpdateNotifier();
-		}
-		if (App->scriptFactory->IsCompiled()) {
-			App->scriptFactory->LoadCompiledModules();
-			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-			{
-				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-				{
-					std::unique_ptr<IScript> script =
-						App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
-					script->SetApplication(App.get());
-					script->SetGameObject(gameObject);
-					componentScript->SetScript(std::move(script));
-				}
 			}
 		}
 	}
@@ -103,6 +136,20 @@ update_status ModuleScene::Update()
 
 update_status ModuleScene::PostUpdate()
 {
+	if (App->GetIsOnPlayMode())
+	{
+		if (!App->scriptFactory->IsCompiling())
+		{
+			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			{
+				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+				{
+					componentScript->PostUpdate();
+				}
+			}
+		}
+	}
+
 	if (!sceneToLoad.empty())
 	{
 		LoadSceneFromJson(sceneToLoad);
@@ -144,7 +191,6 @@ void ModuleScene::OnPlay()
 {
 	ENGINE_LOG("Play pressed");
 
-
 	Json jsonScene(tmpDoc, tmpDoc);
 
 	GameObject* root = loadedScene->GetRoot();
@@ -153,20 +199,23 @@ void ModuleScene::OnPlay()
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
+	//First Init
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
 
-	//Create one script 
-	//std::vector<GameObject*> gameobjects = loadedScene->GetSceneGameObjects();
-	//App->scriptFactory->RecompileAll();
-	//IScript* script = App->scriptFactory->CreateScript(gameobjects[0], "..\\Game\\Scripts\\ChangeName.cpp");
-	//Component* cscript = gameobjects[0]->CreateComponent(ComponentType::SCRIPT);
-
-
-	//INITIALIZE ALL THE SCRIPTS
-
-	/*for (int i = 0; i < gameobjects.size(); ++i) {
-		ComponentScript* script = static_cast<ComponentScript*>(gameobjects[i]->GetComponent(ComponentType::SCRIPT));
-		//script->Init();
-	}*/
+	//Then Start
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+	}
 }
 
 void ModuleScene::OnPause()
@@ -177,6 +226,15 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->CleanUp();
+		}
+	}
+
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
@@ -244,16 +302,19 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 	//Load Script objects
 	std::vector<GameObject*> gameObjects = loadedScene->GetSceneGameObjects();
-	for(int i = 0; i < gameObjects.size(); ++i) {
+	for(int i = 0; i < gameObjects.size(); ++i)
+	{
 		std::vector<Component*> components = gameObjects[i]->GetComponents();
-		for (int j = 0; j < components.size(); ++j) {
+		for (int j = 0; j < components.size(); ++j)
+		{
 			ComponentType type = components[j]->GetType();
-			if (type == ComponentType::SCRIPT) {
+			if (type == ComponentType::SCRIPT)
+			{
 				ComponentScript* script = static_cast<ComponentScript*>(components[j]);
 				std::string constructor = script->GetConstructName();
-				std::unique_ptr<IScript> iscript = App->scriptFactory->GetScript(constructor.c_str());
+				IScript* iscript = App->scriptFactory->GetScript(constructor.c_str());
 				iscript->SetGameObject(gameObjects[i]);
-				script->SetScript(std::move(iscript));
+				script->SetScript(iscript);
 			}
 		}
 	}
@@ -361,6 +422,7 @@ void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 	selectedGameObject = gameObject;
 	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject);
 }
+
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
 	std::vector<std::unique_ptr<GameObject>> gameObjects{};
