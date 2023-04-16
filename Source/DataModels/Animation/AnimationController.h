@@ -27,17 +27,17 @@ private:
 	Quat Interpolate(const Quat& first, const Quat& second, float lambda);
 
 	float currentTime;
-	bool loop;
-	bool play;
+	bool isLooping;
+	bool isPlaying;
 	std::shared_ptr<ResourceAnimation> resource;
 };
 
 inline bool AnimationController::GetPlay()
 {
-	return play;
+	return isPlaying;
 }
 
 inline bool AnimationController::GetLoop()
 {
-	return loop;
+	return isLooping;
 }

@@ -4,7 +4,7 @@
 #include "Resources/ResourceAnimation.h"
 
 AnimationController::AnimationController() :
-    currentTime(0.0f), loop(true), play(false), resource(nullptr)
+    currentTime(0.0f), isLooping(true), isPlaying(false), resource(nullptr)
 {
 }
 
@@ -15,25 +15,25 @@ AnimationController::~AnimationController()
 void AnimationController::Play(std::shared_ptr<ResourceAnimation> resource, bool loop)
 {
     this->resource = resource;
-    this->loop = loop;
-    play = true;
+    isLooping = loop;
+    isPlaying = true;
 }
 
 void AnimationController::Stop()
 {
-    play = false;
+    isPlaying = false;
 }
 
 void AnimationController::Update()
 {
-    if (play && resource)
+    if (isPlaying && resource)
     {
         float duration = resource->GetDuration();
 
         currentTime += App->GetDeltaTime();
         if (currentTime > duration)
         {
-            if (loop)
+            if (isLooping)
             {
                 currentTime = 0.0f;
             }
