@@ -9,6 +9,7 @@
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/AnimationImporter.h"
+#include "FileSystem/Importers/StateMachineImporter.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
@@ -42,7 +43,7 @@ bool ModuleResources::Init()
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
-
+	stateMachineImporter = std::make_unique<StateMachineImporter>();
 	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
@@ -70,6 +71,11 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	case ResourceType::Material:
 		assetsPath += MATERIAL_EXTENSION;
 		App->fileSystem->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	case ResourceType::StateMachine:
+		assetsPath += STATEMACHINE_EXTENSION;
+		App->fileSystem->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
 		ImportResource(assetsPath);
 		break;
 	default:
@@ -154,6 +160,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	case ResourceType::Animation:
 		res = std::shared_ptr<EditorResource<ResourceAnimation>>(new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
+	case ResourceType::StateMachine:
+		res = std::shared_ptr<EditorResource<ResourceStateMachine>>(new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	default:
 		return nullptr;
 	}
@@ -175,6 +184,10 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::SkyBox:
 		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Animation:
+		return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::StateMachine:
+		return std::make_shared<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath);
 	default:
 		return nullptr;
 	}
@@ -354,12 +367,13 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		materialImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMaterial>(resource));
 		break;
 	case ResourceType::SkyBox:
-		skyboxImporter->Import(originalPath.c_str(),
-			std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+		skyboxImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 		break;
 	case ResourceType::Animation:
-		animationImporter->Import(originalPath.c_str(),
-			std::dynamic_pointer_cast<ResourceAnimation>(resource));
+		animationImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceAnimation>(resource));
+		break;
+	case ResourceType::StateMachine:
+		stateMachineImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 		break;
 	default:
 		break;
@@ -388,7 +402,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Scene,
 												  ResourceType::Texture,
 												  ResourceType::SkyBox,
-												  ResourceType::Animation};
+												  ResourceType::Animation,
+												  ResourceType::StateMachine};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -605,6 +620,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::Animation;
 	}
+	else if (normalizedExtension == STATEMACHINE_EXTENSION)
+	{
+		return ResourceType::StateMachine;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -627,6 +646,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 		return "SkyBox";
 	case ResourceType::Animation:
 		return "Animation";
+	case ResourceType::StateMachine:
+		return "StateMachine";
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";
@@ -649,6 +670,8 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 		return ResourceType::SkyBox;
 	if (typeName == "Animation")
 		return ResourceType::Animation;
+	if (typeName == "StateMachine")
+		return ResourceType::StateMachine;
 	return ResourceType::Unknown;
 }
 

@@ -19,7 +19,6 @@ void ComponentButton::Update()
 
 void ComponentButton::Draw()
 {
-
 }
 
 void ComponentButton::SaveOptions(Json& meta)
