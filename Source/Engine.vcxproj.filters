@@ -79,9 +79,6 @@
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -182,9 +179,6 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
@@ -382,9 +376,6 @@
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMaterial.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -494,9 +485,6 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
