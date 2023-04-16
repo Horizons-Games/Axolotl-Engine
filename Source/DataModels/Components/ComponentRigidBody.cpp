@@ -49,7 +49,7 @@ void ComponentRigidBody::Update()
 
 		v0.y -= g * t;
 		x = x0 + v0 * t + a;
-		float verticalDistanceToFeet = math::Abs(GetOwner()->GetEncapsuledAABB().MinY() - x0.y);
+		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
 		if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x-x0).Length())
 		{
 

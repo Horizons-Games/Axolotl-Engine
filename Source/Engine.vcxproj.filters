@@ -287,9 +287,6 @@
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
       <Filter>DataModels\Components\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\UI\ComponentBoundingBox2D.cpp">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
@@ -611,11 +608,11 @@
     <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\UI\ComponentBoundingBox2D.h">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
+      <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h" />
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h" />
@@ -688,6 +685,9 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Utils">
+      <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

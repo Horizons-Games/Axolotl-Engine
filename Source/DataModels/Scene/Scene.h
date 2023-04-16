@@ -32,16 +32,16 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	GameObject* CreateGameObject(const char* name, GameObject* parent, bool is3D = true);
-	GameObject* DuplicateGameObject(const char* name, GameObject*, GameObject* parent);
-	GameObject* CreateCameraGameObject(const char* name, GameObject* parent);
-	GameObject* CreateCanvasGameObject(const char* name, GameObject* parent);
-	GameObject* CreateUIGameObject(const char* name, GameObject* parent, ComponentType type);
-	GameObject* Create3DGameObject(const char* name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const char* name, GameObject* parent, LightType type);
+	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
+	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
+	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
+	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
+	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
-	void ConvertModelIntoGameObject(const char* model);
+	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
@@ -59,6 +59,7 @@ public:
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
+	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	const std::vector<GameObject*>& GetSceneCanvas() const;
@@ -75,6 +76,11 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
+
+	void AddStaticObject(GameObject* gameObject);
+	void RemoveStaticObject(GameObject* gameObject);
+	void AddNonStaticObject(GameObject* gameObject);
+	void RemoveNonStaticObject(GameObject* gameObject);
 
 	void InitNewEmptyScene();
 
@@ -105,7 +111,9 @@ private:
 	unsigned ssboSpot;
 	
 	AABB rootQuadtreeAABB;
+	//Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
+	std::vector<GameObject*> nonStaticObjects;
 };
 
 inline GameObject* Scene::GetRoot()
@@ -183,3 +191,14 @@ inline Skybox* Scene::GetSkybox() const
 	return skybox.get();
 }
 
+inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
+{
+	return nonStaticObjects;
+}
+
+
+
+inline void Scene::AddNonStaticObject(GameObject* gameObject)
+{
+	nonStaticObjects.push_back(gameObject);
+}

@@ -14,5 +14,4 @@ protected:
 
 private:
 	void DrawRecursiveHierarchy(GameObject* gameObject);
-	bool stopDrawing;
 };

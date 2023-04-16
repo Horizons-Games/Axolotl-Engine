@@ -6,7 +6,6 @@
 enum class ComponentType 
 {
 	UNKNOWN, 
-	MATERIAL, 
 	MESHRENDERER, 
 	TRANSFORM,
 	TRANSFORM2D,
@@ -16,7 +15,6 @@ enum class ComponentType
 	CANVAS,
 	IMAGE,
 	BUTTON,
-	BOUNDINGBOX2D,
 	RIGIDBODY,
 	MOCKSTATE,
 	AUDIOSOURCE
@@ -132,8 +130,6 @@ const std::string GetNameByType(ComponentType type)
 {
 	switch (type)
 	{
-	case ComponentType::MATERIAL:
-		return "Component_Material";
 	case ComponentType::MESHRENDERER:
 		return "Component_MeshRenderer";
 	case ComponentType::TRANSFORM:
@@ -156,8 +152,6 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
-	case ComponentType::BOUNDINGBOX2D:
-		return "Component_BoundingBox2D";
 	case ComponentType::AUDIOSOURCE:
 		return "Component_AudioSource";
 	default:
@@ -168,11 +162,6 @@ const std::string GetNameByType(ComponentType type)
 
 const ComponentType GetTypeByName(const std::string& typeName)
 {
-	if (typeName == "Component_Material")
-	{
-		return ComponentType::MATERIAL;
-	}
-
 	if (typeName == "Component_MeshRenderer")
 	{
 		return ComponentType::MESHRENDERER;
@@ -216,11 +205,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Button")
 	{
 		return ComponentType::BUTTON;
-	}
-
-	if (typeName == "Component_BoundingBox2D")
-	{
-		return ComponentType::BOUNDINGBOX2D;
 	}
 	
 	if (typeName == "Component_RigidBody")
