@@ -29,7 +29,7 @@ private:
 
 inline bool ComponentMeshCollider::GetIsTrigger() const
 {
-	return this->isTrigger;
+	return isTrigger;
 }
 
 inline void ComponentMeshCollider::SetIsTrigger(bool newIsTrigger)
