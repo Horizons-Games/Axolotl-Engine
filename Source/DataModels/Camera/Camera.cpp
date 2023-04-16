@@ -170,10 +170,6 @@ void Camera::ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const floa
 
 void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp)
 {
-	/*Quat currentRotation = rotation;
-
-	Quat newRotation = rotationQuat * currentRotation;
-	newRotation.Normalize();*/
 	
 	float3 newFront = rotationQuat.Transform(frustum->Front().Normalized());
 	float3 newRight = fixedUp.Cross(newFront).Normalized();
@@ -184,7 +180,6 @@ void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fi
 
 	rotation = rotationQuat;
 }
-
 
 void Camera::SetRotation(const Quat& rotation)
 {
@@ -248,19 +243,13 @@ void Camera::FreeLook()
 	float mouseSpeedPercentage = 0.05f;
 	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-
 	
 	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
 	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
-
-	
 	Quat combinedRotation = rotationY * rotationX;
 
-	
-	ApplyRotation(combinedRotation);
+	ApplyRotationWithFixedUp(combinedRotation, float3::unitY);
 }
-
-
 
 bool Camera::IsInside(const AABB& aabb)
 {

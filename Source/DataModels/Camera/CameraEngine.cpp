@@ -305,17 +305,25 @@ void CameraEngine::Focus(const OBB& obb)
 	float fov = frustum->HorizontalFov();
 	float camDistance = radius / float(sin(fov / 2.0));
 
+	bool positionAchieved = false;
+	bool rotationAchieved = false;
+	Quat targetRotation = Quat::identity;
+
 	float3 camDirection = (boundingSphere.pos - position).Normalized();
 	float3 localForward = frustum->Front().Normalized();
 
+	if (localForward.Equals(camDirection, 0.05f)) 
+	{
+		rotationAchieved = true;
+	}
+	else 
+	{
+		targetRotation = Quat::RotateFromTo(localForward, camDirection);
+		targetRotation.Normalize();
+	}
+
 	float3 endposition = boundingSphere.pos - (camDirection * camDistance);
-	Quat targetRotation = Quat::RotateFromTo(localForward, camDirection);
-	targetRotation.Normalize();
-	
-	bool positionAchieved = false;
-	bool rotationAchieved = false;
-	
-	
+
 	float deltaTime = App->GetDeltaTime();
 
 	if (!positionAchieved)
