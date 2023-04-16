@@ -230,7 +230,10 @@ update_status ModuleRender::Update()
 	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 
 #ifndef ENGINE
-	AddToRenderList(App->player->GetPlayer());
+	if (App->player->GetPlayer())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
 #endif // !ENGINE
 	if (App->GetIsOnPlayMode())
 	{
