@@ -39,8 +39,6 @@ public:
 protected:
 	GameObject* owner;
 	Application* App;
-
-private:
 	std::vector<ValidFieldType> members;
 };
 

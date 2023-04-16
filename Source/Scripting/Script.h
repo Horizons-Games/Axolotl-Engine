@@ -23,10 +23,7 @@ public:
 	virtual void Init() override {};
 	virtual void Start() override {};
 	virtual void PreUpdate(float deltaTime) override {};
-	virtual void Update(float deltaTime) override
-	{
-		ENGINE_LOG("Update");
-	}
+	virtual void Update(float deltaTime) override {};
 	virtual void PostUpdate(float deltaTime) override {};
 	virtual void CleanUp() override {};
 

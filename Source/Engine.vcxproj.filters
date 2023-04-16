@@ -305,13 +305,7 @@
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ChangeName.cpp">
-      <Filter>UserScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\OtraPrueba.cpp">
-      <Filter>UserScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\Prueba.cpp">
+    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -664,13 +658,7 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\OtraPrueba.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\Prueba.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ChangeName.h">
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>
