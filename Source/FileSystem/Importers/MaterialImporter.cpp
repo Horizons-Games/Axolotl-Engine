@@ -3,7 +3,6 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Resources/ResourceTexture.h"
-#include <iostream>
 
 MaterialImporter::MaterialImporter()
 {
@@ -13,7 +12,8 @@ MaterialImporter::~MaterialImporter()
 {
 }
 
-void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
+void MaterialImporter::Import
+	(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
 	char* bufferPaths;
 
@@ -34,7 +34,9 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 		if (!path.empty()) 
 		{
-			resourceTexture.push_back(std::dynamic_pointer_cast<ResourceTexture>(App->resources->ImportResource(path)));
+			resourceTexture.push_back
+			(std::dynamic_pointer_cast<ResourceTexture>
+				(App->resources->ImportResource(path)));
 		}
 		else
 		{
@@ -68,18 +70,22 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 	if (resourceTexture[3] != 0)
 	{
-		resource->SetMetallicMap(resourceTexture[3]);
+		resource->SetMetallic(resourceTexture[3]);
 	}
 
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->fileSystem->Save
+		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
+			buffer, size);
 
 	delete buffer;
 }
 
-void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
+void MaterialImporter::Save
+	(const std::shared_ptr<ResourceMaterial>& resource, 
+		char*& fileBuffer, unsigned int& size)
 {
 #ifdef ENGINE
 	//Open Meta
@@ -91,24 +97,68 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
 
-	meta["DiffuseAssetPath"] = resource->GetDiffuse() ? resource->GetDiffuse()->GetAssetsPath().c_str() : "";
-	meta["NormalAssetPath"] = resource->GetNormal() ? resource->GetNormal()->GetAssetsPath().c_str() : "";
-	meta["OcclusionAssetPath"] = resource->GetOcclusion() ? resource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] = resource->GetMetallicMap() ? resource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+	if (resource->GetDiffuse())
+	{
+		meta["DiffuseAssetPath"] = 
+			resource->GetDiffuse()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["DiffuseAssetPath"] = "";
+	}
+
+	if (resource->GetNormal())
+	{
+		meta["NormalAssetPath"] = 
+			resource->GetNormal()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["NormalAssetPath"] = "";
+	}
+
+	if (resource->GetOcclusion())
+	{
+		meta["OcclusionAssetPath"] = 
+			resource->GetOcclusion()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["OcclusionAssetPath"] = "";
+	}
+
+	if (resource->GetMetallic())
+	{
+		meta["MetallicAssetPath"] = 
+			resource->GetMetallic()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["MetallicAssetPath"] = "";
+	}
+
+	if (resource->GetSpecular())
+	{
+		meta["SpecularAssetPath"] = 
+			resource->GetSpecular()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["SpecularAssetPath"] = "";
+	}
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
 	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 
-	UID texturesUIDs[4] =
+	UID texturesUIDs[5] =
 	{
 		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
 		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
 		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
 		resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0,
-		resource->GetMetallicMap() ? resource->GetMetallicMap()->GetUID() : 0
+		resource->GetMetallic() ? resource->GetMetallic()->GetUID() : 0
 	};
 
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
@@ -165,8 +215,6 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
 
-	resource->SetFragmentShaderType();
-
 	std::string assetPath = meta["DiffuseAssetPath"];
 
 	if (assetPath != "") 
@@ -199,7 +247,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	if (assetPath != "")
 	{ 
-		resource->SetMetallicMap(App->resources->RequestResource<ResourceTexture>(assetPath));
+		resource->SetMetallic(App->resources->RequestResource<ResourceTexture>(assetPath));
 	}
 #else
 	

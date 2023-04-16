@@ -22,8 +22,8 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
-	//inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
-	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC))
+	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
 {
 	InitMaterialValues();
 }
@@ -212,7 +212,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal()
-					|| materialResource->GetMetallicMap())
+					|| materialResource->GetMetallic())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -226,8 +226,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetDiffuse(nullptr);
 				materialResource->SetNormal(nullptr);
 				materialResource->SetOcclusion(nullptr);
-				//materialResource->SetSpecular(nullptr);
-				materialResource->SetMetallicMap(nullptr);
+				materialResource->SetSpecular(nullptr);
+				materialResource->SetMetallic(nullptr);
 				
 				materialResource->SetChanged(true);
 			}
@@ -339,7 +339,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				materialResource->SetDiffuseColor(colorDiffuse);
 				materialResource->SetDiffuse(diffuseTexture);
-				materialResource->SetMetallicMap(metalicMap);
+				materialResource->SetMetallic(metalicMap);
 				materialResource->SetNormal(normalMap);
 				materialResource->SetSmoothness(smoothness);
 				materialResource->SetMetalness(metalness);
@@ -354,12 +354,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 void WindowComponentMeshRenderer::DrawEmptyMaterial()
 {
-<<<<<<< HEAD
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>
 																		(component);
-=======
-	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
->>>>>>> origin/develop
 
 	if (asMeshRenderer)
 	{
@@ -372,37 +368,24 @@ void WindowComponentMeshRenderer::DrawEmptyMaterial()
 
 void WindowComponentMeshRenderer::InitMaterialValues()
 {
-<<<<<<< HEAD
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>
 																		(component);
 
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
-=======
-	ComponentMeshRenderer* asMaterial = static_cast<ComponentMeshRenderer*>(component);
 
-	if (asMaterial)
-	{
-		std::shared_ptr<ResourceMaterial> materialResource = asMaterial->GetMaterial();
->>>>>>> origin/develop
 		if (materialResource)
 		{
 			colorDiffuse = materialResource->GetDiffuseColor();
 			diffuseTexture = materialResource->GetDiffuse();
-<<<<<<< HEAD
+			metalicMap = materialResource->GetMetallic();
 			specularMap = materialResource->GetSpecular();
-=======
->>>>>>> origin/develop
-			metalicMap = materialResource->GetMetallicMap();
 			normalMap = materialResource->GetNormal();
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
-<<<<<<< HEAD
-=======
 			isTransparent = materialResource->GetTransparent();
->>>>>>> origin/develop
 		}
 	}
 }

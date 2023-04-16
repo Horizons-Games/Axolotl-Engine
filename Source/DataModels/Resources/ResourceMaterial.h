@@ -31,10 +31,9 @@ public:
 	std::shared_ptr<ResourceTexture>& GetNormal();
 	std::shared_ptr<ResourceTexture>& GetOcclusion();
 	std::shared_ptr<ResourceTexture>& GetSpecular();
-	std::shared_ptr<ResourceTexture>& GetMetallicMap();
+	std::shared_ptr<ResourceTexture>& GetMetallic();
 	const float4& GetDiffuseColor();
-	//const float3& GetSpecularColor();
-	//float& GetShininess();
+	const float3& GetSpecularColor();
 	float& GetNormalStrength();
 	float& GetSmoothness();
 	float& GetMetalness();
@@ -43,8 +42,7 @@ public:
 	bool HasNormal();
 	bool HasOcclusion();
 	bool HasSpecular();
-	bool HasMetallicMap();
-	bool HasSmoothnesMap();
+	bool HasMetallic();
 
 	LoadOptionsMaterial& GetLoadOptions();
 
@@ -52,15 +50,13 @@ public:
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
+	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
-	void SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetDiffuseColor(float4& diffuseColor);
-	//void SetSpecularColor(float3& specularColor);
-	//void SetShininess(float shininess);
+	void SetSpecularColor(float3& specularColor);
 	void SetNormalStrength(float normalStrength);
 	void SetSmoothness(float smoothness);
 	void SetMetalness(float metalness);
-	void SetMetallicAlpha(bool metallicAlpha);
 	void SetTransparent(bool isTransparent);
 
 protected:
@@ -113,9 +109,9 @@ inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion()
 inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular()
 {
 	return specular;
-}*/
+}
 
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallicMap()
+inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallic()
 {
 	return metallic;
 }
@@ -170,7 +166,7 @@ inline bool ResourceMaterial::HasSpecular()
 	return specular != nullptr;
 }
 
-inline bool ResourceMaterial::HasMetallicMap()
+inline bool ResourceMaterial::HasMetallic()
 {
 	return metallic != nullptr;
 }
@@ -190,14 +186,14 @@ inline void ResourceMaterial::SetOcclusion(const std::shared_ptr<ResourceTexture
 	this->occlusion = occlusion;
 }
 
+inline void ResourceMaterial::SetMetallic(const std::shared_ptr<ResourceTexture>& metallic)
+{
+	this->metallic = metallic;
+}
+
 inline void ResourceMaterial::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
 {
 	this->specular = specular;
-}
-
-inline void ResourceMaterial::SetMetallicMap(const std::shared_ptr<ResourceTexture>& metallic)
-{
-	this->metallic = metallic;
 }
 
 inline void ResourceMaterial::SetDiffuseColor(float4& diffuseColor)
@@ -223,11 +219,6 @@ inline void ResourceMaterial::SetSmoothness(float smoothness)
 inline void ResourceMaterial::SetMetalness(float metalness)
 {
 	this->metalness = metalness;
-}
-
-inline void ResourceMaterial::SetMetallicAlpha(bool metallicAlpha)
-{
-	hasMetallicAlpha = metallicAlpha;
 }
 
 /*inline void ResourceMaterial::SetShininessAlpha(bool shininessAlpha)

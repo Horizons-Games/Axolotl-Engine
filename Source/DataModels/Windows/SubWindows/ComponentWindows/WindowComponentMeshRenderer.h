@@ -17,8 +17,9 @@ public:
 	~WindowComponentMeshRenderer() override;
 
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
-	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
+	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
+	void SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap);
 
 protected:
 	void DrawWindowContents() override;
@@ -31,8 +32,9 @@ private:
 	float4 colorDiffuse;
 	float4 oldColorDiffuse;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
-	std::shared_ptr<ResourceTexture> metalicMap;
 	std::shared_ptr<ResourceTexture> normalMap;
+	std::shared_ptr<ResourceTexture> metalicMap;
+	std::shared_ptr<ResourceTexture> specularMap;
 	float smoothness;
 	float metalness;
 	float normalStrength;
@@ -46,8 +48,8 @@ private:
 	std::unique_ptr<WindowMaterialInput> inputMaterial;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
-	//std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
+	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 };
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
@@ -55,12 +57,17 @@ inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<Resour
 	this->diffuseTexture = diffuseTexture;
 }
 
+inline void WindowComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normalMap)
+{
+	this->normalMap = normalMap;
+}
+
 inline void WindowComponentMeshRenderer::SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap)
 {
 	this->metalicMap = metalicMap;
 }
 
-inline void WindowComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normalMap)
+inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap)
 {
-	this->normalMap = normalMap;
+	this->specularMap = specularMap;
 }

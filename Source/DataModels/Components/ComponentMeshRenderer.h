@@ -44,28 +44,26 @@ public:
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 
-	void SetDiffuseColor(float3& diffuseColor);
+	void SetDiffuseColor(float4& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
 	void SetMetalness(float metalness);
-	void SetShaderTypeDefault();
-	void SetShaderTypeSpecular();
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
-	const float3& GetDiffuseColor() const;
+	const float4& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float GetNormalStrenght() const;
 	const float GetSmoothness() const;
 	const float GetMetalness() const;
 
+	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 private:
 	void DrawDefault();
 	void DrawSpecular();
 	bool IsMeshLoaded();
-	void UnloadTextures();
 	bool IsMaterialLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
