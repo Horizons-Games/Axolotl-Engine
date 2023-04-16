@@ -4,7 +4,7 @@
 #include "Resources/ResourceAnimation.h"
 
 AnimationController::AnimationController() :
-    currentTime(0.0f), loop(true), play(false)
+    currentTime(0.0f), loop(true), play(false), resource(nullptr)
 {
 }
 
@@ -26,7 +26,7 @@ void AnimationController::Stop()
 
 void AnimationController::Update()
 {
-    if (play)
+    if (play && resource)
     {
         float duration = resource->GetDuration();
 

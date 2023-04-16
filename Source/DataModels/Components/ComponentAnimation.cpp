@@ -34,13 +34,14 @@ void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnima
 	animationIx = 0;
 
 	controller->Play(animations[animationIx], true);
+	controller->Stop();
 }
 
 void ComponentAnimation::Update()
 {
 	controller->Update();
 
-	if (animations.size() > 0)
+	if (animations.size() > 0 && controller->GetPlay())
 	{
 		std::list<GameObject*> children = owner->GetGameObjectsInside();
 

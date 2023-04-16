@@ -19,6 +19,8 @@ public:
 	void Update();
 
 	bool GetTransform(char* name, float3& pos, Quat& rot);
+	bool GetPlay();
+	bool GetLoop();
 
 private:
 	float3 Interpolate(const float3& first, const float3& second, float lambda);
@@ -30,3 +32,12 @@ private:
 	std::shared_ptr<ResourceAnimation> resource;
 };
 
+inline bool AnimationController::GetPlay()
+{
+	return play;
+}
+
+inline bool AnimationController::GetLoop()
+{
+	return loop;
+}
