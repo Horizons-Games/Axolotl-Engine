@@ -36,7 +36,6 @@ private:
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
-	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
@@ -59,6 +58,4 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
-
-	bool bbDrawn;
 };

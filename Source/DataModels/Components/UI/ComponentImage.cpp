@@ -45,13 +45,14 @@ void ComponentImage::Draw()
 		program->Activate();
 		std::pair<int,int> region = App->editor->GetAvailableRegion();
 		
+		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(GetOwner()
+			->GetComponent(ComponentType::TRANSFORM2D));
+
 		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
-		const float4x4& model =
-				static_cast<ComponentTransform2D*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalScaledMatrix();
+		const float4x4& model = transform->GetGlobalScaledMatrix();
 		float4x4 view = float4x4::identity;
 
-		ComponentCanvas* canvas = GetOwner()->FoundCanvasOnAnyParent();
+		ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
 		if(canvas)
 		{
 			canvas->RecalculateSizeAndScreenFactor();
