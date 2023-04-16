@@ -262,7 +262,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 
-	if (animations.size() > 0)
+	if (!animations.empty())
 	{
 		ComponentAnimation* animation =
 			static_cast<ComponentAnimation*>(gameObjectModel->CreateComponent(ComponentType::ANIMATION));
