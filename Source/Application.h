@@ -11,7 +11,6 @@ class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
-class ModuleCommand;
 class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
@@ -55,7 +54,6 @@ public:
 #endif // ENGINE
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
-	ModuleCommand* command;
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
