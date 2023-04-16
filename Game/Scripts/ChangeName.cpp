@@ -7,7 +7,7 @@ void ChangeNameClass::Init()
 
 void ChangeNameClass::Update(float deltaTime)
 {
-	owner->SetName("aa!");
+	owner->SetName("a!");
 }
 
 REGISTERCLASS(ChangeNameClass);

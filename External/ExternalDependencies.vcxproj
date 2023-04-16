@@ -99,6 +99,81 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\Algorithm\GJK.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\GJK2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\Random\LCG.h" />
+    <ClInclude Include="MathGeoLib\Include\Algorithm\SAT.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\AABB.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\AABB2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Capsule.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Circle.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Circle2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Frustum.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\GeometryAll.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\GeomType.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\HitInfo.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\KDTree.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Line.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\LineSegment.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\LineSegment2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\OBB.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\OBB2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\PBVolume.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Plane.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polygon.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polygon2DRef.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Polyhedron.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\QuadTree.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Ray.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Sphere.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Triangle.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\Triangle2D.h" />
+    <ClInclude Include="MathGeoLib\Include\Geometry\TriangleMesh.h" />
+    <ClInclude Include="MathGeoLib\Include\MathBuildConfig.h" />
+    <ClInclude Include="MathGeoLib\Include\MathGeoLib.h" />
+    <ClInclude Include="MathGeoLib\Include\MathGeoLibFwd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\assume.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\BitFuncs.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\BitOps.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Callstack.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\FixedPoint.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float2.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3x3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float3x4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4d.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4_neon.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4x4_sse.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4_neon.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\float4_sse.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\FloatCmp.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\grisu3.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\InclWindows.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Interpolate.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathAll.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathConstants.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathFunc.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathLog.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathNamespace.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MathTypes.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MatrixProxy.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MiniFloat.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\MultiLineMacro.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\myassert.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Polynomial.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Quat.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\quat_simd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Rect.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Reinterpret.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\simd.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\SSEMath.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\sse_mathfun.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\Swap.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
+    <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
+    <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
     <ClInclude Include="RuntimeCompiler\Include\AUArray.h" />
     <ClInclude Include="RuntimeCompiler\Include\BuildTool.h" />
     <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h" />
@@ -183,6 +258,48 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MathGeoLib\Include\Algorithm\GJK.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\GJK2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\Random\LCG.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Algorithm\SAT.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\AABB.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Capsule.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Circle.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Circle2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Frustum.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Line.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\LineSegment.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\LineSegment2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\OBB.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\PBVolume.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Plane.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Polygon.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Polyhedron.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Ray.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Sphere.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Triangle.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\Triangle2D.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Geometry\TriangleMesh.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\BitOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Callstack.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float2.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3x3.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float3x4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4d.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\float4x4.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\grisu3.c" />
+    <ClCompile Include="MathGeoLib\Include\Math\grisu3_cpp.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathFunc.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathLog.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MathOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\MiniFloat.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Polynomial.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\Quat.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
+    <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp" />
@@ -207,6 +324,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="MathGeoLib\Include\Geometry\KDTree.inl" />
+    <None Include="MathGeoLib\Include\Geometry\QuadTree.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
+    <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
+    <None Include="MathGeoLib\Include\Math\float2.inl" />
+    <None Include="MathGeoLib\Include\Math\Matrix.inl" />
     <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~" />
   </ItemGroup>
   <ItemGroup>
@@ -270,8 +394,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>MathGeoLib.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Source\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
@@ -284,8 +408,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>MathGeoLib.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Source\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
@@ -298,8 +422,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>MathGeoLib.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Source\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -312,8 +436,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>MathGeoLib.lib;assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Source\x64\$(Configuration);..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
