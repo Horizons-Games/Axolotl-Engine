@@ -21,6 +21,7 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
 
 ComponentAnimation::~ComponentAnimation()
 {
+	delete controller;
 }
 
 AnimationController* ComponentAnimation::GetController()
