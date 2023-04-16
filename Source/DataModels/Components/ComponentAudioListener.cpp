@@ -1,5 +1,4 @@
 #include "ComponentAudioListener.h"
-#include "ModuleAudio.h"
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Components/ComponentTransform.h"
 
@@ -9,7 +8,7 @@ ComponentAudioListener::ComponentAudioListener(const bool active, GameObject* ow
 {
     listenerID = owner->GetUID();
 
-    AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName());
+    AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName().c_str());
     AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
     transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
