@@ -477,7 +477,6 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modules\ModuleCommand.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
@@ -516,8 +515,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="DataModels\Commands\Command.h" />
-    <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -748,7 +745,6 @@
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
-    <ClInclude Include="Modules\ModuleCommand.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
