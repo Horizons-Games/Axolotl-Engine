@@ -1,6 +1,0 @@
-Auxiliary Bus	ID	Name			Wwise Object Path	Notes
-	438105790	Outside			\Default Work Unit\Master Audio Bus\3D_Bus_Demo\Portals\Outside	Because it is more prominent (in terms of length), it sends less in Room than Room sends in it.
-
-Effect plug-ins	ID	Name	Type				Notes
-	88356853	Huge_Space_Garage	Wwise RoomVerb			
-

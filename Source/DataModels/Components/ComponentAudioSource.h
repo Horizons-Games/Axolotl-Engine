@@ -1,5 +1,8 @@
 #pragma once
 #include "Components/Component.h"
+#include "modules/ModuleAudio.h"
+
+class ComponentTransform;
 
 class ComponentAudioSource : public Component
 {
@@ -21,5 +24,7 @@ public:
 
 private:
 	uint64_t sourceID;
+	AkTransform sourceTransform;
+	ComponentTransform* transform;
 
 };

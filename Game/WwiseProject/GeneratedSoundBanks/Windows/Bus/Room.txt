@@ -1,6 +1,0 @@
-Auxiliary Bus	ID	Name			Wwise Object Path	Notes
-	2077253480	Room			\Default Work Unit\Master Audio Bus\3D_Bus_Demo\Portals\Room	Room has more character so we exaggerate coupling into Outside by having a large "Game-Defined Send" level compared to the direct output ("Output Bus Volume").
-
-Effect plug-ins	ID	Name	Type				Notes
-	1159390747	Room_Medium_Tiled	Wwise RoomVerb			
-

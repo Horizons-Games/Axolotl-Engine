@@ -21,7 +21,10 @@ ComponentAudioListener::~ComponentAudioListener()
 
 void ComponentAudioListener::Update()
 {
+}
 
+void ComponentAudioListener::Draw()
+{
     const float3& pos = transform->GetGlobalPosition();
     const float3& front = transform->GetGlobalForward();
     const float3& up = transform->GetGlobalFront();
@@ -34,10 +37,6 @@ void ComponentAudioListener::Update()
     );
 
     AK::SoundEngine::SetPosition(listenerID, listenerTransform);
-}
-
-void ComponentAudioListener::Draw()
-{
 }
 
 void ComponentAudioListener::SaveOptions(Json& meta)
