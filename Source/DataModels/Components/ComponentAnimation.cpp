@@ -42,7 +42,7 @@ void ComponentAnimation::Update()
 {
 	controller->Update();
 
-	if (animations.size() > 0 && controller->GetPlay())
+	if (!animations.empty() && controller->GetPlay())
 	{
 		std::list<GameObject*> children = owner->GetGameObjectsInside();
 
