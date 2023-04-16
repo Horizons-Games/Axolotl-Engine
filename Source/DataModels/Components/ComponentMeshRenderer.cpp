@@ -5,7 +5,6 @@
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
-#include "Program/Program.h"
 
 #include "Application.h"
 
@@ -21,6 +20,7 @@
 #include "GameObject/GameObject.h"
 
 #include <GL/glew.h>
+
 
 #ifdef ENGINE
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
@@ -51,20 +51,19 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	switch (shaderType)
-	{
-		case ProgramType::DEFAULT:
-			DrawDefault();
-			break;
-		case ProgramType::SPECULAR:
-			DrawSpecular();
-			break;
-	}
-}
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
-void ComponentMeshRenderer::DrawDefault()
+	if (program)
+	{
+		program->Activate();
+		DrawMaterial(program);
+		DrawMeshes(program);
+	}
+	program->Deactivate();
+}
+void ComponentMeshRenderer::DrawMeshes(Program* program)
 {
-	//this should be in an EditorComponent class, or something of the like
+//this should be in an EditorComponent class, or something of the like
 //but for now have it here
 #ifdef ENGINE
 	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
@@ -84,9 +83,6 @@ void ComponentMeshRenderer::DrawDefault()
 		{
 			mesh->Load();
 		}
-
-		Program* program = App->program->GetProgram(ProgramType::DEFAULT);
-
 		if (program)
 		{
 			program->Activate();
@@ -304,6 +300,120 @@ void ComponentMeshRenderer::DrawSpecular()
 		}
 	}
 }
+void ComponentMeshRenderer::DrawMaterial(Program* program)
+{
+	if (program)
+	{
+		program->Activate();
+
+		//this should be in an EditorComponent class, or something of the like
+		//but for now have it here
+#ifdef ENGINE
+		if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+		{
+			material = nullptr;
+		}
+#endif // ENGINE
+
+		if (material)
+		{
+			const float4& diffuseColor = material->GetDiffuseColor();
+			glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z, diffuseColor.w); //diffuse_color
+			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glUniform1i(5, 1); //has_diffuse_map
+
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(5, 0); //has_diffuse_map
+			}
+
+			/*const float3& specularColor = material->GetSpecularColor();
+			glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
+			texture = material->GetSpecular();
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+					glUniform1i(8, 1); //has_specular_map
+					glActiveTexture(GL_TEXTURE6);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(8, 0); //has_specular_map
+				}
+				glUniform1i(8, 1); //has_specular_map
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(8, 0); //has_specular_map
+			}*/
+
+			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				glUniform1f(4, material->GetNormalStrength()); //normal_strength
+				glUniform1i(6, 1); //has_normal_map
+			}
+			else
+			{
+				glUniform1i(6, 0); //has_normal_map
+			}
+
+			/*glUniform1f(5, material->GetShininess()); //shininess
+			glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
+			*/
+			glUniform1f(7, material->GetSmoothness());
+			glUniform1i(8, material->HasMetallicAlpha());
+			glUniform1f(9, material->GetMetalness());
+
+			texture = material->GetMetallicMap();
+			if (texture)
+			{
+				if (!texture->IsLoaded())
+				{
+					texture->Load();
+				}
+
+				glUniform1i(10, 1); //has_metallic_map
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			}
+			else
+			{
+				glUniform1i(10, 0); //has_metallic_map
+			}
+
+			float3 viewPos = App->camera->GetCamera()->GetPosition();
+			program->BindUniformFloat3("viewPos", viewPos);
+		}
+
+		program->Deactivate();
+	}
+}
 
 void ComponentMeshRenderer::DrawHighlight()
 {
@@ -360,31 +470,19 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	}
 
 	meta["meshUID"] = (UID)uidMesh;
-	meta["assetPathMesh"] = assetPathMesh.c_str();
+	meta["assetPathMesh"] = assetPath.c_str();
 
+	//Material
 	UID uidMaterial = 0;
-	std::string assetPathMaterial = "";
+	assetPath = "";
 
 	if (material)
 	{
 		uidMaterial = material->GetUID();
-		assetPathMaterial = material->GetAssetsPath();
+		assetPath = material->GetAssetsPath();
 	}
 	meta["materialUID"] = (UID)uidMaterial;
-	meta["assetPathMaterial"] = assetPathMaterial.c_str();
-}
-
-void ComponentMeshRenderer::SaveUIDOfResourceToMeta(Json& meta,
-													const char* field,
-													const ResourceTexture* texturePtr)
-{
-	UID uidTexture = 0;
-
-	if (texturePtr)
-	{
-		uidTexture = texturePtr->GetUID();
-	}
-	meta[field] = (UID)uidTexture;
+	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
 void ComponentMeshRenderer::LoadOptions(Json& meta)
@@ -432,6 +530,27 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		SetMaterial(resourceMaterial);
 	}
 #endif
+
+	//Material
+#ifdef ENGINE
+	path = meta["assetPathMaterial"];
+	resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
+		if (resourceMaterial)
+		{
+			SetMaterial(resourceMaterial);
+		}
+	}
+#else
+	UID uidMaterial = meta["materialUID"];
+	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
+	if (resourceMaterial)
+	{
+		SetMaterial(resourceMaterial);
+	}
+#endif
 }
 
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
@@ -441,7 +560,8 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (mesh)
 	{
 		mesh->Load();
-		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }
 
@@ -454,6 +574,7 @@ void ComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>&
 		material->Load();
 	}
 }
+
 void ComponentMeshRenderer::UnloadTextures()
 {
 	if (material)
@@ -476,16 +597,11 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		texture = material->GetSpecular();
-		if (texture)
-		{
-			texture->Unload();
-		}
-		texture = material->GetMetallicMap();
-		if (texture)
-		{
-			texture->Unload();
-		}
+		//texture = material->GetSpecular();
+		//if (texture)
+		//{
+		//	texture->Unload();
+		//}
 	}
 }
 
@@ -517,31 +633,27 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				texture->Unload();
 			}
 			break;
-			case TextureType::SPECULAR:
-				texture = material->GetSpecular();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
-		case TextureType::METALLIC:
-			texture = material->GetMetallicMap();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
+		//case TextureType::SPECULAR:
+		//	texture = material->GetSpecular();
+		//	if (texture)
+		//	{
+		//		texture->Unload();
+		//	}
+		//	break;
 		}
 	}
 }
 
-const float3& ComponentMeshRenderer::GetDiffuseColor() const {
+const float4& ComponentMeshRenderer::GetDiffuseColor() const {
 	return material->GetDiffuseColor();
 }
 
-const float3& ComponentMeshRenderer::GetSpecularColor() const {
+/*const float3& ComponentMaterial::GetSpecularColor() const {
 	return material->GetSpecularColor();
 }
+const float ComponentMaterial::GetShininess() const {
+	return material->GetShininess();
+}*/
 
 const float ComponentMeshRenderer::GetNormalStrenght() const {
 	return material->GetNormalStrength();
@@ -557,15 +669,28 @@ const float ComponentMeshRenderer::GetMetalness() const
 	return material->GetMetalness();
 }
 
-void ComponentMeshRenderer::SetDiffuseColor(float3& diffuseColor)
+/*const bool ComponentMaterial::HasShininessAlpha() const {
+	return material->HasShininessAlpha();
+}*/
+
+const bool ComponentMeshRenderer::HasMetallicAlpha() const
+{
+	return material->HasMetallicAlpha();
+}
+
+void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
 {
 	this->material->SetDiffuseColor(diffuseColor);
 }
 
-void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
+/*void ComponentMaterial::SetSpecularColor(float3& specularColor)
 {
 	this->material->SetSpecularColor(specularColor);
 }
+void ComponentMaterial::SetShininess(float shininess)
+{
+	this->material->SetShininess(shininess);
+}*/
 
 void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
 {
@@ -582,16 +707,12 @@ void ComponentMeshRenderer::SetMetalness(float metalness)
 	this->material->SetMetalness(metalness);
 }
 
-
-
-
-
-void ComponentMeshRenderer::SetShaderTypeDefault()
+/*void ComponentMaterial::SetHasShininessAlpha(bool hasShininessAlpha)
 {
-	this->shaderType = ProgramType::DEFAULT;
-}
+	this->material->SetShininess(hasShininessAlpha);
+}*/
 
-void ComponentMeshRenderer::SetShaderTypeSpecular()
+void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
 {
-	this->shaderType = ProgramType::SPECULAR;
+	this->material->SetMetallicAlpha(metallicAlpha);
 }

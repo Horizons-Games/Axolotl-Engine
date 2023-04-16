@@ -7,7 +7,7 @@ class WindowTextureInput :
     public WindowFileBrowser
 {
 public:
-	WindowTextureInput(WindowComponentMeshRenderer* mesh, TextureType textureType);
+	WindowTextureInput(WindowComponentMeshRenderer* meshRendererComponent, TextureType textureType);
 	~WindowTextureInput() override;
 
 	void DoThisIfOk() override;

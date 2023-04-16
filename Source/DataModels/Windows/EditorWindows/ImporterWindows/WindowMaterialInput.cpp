@@ -4,6 +4,7 @@
 #include "Components/ComponentMeshRenderer.h"
 
 #include "FileSystem/ModuleResources.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
 
 WindowMaterialInput::WindowMaterialInput(ComponentMeshRenderer* componentMeshRenderer) :

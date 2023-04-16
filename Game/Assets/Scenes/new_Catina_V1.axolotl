@@ -3,6 +3,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 2675896250140279308,
                 "parentUID": 8696054659987268988,
                 "enabled": true,
@@ -26,9 +27,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 3373131147333875621,
                             "assetPathMaterial": "Assets/Materials/color01.mat"
                         }
@@ -39,7 +37,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 3373131147333875621,
+                            "assetPathMaterial": "Assets/Materials/color01.mat"
                         }
                     }
                 ]
@@ -47,7 +47,8 @@
         },
         {
             "GameObject": {
-                "name": "Cantina_vs01",
+                "name": "new_Catina_V1",
+                "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
                 "enabled": true,
@@ -75,6 +76,125 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 8404262750341960183,
+                "parentUID": 2304306716710148863,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.0,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Structure",
+                "tag": "",
+                "uid": 15257032007027155734,
+                "parentUID": 15903199761032511603,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Floor",
+                "tag": "",
+                "uid": 9671822666168219572,
+                "parentUID": 15257032007027155734,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.0,
+                            "localPos_Y": -0.25,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 17.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 10.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 11561109728304261555,
                 "parentUID": 17745064884407023696,
                 "enabled": true,
@@ -98,9 +218,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -111,34 +228,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "main bar",
-                "uid": 8696054659987268988,
-                "parentUID": 2456687566948030077,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 6.25,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 10.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -147,6 +239,7 @@
         {
             "GameObject": {
                 "name": "Ambient_Light",
+                "tag": "",
                 "uid": 1518028370349053460,
                 "parentUID": 5457140795048261378,
                 "enabled": true,
@@ -185,9 +278,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
-                "uid": 8404262750341960183,
-                "parentUID": 2304306716710148863,
+                "name": "main bar",
+                "tag": "",
+                "uid": 8696054659987268988,
+                "parentUID": 2456687566948030077,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -196,54 +290,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -6.0,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Structure",
-                "uid": 15257032007027155734,
-                "parentUID": 15903199761032511603,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 6.25,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 10.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -257,52 +306,8 @@
         },
         {
             "GameObject": {
-                "name": "Floor",
-                "uid": 9671822666168219572,
-                "parentUID": 15257032007027155734,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.0,
-                            "localPos_Y": -0.25,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 17.0,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 10.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Directional_Light",
+                "tag": "",
                 "uid": 6613241383893671849,
                 "parentUID": 5457140795048261378,
                 "enabled": true,
@@ -342,6 +347,7 @@
         {
             "GameObject": {
                 "name": "Walls",
+                "tag": "",
                 "uid": 1468574115197490861,
                 "parentUID": 15257032007027155734,
                 "enabled": true,
@@ -368,52 +374,8 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
-                "uid": 16049310686849802058,
-                "parentUID": 2304306716710148863,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 4.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Cantina",
+                "tag": "",
                 "uid": 15903199761032511603,
                 "parentUID": 5457140795048261378,
                 "enabled": true,
@@ -440,7 +402,53 @@
         },
         {
             "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 16049310686849802058,
+                "parentUID": 2304306716710148863,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 4.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Wall South",
+                "tag": "",
                 "uid": 5646301603269167273,
                 "parentUID": 1468574115197490861,
                 "enabled": true,
@@ -464,9 +472,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -477,7 +482,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -486,6 +493,7 @@
         {
             "GameObject": {
                 "name": "Wall East",
+                "tag": "",
                 "uid": 3072150418142985607,
                 "parentUID": 1468574115197490861,
                 "enabled": true,
@@ -509,9 +517,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -522,52 +527,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Wall West",
-                "uid": 6909165742885508394,
-                "parentUID": 1468574115197490861,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -19.75,
-                            "localPos_Y": 2.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 2.0,
-                            "localSca_Z": 10.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
                         }
                     }
                 ]
@@ -576,6 +538,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 14818828537817097568,
                 "parentUID": 18118032533482929691,
                 "enabled": true,
@@ -599,9 +562,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -612,7 +572,54 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall West",
+                "tag": "",
+                "uid": 6909165742885508394,
+                "parentUID": 1468574115197490861,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -19.75,
+                            "localPos_Y": 2.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 2.0,
+                            "localSca_Z": 10.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -621,6 +628,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 2204902476470979219,
                 "parentUID": 17772261826313111984,
                 "enabled": true,
@@ -644,9 +652,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -657,7 +662,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -666,6 +673,7 @@
         {
             "GameObject": {
                 "name": "Character",
+                "tag": "",
                 "uid": 1637170165485807486,
                 "parentUID": 15903199761032511603,
                 "enabled": true,
@@ -689,9 +697,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -702,7 +707,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17416733472434440775,
-                            "assetPathMesh": "Assets/Meshes/David.mesh"
+                            "assetPathMesh": "Assets/Meshes/David.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -711,6 +718,7 @@
         {
             "GameObject": {
                 "name": "Forniture BAR",
+                "tag": "",
                 "uid": 2456687566948030077,
                 "parentUID": 15903199761032511603,
                 "enabled": true,
@@ -738,6 +746,52 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 7020121757824805024,
+                "parentUID": 18087011340606067145,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.75,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 0.25,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 319971320296005275,
                 "parentUID": 3625602460366317398,
                 "enabled": true,
@@ -761,9 +815,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -774,52 +825,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cylinder",
-                "uid": 10520281230211160084,
-                "parentUID": 21938079793741749,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.699999988079071,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 12173001016463009673,
-                            "assetPathMaterial": "Assets/Materials/color02.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -828,6 +836,7 @@
         {
             "GameObject": {
                 "name": "Exit",
+                "tag": "",
                 "uid": 6136526759423287916,
                 "parentUID": 15903199761032511603,
                 "enabled": true,
@@ -854,9 +863,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
-                "uid": 13351098411693752947,
-                "parentUID": 10871082314513439579,
+                "name": "Cylinder",
+                "tag": "",
+                "uid": 10520281230211160084,
+                "parentUID": 21938079793741749,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -865,24 +875,21 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 9.75,
+                            "localPos_X": -4.5,
                             "localPos_Y": 0.25,
-                            "localPos_Z": 2.5,
+                            "localPos_Z": 6.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.699999988079071,
+                            "localSca_Z": 1.0
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 13503396798634320444,
-                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     },
                     {
@@ -890,8 +897,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "meshUID": 17860757427292947017,
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -900,6 +909,7 @@
         {
             "GameObject": {
                 "name": "Vip",
+                "tag": "",
                 "uid": 8368427694378071310,
                 "parentUID": 15903199761032511603,
                 "enabled": true,
@@ -926,9 +936,10 @@
         },
         {
             "GameObject": {
-                "name": "Cylinder",
-                "uid": 4283014337817235999,
-                "parentUID": 8696054659987268988,
+                "name": "Cube",
+                "tag": "",
+                "uid": 13351098411693752947,
+                "parentUID": 10871082314513439579,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -937,24 +948,21 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.5,
-                            "localPos_Z": -12.5,
+                            "localPos_X": 9.75,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 2.5,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 3.0,
-                            "localSca_Y": 0.6000000238418579,
-                            "localSca_Z": 3.0
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 3373131147333875621,
-                            "assetPathMaterial": "Assets/Materials/color01.mat"
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     },
                     {
@@ -962,8 +970,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -972,6 +982,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 12167016164123887383,
                 "parentUID": 21938079793741749,
                 "enabled": true,
@@ -995,9 +1006,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -1008,7 +1016,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -1017,6 +1027,7 @@
         {
             "GameObject": {
                 "name": "Table",
+                "tag": "",
                 "uid": 17288751617700467538,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1043,7 +1054,233 @@
         },
         {
             "GameObject": {
+                "name": "Cylinder",
+                "tag": "",
+                "uid": 4283014337817235999,
+                "parentUID": 8696054659987268988,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.5,
+                            "localPos_Z": -12.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 3.0,
+                            "localSca_Y": 0.6000000238418579,
+                            "localSca_Z": 3.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 3373131147333875621,
+                            "assetPathMaterial": "Assets/Materials/color01.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17860757427292947017,
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 3373131147333875621,
+                            "assetPathMaterial": "Assets/Materials/color01.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Scenary",
+                "tag": "",
+                "uid": 2369955045322375849,
+                "parentUID": 5726080278536773201,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -9.0,
+                            "localPos_Y": 0.5,
+                            "localPos_Z": -6.5,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 5.0,
+                            "localSca_Y": 0.5,
+                            "localSca_Z": 3.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 3373131147333875621,
+                            "assetPathMaterial": "Assets/Materials/color01.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 3373131147333875621,
+                            "assetPathMaterial": "Assets/Materials/color01.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 8271051012496364604,
+                "parentUID": 10871082314513439579,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.75,
+                            "localPos_Y": 0.24980854988098145,
+                            "localPos_Z": 8.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 14666165774353866634,
+                "parentUID": 52614198373489748,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 7.25,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 1183340829959680329,
+                "parentUID": 17288751617700467538,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.0,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Floor-Walls",
+                "tag": "",
                 "uid": 6316462160983007341,
                 "parentUID": 8646400090140996142,
                 "enabled": true,
@@ -1071,6 +1308,7 @@
         {
             "GameObject": {
                 "name": "Table",
+                "tag": "",
                 "uid": 17745064884407023696,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1097,232 +1335,8 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
-                "uid": 14666165774353866634,
-                "parentUID": 52614198373489748,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 7.25,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 1183340829959680329,
-                "parentUID": 17288751617700467538,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -6.0,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 8271051012496364604,
-                "parentUID": 10871082314513439579,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 9.75,
-                            "localPos_Y": 0.24980854988098145,
-                            "localPos_Z": 8.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 13503396798634320444,
-                            "assetPathMaterial": "Assets/Materials/color03.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Scenary",
-                "uid": 2369955045322375849,
-                "parentUID": 5726080278536773201,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -9.0,
-                            "localPos_Y": 0.5,
-                            "localPos_Z": -6.5,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 5.0,
-                            "localSca_Y": 0.5,
-                            "localSca_Z": 3.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 3373131147333875621,
-                            "assetPathMaterial": "Assets/Materials/color01.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 2748130826228431819,
-                "parentUID": 2304306716710148863,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.0,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "chairs",
+                "tag": "",
                 "uid": 10871082314513439579,
                 "parentUID": 8229696779674247018,
                 "enabled": true,
@@ -1349,7 +1363,98 @@
         },
         {
             "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 2748130826228431819,
+                "parentUID": 2304306716710148863,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.0,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 3019173114832539888,
+                "parentUID": 10871082314513439579,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.75,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "All Chairs",
+                "tag": "",
                 "uid": 8229696779674247018,
                 "parentUID": 8696054659987268988,
                 "enabled": true,
@@ -1377,51 +1482,7 @@
         {
             "GameObject": {
                 "name": "Cube",
-                "uid": 3019173114832539888,
-                "parentUID": 10871082314513439579,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 9.75,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 13503396798634320444,
-                            "assetPathMaterial": "Assets/Materials/color03.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
+                "tag": "",
                 "uid": 13164278436270728556,
                 "parentUID": 10871082314513439579,
                 "enabled": true,
@@ -1445,9 +1506,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -1458,52 +1516,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 6602954565339513156,
-                "parentUID": 17288751617700467538,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 4.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -1512,6 +1527,7 @@
         {
             "GameObject": {
                 "name": "Dance Floor",
+                "tag": "",
                 "uid": 14460313100152612644,
                 "parentUID": 15903199761032511603,
                 "enabled": true,
@@ -1539,8 +1555,9 @@
         {
             "GameObject": {
                 "name": "Cube",
-                "uid": 5077479005630517348,
-                "parentUID": 21938079793741749,
+                "tag": "",
+                "uid": 6602954565339513156,
+                "parentUID": 17288751617700467538,
                 "enabled": true,
                 "active": true,
                 "Components": [
@@ -1549,9 +1566,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -3.0,
+                            "localPos_X": -4.5,
                             "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
+                            "localPos_Z": 4.5,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -1562,9 +1579,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -1575,7 +1589,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -1584,6 +1600,7 @@
         {
             "GameObject": {
                 "name": "Plane",
+                "tag": "",
                 "uid": 1631957262666118121,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1607,9 +1624,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 18057240506052226120,
                             "assetPathMaterial": "Assets/Materials/color05.mat"
                         }
@@ -1620,7 +1634,54 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 12864860280523043845,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh"
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh",
+                            "materialUID": 18057240506052226120,
+                            "assetPathMaterial": "Assets/Materials/color05.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 5077479005630517348,
+                "parentUID": 21938079793741749,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.0,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -1629,6 +1690,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 4000858138662806704,
                 "parentUID": 17288751617700467538,
                 "enabled": true,
@@ -1652,9 +1714,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -1665,7 +1724,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -1674,51 +1735,7 @@
         {
             "GameObject": {
                 "name": "Cube",
-                "uid": 17410735843302085923,
-                "parentUID": 3625602460366317398,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 7.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
+                "tag": "",
                 "uid": 7476804085227635191,
                 "parentUID": 17288751617700467538,
                 "enabled": true,
@@ -1742,9 +1759,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -1755,7 +1769,54 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 17410735843302085923,
+                "parentUID": 3625602460366317398,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 7.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -1764,6 +1825,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 11771604866413872639,
                 "parentUID": 2547609257868654665,
                 "enabled": true,
@@ -1787,9 +1849,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -1800,7 +1859,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -1809,6 +1870,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 6292007450519023990,
                 "parentUID": 17288751617700467538,
                 "enabled": true,
@@ -1832,9 +1894,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -1845,7 +1904,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -1854,6 +1915,7 @@
         {
             "GameObject": {
                 "name": "Table",
+                "tag": "",
                 "uid": 2304306716710148863,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1881,6 +1943,7 @@
         {
             "GameObject": {
                 "name": "Table",
+                "tag": "",
                 "uid": 21938079793741749,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1908,6 +1971,7 @@
         {
             "GameObject": {
                 "name": "Table",
+                "tag": "",
                 "uid": 3625602460366317398,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -1935,6 +1999,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 7529726802860647605,
                 "parentUID": 17745064884407023696,
                 "enabled": true,
@@ -1958,9 +2023,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -1971,52 +2033,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 14784359769862707702,
-                "parentUID": 18118032533482929691,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.0,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
                         }
                     }
                 ]
@@ -2025,6 +2044,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 12437688913879431574,
                 "parentUID": 17745064884407023696,
                 "enabled": true,
@@ -2048,9 +2068,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -2061,7 +2078,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -2070,6 +2089,52 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 14784359769862707702,
+                "parentUID": 18118032533482929691,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.0,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 822340575273246497,
                 "parentUID": 52614198373489748,
                 "enabled": true,
@@ -2093,9 +2158,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2106,7 +2168,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2115,6 +2179,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 17211827111678338223,
                 "parentUID": 17745064884407023696,
                 "enabled": true,
@@ -2138,9 +2203,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2151,98 +2213,10 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cylinder",
-                "uid": 3795598588860715612,
-                "parentUID": 18118032533482929691,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.699999988079071,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 12173001016463009673,
-                            "assetPathMaterial": "Assets/Materials/color02.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 14715399344188526720,
-                "parentUID": 2304306716710148863,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 7.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
                     }
                 ]
             }
@@ -2250,6 +2224,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 7683891847052593830,
                 "parentUID": 17745064884407023696,
                 "enabled": true,
@@ -2273,9 +2248,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2286,7 +2258,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2295,6 +2269,97 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 14715399344188526720,
+                "parentUID": 2304306716710148863,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 7.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder",
+                "tag": "",
+                "uid": 3795598588860715612,
+                "parentUID": 18118032533482929691,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.699999988079071,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17860757427292947017,
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 3837075505277431963,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -2318,9 +2383,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2331,7 +2393,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2340,6 +2404,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 16884738479559425993,
                 "parentUID": 21938079793741749,
                 "enabled": true,
@@ -2363,9 +2428,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2376,52 +2438,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 11616153418657030927,
-                "parentUID": 3625602460366317398,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.5,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 4.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
                         }
                     }
                 ]
@@ -2430,6 +2449,7 @@
         {
             "GameObject": {
                 "name": "Floor",
+                "tag": "",
                 "uid": 15613568404621087819,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -2453,9 +2473,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2466,7 +2483,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2475,6 +2494,7 @@
         {
             "GameObject": {
                 "name": "Empty GameObject",
+                "tag": "",
                 "uid": 18118032533482929691,
                 "parentUID": 8646400090140996142,
                 "enabled": true,
@@ -2501,7 +2521,53 @@
         },
         {
             "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 11616153418657030927,
+                "parentUID": 3625602460366317398,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.5,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 4.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 14672810580867210215,
                 "parentUID": 3625602460366317398,
                 "enabled": true,
@@ -2525,9 +2591,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -2538,7 +2601,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -2547,51 +2612,7 @@
         {
             "GameObject": {
                 "name": "Cube",
-                "uid": 1449433734882439639,
-                "parentUID": 2547609257868654665,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.75,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 6.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
+                "tag": "",
                 "uid": 17416851618330762789,
                 "parentUID": 3625602460366317398,
                 "enabled": true,
@@ -2615,9 +2636,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2628,7 +2646,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2637,6 +2657,52 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 1449433734882439639,
+                "parentUID": 2547609257868654665,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.75,
+                            "localPos_Y": 0.25,
+                            "localPos_Z": 6.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 18129254507777513533,
                 "parentUID": 21938079793741749,
                 "enabled": true,
@@ -2660,9 +2726,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2673,7 +2736,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2682,6 +2747,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18402055550101417015,
                 "parentUID": 18118032533482929691,
                 "enabled": true,
@@ -2705,9 +2771,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2718,7 +2781,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2727,6 +2792,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 9871252946720008155,
                 "parentUID": 18118032533482929691,
                 "enabled": true,
@@ -2750,9 +2816,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2763,7 +2826,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2772,6 +2837,7 @@
         {
             "GameObject": {
                 "name": "Scenary",
+                "tag": "",
                 "uid": 5726080278536773201,
                 "parentUID": 14460313100152612644,
                 "enabled": true,
@@ -2799,6 +2865,7 @@
         {
             "GameObject": {
                 "name": "Band",
+                "tag": "",
                 "uid": 3391681397731289603,
                 "parentUID": 5726080278536773201,
                 "enabled": true,
@@ -2826,6 +2893,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 2625897271365558615,
                 "parentUID": 3391681397731289603,
                 "enabled": true,
@@ -2849,9 +2917,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2862,7 +2927,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2871,6 +2938,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 1937626669661475521,
                 "parentUID": 3391681397731289603,
                 "enabled": true,
@@ -2894,9 +2962,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2907,7 +2972,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2916,6 +2983,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 10175254423491939201,
                 "parentUID": 3391681397731289603,
                 "enabled": true,
@@ -2939,9 +3007,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2952,7 +3017,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -2961,6 +3028,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 1224848427055088765,
                 "parentUID": 3391681397731289603,
                 "enabled": true,
@@ -2984,9 +3052,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2997,7 +3062,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3006,6 +3073,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 12473271298736870001,
                 "parentUID": 3391681397731289603,
                 "enabled": true,
@@ -3029,9 +3097,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3042,7 +3107,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3051,6 +3118,7 @@
         {
             "GameObject": {
                 "name": "Empty GameObject",
+                "tag": "",
                 "uid": 8665854051192500387,
                 "parentUID": 8646400090140996142,
                 "enabled": true,
@@ -3078,6 +3146,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 15330592129119026452,
                 "parentUID": 8665854051192500387,
                 "enabled": true,
@@ -3101,9 +3170,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3114,7 +3180,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3123,6 +3191,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 1595029117543697726,
                 "parentUID": 8665854051192500387,
                 "enabled": true,
@@ -3146,9 +3215,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -3159,7 +3225,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -3168,6 +3236,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 1745128743050112890,
                 "parentUID": 8665854051192500387,
                 "enabled": true,
@@ -3191,9 +3260,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3204,7 +3270,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3213,6 +3281,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 4385117138143130829,
                 "parentUID": 8665854051192500387,
                 "enabled": true,
@@ -3236,9 +3305,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3249,7 +3315,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3258,6 +3326,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 11497589869368233664,
                 "parentUID": 8665854051192500387,
                 "enabled": true,
@@ -3281,9 +3350,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3294,7 +3360,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3303,6 +3371,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 7112433622559609889,
                 "parentUID": 6316462160983007341,
                 "enabled": true,
@@ -3326,9 +3395,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3339,7 +3405,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3348,6 +3416,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18416972919799435130,
                 "parentUID": 6316462160983007341,
                 "enabled": true,
@@ -3371,9 +3440,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3384,7 +3450,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3393,6 +3461,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 3086792968891014064,
                 "parentUID": 6316462160983007341,
                 "enabled": true,
@@ -3416,9 +3485,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3429,7 +3495,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3438,6 +3506,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 1599281248275466943,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -3461,9 +3530,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3474,7 +3540,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3483,6 +3551,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 13521392526702236402,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -3506,9 +3575,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3519,7 +3585,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3528,6 +3596,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 14790522636156957303,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -3551,9 +3620,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3564,7 +3630,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3573,6 +3641,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 794350736806867145,
                 "parentUID": 8320428308033980803,
                 "enabled": true,
@@ -3596,9 +3665,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3609,7 +3675,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3618,6 +3686,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 9666164128650992424,
                 "parentUID": 6316462160983007341,
                 "enabled": true,
@@ -3641,9 +3710,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3654,7 +3720,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3663,6 +3731,7 @@
         {
             "GameObject": {
                 "name": "Right",
+                "tag": "",
                 "uid": 10896670175673726384,
                 "parentUID": 8368427694378071310,
                 "enabled": true,
@@ -3690,6 +3759,7 @@
         {
             "GameObject": {
                 "name": "Walls-Floor",
+                "tag": "",
                 "uid": 8320428308033980803,
                 "parentUID": 10896670175673726384,
                 "enabled": true,
@@ -3717,6 +3787,7 @@
         {
             "GameObject": {
                 "name": "Table-Chairs small",
+                "tag": "",
                 "uid": 17772261826313111984,
                 "parentUID": 10896670175673726384,
                 "enabled": true,
@@ -3744,6 +3815,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 3345094443212599407,
                 "parentUID": 17772261826313111984,
                 "enabled": true,
@@ -3767,9 +3839,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -3780,7 +3849,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -3789,6 +3860,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 14348465708618986729,
                 "parentUID": 17772261826313111984,
                 "enabled": true,
@@ -3812,9 +3884,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3825,7 +3894,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3834,6 +3905,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 10756986709929532343,
                 "parentUID": 17772261826313111984,
                 "enabled": true,
@@ -3857,9 +3929,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3870,7 +3939,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3879,6 +3950,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 1906150138995226434,
                 "parentUID": 17772261826313111984,
                 "enabled": true,
@@ -3902,9 +3974,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -3915,7 +3984,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -3924,6 +3995,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 13050650287996873091,
                 "parentUID": 10871082314513439579,
                 "enabled": true,
@@ -3947,9 +4019,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -3960,7 +4029,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -3969,6 +4040,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 10833652099451093109,
                 "parentUID": 10871082314513439579,
                 "enabled": true,
@@ -3992,9 +4064,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -4005,7 +4074,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -4014,6 +4085,7 @@
         {
             "GameObject": {
                 "name": "Table-Chairs small",
+                "tag": "",
                 "uid": 2547609257868654665,
                 "parentUID": 10896670175673726384,
                 "enabled": true,
@@ -4041,6 +4113,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 7401393661482409455,
                 "parentUID": 2547609257868654665,
                 "enabled": true,
@@ -4064,9 +4137,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4077,7 +4147,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4086,6 +4158,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 13097089338792429138,
                 "parentUID": 2547609257868654665,
                 "enabled": true,
@@ -4109,9 +4182,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4122,7 +4192,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4131,6 +4203,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18150048022569454999,
                 "parentUID": 2547609257868654665,
                 "enabled": true,
@@ -4154,9 +4227,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4167,7 +4237,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4176,6 +4248,7 @@
         {
             "GameObject": {
                 "name": "Table-Chairs small",
+                "tag": "",
                 "uid": 52614198373489748,
                 "parentUID": 10896670175673726384,
                 "enabled": true,
@@ -4203,6 +4276,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18438748172211747555,
                 "parentUID": 52614198373489748,
                 "enabled": true,
@@ -4226,9 +4300,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4239,7 +4310,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4248,6 +4321,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 12039126025825917152,
                 "parentUID": 52614198373489748,
                 "enabled": true,
@@ -4271,9 +4345,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -4284,7 +4355,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -4293,6 +4366,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 13897400369538971286,
                 "parentUID": 52614198373489748,
                 "enabled": true,
@@ -4316,9 +4390,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4329,7 +4400,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4338,6 +4411,7 @@
         {
             "GameObject": {
                 "name": "Front",
+                "tag": "",
                 "uid": 8646400090140996142,
                 "parentUID": 8368427694378071310,
                 "enabled": true,
@@ -4365,6 +4439,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 9026600566647761899,
                 "parentUID": 6316462160983007341,
                 "enabled": true,
@@ -4388,9 +4463,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4401,7 +4473,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4410,6 +4484,7 @@
         {
             "GameObject": {
                 "name": "Wall North",
+                "tag": "",
                 "uid": 5098861823324012527,
                 "parentUID": 1468574115197490861,
                 "enabled": true,
@@ -4433,9 +4508,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4446,7 +4518,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4455,6 +4529,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18415563340348148252,
                 "parentUID": 6136526759423287916,
                 "enabled": true,
@@ -4478,9 +4553,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4491,7 +4563,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4500,6 +4574,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 4012976028267270932,
                 "parentUID": 6136526759423287916,
                 "enabled": true,
@@ -4523,9 +4598,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4536,7 +4608,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4545,6 +4619,52 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
+                "uid": 12758341766038824823,
+                "parentUID": 18087011340606067145,
+                "enabled": true,
+                "active": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.75,
+                            "localPos_Y": 0.24980854988098145,
+                            "localPos_Z": 8.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8982785268433629927,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
                 "uid": 13564903840062681535,
                 "parentUID": 6136526759423287916,
                 "enabled": true,
@@ -4568,9 +4688,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4581,7 +4698,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4590,6 +4709,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 18188006524398071095,
                 "parentUID": 6136526759423287916,
                 "enabled": true,
@@ -4613,9 +4733,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4626,7 +4743,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4635,6 +4754,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 17816245559137323040,
                 "parentUID": 6136526759423287916,
                 "enabled": true,
@@ -4658,9 +4778,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -4671,7 +4788,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
@@ -4680,6 +4799,7 @@
         {
             "GameObject": {
                 "name": "Cylinder",
+                "tag": "",
                 "uid": 866516427678621022,
                 "parentUID": 2304306716710148863,
                 "enabled": true,
@@ -4703,9 +4823,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 12173001016463009673,
                             "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
@@ -4716,7 +4833,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 17860757427292947017,
-                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 12173001016463009673,
+                            "assetPathMaterial": "Assets/Materials/color02.mat"
                         }
                     }
                 ]
@@ -4725,6 +4844,7 @@
         {
             "GameObject": {
                 "name": "chairs",
+                "tag": "",
                 "uid": 18087011340606067145,
                 "parentUID": 8229696779674247018,
                 "enabled": true,
@@ -4752,6 +4872,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 10267249319254248084,
                 "parentUID": 18087011340606067145,
                 "enabled": true,
@@ -4775,9 +4896,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -4788,53 +4906,10 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 12758341766038824823,
-                "parentUID": 18087011340606067145,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 9.75,
-                            "localPos_Y": 0.24980854988098145,
-                            "localPos_Z": 8.5,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
                     }
                 ]
             }
@@ -4842,6 +4917,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 8074269330752767717,
                 "parentUID": 18087011340606067145,
                 "enabled": true,
@@ -4865,9 +4941,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -4878,7 +4951,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -4887,6 +4962,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 15546090272551749527,
                 "parentUID": 18087011340606067145,
                 "enabled": true,
@@ -4910,9 +4986,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -4923,53 +4996,10 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "uid": 7020121757824805024,
-                "parentUID": 18087011340606067145,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 9.75,
-                            "localPos_Y": 0.25,
-                            "localPos_Z": 0.25,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
-                        }
                     }
                 ]
             }
@@ -4977,6 +5007,7 @@
         {
             "GameObject": {
                 "name": "Cube",
+                "tag": "",
                 "uid": 15640240133499873887,
                 "parentUID": 18087011340606067145,
                 "enabled": true,
@@ -5000,9 +5031,6 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Material",
-                            "active": true,
-                            "removed": true,
                             "materialUID": 13503396798634320444,
                             "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
@@ -5013,7 +5041,9 @@
                             "active": true,
                             "removed": true,
                             "meshUID": 8982785268433629927,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh"
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 13503396798634320444,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
                         }
                     }
                 ]
@@ -5035,7 +5065,7 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 6409922103157209078,
+        "skyboxUID": 2819121758081834511,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     }
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Globals.h"
+
 #include "Components/Component.h"
 #include "ModuleProgram.h"
 
@@ -9,6 +11,7 @@
 #include "Globals.h"
 
 #include <memory>
+#include "Math/float4.h"
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
@@ -30,6 +33,8 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void DrawMeshes(Program* program);
+	void DrawMaterial(Program* program);
 	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
@@ -38,6 +43,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
 	void SetNormalStrenght(float normalStrength);
@@ -60,6 +66,7 @@ private:
 	void DrawSpecular();
 	bool IsMeshLoaded();
 	void UnloadTextures();
+	bool IsMaterialLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;
@@ -81,4 +88,8 @@ inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() co
 inline bool ComponentMeshRenderer::IsMeshLoaded()
 {
 	return mesh != nullptr;
+}
+inline bool ComponentMeshRenderer::IsMaterialLoaded()
+{
+	return material != nullptr;
 }

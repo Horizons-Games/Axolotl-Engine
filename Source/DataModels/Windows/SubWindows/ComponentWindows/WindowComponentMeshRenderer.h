@@ -1,11 +1,10 @@
 #pragma once
 
 #include "ComponentWindow.h"
-#include "Math/float3.h"
+#include "Math/float4.h"
 
 class ComponentMeshRenderer;
 class WindowMeshInput;
-class ComponentMaterial;
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceTexture;
@@ -18,9 +17,9 @@ public:
 	~WindowComponentMeshRenderer() override;
 
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
-	void SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap);
 	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
+
 protected:
 	void DrawWindowContents() override;
 
@@ -29,38 +28,31 @@ private:
 	void DrawEmptyMaterial();
 	void InitMaterialValues();
 
-private:
-	std::unique_ptr<WindowMeshInput> inputMesh;
-
-	float3 colorDiffuse;
+	float4 colorDiffuse;
+	float4 oldColorDiffuse;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
-	std::shared_ptr<ResourceTexture> specularMap;
 	std::shared_ptr<ResourceTexture> metalicMap;
 	std::shared_ptr<ResourceTexture> normalMap;
 	float smoothness;
 	float metalness;
 	float normalStrength;
+	bool isTransparent;
+	int currentTransparentIndex;
+	static const std::vector<std::string> renderModes;
 
+	bool reset = false;
+
+	std::unique_ptr<WindowMeshInput> inputMesh;
 	std::unique_ptr<WindowMaterialInput> inputMaterial;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
-	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+	//std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
-
-	/*Index 0 is the default shader and index 1 is the specular shader.*/
-	const char* shaderTypes[2];
-	unsigned int shaderTypesIdx;
-	bool isShaderSelected;
 };
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
 {
 	this->diffuseTexture = diffuseTexture;
-}
-
-inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap)
-{
-	this->specularMap = specularMap;
 }
 
 inline void WindowComponentMeshRenderer::SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap)

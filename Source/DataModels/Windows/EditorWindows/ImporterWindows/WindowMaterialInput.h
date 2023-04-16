@@ -7,7 +7,7 @@ class ComponentMeshRenderer;
 class WindowMaterialInput : public WindowFileBrowser
 {
 public:
-	WindowMaterialInput(ComponentMeshRenderer* componentMaterial);
+	WindowMaterialInput(ComponentMeshRenderer* componentMeshRenderer);
 	~WindowMaterialInput() override;
 
 	void DoThisIfOk() override;

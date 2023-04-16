@@ -1,10 +1,11 @@
 #version 440
 
-#define PI 3.1415926538
-#define EPSILON 1e-4
+#define M_PI 3.1415926535897932384626433832795
+#define EPSILON 1e-5
+
 
 struct Material {
-    vec3 diffuse_color;         //location 3         
+    vec4 diffuse_color;         //location 3         
     float normal_strength;      //location 4
     float smoothness;           //location 5
     float metalness;            //location 6
@@ -27,7 +28,9 @@ struct SpotLight
 	vec4 color; 		//16 //16	// rgb colour+alpha intensity
 	vec3 aim;			//12 //32
 	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48   --> 52 
+	float outerAngle;	//4  //48 
+    float padding1;     //4  //52
+    vec2  padding2;     //8  //56 --> 64
 };
 
 layout(std140, binding=1) uniform Ambient
@@ -75,7 +78,7 @@ out vec4 outColor;
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
-    vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
+    vec3 orthoTangent = normalize(tangent - max(dot(tangent, normal),EPSILON) * normal);
     vec3 bitangent = cross(orthoTangent, normal);
     return mat3(tangent, bitangent, normal); //TBN
 }
@@ -103,9 +106,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
     float dotNL = max(dot(N,L), 0.0);
-    vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-    float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-    float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+    vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+    float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+    float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
@@ -124,11 +127,11 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 L = normalize(FragPos-pos);
         vec3 H = (-L+V)/length(-L+V);
 
-        float dotNL = max(dot(N,-L), 0.0);
+        float dotNL = max(dot(N,-L), EPSILON);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = length(FragPos-pos);
@@ -164,9 +167,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 H = (-L+V)/length(-L+V);
         float dotNL = max(dot(N,-L), 0.0);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), 0.0));
-        float SV = smithVisibility(dotNL, max(dot(N,V), 0.0), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), 0.0), roughness);
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = dot(FragPos - pos, aim);
@@ -201,12 +204,14 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
-	vec3 textureMat = material.diffuse_color;
+	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord).rgb;
+        textureMat = texture(diffuse_map, TexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection.rgb);
-
+    textureMat = pow(textureMat, gammaCorrection);
+    
+    textureMat.a = material.diffuse_color.a; //Transparency
+    
 	if (material.has_normal_map)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
@@ -220,8 +225,8 @@ void main()
     vec4 colorMetallic = texture(metallic_map, TexCoord);
     float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
 
-    vec3 Cd = textureMat*(1.0-metalnessMask);
-    vec3 f0 = mix(vec3(0.04), textureMat, metalnessMask);
+    vec3 Cd = textureMat.rgb*(1.0-metalnessMask);
+    vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a)) + EPSILON;
 
@@ -237,11 +242,11 @@ void main()
         Lo += calculateSpotLights(norm, viewDir, Cd, f0, roughness);
     }
 
-    vec3 color = ambientValue*textureMat + Lo;      // ambient: ambientValue*textureMat
+    vec3 color = ambientValue*textureMat.rgb + Lo;      // ambient: ambientValue*textureMat
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 1.0);
+    outColor = vec4(color, textureMat.a);
 }

@@ -14,7 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -52,41 +52,39 @@ void WindowInspector::InspectSelectedGameObject()
 
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName.c_str());
+				lastSelectedGameObject->SetName(sceneName);
 			}
 
 		}
 		else
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
-			
-			char* tag = (char*)lastSelectedGameObject->GetTag();
-			ImGui::Text("Tag");
-			ImGui::SameLine();
-			ImGui::InputText("##Tag", tag, 24);
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
+				lastSelectedGameObject->SetName(name);
+			}
+			ImGui::SameLine();
+			bool staticness = lastSelectedGameObject->IsStatic();
+			//This should be changed into a pop-up windows 
+			if (ImGui::Checkbox("Static", &staticness))
+			{
+				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SpreadStatic();
 			}
 
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
+			std::string tag = lastSelectedGameObject->GetTag();
+			ImGui::Text("Tag");
+			ImGui::SameLine();
+			tag.resize(24);
+			if (ImGui::InputText("##Tag", &tag[0], 24))
+			{
+				lastSelectedGameObject->SetTag(tag);
+			}
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
