@@ -51,7 +51,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 
 	for (float3 point : points)
 	{
-		Ray ray(points[0], direction);
+		Ray ray(point, direction);
 		LineSegment line(ray, size);
 		RaycastHit hit;
 		bool hasHit = Physics::Raycast(line, hit);
@@ -71,7 +71,7 @@ void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints,
 
 	points.push_back(startingPoints[0] + (startingPoints[1] - startingPoints[0]) / 2);
 	points.push_back(startingPoints[0] + (startingPoints[2] - startingPoints[0]) / 2);
-	points.push_back(startingPoints[3] - (startingPoints[3] - startingPoints[1]) / 2);
+	points.push_back(startingPoints[1] + (startingPoints[2] - startingPoints[1]) / 2);
 	points.push_back(startingPoints[3] - (startingPoints[3] - startingPoints[2]) / 2);
 	points.push_back(startingPoints[0] + (startingPoints[3] - startingPoints[0]) / 2);
 }
