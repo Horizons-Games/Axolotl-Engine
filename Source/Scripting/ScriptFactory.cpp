@@ -16,7 +16,7 @@
 #undef GetObject
 #endif
 
-ScriptFactory::ScriptFactory() : m_pCompilerLogger(0), m_pRuntimeObjectSystem(0)
+ScriptFactory::ScriptFactory() : m_pCompilerLogger(nullptr), m_pRuntimeObjectSystem(nullptr)
 {
 	
 }
@@ -66,53 +66,26 @@ void ScriptFactory::AddScript(const char* path)
 {
 	m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
 	m_pRuntimeObjectSystem->CleanObjectFiles();
-	m_pRuntimeObjectSystem->CompileAll(true);
+	RecompileAll();
 }
 
 void ScriptFactory::RecompileAll()
 {
-	
-
 	m_pRuntimeObjectSystem->CompileAll(true);
 }
 
 
-std::vector<const char*> ScriptFactory::GetConstructors(){
+std::vector<const char*> ScriptFactory::GetConstructors()
+{
 	AUDynArray<IObjectConstructor*> constructors;
 	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
 	std::vector<const char*> constructorsName;
-	for (int i = 0; i < constructors.Size(); ++i) {
+	for (int i = 0; i < constructors.Size(); ++i)
+	{
 		constructorsName.push_back(constructors[i]->GetName());
 	}
 	return constructorsName;
 }
-
-
-
-/*
-IScript* ScriptFactory::CreateScript(GameObject* owner, const char* path ) {
-	//m_pRuntimeObjectSystem->AddToRuntimeFileList(path, 0);
-	m_pRuntimeObjectSystem->CleanObjectFiles();
-	m_pRuntimeObjectSystem->CompileAll(true);
-	/*IObjectConstructor* pCtor = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(path);
-	ObjectId objectId;
-	if (pCtor)
-	{
-		IObject* pObj = pCtor->Construct();
-		pObj->GetInterface(&m_pScript);
-		if (0 == m_pScript)
-		{
-			delete pObj;
-			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
-			//return false;
-		}
-		return m_pScript;
-		//objectId = pObj->GetObjectId();
-		//return objectId;
-	}
-	return m_pScript;
-}
-*/
 
 bool ScriptFactory::IsCompiling() {
 	return m_pRuntimeObjectSystem->GetIsCompiling();

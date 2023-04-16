@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game\Scripts\ChangeName.cpp" />
-    <ClCompile Include="..\Game\Scripts\OtraPrueba.cpp" />
-    <ClCompile Include="..\Game\Scripts\Prueba.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">Create</PrecompiledHeader>
@@ -30,6 +27,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\ChangeName.h" />
+    <ClInclude Include="..\Game\Scripts\OtraPrueba.h" />
+    <ClInclude Include="..\Game\Scripts\Prueba.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -17,15 +17,13 @@ public:
 	virtual ~ScriptFactory();
 	bool Init();
 	bool MainLoop();
-	//IScript* CreateScript(GameObject* owner, const char* path);
 
-	//IScript* GetScript(GameObject* owner, const char* path);
 	std::unique_ptr<IScript> GetScript(const char* name);
 	void AddScript(const char* path);
 	void RecompileAll();
 	void UpdateNotifier();
 	void LoadCompiledModules();
-	virtual void OnConstructorsAdded();
+	void OnConstructorsAdded() override;
 	bool IsCompiling();
 	bool IsCompiled();
 	std::vector<const char*> GetConstructors();
