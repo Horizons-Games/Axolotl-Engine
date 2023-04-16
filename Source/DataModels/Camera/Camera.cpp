@@ -23,7 +23,7 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), isFocusing(false), interpolationTime(0.0f), interpolationDuration(0.5f)
+	: type(type), mouseWarped(false), isFocusing(false)
 {
 	frustum = std::make_unique <Frustum>();
 }
@@ -43,8 +43,6 @@ Camera::Camera(Camera& camera)
 	viewPlaneDistance(camera.viewPlaneDistance),
 	frustumMode(camera.frustumMode),
 	mouseWarped(camera.mouseWarped),
-	interpolationTime(camera.interpolationTime),
-	interpolationDuration(camera.interpolationDuration),
 	isFocusing(camera.isFocusing),
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
@@ -72,7 +70,6 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	viewPlaneDistance(camera->viewPlaneDistance),
 	frustumMode(camera->frustumMode),
 	mouseWarped(camera->mouseWarped),
-	interpolationDuration(camera->interpolationDuration),
 	isFocusing(camera->isFocusing),
 	lastMouseX(camera->lastMouseX),
 	lastMouseY(camera->lastMouseY),
@@ -181,16 +178,6 @@ void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fi
 	rotation = rotationQuat;
 }
 
-void Camera::SetRotation(const Quat& rotation)
-{
-	vec oldFront = frustum->Front().Normalized();
-	vec oldUp = frustum->Up().Normalized();
-
-	frustum->SetFront(rotation.Transform(oldFront));
-	frustum->SetUp(rotation.Transform(oldUp));
-
-	this->rotation = rotation;
-}
 
 void Camera::Run()
 {
@@ -383,17 +370,6 @@ void Camera::SetPosition(const float3& position)
 void Camera::SetOrientation(const float3& orientation)
 {
 	frustum->SetUp(orientation);
-}
-
-void Camera::SetLookAt(const float3& lookAt, float currentTimeRelation)
-{
-	float3 targetDirection = (lookAt - position).Normalized();
-	float3 nextDirection = Quat::SlerpVector(currentFocusDir, targetDirection, currentTimeRelation);
-
-	Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
-	float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-	ApplyRotation(rotationMatrix);
-
 }
 
 void Camera::SetNewSelectedGameObject(GameObject* gameObject)

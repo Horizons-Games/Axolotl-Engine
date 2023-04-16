@@ -107,8 +107,6 @@ bool CameraEngine::Update()
 			if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() &&
 				App->input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
-				currentFocusDir = frustum->Front().Normalized();
-				currentFocusPos = position;
 				isFocusing = true;
 			}
 
@@ -240,6 +238,11 @@ void CameraEngine::Zoom()
 	SetPosition(position);
 }
 
+/*
+* This implementation of the Focus is using Lerp and Slerp
+* Now it is replaced by the Proportional Controller
+*/
+
 //void CameraEngine::Focus(const OBB& obb)
 //{
 //	Sphere boundingSphere = obb.MinimalEnclosingSphere();
@@ -296,6 +299,7 @@ void CameraEngine::Zoom()
 //	}
 //	
 //}
+
 void CameraEngine::Focus(const OBB& obb)
 {
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
