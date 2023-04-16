@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
+#include "Auxiliar/Utils/ConvertU8String.h"
 
 #include "SDL.h"
 
@@ -96,13 +97,13 @@ void WindowMainMenu::DrawFileMenu()
 {
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::Button(ICON_IGFD_FILE " New Scene"))
+		if (ImGui::Button((ConvertU8String(ICON_IGFD_FILE) + " New Scene").c_str()))
 		{
 			openPopup = true;
 			action = Actions::NEW_SCENE;
 		}
 		loadScene->DrawWindowContents();
-		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
+		if (ImGui::Button((ConvertU8String(ICON_IGFD_SAVE) + " Save Scene").c_str()))
 		{
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
 			// We should find a way to check if the scene has already been saved
@@ -141,5 +142,12 @@ void WindowMainMenu::DrawHelpMenu()
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
+}
+
+void WindowMainMenu::ShortcutSave()
+{
+	std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+	if (filePathName != "New Scene") { App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION); }
+	else { isSaving = true; }
 }
 

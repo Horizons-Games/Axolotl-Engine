@@ -79,9 +79,6 @@
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -184,9 +181,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
@@ -202,8 +196,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleCommand.cpp">
-      <Filter>Source\Modules</Filter>
     <ClCompile Include="DataModels\Camera\Camera.cpp">
       <Filter>DataModels\Camera</Filter>
     </ClCompile>
@@ -289,11 +281,11 @@
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
       <Filter>DataModels\Components\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\UI\ComponentBoundingBox2D.cpp">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleCommand.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,9 +371,6 @@
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMaterial.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h">
@@ -495,9 +484,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
@@ -514,13 +500,11 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Commands\Command.h">
-      <Filter>Source\DataModels\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\ModuleCommand.h">
-      <Filter>Source\Modules</Filter>
+      <Filter>DataModels\Commands</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h">
-      <Filter>Source\DataModels\Commands</Filter>
+      <Filter>DataModels\Commands</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Camera\Camera.h">
       <Filter>DataModels\Camera</Filter>
     </ClInclude>
@@ -617,11 +601,14 @@
     <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\UI\ComponentBoundingBox2D.h">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
+      <Filter>Auxiliar\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleCommand.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -651,36 +638,6 @@
     </Filter>
     <Filter Include="External\MathGeoLib\Algorithm\Random">
       <UniqueIdentifier>{fe175828-1f83-44c7-a6d6-2f60f91d19ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Modules">
-      <UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels">
-      <UniqueIdentifier>{fe9ac5d2-b879-4003-b5ff-417273c34d26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Timer">
-      <UniqueIdentifier>{f75295bc-065a-440a-aa53-ce3dfcd97940}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\GameObject">
-      <UniqueIdentifier>{2c464690-68af-41c3-8707-3a2f09badcd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Components">
-      <UniqueIdentifier>{ee0f2f55-34e8-4bf6-916a-dbd0be303a49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows">
-      <UniqueIdentifier>{23da8ec5-edff-4529-813f-9743ebfb0b17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows">
-      <UniqueIdentifier>{c69f503f-e0be-4222-8b7c-171f46e7b492}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows">
-      <UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\FileSystem">
-      <UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\FileSystem\Importers">
-      <UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
     </Filter>
     <Filter Include="External\ImGuiFileDialog">
       <UniqueIdentifier>{f4cda053-e527-4a31-8d11-f6489ebcb4d0}</UniqueIdentifier>
@@ -792,6 +749,12 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Utils">
+      <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Commands">
+      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

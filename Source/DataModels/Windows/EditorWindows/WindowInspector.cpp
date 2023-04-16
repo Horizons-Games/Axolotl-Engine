@@ -14,7 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -52,41 +52,31 @@ void WindowInspector::InspectSelectedGameObject()
 
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name, 24))
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName.c_str());
+				lastSelectedGameObject->SetName(sceneName);
 			}
 
 		}
 		else
 		{
-			char* name = (char*)lastSelectedGameObject->GetName();
-			ImGui::InputText("##GameObject", name, 24);
+			std::string name = lastSelectedGameObject->GetName();
+			if (ImGui::InputText("##GameObject", &name[0], 24))
+			{
+				lastSelectedGameObject->SetName(name);
+			}
 			
-			char* tag = (char*)lastSelectedGameObject->GetTag();
+			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
-			ImGui::InputText("##Tag", tag, 24);
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
+			tag.resize(24);
+			if (ImGui::InputText("##Tag", &tag[0], 24))
 			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
+				lastSelectedGameObject->SetTag(tag);
 			}
-
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
@@ -114,13 +104,6 @@ void WindowInspector::InspectSelectedGameObject()
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MATERIAL)) {
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
 			}
 
 			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
@@ -323,11 +306,6 @@ bool WindowInspector::WindowRightClick()
 void WindowInspector::AddComponentMeshRenderer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
-}
-
-void WindowInspector::AddComponentMaterial()
-{
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)

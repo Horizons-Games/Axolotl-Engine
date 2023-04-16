@@ -52,7 +52,15 @@
                             "localScaleY": 1.0,
                             "localScaleZ": 1.0,
                             "sizeX": 200.0,
-                            "sizeY": 200.0
+                            "sizeY": 200.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 231.0,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 231.0
                         }
                     },
                     {
@@ -129,7 +137,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 4000.0,
-                            "sizeY": 2160.0
+                            "sizeY": 2160.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 231.0,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 231.0
                         }
                     },
                     {
@@ -211,7 +227,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 600.0,
-                            "sizeY": 128.0
+                            "sizeY": 128.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 315.984375,
+                            "worldAABB_min_y": 226.31874084472657,
+                            "worldAABB_max_x": 433.015625,
+                            "worldAABB_max_y": 251.28541564941407
                         }
                     },
                     {
@@ -240,21 +264,6 @@
                             "colorClicked_y": 0.43627452850341799,
                             "colorClicked_z": 0.43627452850341799,
                             "sceneName": "CantinaSewersVS1"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_BoundingBox2D",
-                            "active": true,
-                            "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 283.078125,
-                            "worldAABB_min_y": 245.80625915527345,
-                            "worldAABB_max_x": 387.921875,
-                            "worldAABB_max_y": 268.17291259765627
                         }
                     }
                 ]
@@ -358,7 +367,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 600.0,
-                            "sizeY": 120.0
+                            "sizeY": 120.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 315.984375,
+                            "worldAABB_min_y": 266.109375,
+                            "worldAABB_max_x": 433.015625,
+                            "worldAABB_max_y": 289.515625
                         }
                     },
                     {
@@ -388,21 +405,6 @@
                             "colorClicked_z": 0.5,
                             "sceneName": "ControlsVS1"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_BoundingBox2D",
-                            "active": true,
-                            "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 283.078125,
-                            "worldAABB_min_y": 281.453125,
-                            "worldAABB_max_x": 387.921875,
-                            "worldAABB_max_y": 302.421875
-                        }
                     }
                 ]
             }
@@ -431,7 +433,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 600.0,
-                            "sizeY": 120.0
+                            "sizeY": 120.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 315.984375,
+                            "worldAABB_min_y": 305.11981201171877,
+                            "worldAABB_max_x": 433.015625,
+                            "worldAABB_max_y": 328.52606201171877
                         }
                     },
                     {
@@ -461,21 +471,6 @@
                             "colorClicked_z": 0.5,
                             "sceneName": "CreditsVS1"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_BoundingBox2D",
-                            "active": true,
-                            "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 283.078125,
-                            "worldAABB_min_y": 316.4010314941406,
-                            "worldAABB_max_x": 387.921875,
-                            "worldAABB_max_y": 337.3697814941406
-                        }
                     }
                 ]
             }
@@ -504,7 +499,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 0.5,
                             "sizeX": 836.0,
-                            "sizeY": 106.0
+                            "sizeY": 106.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 67.15625,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 67.15625
                         }
                     },
                     {
@@ -546,7 +549,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 2096.0,
-                            "sizeY": 168.0
+                            "sizeY": 168.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 374.5,
+                            "worldAABB_min_y": 102.265625,
+                            "worldAABB_max_x": 374.5,
+                            "worldAABB_max_y": 102.265625
                         }
                     },
                     {

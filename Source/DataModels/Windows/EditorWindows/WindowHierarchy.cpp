@@ -10,7 +10,7 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), stopDrawing(false)
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
 {
     flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -29,9 +29,31 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject);
 
+    // Delete a GameObject with the SUPR key
+    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
+        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
+        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+    {
+        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+        {
+            if (gameObject == App->scene->GetSelectedGameObject())
+            {
+                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+                                                                            // change the focus to its parent
+                App->scene->GetLoadedScene()->GetRootQuadtree()->
+                    RemoveGameObjectAndChildren(gameObject->GetParent());
+
+                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+
+                return;
+            }
+        }
+    }
+
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
                                 // that have the same name in the hierarchy window
-    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName(), gameObject);
+    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName().c_str(), gameObject);
+
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
     std::vector<GameObject*> children = gameObject->GetChildren();
@@ -69,25 +91,6 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->ChangeSelectedGameObject(gameObject);
-    }
-
-    // Delete a GameObject with the SUPR key
-    if (gameObject != App->scene->GetLoadedScene()->GetRoot() &&
-        gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-        gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
-    {
-        if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
-        {
-            if (gameObject == App->scene->GetSelectedGameObject())
-            {
-                App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-                                                                            // change the focus to its parent
-                App->scene->GetLoadedScene()->GetRootQuadtree()->
-                    RemoveGameObjectAndChildren(gameObject->GetParent());
-
-                App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
-            }
-        }
     }
 
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
@@ -146,17 +149,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
                 }
-                //Normally you can have multiple Directionals but just now we can't so...
-                /*if (ImGui::MenuItem("Directional"))
-                {
-                    App->scene->GetLoadedScene()->CreateLightGameObject("Directional", gameObject, LightType::DIRECTIONAL);
-                }*/
                 ImGui::EndMenu();
             }
         }
         else
         {
-
             if (ImGui::MenuItem("Create Empty 2D child"))
             {
                 App->scene->GetLoadedScene()->CreateGameObject("Empty 2D GameObject", gameObject, false);
@@ -176,32 +173,14 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 App->scene->GetLoadedScene()->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
             }
-            if (ImGui::MenuItem("Character"))
-            {
-                App->scene->GetLoadedScene()->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
-            }
-            ImGui::EndMenu();
-        }
-        //Create Light ShortCut
-        if (ImGui::BeginMenu("Create Light"))
-        {
-            if (ImGui::MenuItem("Spot"))
-            {
-                App->scene->GetLoadedScene()->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
-            }
-            if (ImGui::MenuItem("Point"))
-            {
-                App->scene->GetLoadedScene()->CreateLightGameObject("Point", gameObject, LightType::POINT);
-            }
-            ImGui::EndMenu();
         }
 
         if (gameObject != App->scene->GetLoadedScene()->GetRoot()) // The root can't be neither deleted nor moved up/down
         {
             if (ImGui::MenuItem("Move Up"))
             {
-                if (!gameObject->GetParent()->GetChildren().empty() 
-                    && gameObject->GetParent()->GetChildren()[0] != gameObject)
+                if (!children.empty()
+                    && children[0] != gameObject)
                 {
                     gameObject->GetParent()->MoveUpChild(gameObject);
                 }
@@ -209,9 +188,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
             if (ImGui::MenuItem("Move Down"))
             {
-                if (!gameObject->GetParent()->GetChildren().empty() 
-                    && gameObject->GetParent()
-                    ->GetChildren()[gameObject->GetParent()->GetChildren().size() - 1] != gameObject)
+                if (!children.empty()
+                    && children[children.size() - 1] != gameObject)
                 {
                     gameObject->GetParent()->MoveDownChild(gameObject);
                 }
@@ -233,9 +211,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
                 App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
                 App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+
+                ImGui::EndPopup();
+                ImGui::PopID();
+                if (nodeDrawn) // If the parent node is correctly drawn, draw its children
+                {
+                    ImGui::TreePop();
+                }
+                return;
             }
         }
-
         ImGui::EndPopup();
     }
     ImGui::PopID();
@@ -270,9 +255,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (nodeDrawn) // If the parent node is correctly drawn, draw its children
     {
-        for (int i = 0; i < children.size(); ++i)
+        for (GameObject* child : children)
         {
-            DrawRecursiveHierarchy(children[i]);
+            DrawRecursiveHierarchy(child);
         }
         ImGui::TreePop();
     }
