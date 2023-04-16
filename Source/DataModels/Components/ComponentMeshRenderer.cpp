@@ -249,6 +249,7 @@ void ComponentMeshRenderer::DrawSpecular()
 
 				const float3& specularColor = material->GetSpecularColor();
 				glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
+				glUniform1f(5, material->GetSmoothness());
 				texture = material->GetSpecular();
 				if (texture)
 				{
@@ -294,9 +295,6 @@ void ComponentMeshRenderer::DrawSpecular()
 				{
 					glUniform1i(8, 0); //has_normal_map
 				}
-
-				glUniform1f(6, material->GetShininess()); //shininess
-				glUniform1f(10, material->HasShininessAlpha()); //shininess_alpha
 
 				float3 viewPos = App->camera->GetCamera()->GetPosition();
 				program->BindUniformFloat3("viewPos", viewPos);
@@ -545,10 +543,6 @@ const float3& ComponentMeshRenderer::GetSpecularColor() const {
 	return material->GetSpecularColor();
 }
 
-const float ComponentMeshRenderer::GetShininess() const {
-	return material->GetShininess();
-}
-
 const float ComponentMeshRenderer::GetNormalStrenght() const {
 	return material->GetNormalStrength();
 }
@@ -563,15 +557,6 @@ const float ComponentMeshRenderer::GetMetalness() const
 	return material->GetMetalness();
 }
 
-const bool ComponentMeshRenderer::HasShininessAlpha() const {
-	return material->HasShininessAlpha();
-}
-
-const bool ComponentMeshRenderer::HasMetallicAlpha() const
-{
-	return material->HasMetallicAlpha();
-}
-
 void ComponentMeshRenderer::SetDiffuseColor(float3& diffuseColor)
 {
 	this->material->SetDiffuseColor(diffuseColor);
@@ -580,11 +565,6 @@ void ComponentMeshRenderer::SetDiffuseColor(float3& diffuseColor)
 void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
 {
 	this->material->SetSpecularColor(specularColor);
-}
-
-void ComponentMeshRenderer::SetShininess(float shininess)
-{
-	this->material->SetShininess(shininess);
 }
 
 void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
@@ -602,15 +582,9 @@ void ComponentMeshRenderer::SetMetalness(float metalness)
 	this->material->SetMetalness(metalness);
 }
 
-void ComponentMeshRenderer::SetHasShininessAlpha(bool hasShininessAlpha)
-{
-	this->material->SetShininess(hasShininessAlpha);
-}
 
-void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
-{
-	this->material->SetMetallicAlpha(metallicAlpha);
-}
+
+
 
 void ComponentMeshRenderer::SetShaderTypeDefault()
 {

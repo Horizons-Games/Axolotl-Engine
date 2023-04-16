@@ -40,12 +40,9 @@ public:
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetDiffuseColor(float3& diffuseColor);
 	void SetSpecularColor(float3& specularColor);
-	void SetShininess(float shininess);
 	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
 	void SetMetalness(float metalness);
-	void SetHasShininessAlpha(bool hasShininessAlpha);
-	void SetMetallicAlpha(bool metallicAlpha);
 	void SetShaderTypeDefault();
 	void SetShaderTypeSpecular();
 
@@ -53,12 +50,9 @@ public:
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const float3& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
-	const float GetShininess() const;
 	const float GetNormalStrenght() const;
 	const float GetSmoothness() const;
 	const float GetMetalness() const;
-	const bool HasShininessAlpha() const;
-	const bool HasMetallicAlpha() const;
 
 	void UnloadTexture(TextureType textureType);
 private:

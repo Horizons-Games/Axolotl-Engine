@@ -151,16 +151,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					if (ImGui::Selectable(shaderTypes[i], isShaderSelected))
 					{
 						shaderTypesIdx = i;
-
-						switch (shaderTypesIdx)
-						{
-							case 0:		// Default
-								static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeDefault();
-								break;
-							case 1:		// Specular
-								static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeSpecular();
-								break;
-						}
 					}
 
 					if (isShaderSelected)
@@ -250,6 +240,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					ImGui::SameLine(ImGui::GetWindowWidth() - 70);
 					if (ImGui::Button("Apply"))
 					{
+						static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeDefault();
 						materialResource->SetDiffuseColor(colorDiffuse);
 						materialResource->SetDiffuse(diffuseTexture);
 						materialResource->SetSpecular(specularMap);
@@ -277,14 +268,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 					ImGui::Text("");
 
-					bool hasShininessAlpha = materialResource->HasShininessAlpha();
-					ImGui::Checkbox("Use specular Alpha as shininess", &hasShininessAlpha);
-					materialResource->SetShininessAlpha(hasShininessAlpha);
+					ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
 
-					float shininess = materialResource->GetShininess();
-					ImGui::SliderFloat("Shininess", &shininess,
-						0.1f, 512.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-					materialResource->SetShininess(shininess);
 					ImGui::Separator();
 
 					ImGui::Text("Diffuse Texture");
@@ -350,6 +335,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					ImGui::SameLine(ImGui::GetWindowWidth() - 70);
 					if (ImGui::Button("Apply"))
 					{
+						static_cast<ComponentMeshRenderer*>(component)->SetShaderTypeSpecular();
 						materialResource->SetDiffuseColor(colorDiffuse);
 						materialResource->SetDiffuse(diffuseTexture);
 						materialResource->SetSpecular(specularMap);
