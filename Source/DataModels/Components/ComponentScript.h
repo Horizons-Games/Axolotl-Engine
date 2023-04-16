@@ -2,16 +2,14 @@
 #include "Component.h"
 #include "IScript.h"
 
-#include <memory>
-
 class Json;
 class IScript;
-
 
 class ComponentScript : public Component
 {
 public:
 	ComponentScript(bool active, GameObject* owner);
+	//ComponentScript(const ComponentScript& component);
 
 	~ComponentScript() override;
 

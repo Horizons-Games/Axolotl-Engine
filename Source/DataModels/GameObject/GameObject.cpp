@@ -338,7 +338,7 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 
 	case ComponentType::SCRIPT:
 	{
-
+		ENGINE_LOG("Copy constructor of ComponentScript not implemented!");
 		//newComponent = std::make_unique<ComponentScript>(static_cast<ComponentScript&>(*component));
 		break;
 	}
