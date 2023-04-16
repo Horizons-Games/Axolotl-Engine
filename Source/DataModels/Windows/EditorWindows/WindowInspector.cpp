@@ -68,7 +68,15 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				lastSelectedGameObject->SetName(name);
 			}
-			
+			ImGui::SameLine();
+			bool staticness = lastSelectedGameObject->IsStatic();
+			//This should be changed into a pop-up windows 
+			if (ImGui::Checkbox("Static", &staticness))
+			{
+				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SpreadStatic();
+			}
+
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
@@ -104,13 +112,6 @@ void WindowInspector::InspectSelectedGameObject()
 			if (ImGui::MenuItem("Create Mesh Renderer Component"))
 			{
 				AddComponentMeshRenderer();
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MATERIAL)) {
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
 			}
 
 			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
@@ -319,11 +320,6 @@ bool WindowInspector::WindowRightClick()
 void WindowInspector::AddComponentMeshRenderer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
-}
-
-void WindowInspector::AddComponentMaterial()
-{
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
