@@ -1,6 +1,8 @@
 #pragma once
 #include "IObject.h"
 
+#include "RuntimeObjectSystem/ISimpleSerializer.h"
+
 #include "Auxiliar/Reflection/Field.h"
 #include <variant>
 #include <optional>
@@ -31,13 +33,14 @@ public:
 	virtual void PostUpdate(float deltaTime) = 0;
 	virtual void CleanUp() = 0;
 
-	virtual void SetGameObject(GameObject* owner) = 0;
-	virtual void SetApplication(Application* app) = 0;
+	void SetGameObject(GameObject* owner);
+	void SetApplication(Application* app);
 
 	const std::vector<TypeFieldPair>& GetFields() const;
 	template<typename T>
 	std::optional<Field<T>> GetField(const std::string& name) const;
-	void SetFields(const std::vector<TypeFieldPair>& members);
+
+	void Serialize(ISimpleSerializer* pSerializer) override;
 
 protected:
 	GameObject* owner;
@@ -45,17 +48,19 @@ protected:
 	std::vector<TypeFieldPair> members;
 };
 
+inline void IScript::SetGameObject(GameObject* owner)
+{
+	this->owner = owner;
+}
+
+inline void IScript::SetApplication(Application* app)
+{
+	this->App = app;
+}
+
 inline const std::vector<TypeFieldPair>& IScript::GetFields() const
 {
 	return members;
-}
-
-inline void IScript::SetFields(const std::vector<TypeFieldPair>& members)
-{
-	for (TypeFieldPair enumAndField : members)
-	{
-		this->members.push_back(enumAndField);
-	}
 }
 
 template<typename T>
@@ -70,4 +75,11 @@ inline std::optional<Field<T>> IScript::GetField(const std::string& name) const
 		}
 	}
 	return std::nullopt;
+}
+
+inline void IScript::Serialize(ISimpleSerializer* pSerializer)
+{
+	SERIALIZE(owner);
+	SERIALIZE(App);
+	SERIALIZE(members);
 }

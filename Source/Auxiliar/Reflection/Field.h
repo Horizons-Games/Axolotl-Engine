@@ -12,9 +12,9 @@ template<typename T>
 struct Field
 {
 public:
-	const std::string name;
-	const std::function<T(void)> getter;
-	const std::function<void(const T&)> setter;
+	std::string name;
+	std::function<T(void)> getter;
+	std::function<void(const T&)> setter;
 
 	Field(const std::string& name,
 		  const std::function<T(void)>& getter,

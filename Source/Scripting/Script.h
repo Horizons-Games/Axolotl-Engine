@@ -26,13 +26,4 @@ public:
 	virtual void Update(float deltaTime) override {};
 	virtual void PostUpdate(float deltaTime) override {};
 	virtual void CleanUp() override {};
-
-	virtual void SetGameObject(GameObject* owner)
-	{
-		this->owner = owner;
-	}
-	virtual void SetApplication(Application* app)
-	{
-		this->App = app;
-	}
 };
