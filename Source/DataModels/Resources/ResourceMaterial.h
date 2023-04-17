@@ -27,11 +27,11 @@ public:
 	void SaveLoadOptions(Json& meta) override;
 	void LoadLoadOptions(Json& meta) override;
 
-	std::shared_ptr<ResourceTexture>& GetDiffuse();
-	std::shared_ptr<ResourceTexture>& GetNormal();
-	std::shared_ptr<ResourceTexture>& GetOcclusion();
-	std::shared_ptr<ResourceTexture>& GetSpecular();
-	std::shared_ptr<ResourceTexture>& GetMetallic();
+	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
 	const float4& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float& GetNormalStrength() const;
@@ -90,30 +90,29 @@ inline ResourceType ResourceMaterial::GetType() const
 	return ResourceType::Material;
 }
 
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse()
+inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse() const
 {
 	return diffuse;
 }
 
-
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal()
+inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal() const
 {
 	return normal;
 }
 
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion()
+inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion() const
 {
 	return occlusion;
 }
 
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular()
-{
-	return specular;
-}
-
-inline std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallic()
+inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallic() const
 {
 	return metallic;
+}
+
+inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular() const
+{
+	return specular;
 }
 
 inline const float4& ResourceMaterial::GetDiffuseColor() const
