@@ -8,7 +8,7 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
 {
     sourceID = owner->GetUID();
 
-    AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName());
+    AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName().c_str());
     PostEvent();
 }
 
