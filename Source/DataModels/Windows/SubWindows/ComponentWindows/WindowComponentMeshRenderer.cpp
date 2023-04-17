@@ -13,7 +13,10 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
-const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
+const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes 
+												= { "Default", "Specular" };
+const std::vector<std::string> WindowComponentMeshRenderer::renderModes 
+											= { "Opaque", "Transparent" };
 
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
@@ -60,15 +63,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			meshPath = _strdup("unknown");
 			flags |= ImGuiInputTextFlags_ReadOnly;
-		}
-
-		if (asMeshRenderer->GetMaterial())
-		{
-			DrawSetMaterial();
-		}
-		else
-		{
-			DrawEmptyMaterial();
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
@@ -164,6 +158,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Text("");
 
+			const char* currentShaderType =
+				shaderTypes[currentShaderTypeIndex].c_str();
+
+			ImGui::Text("Shader type:"); ImGui::SameLine();
+
+			if (ImGui::BeginCombo("##Shader type", currentShaderType))
+			{
+				for (unsigned int i = 0; i < shaderTypes.size(); ++i)
+				{
+					const bool isSelected = currentShaderTypeIndex == i;
+
+					if (ImGui::Selectable(shaderTypes[i].c_str(), isSelected))
+					{
+						currentShaderTypeIndex = i;
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+
+			ImGui::Text("");
+
 			if (!isTransparent)
 			{
 				currentTransparentIndex = 0;
@@ -208,9 +226,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Text("Diffuse Color:"); ImGui::SameLine();
 			ImGui::ColorEdit4("##Diffuse Color", (float*)&colorDiffuse);
 
-			const unsigned int shaderType = materialResource->GetShaderType();
-
-			if (shaderType == 1)
+			if (currentShaderTypeIndex == 1)
 			{
 				const float3& colorSpecular = 
 					materialResource->GetSpecularColor();
@@ -280,7 +296,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Separator();
 
-			if (shaderType == 0)
+			if (currentShaderTypeIndex == 0)
 			{
 				ImGui::Text("Metallic Texture");
 				if (metallicMap)
@@ -303,14 +319,14 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f);
 
-			if (shaderType == 0)
+			if (currentShaderTypeIndex == 0)
 			{
 				ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f);
 			}
 
 			ImGui::Separator();
 
-			if (shaderType == 1)
+			if (currentShaderTypeIndex == 1)
 			{
 				ImGui::Text("Specular Texture");
 
@@ -366,7 +382,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				materialResource->SetShaderType(shaderType);
+				materialResource->SetShaderType(currentShaderTypeIndex);
 				materialResource->SetDiffuseColor(colorDiffuse);
 				materialResource->SetDiffuse(diffuseTexture);
 				materialResource->SetMetallic(metallicMap);

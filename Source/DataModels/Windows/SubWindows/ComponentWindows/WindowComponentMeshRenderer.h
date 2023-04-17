@@ -39,7 +39,9 @@ private:
 	float metalness;
 	float normalStrength;
 	bool isTransparent;
-	int currentTransparentIndex;
+	unsigned int currentShaderTypeIndex;
+	unsigned int currentTransparentIndex;
+	static const std::vector<std::string> shaderTypes;
 	static const std::vector<std::string> renderModes;
 
 	bool reset = false;
