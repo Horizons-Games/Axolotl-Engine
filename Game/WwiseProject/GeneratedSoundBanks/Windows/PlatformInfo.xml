@@ -5,17 +5,17 @@
 		<ProjectRoot>../..</ProjectRoot>
 		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
-		<ExternalSourcesInputFile>../../myExternalSources/ExtSourceList.wsources</ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>../../.cache/ExternalSources/Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DefaultAlign>16</DefaultAlign>
 	<Settings>
-		<AutoSoundBankDefinition>true</AutoSoundBankDefinition>
+		<AutoSoundBankDefinition>false</AutoSoundBankDefinition>
 		<CopyLooseStreamedMediaFiles>true</CopyLooseStreamedMediaFiles>
 		<SubFoldersForGeneratedFiles>false</SubFoldersForGeneratedFiles>
-		<RemoveUnusedGeneratedFiles>false</RemoveUnusedGeneratedFiles>
+		<RemoveUnusedGeneratedFiles>true</RemoveUnusedGeneratedFiles>
 		<SourceControlGeneratedFiles>false</SourceControlGeneratedFiles>
-		<GenerateHeaderFile>true</GenerateHeaderFile>
+		<GenerateHeaderFile>false</GenerateHeaderFile>
 		<GenerateContentTxtFile>true</GenerateContentTxtFile>
 		<GenerateMetadataXML>true</GenerateMetadataXML>
 		<GenerateMetadataJSON>false</GenerateMetadataJSON>
@@ -28,5 +28,5 @@
 		<PrintObjectGuid>false</PrintObjectGuid>
 		<PrintObjectPath>false</PrintObjectPath>
 	</Settings>
-	<FileHash>{AB4B5663-2E94-FD9F-F91C-B77783A8B1F1}</FileHash>
+	<FileHash>{84A2CD97-5B9E-E259-CE4A-04ACCD3F053C}</FileHash>
 </PlatformInfo>

@@ -1,6 +1,0 @@
-Auxiliary Bus	ID	Name			Wwise Object Path	Notes
-	1359360137	Room1			\Default Work Unit\Master Audio Bus\3D_Bus_Demo\Wet_Path_3D\Room1	
-
-Effect plug-ins	ID	Name	Type				Notes
-	3752477165	Bright_Small_Hall	Wwise RoomVerb			
-

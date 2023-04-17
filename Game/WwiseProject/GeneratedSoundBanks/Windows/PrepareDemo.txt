@@ -1,4 +1,0 @@
-Event	ID	Name			Wwise Object Path	Notes
-	2507024132	Enter_Area_2			\Default Work Unit\PrepareDemo\Enter_Area_2	
-	2507024135	Enter_Area_1			\Default Work Unit\PrepareDemo\Enter_Area_1	
-

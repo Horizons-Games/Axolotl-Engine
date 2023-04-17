@@ -1,6 +1,0 @@
-Auxiliary Bus	ID	Name			Wwise Object Path	Notes
-	924456902	ListenerEnv			\Default Work Unit\Master Audio Bus\3D_Bus_Demo\Wet_Path_Omni\ListenerEnv	
-
-Effect plug-ins	ID	Name	Type				Notes
-	204868897	Wwise Stereo Delay (Custom)	Wwise Stereo Delay			
-
