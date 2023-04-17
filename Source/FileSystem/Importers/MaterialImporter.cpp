@@ -261,6 +261,13 @@ void MaterialImporter::Load
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
+	unsigned int* shaderType = new unsigned int;
+
+	memcpy(shaderType, fileBuffer, sizeof(unsigned int));
+	resource->SetShaderType(*shaderType);
+
+	fileBuffer += sizeof(unsigned int);
+
 #ifdef ENGINE
 
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
@@ -272,13 +279,6 @@ void MaterialImporter::Load
 	meta.fromBuffer(metaBuffer);
 
 	delete metaBuffer;
-
-	unsigned int* shaderType = new unsigned int;
-
-	memcpy(shaderType, fileBuffer, sizeof(unsigned int));
-	resource->SetShaderType(*shaderType);
-
-	fileBuffer += sizeof(unsigned int);
 
 	std::string assetPath = meta["DiffuseAssetPath"];
 
