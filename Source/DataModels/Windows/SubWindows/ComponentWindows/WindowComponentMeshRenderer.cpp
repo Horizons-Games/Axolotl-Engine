@@ -21,6 +21,7 @@ const std::vector<std::string> WindowComponentMeshRenderer::renderModes
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
 	ComponentWindow("MESH RENDERER", component), 
+	currentShaderTypeIndex(0), currentTransparentIndex(0),
 	inputMesh(std::make_unique<WindowMeshInput>(component)), 
 	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
@@ -160,6 +161,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			const char* currentShaderType =
 				shaderTypes[currentShaderTypeIndex].c_str();
+			currentShaderTypeIndex = asMeshRenderer->GetShaderType();
 
 			ImGui::Text("Shader type:"); ImGui::SameLine();
 

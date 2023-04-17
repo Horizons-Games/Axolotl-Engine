@@ -92,7 +92,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 t
     
     vec3 Li = directionalColor.rgb * directionalColor.a;
 
-    vec3 R = reflect(L, N);
+    vec3 R = reflect(-L, N);
 
     float dotVR = max(dot(V,R), 0.0001);
     float spec = pow(dotVR,smoothness);
@@ -130,7 +130,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDif
     
         vec3 Li = color * intensity * attenuation;
 
-        vec3 R = reflect(L, N);
+        vec3 R = reflect(-L, N);
 
         float dotVR = max(dot(V,R), 0.0001);
         float spec = pow(dotVR, smoothness);
@@ -187,7 +187,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiff
     
         vec3 Li = color * intensity * attenuation * Catt;
 
-        vec3 R = reflect(L, N);
+        vec3 R = reflect(-L, N);
 
         float dotVR = max(dot(V,R), 0.0001);
         float spec = pow(dotVR, smoothness);

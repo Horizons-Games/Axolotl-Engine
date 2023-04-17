@@ -44,8 +44,6 @@ private:
 	static const std::vector<std::string> shaderTypes;
 	static const std::vector<std::string> renderModes;
 
-	bool reset = false;
-
 	std::unique_ptr<WindowMeshInput> inputMesh;
 	std::unique_ptr<WindowMaterialInput> inputMaterial;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;

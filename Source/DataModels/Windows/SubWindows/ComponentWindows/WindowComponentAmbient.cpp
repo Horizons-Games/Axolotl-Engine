@@ -31,12 +31,14 @@ void WindowComponentAmbient::DrawWindowContents()
 			ImGui::Text("Color");
 			ImGui::SameLine();
 
-			float3 color = asAmbient->GetColor();
+			const float3& color = asAmbient->GetColor();
+
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
 				asAmbient->SetColor(color);
 				App->scene->GetLoadedScene()->RenderAmbientLight();
 			}
+
 			ImGui::EndTable();
 		}
 	}

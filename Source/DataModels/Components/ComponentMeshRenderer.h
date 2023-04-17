@@ -59,6 +59,7 @@ public:
 	
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
+	const unsigned int GetShaderType() const;
 
 	// Common attributes (getters)
 	const float4& GetDiffuseColor() const;
@@ -95,6 +96,11 @@ inline std::shared_ptr<ResourceMaterial>
 							ComponentMeshRenderer::GetMaterial() const
 {
 	return material;
+}
+
+inline const unsigned int ComponentMeshRenderer::GetShaderType() const
+{
+	return static_cast<unsigned int>(shaderType);
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()
