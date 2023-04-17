@@ -2,14 +2,16 @@
 
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
+#include "DataModels/GameObject/GameObject.h"
+#include "DataStructures/Quadtree.h"
+#include "Skybox/Skybox.h"
+
 class Component;
-class GameObject;
-class Quadtree;
-class Skybox;
 
 enum class Premade3D
 {
@@ -115,6 +117,11 @@ private:
 	std::vector<GameObject*> nonStaticObjects;
 };
 
+inline bool Scene::IsInsideACamera(const AABB& aabb) const
+{
+	return IsInsideACamera(aabb.ToOBB());
+}
+
 inline GameObject* Scene::GetRoot()
 {
 	return root.get();
@@ -200,4 +207,29 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.push_back(gameObject);
+}
+
+inline void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
+{
+	rootQuadtree = std::move(quadtree);
+}
+
+inline void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
+{
+	this->skybox = std::move(skybox);
+}
+
+inline std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
+{
+	return std::move(rootQuadtree);
+}
+
+inline void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
+{
+	root = std::move(newRoot);
+}
+
+inline void Scene::RemoveStaticObject(GameObject* gameObject)
+{
+	rootQuadtree->Remove(gameObject);
 }

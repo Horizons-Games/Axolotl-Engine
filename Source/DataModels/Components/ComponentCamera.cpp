@@ -85,12 +85,4 @@ void ComponentCamera::LoadOptions(Json& meta)
 	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
-CameraGameObject* ComponentCamera::GetCamera()
-{
-	return camera.get();
-}
 
-void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
-{
-	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
-}

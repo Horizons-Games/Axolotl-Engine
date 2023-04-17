@@ -66,10 +66,6 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 	return false;
 }
 
-bool Scene::IsInsideACamera(const AABB& aabb) const
-{
-	return IsInsideACamera(aabb.ToOBB());
-}
 
 GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
@@ -537,26 +533,6 @@ void Scene::InitLights()
 	RenderSpotLights();
 }
 
-void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
-{
-	rootQuadtree = std::move(quadtree);
-}
-
-void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
-{
-	this->skybox = std::move(skybox);
-}
-
-std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
-{
-	return std::move(rootQuadtree);
-}
-
-void Scene::SetRoot(std::unique_ptr<GameObject> newRoot)
-{
-	root = std::move(newRoot);
-}
-
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
@@ -584,11 +560,6 @@ void Scene::AddStaticObject(GameObject* gameObject)
 	{
 		rootQuadtree->Add(gameObject);
 	}
-}
-
-void Scene::RemoveStaticObject(GameObject* gameObject)
-{
-	rootQuadtree->Remove(gameObject);
 }
 
 void Scene::RemoveNonStaticObject(GameObject* gameObject)

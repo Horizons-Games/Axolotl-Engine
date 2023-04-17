@@ -12,8 +12,3 @@ WindowComponentCanvas::~WindowComponentCanvas()
 {
 }
 
-void WindowComponentCanvas::DrawWindowContents()
-{
-	DrawEnableAndDeleteComponent();
-	ImGui::Text("");
-}

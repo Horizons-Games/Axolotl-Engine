@@ -224,24 +224,12 @@ update_status ModuleEditor::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::Resized()
-{
-	windowResized = true;
-}
-
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE
 	return scene->IsFocused();
 #else
 	return true;
-#endif
-}
-
-void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
-{
-#ifdef ENGINE
-	this->inspector->SetResource(resource);
 #endif
 }
 
@@ -299,14 +287,6 @@ void ModuleEditor::DuplicateAnObject()
 			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
 				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
 	}
-}
-
-void ModuleEditor::RefreshInspector() const
-{
-#ifdef ENGINE
-	inspector->ResetSelectedGameObject();
-#endif // ENGINE
-
 }
 
 std::pair<int, int> ModuleEditor::GetAvailableRegion()

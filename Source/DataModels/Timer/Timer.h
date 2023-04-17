@@ -19,3 +19,8 @@ private:
 	bool stopped;
 };
 
+inline void Timer::Start()
+{
+	startTick = SDL_GetTicks();
+}
+

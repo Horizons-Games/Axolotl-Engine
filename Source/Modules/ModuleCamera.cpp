@@ -181,8 +181,3 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		}
 	}
 }
-
-Camera* ModuleCamera::GetCamera()
-{
-	return selectedCamera;
-}

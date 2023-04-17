@@ -430,13 +430,13 @@ public:
         }
     }
 
-    static GLuint handleToGL(dd::GlyphTextureHandle handle)
+    inline static GLuint handleToGL(dd::GlyphTextureHandle handle)
     {
         const std::size_t temp = reinterpret_cast<std::size_t>(handle);
         return static_cast<GLuint>(temp);
     }
 
-    static dd::GlyphTextureHandle GLToHandle(const GLuint id)
+    inline static dd::GlyphTextureHandle GLToHandle(const GLuint id)
     {
         const std::size_t temp = static_cast<std::size_t>(id);
         return reinterpret_cast<dd::GlyphTextureHandle>(temp);
@@ -658,14 +658,4 @@ void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
 void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
 {
     dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
-}
-
-void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
-{
-    this->showBoundingBoxes = showBoundingBoxes;
-}
-
-bool ModuleDebugDraw::IsShowingBoundingBoxes() const
-{
-    return showBoundingBoxes;
 }

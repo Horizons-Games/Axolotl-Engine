@@ -54,6 +54,10 @@ private:
 	int selectedPosition;
 };
 
+inline Camera* ModuleCamera::GetCamera()
+{
+	return selectedCamera;
+}
 
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {

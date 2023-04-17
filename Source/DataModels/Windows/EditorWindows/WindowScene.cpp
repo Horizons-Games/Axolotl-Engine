@@ -34,13 +34,6 @@ void WindowScene::DrawWindowContents()
 	DrawGuizmo();
 }
 
-bool WindowScene::isMouseInsideManipulator(float x, float y) const
-{
-	return x <= viewportBounds[1].x						   &&
-		   x >= viewportBounds[1].x - VIEW_MANIPULATE_SIZE &&
-		   y >= viewportBounds[0].y						   &&
-		   y <= viewportBounds[0].y + VIEW_MANIPULATE_SIZE;
-}
 
 void WindowScene::DrawGuizmo()
 {

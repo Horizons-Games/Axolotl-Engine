@@ -121,16 +121,6 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
     return 0;
 }
 
-bool ModuleFileSystem::Exists(const char* filePath) const
-{
-    return PHYSFS_exists(filePath);
-}
-
-bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
-{
-    return PHYSFS_isDirectory(directoryPath);
-}
-
 bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
     if(!PHYSFS_mkdir(directoryPath)) 
@@ -138,11 +128,6 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
         ENGINE_LOG("Physfs has error : %s when try to create %s", PHYSFS_getLastError(), directoryPath);
         return false;
     }
-    return true;
-}
-
-bool ModuleFileSystem::CleanUp() {
-    PHYSFS_deinit();
     return true;
 }
 

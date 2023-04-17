@@ -179,7 +179,3 @@ void ComponentTransform::CalculateBoundingBoxes()
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
-void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
-{
-	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
-}

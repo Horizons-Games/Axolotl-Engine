@@ -66,11 +66,6 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShade
 	return program;
 }
 
-bool ModuleProgram::CleanUp()
-{
-	return true;
-}
-
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data;

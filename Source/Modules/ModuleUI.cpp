@@ -21,16 +21,6 @@ ModuleUI::ModuleUI()
 ModuleUI::~ModuleUI() {
 };
 
-bool ModuleUI::Init()
-{
-	return true;
-}
-
-bool ModuleUI::Start()
-{
-	return true;
-}
-
 update_status ModuleUI::Update()
 {
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())

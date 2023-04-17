@@ -72,6 +72,15 @@ private:
 	friend class ModuleEditor;
 };
 
+inline bool ModuleRender::Start()
+{
+	ENGINE_LOG("--------- Render Start ----------");
+
+	//UpdateProgram();
+
+	return true;
+}
+
 inline void ModuleRender::SetBackgroundColor(float4 color)
 {
 	backgroundColor = color;

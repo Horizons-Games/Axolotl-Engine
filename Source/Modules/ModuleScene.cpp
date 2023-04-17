@@ -27,11 +27,6 @@ ModuleScene::~ModuleScene()
 {
 }
 
-bool ModuleScene::Init()
-{
-	return true;
-}
-
 bool ModuleScene::Start()
 {
 #ifdef ENGINE
@@ -117,11 +112,6 @@ void ModuleScene::OnPlay()
 
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
-}
-
-void ModuleScene::OnPause()
-{
-	ENGINE_LOG("Pause pressed");
 }
 
 void ModuleScene::OnStop()

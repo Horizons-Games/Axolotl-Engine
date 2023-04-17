@@ -59,6 +59,11 @@ private:
 	rapidjson::Document tmpDoc;
 };
 
+inline bool ModuleScene::Init()
+{
+	return true;
+}
+
 inline Scene* ModuleScene::GetLoadedScene() const
 {
 	return loadedScene.get();
@@ -72,4 +77,9 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
+}
+
+inline void ModuleScene::OnPause()
+{
+	ENGINE_LOG("Pause pressed");
 }

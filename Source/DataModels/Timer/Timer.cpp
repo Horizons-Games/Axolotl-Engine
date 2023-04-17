@@ -8,11 +8,6 @@ Timer::~Timer()
 {
 }
 
-void Timer::Start()
-{
-	startTick = SDL_GetTicks();
-}
-
 float Timer::Read()
 {
 	if (stopped)
