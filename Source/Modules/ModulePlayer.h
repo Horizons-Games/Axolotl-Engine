@@ -21,7 +21,7 @@ public:
 	void Rotate();
 
 	GameObject* GetPlayer();
-	void SetPlayer(std::unique_ptr<GameObject> player);
+	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
 	bool GetIsLoadPlayer();
 
@@ -33,8 +33,7 @@ public:
 	void SetReadyToEliminate(bool readyToEliminate);
 
 private:
-	std::unique_ptr <GameObject>  player;
-	GameObject* lastPlayer;
+	GameObject*  player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
 

@@ -19,7 +19,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr), lastPlayer(nullptr),
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
 	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
 
 ModulePlayer::~ModulePlayer() {
@@ -33,7 +33,9 @@ bool ModulePlayer::Init()
 bool ModulePlayer::Start()
 {
 	//Initialize the player
+#ifndef ENGINE
 	LoadNewPlayer();
+#endif //GAMEMODE
 	return true;
 }
 
@@ -69,7 +71,7 @@ update_status ModulePlayer::Update()
 		
 		if (readyToEliminate)
 		{
-			App->OnStopPlay();
+			App->OnStop();
 			readyToEliminate = false;
 		}
 	}
@@ -84,12 +86,12 @@ update_status ModulePlayer::Update()
 
 GameObject* ModulePlayer::GetPlayer()
 {
-	return player.get();
+	return player;
 }
 
-void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
+void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
-	player = std::move(newPlayer);
+	player = newPlayer;
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
@@ -157,20 +159,24 @@ void ModulePlayer::LoadNewPlayer()
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
 #ifdef ENGINE
-			SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
-			lastPlayer = camera->GetParent();
-			// look for the player's camera
-			std::vector<GameObject*> children = player.get()->GetChildren();
-			for (auto child : children)
-			{
-				if (!child->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA).empty())
-				{
-					cameraPlayer = static_cast<ComponentCamera*>(child->GetComponent(ComponentType::CAMERA))->GetCamera();
-					cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
-				}
-			}
-
-			lastPlayer->Disable();
+			//SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
+			//lastPlayer = camera->GetParent();
+			//// look for the player's camera
+			//std::vector<GameObject*> children = player.get()->GetChildren();
+			//for (auto child : children)
+			//{
+			//	cameraPlayer = static_cast<ComponentCamera*>(child->GetComponent(ComponentType::CAMERA))->GetCamera();
+			//	if (!cameraPlayer)
+			//	{
+			//		cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
+			//		break;
+			//	}
+			//}
+			SetPlayer(camera->GetParent());
+			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
+			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			//lastPlayer->Disable();
 			App->camera->SetSelectedCamera(0);
 #else
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
@@ -198,7 +204,7 @@ void ModulePlayer::LoadNewPlayer()
 void ModulePlayer::UnloadNewPlayer()
 {
 	App->camera->SetSelectedCamera(-1);
-	lastPlayer->Enable();
+	//lastPlayer->Enable();
 	player = nullptr;
 	isPlayerLoad = false;
 }
