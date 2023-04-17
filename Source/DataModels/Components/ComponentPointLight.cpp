@@ -45,7 +45,7 @@ ComponentPointLight::~ComponentPointLight()
 {
 }
 
-void ComponentPointLight::Draw()
+void ComponentPointLight::Draw() const
 {
 #ifndef ENGINE
 	if (!App->editor->GetDebugOptions()->GetDrawPointLight())

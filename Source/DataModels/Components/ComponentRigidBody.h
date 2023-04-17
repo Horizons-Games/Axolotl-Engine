@@ -1,17 +1,16 @@
 #pragma once
 #include "Component.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 #include "Math/float3.h"
 
-class ComponentRigidBody :
-	public Component
+class ComponentRigidBody : public Component, public Updatable
 {
 public:
 	ComponentRigidBody(bool active, GameObject* owner);
 	~ComponentRigidBody() override;
 
 	void Update() override;
-	void Draw() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

@@ -284,12 +284,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\DrawableComponent.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\UpdatableComponent.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -604,11 +598,11 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\DrawableComponent.h">
-      <Filter>DataModels\Components</Filter>
+    <ClInclude Include="Auxiliar\Generics\Updatable.h">
+      <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\UpdatableComponent.h">
-      <Filter>DataModels\Components</Filter>
+    <ClInclude Include="Auxiliar\Generics\Drawable.h">
+      <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -680,6 +674,9 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Generics">
+      <UniqueIdentifier>{9a3b4dc9-373b-46fa-a799-b89316398cea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

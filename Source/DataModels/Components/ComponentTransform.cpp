@@ -42,12 +42,7 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
-{
-	// Empty for now
-}
-
-void ComponentTransform::Draw()
+void ComponentTransform::Draw() const
 {
 #ifndef ENGINE
 	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())

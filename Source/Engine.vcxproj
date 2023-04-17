@@ -297,12 +297,10 @@
     <ClCompile Include="DataModels\Components\ComponentLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPointLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp" />
-    <ClCompile Include="DataModels\Components\DrawableComponent.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
-    <ClCompile Include="DataModels\Components\UpdatableComponent.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
@@ -518,6 +516,8 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
+    <ClInclude Include="Auxiliar\Generics\Drawable.h" />
+    <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
@@ -538,12 +538,10 @@
     <ClInclude Include="DataModels\Components\ComponentLight.h" />
     <ClInclude Include="DataModels\Components\ComponentPointLight.h" />
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h" />
-    <ClInclude Include="DataModels\Components\DrawableComponent.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentButton.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h" />
-    <ClInclude Include="DataModels\Components\UpdatableComponent.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
     <ClInclude Include="DataModels\Program\Program.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />

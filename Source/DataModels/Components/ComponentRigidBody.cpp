@@ -78,11 +78,6 @@ void ComponentRigidBody::Update()
 #endif
 }
 
-void ComponentRigidBody::Draw()
-{
-	
-}
-
 void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these

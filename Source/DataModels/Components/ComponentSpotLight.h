@@ -29,7 +29,7 @@ public:
 
 	~ComponentSpotLight() override;
 
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

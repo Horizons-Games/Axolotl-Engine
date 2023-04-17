@@ -43,12 +43,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		mesh->Unload();
 }
 
-void ComponentMeshRenderer::Update()
-{
-
-}
-
-void ComponentMeshRenderer::Draw()
+void ComponentMeshRenderer::Draw() const
 {
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
@@ -60,7 +55,7 @@ void ComponentMeshRenderer::Draw()
 	}
 	program->Deactivate();
 }
-void ComponentMeshRenderer::DrawMeshes(Program* program)
+void ComponentMeshRenderer::DrawMeshes(Program* program) const
 {
 //this should be in an EditorComponent class, or something of the like
 //but for now have it here
@@ -103,7 +98,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 		}
 	}
 }
-void ComponentMeshRenderer::DrawMaterial(Program* program)
+void ComponentMeshRenderer::DrawMaterial(Program* program) const
 {
 	if (program)
 	{
@@ -218,7 +213,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 	}
 }
 
-void ComponentMeshRenderer::DrawHighlight()
+void ComponentMeshRenderer::DrawHighlight() const
 {
 	if (IsMeshLoaded()) //pointer not empty
 	{

@@ -32,23 +32,17 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void Init(); // In case any component needs an init to do something once created
-
-	virtual void Update() = 0; // Abstract because each component will perform its own Update
-
-	virtual void Draw();
-
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
 
 	virtual void Enable();
 	virtual void Disable();
 
-	bool GetActive();
-	ComponentType GetType();
+	bool GetActive() const;
+	ComponentType GetType() const;
 
-	GameObject* GetOwner();
-	bool GetCanBeRemoved();
+	GameObject* GetOwner() const;
+	bool CanBeRemoved() const;
 
 	void SetOwner(GameObject* owner);
 
@@ -76,10 +70,6 @@ inline Component::~Component()
 {
 }
 
-inline void Component::Init()
-{
-}
-
 inline void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
@@ -96,26 +86,22 @@ inline void Component::Disable()
 	}
 }
 
-inline void Component::Draw()
-{
-}
-
-inline bool Component::GetActive()
+inline bool Component::GetActive() const
 {
 	return active;
 }
 
-inline ComponentType Component::GetType()
+inline ComponentType Component::GetType() const
 {
 	return type;
 }
 
-inline GameObject* Component::GetOwner()
+inline GameObject* Component::GetOwner() const
 {
 	return owner;
 }
 
-inline bool Component::GetCanBeRemoved()
+inline bool Component::CanBeRemoved() const
 {
 	return canBeRemoved;
 }

@@ -1,33 +1,30 @@
 #pragma once
+#include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Globals.h"
 
-#include "Components/Component.h"
 #include "Program/Program.h"
 
 #include <memory>
 #include "Math/float4.h"
-
-#define COMPONENT_MESHRENDERED "MeshRendered"
 
 class ResourceMaterial;
 class ResourceMesh;
 class Json;
 class WindowMeshInput;
 
-class ComponentMeshRenderer : public Component
+class ComponentMeshRenderer : public Component, public Drawable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
-	void Update() override;
-
-	void Draw() override;
-	void DrawMeshes(Program* program);
-	void DrawMaterial(Program* program);
-	void DrawHighlight();
+	void Draw() const override;
+	void DrawMeshes(Program* program) const;
+	void DrawMaterial(Program* program) const;
+	void DrawHighlight() const;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
@@ -61,11 +58,13 @@ public:
 	const bool HasMetallicAlpha() const;
 
 private:
-	bool IsMeshLoaded();
-	bool IsMaterialLoaded();
+	bool IsMeshLoaded() const;
+	bool IsMaterialLoaded() const;
 
-	std::shared_ptr<ResourceMesh> mesh;
-	std::shared_ptr<ResourceMaterial> material;
+	//declared "mutable" so Draw can be const
+	//as said in Draw, this should be modified in a separate class, so the idea is for this change to be temporal
+	mutable std::shared_ptr<ResourceMesh> mesh;
+	mutable std::shared_ptr<ResourceMaterial> material;
 
 	WindowMeshInput* inputMesh;
 
@@ -80,11 +79,11 @@ inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() co
 {
 	return material;
 }
-inline bool ComponentMeshRenderer::IsMeshLoaded()
+inline bool ComponentMeshRenderer::IsMeshLoaded() const
 {
 	return mesh != nullptr;
 }
-inline bool ComponentMeshRenderer::IsMaterialLoaded()
+inline bool ComponentMeshRenderer::IsMaterialLoaded() const
 {
 	return material != nullptr;
 }

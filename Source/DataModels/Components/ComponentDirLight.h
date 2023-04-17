@@ -15,7 +15,7 @@ public:
 	ComponentDirLight(const float3& color, float intensity, GameObject* parent);
 	~ComponentDirLight() override;
 
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

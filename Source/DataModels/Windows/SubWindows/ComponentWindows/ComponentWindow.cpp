@@ -120,7 +120,7 @@ void ComponentWindow::DrawEnableComponent()
 
 void ComponentWindow::DrawDeleteComponent()
 {
-	if (component && component->GetCanBeRemoved())
+	if (component && component->CanBeRemoved())
 	{
 		std::stringstream ss;
 		ss << "Remove Comp. " << windowUUID;
