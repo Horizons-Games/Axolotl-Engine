@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include "Animation/AnimationController.h"
+
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
@@ -12,6 +14,7 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceAnimation.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMaterial.h"
@@ -22,6 +25,7 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
+#include "Components/ComponentAnimation.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -253,16 +257,20 @@ void Scene::DestroyGameObject(GameObject* gameObject)
 void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
 	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
-	//resourceModel->Load();
-
+	std::vector<std::shared_ptr<ResourceAnimation>> animations = resourceModel->GetAnimations();
 	std::string modelName = App->fileSystem->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
+
+	if (!animations.empty())
+	{
+		ComponentAnimation* animation =
+			static_cast<ComponentAnimation*>(gameObjectModel->CreateComponent(ComponentType::ANIMATION));
+		animation->SetAnimations(animations);
+	}
 	
-	// First load the ResourceMesh
-	// Then look MaterialIndex and load the ResourceMaterial of the Model vector with materialIndex's index
-	// Load the ComponentMaterial with the ResourceMaterial
-	// Load the ComponentMesh with the ResourceMesh
+	// For each node of the model, create its child GameObjects in preOrder and
+	// assign its corresponding vector of pairs <Material, Mesh>
 
 	std::stack<std::pair<int, GameObject*>> parentsStack;
 	std::vector<ResourceModel::Node*> nodes = resourceModel->GetNodes();
@@ -293,8 +301,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		transformNode->SetRotation(rot);
 		transformNode->SetScale(scale);
 
-		transformNode->UpdateTransformMatrices();
-
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 		
 		for (std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>> meshRenderer :
@@ -323,6 +329,8 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 					->CreateComponent(ComponentType::MESHRENDERER));
 			meshRenderer->SetMesh(mesh);
 		}
+
+		static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 	}
 }
 

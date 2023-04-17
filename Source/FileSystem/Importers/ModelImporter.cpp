@@ -348,6 +348,15 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 	}
 	ENGINE_LOG("Node parentIdx: %i", parentIdx);
 
+	float3 pos;
+	float4x4 rot; 
+	float3 scale;
+
+	transform.Decompose(pos, rot, scale);
+
+	ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)", 
+		pos.x, pos.y, pos.z, RadToDeg(rot.ToEulerXYZ().x), RadToDeg(rot.ToEulerXYZ().y), RadToDeg(rot.ToEulerXYZ().z), scale.x, scale.y, scale.z);
+
 	// loading meshes and materials
 	for (int i = 0; i < node->mNumMeshes; ++i)
 	{
@@ -538,18 +547,29 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 		if (nodeAnim->mPositionKeys != nullptr)
 		{
-			bytes = sizeof(float3) * nodeAnim->mNumPositionKeys;
-			memcpy(cursor, &(nodeAnim->mPositionKeys[0]), bytes);
+			for (int i = 0; i < nodeAnim->mNumPositionKeys; ++i)
+			{
+				bytes = sizeof(float3);
+				memcpy(cursor, &(nodeAnim->mPositionKeys[i].mValue), bytes);
 
-			cursor += bytes;
+				cursor += bytes;
+			}
 		}
 
 		if (nodeAnim->mRotationKeys != nullptr)
 		{
-			bytes = sizeof(Quat) * nodeAnim->mNumRotationKeys;
-			memcpy(cursor, &(nodeAnim->mRotationKeys[0]), bytes);
+			for (int i = 0; i < nodeAnim->mNumRotationKeys; ++i)
+			{
+				bytes = sizeof(Quat);
+				Quat* rotation = new Quat(
+					nodeAnim->mRotationKeys[i].mValue.x, nodeAnim->mRotationKeys[i].mValue.y, 
+					nodeAnim->mRotationKeys[i].mValue.z, nodeAnim->mRotationKeys[i].mValue.w);
 
-			cursor += bytes;
+				memcpy(cursor, rotation, bytes);
+				delete rotation;
+
+				cursor += bytes;
+			}
 		}
 	}
 }

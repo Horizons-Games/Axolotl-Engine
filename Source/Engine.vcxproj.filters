@@ -305,6 +305,9 @@
     <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Animation\AnimationController.cpp">
+      <Filter>DataModels\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -637,6 +640,9 @@
     <ClInclude Include="DataModels\Resources\ResourceAnimation.h">
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Animation\AnimationController.h">
+      <Filter>DataModels\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -704,6 +710,9 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Animation">
+      <UniqueIdentifier>{87b4ca48-8d47-439b-bb9d-3de254b79ee7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

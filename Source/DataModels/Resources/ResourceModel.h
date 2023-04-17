@@ -38,27 +38,26 @@ public:
 	ResourceType GetType() const override;
 
 	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
-
 	void SaveLoadOptions(Json& meta) override {};
+
+	void LoadImporterOptions(Json& meta) override {};
 	void LoadLoadOptions(Json& meta) override {};
 
 	const size_t GetNumMeshes() const;
 	const size_t GetNumMaterials() const;
 	const size_t GetNumNodes() const;
+	const size_t GetNumAnimations() const;
 	const std::vector<Node*>& GetNodes() const;
 	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
 	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
-
+	const std::vector<std::shared_ptr<ResourceAnimation>>& GetAnimations() const;
 	OptionsModel& GetOptions();
 
 	void SetNodes(const std::vector<Node*>& nodes);
+	void SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations);
 
 	void AppendNode(Node* node);
 
-	void SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations);
-	const std::vector<std::shared_ptr<ResourceAnimation>>& GetAnimations() const;
-	const size_t GetNumAnimations() const;
 
 protected:
 	void InternalLoad() override;

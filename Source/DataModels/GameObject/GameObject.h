@@ -14,6 +14,7 @@ class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
 class Json;
+class ResourceModel;
 
 enum class ComponentType;
 enum class LightType;
