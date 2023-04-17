@@ -15,24 +15,9 @@ public:
 	void PostUpdate(float deltaTime) override {};
 	void CleanUp() override {};
 
-	float GetValue() const
-	{
-		return value;
-	}
-	void SetValue(float value)
-	{
-		this->value = value;
-	}
-	float GetValue2() const
-	{
-		return value3;
-	}
-	void SetValue2(float value)
-	{
-		this->value3 = value;
-	}
+	float GetValue() const;
+	void SetValue(float value);
 
 private:
 	float value;
-	float value3;
 };
