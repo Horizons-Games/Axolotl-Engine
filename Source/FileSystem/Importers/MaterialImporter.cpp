@@ -19,14 +19,14 @@ void MaterialImporter::Import
 
 	App->fileSystem->Load(filePath, bufferPaths);
 
-	unsigned int header[5];
+	unsigned int header[4];
 	memcpy(header, bufferPaths, sizeof(header));
 
 	bufferPaths += sizeof(header);
 
 	std::vector<std::shared_ptr<ResourceTexture>> resourceTexture;
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		char* pathPointer = new char[header[i]];
 		memcpy(pathPointer, bufferPaths, header[i]);
@@ -65,12 +65,21 @@ void MaterialImporter::Import
 	
 	if (resourceTexture[3] != 0)
 	{
-		resource->SetMetallic(resourceTexture[3]);
-	}
+		switch (resource->GetShaderType())
+		{
+			case 0:
 
-	if (resourceTexture[4] != 0)
-	{
-		resource->SetSpecular(resourceTexture[4]);
+				resource->SetMetallic(resourceTexture[3]);
+
+				break;
+				
+			case 1:
+
+				resource->SetSpecular(resourceTexture[3]);
+
+				break;
+
+		}
 	}
 
 	char* buffer{};
@@ -130,24 +139,34 @@ void MaterialImporter::Save
 		meta["OcclusionAssetPath"] = "";
 	}
 
-	if (resource->GetMetallic())
+	switch (resource->GetShaderType())
 	{
-		meta["MetallicAssetPath"] = 
-			resource->GetMetallic()->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["MetallicAssetPath"] = "";
-	}
+		case 0:
 
-	if (resource->GetSpecular())
-	{
-		meta["SpecularAssetPath"] = 
-			resource->GetSpecular()->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["SpecularAssetPath"] = "";
+			if (resource->GetMetallic())
+			{
+				meta["SpecularAssetPath"] =
+					resource->GetMetallic()->GetAssetsPath().c_str();
+			}
+			else
+			{
+				meta["SpecularAssetPath"] = "";
+			}
+
+			break;
+		case 1:
+
+			if (resource->GetSpecular())
+			{
+				meta["SpecularAssetPath"] =
+					resource->GetSpecular()->GetAssetsPath().c_str();
+			}
+			else
+			{
+				meta["SpecularAssetPath"] = "";
+			}
+
+			break;
 	}
 
 	rapidjson::StringBuffer buffer;
@@ -159,13 +178,42 @@ void MaterialImporter::Save
 
 #endif
 
-	UID texturesUIDs[5] =
+	UID specularUID;
+
+	switch (resource->GetShaderType())
+	{
+		case 0:
+
+			if (resource->GetMetallic())
+			{
+				specularUID = resource->GetMetallic()->GetUID();
+			}
+			else
+			{
+				specularUID = 0;
+			}
+
+			break;
+	case 1:
+
+		if (resource->GetSpecular())
+		{
+			specularUID = resource->GetSpecular()->GetUID();
+		}
+		else
+		{
+			specularUID = 0;
+		}
+
+		break;
+	}
+
+	UID texturesUIDs[4] =
 	{
 		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
 		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
 		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
-		resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0,
-		resource->GetMetallic() ? resource->GetMetallic()->GetUID() : 0
+		specularUID
 	};
 
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
@@ -178,7 +226,12 @@ void MaterialImporter::Save
 
 	fileBuffer = cursor;
 
-	unsigned int bytes = sizeof(texturesUIDs);
+	unsigned int bytes = sizeof(unsigned int);
+	memcpy(cursor, &resource->GetShaderType(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(texturesUIDs);
 	memcpy(cursor, texturesUIDs, bytes);
 
 	cursor += bytes;
@@ -200,17 +253,12 @@ void MaterialImporter::Save
 
 	bytes = sizeof(bool);
 	memcpy(cursor, &resource->GetTransparent(), bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(unsigned int);
-	memcpy(cursor, &resource->GetShaderType(), bytes);
 }
 
 void MaterialImporter::Load
 	(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
-	UID texturesUIDs[5];
+	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
 #ifdef ENGINE
@@ -225,39 +273,57 @@ void MaterialImporter::Load
 
 	delete metaBuffer;
 
+	unsigned int* shaderType = new unsigned int;
+
+	memcpy(shaderType, fileBuffer, sizeof(unsigned int));
+	resource->SetShaderType(*shaderType);
+
+	fileBuffer += sizeof(unsigned int);
+
 	std::string assetPath = meta["DiffuseAssetPath"];
 
 	if (assetPath != "") 
 	{ 
-		resource->SetDiffuse(App->resources->RequestResource<ResourceTexture>(assetPath));
+		resource->SetDiffuse
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["NormalAssetPath"];
 
 	if (assetPath != "")
 	{
-		resource->SetNormal(App->resources->RequestResource<ResourceTexture>(assetPath));
+		resource->SetNormal
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["OcclusionAssetPath"];
 
 	if (assetPath != "")
 	{ 
-		resource->SetOcclusion(App->resources->RequestResource<ResourceTexture>(assetPath));
+		resource->SetOcclusion
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["SpecularAssetPath"];
 
 	if (assetPath != "")
 	{ 
-		resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));
-	}
+		switch (*shaderType)
+		{
+			case 0:
 
-	assetPath = meta["MetallicAssetPath"];
+				resource->SetMetallic
+				(App->resources->RequestResource<ResourceTexture>(assetPath));
 
-	if (assetPath != "")
-	{ 
-		resource->SetMetallic(App->resources->RequestResource<ResourceTexture>(assetPath));
+				break;
+
+			case 1:
+
+				resource->SetSpecular
+				(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+				break;
+		}
 	}
 
 #else
@@ -285,16 +351,24 @@ void MaterialImporter::Load
 		
 	if (texturesUIDs[3] != 0)
 	{
-		resource->SetMetallic
-			(App->resources->SearchResource<ResourceTexture>
-												(texturesUIDs[3]));
-	}
+		switch (*shaderType)
+		{
+		case 0:
 
-	if (texturesUIDs[4] != 0)
-	{
-		resource->SetSpecular
+			resource->SetMetallic
 			(App->resources->SearchResource<ResourceTexture>
-												(texturesUIDs[4]));
+				(texturesUIDs[3]));
+
+			break;
+
+		case 1:
+
+			resource->SetSpecular
+			(App->resources->SearchResource<ResourceTexture>
+				(texturesUIDs[3]));
+
+			break;
+		}
 	}
 
 #endif
@@ -329,16 +403,9 @@ void MaterialImporter::Load
 
 	fileBuffer += sizeof(bool);
 
-	unsigned int* shaderType = new unsigned int;
-
-	memcpy(shaderType, fileBuffer, sizeof(unsigned int));
-	resource->SetShaderType(*shaderType);
-
-	fileBuffer += sizeof(unsigned int);
-
+	delete shaderType;
 	delete normalStrenght;
 	delete isTransparent;
-	delete shaderType;
 
 #ifdef ENGINE
 

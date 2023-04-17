@@ -1,0 +1,10 @@
+{
+    "UID": 13251002484254816719,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/BarrelNewFBX_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/BarrelNewFBX_0.mat"
+    ]
+}

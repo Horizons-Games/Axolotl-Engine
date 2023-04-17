@@ -1,8 +1,7 @@
 #version 440
 
-#define M_PI 3.1415926535897932384626433832795
+#define PI 3.1415926535897932384626433832795
 #define EPSILON 1e-5
-
 
 struct Material {
     vec4 diffuse_color;         //location 3
@@ -211,7 +210,7 @@ void main()
     
     textureMat.a = material.diffuse_color.a; //Transparency
     
-	if (material.has_normal_map)
+	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
         norm = texture(normal_map, TexCoord).rgb;
