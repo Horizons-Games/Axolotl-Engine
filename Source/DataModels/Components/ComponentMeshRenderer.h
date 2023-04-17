@@ -5,13 +5,13 @@
 #include "Components/Component.h"
 #include "ModuleProgram.h"
 
-#include "Math/float3.h"
-
 #include "FileSystem/UniqueID.h"
-#include "Globals.h"
+
+#include "Math/float3.h"
+#include "Math/float4.h"
 
 #include <memory>
-#include "Math/float4.h"
+
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
@@ -38,31 +38,43 @@ public:
 	void DrawHighlight();
 
 	void SaveOptions(Json& meta) override;
-	void SaveUIDOfResourceToMeta(Json& meta, const char* field, const ResourceTexture* texturePtr);
+	/*void SaveUIDOfResourceToMeta
+		(Json& meta, const char* field, const ResourceTexture* texturePtr);*/
 	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 
+	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
-	void SetSpecularColor(float3& specularColor);
-	void SetNormalStrenght(float normalStrength);
 	void SetSmoothness(float smoothness);
+	void SetNormalStrenght(float normalStrength);
+
+	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
+	// Specular shader attributes (setters)
+	void SetSpecularColor(float3& specularColor);
+	
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
+
+	// Common attributes (getters)
 	const float4& GetDiffuseColor() const;
-	const float3& GetSpecularColor() const;
-	const float GetNormalStrenght() const;
 	const float GetSmoothness() const;
+	const float GetNormalStrenght() const;
+
+	// Default shader attributes (getters)
 	const float GetMetalness() const;
+
+	// Specular shader attributes (getters)
+	const float3& GetSpecularColor() const;
 
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
+
 private:
-	void DrawDefault();
-	void DrawSpecular();
+
 	bool IsMeshLoaded();
 	bool IsMaterialLoaded();
 
@@ -78,7 +90,8 @@ inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 	return mesh;
 }
 
-inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() const
+inline std::shared_ptr<ResourceMaterial> 
+							ComponentMeshRenderer::GetMaterial() const
 {
 	return material;
 }
