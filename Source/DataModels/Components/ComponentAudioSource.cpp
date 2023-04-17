@@ -3,6 +3,7 @@
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Components/ComponentTransform.h"
 
+using namespace audios;
 
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     : Component(ComponentType::AUDIOSOURCE, active, owner, true)
@@ -26,10 +27,8 @@ void ComponentAudioSource::Update()
 void ComponentAudioSource::Draw()
 {
     const float3& pos = transform->GetGlobalPosition();
-    const float3& front = transform->GetGlobalForward();
-    const float3& up = transform->GetGlobalFront();
-
-    //const float3 reverse = (front * -1).Normalized();
+    const float3& front = transform->GetGlobalForward().Normalized();
+    const float3& up = transform->GetGlobalUp();
 
     sourceTransform.Set(pos.x, pos.y, pos.z,
         front.x, front.y, front.z,
@@ -58,7 +57,7 @@ void ComponentAudioSource::Disable()
 void ComponentAudioSource::PostEvent()
 {
     AK::SoundEngine::PostEvent(
-        L"SFX_Laser_Fire",    // Name of the Event (not case sensitive).
+        audios::SOUND_LASER_FIRE,    // Name of the Event (not case sensitive).
         sourceID           // Associated game object ID
     );
 }
