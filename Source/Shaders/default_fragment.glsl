@@ -5,15 +5,14 @@
 
 
 struct Material {
-    vec4 diffuse_color;         //location 3         
-    float normal_strength;      //location 4
+    vec4 diffuse_color;         //location 3
+    int has_diffuse_map;        //location 4
     float smoothness;           //location 5
-    float metalness;            //location 6
+    float normal_strength;      //location 6
+    int has_normal_map;        //location 7
     
-    int has_diffuse_map;        //location 7
-    int has_metallic_map;       //location 8
-    int has_normal_map;        //location 9
-    int has_smoothness_map;     //location 10
+    float metalness;            //location 8
+    int has_metallic_map;       //location 9
 };
 
 struct PointLight

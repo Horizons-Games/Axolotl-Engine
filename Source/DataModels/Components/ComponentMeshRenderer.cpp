@@ -142,69 +142,20 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 				texture->Load();
 			}
 
-			glUniform1i(5, 1);
+			glUniform1i(4, 1);
 
 			glActiveTexture(GL_TEXTURE5);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 		}
 		else
 		{
-			glUniform1i(5, 0);
+			glUniform1i(4, 0);
 		}
 
-		switch (shaderType)
-		{
-			case ProgramType::DEFAULT:
+		glUniform1f(5, material->GetSmoothness());
+		glUniform1f(6, material->GetNormalStrength());
 
-				glUniform1f(9, material->GetMetalness());
-
-				texture = material->GetMetallic();
-				if (texture)
-				{
-					if (!texture->IsLoaded())
-					{
-						texture->Load();
-					}
-
-					glUniform1i(10, 1);
-					glActiveTexture(GL_TEXTURE7);
-					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-				}
-				else
-				{
-					glUniform1i(10, 0);
-				}
-
-				break;
-
-			case ProgramType::SPECULAR:
-
-				const float3& specularColor = material->GetSpecularColor();
-				glUniform3f
-						(4, specularColor.x, specularColor.y, specularColor.z);
-
-				texture = material->GetSpecular();
-
-				if (texture)
-				{
-					if (!texture->IsLoaded())
-					{
-						texture->Load();
-					}
-
-					glUniform1i(8, 1);
-					glActiveTexture(GL_TEXTURE6);
-					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-				}
-				else
-				{
-					glUniform1i(8, 0);
-				}
-
-				break;
-		}
-
-		texture = 
+		texture =
 			std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
 
 		if (texture)
@@ -216,16 +167,64 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 
 			glActiveTexture(GL_TEXTURE6);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1f(4, material->GetNormalStrength());
-			glUniform1i(6, 1);
+			glUniform1i(7, 1);
 		}
 		else
 		{
-			glUniform1i(6, 0);
+			glUniform1i(7, 0);
 		}
 
-		glUniform1f(7, material->GetSmoothness());
-			
+		switch (shaderType)
+		{
+			case ProgramType::DEFAULT:
+
+				glUniform1f(8, material->GetMetalness());
+
+				texture = material->GetMetallic();
+				if (texture)
+				{
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+
+					glUniform1i(9, 1);
+					glActiveTexture(GL_TEXTURE7);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(9, 0);
+				}
+
+				break;
+
+			case ProgramType::SPECULAR:
+
+				const float3& specularColor = material->GetSpecularColor();
+				glUniform3f
+						(8, specularColor.x, specularColor.y, specularColor.z);
+
+				texture = material->GetSpecular();
+
+				if (texture)
+				{
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+
+					glUniform1i(9, 1);
+					glActiveTexture(GL_TEXTURE7);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(9, 0);
+				}
+
+				break;
+		}
 
 		float3 viewPos = App->camera->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);

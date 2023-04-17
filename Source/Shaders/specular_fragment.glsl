@@ -2,14 +2,13 @@
 
 struct Material {
     vec3 diffuse_color;         //location 3
-    vec3 specular_color;        //location 4
-    float normal_strength;      //location 5
-    float smoothness;           //location 6
+    int has_diffuse_map;        //location 4
+    float smoothness;           //location 5
+    float normal_strength;      //location 6
+    int has_normal_map;         //location 7
 
-    int has_diffuse_map;        //location 7
-    int has_specular_map;       //location 8
-    int has_normal_map;         //location 9
-    int has_smoothness_map;     //location 10
+    vec3 specular_color;        //location 8
+    int has_specular_map;       //location 9
 };
 
 struct PointLight
@@ -238,9 +237,9 @@ void main()
 
     // smoothness
     float smoothness = material.smoothness;
-    if (material.has_smoothness_map == 1) {
-	    smoothness = exp2(specularMat.a * 7 + 1);
-    }
+    //if (material.has_smoothness_map == 1) {
+	    //smoothness = exp2(specularMat.a * 7 + 1);
+    //}
     
     // ambient
     vec3 ambient = ambientValue * textureMat;
