@@ -44,10 +44,10 @@ void ComponentMeshCollider::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 }
 
-bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size) const
+bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize) const
 {
 	std::vector<float3> points;
-	GetMinMaxPoints(startingPoints, points);
+	GetMinMaxPoints(startingPoints, points, stepSize);
 
 	for (float3 point : points)
 	{
@@ -65,7 +65,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	return false;
 }
 
-void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints, std::vector<float3>& points) const
+void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const
 {
 	points = startingPoints;
 
@@ -74,4 +74,25 @@ void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints,
 	points.push_back(startingPoints[1] + (startingPoints[2] - startingPoints[1]) / 2);
 	points.push_back(startingPoints[3] - (startingPoints[3] - startingPoints[2]) / 2);
 	points.push_back(startingPoints[0] + (startingPoints[3] - startingPoints[0]) / 2);
+
+	//Add stepSize to the top 3 down;
+	if (stepSize != 0)
+	{
+		float minStep = points[0].y;
+		for (float3 point : points)
+		{
+			if (minStep > point.y)
+			{
+				minStep = point.y;
+			}
+		}
+		minStep += stepSize;
+		for (int i = 0; i < points.size(); i++)
+		{
+			if (minStep > points[i].y)
+			{
+				points[i] = float3(points[i].x, minStep, points[i].z);
+			}
+		}
+	}
 }
