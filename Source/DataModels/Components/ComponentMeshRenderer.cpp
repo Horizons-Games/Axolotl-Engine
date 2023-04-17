@@ -60,8 +60,8 @@ void ComponentMeshRenderer::Draw()
 	{
 		program->Activate();
 
-		DrawMeshes(program);
 		DrawMaterial(program);
+		DrawMeshes(program);
 	}
 
 	program->Deactivate();
@@ -387,6 +387,24 @@ void ComponentMeshRenderer::SetMaterial
 	if (material)
 	{
 		material->Load();
+	}
+}
+
+void ComponentMeshRenderer::SetShaderType(const unsigned shaderType)
+{
+	switch (shaderType)
+	{
+		case 0:
+
+			this->shaderType = ProgramType::DEFAULT;
+
+			break;
+
+		case 1:
+
+			this->shaderType = ProgramType::SPECULAR;
+
+			break;
 	}
 }
 

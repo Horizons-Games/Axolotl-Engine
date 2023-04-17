@@ -1,0 +1,12 @@
+{
+    "UID": 8389124182365558853,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ArmoryProper_0.mesh",
+        "Assets/Meshes/ArmoryProper_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ArmoryProper_0.mat",
+        "Assets/Materials/ArmoryProper_1.mat"
+    ]
+}

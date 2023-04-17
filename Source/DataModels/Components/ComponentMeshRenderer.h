@@ -44,6 +44,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+	void SetShaderType(const unsigned int shaderType);
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);

@@ -171,16 +171,18 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 					if (ImGui::Selectable(shaderTypes[i].c_str(), isSelected))
 					{
+						asMeshRenderer->SetShaderType(i);
 						currentShaderTypeIndex = i;
 					}
 
 					if (isSelected)
+					{
 						ImGui::SetItemDefaultFocus();
+					}
 				}
+
 				ImGui::EndCombo();
 			}
-
-			ImGui::Text("");
 
 			if (!isTransparent)
 			{
@@ -218,8 +220,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					}
 
 					if (isSelected)
+					{
 						ImGui::SetItemDefaultFocus();
+					}
 				}
+
 				ImGui::EndCombo();
 			}
 
