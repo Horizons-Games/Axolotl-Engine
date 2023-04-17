@@ -349,16 +349,16 @@ std::pair<int, int> ModuleEditor::GetAvailableRegion()
 }
 std::string ModuleEditor::StateWindows()
 {
-	char* binaryBuffer = {};
 	if (App->fileSystem->Exists(settingsFolder.c_str()))
 	{		
 		if (App->fileSystem->Exists(set.c_str()))
 		{
+			char* binaryBuffer = {};
 			App->fileSystem->Load(set.c_str(), binaryBuffer);
+			return std::string(binaryBuffer);
 		}
 	}
-	return std::string(binaryBuffer);
-
+	return std::string();
 }
 
 void ModuleEditor::CreateFolderSettings()
