@@ -76,7 +76,7 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());	
-	if(!buffer.empty())
+	if(buffer.empty())
 	{		
 		rapidjson::StringBuffer newBuffer;
 		for (int i = 0; i < windows.size(); ++i)
