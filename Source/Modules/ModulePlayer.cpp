@@ -144,6 +144,7 @@ void ModulePlayer::Rotate()
 			float3 newRot = trans->GetRotationXYZ();
 			newRot.y += App->input->GetMouseMotion().x * deltaTime;
 			trans->SetRotation(newRot);
+			trans->UpdateTransformMatrices();
 		}
 
 	}
