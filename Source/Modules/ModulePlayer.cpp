@@ -80,14 +80,14 @@ void ModulePlayer::Move()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	std::vector<float3> backPoints = { points[0], points[2], points[4], points[6] };
-	std::vector<float3> leftPoints = { points[0], points[1], points[2], points[3] };
-	std::vector<float3> rightPoints = { points[4], points[5], points[6], points[7] };
+	std::vector<float3> leftPoints = { points[4], points[5], points[6], points[7] };
+	std::vector<float3> rightPoints = { points[0], points[1], points[2], points[3] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
 	float3 sideDirection = (points[4] - points[0]).Normalized();
 
 	//Forward
-	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(backPoints, direction, trans->GetLocalAABB().Size().z))
+	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(frontPoints, direction, speed * deltaTime))
 	{
 		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
@@ -95,7 +95,7 @@ void ModulePlayer::Move()
 	}
 
 	//Backward
-	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE && !collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z))
+	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE && !collider->IsColliding(backPoints, -direction, speed * deltaTime))
 	{
 		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
@@ -103,7 +103,7 @@ void ModulePlayer::Move()
 	}
 
 	//Left
-	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE && !collider->IsColliding(rightPoints, -sideDirection, trans->GetLocalAABB().Size().x))
+	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE && !collider->IsColliding(leftPoints, -sideDirection, speed * 2 / 3 * deltaTime))
 	{
 		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
@@ -111,7 +111,7 @@ void ModulePlayer::Move()
 	}
 
 	//Right
-	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE && !collider->IsColliding(leftPoints, sideDirection, trans->GetLocalAABB().Size().x))
+	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE && !collider->IsColliding(rightPoints, sideDirection, speed * 2 / 3 * deltaTime))
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
