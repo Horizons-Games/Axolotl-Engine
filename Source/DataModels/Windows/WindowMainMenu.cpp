@@ -7,7 +7,6 @@
 
 #include "SDL.h"
 
-//debug
 #include <windows.h>
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
@@ -185,26 +184,38 @@ void WindowMainMenu::BuildGame(GameBuildType buildType)
 	switch (buildType)
 	{
 	case WindowMainMenu::GameBuildType::DEBUG_GAME:
-		ENGINE_LOG("Building DebugGame...");
+		ENGINE_LOG("Building DebugGame...\n");
 		buildConfig = "DebugGame";
 		break;
 	case WindowMainMenu::GameBuildType::RELEASE_GAME:
-		ENGINE_LOG("Building ReleaseGame...");
+		ENGINE_LOG("Building ReleaseGame...\n");
 		buildConfig = "ReleaseGame";
 		break;
 	}
-	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
-		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
+	std::string msbuildPath = "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
+		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"; //lpApplicationName doesn't work with spaces enclosed with quotes
+	
 	std::string solutionPath = "..\\Source\\Engine.sln";
 	std::string configurationParameter = "/p:Configuration=" + buildConfig;
 	std::string platformParameter = "/p:Platform=x64";
 
-	std::string command = msbuildPath + " " + solutionPath + " " + configurationParameter + " " + platformParameter;
+	std::string commandArgs = solutionPath + " " + configurationParameter + " " + platformParameter;
 	
-	/*int result = system(command.c_str());
-	ENGINE_LOG("Build result: %d", result);*/
-	char buffer[MAX_PATH];
-	::GetCurrentDirectory(MAX_PATH, buffer);
-	ENGINE_LOG("Current directory: %s", buffer);
-	ENGINE_LOG("Build command: %s", command.c_str());
+	STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
+	PROCESS_INFORMATION processInfo = {};
+	BOOL success = CreateProcess(
+		"dir .",//msbuildPath.c_str(), // lpApplicationName
+		NULL,//commandArgs.data(), // lpCommandLine
+		NULL, // lpProcessAttributes
+		NULL, // lpThreadAttributes
+		TRUE, // bInheritHandles
+		0, // dwCreationFlags
+		NULL, // lpEnvironment
+		NULL, // lpCurrentDirectory
+		&startupInfo,
+		&processInfo);
+	assert(success);
+	WaitForSingleObject(processInfo.hProcess, INFINITE);
+	CloseHandle(processInfo.hThread);
+	CloseHandle(processInfo.hProcess);
 }
