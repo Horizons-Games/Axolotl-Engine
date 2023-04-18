@@ -2,8 +2,6 @@
 
 #include "ComponentLight.h"
 
-#define COMPONENT_DIRLIGHT "DirLight"
-
 class Json;
 
 class ComponentDirLight : public ComponentLight

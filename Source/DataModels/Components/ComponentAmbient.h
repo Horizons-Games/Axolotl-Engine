@@ -1,8 +1,6 @@
 #pragma once
 #include "ComponentLight.h"
 
-#define COMPONENT_AMBIENT "Ambient"
-
 class Json;
 
 class ComponentAmbient : public ComponentLight

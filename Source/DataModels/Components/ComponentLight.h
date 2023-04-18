@@ -8,8 +8,6 @@
 
 #include "Math/float3.h"
 
-#define COMPONENT_LIGHT "Light"
-
 enum class LightType 
 { 
 	UNKNOWN, 

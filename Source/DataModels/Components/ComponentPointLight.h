@@ -2,8 +2,6 @@
 
 #include "ComponentLight.h"
 
-#define COMPONENT_POINTLIGHT "PointLight"
-
 struct PointLight
 {
 	float4 position;
