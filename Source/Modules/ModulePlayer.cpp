@@ -44,7 +44,8 @@ update_status ModulePlayer::PreUpdate()
 #ifdef ENGINE
 	if (isPlayerLoad && App->GetIsOnPlayMode())
 	{
-		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0 
+			&& !SDL_ShowCursor(SDL_QUERY))
 		{
 			Move();
 			Rotate();
@@ -159,24 +160,11 @@ void ModulePlayer::LoadNewPlayer()
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
 #ifdef ENGINE
-			//SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
-			//lastPlayer = camera->GetParent();
-			//// look for the player's camera
-			//std::vector<GameObject*> children = player.get()->GetChildren();
-			//for (auto child : children)
-			//{
-			//	cameraPlayer = static_cast<ComponentCamera*>(child->GetComponent(ComponentType::CAMERA))->GetCamera();
-			//	if (!cameraPlayer)
-			//	{
-			//		cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
-			//		break;
-			//	}
-			//}
+			
 			SetPlayer(camera->GetParent());
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
-			//lastPlayer->Disable();
 			App->camera->SetSelectedCamera(0);
 #else
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
@@ -204,7 +192,6 @@ void ModulePlayer::LoadNewPlayer()
 void ModulePlayer::UnloadNewPlayer()
 {
 	App->camera->SetSelectedCamera(-1);
-	//lastPlayer->Enable();
 	player = nullptr;
 	isPlayerLoad = false;
 }
