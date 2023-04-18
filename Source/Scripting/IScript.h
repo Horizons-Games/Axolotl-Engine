@@ -4,14 +4,15 @@
 #include "RuntimeObjectSystem/ISimpleSerializer.h"
 
 #include "Auxiliar/Reflection/Field.h"
+#include "Auxiliar/Reflection/TypeToEnum.h"
 #include <variant>
 #include <optional>
 
 class GameObject;
 class Application;
 
-#define REGISTER_FIELD(Name, Type, TypeEnum) \
-	this->members.push_back(std::make_pair(FieldType::TypeEnum, Field<Type>( \
+#define REGISTER_FIELD(Name, Type) \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
 		#Name, \
 		[this] { return this->Get##Name(); }, \
 		[this](const Type& value) { this->Set##Name(value); } \

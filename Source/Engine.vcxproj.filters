@@ -661,6 +661,9 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

@@ -3,11 +3,6 @@
 #include <string>
 #include <functional>
 
-enum class FieldType
-{
-	FLOAT
-};
-
 template<typename T>
 struct Field
 {
