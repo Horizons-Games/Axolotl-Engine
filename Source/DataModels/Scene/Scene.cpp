@@ -66,6 +66,10 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 	return false;
 }
 
+bool Scene::IsInsideACamera(const AABB& aabb) const
+{
+	return IsInsideACamera(aabb.ToOBB());
+}
 
 GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {

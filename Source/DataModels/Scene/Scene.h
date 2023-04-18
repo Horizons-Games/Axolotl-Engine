@@ -2,7 +2,6 @@
 
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
-#include "Geometry/OBB.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -116,11 +115,6 @@ private:
 	std::vector<GameObject*> nonStaticObjects;
 };
 
-inline bool Scene::IsInsideACamera(const AABB& aabb) const
-{
-	return IsInsideACamera(aabb.ToOBB());
-}
-
 inline GameObject* Scene::GetRoot()
 {
 	return root.get();
@@ -200,8 +194,6 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 {
 	return nonStaticObjects;
 }
-
-
 
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
