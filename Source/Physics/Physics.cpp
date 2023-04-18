@@ -83,6 +83,7 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
 #endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
 
@@ -96,7 +97,8 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
-	bool hit = ray.Intersects(go->GetEncapsuledAABB(), nearDistance, farDistance);
+	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
 
 	if (hit && go->IsActive())
 	{
@@ -114,6 +116,19 @@ void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitG
 	if (HasIntersection(ray, go, nearDistance, farDistance)) 
 	{
 		hitGameObjects[nearDistance] = go;
+	}
+}
+
+void Physics::AddIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects)
+{
+	float nearDistance, farDistance;
+	for (GameObject* gameObject : dynamicObjects)
+	{
+		if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+		{
+			hitGameObjects[nearDistance] = gameObject;
+		}
 	}
 }
 
