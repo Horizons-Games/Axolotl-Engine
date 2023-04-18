@@ -108,24 +108,21 @@ void ScriptFactory::UpdateNotifier()
 	m_pRuntimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
 }
 
-
-
 void ScriptFactory::OnConstructorsAdded()
 {
-	/*AUDynArray<IObjectConstructor*> constructors = AUDynArray<IObjectConstructor*>();
-	m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
-	for (size_t i = 0; i < constructors.Size(); i++)
+	for (auto& kv : testMap)
 	{
-		IObject* object = constructors[i]->GetConstructedObject(InterfaceIDEnum::IID_IOBJECT);
-		IScript* script;
-		//This have to be the script
-		object->GetInterface(&script);
-		if (0 == script)
+		if (kv.second)
 		{
-			delete object;
-			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
+			IObject* pObj = m_pRuntimeObjectSystem->GetObjectFactorySystem()->GetObject(kv.first);
+			pObj->GetInterface(&(kv.second));
+			if (kv.second == nullptr)
+			{
+				delete pObj;
+				m_pCompilerLogger->LogError("Error - no updateable interface found\n");
+			}
 		}
-	}*/
+	}
 }
 
 IScript* ScriptFactory::GetScript(const char* name)
@@ -141,10 +138,9 @@ IScript* ScriptFactory::GetScript(const char* name)
 		{
 			delete pObj;
 			m_pCompilerLogger->LogError("Error - no updateable interface found\n");
-			//return false;
+			return nullptr;
 		}
-		//objectId = pObj->GetObjectId();
-		//return objectId;
+		testMap.insert({ pObj->GetObjectId(), script });
 		return script;
 	}
 	return nullptr;

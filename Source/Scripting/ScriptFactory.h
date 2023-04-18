@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ObjectFactorySystem/ObjectFactorySystem.h"
-#include <memory>
+#include <map>
 
 class IScript;
 struct IRuntimeObjectSystem;
@@ -36,4 +36,6 @@ private:
 
 	//Runtime object
 	SystemTable* g_SystemTable;
+
+	std::map<ObjectId, IScript*> testMap;
 };
