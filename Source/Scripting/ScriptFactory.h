@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ObjectFactorySystem/ObjectFactorySystem.h"
-#include <map>
+#include <vector>
 
 class IScript;
 struct IRuntimeObjectSystem;
@@ -17,7 +17,8 @@ public:
 	virtual ~ScriptFactory();
 	bool Init();
 
-	IScript* GetScript(const char* name);
+	IScript* ConstructScript(const std::string& name);
+	IScript* GetScript(const std::string& name);
 	void AddScript(const char* path);
 	void RecompileAll();
 	void UpdateNotifier();
@@ -25,17 +26,13 @@ public:
 	void OnConstructorsAdded() override;
 	bool IsCompiling();
 	bool IsCompiled();
-	std::vector<const char*> GetConstructors();
+	std::vector<std::string> GetConstructors();
 private:
 	void IncludeDirs();
 
-
 	//Runtime Systems
-	ICompilerLogger* m_pCompilerLogger;
-	IRuntimeObjectSystem* m_pRuntimeObjectSystem;
+	ICompilerLogger* pCompilerLogger;
+	IRuntimeObjectSystem* pRuntimeObjectSystem;
 
-	//Runtime object
-	SystemTable* g_SystemTable;
-
-	std::map<ObjectId, IScript*> testMap;
+	std::vector<std::pair<ObjectId, IScript*>> allScripts;
 };

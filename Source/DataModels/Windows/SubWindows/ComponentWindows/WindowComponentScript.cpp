@@ -20,12 +20,13 @@ void WindowComponentScript::DrawWindowContents()
 
 	ImGui::Text("");
 
-	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
+	std::vector<std::string> constructors = App->scriptFactory->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(this->component);
-	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), constructors.size(), 3))
+	const char* firstElementAsCharPtr = constructors.data()->c_str();
+	if (ImGui::ListBox("Constructor", &current_item, &firstElementAsCharPtr, constructors.size(), 3))
 	{
 		script->SetConstuctor(constructors[current_item]);
-		IScript* Iscript = App->scriptFactory->GetScript(constructors[current_item]);
+		IScript* Iscript = App->scriptFactory->ConstructScript(constructors[current_item]);
 		Iscript->SetGameObject(component->GetOwner());
 		Iscript->SetApplication(App.get());
 		script->SetScript(Iscript);
