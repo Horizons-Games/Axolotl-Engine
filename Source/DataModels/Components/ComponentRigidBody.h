@@ -2,6 +2,16 @@
 #include "Component.h"
 
 #include "Math/float3.h"
+#include "Math/Quat.h"
+
+
+enum class ForceMode
+{
+	Force,
+	Acceleration,
+	Impulse,
+	VelocityChange
+};
 
 class ComponentRigidBody :
 	public Component
@@ -13,6 +23,9 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
+	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
+
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
@@ -22,9 +35,21 @@ public:
 private:
 
 	bool isKinematic;
-	float m;
+	float mass;
 	float g;
 	float3 v0;
+
+	float3 targetPosition;
+	Quat targetRotation;
+	bool usePositionController = false;
+	bool useRotationController = false;
+	float KpForce = 5.0f;
+	float KpTorque = 0.05f;
+	float3 externalForce = float3::zero;
+	float3 externalTorque = float3::zero;
+
+	void ApplyForce(const float3& force, float deltaTime);
+	void ApplyTorque(const float3& torque, float deltaTime);
 };
 
 inline bool ComponentRigidBody::GetIsKinematic() const

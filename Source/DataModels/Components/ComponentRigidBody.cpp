@@ -21,7 +21,7 @@
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	: Component(ComponentType::RIGIDBODY, active, owner, true),
-	isKinematic(true), m(1.0f), g(9.81f), v0(float3(0.0f, 0.0f, 0.0f))
+	isKinematic(true), mass(1.0f), g(9.81f), v0(float3(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -83,6 +83,48 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::Draw()
 {
 	
+}
+
+void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
+{
+	switch (mode)
+	{
+	case ForceMode::Force:
+		// TODO
+		break;
+	case ForceMode::Acceleration:
+		// TODO
+		break;
+	case ForceMode::Impulse:
+		// TODO
+		break;
+	case ForceMode::VelocityChange:
+		// TODO
+		break;
+	}
+
+	externalForce += force;
+}
+
+void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
+{
+	switch (mode)
+	{
+	case ForceMode::Force:
+		// TODO
+		break;
+	case ForceMode::Acceleration:
+		// TODO
+		break;
+	case ForceMode::Impulse:
+		// TODO
+		break;
+	case ForceMode::VelocityChange:
+		// TODO
+		break;
+	}
+
+	externalTorque += torque;
 }
 
 void ComponentRigidBody::SaveOptions(Json& meta)
