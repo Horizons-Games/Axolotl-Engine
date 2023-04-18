@@ -35,12 +35,20 @@ public:
 	void OnPause();
 	void OnStop();
 
+	void AddGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(GameObject* object);
+
+
+
 	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& json);
 	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
+
+	void AddGameObject(GameObject* object);
+	void RemoveGameObject(GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;

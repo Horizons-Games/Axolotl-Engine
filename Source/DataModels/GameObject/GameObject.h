@@ -77,6 +77,10 @@ public:
 	void DeactivateChildren();
 	void ActivateChildren();
 
+	bool IsStatic();
+	void SetStatic(bool newStatic);
+	void SpreadStatic();
+
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
 	bool RemoveComponent(const Component* component);
@@ -101,6 +105,7 @@ private:
 
 	bool enabled;
 	bool active;
+	bool staticObject;
 	std::string name;
 	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;
@@ -239,4 +244,14 @@ std::vector<T*> GameObject::GetComponentsByType(ComponentType type) {
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
+}
+
+inline bool GameObject::IsStatic()
+{
+	return staticObject;
+}
+
+inline void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
 }

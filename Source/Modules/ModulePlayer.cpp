@@ -178,7 +178,7 @@ void ModulePlayer::LoadNewPlayer()
 #else
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(camera->GetParent());
+			App->scene->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
 
 #endif // ENGINE			
