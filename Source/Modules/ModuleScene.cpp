@@ -62,7 +62,7 @@ update_status ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 
-	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	//UpdateAllObjects();
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -90,19 +90,11 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 	selectedGameObject = gameObject;
 }
 
-void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
+void ModuleScene::UpdateAllObjects() const
 {
-	assert(gameObject != nullptr);
-
-	if (!gameObject->IsEnabled())
-		return;
-
-	if (gameObject != loadedScene->GetRoot())
-		gameObject->Update();
-
-	for (GameObject* child : gameObject->GetChildren())
+	for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 	{
-		UpdateGameObjectAndDescendants(child);
+		updatable->Update();
 	}
 }
 
@@ -218,7 +210,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
 	std::vector<GameObject*> loadedCameras{};
-	std::vector<GameObject*> loadedCanvas{};
+	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
@@ -232,9 +224,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 			loadedCameras.push_back(obj);
 		}
 
-		if (obj->GetComponent(ComponentType::CANVAS) != nullptr)
+		Component* canvas = obj->GetComponent(ComponentType::CANVAS);
+		if (canvas != nullptr)
 		{
-			loadedCanvas.push_back(obj);
+			loadedCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
 		}
 		Component* button = obj->GetComponent(ComponentType::BUTTON);
 		if (button != nullptr)

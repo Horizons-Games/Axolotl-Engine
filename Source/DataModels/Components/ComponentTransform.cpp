@@ -124,7 +124,6 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
-	GetOwner()->Update();
 
 	if (GetOwner()->GetChildren().empty())
 		return;

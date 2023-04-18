@@ -21,6 +21,7 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -165,8 +166,8 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
 	trans->SetPosition(float3(0, 0, -2));
 	trans->CalculateMatrices();
-	gameObject->CreateComponent(ComponentType::CANVAS);
-	sceneCanvas.push_back(gameObject);
+	Component* canvas = gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
 
 	return gameObject;
 }

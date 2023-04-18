@@ -32,11 +32,7 @@ ComponentImage::~ComponentImage()
 {
 }
 
-void ComponentImage::Update()
-{
-}
-
-void ComponentImage::Draw()
+void ComponentImage::Draw() const
 {
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
 	if(program)
@@ -144,7 +140,7 @@ void ComponentImage::LoadOptions(Json& meta)
 	color.z = (float)meta["color_z"];
 }
 
-inline float3 ComponentImage::GetFullColor()
+inline float3 ComponentImage::GetFullColor() const
 {
 	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
 	if(button != nullptr)

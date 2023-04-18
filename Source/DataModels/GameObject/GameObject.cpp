@@ -103,30 +103,6 @@ GameObject::~GameObject()
 	//
 }
 
-void GameObject::Update()
-{
-	for (std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Update();
-		}
-	}
-
-	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
-}
-
-void GameObject::Draw() const
-{
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Draw();
-		}
-	}
-}
-
 void GameObject::SaveOptions(Json& meta)
 {
 	unsigned long long newParentUID = 0;

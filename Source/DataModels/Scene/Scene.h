@@ -7,9 +7,11 @@
 #include "Components/ComponentSpotLight.h"
 
 class Component;
+class ComponentCanvas;
 class GameObject;
 class Quadtree;
 class Skybox;
+class Updatable;
 
 enum class Premade3D
 {
@@ -25,8 +27,6 @@ class Scene
 public:
 	Scene();
 	~Scene();
-
-	UID GetUID() const;
 
 	void FillQuadtree(const std::vector<GameObject*>& gameObjects);
 	bool IsInsideACamera(const OBB& obb) const;
@@ -61,8 +61,9 @@ public:
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
-	const std::vector<GameObject*>& GetSceneCanvas() const;
+	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
+	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 
@@ -71,7 +72,7 @@ public:
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<GameObject*>& cameras);
-	void SetSceneCanvas(const std::vector<GameObject*>& canvas);
+	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
@@ -95,8 +96,9 @@ private:
 
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<GameObject*> sceneCameras;
-	std::vector<GameObject*> sceneCanvas;
+	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
+	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* ambientLight;
 	GameObject* directionalLight;
@@ -145,7 +147,7 @@ inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
 	return sceneCameras;
 }
 
-inline const std::vector<GameObject*>& Scene::GetSceneCanvas() const
+inline const std::vector<ComponentCanvas*>& Scene::GetSceneCanvas() const
 {
 	return sceneCanvas;
 }
@@ -155,12 +157,17 @@ inline const std::vector<Component*>& Scene::GetSceneInteractable() const
 	return sceneInteractableComponents;
 }
 
+inline const std::vector<Updatable*>& Scene::GetSceneUpdatable() const
+{
+	return sceneUpdatableObjects;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
 {
 	sceneCameras = cameras;
 }
 
-inline void Scene::SetSceneCanvas(const std::vector<GameObject*>& canvas)
+inline void Scene::SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 {
 	sceneCanvas = canvas;
 }

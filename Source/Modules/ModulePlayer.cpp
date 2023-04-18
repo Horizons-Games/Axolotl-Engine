@@ -46,7 +46,6 @@ update_status ModulePlayer::PreUpdate()
 
 update_status ModulePlayer::Update()
 {
-	player->Update();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	trans->UpdateTransformMatrices();
 	return update_status::UPDATE_CONTINUE;

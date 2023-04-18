@@ -37,6 +37,8 @@ public:
 
 	virtual ~ComponentLight() override;
 
+	virtual void Draw() const override {};
+
 	void Enable() override;
 	void Disable() override;
 

@@ -35,13 +35,15 @@ void WindowComponentImage::DrawWindowContents()
 				image->Unload();
 				asImage->SetImage(nullptr);
 			}
-			ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
+			float3 color = asImage->GetColor();
+			ImGui::ColorEdit3("Color##1", (float*)&color);
 			ImGui::EndTable();
 		}
 	}
 	else
 	{
 		inputImage->DrawWindowContents();
-		ImGui::ColorEdit3("Color##1", (float*)&asImage->GetColor());
+		float3 color = asImage->GetColor();
+		ImGui::ColorEdit3("Color##1", (float*)&color);
 	}
 }

@@ -35,9 +35,6 @@ public:
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta);
 
-	void Update();
-	void Draw() const;
-
 	void InitNewEmptyGameObject(bool is3D=true);
 
 	void AddChild(std::unique_ptr<GameObject> child);
