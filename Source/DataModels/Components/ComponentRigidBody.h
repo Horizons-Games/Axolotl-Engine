@@ -26,6 +26,9 @@ public:
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
 
+	float3 CalculateForceFromPositionController();
+	Quat CalculateTorqueFromRotationController();
+
 	void SetPositionTarget(const float3& targetPos);
 	void SetRotationTarget(const Quat& targetRot);
 	void DisablePositionController();
@@ -38,7 +41,7 @@ public:
 	void SetIsKinematic(bool newIsKinematic);
 
 private:
-
+	ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	bool isKinematic;
 	float mass;
 	float g;

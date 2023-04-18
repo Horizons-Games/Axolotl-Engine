@@ -1,6 +1,7 @@
 #include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
 #include "ComponentMockState.h"
+#include "ComponentTransform.h"
 
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
@@ -35,7 +36,6 @@ void ComponentRigidBody::Update()
 #ifndef ENGINE
 	if (isKinematic)
 	{
-		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 		float3 currentPos = transform->GetPosition();
 		Ray ray(currentPos, -float3::unitY);
 		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
@@ -126,6 +126,29 @@ void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
 
 	externalTorque += torque;
 }
+
+float3 ComponentRigidBody::CalculateForceFromPositionController() 
+{
+	float3 positionError = targetPosition - transform->GetPosition();
+	
+	float3 force = positionError * KpForce;
+	return force;
+}
+
+float3 ComponentRigidBody::CalculateTorqueFromRotationController() 
+{
+	Quat rotationError = targetRotation * transform->GetRotation().Inverted();
+	rotationError.Normalize();
+
+	float3 axis;
+	float angle;
+	rotationError.ToAxisAngle(axis, angle);
+	axis.Normalize();
+
+	float3 torque = axis * angle * KpTorque;
+	return torque;
+}
+
 
 void ComponentRigidBody::SaveOptions(Json& meta)
 {
