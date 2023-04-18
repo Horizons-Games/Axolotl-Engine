@@ -1,12 +1,14 @@
 #version 440
 
+#define PI 3.1415926535897932384626433832795
+#define EPSILON 1e-5
+
 struct Material {
-    vec3 diffuse_color;         //location 3
+    vec4 diffuse_color;         //location 3
     int has_diffuse_map;        //location 4
     float smoothness;           //location 5
     float normal_strength;      //location 6
     int has_normal_map;         //location 7
-
     vec3 specular_color;        //location 8
     int has_specular_map;       //location 9
 };
@@ -86,23 +88,22 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 vec3 calculateDirectionalLight(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
 {
     vec3 L = normalize(-directionalDir);
-    float dotNL = max(dot(N,L), 0.0);
+    float dotNL = max(dot(N,L), EPSILON);
 
-    vec3 fresnel  = fresnelSchlick(dotNL, f0);
+    vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
     
     vec3 Li = directionalColor.rgb * directionalColor.a;
 
     vec3 R = reflect(-L, N);
 
-    float dotVR = max(dot(V,R), 0.0001);
+    float dotVR = max(dot(V,R), EPSILON);
     float spec = pow(dotVR,smoothness);
 
-    vec3 numerator = (smoothness + 2) * fresnel * spec;
-    vec3 specular = numerator / 2;
-    vec3 kD = vec3(1.0) - specular;
-    vec3 diffuse = kD * texDiffuse;
-
-    vec3 Lo = (diffuse + specular) * Li * dotNL;
+    vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
+    //vec3 specular = numerator / 2*PI;
+    vec3 kD = 1 - f0;
+    vec3 diffuse = texDiffuse * kD;
+    vec3 Lo = (diffuse/PI + specular) * Li * dotNL;
 
     return Lo;
 }
@@ -119,9 +120,9 @@ vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDif
         float intensity = points[i].color.a;
         
         vec3 L = normalize(FragPos - pos);
-        float dotNL = max(dot(N,-L), 0.0);
+        float dotNL = max(dot(N,-L), EPSILON);
 
-        vec3 fresnel  = fresnelSchlick(dotNL, f0);
+        vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
 
         // Attenuation
         float distance = length(FragPos - pos);
@@ -130,15 +131,14 @@ vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDif
     
         vec3 Li = color * intensity * attenuation;
 
-        vec3 R = reflect(-L, N);
+        vec3 R = reflect(L, N);
 
-        float dotVR = max(dot(V,R), 0.0001);
+        float dotVR = max(dot(V,R), EPSILON);
         float spec = pow(dotVR, smoothness);
 
-        vec3 numerator = (smoothness + 2) * fresnel * spec;
-        vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
+        vec3 kD = 1 - f0;
+        vec3 diffuse = texDiffuse * kD;
 
         Lo += (diffuse + specular) * Li * dotNL;
     }
@@ -164,9 +164,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiff
         float cosOuter = cos(outerAngle);
 
         vec3 L = normalize(FragPos - pos);
-        float dotNL = max(dot(N, -L), 0.0);
+        float dotNL = max(dot(N, -L), EPSILON);
 
-        vec3 fresnel  = fresnelSchlick(dotNL, f0);
+        vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
 
         // Attenuation
         float distance = dot(FragPos - pos, aim);
@@ -187,17 +187,16 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiff
     
         vec3 Li = color * intensity * attenuation * Catt;
 
-        vec3 R = reflect(-L, N);
+        vec3 R = reflect(L, N);
 
-        float dotVR = max(dot(V,R), 0.0001);
+        float dotVR = max(dot(V,R), EPSILON);
         float spec = pow(dotVR, smoothness);
 
-        vec3 numerator = (smoothness + 2) * fresnel * spec;
-        vec3 specular = numerator / 2;
-        vec3 kD = vec3(1.0) - specular;
-        vec3 diffuse = kD * texDiffuse;
+        vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
+        vec3 kD = 1 - f0;
+        vec3 diffuse = texDiffuse * kD;
             
-        Lo += (diffuse + specular) * Li * dotNL;
+        Lo += (diffuse/PI + specular) * Li * dotNL;
     }
 
     return Lo;
@@ -209,12 +208,15 @@ void main()
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
+    vec4 gammaCorrection = vec4(2.2);
 
-	vec3 textureMat = material.diffuse_color;
+	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord).rgb; 
-        textureMat = pow(textureMat, vec3(2.2));
+        textureMat = texture(diffuse_map, TexCoord); 
+        //textureMat = pow(textureMat, vec3(2.2));
     }
+    textureMat = pow(textureMat, gammaCorrection);
+    textureMat.a = material.diffuse_color.a; //Transparency
     
 	if (material.has_normal_map == 1)
 	{
@@ -227,11 +229,11 @@ void main()
 	}
 
     //fresnel
-    vec4 specularMat =  vec4(material.specular_color, 0.0);
+    vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
         specularMat = vec4(texture(specular_map, TexCoord));
-        specularMat = pow(specularMat, vec4(2.2));
     }
+    specularMat = pow(specularMat, gammaCorrection);
 
     vec3 f0 =  specularMat.rgb;
 
@@ -242,18 +244,18 @@ void main()
     //}
     
     // ambient
-    vec3 ambient = ambientValue * textureMat;
+    vec3 ambient = ambientValue * textureMat.rgb;
 
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, smoothness, f0, textureMat);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, smoothness, f0, textureMat.rgb);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, smoothness, f0, textureMat);
+        Lo += calculatePointLights(norm, viewDir, smoothness, f0, textureMat.rgb);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, smoothness, f0, textureMat);
+        Lo += calculateSpotLights(norm, viewDir, smoothness, f0, textureMat.rgb);
     }
 
     vec3 color = ambient + Lo;
@@ -262,5 +264,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 2.0);
+    outColor = vec4(color, material.diffuse_color.a);
 }

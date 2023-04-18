@@ -8,8 +8,7 @@ struct Material {
     int has_diffuse_map;        //location 4
     float smoothness;           //location 5
     float normal_strength;      //location 6
-    int has_normal_map;        //location 7
-    
+    int has_normal_map;         //location 7
     float metalness;            //location 8
     int has_metallic_map;       //location 9
 };
@@ -103,7 +102,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 {
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
-    float dotNL = max(dot(N,L), 0.0);
+    float dotNL = max(dot(N,L), EPSILON);
     vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
     float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
@@ -163,7 +162,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 L = normalize(FragPos-pos);
         vec3 H = (-L+V)/length(-L+V);
-        float dotNL = max(dot(N,-L), 0.0);
+        float dotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
