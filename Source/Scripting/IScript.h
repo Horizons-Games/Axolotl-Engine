@@ -7,7 +7,6 @@
 #include "Auxiliar/Reflection/TypeToEnum.h"
 #include <variant>
 #include <optional>
-#include <any>
 
 class GameObject;
 class Application;
