@@ -160,6 +160,21 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
+void GameObject::Draw() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->GetActive())
+		{
+			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
+			if (drawable)
+			{
+				drawable->Draw();
+			}
+		}
+	}
+}
+
 void GameObject::InitNewEmptyGameObject(bool is3D)
 {
 	if (is3D)
