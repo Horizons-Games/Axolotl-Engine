@@ -1,9 +1,8 @@
 #include "ComponentAudioSource.h"
-#include "ModuleAudio.h"
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "Auxiliar/Audios/AudioList.h"
 
-using namespace audios;
 
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     : Component(ComponentType::AUDIOSOURCE, active, owner, true)
