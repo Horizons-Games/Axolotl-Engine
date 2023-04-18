@@ -34,6 +34,10 @@ private:
 										const LineSegment& ray,
 										Quadtree* quadtree);
 
+	static void AddIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+											  const LineSegment& ray,
+											  const std::vector<GameObject*>& dynamicObjects);
+
 	static void GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
 								  const LineSegment& ray,
 								  RaycastHit& hit);
