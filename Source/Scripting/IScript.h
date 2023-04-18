@@ -7,6 +7,7 @@
 #include "Auxiliar/Reflection/TypeToEnum.h"
 #include <variant>
 #include <optional>
+#include <any>
 
 class GameObject;
 class Application;
@@ -82,5 +83,19 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 {
 	SERIALIZE(owner);
 	SERIALIZE(App);
-	SERIALIZE(members);
+	for (const TypeFieldPair& enumAndField : members)
+	{
+		switch (enumAndField.first)
+		{
+		case FieldType::FLOAT:
+		{
+			Field<float> field = std::get<Field<float>>(enumAndField.second);
+			float value  = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+		}
+		default:
+			break;
+		}
+	}
 }
