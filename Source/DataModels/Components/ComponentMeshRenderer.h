@@ -44,7 +44,6 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
-	void SetShaderType(const unsigned int shaderType);
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
@@ -84,7 +83,6 @@ private:
 	std::shared_ptr<ResourceMaterial> material;
 
 	WindowMeshInput* inputMesh;
-	ProgramType shaderType;
 };
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
@@ -96,11 +94,6 @@ inline std::shared_ptr<ResourceMaterial>
 							ComponentMeshRenderer::GetMaterial() const
 {
 	return material;
-}
-
-inline const unsigned int ComponentMeshRenderer::GetShaderType() const
-{
-	return static_cast<unsigned int>(shaderType);
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded()

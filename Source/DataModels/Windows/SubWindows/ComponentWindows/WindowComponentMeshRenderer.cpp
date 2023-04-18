@@ -161,7 +161,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			const char* currentShaderType =
 				shaderTypes[currentShaderTypeIndex].c_str();
-			currentShaderTypeIndex = asMeshRenderer->GetShaderType();
 
 			ImGui::Text("Shader type:"); ImGui::SameLine();
 
@@ -173,7 +172,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 					if (ImGui::Selectable(shaderTypes[i].c_str(), isSelected))
 					{
-						asMeshRenderer->SetShaderType(i);
 						currentShaderTypeIndex = i;
 					}
 
@@ -428,6 +426,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 
 		if (materialResource)
 		{
+			currentShaderTypeIndex = materialResource->GetShaderType();
 			colorDiffuse = materialResource->GetDiffuseColor();
 			diffuseTexture = materialResource->GetDiffuse();
 			metallicMap = materialResource->GetMetallic();

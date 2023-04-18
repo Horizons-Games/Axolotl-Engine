@@ -30,8 +30,7 @@
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true), 
-	shaderType(ProgramType::DEFAULT)
+	: Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
@@ -54,7 +53,8 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	Program* program = App->program->GetProgram(shaderType);
+	Program* program = App->program->GetProgram
+							(ProgramType(material->GetShaderType()));
 
 	if (program)
 	{
@@ -174,9 +174,9 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 			glUniform1i(7, 0);
 		}
 
-		switch (shaderType)
+		switch (material->GetShaderType())
 		{
-			case ProgramType::DEFAULT:
+			case 0:
 
 				glUniform1f(8, material->GetMetalness());
 
@@ -199,7 +199,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 
 				break;
 
-			case ProgramType::SPECULAR:
+			case 1:
 
 				const float3& specularColor = material->GetSpecularColor();
 				glUniform3f
@@ -390,24 +390,6 @@ void ComponentMeshRenderer::SetMaterial
 	}
 }
 
-void ComponentMeshRenderer::SetShaderType(const unsigned shaderType)
-{
-	switch (shaderType)
-	{
-		case 0:
-
-			this->shaderType = ProgramType::DEFAULT;
-
-			break;
-
-		case 1:
-
-			this->shaderType = ProgramType::SPECULAR;
-
-			break;
-	}
-}
-
 void ComponentMeshRenderer::UnloadTextures()
 {
 	if (material)
@@ -492,6 +474,11 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 
 		}
 	}
+}
+
+const unsigned int ComponentMeshRenderer::GetShaderType() const
+{
+	return material->GetShaderType();
 }
 
 // Common attributes (setters)
