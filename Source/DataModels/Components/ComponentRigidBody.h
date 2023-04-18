@@ -26,6 +26,11 @@ public:
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
 
+	void SetPositionTarget(const float3& targetPos);
+	void SetRotationTarget(const Quat& targetRot);
+	void DisablePositionController();
+	void DisableRotationController();
+
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
@@ -60,4 +65,26 @@ inline bool ComponentRigidBody::GetIsKinematic() const
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
 {
 	isKinematic = newIsKinematic;
+}
+
+inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
+{
+	targetPosition = targetPos;
+	usePositionController = true;
+}
+
+inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
+{
+	targetRotation = targetRot;
+	useRotationController = true;
+}
+
+inline void ComponentRigidBody::DisablePositionController()
+{
+	usePositionController = false;
+}
+
+inline void ComponentRigidBody::DisableRotationController()
+{
+	useRotationController = false;
 }
