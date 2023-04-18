@@ -52,7 +52,7 @@ update_status ModulePlayer::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
-inline GameObject* ModulePlayer::GetPlayer()
+GameObject* ModulePlayer::GetPlayer()
 {
 	return player.get();
 }
@@ -61,11 +61,6 @@ void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
 {
 	player = std::move(newPlayer);
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
-}
-
-inline Camera* ModulePlayer::GetCameraPlayer()
-{
-	return cameraPlayer;
 }
 
 void ModulePlayer::Move()
@@ -140,4 +135,9 @@ void ModulePlayer::LoadNewPlayer()
 			}
 		}
 	}
+}
+
+bool ModulePlayer::IsStatic()
+{
+	return componentPlayer->IsStatic();
 }

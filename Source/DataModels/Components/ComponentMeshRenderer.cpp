@@ -426,3 +426,51 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 		}
 	}
 }
+
+const float4& ComponentMeshRenderer::GetDiffuseColor() const {
+	return material->GetDiffuseColor();
+}
+
+const float ComponentMeshRenderer::GetNormalStrenght() const {
+	return material->GetNormalStrength();
+}
+
+const float ComponentMeshRenderer::GetSmoothness() const
+{
+	return material->GetSmoothness();
+}
+
+const float ComponentMeshRenderer::GetMetalness() const
+{
+	return material->GetMetalness();
+}
+
+const bool ComponentMeshRenderer::HasMetallicAlpha() const
+{
+	return material->HasMetallicAlpha();
+}
+
+void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
+{
+	this->material->SetDiffuseColor(diffuseColor);
+}
+
+void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetSmoothness(float smoothness)
+{
+	this->material->SetSmoothness(smoothness);
+}
+
+void ComponentMeshRenderer::SetMetalness(float metalness)
+{
+	this->material->SetMetalness(metalness);
+}
+
+void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
+{
+	this->material->SetMetallicAlpha(metallicAlpha);
+}

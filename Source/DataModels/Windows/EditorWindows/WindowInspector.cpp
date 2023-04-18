@@ -297,3 +297,34 @@ void WindowInspector::DrawTextureOptions()
 		App->resources->ReimportResource(resourceTexture->GetUID());
 	}
 }
+
+void WindowInspector::AddComponentMeshRenderer()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+}
+
+void WindowInspector::AddComponentLight(LightType type)
+{
+	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
+}
+
+void WindowInspector::AddComponentPlayer()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::ResetSelectedGameObject()
+{
+	windowsForComponentsOfSelectedObject.clear();
+	lastSelectedObjectUID = 0;
+}
+
+void WindowInspector::AddComponentRigidBody()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
+}
+
+void WindowInspector::AddComponentMockState()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}

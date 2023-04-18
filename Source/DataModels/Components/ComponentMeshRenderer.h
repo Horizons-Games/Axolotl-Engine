@@ -7,10 +7,10 @@
 
 #include <memory>
 #include "Math/float4.h"
-#include "Resources/ResourceMaterial.h"
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
+class ResourceMaterial;
 class ResourceMesh;
 class Json;
 class WindowMeshInput;
@@ -87,52 +87,4 @@ inline bool ComponentMeshRenderer::IsMeshLoaded()
 inline bool ComponentMeshRenderer::IsMaterialLoaded()
 {
 	return material != nullptr;
-}
-
-inline const float4& ComponentMeshRenderer::GetDiffuseColor() const {
-	return material->GetDiffuseColor();
-}
-
-inline const float ComponentMeshRenderer::GetNormalStrenght() const {
-	return material->GetNormalStrength();
-}
-
-inline const float ComponentMeshRenderer::GetSmoothness() const
-{
-	return material->GetSmoothness();
-}
-
-inline const float ComponentMeshRenderer::GetMetalness() const
-{
-	return material->GetMetalness();
-}
-
-inline const bool ComponentMeshRenderer::HasMetallicAlpha() const
-{
-	return material->HasMetallicAlpha();
-}
-
-inline void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
-{
-	this->material->SetDiffuseColor(diffuseColor);
-}
-
-inline void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
-{
-	this->material->SetNormalStrength(normalStrength);
-}
-
-inline void ComponentMeshRenderer::SetSmoothness(float smoothness)
-{
-	this->material->SetSmoothness(smoothness);
-}
-
-inline void ComponentMeshRenderer::SetMetalness(float metalness)
-{
-	this->material->SetMetalness(metalness);
-}
-
-inline void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
-{
-	this->material->SetMetallicAlpha(metallicAlpha);
 }

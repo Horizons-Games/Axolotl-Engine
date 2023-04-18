@@ -233,6 +233,13 @@ bool ModuleEditor::IsSceneFocused() const
 #endif
 }
 
+void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
+{
+#ifdef ENGINE
+	this->inspector->SetResource(resource);
+#endif
+}
+
 void ModuleEditor::CopyAnObject()
 {
 	delete copyObject;
@@ -289,6 +296,16 @@ void ModuleEditor::DuplicateAnObject()
 	}
 }
 
+
+
+void ModuleEditor::RefreshInspector() const
+{
+#ifdef ENGINE
+	inspector->ResetSelectedGameObject();
+#endif // ENGINE
+
+}
+
 std::pair<int, int> ModuleEditor::GetAvailableRegion()
 {
 #ifdef ENGINE
@@ -298,3 +315,4 @@ std::pair<int, int> ModuleEditor::GetAvailableRegion()
 	return App->window->GetWindowSize();
 #endif
 }
+

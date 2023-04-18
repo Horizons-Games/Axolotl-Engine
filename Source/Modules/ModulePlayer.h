@@ -1,9 +1,9 @@
 #pragma once
 #include "Module.h"
-#include "Components/ComponentPlayer.h"
 
 class GameObject;
 class Camera;
+class ComponentPlayer;
 
 class ModulePlayer : public Module
 {
@@ -36,7 +36,7 @@ private:
 	
 };
 
-inline bool ModulePlayer::IsStatic()
+inline Camera* ModulePlayer::GetCameraPlayer()
 {
-	return componentPlayer->IsStatic();
+	return cameraPlayer;
 }

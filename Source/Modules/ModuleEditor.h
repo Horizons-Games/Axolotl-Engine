@@ -1,11 +1,11 @@
 #pragma once
 #include "Module.h"
-#include "Windows/EditorWindows/WindowInspector.h"
 
 class EditorWindow;
 class WindowMainMenu;
 class WindowDebug;
 class WindowScene;
+class WindowInspector;
 class Resource;
 class GameObject;
 
@@ -71,17 +71,4 @@ inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 	return debugOptions.get();
 }
 
-inline void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const
-{
-#ifdef ENGINE
-	this->inspector->SetResource(resource);
-#endif
-}
 
-inline void ModuleEditor::RefreshInspector() const
-{
-#ifdef ENGINE
-	inspector->ResetSelectedGameObject();
-#endif // ENGINE
-
-}

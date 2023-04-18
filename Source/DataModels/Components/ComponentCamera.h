@@ -4,7 +4,6 @@
 #include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
-#include "Camera/CameraGameObject.h"
 
 #define COMPONENT_CAMERA "Camera"
 
@@ -21,6 +20,7 @@ const static ECameraFrustumMode GetFrustumModeByName(const std::string& name);
 */
 
 class Json;
+class CameraGameObject;
 class ComponentTransform;
 
 class ComponentCamera : public Component
@@ -50,7 +50,3 @@ inline CameraGameObject* ComponentCamera::GetCamera()
 	return camera.get();
 }
 
-inline void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
-{
-	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
-}
