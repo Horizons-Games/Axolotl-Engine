@@ -120,14 +120,15 @@ void ModulePlayer::Rotate()
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
-	for (GameObject* camera : cameras)
+	std::vector<ComponentCamera*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	for (ComponentCamera* camera : cameras)
 	{
-		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
+		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
+		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
 		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->RemoveGameObjectAndChildren(camera->GetParent());
+			SetPlayer(parentOfOwner->GetParent()->RemoveChild(parentOfOwner));
+			cameraPlayer = camera->GetCamera();
+			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
 			App->camera->SetSelectedCamera(0);
 			if(componentPlayer->HaveMouseActivated()) 
 			{

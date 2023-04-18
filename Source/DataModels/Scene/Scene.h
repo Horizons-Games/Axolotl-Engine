@@ -7,6 +7,7 @@
 #include "Components/ComponentSpotLight.h"
 
 class Component;
+class ComponentCamera;
 class ComponentCanvas;
 class GameObject;
 class Quadtree;
@@ -60,7 +61,7 @@ public:
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
-	const std::vector<GameObject*>& GetSceneCameras() const;
+	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
@@ -71,7 +72,7 @@ public:
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
-	void SetSceneCameras(const std::vector<GameObject*>& cameras);
+	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
@@ -95,7 +96,7 @@ private:
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
-	std::vector<GameObject*> sceneCameras;
+	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
@@ -142,7 +143,7 @@ inline void Scene::SetSceneGameObjects(const std::vector<GameObject*>& gameObjec
 	sceneGameObjects = gameObjects;
 }
 
-inline const std::vector<GameObject*>& Scene::GetSceneCameras() const
+inline const std::vector<ComponentCamera*>& Scene::GetSceneCameras() const
 {
 	return sceneCameras;
 }
@@ -162,7 +163,7 @@ inline const std::vector<Updatable*>& Scene::GetSceneUpdatable() const
 	return sceneUpdatableObjects;
 }
 
-inline void Scene::SetSceneCameras(const std::vector<GameObject*>& cameras)
+inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
 }

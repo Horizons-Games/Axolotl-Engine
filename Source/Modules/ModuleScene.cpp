@@ -209,7 +209,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
-	std::vector<GameObject*> loadedCameras{};
+	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
@@ -219,10 +219,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	{
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
-		if (!camerasOfObj.empty())
-		{
-			loadedCameras.push_back(obj);
-		}
+		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
 		Component* canvas = obj->GetComponent(ComponentType::CANVAS);
 		if (canvas != nullptr)
