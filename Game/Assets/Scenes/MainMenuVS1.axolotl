@@ -8,6 +8,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -48,6 +49,7 @@
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -76,6 +78,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -97,10 +100,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
                         }
                     },
                     {
@@ -121,6 +124,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -142,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
                         }
                     },
                     {
@@ -157,8 +161,7 @@
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     }
                 ]
@@ -172,6 +175,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -193,10 +197,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 297.3187561035156,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 322.2854309082031
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 335.4000244140625,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 373.26666259765627
                         }
                     },
                     {
@@ -208,8 +212,7 @@
                             "assetPathImage": "Assets/Textures/Play.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     },
                     {
@@ -222,11 +225,9 @@
                             "colorHovered_x": 0.6470588445663452,
                             "colorHovered_y": 0.6470588445663452,
                             "colorHovered_z": 0.6470588445663452,
-                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.43627452850341799,
                             "colorClicked_y": 0.43627452850341799,
                             "colorClicked_z": 0.43627452850341799,
-                            "colorClicked_w": 1.0,
                             "sceneName": "CantinaSewersVS1"
                         }
                     }
@@ -241,6 +242,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -281,6 +283,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -318,6 +321,7 @@
                 "parentUID": 15981248757803877047,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -355,6 +359,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -376,10 +381,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 337.109375,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 360.515625
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 395.75,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 431.25
                         }
                     },
                     {
@@ -391,8 +396,7 @@
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     },
                     {
@@ -405,11 +409,9 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
-                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
-                            "colorClicked_w": 1.0,
                             "sceneName": "ControlsVS1"
                         }
                     }
@@ -424,6 +426,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -445,10 +448,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 376.11981201171877,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 399.52606201171877
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 454.9166564941406,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 490.4166564941406
                         }
                     },
                     {
@@ -460,8 +463,7 @@
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     },
                     {
@@ -474,11 +476,9 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
-                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
-                            "colorClicked_w": 1.0,
                             "sceneName": "CreditsVS1"
                         }
                     }
@@ -493,6 +493,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -514,10 +515,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 138.15625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 138.15625
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 94.00001525878906,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 94.00001525878906
                         }
                     },
                     {
@@ -529,8 +530,7 @@
                             "assetPathImage": "Assets/Textures/Group 13.png",
                             "color_x": 0.6617647409439087,
                             "color_y": 0.6487889885902405,
-                            "color_z": 0.6487889885902405,
-                            "color_w": 1.0
+                            "color_z": 0.6487889885902405
                         }
                     }
                 ]
@@ -544,6 +544,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -565,10 +566,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 173.265625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 173.265625
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 147.25001525878907,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 147.25001525878907
                         }
                     },
                     {
@@ -580,8 +581,7 @@
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     }
                 ]

@@ -8,6 +8,7 @@
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -36,6 +37,7 @@
                 "parentUID": 16561938826019233067,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -57,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
                         }
                     },
                     {
@@ -72,8 +74,7 @@
                             "assetPathImage": "Assets/Textures/WinScreen_NoButton.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     }
                 ]
@@ -87,6 +88,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -108,10 +110,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 568.0,
+                            "worldAABB_min_y": 342.5,
+                            "worldAABB_max_x": 568.0,
+                            "worldAABB_max_y": 342.5
                         }
                     },
                     {
@@ -132,6 +134,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -172,6 +175,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -212,6 +216,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -249,6 +254,7 @@
                 "parentUID": 6673980443584462006,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -286,6 +292,7 @@
                 "parentUID": 16561938826019233067,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -307,10 +314,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 468.964599609375,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 493.9312744140625
+                            "worldAABB_min_x": 479.25,
+                            "worldAABB_min_y": 595.7332763671875,
+                            "worldAABB_max_x": 656.75,
+                            "worldAABB_max_y": 633.5999755859375
                         }
                     },
                     {
@@ -322,8 +329,7 @@
                             "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_z": 1.0
                         }
                     },
                     {
@@ -336,11 +342,9 @@
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,
                             "colorHovered_z": 0.699999988079071,
-                            "colorHovered_w": 1.0,
                             "colorClicked_x": 0.5,
                             "colorClicked_y": 0.5,
                             "colorClicked_z": 0.5,
-                            "colorClicked_w": 1.0,
                             "sceneName": "MainMenuVS1"
                         }
                     }

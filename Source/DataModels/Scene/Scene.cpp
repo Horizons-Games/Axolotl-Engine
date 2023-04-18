@@ -14,7 +14,6 @@
 #include "Resources/ResourceSkyBox.h"
 
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentMaterial.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -89,21 +88,13 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 
 
 		//Quadtree treatment
-		if (!rootQuadtree->InQuadrant(gameObject))
+		if (gameObject->IsStatic())
 		{
-			if (!rootQuadtree->IsFreezed())
-			{
-				rootQuadtree->ExpandToFit(gameObject);
-				FillQuadtree(sceneGameObjects);
-			}
-			else
-			{
-				App->renderer->AddToRenderList(gameObject);
-			}
+			AddStaticObject(gameObject);
 		}
 		else
 		{
-			rootQuadtree->Add(gameObject);
+			AddNonStaticObject(gameObject);
 		}
 
 	}
@@ -150,10 +141,9 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	{
 		rootQuadtree->Add(gameObject);
 	}
-	App->scene->GetLoadedScene()->GetRootQuadtree()
-		->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
+	App->scene->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
 	App->scene->SetSelectedGameObject(gameObject);
-	App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
+	App->scene->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
@@ -202,11 +192,9 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	ComponentMaterial* materialComponent =
-		static_cast<ComponentMaterial*>(gameObject->CreateComponent(ComponentType::MATERIAL));
-	materialComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	meshComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
 	switch (type)
@@ -275,14 +263,12 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectModel);
 
-		ComponentMaterial* materialRenderer =
-			static_cast<ComponentMaterial*>(gameObjectModelMesh->CreateComponent(ComponentType::MATERIAL));
-		materialRenderer->SetMaterial(material);
-
 		ComponentMeshRenderer* meshRenderer =
 			static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
 				->CreateComponent(ComponentType::MESHRENDERER));
+		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
+
 	}
 }
 
@@ -578,4 +564,43 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
 	}
+}
+
+void Scene::AddStaticObject(GameObject* gameObject)
+{
+	//Quadtree treatment
+	if (!rootQuadtree->InQuadrant(gameObject))
+	{
+		if (!rootQuadtree->IsFreezed())
+		{
+			rootQuadtree->Add(gameObject);
+		}
+		else
+		{
+			AddNonStaticObject(gameObject);
+		}
+	}
+	else
+	{
+		rootQuadtree->Add(gameObject);
+	}
+}
+
+void Scene::RemoveStaticObject(GameObject* gameObject)
+{
+	rootQuadtree->Remove(gameObject);
+}
+
+void Scene::RemoveNonStaticObject(GameObject* gameObject)
+{
+	for (std::vector<GameObject*>::iterator it = nonStaticObjects.begin();
+		it != nonStaticObjects.end(); ++it)
+	{
+		if (*it == gameObject)
+		{
+			nonStaticObjects.erase(it);
+			break;
+		}
+	}
+
 }
