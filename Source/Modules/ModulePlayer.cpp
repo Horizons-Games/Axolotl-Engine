@@ -80,18 +80,20 @@ void ModulePlayer::Move()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	std::vector<float3> backPoints = { points[0], points[2], points[4], points[6] };
-	std::vector<float3> leftPoints = { points[4], points[5], points[6], points[7] };
-	std::vector<float3> rightPoints = { points[0], points[1], points[2], points[3] };
+	std::vector<float3> leftPoints = { points[4], points[6], points[5],  points[7] };
+	std::vector<float3> rightPoints = { points[0], points[2], points[1], points[3] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
 	float3 sideDirection = (points[4] - points[0]).Normalized();
+
+	bool moved = false;
 
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
 	{
 		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		moved = true;
 	}
 
 	//Backward
@@ -99,7 +101,7 @@ void ModulePlayer::Move()
 	{
 		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		moved = true;
 	}
 
 	//Left
@@ -107,7 +109,7 @@ void ModulePlayer::Move()
 	{
 		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		moved = true;
 	}
 
 	//Right
@@ -115,7 +117,12 @@ void ModulePlayer::Move()
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		moved = true;
+	}
+
+	if (moved)
+	{
+		trans->UpdateTransformMatrices();
 	}
 }
 
