@@ -84,7 +84,7 @@ void ModulePlayer::Move()
 	std::vector<float3> rightPoints = { points[0], points[2], points[1], points[3] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
-	float3 sideDirection = (points[4] - points[0]).Normalized();
+	float3 sideDirection = (points[0] - points[4]).Normalized();
 
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
