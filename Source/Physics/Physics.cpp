@@ -97,11 +97,14 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
 	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
-	bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
-
-	if (hit && go->IsActive())
+	if (transform)
 	{
-		return true;
+		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
+
+		if (hit && go->IsActive())
+		{
+			return true;
+		}
 	}
 
 	return false;
