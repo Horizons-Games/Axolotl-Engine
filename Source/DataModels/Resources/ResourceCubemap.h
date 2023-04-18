@@ -22,9 +22,6 @@ public:
 	void SaveLoadOptions(Json& meta) override {};
 	void LoadLoadOptions(Json& meta) override {};
 
-	void LoadVBO(); //delete
-	void CreateVAO(); //delete
-
 	unsigned int GetEnviromentTexture() const;
 	const std::shared_ptr<ResourceTexture>& GetHDRTexture() const;
 

@@ -85,6 +85,8 @@ Cubemap::~Cubemap()
 
 void Cubemap::RenderCube()
 {
+    Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
+    irradianceProgram->Activate();
     // initialize (if necessary)
     if (cubeVAO == 0)
     {
@@ -152,4 +154,5 @@ void Cubemap::RenderCube()
     glBindVertexArray(cubeVAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
+    irradianceProgram->Deactivate();
 }

@@ -20,6 +20,7 @@
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Cubemap/Cubemap.h"
 #include "DataStructures/Quadtree.h"
 #include "Components/ComponentMeshRenderer.h"
 
@@ -175,6 +176,8 @@ bool ModuleRender::Start()
 
 	//UpdateProgram();
 
+	cubemap = new Cubemap();
+
 	return true;
 }
 
@@ -203,7 +206,7 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
-
+	cubemap->RenderCube();
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
