@@ -22,8 +22,8 @@ public:
 	void SetClicked(bool clicked);
 	void SetHovered(bool hovered);
 
-	void SetColorClicked(const float4 colorClicked);
-	void SetColorHovered(const float4 colorHovered);
+	void SetColorClicked(const float4& colorClicked);
+	void SetColorHovered(const float4& colorHovered);
 
 	float4 GetColorClicked() const;
 	float4 GetColorHovered() const;
@@ -59,12 +59,12 @@ inline void ComponentButton::SetHovered(bool hovered)
 	this->hovered = hovered;
 }
 
-inline void ComponentButton::SetColorClicked(const float4 colorClicked)
+inline void ComponentButton::SetColorClicked(const float4& colorClicked)
 {
 	this->colorClicked = colorClicked;
 }
 
-inline void ComponentButton::SetColorHovered(const float4 colorHovered)
+inline void ComponentButton::SetColorHovered(const float4& colorHovered)
 {
 	this->colorHovered = colorHovered;
 }

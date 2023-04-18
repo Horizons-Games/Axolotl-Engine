@@ -25,7 +25,7 @@ public:
 	float4 GetColor() const;
 
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
-	void SetColor(const float4 color);
+	void SetColor(const float4& color);
 
 private:
 	std::shared_ptr<ResourceTexture> image;
@@ -47,7 +47,7 @@ inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& ima
 	this->image = image;
 }
 
-inline void ComponentImage::SetColor(const float4 color)
+inline void ComponentImage::SetColor(const float4& color)
 {
 	this->color = color;
 }

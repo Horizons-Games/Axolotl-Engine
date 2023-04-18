@@ -47,7 +47,7 @@ public:
 	int GetSelectedPosition();
 	void SetSelectedPosition(int newSelected);
 
-	const float4x4  GetOrthoProjectionMatrix() const;
+	float4x4 GetOrthoProjectionMatrix() const;
 	void RecalculateOrthoProjectionMatrix();
 
 private:
@@ -75,7 +75,7 @@ inline void ModuleCamera::SetSelectedPosition(int newSelected)
 	selectedPosition = newSelected;
 }
 
-inline const float4x4 ModuleCamera::GetOrthoProjectionMatrix() const
+inline float4x4 ModuleCamera::GetOrthoProjectionMatrix() const
 {
 	return orthoProjectionMatrix;
 }

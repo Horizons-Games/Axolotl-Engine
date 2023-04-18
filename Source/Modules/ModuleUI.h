@@ -21,14 +21,14 @@ public:
 	void RecalculateCanvasSizeAndScreenFactor();
 	void LoadVBO();
 	void CreateVAO();
-	const unsigned int GetQuadVAO() const;
+	unsigned int GetQuadVAO() const;
 
 private:
 	unsigned int quadVBO;
 	unsigned int quadVAO;
 };
 
-inline const unsigned int ModuleUI::GetQuadVAO() const
+inline unsigned int ModuleUI::GetQuadVAO() const
 {
 	return quadVAO;
 }
