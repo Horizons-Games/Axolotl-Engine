@@ -71,8 +71,8 @@ void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints,
 
 	points.push_back(startingPoints[0] + (startingPoints[1] - startingPoints[0]) / 2);
 	points.push_back(startingPoints[0] + (startingPoints[2] - startingPoints[0]) / 2);
-	points.push_back(startingPoints[1] + (startingPoints[2] - startingPoints[1]) / 2);
 	points.push_back(startingPoints[3] - (startingPoints[3] - startingPoints[2]) / 2);
+	points.push_back(startingPoints[3] - (startingPoints[3] - startingPoints[1]) / 2);
 	points.push_back(startingPoints[0] + (startingPoints[3] - startingPoints[0]) / 2);
 
 	//Add stepSize to the top 3 down;
