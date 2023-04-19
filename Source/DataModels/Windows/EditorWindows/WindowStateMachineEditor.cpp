@@ -24,12 +24,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 	ImGui::Text("");
 	if (stateAsShared && stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
 	{
-		State state = stateAsShared->GetStates()[stateIdSelected];
+		State* state = stateAsShared->GetStates()[stateIdSelected];
 		ImGui::Text("State");
 		ImGui::Separator();
-		if (ImGui::InputText("Name:", &state.name[0], 128, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText("Name:", &state->name[0], 128, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			stateAsShared->EditState(stateIdSelected, state);
+			//stateAsShared->EditState(stateIdSelected, state);
 		};
 		//TODO BOTON EDIT RESOURCE
 	}
@@ -91,7 +91,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		//Draw Actual TransitionCreation
 		if(creatingTransition)
 		{
-			ImVec2 posState = ImVec2(stateAsShared->GetStates()[stateIdSelected].auxiliarPos.first, stateAsShared->GetStates()[stateIdSelected].auxiliarPos.second);
+			ImVec2 posState = ImVec2(stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.first, stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.second);
 			ImVec2 posStateOriginCenter =
 				ImVec2(origin.x + posState.x + 100, origin.y + posState.y + 40);
 			ImVec2 postStateDestinationCenter =
@@ -100,14 +100,14 @@ void WindowStateMachineEditor::DrawWindowContents()
 		}
 		
 		//Draw Transitions
-		for(int i = 0; i < stateAsShared->GetNumTransitions(); i++)
+		for(const auto& it : stateAsShared->GetTransitions())
 		{
-			Transition transition = stateAsShared->GetTransitions()[i];
-			ImGui::PushID(i);
+			Transition transition = it.second;
+			ImGui::PushID(it.first);
 			ImVec2 posStateOriginCenter = 
-				ImVec2(origin.x + transition.origin->auxiliarPos.first + 100, origin.y + transition.origin->auxiliarPos.second + 40);
+				ImVec2(origin.x + transition.origin->auxiliarPos.first + 100, origin.y + transition.origin->auxiliarPos.second + 25);
 			ImVec2 postStateDestinationCenter = 
-				ImVec2(origin.x + transition.destination->auxiliarPos.first + 100, origin.y + transition.destination->auxiliarPos.second + 40);
+				ImVec2(origin.x + transition.destination->auxiliarPos.first + 100, origin.y + transition.destination->auxiliarPos.second + 25);
 			draw_list->AddLine(posStateOriginCenter, postStateDestinationCenter, IM_COL32(255, 255, 255, 255));
 			ImGui::PopID();
 		}
@@ -115,9 +115,9 @@ void WindowStateMachineEditor::DrawWindowContents()
 		//Draw States
 		for (int i = 0; i < stateAsShared->GetNumStates(); i++)
 		{
-			State state = stateAsShared->GetStates()[i];
+			State* state = stateAsShared->GetStates()[i];
 			ImGui::PushID(i);
-			ImVec2 posState = ImVec2(state.auxiliarPos.first, state.auxiliarPos.second);
+			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);
 			ImVec2 maxRect = ImVec2(origin.x + posState.x + 200, origin.y + posState.y + 50);
 			ImGui::SetCursorScreenPos(minRect);
@@ -146,8 +146,8 @@ void WindowStateMachineEditor::DrawWindowContents()
 				}
 				if(ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 				{
-					state.auxiliarPos = std::make_pair<int, int>(posState.x + io.MouseDelta.x, posState.y + io.MouseDelta.y);
-					stateAsShared->EditState(i, state);
+					state->auxiliarPos = std::make_pair<int, int>(posState.x + io.MouseDelta.x, posState.y + io.MouseDelta.y);
+					//stateAsShared->EditState(i, state);
 				}
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 				{
@@ -174,9 +174,9 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImGui::SetNextItemWidth(150);
 			ImGui::SetCursorScreenPos(ImVec2(minRect.x + 25, minRect.y + 10));
 			ImGui::BeginGroup(); // Lock horizontal position
-			ImGui::Text(state.name.c_str());
+			ImGui::Text(state->name.c_str());
 			std::string resource;
-			state.resource != nullptr ? resource = state.resource->GetFileName().c_str() : resource = "Empty";
+			state->resource != nullptr ? resource = state->resource->GetFileName().c_str() : resource = "Empty";
 			ImGui::Text(resource.c_str());
 			//INCLUDE RESOURCE SEARCH
 			ImGui::EndGroup();

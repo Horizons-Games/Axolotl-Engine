@@ -49,9 +49,9 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		+ (sizeof(unsigned int) + sizeof(UID)) * resource->GetNumStates()
 		+ (sizeof(unsigned int) * 2 + sizeof(double)) * resource->GetNumTransitions();
 	
-	for(const State& state : resource->GetStates())
+	for(const State* state : resource->GetStates())
 	{
-		size += state.name.size();
+		size += state->name.size();
 	}
 
 	char* cursor = new char[size];
@@ -63,12 +63,12 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	cursor += bytes;
 
-	for(const State& state : resource->GetStates())
+	for(const State* state : resource->GetStates())
 	{
 		unsigned int stateHeader[2] =
 		{
-			state.name.size(),
-			state.resource != nullptr ? true : false
+			state->name.size(),
+			state->resource != nullptr ? true : false
 		};
 		
 		bytes = sizeof(stateHeader);
@@ -77,31 +77,31 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		cursor += bytes;
 
 		bytes = sizeof(char) * stateHeader[0];
-		memcpy(cursor, &(state.name[0]), bytes);
+		memcpy(cursor, &(state->name[0]), bytes);
 
 		cursor += bytes;
 
-		if(state.resource != nullptr)
+		if(state->resource != nullptr)
 		{
 #ifdef ENGINE
-			jsonResources[countResources] = state.resource->GetAssetsPath().c_str();
+			jsonResources[countResources] = state->resource->GetAssetsPath().c_str();
 			++countResources;
 #endif
 
 			bytes = sizeof(UID);
-			UID resourceOfStateUID = state.resource->GetUID();
+			UID resourceOfStateUID = state->resource->GetUID();
 			memcpy(cursor, &resourceOfStateUID, bytes);
 
 			cursor += bytes;
 		}
 	}
 
-	for (const Transition& transition : resource->GetTransitions())
+	for (const auto& transitionIterator : resource->GetTransitions())
 	{
 		int transitionStatesID[2] =
 		{
-			resource->GetIdState(*transition.origin),
-			resource->GetIdState(*transition.destination)
+			resource->GetIdState(*transitionIterator.second.origin),
+			resource->GetIdState(*transitionIterator.second.destination)
 		};
 		
 		bytes = sizeof(transitionStatesID);
@@ -110,7 +110,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		cursor += bytes;
 
 		bytes = sizeof(double);
-		memcpy(cursor, &transition.transitionDuration, bytes);
+		memcpy(cursor, &transitionIterator.second.transitionDuration, bytes);
 
 		cursor += bytes;
 	}
