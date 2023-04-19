@@ -21,7 +21,7 @@ public:
 
 	float4 GetFullColor() const;
 
-	std::shared_ptr<ResourceTexture>& GetImage() const;
+	std::shared_ptr<ResourceTexture> GetImage() const;
 	float4 GetColor() const;
 
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
