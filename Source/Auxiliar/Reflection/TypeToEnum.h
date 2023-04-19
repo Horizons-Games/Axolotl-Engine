@@ -2,7 +2,8 @@
 
 enum class FieldType
 {
-	FLOAT
+	FLOAT,
+	STRING
 };
 
 template<typename T>
@@ -14,4 +15,10 @@ template<>
 struct TypeToEnum<float>
 {
 	const static FieldType value = FieldType::FLOAT;
+};
+
+template<>
+struct TypeToEnum<std::string>
+{
+	const static FieldType value = FieldType::STRING;
 };

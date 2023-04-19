@@ -80,13 +80,22 @@ void ComponentScript::SaveOptions(Json& meta)
 		FieldType type = enumAndValue.first;
 		switch (type)
 		{
-		case FieldType::FLOAT:
-			field["name"] = std::get<Field<float>>(enumAndValue.second).name.c_str();
-			field["value"] = std::get<Field<float>>(enumAndValue.second).getter();
-			field["type"] = static_cast<int>(enumAndValue.first);
-			break;
-		default:
-			break;
+			case FieldType::FLOAT:
+			{
+				field["name"] = std::get<Field<float>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<float>>(enumAndValue.second).getter();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+			case FieldType::STRING:
+			{
+				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<std::string>>(enumAndValue.second).getter().c_str();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+			default:
+				break;
 		}
 		++index;
 	}
@@ -109,18 +118,30 @@ void ComponentScript::LoadOptions(Json& meta)
 		FieldType fieldType = static_cast<FieldType>(static_cast<int>(field["type"]));
 		switch (fieldType)
 		{
-		case FieldType::FLOAT:
-		{
-			std::string valueName = field["name"];
-			std::optional<Field<float>> optField = script->GetField<float>(valueName);
-			if (optField)
+			case FieldType::FLOAT:
 			{
-				optField.value().setter(field["value"]);
+				std::string valueName = field["name"];
+				std::optional<Field<float>> optField = script->GetField<float>(valueName);
+				if (optField)
+				{
+					optField.value().setter(field["value"]);
+				}
+				break;
 			}
-		}
-		break;
-		default:
-			break;
+
+			case FieldType::STRING:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				if (optField)
+				{
+					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+
+			default:
+				break;
 		}
 	}
 }

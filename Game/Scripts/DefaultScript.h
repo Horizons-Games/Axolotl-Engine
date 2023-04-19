@@ -18,6 +18,10 @@ public:
 	float GetValue() const;
 	void SetValue(float value);
 
+	std::string GetSentence() const;
+	void SetSentence(const std::string sentence);
+
 private:
 	float value;
+	std::string sentence;
 };
