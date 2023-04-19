@@ -357,6 +357,10 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
+	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	{
+		return;
+	}
 	AddGameObject(object);
 
 	for (GameObject* child : object->GetChildren())
@@ -367,6 +371,10 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 
 void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 {
+	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	{
+		return;
+	}
 	RemoveGameObject(object);
 
 	for (GameObject* child : object->GetChildren())

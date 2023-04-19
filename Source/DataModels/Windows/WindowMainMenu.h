@@ -4,12 +4,13 @@
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 #include "EditorWindows/WindowAbout.h"
 
+class Json;
+
 class WindowMainMenu : public Window
 {
 public:
-	WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>& editorWindows);
+	WindowMainMenu(Json& json);
 	~WindowMainMenu() override;
-
 	static const std::string repositoryLink;
 
 	void Draw(bool& enabled = defaultEnabled) override;

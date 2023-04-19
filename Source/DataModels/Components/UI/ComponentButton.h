@@ -1,6 +1,6 @@
 #pragma once
 #include "../Component.h"
-#include "Math/float3.h"
+#include "Math/float4.h"
 
 class ComponentButton : public Component
 {
@@ -21,19 +21,19 @@ public:
 	void SetClicked(bool clicked);
 	void SetHovered(bool hovered);
 
-	void SetColorClicked(float3 colorClicked);
-	void SetColorHovered(float3 colorHovered);
+	void SetColorClicked(const float4& colorClicked);
+	void SetColorHovered(const float4& colorHovered);
 
-	float3& GetColorClicked();
-	float3& GetColorHovered();
+	float4 GetColorClicked() const;
+	float4 GetColorHovered() const;
 
 	const char* GetSceneName() const;
 
 private:
 	bool clicked;
 	bool hovered;
-	float3 colorClicked;
-	float3 colorHovered;
+	float4 colorClicked;
+	float4 colorHovered;
 
 	std::string sceneName;
 };
@@ -58,22 +58,22 @@ inline void ComponentButton::SetHovered(bool hovered)
 	this->hovered = hovered;
 }
 
-inline void ComponentButton::SetColorClicked(float3 colorClicked)
+inline void ComponentButton::SetColorClicked(const float4& colorClicked)
 {
 	this->colorClicked = colorClicked;
 }
 
-inline void ComponentButton::SetColorHovered(float3 colorHovered)
+inline void ComponentButton::SetColorHovered(const float4& colorHovered)
 {
 	this->colorHovered = colorHovered;
 }
 
-inline float3& ComponentButton::GetColorClicked()
+inline float4 ComponentButton::GetColorClicked() const
 {
 	return colorClicked;
 }
 
-inline float3& ComponentButton::GetColorHovered()
+inline float4 ComponentButton::GetColorHovered() const
 {
 	return colorHovered;
 }

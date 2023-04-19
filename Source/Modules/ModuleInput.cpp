@@ -1,6 +1,7 @@
 #include "ModuleInput.h"
 #include "Application.h"
 #include "Globals.h"
+#include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
@@ -127,6 +128,7 @@ update_status ModuleInput::Update()
 					App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
 					App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
 					App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+					App->camera->RecalculateOrthoProjectionMatrix();
 				}
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
 				{

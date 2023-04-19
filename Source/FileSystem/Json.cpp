@@ -36,6 +36,16 @@ void Json::toBuffer(rapidjson::StringBuffer& buffer)
 	document.Accept(writer);
 }
 
+std::vector<const char*> Json::GetVectorNames()
+{
+	std::vector<const char*> vec;
+	for (rapidjson::Value::ConstMemberIterator itr = document.MemberBegin(); itr != document.MemberEnd(); ++itr)
+	{
+		vec.push_back(itr->name.GetString());
+	}
+	return vec;
+}
+
 Json Json::operator[](unsigned index) const
 {
 	if (!value.IsArray())

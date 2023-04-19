@@ -1,8 +1,10 @@
 #include "WindowMainMenu.h"
-
+#include "Application.h"
 #include "Application.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
 #include "DataModels/Scene/Scene.h"
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "ModuleScene.h"
 
 #include "SDL.h"
@@ -10,7 +12,7 @@
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>& editorWindows) :
+WindowMainMenu::WindowMainMenu(Json& json) :
 	Window("Main Menu"),
 	showAbout(false),
 	openPopup(false),
@@ -20,13 +22,12 @@ WindowMainMenu::WindowMainMenu(const std::vector<std::unique_ptr<EditorWindow>>&
 	loadScene(std::make_unique<WindowLoadScene>()),
 	saveScene(std::make_unique<WindowSaveScene>())
 {
-	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
+	about = std::make_unique<WindowAbout>();
+
+	for (const char* name : json.GetVectorNames())
 	{
-		std::pair<std::string, bool> windowNameAndEnabled;
-		if (window->GetName() == "Configuration")
-			windowNameAndEnabled = std::make_pair(window->GetName(), false);
-		else
-			windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
+		std::pair<std::string, bool> windowNameAndEnabled =
+			std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
 		windowNamesAndEnabled.push_back(windowNameAndEnabled);
 	}
 }

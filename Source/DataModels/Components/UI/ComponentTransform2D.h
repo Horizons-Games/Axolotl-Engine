@@ -48,6 +48,7 @@ public:
 	const AABB2D& GetWorldAABB() const;
 
 	void CalculateMatrices();
+	void CalculateWorldBoundingBox();
 	ComponentCanvas* WhichCanvasContainsMe();
 
 private:
@@ -55,7 +56,6 @@ private:
 	float3 GetScreenPosition();
 
 	ComponentCanvas* RecursiveWhichCanvasContainsMe(const GameObject* object);
-	void CalculateWorldBoundingBox();
 
 	float3 eulerAngles;
 

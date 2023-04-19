@@ -45,16 +45,16 @@ void ResourceSkyBox::InternalLoad()
 						 textI->GetImageType(),
 						 &(aux[0]));
 		}
-
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-		LoadVBO();
-		CreateVAO();
 	}
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	LoadVBO();
+	CreateVAO();
 }
 
 void ResourceSkyBox::InternalUnload()
@@ -62,7 +62,11 @@ void ResourceSkyBox::InternalUnload()
 	// this will keep the capacity to 6
 	textures.clear();
 	glDeleteTextures(1, &glTexture);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 	glTexture = 0;
+	vbo = 0;
+	vao = 0;
 }
 
 bool ResourceSkyBox::ChildChanged() const
@@ -81,52 +85,25 @@ bool ResourceSkyBox::ChildChanged() const
 
 void ResourceSkyBox::LoadVBO()
 {
-	// clang-format off
-    float skyboxVertices[] = {
-        // positions          
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
+	float skyboxVertices[] = { // positions
+							   -1.0f, 1.0f,	 -1.0f, -1.0f, -1.0f, -1.0f, 1.0f,	-1.0f, -1.0f,
+							   1.0f,  -1.0f, -1.0f, 1.0f,  1.0f,  -1.0f, -1.0f, 1.0f,  -1.0f,
 
-        -1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
+							   -1.0f, -1.0f, 1.0f,	-1.0f, -1.0f, -1.0f, -1.0f, 1.0f,  -1.0f,
+							   -1.0f, 1.0f,	 -1.0f, -1.0f, 1.0f,  1.0f,	 -1.0f, -1.0f, 1.0f,
 
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
+							   1.0f,  -1.0f, -1.0f, 1.0f,  -1.0f, 1.0f,	 1.0f,	1.0f,  1.0f,
+							   1.0f,  1.0f,	 1.0f,	1.0f,  1.0f,  -1.0f, 1.0f,	-1.0f, -1.0f,
 
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
+							   -1.0f, -1.0f, 1.0f,	-1.0f, 1.0f,  1.0f,	 1.0f,	1.0f,  1.0f,
+							   1.0f,  1.0f,	 1.0f,	1.0f,  -1.0f, 1.0f,	 -1.0f, -1.0f, 1.0f,
 
-        -1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f,
+							   -1.0f, 1.0f,	 -1.0f, 1.0f,  1.0f,  -1.0f, 1.0f,	1.0f,  1.0f,
+							   1.0f,  1.0f,	 1.0f,	-1.0f, 1.0f,  1.0f,	 -1.0f, 1.0f,  -1.0f,
 
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f
-    };
-	// clang-format on
+							   -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f,	 1.0f,	-1.0f, -1.0f,
+							   1.0f,  -1.0f, -1.0f, -1.0f, -1.0f, 1.0f,	 1.0f,	-1.0f, 1.0f
+	};
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);

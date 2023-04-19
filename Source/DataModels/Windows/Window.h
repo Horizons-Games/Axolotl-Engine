@@ -15,7 +15,6 @@ public:
 
 protected:
 	Window(const std::string& name);
-
 	std::string name;
 };
 

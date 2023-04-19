@@ -1,5 +1,11 @@
 #include "EditorWindow.h"
 
+#include "../FileSystem/Json.h"
+#include "../FileSystem/ModuleFileSystem.h"
+#include "../FileSystem/UniqueID.h"
+#include "Application.h"
+#include "physfs.h"
+
 EditorWindow::EditorWindow(const std::string& name) : Window(name), flags(ImGuiWindowFlags_None), focused(false)
 {
 }

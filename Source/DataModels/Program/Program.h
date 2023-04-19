@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/float3.h"
+#include "Math/float4.h"
 
 class Program
 {
@@ -18,7 +19,8 @@ public:
 	bool IsValidProgram() const;
 
 	void BindUniformFloat4x4(const std::string& name, const float* data, bool transpose);
-	void BindUniformFloat3(const std::string& name, const float3 data);
+	void BindUniformFloat3(const std::string& name, const float3& data);
+	void BindUniformFloat4(const std::string& name, const float4& data);
 	void BindUniformFloat(const std::string& name, const float data);
 	void BindUniformInt(const std::string& name, int value);
 	void BindUniformBlock(const std::string& name, const unsigned value);

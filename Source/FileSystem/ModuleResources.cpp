@@ -383,7 +383,7 @@ void ModuleResources::CreateAssetAndLibFolders()
 	// ensure this vector is updated whenever a new type of resource is added
 	std::vector<ResourceType> allResourceTypes = {
 		ResourceType::Material, ResourceType::Mesh,	   ResourceType::Model,
-		ResourceType::Scene,	ResourceType::Texture, ResourceType::SkyBox
+		ResourceType::Scene,	ResourceType::Texture, ResourceType::SkyBox,
 	};
 	for (ResourceType type : allResourceTypes)
 	{
