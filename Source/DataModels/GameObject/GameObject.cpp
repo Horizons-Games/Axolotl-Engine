@@ -41,7 +41,7 @@ GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::Gen
 GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
 {
 	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
-	this->parent->AddChild(std::unique_ptr<GameObject>(this));
+	this->parent->LinkChild(this);
 	this->parentUID = parent->GetUID();
 	active = (parent->IsEnabled() && parent->IsActive());
 }
@@ -57,10 +57,9 @@ GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName())
 
 	for (auto child : gameObject.GetChildren())
 	{
-		std::unique_ptr<GameObject> newChild;
-		newChild = std::make_unique<GameObject>(static_cast<GameObject&>(*child));
+		GameObject* newChild = new GameObject(static_cast<GameObject&>(*child));
 		newChild->SetParent(this);
-		AddChild(std::move(newChild));
+		LinkChild(newChild);
 	}
 }
 
@@ -197,37 +196,24 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	std::unique_ptr<GameObject> pointerToThis = parent->RemoveChild(this);
-	parent = newParent;
-	if (pointerToThis)
-	{
-		parent->AddChild(std::move(pointerToThis));
-	}
-	else
-	{
-		parent->AddChild(std::unique_ptr<GameObject>(this));
-	}
-
-	// Update the transform respect its parent when moved around
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
-		(GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
+	parent->UnlinkChild(this);
+	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
 
-void GameObject::AddChild(std::unique_ptr<GameObject> child)
+void GameObject::LinkChild(GameObject* child)
 {
 	assert(child);
 
-	if (!IsAChild(child.get()))
+	if (!IsAChild(child))
 	{
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-		if (transform != nullptr)
+		if (transform)
 		{
 			transform->UpdateTransformMatrices();
 		}
@@ -240,11 +226,11 @@ void GameObject::AddChild(std::unique_ptr<GameObject> child)
 				transform2D->CalculateMatrices();
 			}
 		}
-		children.push_back(std::move(child));
+		children.push_back(std::unique_ptr<GameObject>(child));
 	}
 }
 
-std::unique_ptr<GameObject> GameObject::RemoveChild(const GameObject* child)
+GameObject* GameObject::UnlinkChild(const GameObject* child)
 {
 	assert(child != nullptr);
 
@@ -258,9 +244,10 @@ std::unique_ptr<GameObject> GameObject::RemoveChild(const GameObject* child)
 	{
 		if ((*it).get() == child)
 		{
-			std::unique_ptr<GameObject> objectToBeDeleted = std::move(*it);
+			GameObject* objectUnlinked = (*it).get();
+			(*it).release();
 			children.erase(it);
-			return objectToBeDeleted;
+			return objectUnlinked;
 		}
 	}
 
@@ -370,11 +357,6 @@ void GameObject::DeactivateChildren()
 {
 	active = false;
 
-	if (children.empty())
-	{
-		return;
-	}
-
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
@@ -384,11 +366,6 @@ void GameObject::DeactivateChildren()
 void GameObject::ActivateChildren()
 {
 	active = (parent->IsActive() && parent->IsEnabled());
-
-	if (children.empty())
-	{
-		return;
-	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{

@@ -126,7 +126,7 @@ void ModulePlayer::LoadNewPlayer()
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
 		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
 		{
-			SetPlayer(parentOfOwner->GetParent()->RemoveChild(parentOfOwner));
+			SetPlayer(std::unique_ptr<GameObject>(parentOfOwner->GetParent()->UnlinkChild(parentOfOwner)));
 			cameraPlayer = camera->GetCamera();
 			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
 			App->camera->SetSelectedCamera(0);

@@ -68,7 +68,7 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 
-	void SetRoot(std::unique_ptr<GameObject> newRoot);
+	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
