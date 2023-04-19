@@ -2,7 +2,7 @@
 #include "DataModels/Components/Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 
-#include "Math/float3.h"
+#include "Math/float4.h"
 #include <memory>
 
 class ResourceTexture;
@@ -19,21 +19,17 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	std::shared_ptr<ResourceTexture> GetImage() const;
-	float3 GetColor() const;
-	float3 GetFullColor() const;
-	void SetImage(const std::shared_ptr<ResourceTexture>& image);
+	float4 GetFullColor() const;
 
-	void LoadVBO();
-	void CreateVAO();
+	std::shared_ptr<ResourceTexture>& GetImage() const;
+	float4 GetColor() const;
+
+	void SetImage(const std::shared_ptr<ResourceTexture>& image);
+	void SetColor(const float4& color);
 
 private:
 	std::shared_ptr<ResourceTexture> image;
-	float3 color;
-
-	unsigned vbo;
-	unsigned vao;
-
+	float4 color;
 };
 
 inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
@@ -41,7 +37,7 @@ inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
 	return image;
 }
 
-inline float3 ComponentImage::GetColor() const
+inline float4 ComponentImage::GetColor() const
 {
 	return color;
 }
@@ -49,5 +45,10 @@ inline float3 ComponentImage::GetColor() const
 inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& image)
 {
 	this->image = image;
+}
+
+inline void ComponentImage::SetColor(const float4& color)
+{
+	this->color = color;
 }
 

@@ -24,6 +24,8 @@ ModuleUI::~ModuleUI() {
 
 bool ModuleUI::Init()
 {
+	LoadVBO();
+	CreateVAO();
 	return true;
 }
 
@@ -122,4 +124,39 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 	{
 		canvas->RecalculateSizeAndScreenFactor();
 	}
+
+	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	{
+		ComponentTransform2D* transform = 
+			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		transform->CalculateWorldBoundingBox();
+	}
+}
+
+void ModuleUI::LoadVBO()
+{
+	float vertices[] = {
+		// positions          
+		-0.5,  0.5, 0.0f, 1.0f,
+		-0.5, -0.5, 0.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5,  0.5, 1.0f, 1.0f,
+		-0.5,  0.5, 0.0f, 1.0f
+	};
+
+	glGenBuffers(1, &quadVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+}
+
+void ModuleUI::CreateVAO()
+{
+	glGenVertexArrays(1, &quadVAO);
+	glBindVertexArray(quadVAO);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+	glBindVertexArray(0);
 }
