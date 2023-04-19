@@ -38,6 +38,16 @@ void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnima
 	controller->Stop();
 }
 
+const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
+{
+	return stateMachine;
+}
+
+void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine)
+{
+	this->stateMachine = stateMachine;
+}
+
 void ComponentAnimation::Update()
 {
 	controller->Update();

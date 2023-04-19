@@ -7,6 +7,7 @@
 
 class AnimationController;
 class ResourceAnimation;
+class ResourceStateMachine;
 
 class ComponentAnimation : public Component
 {
@@ -16,6 +17,9 @@ public:
 
 	AnimationController* GetController();
 	void SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations);
+
+	const std::shared_ptr<ResourceStateMachine>& GetStateMachine() const;
+	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
 
 	void Update() override;
 	void Draw() override;
@@ -27,6 +31,7 @@ public:
 
 private:
 	AnimationController* controller;
+	std::shared_ptr<ResourceStateMachine> stateMachine;
 	std::vector<std::shared_ptr<ResourceAnimation>> animations;
 	unsigned int animationIx;
 };
