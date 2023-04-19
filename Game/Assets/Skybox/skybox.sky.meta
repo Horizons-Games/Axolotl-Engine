@@ -1,0 +1,12 @@
+{
+    "UID": 8827808863826909032,
+    "Type": "SkyBox",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Right_SBS Sci-Fi _ Fantasy 3 Large.png",
+        "Assets/Textures/Left_SBS Sci-Fi _ Fantasy 3 Large.png",
+        "Assets/Textures/Up_SBS Sci-Fi _ Fantasy 3 Large.png",
+        "Assets/Textures/Down_SBS Sci-Fi _ Fantasy 3 Large.png",
+        "Assets/Textures/Front_SBS Sci-Fi _ Fantasy 3 Large.png",
+        "Assets/Textures/Back_SBS Sci-Fi _ Fantasy 3 Large.png"
+    ]
+}
