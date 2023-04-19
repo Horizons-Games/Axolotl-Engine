@@ -69,10 +69,13 @@ inline std::optional<Field<T>> IScript::GetField(const std::string& name) const
 {
 	for (const TypeFieldPair& enumAndType : members)
 	{
-		Field<T> field = std::get<Field<T>>(enumAndType.second);
-		if (field.name == name)
+		if (TypeToEnum<T>::value == enumAndType.first)
 		{
-			return field;
+			Field<T> field = std::get<Field<T>>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
 		}
 	}
 	return std::nullopt;
