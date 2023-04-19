@@ -335,15 +335,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
-	loadedScene->SetSceneGameObjects(loadedObjects);
-
-	for (unsigned int i = 0; i < gameObjects.Size(); ++i)
-	{
-		Json jsonGameObject = gameObjects[i]["GameObject"];
-
-		loadedObjects[i]->LoadOptions(jsonGameObject);
-	}
-
 	std::vector<GameObject*> loadedCameras{};
 	std::vector<GameObject*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
@@ -414,7 +405,7 @@ void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
-	std::vector<std::unique_ptr<GameObject>> gameObjects{};
+	std::vector<GameObject*> gameObjects{};
 	std::unordered_map<UID, GameObject*> gameObjectMap{};
 	std::unordered_map<UID, UID> childParentMap{};
 	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
@@ -427,27 +418,36 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
 		bool active = jsonGameObject["active"];
-		std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(name, uid);
-		gameObjectMap[uid] = gameObject.get();
+		GameObject* gameObject = new GameObject(name, uid);
+		gameObjectMap[uid] = gameObject;
 		childParentMap[uid] = parentUID;
 		enabledAndActive[uid] = std::make_pair(enabled, active);
 		gameObjects.push_back(std::move(gameObject));
 	}
 
+	loadedScene->SetSceneGameObjects(gameObjects);
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+
+		gameObjects[i]->LoadOptions(jsonGameObject);
+	}
+
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
 	{
-		std::unique_ptr<GameObject> gameObject = std::move(*it);
+		GameObject* gameObject = *it;
 		UID uid = gameObject->GetUID();
 		UID parent = childParentMap[uid];
 
 		if (parent == 0)
 		{
-			loadedScene->SetRoot(std::move(gameObject));
+			loadedScene->SetRoot(std::unique_ptr<GameObject>(gameObject));
 			continue;
 		}
 
 		GameObject* parentGameObject = gameObjectMap[parent];
-		parentGameObject->AddChild(std::move(gameObject));
+		parentGameObject->AddChild(std::unique_ptr<GameObject>(gameObject));
 	}
 
 	std::vector<GameObject*> loadedObjects{};

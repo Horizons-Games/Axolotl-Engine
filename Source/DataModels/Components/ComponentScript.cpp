@@ -76,6 +76,12 @@ void ComponentScript::SaveOptions(Json& meta)
 	meta["removed"] = static_cast<bool>(canBeRemoved);
 	meta["constructName"] = this->constructName.c_str();
 	Json fields = meta["fields"];
+
+	if (script == nullptr)
+	{
+		return;
+	}
+
 	int index = 0;
 	for (TypeFieldPair enumAndValue : script->GetFields())
 	{
