@@ -40,8 +40,8 @@ public:
 
 	void InitNewEmptyGameObject(bool is3D = true);
 
-	void AddChild(std::unique_ptr<GameObject> child);
-	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
+	void LinkChild(GameObject* child);
+	GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;
