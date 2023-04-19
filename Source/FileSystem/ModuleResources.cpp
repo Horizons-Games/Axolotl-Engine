@@ -40,7 +40,7 @@ bool ModuleResources::Init()
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
-	CreateAssetAndLibFolders();
+	CreateAssetAndLibFolders();	
 
 #ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
@@ -374,7 +374,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox };
+												  ResourceType::SkyBox,												  
+	};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -606,7 +607,7 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 	case ResourceType::Material:
 		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox";
+		return "SkyBox";	
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";

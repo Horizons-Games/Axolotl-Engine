@@ -8,6 +8,7 @@
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -36,6 +37,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -57,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_min_x": 352.0,
+                            "worldAABB_min_y": 244.0,
+                            "worldAABB_max_x": 352.0,
+                            "worldAABB_max_y": 244.0
                         }
                     },
                     {
@@ -81,6 +83,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -121,6 +124,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -142,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 231.0,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 231.0
+                            "worldAABB_min_x": 352.0,
+                            "worldAABB_min_y": 244.0,
+                            "worldAABB_max_x": 352.0,
+                            "worldAABB_max_y": 244.0
                         }
                     },
                     {
@@ -157,7 +161,8 @@
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     }
                 ]
@@ -171,6 +176,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -211,6 +217,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -232,10 +239,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 226.31874084472657,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 251.28541564941407
+                            "worldAABB_min_x": 297.0,
+                            "worldAABB_min_y": 239.59999084472656,
+                            "worldAABB_max_x": 407.0,
+                            "worldAABB_max_y": 263.066650390625
                         }
                     },
                     {
@@ -247,7 +254,8 @@
                             "assetPathImage": "Assets/Textures/Play.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -255,14 +263,14 @@
                             "type": "Component_Button",
                             "active": true,
                             "removed": true,
-                            "clicked": false,
-                            "hovered": false,
                             "colorHovered_x": 0.6470588445663452,
                             "colorHovered_y": 0.6470588445663452,
                             "colorHovered_z": 0.6470588445663452,
-                            "colorClicked_x": 0.43627452850341799,
-                            "colorClicked_y": 0.43627452850341799,
-                            "colorClicked_z": 0.43627452850341799,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.43529412150382996,
+                            "colorClicked_y": 0.43529412150382996,
+                            "colorClicked_z": 0.43529412150382996,
+                            "colorClicked_w": 1.0,
                             "sceneName": "CantinaSewersVS1"
                         }
                     }
@@ -277,6 +285,7 @@
                 "parentUID": 16986399840152337944,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -314,6 +323,7 @@
                 "parentUID": 15981248757803877047,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -351,6 +361,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -372,10 +383,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 266.109375,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 289.515625
+                            "worldAABB_min_x": 297.0,
+                            "worldAABB_min_y": 277.0,
+                            "worldAABB_max_x": 407.0,
+                            "worldAABB_max_y": 299.0
                         }
                     },
                     {
@@ -387,7 +398,8 @@
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -395,14 +407,14 @@
                             "type": "Component_Button",
                             "active": true,
                             "removed": true,
-                            "clicked": false,
-                            "hovered": false,
-                            "colorHovered_x": 0.699999988079071,
-                            "colorHovered_y": 0.699999988079071,
-                            "colorHovered_z": 0.699999988079071,
-                            "colorClicked_x": 0.5,
-                            "colorClicked_y": 0.5,
-                            "colorClicked_z": 0.5,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 1.0,
                             "sceneName": "ControlsVS1"
                         }
                     }
@@ -417,6 +429,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -438,10 +451,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 315.984375,
-                            "worldAABB_min_y": 305.11981201171877,
-                            "worldAABB_max_x": 433.015625,
-                            "worldAABB_max_y": 328.52606201171877
+                            "worldAABB_min_x": 297.0,
+                            "worldAABB_min_y": 313.66668701171875,
+                            "worldAABB_max_x": 407.0,
+                            "worldAABB_max_y": 335.66668701171875
                         }
                     },
                     {
@@ -453,7 +466,8 @@
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -461,14 +475,14 @@
                             "type": "Component_Button",
                             "active": true,
                             "removed": true,
-                            "clicked": false,
-                            "hovered": false,
-                            "colorHovered_x": 0.699999988079071,
-                            "colorHovered_y": 0.699999988079071,
-                            "colorHovered_z": 0.699999988079071,
-                            "colorClicked_x": 0.5,
-                            "colorClicked_y": 0.5,
-                            "colorClicked_z": 0.5,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 1.0,
                             "sceneName": "CreditsVS1"
                         }
                     }
@@ -483,6 +497,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -504,10 +519,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 67.15625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 67.15625
+                            "worldAABB_min_x": 352.0,
+                            "worldAABB_min_y": 90.0,
+                            "worldAABB_max_x": 352.0,
+                            "worldAABB_max_y": 90.0
                         }
                     },
                     {
@@ -517,9 +532,10 @@
                             "removed": true,
                             "imageUID": 1728187983658496405,
                             "assetPathImage": "Assets/Textures/Group 13.png",
-                            "color_x": 0.6617647409439087,
-                            "color_y": 0.6487889885902405,
-                            "color_z": 0.6487889885902405
+                            "color_x": 0.6627451181411743,
+                            "color_y": 0.6470588445663452,
+                            "color_z": 0.6470588445663452,
+                            "color_w": 1.0
                         }
                     }
                 ]
@@ -533,6 +549,7 @@
                 "parentUID": 11768532019124242966,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -554,10 +571,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 374.5,
-                            "worldAABB_min_y": 102.265625,
-                            "worldAABB_max_x": 374.5,
-                            "worldAABB_max_y": 102.265625
+                            "worldAABB_min_x": 352.0,
+                            "worldAABB_min_y": 123.0,
+                            "worldAABB_max_x": 352.0,
+                            "worldAABB_max_y": 123.0
                         }
                     },
                     {
@@ -569,7 +586,8 @@
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     }
                 ]
