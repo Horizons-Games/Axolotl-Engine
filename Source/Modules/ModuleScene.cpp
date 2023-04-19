@@ -1,19 +1,22 @@
 #include "ModuleScene.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModulePlayer.h"
+#include "ModuleRender.h"
 
-#include "Scene/Scene.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentAnimation.h"
+#include "Components/UI/ComponentCanvas.h"
+
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModulePlayer.h"
-#include "Components/ComponentCamera.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/ComponentLight.h"
-#include "DataModels/Skybox/Skybox.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
+
+#include "Scene/Scene.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -60,6 +63,17 @@ update_status ModuleScene::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
+
+	for (GameObject* object : loadedScene->GetSceneGameObjects())
+	{
+		if (object->GetComponent(ComponentType::ANIMATION) != nullptr)
+		{
+			ComponentAnimation* animation =
+				static_cast<ComponentAnimation*>(object->GetComponent(ComponentType::ANIMATION));
+
+			animation->Update();
+		}
+	}
 #endif // DEBUG
 
 	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
