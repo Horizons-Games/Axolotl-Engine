@@ -10,10 +10,9 @@ public:
 
 	Cubemap();
 	~Cubemap();
-	void RenderCube();
 
 private:
-
+	void RenderCube();
 
 	GLuint frameBuffer;
 	GLuint renderBuffer;

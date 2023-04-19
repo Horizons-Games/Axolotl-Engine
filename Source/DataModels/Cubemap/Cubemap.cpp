@@ -49,7 +49,7 @@ Cubemap::Cubemap()
 	irradianceProgram->Activate();
 	float4x4 projMatrix = frustum.ProjectionMatrix();
 	irradianceProgram->BindUniformFloat4x4("proj", (const float*)&projMatrix, GL_TRUE);
-    hdrTexture = App->resources->RequestResource<ResourceTexture>("Assets/Cubemaps/SunsetSkyboxHDR.hdr");;
+    hdrTexture = App->resources->RequestResource<ResourceTexture>("Assets/Textures/SunsetSkyboxHDR.hdr");;
     hdrTexture->Load();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, hdrTexture->GetGlTexture());
@@ -85,8 +85,6 @@ Cubemap::~Cubemap()
 
 void Cubemap::RenderCube()
 {
-    Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
-    irradianceProgram->Activate();
     // initialize (if necessary)
     if (cubeVAO == 0)
     {
@@ -154,5 +152,4 @@ void Cubemap::RenderCube()
     glBindVertexArray(cubeVAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
-    irradianceProgram->Deactivate();
 }

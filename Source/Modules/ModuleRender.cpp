@@ -206,7 +206,6 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
-	cubemap->RenderCube();
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
