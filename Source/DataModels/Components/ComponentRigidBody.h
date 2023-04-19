@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "ComponentTransform.h"
 
 #include "Math/float3.h"
 #include "Math/Quat.h"
@@ -26,9 +27,6 @@ public:
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
 
-	float3 CalculateForceFromPositionController();
-	Quat CalculateTorqueFromRotationController();
-
 	void SetPositionTarget(const float3& targetPos);
 	void SetRotationTarget(const Quat& targetRot);
 	void DisablePositionController();
@@ -44,8 +42,10 @@ private:
 	ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	bool isKinematic;
 	float mass;
+	float3 inertiaTensor;
 	float g;
 	float3 v0;
+	float3 w0;
 
 	float3 targetPosition;
 	Quat targetRotation;
@@ -56,8 +56,8 @@ private:
 	float3 externalForce = float3::zero;
 	float3 externalTorque = float3::zero;
 
-	void ApplyForce(const float3& force, float deltaTime);
-	void ApplyTorque(const float3& torque, float deltaTime);
+	void ApplyForce();
+	void ApplyTorque();
 };
 
 inline bool ComponentRigidBody::GetIsKinematic() const
