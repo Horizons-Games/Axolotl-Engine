@@ -29,8 +29,8 @@
 #include "Scene/Scene.h"
 
 // Root constructor
-GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
-	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(false)
+GameObject::GameObject(const std::string& name, UID uid) :
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
 {
 }
 
@@ -38,17 +38,16 @@ GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::Gen
 {
 }
 
-GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
+GameObject::GameObject(const std::string& name, GameObject* parent) :
+	GameObject(name, parent, UniqueID::GenerateUID(), true,
+		(parent->IsEnabled() && parent->IsActive()), StateOfSelection::NO_SELECTED, false)
 {
-	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
 	this->parent->LinkChild(this);
-	this->parentUID = parent->GetUID();
-	active = (parent->IsEnabled() && parent->IsActive());
 }
 
-GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(gameObject.staticObject)
+GameObject::GameObject(const GameObject& gameObject) :
+	GameObject(gameObject.GetName(), gameObject.GetParent(), UniqueID::GenerateUID(), true, true,
+		StateOfSelection::NO_SELECTED, gameObject.staticObject)
 {
 	for (auto component : gameObject.GetComponents())
 	{
@@ -61,6 +60,18 @@ GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName())
 		newChild->SetParent(this);
 		LinkChild(newChild);
 	}
+}
+
+GameObject::GameObject(const std::string& name,
+	GameObject* parent,
+	UID uid,
+	bool enabled,
+	bool active,
+	StateOfSelection selection,
+	bool staticObject) : 
+	parent(parent), uid(uid), enabled(enabled), active(active), stateOfSelection(selection), staticObject(staticObject)
+{
+
 }
 
 GameObject::~GameObject()

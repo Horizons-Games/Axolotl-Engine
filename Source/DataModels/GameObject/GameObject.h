@@ -94,11 +94,18 @@ public:
 	bool CompareTag(const std::string& commingTag) const;
 
 private:
+	GameObject(const std::string& name,
+			   GameObject* parent,
+			   UID uid,
+			   bool enabled,
+			   bool active,
+			   StateOfSelection selection,
+			   bool staticObject);
+
 	bool IsAChild(const GameObject* child);
 
 private:
 	UID uid;
-	UID parentUID;
 
 	bool enabled;
 	bool active;
