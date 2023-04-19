@@ -48,7 +48,11 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	GameObject* copyObject;
+	std::unique_ptr<GameObject> copyObject;
+	std::string StateWindows();
+	void CreateFolderSettings();
+	static const std::string settingsFolder;
+	static const std::string set;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const
