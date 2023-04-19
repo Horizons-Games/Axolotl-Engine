@@ -109,15 +109,18 @@ void WindowStateMachineEditor::DrawWindowContents()
 				ImVec2(origin.x + transition.origin->auxiliarPos.first + 100, origin.y + transition.origin->auxiliarPos.second + 25);
 			ImVec2 postStateDestinationCenter = 
 				ImVec2(origin.x + transition.destination->auxiliarPos.first + 100, origin.y + transition.destination->auxiliarPos.second + 25);
-			draw_list->AddLine(posStateOriginCenter, postStateDestinationCenter, IM_COL32(255, 255, 255, 255));
 
 			float triangleLength = 15;
 			float triangleHeight = 15;
 			
 			LineSegment2D line(float2(posStateOriginCenter.x, posStateOriginCenter.y), float2(postStateDestinationCenter.x, postStateDestinationCenter.y));
-			float2 center = line.CenterPoint();
+
 			float2 perpendicular = line.Dir().Perp();
-			
+			ImVec2 exitPoint = ImVec2(posStateOriginCenter.x + perpendicular.x * 6, posStateOriginCenter.y + perpendicular.y * 6);
+			ImVec2 enterPoint = ImVec2(postStateDestinationCenter.x + perpendicular.x * 6, postStateDestinationCenter.y + perpendicular.y * 6);
+			line = LineSegment2D(float2(exitPoint.x, exitPoint.y), float2(enterPoint.x, enterPoint.y));
+			float2 center = line.CenterPoint();
+
 			float2 p1 = center - (triangleLength * line.Dir()) / 2.f + triangleHeight / 2.f * perpendicular;
 			float2 p2 = center - (triangleLength * line.Dir()) / 2.f - triangleHeight / 2.f * perpendicular;
 			float2 p3 = center + (triangleLength * line.Dir()) / 2.f;
@@ -126,6 +129,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImVec2 p2Im = ImVec2(p2.x, p2.y);
 			ImVec2 p3Im = ImVec2(p3.x, p3.y);
 
+			draw_list->AddLine(exitPoint, enterPoint, IM_COL32(255, 255, 255, 255));
 			draw_list->AddTriangleFilled(p1Im, p2Im, p3Im, IM_COL32(255, 255, 255, 255));
 
 			ImGui::PopID();
