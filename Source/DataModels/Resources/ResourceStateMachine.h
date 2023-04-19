@@ -44,7 +44,8 @@ public:
 	int GetIdState(const State& state) const;
 
 	void AddNewState(int x, int y);
-	void EditState(unsigned int id, State* state);
+	void SetStateName(unsigned int id, std::string name);
+	void SetStateResource(unsigned int id, std::shared_ptr<Resource>& resource);
 
 	void EraseState(unsigned int id);
 
@@ -88,60 +89,12 @@ inline const std::unordered_map<unsigned int, Transition>& ResourceStateMachine:
 	return transitions;
 }
 
-inline int ResourceStateMachine::GetIdState(const State& state) const
+inline void ResourceStateMachine::SetStateName(unsigned int id, std::string name)
 {
-	for(int i = 0; i < states.size(); i++)
-	{
-		if (states[i]->name == state.name) return i;
-	}
-	return -1;
+	states[id]->name = name;
 }
 
-inline void ResourceStateMachine::AddNewState(int x, int y)
+inline void ResourceStateMachine::SetStateResource(unsigned int id, std::shared_ptr<Resource>& resource)
 {
-	State* state = new State;
-	state->name = "NewState";
-	state->auxiliarPos = std::pair<int, int>(x,y);
-	states.push_back(state);
-}
-
-inline void ResourceStateMachine::EditState(unsigned int id, State* state)
-{
-	states[id] = state;
-}
-
-inline void ResourceStateMachine::EraseState(unsigned int id)
-{
-	for(unsigned int transitionid : states[id]->transitionsOriginedHere)
-	{
-		transitions.erase(transitionid);
-	}
-	for (unsigned int transitionid : states[id]->transitionsDestinedHere)
-	{
-		transitions.erase(transitionid);
-	}
-	states.erase(states.begin() + id);
-}
-
-inline void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
-{
-	Transition transition;
-	transition.origin = states[idOrigin];
-	transition.destination = states[idDestiny];
-	states[idDestiny]->transitionsDestinedHere.push_back(transitions.size());
-	states[idOrigin]->transitionsOriginedHere.push_back(transitions.size());
-	transitions[transitions.size()] = transition;
-}
-
-inline void ResourceStateMachine::EditDestinyTransition(unsigned int idTransition, unsigned int idState )
-{
-	transitions[idTransition].destination = states[idState];
-}
-
-inline void ResourceStateMachine::EraseTransition(unsigned int id)
-{
-	State* stateOrigin = transitions[id].origin;
-	remove(stateOrigin->transitionsOriginedHere.begin(), stateOrigin->transitionsOriginedHere.end(), id);
-	remove(stateOrigin->transitionsDestinedHere.begin(), stateOrigin->transitionsDestinedHere.end(), id);
-	transitions.erase(id);
+	states[id]->resource = resource;
 }
