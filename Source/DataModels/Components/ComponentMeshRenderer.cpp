@@ -53,19 +53,23 @@ void ComponentMeshRenderer::Update()
 
 void ComponentMeshRenderer::Draw()
 {
-	Program* program = App->program->GetProgram
-							(ProgramType(material->GetShaderType()));
-
-	if (program)
+	if (material)
 	{
-		program->Activate();
+		Program* program = App->program->GetProgram
+		(ProgramType(material->GetShaderType()));
 
-		DrawMaterial(program);
-		DrawMeshes(program);
+		if (program)
+		{
+			program->Activate();
+
+			DrawMaterial(program);
+			DrawMeshes(program);
+		}
+
+		program->Deactivate();
 	}
-
-	program->Deactivate();
 }
+
 void ComponentMeshRenderer::DrawMeshes(Program* program)
 {
 
