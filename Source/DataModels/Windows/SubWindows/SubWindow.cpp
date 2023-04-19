@@ -3,8 +3,7 @@
 bool SubWindow::defaultEnabled = true;
 
 SubWindow::SubWindow(const std::string& name) : Window(name), flags(ImGuiTreeNodeFlags_None)
-{
-}
+{}
 
 SubWindow::~SubWindow()
 {

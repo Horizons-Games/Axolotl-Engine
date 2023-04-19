@@ -70,6 +70,8 @@ bool ModuleCamera::Start()
 			selectedCamera = camera.get();
 		//}
 	#endif // GAMEMODE
+
+	RecalculateOrthoProjectionMatrix();
 	return true;
 }
 
@@ -185,4 +187,10 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 Camera* ModuleCamera::GetCamera()
 {
 	return selectedCamera;
+}
+
+void ModuleCamera::RecalculateOrthoProjectionMatrix()
+{
+	std::pair<int, int> region = App->editor->GetAvailableRegion();
+	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
 }
