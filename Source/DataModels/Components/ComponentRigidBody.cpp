@@ -22,9 +22,14 @@
 
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
-	: Component(ComponentType::RIGIDBODY, active, owner, true),
-	isKinematic(true), mass(1.0f), g(9.81f), v0(float3(0.0f, 0.0f, 0.0f))
+	: Component(ComponentType::RIGIDBODY, active, owner, true)
 {
+	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	isKinematic = true;
+	mass = 1.0f;
+	g = float3(0.0f, -9.81f, 0.0f);
+	v0 = float3(0.0f, 0.0f, 0.0f);
+	w0 = float3(0.0f, 0.0f, 0.0f);
 }
 
 ComponentRigidBody::~ComponentRigidBody()

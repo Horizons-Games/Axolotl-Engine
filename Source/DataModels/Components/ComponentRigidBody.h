@@ -39,7 +39,7 @@ public:
 	void SetIsKinematic(bool newIsKinematic);
 
 private:
-	ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform;
 	bool isKinematic;
 	float mass;
 	float3 inertiaTensor;
