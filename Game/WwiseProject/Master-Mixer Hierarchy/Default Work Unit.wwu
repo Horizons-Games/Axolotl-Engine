@@ -9,6 +9,49 @@
 							<ObjectRef Name="System" ID="{21CEC49A-6C40-4DA4-BB8F-E56DE123A7BA}" WorkUnitID="{6D66F380-C2A3-40E8-AFD6-3736D41209D3}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="Music" ID="{FABA79D3-A8F4-4171-B3A4-3EA191FE2F30}">
+							<ChildrenList>
+								<Bus Name="MusicDiegetic" ID="{3A8413A5-B0FA-4E1C-957F-5D6F3C9F4AFE}"/>
+								<Bus Name="MusicNonDiegetic" ID="{172C84EC-9E4B-482F-BFBE-4610C598E29B}"/>
+							</ChildrenList>
+						</Bus>
+						<Bus Name="SFX" ID="{A1D9984C-C6D2-468F-BA36-458C95164D58}">
+							<ChildrenList>
+								<Bus Name="PlayerMaster" ID="{9CBFE594-4CA5-4B08-871F-56070985381F}">
+									<ChildrenList>
+										<Bus Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}"/>
+										<Bus Name="PlayerAbilities" ID="{44E6CA41-E0D5-4954-902B-5755EA2CCB3D}"/>
+										<Bus Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}"/>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}">
+									<ChildrenList>
+										<Bus Name="NPCLocomotion" ID="{7F290882-B3FF-4BCA-9B70-9314E1B98AB2}"/>
+										<Bus Name="NPCWeapons" ID="{4846DE1C-6702-467C-86F3-FC45CA3CFD1F}"/>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="AmbientMaster" ID="{7FBF6336-6F6F-4813-90BD-DCD2BC4A22F9}">
+									<ChildrenList>
+										<Bus Name="2DAmbient" ID="{0C2B7246-DFF5-4E3D-A0BD-B2341A18BEB2}"/>
+										<Bus Name="3DAmbient" ID="{866B6033-936B-4DAB-9800-DC90707AD040}"/>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="UI" ID="{A8B4C9A7-24BB-439A-8248-17C2363D2C13}"/>
+							</ChildrenList>
+						</Bus>
+						<AuxBus Name="Reverbs" ID="{0796C9DA-97A5-451A-A4D8-D317559E298B}">
+							<ChildrenList>
+								<AuxBus Name="LargeRoom" ID="{23046E32-BD7A-4127-9ADE-2E89DF9D3EA6}"/>
+								<AuxBus Name="SmallRoom" ID="{65B2621A-456C-4C83-957D-D51B2A549237}"/>
+								<AuxBus Name="Cantina" ID="{7EDD70CF-5BEF-44F3-A311-7AE803381A4A}"/>
+								<AuxBus Name="Sewers" ID="{5FFD7B0A-32C7-4E7F-A679-D5E6D11B12B9}"/>
+								<AuxBus Name="SpaceshipSection" ID="{0F041A94-9904-43EF-94D5-5E2C0590706D}"/>
+								<AuxBus Name="SpaceStation" ID="{EDCFCC40-9E48-474B-BB8C-364E9F4A5A8D}"/>
+								<AuxBus Name="FinalBoss" ID="{36D80448-8C2D-4546-8F9B-8368E616D83F}"/>
+							</ChildrenList>
+						</AuxBus>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

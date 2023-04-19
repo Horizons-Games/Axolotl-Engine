@@ -16,7 +16,11 @@
 
 // Bank file names
 #define BANKNAME_INIT L"Init.bnk"
-#define BANKNAME_MAIN L"Main.bnk"
+#define BANKNAME_MUSIC L"Music.bnk"
+#define BANKNAME_NPC L"NPC.bnk"
+#define BANKNAME_PLAYER L"Player.bnk"
+#define BANKNAME_AMBIENT L"Ambient.bnk"
+#define BANKNAME_UI L"UI.bnk"
 
 
 ModuleAudio::ModuleAudio()
@@ -187,6 +191,14 @@ void ModuleAudio::InitializeBanks() {
 
     AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
     assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_MAIN, bankID);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_MUSIC, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_NPC, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_PLAYER, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_AMBIENT, bankID);
+    assert(eResult == AK_Success);
+    eResult = AK::SoundEngine::LoadBank(BANKNAME_UI, bankID);
     assert(eResult == AK_Success);
 }

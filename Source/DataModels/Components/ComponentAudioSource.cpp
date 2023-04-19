@@ -56,7 +56,7 @@ void ComponentAudioSource::Disable()
 void ComponentAudioSource::PostEvent()
 {
     AK::SoundEngine::PostEvent(
-        audios::SOUND_LASER_FIRE,    // Name of the Event (not case sensitive).
+        audios::MUSIC_TEST,    // Name of the Event (not case sensitive).
         sourceID           // Associated game object ID
     );
 }

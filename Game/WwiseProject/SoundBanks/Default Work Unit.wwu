@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{4E915E58-A0D6-470C-A84D-571B41223649}" SchemaVersion="110">
 	<SoundBanks>
-		<WorkUnit Name="Default Work Unit" ID="{4E915E58-A0D6-470C-A84D-571B41223649}" PersistMode="Standalone">
-			<ChildrenList>
-				<SoundBank Name="Main" ID="{ACC93F94-4515-4731-B19A-E8CAD45AA38F}">
-					<ObjectInclusionList>
-						<ObjectRef Name="SFX_Laser_Fire" ID="{34B3CF60-0CEC-420F-BE9C-5E9B0DC231CE}" WorkUnitID="{B5E4BE60-EB3B-4156-BEAE-D8ABFE0005E2}" Origin="Manual" Filter="7"/>
-					</ObjectInclusionList>
-					<ObjectExclusionList/>
-					<GameSyncExclusionList/>
-				</SoundBank>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="Default Work Unit" ID="{4E915E58-A0D6-470C-A84D-571B41223649}" PersistMode="Standalone"/>
 	</SoundBanks>
 </WwiseDocument>

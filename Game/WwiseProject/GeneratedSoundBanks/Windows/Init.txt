@@ -15,7 +15,32 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
+	356823645	NPCWeapons			\Default Work Unit\Master Audio Bus\SFX\NPCMaster\NPCWeapons	
+	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	466672200	PlayerAbilities			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster\PlayerAbilities	
+	986618877	PlayerWeapons			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster\PlayerWeapons	
+	1217116541	NPCLocomotion			\Default Work Unit\Master Audio Bus\SFX\NPCMaster\NPCLocomotion	
+	1459460693	AmbientMaster			\Default Work Unit\Master Audio Bus\SFX\AmbientMaster	
+	1551306167	UI			\Default Work Unit\Master Audio Bus\SFX\UI	
+	2009782176	MusicDiegetic			\Default Work Unit\Master Audio Bus\Music\MusicDiegetic	
+	2033911932	NPCMaster			\Default Work Unit\Master Audio Bus\SFX\NPCMaster	
+	2168483725	2DAmbient			\Default Work Unit\Master Audio Bus\SFX\AmbientMaster\2DAmbient	
+	2343802269	PlayerLocomotion			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster\PlayerLocomotion	
+	2619696437	MusicNonDiegetic			\Default Work Unit\Master Audio Bus\Music\MusicNonDiegetic	
+	2839160816	3DAmbient			\Default Work Unit\Master Audio Bus\SFX\AmbientMaster\3DAmbient	
+	3538689948	PlayerMaster			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	187046019	LargeRoom			\Default Work Unit\Master Audio Bus\Reverbs\LargeRoom	
+	425131515	SpaceStation			\Default Work Unit\Master Audio Bus\Reverbs\SpaceStation	
+	1386737664	SpaceshipSection			\Default Work Unit\Master Audio Bus\Reverbs\SpaceshipSection	
+	2147352708	FinalBoss			\Default Work Unit\Master Audio Bus\Reverbs\FinalBoss	
+	2933838247	SmallRoom			\Default Work Unit\Master Audio Bus\Reverbs\SmallRoom	
+	3390261832	Sewers			\Default Work Unit\Master Audio Bus\Reverbs\Sewers	
+	3434002879	Cantina			\Default Work Unit\Master Audio Bus\Reverbs\Cantina	
+	3545700988	Reverbs			\Default Work Unit\Master Audio Bus\Reverbs	
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

@@ -3,17 +3,10 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{B5E4BE60-EB3B-4156-BEAE-D8ABFE0005E2}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="SFX_Laser_Fire" ID="{34B3CF60-0CEC-420F-BE9C-5E9B0DC231CE}">
-					<ChildrenList>
-						<Action Name="" ID="{2F63D42A-E610-4845-9EE6-1622352C44C4}" ShortID="260986510">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="laser_01" ID="{67C099E8-D86A-4289-BDFD-EE05986663FD}" WorkUnitID="{4D2D502C-0683-46CA-93AE-C19E110AB138}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
+				<WorkUnit Name="NPC" ID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Reference"/>
+				<WorkUnit Name="Player" ID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" PersistMode="Reference"/>
+				<WorkUnit Name="UI" ID="{250B2123-F35C-41A5-B28F-CFF376514726}" PersistMode="Reference"/>
+				<WorkUnit Name="Ambient" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

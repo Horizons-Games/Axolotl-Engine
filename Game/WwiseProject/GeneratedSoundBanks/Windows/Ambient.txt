@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	4195921398	musicTest			\Default Work Unit\Ambient\musicTest	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	764235251	musicTest	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\musicTest_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\musicTest		16304424
+

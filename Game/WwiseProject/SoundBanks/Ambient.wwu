@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{958BFFF7-1ED3-46AD-926D-912BF41D7A09}" SchemaVersion="110" RootDocumentID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" ParentDocumentID="{905B81AD-AAA2-4634-A711-F88DE74275A5}">
+	<SoundBanks>
+		<WorkUnit Name="Ambient" ID="{958BFFF7-1ED3-46AD-926D-912BF41D7A09}" OwnerID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" PersistMode="Nested">
+			<ChildrenList>
+				<SoundBank Name="Ambient" ID="{F9D5C006-89A7-4579-B151-FBFC432E6D2D}">
+					<ObjectInclusionList>
+						<ObjectRef Name="musicTest" ID="{E98267BD-672A-4239-9925-B995551D29F3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

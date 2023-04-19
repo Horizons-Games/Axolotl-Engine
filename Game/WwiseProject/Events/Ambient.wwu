@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" SchemaVersion="110" RootDocumentID="{B5E4BE60-EB3B-4156-BEAE-D8ABFE0005E2}" ParentDocumentID="{B5E4BE60-EB3B-4156-BEAE-D8ABFE0005E2}">
+	<Events>
+		<WorkUnit Name="Ambient" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" OwnerID="{B5E4BE60-EB3B-4156-BEAE-D8ABFE0005E2}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="musicTest" ID="{00167ACF-DD2B-434D-BA75-CB26A7E00A04}">
+					<ChildrenList>
+						<Action Name="" ID="{29C94DF0-3D84-44F7-BF31-9FF7E29B25C3}" ShortID="742311798">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="musicTest" ID="{E98267BD-672A-4239-9925-B995551D29F3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

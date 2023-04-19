@@ -9,7 +9,45 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F52037BB-8670-F240-3E79-CE0DA48055E2}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{53BB9D6A-16EB-1023-0DEC-1CAB0320D3BC}">
+			<ShortName>Ambient</ShortName>
+			<Path>Ambient.bnk</Path>
+			<Media>
+				<File Id="764235251" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>musicTest.wav</ShortName>
+					<CachePath>SFX/musicTest_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="4195921398" Name="musicTest">
+					<MediaRefs>
+						<MediaRef Id="764235251"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{CBD3374A-B8FC-EF6F-CBD5-B9ADE735673B}">
+			<ShortName>NPC</ShortName>
+			<Path>NPC.bnk</Path>
+			<Media>
+				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>laser_01.wav</ShortName>
+					<CachePath>SFX/laser_01_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="480444447" Name="sfx_dron_shot_01">
+					<MediaRefs>
+						<MediaRef Id="721259364"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{6480908F-687E-D616-59C6-BB8F9D424E2F}">
+			<ShortName>Player</ShortName>
+			<Path>Player.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{42BE329C-F195-1376-C29B-81D1665DE449}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -19,8 +57,61 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="356823645" Name="NPCWeapons"/>
+				<Bus Id="393239870" Name="SFX"/>
+				<Bus Id="466672200" Name="PlayerAbilities"/>
+				<Bus Id="986618877" Name="PlayerWeapons"/>
+				<Bus Id="1217116541" Name="NPCLocomotion"/>
+				<Bus Id="1459460693" Name="AmbientMaster"/>
+				<Bus Id="1551306167" Name="UI"/>
+				<Bus Id="2009782176" Name="MusicDiegetic"/>
+				<Bus Id="2033911932" Name="NPCMaster"/>
+				<Bus Id="2168483725" Name="2DAmbient"/>
+				<Bus Id="2343802269" Name="PlayerLocomotion"/>
+				<Bus Id="2619696437" Name="MusicNonDiegetic"/>
+				<Bus Id="2839160816" Name="3DAmbient"/>
+				<Bus Id="3538689948" Name="PlayerMaster"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3991942870" Name="Music"/>
 			</Busses>
+			<AuxBusses>
+				<AuxBus Id="187046019" Name="LargeRoom">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="425131515" Name="SpaceStation">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="1386737664" Name="SpaceshipSection">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="2147352708" Name="FinalBoss">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="2933838247" Name="SmallRoom">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="3390261832" Name="Sewers">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="3434002879" Name="Cantina">
+					<AuxBusRefs>
+						<AuxBusRef Id="3545700988" Name="Reverbs"/>
+					</AuxBusRefs>
+				</AuxBus>
+				<AuxBus Id="3545700988" Name="Reverbs"/>
+			</AuxBusses>
 			<AcousticTextures>
 				<AcousticTexture Id="504532776" Name="Brick">
 					<Properties>
@@ -136,23 +227,14 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{AB0E1F90-FA54-87C3-1E93-B722A8FE353C}">
-			<ShortName>Main</ShortName>
-			<Path>Main.bnk</Path>
-			<Media>
-				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>laser_01.wav</ShortName>
-					<CachePath>SFX/laser_01_10C4C929.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="1087295449" Name="SFX_Laser_Fire">
-					<MediaRefs>
-						<MediaRef Id="721259364"/>
-					</MediaRefs>
-				</Event>
-			</Events>
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{35B5385F-5F9C-9D65-775B-45CA20991969}">
+			<ShortName>UI</ShortName>
+			<Path>UI.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{0E3E9487-2562-8161-CF73-30D6CFA3E27A}">
+			<ShortName>Music</ShortName>
+			<Path>Music.bnk</Path>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B0E8275E-E945-B839-D4DA-A0C836DE33B6}</FileHash>
+	<FileHash>{60778842-9C90-8844-2D19-D5C4E3535199}</FileHash>
 </SoundBanksInfo>
