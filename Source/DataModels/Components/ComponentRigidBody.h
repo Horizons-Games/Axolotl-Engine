@@ -42,7 +42,6 @@ private:
 	ComponentTransform* transform;
 	bool isKinematic;
 	float mass;
-	float3 inertiaTensor;
 
 	float3 x;
 	Quat q;

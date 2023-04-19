@@ -41,61 +41,22 @@ ComponentRigidBody::~ComponentRigidBody()
 
 void ComponentRigidBody::Update()
 {
-//#ifndef ENGINE
-//	if (isKinematic)
-//	{
-//		float3 currentPos = transform->GetPosition();
-//		Ray ray(currentPos, -float3::unitY);
-//		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-//		RaycastHit hit;
-//
-//		bool hasHit = Physics::Raycast(line, hit);
-//		float3 x;
-//		float t = App->GetDeltaTime();
-//		float3 x0 = currentPos;
-//		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
-//
-//		v0.y -= g * t;
-//		x = x0 + v0 * t + a;
-//
-//		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
-//		if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x-x0).Length())
-//
-//		{
-//
-//			x = hit.hitPoint + float3(0.0f, verticalDistanceToFeet,0.0f);
-//			v0 = float3::zero;
-//			
-//			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
-//			{
-//				ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
-//
-//				if (mockState->GetIsWinState())
-//				{
-//					//TODO: win state
-//					std::string sceneName = mockState->GetSceneName();
-//					App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
-//				}
-//				else if (mockState->GetIsFailState())
-//				{
-//					//TODO fail state
-//				}
-//			}
-//		}
-//
-//		transform->SetPosition(x);
-//	}
-//#endif
+
 #ifndef ENGINE
 	if (isKinematic)
 	{
 		float deltaTime = App->GetDeltaTime();
 
+		x = transform->GetPosition();
+		q = transform->GetRotation().RotatePart().ToQuat();
+
 		//Velocity
-		v0 += g * deltaTime;
+		float3 v = g * deltaTime;
 
 		//Position
-		x += v0 * deltaTime;
+
+		x += v0 * deltaTime + 0.5f*g*deltaTime*deltaTime;
+		v0 = v;
 
 		//Rotation
 		Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
