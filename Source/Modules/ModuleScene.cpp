@@ -335,6 +335,15 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
+	loadedScene->SetSceneGameObjects(loadedObjects);
+
+	for (unsigned int i = 0; i < gameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = gameObjects[i]["GameObject"];
+
+		loadedObjects[i]->LoadOptions(jsonGameObject);
+	}
+
 	std::vector<GameObject*> loadedCameras{};
 	std::vector<GameObject*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
@@ -385,20 +394,11 @@ void ModuleScene::SetSceneFromJson(Json& json)
 
 	selectedGameObject = loadedScene->GetRoot();
 	App->editor->RefreshInspector();
-	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetSceneInteractable(loadedInteractable);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
-
-	for (unsigned int i = 0; i < gameObjects.Size(); ++i)
-	{
-		Json jsonGameObject = gameObjects[i]["GameObject"];
-
-		loadedObjects[i]->LoadOptions(jsonGameObject);
-	}
-
 	loadedScene->InitLights();
 }
 
