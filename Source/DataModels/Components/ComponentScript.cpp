@@ -13,11 +13,6 @@ ComponentScript::ComponentScript(bool active, GameObject* owner) :
 {
 }
 
-//ComponentScript::ComponentScript(const ComponentScript& component) :
-//	Component(component), script(std::unique_ptr<Script>(new Script(component.script)))
-//{
-//}
-
 ComponentScript::~ComponentScript()
 {
 }

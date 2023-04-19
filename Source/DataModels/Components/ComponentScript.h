@@ -9,7 +9,6 @@ class ComponentScript : public Component
 {
 public:
 	ComponentScript(bool active, GameObject* owner);
-	//ComponentScript(const ComponentScript& component);
 
 	~ComponentScript() override;
 
