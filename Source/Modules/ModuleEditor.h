@@ -6,7 +6,9 @@ class WindowMainMenu;
 class WindowDebug;
 class WindowScene;
 class WindowInspector;
+class WindowStateMachineEditor;
 class Resource;
+class ResourceStateMachine;
 class GameObject;
 
 class ModuleEditor : public Module
@@ -25,6 +27,8 @@ public:
 
 	void Resized();
 
+	void SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource);
+
 	const WindowScene* GetScene() const;
 	const WindowDebug* GetDebugOptions() const;
 
@@ -42,6 +46,8 @@ private:
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
+	std::unique_ptr<WindowStateMachineEditor> stateMachineEditor;
+	bool stateMachineWindowEnable;
 
 	WindowInspector* inspector;
 	WindowScene* scene;

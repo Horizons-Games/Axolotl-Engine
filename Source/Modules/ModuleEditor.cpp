@@ -20,6 +20,8 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 #include "Windows/EditorWindows/WindowAssetFolder.h"
+#include "Windows/EditorWindows/WindowStateMachineEditor.h"
+#include "Resources/ResourceStateMachine.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -36,7 +38,12 @@
 #include <FontIcons/CustomFont.cpp>
 
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
+ModuleEditor::ModuleEditor() : 
+	mainMenu(nullptr), 
+	scene(nullptr), 
+	windowResized(false), 
+	copyObject(nullptr),
+	stateMachineWindowEnable(true)
 {
 }
 
@@ -69,6 +76,7 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
 	mainMenu = std::make_unique<WindowMainMenu>(windows);
+	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
@@ -197,6 +205,7 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
+	stateMachineEditor->Draw(stateMachineWindowEnable);
 #else
 	debugOptions->Draw();
 #endif
@@ -227,6 +236,14 @@ update_status ModuleEditor::PostUpdate()
 void ModuleEditor::Resized()
 {
 	windowResized = true;
+}
+
+void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
+{
+#ifdef ENGINE
+	this->stateMachineEditor->SetStateMachine(resource);
+	stateMachineWindowEnable = true;
+#endif
 }
 
 bool ModuleEditor::IsSceneFocused() const

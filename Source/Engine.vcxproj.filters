@@ -314,6 +314,12 @@
     <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -654,6 +660,12 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\StateMachineImporter.h">
       <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
