@@ -145,6 +145,12 @@ void ComponentScript::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 	constructName = meta["constructName"];
 	script = App->scriptFactory->ConstructScript(constructName.c_str());
+
+	if (script == nullptr)
+	{
+		return;
+	}
+
 	script->SetApplication(App.get());
 	script->SetGameObject(owner);
 	Json fields = meta["fields"];
