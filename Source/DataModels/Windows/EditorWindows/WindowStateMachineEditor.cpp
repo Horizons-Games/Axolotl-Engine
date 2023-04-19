@@ -8,6 +8,7 @@
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #include "ModuleEditor.h"
 
+#include "Geometry/LineSegment2D.h"
 
 WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("StateMachineEditor"),
 stateIdSelected(-1), creatingTransition(false), openContextMenu(false)
@@ -109,6 +110,24 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImVec2 postStateDestinationCenter = 
 				ImVec2(origin.x + transition.destination->auxiliarPos.first + 100, origin.y + transition.destination->auxiliarPos.second + 25);
 			draw_list->AddLine(posStateOriginCenter, postStateDestinationCenter, IM_COL32(255, 255, 255, 255));
+
+			float triangleLength = 15;
+			float triangleHeight = 15;
+			
+			LineSegment2D line(float2(posStateOriginCenter.x, posStateOriginCenter.y), float2(postStateDestinationCenter.x, postStateDestinationCenter.y));
+			float2 center = line.CenterPoint();
+			float2 perpendicular = line.Dir().Perp();
+			
+			float2 p1 = center - (triangleLength * line.Dir()) / 2.f + triangleHeight / 2.f * perpendicular;
+			float2 p2 = center - (triangleLength * line.Dir()) / 2.f - triangleHeight / 2.f * perpendicular;
+			float2 p3 = center + (triangleLength * line.Dir()) / 2.f;
+
+			ImVec2 p1Im = ImVec2(p1.x, p1.y);
+			ImVec2 p2Im = ImVec2(p2.x, p2.y);
+			ImVec2 p3Im = ImVec2(p3.x, p3.y);
+
+			draw_list->AddTriangleFilled(p1Im, p2Im, p3Im, IM_COL32(255, 255, 255, 255));
+
 			ImGui::PopID();
 		}
 
