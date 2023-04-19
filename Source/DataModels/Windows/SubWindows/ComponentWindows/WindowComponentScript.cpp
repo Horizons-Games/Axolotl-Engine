@@ -105,6 +105,11 @@ void WindowComponentScript::DrawWindowContents()
 
 					ImGui::SameLine(0.0f, 3.0f);
 					ImGui::Text(gameObjectField.name.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("Remove GO"))
+					{
+						gameObjectField.setter(nullptr);
+					}
 
 					break;
 				}
