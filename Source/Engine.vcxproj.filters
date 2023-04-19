@@ -670,6 +670,9 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\Field.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -743,6 +746,9 @@
     </Filter>
     <Filter Include="DataModels\Animation">
       <UniqueIdentifier>{87b4ca48-8d47-439b-bb9d-3de254b79ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Reflection">
+      <UniqueIdentifier>{83b2dfde-47f4-445d-90ac-1b20df04f195}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

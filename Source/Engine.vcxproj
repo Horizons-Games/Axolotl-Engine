@@ -534,6 +534,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
+    <ClInclude Include="Auxiliar\Reflection\Field.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Animation\AnimationController.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
