@@ -391,6 +391,14 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetSceneInteractable(loadedInteractable);
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
+
+	for (unsigned int i = 0; i < gameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = gameObjects[i]["GameObject"];
+
+		loadedObjects[i]->LoadOptions(jsonGameObject);
+	}
+
 	loadedScene->InitLights();
 }
 
@@ -420,7 +428,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		bool enabled = jsonGameObject["enabled"];
 		bool active = jsonGameObject["active"];
 		std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(name, uid);
-		gameObject->LoadOptions(jsonGameObject);
 		gameObjectMap[uid] = gameObject.get();
 		childParentMap[uid] = parentUID;
 		enabledAndActive[uid] = std::make_pair(enabled, active);
