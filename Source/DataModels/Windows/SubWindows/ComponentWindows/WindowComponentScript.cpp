@@ -27,12 +27,10 @@ void WindowComponentScript::DrawWindowContents()
 	const char* firstElementAsCharPtr = constructors.data()->c_str();
 	if (ImGui::ListBox("Available Scripts", &current_item, &firstElementAsCharPtr, (int)(constructors.size()), 3))
 	{
-		script->SetConstuctor(constructors[current_item]);
-		IScript* Iscript = App->scriptFactory->ConstructScript(constructors[current_item]);
-		Iscript->SetGameObject(component->GetOwner());
-		Iscript->SetApplication(App.get());
-		script->SetScript(Iscript);
-		ENGINE_LOG("SCRIPT SELECTED, DRAWING ITS CONTENTS");
+		if (script->GetConstructName() != constructors[current_item])
+		{
+			ChangeScript(script, constructors[current_item]);
+		}
 	}
 
 	IScript* scriptObject = script->GetScript();
@@ -131,4 +129,15 @@ void WindowComponentScript::DrawWindowContents()
 			}
 		}
 	}
+}
+
+void WindowComponentScript::ChangeScript(ComponentScript* newScript, const std::string selectedScript)
+{
+	newScript->SetConstuctor(selectedScript);
+	IScript* Iscript = App->scriptFactory->ConstructScript(selectedScript);
+	Iscript->SetGameObject(component->GetOwner());
+	Iscript->SetApplication(App.get());
+	newScript->SetScript(Iscript);
+
+	ENGINE_LOG("%s SELECTED, drawing its contents.", newScript->GetConstructName().c_str());
 }
