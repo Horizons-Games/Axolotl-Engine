@@ -22,10 +22,10 @@ void WindowComponentScript::DrawWindowContents()
 
 	ImGui::Text("");
 
-	std::vector<std::string> constructors = App->scriptFactory->GetConstructors();
+	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(this->component);
-	const char* firstElementAsCharPtr = constructors.data()->c_str();
-	if (ImGui::ListBox("Available Scripts", &current_item, &firstElementAsCharPtr, (int)(constructors.size()), 3))
+
+	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), constructors.size(), 3))
 	{
 		if (script->GetConstructName() != constructors[current_item])
 		{
@@ -48,7 +48,7 @@ void WindowComponentScript::DrawWindowContents()
 		{
 			ComponentScript* newScript = static_cast<ComponentScript*>(this->component);
 
-			ChangeScript(newScript, newScript->GetConstructName());
+			ChangeScript(newScript, newScript->GetConstructName().c_str());
 			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
 		}
 
@@ -140,7 +140,7 @@ void WindowComponentScript::DrawWindowContents()
 	}
 }
 
-void WindowComponentScript::ChangeScript(ComponentScript* newScript, const std::string selectedScript)
+void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
 {
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->scriptFactory->ConstructScript(selectedScript);

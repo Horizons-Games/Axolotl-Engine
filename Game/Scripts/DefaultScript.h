@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+// This script is just to show how to instantiate/use the different types of variables
+
 class DefaultScript : public Script
 {
 public:

@@ -17,6 +17,6 @@ protected:
 	int current_item = 0;
 
 private:
-	void ChangeScript(ComponentScript* newScript, const std::string selectedScript);
+	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
 };
 

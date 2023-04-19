@@ -72,7 +72,7 @@ update_status ModuleScene::PreUpdate()
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
 				IScript* script =
-					App->scriptFactory->GetScript(componentScript->GetConstructName());
+					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
 				componentScript->Init();

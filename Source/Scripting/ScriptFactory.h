@@ -17,8 +17,8 @@ public:
 	virtual ~ScriptFactory();
 	bool Init();
 
-	IScript* ConstructScript(const std::string& name);
-	IScript* GetScript(const std::string& name);
+	IScript* ConstructScript(const char* name);
+	IScript* GetScript(const char* name);
 	void AddScript(const char* path);
 	void RecompileAll();
 	void UpdateNotifier();
@@ -26,7 +26,7 @@ public:
 	void OnConstructorsAdded() override;
 	bool IsCompiling();
 	bool IsCompiled();
-	std::vector<std::string> GetConstructors();
+	std::vector<const char*> GetConstructors();
 private:
 	void IncludeDirs();
 
