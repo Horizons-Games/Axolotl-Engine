@@ -233,23 +233,26 @@ update_status ModuleRender::Update()
 		AddToRenderList(nonStaticObj);
 	}
 
-#ifndef ENGINE
+#ifdef ENGINE
+	if (App->GetIsOnPlayMode())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
+#else
 	if (App->player->GetPlayer())
 	{
 		AddToRenderList(App->player->GetPlayer());
 	}
 #endif // !ENGINE
-	if (App->GetIsOnPlayMode())
-	{
-		AddToRenderList(App->player->GetPlayer());
-	}
-
+	
 	if (isRoot) 
 	{
 		opaqueGOToDraw.push_back(goSelected);
 	}
-
-	AddToRenderList(goSelected);
+	else
+	{
+		AddToRenderList(goSelected);
+	}
 
 	drawnGameObjects.clear();
 
@@ -492,7 +495,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected && !App->GetIsOnPlayMode())
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->GetIsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}

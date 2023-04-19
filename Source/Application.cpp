@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleUI.h"
@@ -112,11 +113,12 @@ void Application::OnPlay()
 	{
 		isOnPlayMode = false;
 	}
+	
 	//Active Scripts
 	scene->OnPlay();
 }
 
-void Application::OnStopPlay()
+void Application::OnStop()
 {
 	isOnPlayMode = false;
 	input->SetShowCursor(true);

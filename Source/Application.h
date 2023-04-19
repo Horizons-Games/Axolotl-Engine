@@ -32,7 +32,7 @@ public:
 	bool CleanUp();
 
 	void OnPlay();
-	void OnStopPlay();
+	void OnStop();
 	void OnPause();
 
 	void SetMaxFrameRate(int maxFrames);
@@ -42,6 +42,7 @@ public:
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
+	void SetIsOnPlayMode(bool newIsOnPlayMode);
 	void SwitchDebuggingGame();
 
 public:
@@ -102,6 +103,11 @@ inline bool Application::IsDebuggingGame() const
 inline void Application::SetDebuggingGame(bool debuggingGame)
 {
 	this->debuggingGame = debuggingGame;
+}
+
+inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
+{
+	isOnPlayMode = newIsOnPlayMode;
 }
 
 inline void Application::SwitchDebuggingGame()

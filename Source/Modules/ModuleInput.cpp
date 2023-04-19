@@ -203,6 +203,16 @@ update_status ModuleInput::Update()
         }
     }
 
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+    {
+        if (App->GetIsOnPlayMode())
+        {
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
+        }
+    }
+
     if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
         App->editor->GetMainMenu()->ShortcutSave();}
 #endif
