@@ -30,6 +30,7 @@ private:
 	void InitMaterialValues();
 
 	float4 colorDiffuse;
+	float3 colorSpecular;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> normalMap;
 	std::shared_ptr<ResourceTexture> metallicMap;

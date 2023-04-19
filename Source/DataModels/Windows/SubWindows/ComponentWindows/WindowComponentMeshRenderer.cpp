@@ -233,16 +233,9 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (currentShaderTypeIndex == 1)
 			{
-				const float3& colorSpecular = 
-					materialResource->GetSpecularColor();
-
 				ImGui::Text("Specular Color:"); ImGui::SameLine();
 
-				if (ImGui::ColorEdit3("##Specular Color", 
-					(float*)&colorSpecular))
-				{
-					materialResource->SetSpecularColor(colorSpecular);
-				}
+				ImGui::ColorEdit3("##Specular Color", (float*)&colorSpecular);
 			}
 
 			ImGui::Text("");
@@ -389,6 +382,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				materialResource->SetShaderType(currentShaderTypeIndex);
 				materialResource->SetDiffuseColor(colorDiffuse);
+				materialResource->SetSpecularColor(colorSpecular);
 				materialResource->SetDiffuse(diffuseTexture);
 				materialResource->SetMetallic(metallicMap);
 				materialResource->SetNormal(normalMap);
@@ -428,6 +422,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 		{
 			currentShaderTypeIndex = materialResource->GetShaderType();
 			colorDiffuse = materialResource->GetDiffuseColor();
+			colorSpecular = materialResource->GetSpecularColor();
 			diffuseTexture = materialResource->GetDiffuse();
 			metallicMap = materialResource->GetMetallic();
 			specularMap = materialResource->GetSpecular();
