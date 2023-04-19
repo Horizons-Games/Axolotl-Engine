@@ -75,6 +75,8 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 		break;
 	case ResourceType::StateMachine:
 		assetsPath += STATEMACHINE_EXTENSION;
+		/*importedRes = CreateNewResource("DefaultStateMachine", assetsPath, ResourceType::StateMachine);
+		stateMachineImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
 		App->fileSystem->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
 		ImportResource(assetsPath);
 		break;
