@@ -452,6 +452,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->scene->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+
 		components.push_back(std::move(newComponent));
 		return referenceBeforeMove;
 	}

@@ -82,6 +82,7 @@ public:
 	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(GameObject* gameObject);
+	void AddUpdatableObject(Updatable* updatable);
 
 	void InitNewEmptyScene();
 
@@ -203,9 +204,12 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 	return nonStaticObjects;
 }
 
-
-
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.push_back(gameObject);
+}
+
+inline void Scene::AddUpdatableObject(Updatable* updatable)
+{
+	sceneUpdatableObjects.push_back(updatable);
 }
