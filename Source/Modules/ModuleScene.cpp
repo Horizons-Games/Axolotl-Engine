@@ -422,7 +422,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		gameObjectMap[uid] = gameObject;
 		childParentMap[uid] = parentUID;
 		enabledAndActive[uid] = std::make_pair(enabled, active);
-		gameObjects.push_back(std::move(gameObject));
+		gameObjects.push_back(gameObject);
 	}
 
 	loadedScene->SetSceneGameObjects(gameObjects);
@@ -436,18 +436,18 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
 	{
-		GameObject* gameObject = *it;
+		GameObject* gameObject = (*it);
 		UID uid = gameObject->GetUID();
 		UID parent = childParentMap[uid];
 
 		if (parent == 0)
 		{
-			loadedScene->SetRoot(std::unique_ptr<GameObject>(gameObject));
+			loadedScene->SetRoot(gameObject);
 			continue;
 		}
 
 		GameObject* parentGameObject = gameObjectMap[parent];
-		parentGameObject->AddChild(std::unique_ptr<GameObject>(gameObject));
+		parentGameObject->LinkChild(gameObject);
 	}
 
 	std::vector<GameObject*> loadedObjects{};
