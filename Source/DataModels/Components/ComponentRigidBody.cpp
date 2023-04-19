@@ -81,46 +81,63 @@ void ComponentRigidBody::Update()
 #ifndef ENGINE
 	if (isKinematic)
 	{
-		float3 currentPos = transform->GetPosition();
-		Ray ray(currentPos, -float3::unitY);
-		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		RaycastHit hit;
+		float deltaTime = App->GetDeltaTime();
 
-		bool hasHit = Physics::Raycast(line, hit);
-		float3 x;
-		float t = App->GetDeltaTime();
-		float3 x0 = currentPos;
-		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
+		//Velocity
+		v0 += g * deltaTime;
 
-		v0.y -= g * t;
-		x = x0 + v0 * t + a;
+		//Position
+		x += v0 * deltaTime;
 
-		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
-		if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x - x0).Length())
+		//Rotation
+		Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * q;
 
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+		Quat nextRotation(q.x + deltaRotation.x,
+			q.y + deltaRotation.y,
+			q.z + deltaRotation.z,
+			q.w + deltaRotation.w);
+		nextRotation.Normalize();
+
+		q = nextRotation;
+
+		//External Forces
+		if (!usePositionController)
 		{
+			x += externalForce * deltaTime;
+			externalForce = float3::zero;
+		}
+		if (!useRotationController)
+		{
+			Quat angularVelocityQuat(externalTorque.x, externalTorque.y, externalTorque.z, 0.0f);
+			Quat wq_0 = angularVelocityQuat * q;
 
-			x = hit.hitPoint + float3(0.0f, verticalDistanceToFeet, 0.0f);
-			v0 = float3::zero;
 
-			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
-			{
-				ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
+			float deltaValue = 0.5f * deltaTime;
+			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
-				if (mockState->GetIsWinState())
-				{
-					//TODO: win state
-					std::string sceneName = mockState->GetSceneName();
-					App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
-				}
-				else if (mockState->GetIsFailState())
-				{
-					//TODO fail state
-				}
-			}
+			Quat nextRotation(q.x + deltaRotation.x,
+				q.y + deltaRotation.y,
+				q.z + deltaRotation.z,
+				q.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			q = nextRotation;
+			externalTorque = float3::zero;
 		}
 
+		//Apply proportional controllers
+		ApplyForce();
+		ApplyTorque();
+
+		//Update Transform
 		transform->SetPosition(x);
+		float4x4 rotationMatrix = float4x4::FromQuat(q);
+		transform->SetRotation(rotationMatrix);
 	}
 #endif
 }
@@ -141,7 +158,7 @@ void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
 		externalForce += force;
 		break;
 	case ForceMode::Impulse:
-		v0 += force / mass;
+		//TO DO
 		break;
 	case ForceMode::VelocityChange:
 		v0 += force;
@@ -160,7 +177,7 @@ void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
 		externalTorque += torque;
 		break;
 	case ForceMode::Impulse:
-		w0 += torque / inertiaTensor;
+		//TO DO
 		break;
 	case ForceMode::VelocityChange:
 		w0 += torque;
@@ -171,25 +188,30 @@ void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
 
 void ComponentRigidBody::ApplyForce()
 {
+	float deltaTime = App->GetDeltaTime();
 	if (usePositionController)
 	{
 		float3 position = transform->GetPosition();
-		float deltaTime = App->GetDeltaTime();
+		
 
 		float3 positionError = targetPosition - position;
 		float3 velocityPosition = positionError * KpForce + externalForce;
 		float3 nextPos = position + velocityPosition * deltaTime;
 
 		transform->SetPosition(nextPos);
-		externalForce = float3::zero;
 	}
+	else
+	{
+		
+		x += externalForce * deltaTime;
+	}
+	externalForce = float3::zero;
 }
 
 void ComponentRigidBody::ApplyTorque()
 {
 	if (useRotationController)
 	{
-
 		Quat rotation = transform->GetRotation().RotatePart().ToQuat();
 		float deltaTime = App->GetDeltaTime();
 
@@ -216,8 +238,8 @@ void ComponentRigidBody::ApplyTorque()
 
 		float4x4 nextRotationMatrix = float4x4::FromQuat(nextRotation);
 		transform->SetRotation(nextRotationMatrix);
-		externalTorque = float3::zero;
 	}
+	externalTorque = float3::zero;
 }
 
 void ComponentRigidBody::SaveOptions(Json& meta)

@@ -43,7 +43,10 @@ private:
 	bool isKinematic;
 	float mass;
 	float3 inertiaTensor;
-	float g;
+
+	float3 x;
+	Quat q;
+	float3 g;
 	float3 v0;
 	float3 w0;
 
