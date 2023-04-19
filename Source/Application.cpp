@@ -11,13 +11,13 @@
 #include "ModuleScene.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // ENGINE
+#include "ScriptFactory.h"
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false)
+Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
+								isOnPlayMode(false), onPlayTimer(std::make_unique<Timer>())
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
@@ -27,10 +27,7 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
-#ifndef ENGINE
 	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
-#endif // !ENGINE
-
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
 	modules.push_back(std::unique_ptr<ModuleUI>(userInterface = new ModuleUI()));
 	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
@@ -44,6 +41,8 @@ Application::~Application()
 
 bool Application::Init()
 {
+	scriptFactory = std::make_unique<ScriptFactory>();
+	scriptFactory->Init();
 	bool ret = true;
 
 	for (int i = 0; i < modules.size() && ret; ++i)
@@ -66,7 +65,8 @@ bool Application::Start()
 
 update_status Application::Update()
 {
-	float ms = appTimer->Read();
+	float ms;
+	(isOnPlayMode) ? ms = onPlayTimer->Read() : ms = appTimer->Read();
 
 	update_status ret = update_status::UPDATE_CONTINUE;
 
@@ -79,14 +79,16 @@ update_status Application::Update()
 	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
 		ret = modules[i]->PostUpdate();
 
-	float dt = (appTimer->Read() - ms) / 1000.0f;
+	float dt;
+	(isOnPlayMode) ? dt = (onPlayTimer->Read() - ms) / 1000.0f : dt = (appTimer->Read() - ms) / 1000.0f;
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	deltaTime = (appTimer->Read() - ms) / 1000.0f;
+	(isOnPlayMode) ?
+		deltaTime = (onPlayTimer->Read() - ms) / 1000.0f : deltaTime = (appTimer->Read() - ms) / 1000.0f;
 
 	return ret;
 }
@@ -99,4 +101,30 @@ bool Application::CleanUp()
 		ret = modules[i]->CleanUp();
 
 	return ret;
+}
+
+void Application::OnPlay()
+{
+	onPlayTimer->Start();
+	isOnPlayMode = true;
+	player->LoadNewPlayer();
+	if (!player->GetIsLoadPlayer())
+	{
+		isOnPlayMode = false;
+	}
+	//Active Scripts
+	scene->OnPlay();
+}
+
+void Application::OnStopPlay()
+{
+	isOnPlayMode = false;
+	input->SetShowCursor(true);
+	player->UnloadNewPlayer();
+	onPlayTimer->Stop();
+	scene->OnStop();
+}
+
+void Application::OnPause()
+{
 }

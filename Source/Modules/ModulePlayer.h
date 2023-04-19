@@ -23,15 +23,33 @@ public:
 	GameObject* GetPlayer();
 	void SetPlayer(std::unique_ptr<GameObject> player);
 	Camera* GetCameraPlayer();
+	bool GetIsLoadPlayer();
 
 	void LoadNewPlayer();
+	void UnloadNewPlayer();
 
 	bool IsStatic();
 
+	void SetReadyToEliminate(bool readyToEliminate);
+
 private:
 	std::unique_ptr <GameObject>  player;
+	GameObject* lastPlayer;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
-	float speed = 3;
+
+	float speed;
+	bool isPlayerLoad;
+	bool readyToEliminate;
 	
 };
+
+inline bool ModulePlayer::GetIsLoadPlayer()
+{
+	return isPlayerLoad;
+}
+
+inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
+{
+	this->readyToEliminate =  readyToEliminate;
+}

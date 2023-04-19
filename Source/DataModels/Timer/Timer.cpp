@@ -11,6 +11,7 @@ Timer::~Timer()
 void Timer::Start()
 {
 	startTick = SDL_GetTicks();
+	stopped = false;
 }
 
 float Timer::Read()

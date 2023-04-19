@@ -174,6 +174,34 @@
     <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+    <ClInclude Include="RuntimeCompiler\Include\AUArray.h" />
+    <ClInclude Include="RuntimeCompiler\Include\BuildTool.h" />
+    <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h" />
+    <ClInclude Include="RuntimeCompiler\Include\Compiler.h" />
+    <ClInclude Include="RuntimeCompiler\Include\FileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiler\Include\FileSystemUtils.h" />
+    <ClInclude Include="RuntimeCompiler\Include\ICompilerLogger.h" />
+    <ClInclude Include="RuntimeCompiler\Include\IFileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherImpl.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32_AltImpl.h" />
+    <ClInclude Include="RuntimeObjectSystem\IObject.h" />
+    <ClInclude Include="RuntimeObjectSystem\IObjectFactorySystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\IRuntimeObjectSystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\ISimpleSerializer.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterface.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterfacePerModule.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeInclude.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeLinkLibrary.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeObjectSystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeProtector.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeSourceDependency.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeTracking.h" />
+    <ClInclude Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FontIcons\CustomFont.cpp">
@@ -272,6 +300,20 @@
     <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\FileChangeNotifier.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\ObjectInterfacePerModuleSource.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformWindows.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">
@@ -289,6 +331,7 @@
     <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\Include\Math\float2.inl" />
     <None Include="MathGeoLib\Include\Math\Matrix.inl" />
+    <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FontIcons\CustomFont.png">
@@ -343,7 +386,8 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -357,7 +401,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -371,7 +415,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -385,7 +429,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>

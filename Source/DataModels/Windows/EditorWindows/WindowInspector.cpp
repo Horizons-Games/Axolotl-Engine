@@ -147,6 +147,14 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::SCRIPT)) {
+				if (ImGui::MenuItem("Create Script Component"))
+				{
+					AddComponentScript();
+				}
+			}
+
 		}
 
 		else
@@ -340,4 +348,9 @@ void WindowInspector::AddComponentRigidBody()
 void WindowInspector::AddComponentMockState()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}
+
+void WindowInspector::AddComponentScript()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
 }

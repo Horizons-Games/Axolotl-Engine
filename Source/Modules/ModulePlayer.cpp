@@ -4,6 +4,8 @@
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "ModuleRender.h"
 #include "Scene/Scene.h"
 #include "ModuleInput.h"
 
@@ -17,7 +19,8 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr), lastPlayer(nullptr),
+	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -36,19 +39,49 @@ bool ModulePlayer::Start()
 
 update_status ModulePlayer::PreUpdate()
 {
+#ifdef ENGINE
+	if (isPlayerLoad && App->GetIsOnPlayMode())
+	{
+		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
+		{
+			Move();
+			Rotate();
+		}
+	}
+
+#else //ENGINE
 	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
 	}
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModulePlayer::Update()
 {
-	player->Update();
-	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
-	trans->UpdateTransformMatrices();
+#ifdef ENGINE
+	if (isPlayerLoad && App->GetIsOnPlayMode())
+	{
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+		
+		if (readyToEliminate)
+		{
+			App->OnStopPlay();
+			readyToEliminate = false;
+		}
+	}
+	
+#else //ENGINE
+	if (player)
+	{
+		player->Update();
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+	}
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -126,10 +159,29 @@ void ModulePlayer::LoadNewPlayer()
 	{
 		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
 		{
+#ifdef ENGINE
+			SetPlayer(std::make_unique<GameObject>(static_cast<GameObject&>(*camera->GetParent())));
+			lastPlayer = camera->GetParent();
+			// look for the player's camera
+			std::vector<GameObject*> children = player.get()->GetChildren();
+			for (auto child : children)
+			{
+				if (!child->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA).empty())
+				{
+					cameraPlayer = static_cast<ComponentCamera*>(child->GetComponent(ComponentType::CAMERA))->GetCamera();
+					cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
+				}
+			}
+
+			lastPlayer->Disable();
+			App->camera->SetSelectedCamera(0);
+#else
 			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
 			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			App->scene->RemoveGameObjectAndChildren(camera->GetParent());
 			App->camera->SetSelectedCamera(0);
+
+#endif // ENGINE			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
 				App->input->SetShowCursor(true);
@@ -138,10 +190,21 @@ void ModulePlayer::LoadNewPlayer()
 			{
 				App->input->SetShowCursor(false);
 			}
+			isPlayerLoad = true;
+			return;
 		}
 	}
+	isPlayerLoad = false;
+	ENGINE_LOG("Player is not load");
 }
 
+void ModulePlayer::UnloadNewPlayer()
+{
+	App->camera->SetSelectedCamera(-1);
+	lastPlayer->Enable();
+	player = nullptr;
+	isPlayerLoad = false;
+}
 
 bool ModulePlayer::IsStatic()
 {

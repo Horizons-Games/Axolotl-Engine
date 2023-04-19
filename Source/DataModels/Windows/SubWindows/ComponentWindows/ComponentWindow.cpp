@@ -15,6 +15,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -32,6 +33,7 @@
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMockState.h"
+#include "Components/ComponentScript.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -64,6 +66,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
 		case ComponentType::MOCKSTATE:
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
+		case ComponentType::SCRIPT:
+			return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
