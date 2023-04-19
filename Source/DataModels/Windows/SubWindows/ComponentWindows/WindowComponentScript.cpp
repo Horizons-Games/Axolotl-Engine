@@ -30,6 +30,7 @@ void WindowComponentScript::DrawWindowContents()
 		if (script->GetConstructName() != constructors[current_item])
 		{
 			ChangeScript(script, constructors[current_item]);
+			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
 	}
 
@@ -42,6 +43,14 @@ void WindowComponentScript::DrawWindowContents()
 		std::string scriptExtension = ".cpp:";
 		std::string fullScriptName = scriptName + scriptExtension;
 		ImGui::Text(fullScriptName.c_str());
+		ImGui::SameLine();
+		if (ImGui::Button("Reset Script"))
+		{
+			ComponentScript* newScript = static_cast<ComponentScript*>(this->component);
+
+			ChangeScript(newScript, newScript->GetConstructName());
+			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
+		}
 
 		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 		{
@@ -138,6 +147,4 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const std::
 	Iscript->SetGameObject(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
-
-	ENGINE_LOG("%s SELECTED, drawing its contents.", newScript->GetConstructName().c_str());
 }
