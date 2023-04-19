@@ -4,6 +4,7 @@
 #include "FileSystem/Json.h"
 
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
 #ifndef ENGINE
 #include "Modules/ModuleEditor.h"
@@ -43,6 +44,9 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 
 ComponentPointLight::~ComponentPointLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
 void ComponentPointLight::Draw() const

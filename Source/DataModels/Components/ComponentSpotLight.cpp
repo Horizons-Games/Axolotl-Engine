@@ -4,6 +4,7 @@
 #include "FileSystem/Json.h"
 
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
 #ifndef ENGINE
 #include "Modules/ModuleEditor.h"
@@ -50,6 +51,9 @@ ComponentSpotLight::ComponentSpotLight(float radius, float innerAngle, float out
 
 ComponentSpotLight::~ComponentSpotLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
 void ComponentSpotLight::Draw() const

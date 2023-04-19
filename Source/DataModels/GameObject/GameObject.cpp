@@ -65,41 +65,8 @@ GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName())
 
 GameObject::~GameObject()
 {
-	// This should not be here
-	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight = false, hadPointLight = false;
-	for (ComponentLight* light : lights)
-	{
-		switch (light->GetLightType())
-		{
-		case LightType::SPOT:
-			hadSpotLight = true;
-			break;
-		case LightType::POINT:
-			hadPointLight = true;
-			break;
-		}
-	}
-	//
-
 	components.clear();
-
 	children.clear();
-
-	// This should not be here
-	Scene* currentScene = App->scene->GetLoadedScene();
-
-	if (hadSpotLight)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
-	if (hadPointLight)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
-	//
 }
 
 void GameObject::SaveOptions(Json& meta)
