@@ -103,7 +103,7 @@ void WindowComponentScript::DrawWindowContents()
 						ImGui::EndDragDropTarget();
 					}
 
-					ImGui::SameLine();
+					ImGui::SameLine(0.0f, 3.0f);
 					ImGui::Text(gameObjectField.name.c_str());
 
 					break;
