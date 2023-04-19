@@ -68,7 +68,7 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->camera->GetCamera()->GetFrustum()->SetOrthographic(width, height);
+	App->camera->GetCamera()->GetFrustum()->SetOrthographic((float)width, (float)height);
 
 	glDisable(GL_DEPTH_TEST);
 

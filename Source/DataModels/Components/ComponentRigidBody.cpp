@@ -56,7 +56,7 @@ void ComponentRigidBody::Update()
 			float3 x;
 			float t = App->GetDeltaTime();
 			float3 x0 = currentPos;
-			float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
+			float3 a = float3(0.0f, -0.5f * g * t * t, 0.0f);
 
 			v0.y -= g * t;
 			x = x0 + v0 * t + a;

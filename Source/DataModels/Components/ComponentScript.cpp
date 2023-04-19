@@ -103,7 +103,7 @@ void ComponentScript::LoadOptions(Json& meta)
 	script->SetApplication(App.get());
 	script->SetGameObject(owner);
 	Json fields = meta["fields"];
-	for (int i = 0; i < fields.Size(); ++i)
+	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{
 		Json field = fields[i];
 		FieldType fieldType = static_cast<FieldType>(static_cast<int>(field["type"]));

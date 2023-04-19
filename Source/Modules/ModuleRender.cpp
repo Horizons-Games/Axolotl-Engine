@@ -578,4 +578,6 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 		else
 			return true;
 	}
+
+	return false;
 }

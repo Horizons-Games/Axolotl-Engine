@@ -23,7 +23,7 @@ void WindowComponentScript::DrawWindowContents()
 	std::vector<std::string> constructors = App->scriptFactory->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(this->component);
 	const char* firstElementAsCharPtr = constructors.data()->c_str();
-	if (ImGui::ListBox("Constructor", &current_item, &firstElementAsCharPtr, constructors.size(), 3))
+	if (ImGui::ListBox("Constructor", &current_item, &firstElementAsCharPtr, (int)(constructors.size()), 3))
 	{
 		script->SetConstuctor(constructors[current_item]);
 		IScript* Iscript = App->scriptFactory->ConstructScript(constructors[current_item]);
