@@ -102,7 +102,7 @@ void ComponentScript::SaveOptions(Json& meta)
 			case FieldType::GAMEOBJECT:
 			{
 				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter();
+				field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
