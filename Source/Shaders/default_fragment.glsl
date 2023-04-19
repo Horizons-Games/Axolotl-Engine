@@ -102,7 +102,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 {
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
+
     float dotNL = max(dot(N,L), EPSILON);
+
     vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
     float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);

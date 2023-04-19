@@ -80,35 +80,39 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
     return mat3(tangent, bitangent, normal); //TBN
 }
 
-vec3 fresnelSchlick(float cosTheta, vec3 F0)
+vec3 fresnelSchlick(vec3 F0, float dotLH)
 {
-    return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (1.0 - F0) * pow(1.0 - dotLH, 5.0);
 }
 
-vec3 calculateDirectionalLight(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
+float smithVisibility(float dotNL, float dotNV, float roughness)
+{
+    return 0.5/(dotNL*(dotNV*(1-roughness)+roughness)+dotNV*(dotNL*(1-roughness)+roughness));
+}
+
+float GGXNormalDistribution(float dotNH, float roughness)
+{
+    float squareRoughness = roughness*roughness;
+    float squareNH = dotNH*dotNH;
+
+    return squareRoughness/max((PI*pow(squareNH*(squareRoughness-1.0)+1.0,2)),EPSILON);
+}
+
+vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 L = normalize(-directionalDir);
+    vec3 H = (L+V)/length(L+V);
+
     float dotNL = max(dot(N,L), EPSILON);
 
-    vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
-    
-    vec3 Li = directionalColor.rgb * directionalColor.a;
+    vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+    float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+    float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
-    vec3 R = reflect(-L, N);
-
-    float dotVR = max(dot(V,R), EPSILON);
-    float spec = pow(dotVR,smoothness);
-
-    vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
-    //vec3 specular = numerator / 2*PI;
-    vec3 kD = 1 - f0;
-    vec3 diffuse = texDiffuse * kD;
-    vec3 Lo = (diffuse/PI + specular) * Li * dotNL;
-
-    return Lo;
+    return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
-vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
+vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
 
@@ -119,34 +123,29 @@ vec3 calculatePointLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDif
         float radius = points[i].position.w;
         float intensity = points[i].color.a;
         
-        vec3 L = normalize(FragPos - pos);
-        float dotNL = max(dot(N,-L), EPSILON);
+        vec3 L = normalize(-directionalDir);
+        vec3 H = (L+V)/length(L+V);
 
-        vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
+        float dotNL = max(dot(N,L), EPSILON);
+
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = length(FragPos - pos);
         float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
-    
-        vec3 Li = color * intensity * attenuation;
 
-        vec3 R = reflect(L, N);
+        vec3 Li = color*intensity*attenuation;
 
-        float dotVR = max(dot(V,R), EPSILON);
-        float spec = pow(dotVR, smoothness);
-
-        vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
-        vec3 kD = 1 - f0;
-        vec3 diffuse = texDiffuse * kD;
-
-        Lo += (diffuse + specular) * Li * dotNL;
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
 }
 
-vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiffuse)
+vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
 
@@ -164,9 +163,12 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiff
         float cosOuter = cos(outerAngle);
 
         vec3 L = normalize(FragPos - pos);
+        vec3 H = (-L+V)/length(-L+V);
         float dotNL = max(dot(N, -L), EPSILON);
 
-        vec3 fresnel  = fresnelSchlick(cos(dotNL), f0);
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
         float distance = dot(FragPos - pos, aim);
@@ -186,17 +188,8 @@ vec3 calculateSpotLights(vec3 N, vec3 V, float smoothness, vec3 f0, vec3 texDiff
         }
     
         vec3 Li = color * intensity * attenuation * Catt;
-
-        vec3 R = reflect(L, N);
-
-        float dotVR = max(dot(V,R), EPSILON);
-        float spec = pow(dotVR, smoothness);
-
-        vec3 specular = ((smoothness + 2) / 2*PI) * fresnel * spec;
-        vec3 kD = 1 - f0;
-        vec3 diffuse = texDiffuse * kD;
             
-        Lo += (diffuse/PI + specular) * Li * dotNL;
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
@@ -210,6 +203,7 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
+    // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
         textureMat = texture(diffuse_map, TexCoord); 
@@ -218,6 +212,7 @@ void main()
     textureMat = pow(textureMat, gammaCorrection);
     textureMat.a = material.diffuse_color.a; //Transparency
     
+    // Normals
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
@@ -228,34 +223,31 @@ void main()
         norm = normalize(space * norm);
 	}
 
-    //fresnel
+    // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
         specularMat = vec4(texture(specular_map, TexCoord));
     }
-    specularMat = pow(specularMat, gammaCorrection);
 
-    vec3 f0 =  specularMat.rgb;
+    vec3 f0 = specularMat.rgb;
 
-    // smoothness
+    // smoothness and roughness
     float smoothness = material.smoothness;
-    //if (material.has_smoothness_map == 1) {
-	    //smoothness = exp2(specularMat.a * 7 + 1);
-    //}
+    float roughness = pow(1-material.smoothness,2) + EPSILON;
     
-    // ambient
+    // Lights
     vec3 ambient = ambientValue * textureMat.rgb;
 
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, smoothness, f0, textureMat.rgb);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, smoothness, f0, textureMat.rgb);
+        Lo += calculatePointLights(norm, viewDir, textureMat.rgb, f0, roughness);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, smoothness, f0, textureMat.rgb);
+        Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
     }
 
     vec3 color = ambient + Lo;
