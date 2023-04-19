@@ -1,9 +1,12 @@
 #pragma once
 
+#include "GameObject/GameObject.h"
+
 enum class FieldType
 {
 	FLOAT,
-	STRING
+	STRING,
+	GAMEOBJECT
 };
 
 template<typename T>
@@ -21,4 +24,10 @@ template<>
 struct TypeToEnum<std::string>
 {
 	const static FieldType value = FieldType::STRING;
+};
+
+template<>
+struct TypeToEnum<GameObject*>
+{
+	const static FieldType value = FieldType::GAMEOBJECT;
 };

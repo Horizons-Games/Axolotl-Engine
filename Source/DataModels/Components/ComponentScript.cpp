@@ -8,6 +8,9 @@
 
 #include "FileSystem/Json.h"
 
+#include "Scene/Scene.h"
+#include "Modules/ModuleScene.h"
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) : 
 	Component(ComponentType::SCRIPT, active, owner, true), script(nullptr)
 {
@@ -87,6 +90,7 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
+
 			case FieldType::STRING:
 			{
 				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
@@ -94,6 +98,15 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
 			default:
 				break;
 		}
@@ -136,6 +149,26 @@ void ComponentScript::LoadOptions(Json& meta)
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<GameObject*>> optField = script->GetField<GameObject*>(valueName);
+				if (optField)
+				{
+					UID fieldUID = field["value"];
+					if (fieldUID != 0)
+					{
+						optField.value().setter(App->scene->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+					}
+
+					else
+					{
+						optField.value().setter(nullptr);
+					}
 				}
 				break;
 			}

@@ -32,6 +32,7 @@ void WindowComponentScript::DrawWindowContents()
 		script->SetScript(Iscript);
 		ENGINE_LOG("SCRIPT SELECTED, DRAWING ITS CONTENTS");
 	}
+
 	IScript* scriptObject = script->GetScript();
 	if (scriptObject)
 	{
@@ -60,6 +61,21 @@ void WindowComponentScript::DrawWindowContents()
 					{
 						stringField.setter(value);
 					}
+					break;
+				}
+
+				case FieldType::GAMEOBJECT:
+				{
+					Field<GameObject*> stringField = std::get<Field<GameObject*>>(member);
+					GameObject* value = stringField.getter();
+
+					std::string gameObjectName = "Empty";
+					if (value != nullptr)
+					{
+						gameObjectName = value->GetName().c_str();
+					}
+
+					ImGui::TextUnformatted(gameObjectName.c_str());
 					break;
 				}
 

@@ -1,11 +1,15 @@
 #include "DefaultScript.h"
 
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons")
+DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons"), character(nullptr)
 {
 	REGISTER_FIELD(Value, float);
 	REGISTER_FIELD(Sentence, std::string);
+	REGISTER_FIELD(Character, GameObject*);
 }
 
 void DefaultScript::Update(float deltaTime)
@@ -32,4 +36,14 @@ std::string DefaultScript::GetSentence() const
 void DefaultScript::SetSentence(const std::string sentence)
 {
 	this->sentence = sentence;
+}
+
+GameObject* DefaultScript::GetCharacter() const
+{
+	return character;
+}
+
+void DefaultScript::SetCharacter(GameObject* character)
+{
+	this->character = character;
 }

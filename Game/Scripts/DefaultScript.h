@@ -21,7 +21,11 @@ public:
 	std::string GetSentence() const;
 	void SetSentence(const std::string sentence);
 
+	GameObject* GetCharacter() const;
+	void SetCharacter(GameObject* sentence);
+
 private:
 	float value;
 	std::string sentence;
+	GameObject* character;
 };

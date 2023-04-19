@@ -12,14 +12,14 @@ class GameObject;
 class Application;
 
 #define REGISTER_FIELD(Name, Type) \
-	this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
-		#Name, \
-		[this] { return this->Get##Name(); }, \
-		[this](const Type& value) { this->Set##Name(value); } \
-	)));
+    this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
+        #Name, \
+        [this] { return this->Get##Name(); }, \
+        [this](Type value) { this->Set##Name(value); } \
+    )));
 
-//for now only allow floats and strings
-using ValidFieldType = std::variant<Field<float>, Field<std::string>>;
+//for now only allow floats, strings and GameObjects
+using ValidFieldType = std::variant<Field<float>, Field<std::string>, Field<GameObject*>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -102,6 +102,15 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			{
 				Field<std::string> field = std::get<Field<std::string>>(enumAndField.second);
 				std::string value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> field = std::get<Field<GameObject*>>(enumAndField.second);
+				GameObject* value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;
