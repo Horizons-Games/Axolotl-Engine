@@ -16,6 +16,11 @@ void DefaultScript::Update(float deltaTime)
 {
 	ENGINE_LOG("%f", value);
 	ENGINE_LOG("%s", sentence.c_str());
+
+	if (character != nullptr)
+	{
+		ENGINE_LOG("%s", character->GetName().c_str())
+	}
 }
 
 float DefaultScript::GetValue() const
