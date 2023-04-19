@@ -37,10 +37,14 @@ public:
 
 	bool GetIsKinematic() const;
 	void SetIsKinematic(bool newIsKinematic);
+	
+	bool GetIsOnSurface() const;
+	void SetIsOnSurface(bool newIsOnSurface);
 
 private:
 	ComponentTransform* transform;
 	bool isKinematic;
+	bool isOnSurface;
 	float mass;
 
 	float3 x;
@@ -64,7 +68,7 @@ private:
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {
-	return this->isKinematic;
+	return isKinematic;
 }
 
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
@@ -92,4 +96,14 @@ inline void ComponentRigidBody::DisablePositionController()
 inline void ComponentRigidBody::DisableRotationController()
 {
 	useRotationController = false;
+}
+
+inline bool ComponentRigidBody::GetIsOnSurface() const
+{
+	return isOnSurface;
+}
+
+inline void ComponentRigidBody::SetIsOnSurface(bool newIsOnSurface)
+{
+	isOnSurface = newIsOnSurface;
 }

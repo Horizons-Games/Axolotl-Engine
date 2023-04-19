@@ -12,6 +12,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
@@ -74,6 +75,7 @@ void ModulePlayer::Move()
 	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(player->GetComponent(ComponentType::MESHCOLLIDER));
+	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(player->GetComponent(ComponentType::RIGIDBODY));
 	float3 position = trans->GetPosition();
 
 	math::vec points[8];
@@ -82,9 +84,12 @@ void ModulePlayer::Move()
 	std::vector<float3> backPoints = { points[0], points[2], points[4], points[6] };
 	std::vector<float3> leftPoints = { points[4], points[6], points[5],  points[7] };
 	std::vector<float3> rightPoints = { points[0], points[2], points[1], points[3] };
+	std::vector<float3> bottomPoints = { points[0], points[1], points[2], points[3] };
+	std::vector<float3> topPoints = { points[4], points[5], points[6], points[7] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
 	float3 sideDirection = (points[0] - points[4]).Normalized();
+	float3 verticalDirection = float3::unitY;
 
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
@@ -130,6 +135,20 @@ void ModulePlayer::Move()
 
 		trans->UpdateTransformMatrices();
 	}
+
+	//bottom
+	if (collider->IsColliding(bottomPoints, -verticalDirection, speed * deltaTime * 1.1f, 0.0f))
+	{
+		rigidBody->SetIsOnSurface(true);
+	}
+	else {
+		rigidBody->SetIsOnSurface(false);
+	}
+	
+	//top
+	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))
+	{
+	}*/
 }
 
 void ModulePlayer::Rotate()
