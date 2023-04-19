@@ -207,7 +207,7 @@ update_status ModuleInput::Update()
     {
         if (App->GetIsOnPlayMode())
         {
-            SetShowCursor(true);;
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
         }
     }
 
