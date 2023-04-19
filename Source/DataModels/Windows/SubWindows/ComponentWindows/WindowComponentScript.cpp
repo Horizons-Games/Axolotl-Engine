@@ -78,7 +78,7 @@ void WindowComponentScript::DrawWindowContents()
 					Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
 					GameObject* value = gameObjectField.getter();
 
-					std::string gameObjectName = "Empty";
+					std::string gameObjectName = "Drag a GameObject here";
 					if (value != nullptr)
 					{
 						gameObjectName = value->GetName().c_str();
@@ -106,6 +106,18 @@ void WindowComponentScript::DrawWindowContents()
 					ImGui::SameLine(0.0f, 3.0f);
 					ImGui::Text(gameObjectField.name.c_str());
 
+					break;
+				}
+
+				case FieldType::BOOLEAN:
+				{
+					Field<bool> stringField = std::get<Field<bool>>(member);
+					bool value = stringField.getter();
+
+					if (ImGui::Checkbox(stringField.name.c_str(), &value))
+					{
+						stringField.setter(value);
+					}
 					break;
 				}
 

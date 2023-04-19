@@ -22,10 +22,14 @@ public:
 	void SetSentence(const std::string sentence);
 
 	GameObject* GetCharacter() const;
-	void SetCharacter(GameObject* sentence);
+	void SetCharacter(GameObject* character);
+
+	bool GetCheck() const;
+	void SetCheck(bool check);
 
 private:
 	float value;
 	std::string sentence;
 	GameObject* character;
+	bool check;
 };

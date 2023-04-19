@@ -6,7 +6,8 @@ enum class FieldType
 {
 	FLOAT,
 	STRING,
-	GAMEOBJECT
+	GAMEOBJECT,
+	BOOLEAN
 };
 
 template<typename T>
@@ -30,4 +31,10 @@ template<>
 struct TypeToEnum<GameObject*>
 {
 	const static FieldType value = FieldType::GAMEOBJECT;
+};
+
+template<>
+struct TypeToEnum<bool>
+{
+	const static FieldType value = FieldType::BOOLEAN;
 };

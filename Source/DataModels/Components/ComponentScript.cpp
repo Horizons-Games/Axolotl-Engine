@@ -102,7 +102,24 @@ void ComponentScript::SaveOptions(Json& meta)
 			case FieldType::GAMEOBJECT:
 			{
 				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
+
+				if (std::get<Field<GameObject*>>(enumAndValue.second).getter() != nullptr)
+				{
+					field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
+				}
+				else
+				{
+					field["value"] = 0;
+				}
+
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				field["name"] = std::get<Field<bool>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<bool>>(enumAndValue.second).getter();
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
@@ -169,6 +186,17 @@ void ComponentScript::LoadOptions(Json& meta)
 					{
 						optField.value().setter(nullptr);
 					}
+				}
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				if (optField)
+				{
+					optField.value().setter(field["value"]);
 				}
 				break;
 			}
