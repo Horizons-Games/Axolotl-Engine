@@ -24,6 +24,10 @@ void ComponentAudioListener::Update()
 
 void ComponentAudioListener::Draw()
 {
+}
+
+void ComponentAudioListener::OnTransformChanged()
+{
     const float3& pos = transform->GetGlobalPosition();
     const float3& front = transform->GetGlobalForward().Normalized();
     const float3& up = transform->GetGlobalUp();

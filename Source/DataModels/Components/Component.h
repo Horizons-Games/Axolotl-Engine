@@ -39,6 +39,7 @@ public:
 	virtual void Update() = 0; // Abstract because each component will perform its own Update
 
 	virtual void Draw();
+	virtual void OnTransformChanged();
 
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
@@ -99,6 +100,10 @@ inline void Component::Disable()
 }
 
 inline void Component::Draw()
+{
+}
+
+inline void Component::OnTransformChanged()
 {
 }
 

@@ -130,6 +130,10 @@ void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
 	GetOwner()->Update();
+	
+	for(Component* components : GetOwner()->GetComponents()) {
+		components->OnTransformChanged();
+	}
 
 	if (GetOwner()->GetChildren().empty())
 		return;

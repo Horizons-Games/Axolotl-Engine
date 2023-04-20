@@ -13,6 +13,7 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void OnTransformChanged() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

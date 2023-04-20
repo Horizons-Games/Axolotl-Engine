@@ -11,7 +11,7 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
 
     AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName().c_str());
     transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-    PostEvent();
+    PostEvent(audios::MUSIC_TEST); //REMOVE (just for testing)
 }
 
 ComponentAudioSource::~ComponentAudioSource()
@@ -24,6 +24,10 @@ void ComponentAudioSource::Update()
 }
 
 void ComponentAudioSource::Draw()
+{
+}
+
+void ComponentAudioSource::OnTransformChanged()
 {
     const float3& pos = transform->GetGlobalPosition();
     const float3& front = transform->GetGlobalForward().Normalized();
@@ -53,10 +57,10 @@ void ComponentAudioSource::Disable()
 {
 }
 
-void ComponentAudioSource::PostEvent()
+void ComponentAudioSource::PostEvent(static const wchar_t* sound)
 {
     AK::SoundEngine::PostEvent(
-        audios::MUSIC_TEST,    // Name of the Event (not case sensitive).
+        sound,    // Name of the Event (not case sensitive).
         sourceID           // Associated game object ID
     );
 }

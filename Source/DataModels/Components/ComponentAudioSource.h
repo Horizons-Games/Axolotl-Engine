@@ -3,6 +3,7 @@
 #include "modules/ModuleAudio.h"
 
 class ComponentTransform;
+class AudioList;
 
 class ComponentAudioSource : public Component
 {
@@ -13,6 +14,7 @@ public:
 	void Update() override;
 
 	void Draw() override;
+	void OnTransformChanged() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
@@ -20,7 +22,7 @@ public:
 	void Enable();
 	void Disable();
 
-	void PostEvent();
+	void PostEvent(static const wchar_t* sound);
 
 private:
 	uint64_t sourceID;
