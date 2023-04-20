@@ -26,7 +26,7 @@ void WindowEditorControl::DrawWindowContents()
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
     }
 
-    if (ImGui::ArrowButton((App->IsOnPlayMode()) ? "##Stop" : "##Play", ImGuiDir_Right))
+    if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
     {
         (App->IsOnPlayMode()) ? App->player->SetReadyToEliminate(true) : App->OnPlay();
     }
@@ -34,7 +34,7 @@ void WindowEditorControl::DrawWindowContents()
 
     if (ImGui::Button("||"))
     {
-        App->scene->OnPause();
+        App->OnPause();
 
     }
     ImGui::SameLine();
