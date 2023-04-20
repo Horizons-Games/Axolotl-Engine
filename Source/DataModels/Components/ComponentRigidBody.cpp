@@ -88,15 +88,9 @@ void ComponentRigidBody::Update()
 	//Apply gravity
 	if (!isOnSurface)
 	{
-		float deltaTime = App->GetDeltaTime();
-		x = transform->GetPosition();
+		AddForce(-float3::unitY, ForceMode::Acceleration);
 
-		//Velocity
-		float3 v = g * deltaTime;
-
-		//Position
-		x += v0 * deltaTime + 0.5f * g * deltaTime * deltaTime;
-		v0 = v;
+		ApplyForce();
 
 		transform->SetPosition(x);
 	}	
