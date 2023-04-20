@@ -75,6 +75,9 @@ private:
 
 	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
 
+	void LockBuffer();
+	void WaitBuffer();
+
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<ResourceMaterial*> resourcesMaterial;
@@ -97,6 +100,11 @@ private:
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
+
+	GLsync gSync;
+	GLbitfield mapFlags = GL_MAP_WRITE_BIT |GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+	GLbitfield createFlags = mapFlags | GL_DYNAMIC_STORAGE_BIT;
+	float4x4* transformData;
 
 	ResourceMaterial* defaultMaterial;
 

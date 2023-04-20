@@ -206,12 +206,23 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	const GLuint bindingPointModel = 10;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+
+	//BufferRange will be for double buffering
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms, 0, componentsInBatch.size() * sizeof(float4x4));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+	
+	//transformData = (float4x4*)(glMapNamedBuffer(transforms, GL_DYNAMIC_DRAW));
+	transformData = (float4x4*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4),mapFlags));
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
 	const GLuint bindingPointMaterial = 11;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	//glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, resourcesMaterial.size() * sizeof(Material));
+	//glNamedBufferStorage(materials, resourcesMaterial.size() * sizeof(Material), NULL, bufferFlags);
+	//materialData = (ResourceMaterial*)glMapNamedBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+	//	resourcesMaterial.size() * sizeof(Material), bufferFlags);
 	
 	glBindVertexArray(0);
 }
@@ -300,6 +311,7 @@ void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	WaitBuffer();
 	if (createBuffers)
 	{
 		//Redo info
@@ -319,7 +331,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 
 	if (reserveModelSpace)
 	{
-		glNamedBufferData(transforms, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
+		//glNamedBufferData(transforms, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
@@ -344,6 +356,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	int drawCount = 0;
 
 	std::vector<float4x4> modelMatrices (componentsInBatch.size());
+	float4x4* transforms = (float4x4*)transformData;
 
 	for (auto component : componentsToRender)
 	{
@@ -355,7 +368,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 
 		unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
 
-		modelMatrices[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+		transforms[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 			
 		//do a for for all the instaces existing
@@ -373,12 +386,13 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
 	
-	glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
+	//glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
 
 	program->Activate();
 	glBindVertexArray(vao);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
+	LockBuffer();
 	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
@@ -465,4 +479,26 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &materials);
 
 	return true;
+}
+
+void GeometryBatch::LockBuffer()
+{
+	if (gSync)
+	{
+		glDeleteSync(gSync);
+	}
+	gSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+}
+
+void GeometryBatch::WaitBuffer()
+{
+	if (gSync)
+	{
+		while (1)
+		{
+			GLenum waitReturn = glClientWaitSync(gSync, GL_SYNC_FLUSH_COMMANDS_BIT, 1);
+			if (waitReturn == GL_ALREADY_SIGNALED || waitReturn == GL_CONDITION_SATISFIED)
+				return;
+		}
+	}
 }
