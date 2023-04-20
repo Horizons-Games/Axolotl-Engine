@@ -36,7 +36,7 @@ public:
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
-	bool GetIsOnPlayMode() const;
+	bool IsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
@@ -85,7 +85,7 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
-inline bool Application::GetIsOnPlayMode() const
+inline bool Application::IsOnPlayMode() const
 {
 	return isOnPlayMode;
 }

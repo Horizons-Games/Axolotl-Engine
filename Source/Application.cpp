@@ -125,4 +125,5 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
+	scene->OnPause();
 }

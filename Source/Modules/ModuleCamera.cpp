@@ -134,7 +134,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	{
 #ifdef ENGINE
 		selectedPosition = 0;
-		if (App->GetIsOnPlayMode())
+		if (App->IsOnPlayMode())
 		{
 			selectedCamera = App->player->GetCameraPlayer();
 			if (!selectedCamera)
