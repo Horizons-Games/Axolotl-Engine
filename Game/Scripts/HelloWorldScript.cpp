@@ -45,7 +45,7 @@ std::string HelloWorldScript::GetHelloWorld() const
 	return helloWorld;
 }
 
-void HelloWorldScript::SetHelloWorld(const std::string helloWorld)
+void HelloWorldScript::SetHelloWorld(const std::string& helloWorld)
 {
 	this->helloWorld = helloWorld;
 }
