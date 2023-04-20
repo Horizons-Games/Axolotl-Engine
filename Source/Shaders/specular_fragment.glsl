@@ -109,7 +109,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
-    return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
+    return (Cd*f0+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
 vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -139,7 +139,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 Li = color*intensity*attenuation;
 
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+        Lo += (Cd*f0+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
@@ -189,7 +189,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     
         vec3 Li = color * intensity * attenuation * Catt;
             
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+        Lo += (Cd*f0+0.25*FS*SV*GGXND)*Li*dotNL;
     }
 
     return Lo;
