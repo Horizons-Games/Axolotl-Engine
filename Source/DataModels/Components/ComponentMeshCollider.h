@@ -2,6 +2,7 @@
 #include "Component.h"
 
 #include "Math/float3.h"
+#include "Physics/Physics.h"
 
 class ComponentMeshCollider :
 	public Component
@@ -19,7 +20,7 @@ public:
 	bool GetIsTrigger() const;
 	void SetIsTrigger(bool newIsKinematic);
 
-	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize = 0) const;
+	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, RaycastHit& hit, float stepSize = 0) const;
 	void GetMinMaxPoints(std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const;
 
 private:

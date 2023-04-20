@@ -84,15 +84,17 @@ void ModulePlayer::Move()
 	std::vector<float3> backPoints = { points[0], points[2], points[4], points[6] };
 	std::vector<float3> leftPoints = { points[4], points[6], points[5],  points[7] };
 	std::vector<float3> rightPoints = { points[0], points[2], points[1], points[3] };
-	std::vector<float3> bottomPoints = { points[0], points[1], points[2], points[3] };
-	std::vector<float3> topPoints = { points[4], points[5], points[6], points[7] };
+	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
+	std::vector<float3> topPoints = { points[2], points[3], points[6], points[7] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
 	float3 sideDirection = (points[0] - points[4]).Normalized();
 	float3 verticalDirection = float3::unitY;
 
+	RaycastHit hit;
 	//Forward
-	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && !collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
+	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && 
+		!collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
 	{
 		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
@@ -105,7 +107,8 @@ void ModulePlayer::Move()
 	}
 
 	//Backward
-	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE && !collider->IsColliding(backPoints, -direction, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
+	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE && 
+		!collider->IsColliding(backPoints, -direction, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
 	{
 		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 		trans->SetPosition(position);
@@ -117,7 +120,8 @@ void ModulePlayer::Move()
 	}
 
 	//Left
-	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE && !collider->IsColliding(leftPoints, -sideDirection, speed  * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
+	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE && 
+		!collider->IsColliding(leftPoints, -sideDirection, speed  * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
 	{
 		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
@@ -128,7 +132,8 @@ void ModulePlayer::Move()
 	}
 
 	//Right
-	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE && !collider->IsColliding(rightPoints, sideDirection, speed * deltaTime * 1.1f, trans->GetLocalAABB().Size().y * 0.15f))
+	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE && 
+		!collider->IsColliding(rightPoints, sideDirection, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
 	{
 		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
 		trans->SetPosition(position);
@@ -137,9 +142,21 @@ void ModulePlayer::Move()
 	}
 
 	//bottom
-	rigidBody->SetIsOnSurface(
-		collider->IsColliding(bottomPoints, -verticalDirection, speed * deltaTime * 1.1f, 0)
-	);
+	float maxHeight = -math::inf;
+
+	for (float3 bottomPoint : bottomPoints) 
+	{
+		Ray ray(bottomPoint, -float3::unitY);
+		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+		bool hasHit = Physics::Raycast(line, hit);
+
+		if (hasHit && hit.hitPoint.y > maxHeight)
+		{
+			maxHeight = hit.hitPoint.y;
+		}
+	}
+
+	rigidBody->SetBottomHitPoint(maxHeight);
 	
 	//top
 	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))
@@ -165,7 +182,8 @@ void ModulePlayer::Rotate()
 		trans->GetObjectOBB().GetCornerPoints(points);
 		std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 		float3 direction = (points[1] - points[0]).Normalized();
-		if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7))
+		RaycastHit hit;
+		if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7, hit))
 		{
 			float deltaTime = App->GetDeltaTime();
 			ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));

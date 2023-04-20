@@ -29,6 +29,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	isOnSurface = false;
 	mass = 1.0f;
 
+	height = -math::inf;
 	x = transform->GetPosition();
 	q = transform->GetRotation().RotatePart().ToQuat();
 	g = float3(0.0f, -9.81f, 0.0f);
@@ -54,46 +55,47 @@ void ComponentRigidBody::Update()
 		//Velocity
 		float3 v = g * deltaTime;
 
-		//Position
+		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
 
-		x += v0 * deltaTime + 0.5f*g*deltaTime*deltaTime;
-		v0 = v;
+		x += v0 * deltaTime + 0.5f * g * deltaTime * deltaTime;
+		v0 += v;
+	
+		//Apply gravity
+		if (x.y <= height + verticalDistanceToFeet)
+		{
+			x.y = height + verticalDistanceToFeet;
+			v0 = float3::zero;
+		}
 
-		//Rotation
-		Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
-		Quat wq_0 = angularVelocityQuat * q;
+		
+
+		////Rotation
+		//Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
+		//Quat wq_0 = angularVelocityQuat * q;
 
 
-		float deltaValue = 0.5f * deltaTime;
-		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+		//float deltaValue = 0.5f * deltaTime;
+		//Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
-		Quat nextRotation(q.x + deltaRotation.x,
-			q.y + deltaRotation.y,
-			q.z + deltaRotation.z,
-			q.w + deltaRotation.w);
-		nextRotation.Normalize();
+		//Quat nextRotation(q.x + deltaRotation.x,
+		//	q.y + deltaRotation.y,
+		//	q.z + deltaRotation.z,
+		//	q.w + deltaRotation.w);
+		//nextRotation.Normalize();
 
-		q = nextRotation;
+		//q = nextRotation;
 
 		//Apply proportional controllers
 		ApplyForce();
-		ApplyTorque();
+		//ApplyTorque();
 
 		//Update Transform
 		transform->SetPosition(x);
-		float4x4 rotationMatrix = float4x4::FromQuat(q);
-		transform->SetRotation(rotationMatrix);
+		/*float4x4 rotationMatrix = float4x4::FromQuat(q);
+		transform->SetRotation(rotationMatrix);*/
 	}
 
-	//Apply gravity
-	if (!isOnSurface)
-	{
-		AddForce(-float3::unitY, ForceMode::Acceleration);
-
-		ApplyForce();
-
-		transform->SetPosition(x);
-	}	
+	
 #endif
 }
 
@@ -155,10 +157,54 @@ void ComponentRigidBody::ApplyForce()
 	}
 	else
 	{
-		
+
 		x += externalForce * deltaTime;
 	}
 	externalForce = float3::zero;
+
+
+	/*float deltaTime = App->GetDeltaTime();
+	if (externalForce.y < 0.0f) 
+	{
+		if (!isOnSurface) 
+		{
+			if (usePositionController)
+			{
+
+				float3 positionError = targetPosition - x;
+				float3 velocityPosition = positionError * KpForce + externalForce;
+				float3 nextPos = x + velocityPosition * deltaTime;
+
+				x = nextPos;
+			}
+			else
+			{
+
+				x += externalForce * deltaTime;
+			}
+			externalForce = float3::zero;
+		}
+
+	}
+	else 
+	{
+		if (usePositionController)
+		{
+
+			float3 positionError = targetPosition - x;
+			float3 velocityPosition = positionError * KpForce + externalForce;
+			float3 nextPos = x + velocityPosition * deltaTime;
+
+			x = nextPos;
+		}
+		else
+		{
+
+			x += externalForce * deltaTime;
+		}
+		externalForce = float3::zero;
+	}*/
+	
 }
 
 void ComponentRigidBody::ApplyTorque()

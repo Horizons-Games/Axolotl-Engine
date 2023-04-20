@@ -24,6 +24,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	float3 ObtainNextPositionGravity();
+
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
 
@@ -38,8 +40,7 @@ public:
 	bool GetIsKinematic() const;
 	void SetIsKinematic(bool newIsKinematic);
 	
-	bool GetIsOnSurface() const;
-	void SetIsOnSurface(bool newIsOnSurface);
+	void SetBottomHitPoint(float height);
 
 private:
 	ComponentTransform* transform;
@@ -52,6 +53,8 @@ private:
 	float3 g;
 	float3 v0;
 	float3 w0;
+
+	float height;
 
 	float3 targetPosition;
 	Quat targetRotation;
@@ -98,12 +101,7 @@ inline void ComponentRigidBody::DisableRotationController()
 	useRotationController = false;
 }
 
-inline bool ComponentRigidBody::GetIsOnSurface() const
+inline void ComponentRigidBody::SetBottomHitPoint(float height)
 {
-	return isOnSurface;
-}
-
-inline void ComponentRigidBody::SetIsOnSurface(bool newIsOnSurface)
-{
-	isOnSurface = newIsOnSurface;
+	this->height = height;
 }

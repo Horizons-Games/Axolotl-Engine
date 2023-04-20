@@ -44,7 +44,7 @@ void ComponentMeshCollider::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 }
 
-bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize) const
+bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, RaycastHit& hit, float stepSize) const
 {
 	std::vector<float3> points;
 	GetMinMaxPoints(startingPoints, points, stepSize);
@@ -53,7 +53,6 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		RaycastHit hit;
 		bool hasHit = Physics::Raycast(line, hit);
 
 		if (hasHit) {
