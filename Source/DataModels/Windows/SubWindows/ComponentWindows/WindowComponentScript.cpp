@@ -25,7 +25,7 @@ void WindowComponentScript::DrawWindowContents()
 	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(this->component);
 
-	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), constructors.size(), 3))
+	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), (int)(constructors.size()), 3))
 	{
 		if (script->GetConstructName() != constructors[current_item])
 		{
@@ -43,7 +43,16 @@ void WindowComponentScript::DrawWindowContents()
 		std::string scriptExtension = ".cpp:";
 		std::string fullScriptName = scriptName + scriptExtension;
 		ImGui::Text(fullScriptName.c_str());
-		ImGui::SameLine();
+
+		if (ImGui::GetWindowWidth() > (float)fullScriptName.size() * 13.0f)
+		{
+			ImGui::SameLine(ImGui::GetWindowWidth() - 100.0f);
+		}
+		else
+		{
+			ImGui::SameLine();
+		}
+
 		if (ImGui::Button("Reset Script"))
 		{
 			ComponentScript* newScript = static_cast<ComponentScript*>(this->component);

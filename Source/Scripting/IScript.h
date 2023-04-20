@@ -116,6 +116,15 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 				break;
 			}
 
+			case FieldType::BOOLEAN:
+			{
+				Field<bool> field = std::get<Field<bool>>(enumAndField.second);
+				bool value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
 			default:
 				break;
 		}
