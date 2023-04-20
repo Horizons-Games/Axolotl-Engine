@@ -41,7 +41,7 @@ std::string DefaultScript::GetSentence() const
 	return sentence;
 }
 
-void DefaultScript::SetSentence(const std::string sentence)
+void DefaultScript::SetSentence(const std::string& sentence)
 {
 	this->sentence = sentence;
 }

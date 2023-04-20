@@ -21,7 +21,7 @@ public:
 	void SetValue(float value);
 
 	std::string GetSentence() const;
-	void SetSentence(const std::string sentence);
+	void SetSentence(const std::string& sentence);
 
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
