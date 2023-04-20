@@ -35,7 +35,7 @@ void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnima
 	animationIx = 0;
 
 	controller->Play(animations[animationIx], true);
-	controller->Stop();
+	//controller->Stop();
 }
 
 void ComponentAnimation::Update()
