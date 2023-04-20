@@ -18,7 +18,7 @@ public:
 	void CleanUp() override {};
 
 	std::string GetHelloWorld() const;
-	void SetHelloWorld(const std::string helloWorld);
+	void SetHelloWorld(const std::string& helloWorld);
 
 	GameObject* GetMovingGameObject() const;
 	void SetMovingGameObject(GameObject* movingGameObject);
