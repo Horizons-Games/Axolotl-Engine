@@ -12,6 +12,7 @@ enum class ProgramType
 	SKYBOX,
 	SPRITE,
 	IRRADIANCE_MAP,
+	HDR_TO_CUBEMAP,
 	PROGRAM_TYPE_SIZE
 };
 
