@@ -320,6 +320,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -675,6 +678,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
