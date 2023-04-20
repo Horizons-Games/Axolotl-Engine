@@ -25,18 +25,11 @@ void WindowStateMachineEditor::DrawWindowContents()
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine;
 	ImGui::BeginChild("Side_lists", ImVec2(200, 0));
 	ImGui::Text("Parameters");
-	/*if (ImGui::Button("NEW FIELD")) 
+	ImGui::SameLine();
+	if (ImGui::Button("+"))
 	{
-
-		Field<float> field(
-			"NAME", 
-			[this] { return this->Get##Name(); },
-			[this](const Type& value) { this->Set##Name(value)
-		);
-
-		TypeToEnum<char>::value;
-
-	}*/
+		
+	}
 	ImGui::Separator();
 	ImGui::Text("");
 	if (stateAsShared && stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)

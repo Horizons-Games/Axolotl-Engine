@@ -3,14 +3,27 @@
 #include "Resource.h"
 #include <memory>
 #include <unordered_map>
+#include <variant>
+
+#include "Auxiliar/Reflection/Field.h"
+#include "Auxiliar/Reflection/TypeToEnum.h"
+
+
+#define REGISTER_FIELD(Name, Type) \
+	this->parameters.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
+		#Name, \
+		[this] { return this->Get##Name(); }, \
+		[this](const Type& value) { this->Set##Name(value); } \
+	)));
 
 struct State
 {
+	UID id;
 	std::string name;
 	std::shared_ptr<Resource> resource;
 	std::pair<int, int> auxiliarPos;
-	std::vector<unsigned int> transitionsOriginedHere;
-	std::vector<unsigned int> transitionsDestinedHere;
+	std::vector<UID> transitionsOriginedHere;
+	std::vector<UID> transitionsDestinedHere;
 };
 
 struct Transition
@@ -20,6 +33,10 @@ struct Transition
 	double transitionDuration;
 };
 
+//for now only allow floats
+using ValidFieldType = std::variant<Field<float>>;
+using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
+
 class ResourceStateMachine : virtual public Resource
 {
 public:
@@ -28,6 +45,8 @@ public:
 		const std::string& assetsPath,
 		const std::string& libraryPath);
 	virtual ~ResourceStateMachine() override;
+
+	void AddParameter(const std::string& parameterName);
 
 	ResourceType GetType() const override;
 
@@ -40,7 +59,7 @@ public:
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
 	const std::vector<State*>& GetStates() const;
-	const std::unordered_map<unsigned int, Transition>& GetTransitions() const;
+	const std::unordered_map<UID, Transition>& GetTransitions() const;
 	int GetIdState(const State& state) const;
 
 	void AddNewState(int x, int y);
@@ -61,8 +80,14 @@ protected:
 
 private:
 	std::vector<State*> states;
-	std::unordered_map<unsigned int, Transition> transitions;
+	std::unordered_map<UID, Transition> transitions;
+	std::vector<TypeFieldPair> parameters;
 };
+
+inline void ResourceStateMachine::AddParameter(const std::string& parameterName)
+{
+	/*REGISTER_FIELD(parameterName, float);*/
+}
 
 inline ResourceType ResourceStateMachine::GetType() const
 {
@@ -84,7 +109,7 @@ inline const std::vector<State*>& ResourceStateMachine::GetStates() const
 	return states;
 }
 
-inline const std::unordered_map<unsigned int, Transition>& ResourceStateMachine::GetTransitions() const
+inline const std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions() const
 {
 	return transitions;
 }

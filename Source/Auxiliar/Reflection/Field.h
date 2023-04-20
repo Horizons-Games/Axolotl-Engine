@@ -2,6 +2,7 @@
 
 #include <string>
 #include <functional>
+#include "TypeToEnum.h"
 
 template<typename T>
 struct Field

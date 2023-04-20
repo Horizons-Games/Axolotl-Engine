@@ -22,6 +22,7 @@ void ResourceStateMachine::AddNewState(int x, int y)
 {
 	State* state = new State;
 	state->name = "NewState";
+	state->id = UniqueID::GenerateUID();
 	state->auxiliarPos = std::pair<int, int>(x, y);
 	states.push_back(state);
 }
@@ -41,18 +42,19 @@ void ResourceStateMachine::EraseState(unsigned int id)
 
 void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 {
-	for (unsigned int transitionId : states[idOrigin]->transitionsOriginedHere)
+	for (UID transitionId : states[idOrigin]->transitionsOriginedHere)
 	{
 		const auto& it = transitions.find(transitionId);
-		if (it->second.destination->name == states[idDestiny]->name) return;
+		if (it->second.destination->id == states[idDestiny]->id) return;
 	}
 
 	Transition transition;
 	transition.origin = states[idOrigin];
 	transition.destination = states[idDestiny];
-	states[idDestiny]->transitionsDestinedHere.push_back(transitions.size());
-	states[idOrigin]->transitionsOriginedHere.push_back(transitions.size());
-	transitions[transitions.size()] = transition;
+	UID uid = UniqueID::GenerateUID();
+	states[idDestiny]->transitionsDestinedHere.push_back(uid);
+	states[idOrigin]->transitionsOriginedHere.push_back(uid);
+	transitions[uid] = transition;
 }
 
 void ResourceStateMachine::EditDestinyTransition(unsigned int idTransition, unsigned int idState)
