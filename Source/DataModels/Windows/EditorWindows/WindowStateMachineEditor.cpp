@@ -7,11 +7,15 @@
 #include "Resources/ResourceStateMachine.h"
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 #include "ModuleEditor.h"
+#include "ImporterWindows/WindowResourceInput.h"
 
 #include "Geometry/LineSegment2D.h"
 
+#include "Auxiliar/Reflection/Field.h"
+#include "Auxiliar/Reflection/TypeToEnum.h"
+
 WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("StateMachineEditor"),
-stateIdSelected(-1), creatingTransition(false), openContextMenu(false)
+stateIdSelected(-1), creatingTransition(false), openContextMenu(false), sizeState(200,50), inputResource(std::make_unique<WindowResourceInput>())
 {
 	stateMachine = std::make_shared<ResourceStateMachine>(0, "", "", "");
 }
@@ -21,6 +25,18 @@ void WindowStateMachineEditor::DrawWindowContents()
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine;
 	ImGui::BeginChild("Side_lists", ImVec2(200, 0));
 	ImGui::Text("Parameters");
+	/*if (ImGui::Button("NEW FIELD")) 
+	{
+
+		Field<float> field(
+			"NAME", 
+			[this] { return this->Get##Name(); },
+			[this](const Type& value) { this->Set##Name(value)
+		);
+
+		TypeToEnum<char>::value;
+
+	}*/
 	ImGui::Separator();
 	ImGui::Text("");
 	if (stateAsShared && stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
@@ -28,11 +44,32 @@ void WindowStateMachineEditor::DrawWindowContents()
 		State* state = stateAsShared->GetStates()[stateIdSelected];
 		ImGui::Text("State");
 		ImGui::Separator();
-		if (ImGui::InputText("Name:", &state->name[0], 128, ImGuiInputTextFlags_EnterReturnsTrue))
+		std::string name = state->name;
+		name.resize(24);
+		if (ImGui::InputText("Name:", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			//stateAsShared->EditState(stateIdSelected, state);
-		};
-		//TODO BOTON EDIT RESOURCE
+			stateAsShared->SetStateName(stateIdSelected, name);
+		}
+
+		if(state->resource == nullptr)
+		{
+			inputResource->DrawWindowContents();
+		}
+		else 
+		{
+			ImGui::Text(state->resource->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("x"))
+			{
+				state->resource = nullptr;
+			};
+		}
+	}
+	if (stateAsShared && transitionIdSelected != -1)
+	{
+		const auto& it = stateAsShared->GetTransitions().find(transitionIdSelected);
+		ImGui::Text("Transition");
+		ImGui::Separator();
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
@@ -77,6 +114,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		&& ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) && !ImGui::IsAnyItemActive())
 	{
 		stateIdSelected = -1;
+		transitionIdSelected = -1;
 		creatingTransition = false;
 		openContextMenu = true;
 	}
@@ -94,7 +132,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		{
 			ImVec2 posState = ImVec2(stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.first, stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.second);
 			ImVec2 posStateOriginCenter =
-				ImVec2(origin.x + posState.x + 100, origin.y + posState.y + 40);
+				ImVec2(origin.x + posState.x + sizeState.x/2, origin.y + posState.y + sizeState.y/2);
 			ImVec2 postStateDestinationCenter =
 				ImVec2(mouse_pos_in_canvas.x + origin.x, mouse_pos_in_canvas.y + origin.y);
 			draw_list->AddLine(posStateOriginCenter, postStateDestinationCenter, IM_COL32(255, 255, 255, 255));
@@ -106,9 +144,9 @@ void WindowStateMachineEditor::DrawWindowContents()
 			Transition transition = it.second;
 			ImGui::PushID(it.first);
 			ImVec2 posStateOriginCenter = 
-				ImVec2(origin.x + transition.origin->auxiliarPos.first + 100, origin.y + transition.origin->auxiliarPos.second + 25);
+				ImVec2(origin.x + transition.origin->auxiliarPos.first + sizeState.x/2, origin.y + transition.origin->auxiliarPos.second + sizeState.y/2);
 			ImVec2 postStateDestinationCenter = 
-				ImVec2(origin.x + transition.destination->auxiliarPos.first + 100, origin.y + transition.destination->auxiliarPos.second + 25);
+				ImVec2(origin.x + transition.destination->auxiliarPos.first + sizeState.x / 2, origin.y + transition.destination->auxiliarPos.second + sizeState.y / 2);
 
 			float triangleLength = 15;
 			float triangleHeight = 15;
@@ -132,6 +170,33 @@ void WindowStateMachineEditor::DrawWindowContents()
 			draw_list->AddLine(exitPoint, enterPoint, IM_COL32(255, 255, 255, 255));
 			draw_list->AddTriangleFilled(p1Im, p2Im, p3Im, IM_COL32(255, 255, 255, 255));
 
+			ImVec2 pCenter = ImVec2(center.x - triangleLength / 2.f, center.y - triangleHeight / 2.f);
+
+			ImGui::SetCursorScreenPos(pCenter);
+			ImGui::InvisibleButton("state", ImVec2(triangleLength, triangleHeight));
+
+			if (ImGui::IsItemActive() || ImGui::IsItemHovered())
+			{
+				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+				{
+					if (creatingTransition)
+					{
+						transitionIdSelected = -1;
+						creatingTransition = false;
+					}
+					else
+					{
+						openContextMenu = true;
+						transitionIdSelected = it.first;
+					}
+				}
+				if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+				{
+					stateIdSelected = -1;
+					transitionIdSelected = it.first;
+					creatingTransition = false;
+				}
+			}
 			ImGui::PopID();
 		}
 
@@ -142,9 +207,9 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImGui::PushID(i);
 			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);
-			ImVec2 maxRect = ImVec2(origin.x + posState.x + 200, origin.y + posState.y + 50);
+			ImVec2 maxRect = ImVec2(origin.x + posState.x + sizeState.x, origin.y + posState.y + sizeState.y);
 			ImGui::SetCursorScreenPos(minRect);
-			ImGui::InvisibleButton("state", ImVec2(200, 80));
+			ImGui::InvisibleButton("state", ImVec2(sizeState.x, sizeState.y));
 			if (ImGui::IsItemActive() || ImGui::IsItemHovered())
 			{
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
@@ -160,10 +225,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 						{
 							stateAsShared->AddNewTransition(stateIdSelected, i);
 							creatingTransition = false;
+							transitionIdSelected = -1;
 						}
 					}
-					else 
+					else
 					{
+						transitionIdSelected = -1;
 						stateIdSelected = i;
 					}
 				}
@@ -250,4 +317,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 		ImGui::EndPopup();
 	}
 	ImGui::EndChild();
+}
+
+void WindowStateMachineEditor::SetResourceOnState(const std::shared_ptr<Resource>& resource)
+{
+	if (stateMachine && stateIdSelected != -1)
+	{
+		stateMachine->SetStateResource(stateIdSelected, resource);
+	}
 }

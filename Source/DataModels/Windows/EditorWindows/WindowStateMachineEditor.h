@@ -2,6 +2,8 @@
 
 #include "EditorWindow.h"
 
+class WindowResourceInput;
+class Resource;
 class ResourceStateMachine;
 class EditorResourceInterface;
 
@@ -13,6 +15,8 @@ public:
 
 	void SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource);
 
+	void SetResourceOnState(const std::shared_ptr<Resource>& resource);
+
 protected:
 	void DrawWindowContents() override;
 
@@ -22,6 +26,9 @@ private:
 	bool creatingTransition;
 	int transitionIdSelected;
 	bool openContextMenu;
+	ImVec2 sizeState;
+
+	std::unique_ptr<WindowResourceInput> inputResource;
 };
 
 inline void WindowStateMachineEditor::SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource)

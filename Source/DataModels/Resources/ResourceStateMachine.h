@@ -45,7 +45,7 @@ public:
 
 	void AddNewState(int x, int y);
 	void SetStateName(unsigned int id, std::string name);
-	void SetStateResource(unsigned int id, std::shared_ptr<Resource>& resource);
+	void SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource);
 
 	void EraseState(unsigned int id);
 
@@ -94,7 +94,7 @@ inline void ResourceStateMachine::SetStateName(unsigned int id, std::string name
 	states[id]->name = name;
 }
 
-inline void ResourceStateMachine::SetStateResource(unsigned int id, std::shared_ptr<Resource>& resource)
+inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource)
 {
 	states[id]->resource = resource;
 }

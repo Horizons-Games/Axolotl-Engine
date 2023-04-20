@@ -246,6 +246,11 @@ void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceState
 #endif
 }
 
+void ModuleEditor::SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource)
+{
+	stateMachineEditor->SetResourceOnState(resource);
+}
+
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE

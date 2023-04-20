@@ -28,6 +28,7 @@ public:
 	void Resized();
 
 	void SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource);
+	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
 
 	const WindowScene* GetScene() const;
 	const WindowDebug* GetDebugOptions() const;
