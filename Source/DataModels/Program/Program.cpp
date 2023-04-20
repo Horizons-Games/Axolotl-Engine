@@ -56,10 +56,16 @@ void Program::BindUniformFloat4x4(const std::string& name, const float* data, bo
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, transpose, data);
 }
 
-void Program::BindUniformFloat3(const std::string& name, const float3 data)
+void Program::BindUniformFloat3(const std::string& name, const float3& data)
 {
 	glUniform3f(glGetUniformLocation(id, name.c_str()),
 		data.x, data.y, data.z);
+}
+
+void Program::BindUniformFloat4(const std::string& name, const float4& data)
+{
+	glUniform4f(glGetUniformLocation(id, name.c_str()),
+		data.x, data.y, data.z, data.w);
 }
 
 void Program::BindUniformFloat(const std::string& name, const float data)
