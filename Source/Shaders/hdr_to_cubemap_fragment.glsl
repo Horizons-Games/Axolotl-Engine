@@ -1,6 +1,6 @@
 #version 440
 
-#define PI 3.1415926538
+#define PI 3.1415926535897932384626433832795
 
 uniform sampler2D hdr;
 
