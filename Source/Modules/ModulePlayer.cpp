@@ -137,13 +137,9 @@ void ModulePlayer::Move()
 	}
 
 	//bottom
-	if (collider->IsColliding(bottomPoints, -verticalDirection, speed * deltaTime * 1.1f, 0.0f))
-	{
-		rigidBody->SetIsOnSurface(true);
-	}
-	else {
-		rigidBody->SetIsOnSurface(false);
-	}
+	rigidBody->SetIsOnSurface(
+		collider->IsColliding(bottomPoints, -verticalDirection, speed * deltaTime * 1.1f, 0)
+	);
 	
 	//top
 	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))

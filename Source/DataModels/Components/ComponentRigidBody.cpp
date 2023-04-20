@@ -84,6 +84,22 @@ void ComponentRigidBody::Update()
 		float4x4 rotationMatrix = float4x4::FromQuat(q);
 		transform->SetRotation(rotationMatrix);
 	}
+
+	//Apply gravity
+	if (!isOnSurface)
+	{
+		float deltaTime = App->GetDeltaTime();
+		x = transform->GetPosition();
+
+		//Velocity
+		float3 v = g * deltaTime;
+
+		//Position
+		x += v0 * deltaTime + 0.5f * g * deltaTime * deltaTime;
+		v0 = v;
+
+		transform->SetPosition(x);
+	}	
 #endif
 }
 
