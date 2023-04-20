@@ -608,7 +608,7 @@
     <ClInclude Include="DataModels\Components\ComponentAudioSource.h" />
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioListener.h" />
-    <ClInclude Include="Auxiliar\Audios\AudioList.h" />
+    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

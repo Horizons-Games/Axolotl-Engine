@@ -22,7 +22,8 @@ public:
 	void Enable();
 	void Disable();
 
-	void PostEvent(static const wchar_t* sound);
+	void PostEvent(const wchar_t* sound); //Use this function to play a sound
+	void SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound);
 
 private:
 	uint64_t sourceID;
