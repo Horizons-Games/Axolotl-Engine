@@ -29,8 +29,7 @@ bool ModuleProgram::Start()
 
 	programs.push_back
 		(CreateProgram
-			("highlight_vertex.glsl", "highlight_fragment.glsl", 
-															"Highlight"));
+			("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
 
 	programs.push_back
 		(CreateProgram
@@ -42,9 +41,14 @@ bool ModuleProgram::Start()
 	programs.push_back
 		(CreateProgram
 			("cubemap_vertex.glsl", "irradiance_cubemap_fragment.glsl", "IrradianceCubemap"));
+	
 	programs.push_back
 		(CreateProgram
 			("cubemap_vertex.glsl", "hdr_to_cubemap_fragment.glsl", "HDRToCubemap"));
+
+	programs.push_back
+		(CreateProgram
+			("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
 
 	return true;
 }

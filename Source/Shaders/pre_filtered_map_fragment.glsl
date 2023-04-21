@@ -3,16 +3,25 @@
 #define NUM_SAMPLES 4096
 #define PI 3.1415926535897932384626433832795
 
-in vec3 texcoords;
 uniform samplerCube environment;
+
+in vec3 texCoords;
+
+in uniform float roughness;
 
 out vec4 fragColor;
 
-vec3 hemisphereSample(float u1, float u2)
+vec3 hemisphereSampleGGX(float u1, float u2, float roughness )
 {
-	float phi = u1 * 2.0 * PI;
-	float r = sqrt(u2);
-	return vec3( r*cos(phi), r*sin(phi), sqrt(1-u2));
+	float phi = 2.0*PI*u1;
+	float cos_theta = sqrt((1.0-u2)/(u2*(roughness*roughness-1)+1));
+	float sin_theta = sqrt(1-cos_theta*cos_theta);
+	// spherical to cartesian conversion
+	vec3 dir;
+	dir.x = cos(phi)*sin_theta;
+	dir.y = sin(phi)*sin_theta;
+	dir.z = cos_theta;
+	return dir;
 }
 
 mat3 computeTangetSpace(in vec3 normal)
@@ -38,18 +47,26 @@ vec2 hammersley2D(uint i, uint N)
 	return vec2(float(i)/float(N), radicalInverse_VdC(i));
 }
 
-void main()
+void main() 
 {
-	vec3 normal = normalize(texcoords);
-	mat3 tangentSpace = computeTangetSpace(normal);
-
-	vec3 irradiance = vec3(0.0);
-	for (int i=0; i< NUM_SAMPLES; ++i)
+	vec3 R = normalize(texCoords);
+	vec3 N = R, V = R;
+	vec3 color = vec3(0.0);
+	float weight = 0.0f;
+	mat3 tangentSpace = computeTangetSpace(N);
+	for (int i = 0; i < NUM_SAMPLES; ++i)
 	{
 		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
-		vec3 sample_dir = tangentSpace * hemisphereSample(rand_value[0], rand_value[1]);
-		irradiance += texture(environment, sample_dir).rgb;
+		rand_value[0];
+		vec3 H = tangentSpace * hemisphereSampleGGX(rand_value[0], rand_value[1], roughness);
+		vec3 L = reflect(-V, H);
+		float NdotL = max(dot(N, L), 0.0);
+		if (NdotL > 0)
+		{
+			color += texture(environment , L).rgb * NdotL;
+			weight += NdotL;
+		}
 	}
 
-	fragColor = vec4(irradiance/float(NUM_SAMPLES), 1.0);
+	fragColor = vec4(color / weight, 1.0);
 }
