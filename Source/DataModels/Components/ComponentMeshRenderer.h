@@ -76,8 +76,9 @@ private:
 	std::vector<GameObject*> bones;
 	std::vector<float4x4> skinPalette;
 
-	WindowMeshInput* inputMesh;
+	unsigned ssboPalette;
 
+	WindowMeshInput* inputMesh;
 };
 
 inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)

@@ -25,6 +25,7 @@
 #include "Components/ComponentAnimation.h"
 
 #include "Camera/CameraGameObject.h"
+
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Program/Program.h"
 
@@ -317,9 +318,11 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		}
 	}
 
-	for (GameObject* sceneGameObject : sceneGameObjects)
+	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+
+	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
 	{
-		for (Component* component : sceneGameObject->GetComponents())
+		for (Component* component : child->GetComponents())
 		{
 			if (component->GetType() == ComponentType::MESHRENDERER)
 			{
@@ -331,12 +334,11 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 				if (!bones.empty())
 				{
-					meshRenderer->SetBones(CacheBoneHierarchy(FindRootBone(root.get(), bones), bones));
+					meshRenderer->SetBones(CacheBoneHierarchy(FindRootBone(gameObjectModel, bones), bones));
 					meshRenderer->InitBones();
 				}
 			}
 		}
-		static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 	}
 }
 
@@ -410,9 +412,7 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 	return nullptr;
 }
 
-const std::vector<GameObject*> Scene::CacheBoneHierarchy(
-	GameObject* gameObjectNode,
-	const std::vector<Bone>& bones)
+const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones)
 {
 	std::vector<GameObject*> boneHierarchy;
 
@@ -429,16 +429,13 @@ const std::vector<GameObject*> Scene::CacheBoneHierarchy(
 
 		for (const Bone& bone : bones)
 		{
-			if (name == bone.name || 
-				name.find("$AssimpFbx$") != std::string::npos)
+			if (name == bone.name || name.find("$AssimpFbx$") != std::string::npos)
 			{
-				const std::vector<GameObject*>& newBoneHierarchy =
-					CacheBoneHierarchy(child, bones);
+				const std::vector<GameObject*>& newBoneHierarchy = CacheBoneHierarchy(child, bones);
 
 				if (!newBoneHierarchy.empty())
 				{
-					boneHierarchy.insert(boneHierarchy.cend(), 
-						newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
+					boneHierarchy.insert(boneHierarchy.cend(), newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
 				}
 
 				break;

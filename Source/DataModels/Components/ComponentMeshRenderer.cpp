@@ -53,6 +53,22 @@ void ComponentMeshRenderer::InitBones()
 	{
 		skinPalette[i] = float4x4::identity;
 	}
+
+	size_t numPoint = skinPalette.size();
+
+	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+
+	if (program)
+	{
+		glGenBuffers(1, &ssboPalette);
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * skinPalette.size(),
+			nullptr, GL_DYNAMIC_DRAW);
+
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, ssboPalette);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -63,8 +79,7 @@ void ComponentMeshRenderer::Update()
 
 		for (unsigned int i = 0; i < bindBones.size(); ++i)
 		{
-			skinPalette[i] = static_cast<ComponentTransform*>
-				(bones[i]->GetComponent(ComponentType::TRANSFORM))
+			skinPalette[i] = static_cast<ComponentTransform*>(bones[i]->GetComponent(ComponentType::TRANSFORM))
 				->GetGlobalMatrix() * bindBones[i].transform;
 		}
 	}
@@ -82,6 +97,7 @@ void ComponentMeshRenderer::Draw()
 	}
 	program->Deactivate();
 }
+
 void ComponentMeshRenderer::DrawMeshes(Program* program)
 {
 //this should be in an EditorComponent class, or something of the like
@@ -102,6 +118,22 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 		if (program)
 		{
 			program->Activate();
+
+			// --------- Bones -----------
+			int hasBones = 0;
+			if (!skinPalette.empty())
+			{
+				hasBones = 1;
+			}
+
+			program->BindUniformInt("hasBones", hasBones);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
+			if (hasBones)
+			{
+				glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
+			}
+			// ---------------------------
+
 			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 			const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
@@ -120,6 +152,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindVertexArray(0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 			program->Deactivate();
 		}

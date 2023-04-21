@@ -105,6 +105,7 @@ private:
 	unsigned int numIndexes;
 	unsigned int numBones;
 	unsigned int materialIndex;
+
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
