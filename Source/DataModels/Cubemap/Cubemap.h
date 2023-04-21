@@ -3,6 +3,7 @@
 #include <memory>
 
 class ResourceTexture;
+class Program;
 
 class Cubemap
 {
@@ -12,11 +13,16 @@ public:
 	~Cubemap();
 
 private:
+	
+	void RenderToCubeMap(Program* usedProgram);
 	void RenderCube();
 
 	GLuint frameBuffer;
 	GLuint renderBuffer;
-	GLuint enviromentTexture;
+
+	GLuint cubemapTex;
+	GLuint irradianceTex;
+
 	unsigned int cubeVAO;
 	unsigned int cubeVBO;
 

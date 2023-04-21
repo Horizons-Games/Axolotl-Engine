@@ -13,16 +13,7 @@
 
 Cubemap::Cubemap()
 {
-	const float3 front[6] = { float3::unitX, -float3::unitX, float3::unitY,
-								-float3::unitY, float3::unitZ, -float3::unitZ };
-	float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ,
-						-float3::unitZ, -float3::unitY, -float3::unitY };
-	Frustum frustum;
-	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
-	frustum.SetPos(float3::zero);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
-
-	// TODO: Create and Bind Frame Buffer and Create Irradiance Cubemap
+    //Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 	glGenRenderbuffers(1, &renderBuffer);
@@ -30,47 +21,57 @@ Cubemap::Cubemap()
 	glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
-	glGenTextures(1, &enviromentTexture);
+    glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, enviromentTexture);
+    // Disable depth testing
+    glDisable(GL_DEPTH_TEST);
+
+    // from hdr to Cubemap
+	glGenTextures(1, &cubemapTex);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTex);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		// note that we store each face with 16 bit floating point values
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F,
-			512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    Program* hdrToCubemapProgram = App->program->GetProgram(ProgramType::HDR_TO_CUBEMAP);
+    hdrToCubemapProgram->Activate();
+
+    hdrTexture = App->resources->RequestResource<ResourceTexture>("Assets/Textures/SunsetSkyboxHDR.hdr");;
+    hdrTexture->Load();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, hdrTexture->GetGlTexture());
+    
+    RenderToCubeMap(hdrToCubemapProgram);
+
+    // irradianceMap
+    glGenTextures(1, &irradianceTex);
+
+    glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceTex);
+    for (unsigned int i = 0; i < 6; ++i)
+    {
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
+    }
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
 	irradianceProgram->Activate();
-	float4x4 projMatrix = frustum.ProjectionMatrix();
-	irradianceProgram->BindUniformFloat4x4("proj", (const float*)&projMatrix, GL_TRUE);
-    hdrTexture = App->resources->RequestResource<ResourceTexture>("Assets/Textures/SunsetSkyboxHDR.hdr");;
-    hdrTexture->Load();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, hdrTexture->GetGlTexture());
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, cubemapTex);
 
-	glViewport(0, 0, 512, 512); // don't forget to configure the viewport to the capture dimensions.
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	for (unsigned int i = 0; i < 6; ++i)
-	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			enviromentTexture, 0);
-		frustum.SetFront(front[i]);
-		frustum.SetUp(up[i]);
-		// TODO: Draw Unit Cube using frustum view and projection matrices
-		float4x4 viewMatrix = frustum.ViewMatrix();
-		irradianceProgram->BindUniformFloat4x4("proj", (const float*)&viewMatrix, GL_TRUE);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        RenderCube();
-	}
-
-	irradianceProgram->Deactivate();
+    RenderToCubeMap(irradianceProgram);
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -78,9 +79,40 @@ Cubemap::~Cubemap()
 {
     glDeleteFramebuffers(1, &frameBuffer);
     glDeleteRenderbuffers(1, &renderBuffer);
-    glDeleteTextures(1, &enviromentTexture);
+    glDeleteTextures(1, &cubemapTex);
+    glDeleteTextures(1, &irradianceTex);
     glDeleteVertexArrays(1, &cubeVAO);
     glDeleteBuffers(1, &cubeVBO);
+}
+
+void Cubemap::RenderToCubeMap(Program* usedProgram)
+{
+    const float3 front[6] = { float3::unitX, -float3::unitX, float3::unitY,
+                            -float3::unitY, float3::unitZ, -float3::unitZ };
+    float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ,
+                        -float3::unitZ, -float3::unitY, -float3::unitY };
+    Frustum frustum;
+    frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
+    frustum.SetPos(float3::zero);
+    frustum.SetViewPlaneDistances(0.1f, 100.0f);
+
+    usedProgram->BindUniformFloat4x4("proj", frustum.ProjectionMatrix().ptr(), GL_TRUE);
+
+    glViewport(0, 0, 512, 512); // TODO decide a viewport for all cubemaps
+    for (unsigned int i = 0; i < 6; ++i)
+    {
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+            cubemapTex, 0);
+        frustum.SetFront(front[i]);
+        frustum.SetUp(up[i]);
+        // TODO: Draw Unit Cube using frustum view and projection matrices
+        usedProgram->BindUniformFloat4x4("view", frustum.ViewMatrix().ptr(), GL_TRUE);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // don't know if we need it
+        RenderCube();
+    }
+
+    usedProgram->Deactivate();
 }
 
 void Cubemap::RenderCube()
