@@ -59,8 +59,8 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
-	std::unique_ptr<Timer> appTimer;
-	std::unique_ptr<Timer> onPlayTimer;
+	Timer appTimer;
+	Timer onPlayTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;

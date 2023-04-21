@@ -16,8 +16,8 @@
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
-								isOnPlayMode(false), onPlayTimer(std::make_unique<Timer>())
+Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
+								isOnPlayMode(false), onPlayTimer(Timer())
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
@@ -53,7 +53,7 @@ bool Application::Start()
 {
 	bool ret = true;
 
-	appTimer->Start();
+	appTimer.Start();
 
 	for (int i = 0; i < modules.size() && ret; ++i)
 		ret = modules[i]->Start();
@@ -64,7 +64,7 @@ bool Application::Start()
 update_status Application::Update()
 {
 	float ms;
-	(isOnPlayMode) ? ms = onPlayTimer->Read() : ms = appTimer->Read();
+	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
 
 	update_status ret = update_status::UPDATE_CONTINUE;
 
@@ -78,7 +78,7 @@ update_status Application::Update()
 		ret = modules[i]->PostUpdate();
 
 	float dt;
-	(isOnPlayMode) ? dt = (onPlayTimer->Read() - ms) / 1000.0f : dt = (appTimer->Read() - ms) / 1000.0f;
+	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
@@ -86,7 +86,7 @@ update_status Application::Update()
 	}
 
 	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer->Read() - ms) / 1000.0f : deltaTime = (appTimer->Read() - ms) / 1000.0f;
+		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
 
 	return ret;
 }
@@ -103,7 +103,7 @@ bool Application::CleanUp()
 
 void Application::OnPlay()
 {
-	onPlayTimer->Start();
+	onPlayTimer.Start();
 	isOnPlayMode = true;
 	player->LoadNewPlayer();
 	if (!player->GetIsLoadPlayer())
@@ -119,7 +119,7 @@ void Application::OnStop()
 	isOnPlayMode = false;
 	input->SetShowCursor(true);
 	player->UnloadNewPlayer();
-	onPlayTimer->Stop();
+	onPlayTimer.Stop();
 	scene->OnStop();
 }
 
