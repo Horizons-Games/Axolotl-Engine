@@ -52,14 +52,17 @@ void ComponentRigidBody::Update()
 		x = transform->GetPosition();
 		q = transform->GetRotation().RotatePart().ToQuat();
 
-		//Velocity
-		float3 v = g * deltaTime;
-
 		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
 
-		x += v0 * deltaTime + 0.5f * g * deltaTime * deltaTime;
-		v0 += v;
+		// Combine gravity and external forces
+		float3 totalAcceleration = g + externalForce;
+
+		//Velocity
+		v0 += totalAcceleration * deltaTime;
+		x += v0 * deltaTime + 0.5f * totalAcceleration * deltaTime * deltaTime;
 	
+		externalForce = float3::zero;
+
 		//Apply gravity
 		if (x.y <= height + verticalDistanceToFeet)
 		{
@@ -143,67 +146,19 @@ void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
 
 void ComponentRigidBody::ApplyForce()
 {
-	float deltaTime = App->GetDeltaTime();
 	if (usePositionController)
 	{
+		float deltaTime = App->GetDeltaTime();
+		float3 position = transform->GetPosition();
 
-		float3 positionError = targetPosition - x;
-		float3 velocityPosition = positionError * KpForce + externalForce;
-		float3 nextPos = x + velocityPosition * deltaTime;
+		float3 positionError = targetPosition - position;
+		float3 velocityPosition = positionError * KpForce;
+		float3 nextPos = position + velocityPosition * deltaTime;
 
-		x = nextPos;
+		transform->SetPosition(nextPos);
 	}
-	else
-	{
-
-		x += externalForce * deltaTime;
-	}
-	externalForce = float3::zero;
-
-
-	/*float deltaTime = App->GetDeltaTime();
-	if (externalForce.y < 0.0f) 
-	{
-		if (!isOnSurface) 
-		{
-			if (usePositionController)
-			{
-
-				float3 positionError = targetPosition - x;
-				float3 velocityPosition = positionError * KpForce + externalForce;
-				float3 nextPos = x + velocityPosition * deltaTime;
-
-				x = nextPos;
-			}
-			else
-			{
-
-				x += externalForce * deltaTime;
-			}
-			externalForce = float3::zero;
-		}
-
-	}
-	else 
-	{
-		if (usePositionController)
-		{
-
-			float3 positionError = targetPosition - x;
-			float3 velocityPosition = positionError * KpForce + externalForce;
-			float3 nextPos = x + velocityPosition * deltaTime;
-
-			x = nextPos;
-		}
-		else
-		{
-
-			x += externalForce * deltaTime;
-		}
-		externalForce = float3::zero;
-	}*/
-	
 }
+
 
 void ComponentRigidBody::ApplyTorque()
 {

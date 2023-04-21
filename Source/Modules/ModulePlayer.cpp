@@ -93,8 +93,8 @@ void ModulePlayer::Move()
 
 	RaycastHit hit;
 
-	float forceParameter = 10.0f;
-	float jumpParameter = 15.0f;
+	float forceParameter = 50.0f;
+	float jumpParameter = 20.0f;
 
 	float minXPoint = trans->GetEncapsuledAABB().MinX();
 	float minZPoint = trans->GetEncapsuledAABB().MinZ();
@@ -286,7 +286,7 @@ void ModulePlayer::Move()
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
 	{
-		rigidBody->AddForce(jumpVector * jumpParameter);
+		rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
 		trans->UpdateTransformMatrices();
 	}
 
