@@ -107,23 +107,36 @@ void ModulePlayer::Move()
 	float backwardStep = math::Abs(minZPoint - position.z);
 
 	float size = 0.0f;
-	float sizeExpanded = 0.0f;
+	float sizeForce = 0.0f;
+	float sizeJump = 0.0f;
 
 	float3 jumpVector = float3::unitY;
 	float3 forceVector = float3::zero;
 
+	size = speed * deltaTime * 1.1f;
+	
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	{
+		sizeForce = deltaTime * forceParameter;
+		sizeJump = deltaTime * jumpParameter;
+	}
+
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		{
-			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
-			forceVector = direction;
-		}
-		size = speed * deltaTime * 1.1f;
+		forceVector += direction;
+		jumpVector += trans->GetGlobalForward().Normalized();
 
-		if (!collider->IsColliding(frontPoints, direction, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f)) 
+		if (sizeForce == 0.0f)
+		{
+			forceVector += -direction;
+		}
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += -trans->GetGlobalForward().Normalized();
+		}
+
+		if (!collider->IsColliding(frontPoints, direction, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
 			trans->SetPosition(position);
@@ -133,31 +146,38 @@ void ModulePlayer::Move()
 			backPoints = { points[0], points[2], points[4], points[6] };
 			leftPoints = { points[4], points[6], points[5],  points[7] };
 			rightPoints = { points[0], points[2], points[1], points[3] };
-
-			jumpVector += trans->GetGlobalForward().Normalized();
+			
 		}
 		else 
 		{
-			if (sizeExpanded != 0.0f) 
+			if (sizeForce != 0.0f)
 			{
-				forceVector = -direction;
+				forceVector += -direction;
 			}
-			
+			if (sizeJump != 0.0f)
+			{
+				jumpVector += -trans->GetGlobalForward().Normalized();
+			}
 		}
 	}
 
 	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		float size = 0.0f;
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		{
-			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
-			forceVector = -direction;
-		}
-		size = speed * deltaTime * 1.1f;
+		forceVector += -direction;
+		jumpVector += -trans->GetGlobalForward().Normalized();
 
-		if (!collider->IsColliding(backPoints, -direction, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (sizeForce == 0.0f)
+		{
+			forceVector += direction;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalForward().Normalized();
+		}
+
+		if (!collider->IsColliding(backPoints, -direction, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
 			trans->SetPosition(position);
@@ -166,14 +186,17 @@ void ModulePlayer::Move()
 			trans->GetObjectOBB().GetCornerPoints(points);
 			leftPoints = { points[4], points[6], points[5],  points[7] };
 			rightPoints = { points[0], points[2], points[1], points[3] };
-
-			jumpVector += -trans->GetGlobalForward().Normalized();
 		}
 		else 
 		{
-			if (sizeExpanded != 0.0f)
+			if (sizeForce != 0.0f)
 			{
-				forceVector = direction;
+				forceVector += direction;
+			}
+			
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalForward().Normalized();
 			}
 		}
 	}
@@ -181,15 +204,21 @@ void ModulePlayer::Move()
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		float size = 0.0f;
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		{
-			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
-			forceVector = -sideDirection;
-		}
-		size = speed * deltaTime * 1.1f;
 
-		if (!collider->IsColliding(leftPoints, -sideDirection, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		forceVector += -sideDirection;
+		jumpVector += -trans->GetGlobalRight().Normalized();
+
+		if (sizeForce == 0.0f)
+		{
+			forceVector += sideDirection;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalRight().Normalized();;
+		}
+
+		if (!collider->IsColliding(leftPoints, -sideDirection, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			position += trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
 			trans->SetPosition(position);
@@ -197,14 +226,17 @@ void ModulePlayer::Move()
 			trans->UpdateTransformMatrices();
 			trans->GetObjectOBB().GetCornerPoints(points);
 			rightPoints = { points[0], points[2], points[1], points[3] };
-
-			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 		else 
 		{
-			if (sizeExpanded != 0.0f)
+			if (sizeForce != 0.0f)
 			{
-				forceVector = sideDirection;
+				forceVector += sideDirection;
+			}
+
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalRight().Normalized();;
 			}
 		}
 	}
@@ -212,34 +244,46 @@ void ModulePlayer::Move()
 	//Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		float size = 0.0f;
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		{
-			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
-			forceVector = sideDirection;
-		}
-		size = speed * deltaTime * 1.1f;
+		forceVector += sideDirection;
+		jumpVector += -trans->GetGlobalRight().Normalized();
 
-		if (!collider->IsColliding(rightPoints, sideDirection, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (sizeForce == 0.0f)
+		{
+			forceVector += -sideDirection;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalRight().Normalized();
+		}
+
+		if (!collider->IsColliding(rightPoints, sideDirection, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			position -= trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
 			trans->SetPosition(position);
 
 			trans->UpdateTransformMatrices();
-
-			jumpVector += -trans->GetGlobalRight().Normalized();
 		}
 		else 
 		{
-			if (sizeExpanded != 0.0f)
+			if (sizeForce != 0.0f)
 			{
-				forceVector = -sideDirection;
+				forceVector += -sideDirection;
+			}
+
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalRight().Normalized();
 			}
 		}
 	}
 
-	rigidBody->AddForce(forceVector* forceParameter);
+
+	
+
+	rigidBody->AddForce(forceVector * forceParameter);
 	trans->UpdateTransformMatrices();
+	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
 	{
 		rigidBody->AddForce(jumpVector * jumpParameter);
