@@ -20,8 +20,8 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(MAX_FRAMERATE), debuggingGame(false)
 {
 	// Order matters: they will Init/start/update in this order
-	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
+	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
