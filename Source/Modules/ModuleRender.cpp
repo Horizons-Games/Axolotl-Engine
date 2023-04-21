@@ -11,9 +11,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -235,16 +233,23 @@ update_status ModuleRender::Update()
 		AddToRenderList(nonStaticObj);
 	}
 
-#ifndef ENGINE
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
+#else
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
-
+	
 	if (isRoot) 
 	{
 		opaqueGOToDraw.push_back(goSelected);
 	}
-
-	AddToRenderList(goSelected);
+	else
+	{
+		AddToRenderList(goSelected);
+	}
 
 	drawnGameObjects.clear();
 
@@ -487,7 +492,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected)
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}
