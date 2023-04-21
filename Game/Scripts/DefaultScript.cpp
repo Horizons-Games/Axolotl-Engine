@@ -61,7 +61,7 @@ bool DefaultScript::GetCheck() const
 	return check;
 }
 
-void DefaultScript::SetCheck(bool verify)
+void DefaultScript::SetCheck(bool check)
 {
-	this->check = verify;
+	this->check = check;
 }
