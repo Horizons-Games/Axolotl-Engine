@@ -41,10 +41,10 @@ bool ModuleProgram::Start()
 
 	programs.push_back
 		(CreateProgram
-			("irradiance_cubemap_vertex.glsl", "irradiance_cubemap_fragment.glsl", "IrradianceCubemap"));
+			("cubemap_vertex.glsl", "irradiance_cubemap_fragment.glsl", "IrradianceCubemap"));
 	programs.push_back
 		(CreateProgram
-			("hdr_to_cubemap_vertex.glsl", "hdr_to_cubemap_fragment.glsl", "HDRToCubemap"));
+			("cubemap_vertex.glsl", "hdr_to_cubemap_fragment.glsl", "HDRToCubemap"));
 
 	return true;
 }
