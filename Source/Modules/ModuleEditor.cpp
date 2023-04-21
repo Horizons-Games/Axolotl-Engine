@@ -82,7 +82,7 @@ bool ModuleEditor::Init()
 		rapidjson::StringBuffer newBuffer;
 		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
-			json[window->GetName().c_str()]=true;
+			json[window->GetName().c_str()] = window->DefaultActiveState();
 		}
 		json.toBuffer(newBuffer);
 	}
@@ -104,7 +104,7 @@ bool ModuleEditor::Init()
 		{
 			if (windowNameNotInJson(window->GetName()))
 			{
-				json[window->GetName().c_str()] = true;
+				json[window->GetName().c_str()] = window->DefaultActiveState();
 			}
 		}
 	}
