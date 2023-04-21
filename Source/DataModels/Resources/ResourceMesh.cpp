@@ -94,7 +94,7 @@ void ResourceMesh::CreateVBO()
 		unsigned bonesSize = sizeof(unsigned int[4]) * numVertices;
 
 		std::vector<std::vector<unsigned int>> bones;
-		for (Attach attach : this->attaches)
+		for (const Attach &attach : this->attaches)
 		{
 			bones.push_back({attach.bones[0], attach.bones[1], attach.bones[2], attach.bones[3]});
 		}
@@ -107,7 +107,7 @@ void ResourceMesh::CreateVBO()
 		unsigned weightSize = sizeof(float[4]) * numVertices;
 
 		std::vector<std::vector<float>> weights;
-		for (Attach attach : this->attaches)
+		for (const Attach &attach : this->attaches)
 		{
 			weights.push_back({attach.weights[0], attach.weights[1], attach.weights[2], attach.weights[3]});
 		}
