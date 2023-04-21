@@ -24,11 +24,11 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	std::string GetConstructName();
+	std::string GetConstructName() const;
 
 	void SetConstuctor(const std::string& constructor);
 	void SetScript(IScript* script);
-	IScript* GetScript();
+	IScript* GetScript() const;
 
 private:
 	//This will be managed by the runtime library
@@ -37,12 +37,12 @@ private:
 };
 
 
-inline std::string ComponentScript::GetConstructName()
+inline std::string ComponentScript::GetConstructName() const
 {
 	return constructName;
 }
 
-inline IScript* ComponentScript::GetScript()
+inline IScript* ComponentScript::GetScript() const
 {
 	return script;
 }

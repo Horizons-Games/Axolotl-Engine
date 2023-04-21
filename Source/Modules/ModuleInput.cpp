@@ -2,9 +2,10 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModulePlayer.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
 #include "ModuleUI.h"
@@ -130,6 +131,7 @@ update_status ModuleInput::Update()
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+                App->camera->RecalculateOrthoProjectionMatrix();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -198,6 +200,16 @@ update_status ModuleInput::Update()
         if (App->GetIsOnPlayMode())
         {
             App->player->SetReadyToEliminate(true);
+        }
+    }
+
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+    {
+        if (App->GetIsOnPlayMode())
+        {
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
         }
     }
 

@@ -72,7 +72,7 @@ update_status ModuleScene::PreUpdate()
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
 				IScript* script =
-					App->scriptFactory->GetScript(componentScript->GetConstructName());
+					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
 				componentScript->Init();
@@ -385,7 +385,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 
 	selectedGameObject = loadedScene->GetRoot();
 	App->editor->RefreshInspector();
-	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetSceneInteractable(loadedInteractable);
@@ -406,7 +405,7 @@ void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObjects)
 {
-	std::vector<std::unique_ptr<GameObject>> gameObjects{};
+	std::vector<GameObject*> gameObjects{};
 	std::unordered_map<UID, GameObject*> gameObjectMap{};
 	std::unordered_map<UID, UID> childParentMap{};
 	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
@@ -419,28 +418,36 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
 		bool active = jsonGameObject["active"];
-		std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(name, uid);
-		gameObject->LoadOptions(jsonGameObject);
-		gameObjectMap[uid] = gameObject.get();
+		GameObject* gameObject = new GameObject(name, uid);
+		gameObjectMap[uid] = gameObject;
 		childParentMap[uid] = parentUID;
 		enabledAndActive[uid] = std::make_pair(enabled, active);
 		gameObjects.push_back(std::move(gameObject));
 	}
 
+	loadedScene->SetSceneGameObjects(gameObjects);
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+
+		gameObjects[i]->LoadOptions(jsonGameObject);
+	}
+
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
 	{
-		std::unique_ptr<GameObject> gameObject = std::move(*it);
+		GameObject* gameObject = *it;
 		UID uid = gameObject->GetUID();
 		UID parent = childParentMap[uid];
 
 		if (parent == 0)
 		{
-			loadedScene->SetRoot(std::move(gameObject));
+			loadedScene->SetRoot(std::unique_ptr<GameObject>(gameObject));
 			continue;
 		}
 
 		GameObject* parentGameObject = gameObjectMap[parent];
-		parentGameObject->AddChild(std::move(gameObject));
+		parentGameObject->AddChild(std::unique_ptr<GameObject>(gameObject));
 	}
 
 	std::vector<GameObject*> loadedObjects{};
@@ -479,6 +486,10 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
+	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	{
+		return;
+	}
 	AddGameObject(object);
 
 	for (GameObject* child : object->GetChildren())
@@ -490,6 +501,10 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 
 void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 {
+	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	{
+		return;
+	}
 	RemoveGameObject(object);
 
 	for (GameObject* child : object->GetChildren())

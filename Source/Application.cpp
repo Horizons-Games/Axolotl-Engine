@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleUI.h"
@@ -20,11 +21,11 @@ Application::Application() : appTimer(std::make_unique<Timer>()), maxFramerate(M
 								isOnPlayMode(false), onPlayTimer(std::make_unique<Timer>())
 {
 	// Order matters: they will Init/start/update in this order
+	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
 	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
 	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
-	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));
-	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
+	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
 	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
@@ -112,11 +113,12 @@ void Application::OnPlay()
 	{
 		isOnPlayMode = false;
 	}
+	
 	//Active Scripts
 	scene->OnPlay();
 }
 
-void Application::OnStopPlay()
+void Application::OnStop()
 {
 	isOnPlayMode = false;
 	input->SetShowCursor(true);

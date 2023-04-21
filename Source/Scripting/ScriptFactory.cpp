@@ -73,11 +73,11 @@ void ScriptFactory::RecompileAll()
 }
 
 
-std::vector<std::string> ScriptFactory::GetConstructors()
+std::vector<const char*> ScriptFactory::GetConstructors()
 {
 	AUDynArray<IObjectConstructor*> constructors;
 	pRuntimeObjectSystem->GetObjectFactorySystem()->GetAll(constructors);
-	std::vector<std::string> constructorsName;
+	std::vector<const char*> constructorsName;
 	for (int i = 0; i < constructors.Size(); ++i)
 	{
 		constructorsName.push_back(constructors[i]->GetName());
@@ -123,9 +123,9 @@ void ScriptFactory::OnConstructorsAdded()
 	}
 }
 
-IScript* ScriptFactory::ConstructScript(const std::string& name)
+IScript* ScriptFactory::ConstructScript(const char* name)
 {
-	IObjectConstructor* pCtor = pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name.c_str());
+	IObjectConstructor* pCtor = pRuntimeObjectSystem->GetObjectFactorySystem()->GetConstructor(name);
 	ObjectId objectId;
 	if (pCtor)
 	{
@@ -144,7 +144,7 @@ IScript* ScriptFactory::ConstructScript(const std::string& name)
 	return nullptr;
 }
 
-IScript* ScriptFactory::GetScript(const std::string& name)
+IScript* ScriptFactory::GetScript(const char* name)
 {
 	auto it = std::find_if(std::begin(allScripts),
 		std::end(allScripts),

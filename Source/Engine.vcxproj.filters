@@ -79,9 +79,6 @@
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMaterial.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -184,9 +181,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
@@ -256,7 +250,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleUI.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
@@ -290,6 +283,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModuleUI.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="Scripting\LogSystem.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
@@ -306,6 +302,9 @@
       <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -392,9 +391,6 @@
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMaterial.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\ModuleFileSystem.h">
@@ -508,9 +504,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMaterial.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
@@ -591,7 +584,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleUI.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
@@ -624,6 +616,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleUI.h">
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\SystemTable.h">
       <Filter>Scripting</Filter>
@@ -663,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
+      <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

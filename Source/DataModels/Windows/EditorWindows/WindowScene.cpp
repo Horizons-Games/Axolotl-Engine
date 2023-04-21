@@ -8,6 +8,7 @@
 #include "Modules/ModuleCamera.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleInput.h"
+#include "Modules/ModuleUI.h"
 
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
@@ -294,8 +295,10 @@ void WindowScene::ManageResize()
 	if (widthChanged || heightChanged) // window was resized
 	{ 
 		App->camera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
+		App->camera->RecalculateOrthoProjectionMatrix();
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
+		App->userInterface->RecalculateCanvasSizeAndScreenFactor();
 	}
 	
 	auto windowSize = ImGui::GetWindowSize();

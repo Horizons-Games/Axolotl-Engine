@@ -23,6 +23,8 @@ ModuleUI::~ModuleUI() {
 
 bool ModuleUI::Init()
 {
+	LoadVBO();
+	CreateVAO();
 	return true;
 }
 
@@ -66,7 +68,7 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->camera->GetCamera()->GetFrustum()->SetOrthographic(width, height);
+	App->camera->GetCamera()->GetFrustum()->SetOrthographic((float)width, (float)height);
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -127,9 +129,43 @@ void ModuleUI::DrawChildren(GameObject* gameObject)
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
-	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
-	for (GameObject* canvas : canvasScene)
+	for (GameObject* canvas : App->scene->GetLoadedScene()->GetSceneCanvas())
 	{
 		((ComponentCanvas*)(canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
 	}
+
+	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	{
+		ComponentTransform2D* transform = 
+			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		transform->CalculateWorldBoundingBox();
+	}
+}
+
+void ModuleUI::LoadVBO()
+{
+	float vertices[] = {
+		// positions          
+		-0.5,  0.5, 0.0f, 1.0f,
+		-0.5, -0.5, 0.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5, -0.5, 1.0f, 0.0f,
+		 0.5,  0.5, 1.0f, 1.0f,
+		-0.5,  0.5, 0.0f, 1.0f
+	};
+
+	glGenBuffers(1, &quadVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+}
+
+void ModuleUI::CreateVAO()
+{
+	glGenVertexArrays(1, &quadVAO);
+	glBindVertexArray(quadVAO);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+	glBindVertexArray(0);
 }
