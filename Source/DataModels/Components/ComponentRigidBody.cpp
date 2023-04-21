@@ -4,6 +4,7 @@
 #include "ComponentTransform.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
 #include "Geometry/Frustum.h"
@@ -36,6 +37,13 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	w0 = float3(0.0f, 0.0f, 0.0f);
 }
 
+ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
+	: Component(componentRigidBody),
+	isKinematic(componentRigidBody.isKinematic), m(componentRigidBody.m), g(componentRigidBody.g), v0(componentRigidBody.v0)
+{
+}
+
+
 ComponentRigidBody::~ComponentRigidBody()
 {
 }
@@ -43,63 +51,68 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::Update()
 {
 
-#ifndef ENGINE
-	if (isKinematic)
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
 	{
-		float deltaTime = App->GetDeltaTime();
-
-		x = transform->GetPosition();
-		q = transform->GetRotation().RotatePart().ToQuat();
-
-		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
-
-		// Combine gravity and external forces
-		float3 totalAcceleration = g + externalForce;
-
-		//Velocity
-		v0 += totalAcceleration * deltaTime;
-		x += v0 * deltaTime + 0.5f * totalAcceleration * deltaTime * deltaTime;
-	
-		externalForce = float3::zero;
-
-		//Apply gravity
-		if (x.y <= height + verticalDistanceToFeet)
+#endif
+		if (isKinematic)
 		{
-			x.y = height + verticalDistanceToFeet;
-			v0 = float3::zero;
+			float deltaTime = App->GetDeltaTime();
+
+			x = transform->GetPosition();
+			q = transform->GetRotation().RotatePart().ToQuat();
+
+			float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
+
+			// Combine gravity and external forces
+			float3 totalAcceleration = g + externalForce;
+
+			//Velocity
+			v0 += totalAcceleration * deltaTime;
+			x += v0 * deltaTime + 0.5f * totalAcceleration * deltaTime * deltaTime;
+
+			externalForce = float3::zero;
+
+			//Apply gravity
+			if (x.y <= height + verticalDistanceToFeet)
+			{
+				x.y = height + verticalDistanceToFeet;
+				v0 = float3::zero;
+			}
+
+			if (useRotationController)
+			{
+				//Rotation
+				Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
+				Quat wq_0 = angularVelocityQuat * q;
+
+
+				float deltaValue = 0.5f * deltaTime;
+				Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+				Quat nextRotation(q.x + deltaRotation.x,
+					q.y + deltaRotation.y,
+					q.z + deltaRotation.z,
+					q.w + deltaRotation.w);
+				nextRotation.Normalize();
+
+				q = nextRotation;
+
+				ApplyTorque();
+
+				float4x4 rotationMatrix = float4x4::FromQuat(q);
+				transform->SetRotation(rotationMatrix);
+			}
+
+
+			//Apply proportional controllers
+			ApplyForce();
+
+			//Update Transform
+			transform->SetPosition(x);
 		}
 
-		if (useRotationController) 
-		{
-			//Rotation
-			Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
-			Quat wq_0 = angularVelocityQuat * q;
-
-
-			float deltaValue = 0.5f * deltaTime;
-			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-			Quat nextRotation(q.x + deltaRotation.x,
-				q.y + deltaRotation.y,
-				q.z + deltaRotation.z,
-				q.w + deltaRotation.w);
-			nextRotation.Normalize();
-
-			q = nextRotation;
-
-			ApplyTorque();
-
-			float4x4 rotationMatrix = float4x4::FromQuat(q);
-			transform->SetRotation(rotationMatrix);
-		}
-		
-
-		//Apply proportional controllers
-		ApplyForce();
-
-		//Update Transform
-		transform->SetPosition(x);
-		
+#ifdef ENGINE
 	}
 
 	

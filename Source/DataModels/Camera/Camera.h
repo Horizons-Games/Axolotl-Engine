@@ -114,7 +114,7 @@ protected:
 	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;
-	std::unique_ptr <Frustum> frustum;
+	std::unique_ptr<Frustum> frustum;
 
 	float3 position;
 	Quat rotation;
@@ -150,7 +150,7 @@ inline CameraType Camera::GetType()
 
 inline Frustum* Camera::GetFrustum()
 {
-	return this->frustum.get();
+	return frustum.get();
 }
 
 inline const float3& Camera::GetPosition() const

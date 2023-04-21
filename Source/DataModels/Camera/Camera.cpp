@@ -23,9 +23,8 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), isFocusing(false), isUsingProportionalController(false)
+	: type(type), mouseWarped(false), isUsingProportionalController(false), isFocusing(false), frustum(new Frustum())
 {
-	frustum = std::make_unique <Frustum>();
 }
 
 Camera::Camera(Camera& camera)
@@ -52,7 +51,7 @@ Camera::Camera(Camera& camera)
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
 	mouseState(camera.mouseState),
-	frustum(std::move(camera.frustum))
+	frustum(std::unique_ptr<Frustum>(new Frustum(*camera.frustum)))
 {
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -84,7 +83,7 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	lastMouseX(camera->lastMouseX),
 	lastMouseY(camera->lastMouseY),
 	mouseState(camera->mouseState),
-	frustum(std::move(camera->frustum))
+	frustum(new Frustum(*camera->frustum))
 {
 	//frustum = std::make_unique <Frustum>();
 	if (frustumMode == EFrustumMode::offsetFrustum)
