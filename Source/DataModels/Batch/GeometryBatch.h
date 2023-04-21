@@ -69,7 +69,7 @@ public:
 	bool dirtyBatch;
 
 private:
-
+	enum { DOUBLE_BUFFERS = 2 };
 	void FillBuffers();
 	void FillEBO();
 
@@ -94,7 +94,8 @@ private:
 	unsigned int textureBuffer;
 	unsigned int normalsBuffer;
 	unsigned int tangentsBuffer;
-	unsigned int transforms;
+	unsigned int transforms[DOUBLE_BUFFERS];
+	//unsigned int materials[DOUBLE_BUFFERS];
 	unsigned int materials;
 
 	bool createBuffers;
@@ -104,11 +105,15 @@ private:
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
 
-	GLsync gSync;
+
+	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };
+
 	GLbitfield mapFlags = GL_MAP_WRITE_BIT |GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
 	GLbitfield createFlags = mapFlags | GL_DYNAMIC_STORAGE_BIT;
-	float4x4* transformData;
+	float4x4* transformData[DOUBLE_BUFFERS];
+	//Material* materialData[DOUBLE_BUFFERS];
 	Material* materialData;
+	unsigned int frame = 0;
 
 	ResourceMaterial* defaultMaterial;
 

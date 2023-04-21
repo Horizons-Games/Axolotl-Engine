@@ -28,12 +28,19 @@ createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new Reso
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &indirectBuffer);
-	glGenBuffers(1, &transforms);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glGenBuffers(1, &transforms[i]);
+	}
 	glGenBuffers(1, &verticesBuffer);
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
 	glGenBuffers(1, &tangentsBuffer);
-	glGenBuffers(1, &materials);
+	//for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	//{
+	//	glGenBuffers(1, &materials[i]);
+	//}
+		glGenBuffers(1, &materials);
 	program = App->program->GetProgram(ProgramType::MESHSHADER);
 }
 
@@ -49,7 +56,13 @@ GeometryBatch::~GeometryBatch()
 	instanceData.clear();
 	delete defaultMaterial;
 	CleanUp();
-	glDeleteSync(gSync);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		if (gSync[frame])
+		{
+			glDeleteSync(gSync[frame]);
+		}
+	}
 }
 
 void GeometryBatch::FillBuffers()
@@ -108,6 +121,7 @@ void GeometryBatch::FillMaterial()
 {
 	std::vector<Material> materialToRender;
 	materialToRender.reserve(instanceData.size());
+	//Material* materials = (Material*)materialData[frame];
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
@@ -143,6 +157,7 @@ void GeometryBatch::FillMaterial()
 		}
 
 		materialToRender.push_back(newMaterial);
+		//materials[i] = newMaterial;
 		materialData[i] = newMaterial;
 	}
 
@@ -161,7 +176,7 @@ void GeometryBatch::FillEBO()
 
 	for (auto info : resourcesInfo)
 	{
-		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); ++i)
+		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); i++)
 		{
 			assert(info->resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
 			*(indices++) = info->resourceMesh->GetFacesIndices()[i][0];
@@ -208,12 +223,21 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	const GLuint bindingPointModel = 10;
-	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms, 0, componentsInBatch.size() * sizeof(float4x4));
-	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
-	transformData = (float4x4*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4),mapFlags));
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+		transformData[i] = (float4x4*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4),mapFlags));
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
 	const GLuint bindingPointMaterial = 11;
+	//for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	//{
+	//	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials[i], 0, componentsInBatch.size() * sizeof(float4x4));
+	//	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+	//	materialData[i] = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
+	//}
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 	materialData = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -227,8 +251,12 @@ void GeometryBatch::CreateVAO()
 void GeometryBatch::ClearBuffer()
 {
 	glDeleteBuffers(1, &indirectBuffer);
-	glDeleteBuffers(1, &transforms);
-	glDeleteBuffers(1, &materials);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glDeleteBuffers(1, &transforms[i]);
+		//glDeleteBuffers(1, &materials[i]);
+	}
+		glDeleteBuffers(1, &materials);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -275,7 +303,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMesh)
 	{
 #ifdef ENGINE
-		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
+		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++) {
 			if ((*it)->resourceMesh == componentToDelete->GetMesh().get())
 			{
 				delete (*it);
@@ -317,6 +345,14 @@ void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
+	if (frame == 0)
+	{
+		frame = 1;
+	}
+	else
+	{
+		frame = 0;
+	}
 	WaitBuffer();
 	if (createBuffers)
 	{
@@ -362,7 +398,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	int drawCount = 0;
 
 	std::vector<float4x4> modelMatrices (componentsInBatch.size());
-	float4x4* transforms = (float4x4*)transformData;
+	float4x4* transforms = (float4x4*)transformData[frame];
 
 	for (auto component : componentsToRender)
 	{
@@ -391,7 +427,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	//glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
-	
+	program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
 	glBindVertexArray(vao);
 
@@ -479,28 +515,31 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &textureBuffer);
 	glDeleteBuffers(1, &normalsBuffer);
 	glDeleteBuffers(1, &tangentsBuffer);
-	glDeleteBuffers(1, &transforms);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glDeleteBuffers(1, &transforms[i]);
+		//glDeleteBuffers(1, &materials[i]);
+	}
 	glDeleteBuffers(1, &materials);
-
 	return true;
 }
 
 void GeometryBatch::LockBuffer()
 {
-	if (gSync)
+	if (gSync[frame])
 	{
-		glDeleteSync(gSync);
+		glDeleteSync(gSync[frame]);
 	}
-	gSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+	gSync[frame] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 }
 
 void GeometryBatch::WaitBuffer()
 {
-	if (gSync)
+	if (gSync[frame])
 	{
 		while (1)
 		{
-			GLenum waitReturn = glClientWaitSync(gSync, GL_SYNC_FLUSH_COMMANDS_BIT, 1);
+			GLenum waitReturn = glClientWaitSync(gSync[frame], GL_SYNC_FLUSH_COMMANDS_BIT, 1);
 			if (waitReturn == GL_ALREADY_SIGNALED || waitReturn == GL_CONDITION_SATISFIED)
 				return;
 		}
