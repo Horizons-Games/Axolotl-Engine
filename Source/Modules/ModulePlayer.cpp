@@ -42,7 +42,7 @@ bool ModulePlayer::Start()
 update_status ModulePlayer::PreUpdate()
 {
 #ifdef ENGINE
-	if (isPlayerLoad && App->GetIsOnPlayMode())
+	if (isPlayerLoad && App->IsOnPlayMode())
 	{
 		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0 
 			&& !SDL_ShowCursor(SDL_QUERY))
@@ -65,7 +65,7 @@ update_status ModulePlayer::PreUpdate()
 update_status ModulePlayer::Update()
 {
 #ifdef ENGINE
-	if (isPlayerLoad && App->GetIsOnPlayMode())
+	if (isPlayerLoad && App->IsOnPlayMode())
 	{
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		trans->UpdateTransformMatrices();

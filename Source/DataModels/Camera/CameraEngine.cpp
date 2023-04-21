@@ -47,7 +47,7 @@ bool CameraEngine::Update()
 
 	bool sceneFocused = App->editor->IsSceneFocused();
 
-	if (sceneFocused && !App->GetIsOnPlayMode())
+	if (sceneFocused && !App->IsOnPlayMode())
 	{
 		//We block everything on while Focus (slerp) to avoid camera problems
 		if (isFocusing)

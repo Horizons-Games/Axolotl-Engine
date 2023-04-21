@@ -41,7 +41,7 @@ void ComponentRigidBody::Update()
 {
 	
 #ifdef ENGINE
-	if (App->GetIsOnPlayMode()) 
+	if (App->IsOnPlayMode())
 	{
 #endif
 		if (isKinematic)

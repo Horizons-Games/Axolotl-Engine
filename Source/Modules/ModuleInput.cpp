@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
@@ -197,7 +198,7 @@ update_status ModuleInput::Update()
         || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
         && keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
     {
-        if (App->GetIsOnPlayMode())
+        if (App->IsOnPlayMode())
         {
             App->player->SetReadyToEliminate(true);
         }
@@ -207,7 +208,7 @@ update_status ModuleInput::Update()
         || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
         && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
     {
-        if (App->GetIsOnPlayMode())
+        if (App->IsOnPlayMode())
         {
             SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
         }

@@ -234,7 +234,7 @@ update_status ModuleRender::Update()
 	}
 
 #ifdef ENGINE
-	if (App->GetIsOnPlayMode())
+	if (App->IsOnPlayMode())
 	{
 		AddToRenderList(App->player->GetPlayer());
 	}
@@ -495,7 +495,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->GetIsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}

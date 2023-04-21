@@ -38,7 +38,7 @@ public:
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
-	bool GetIsOnPlayMode() const;
+	bool IsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
@@ -63,8 +63,8 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
-	std::unique_ptr<Timer> appTimer;
-	std::unique_ptr<Timer> onPlayTimer;
+	Timer appTimer;
+	Timer onPlayTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
@@ -90,7 +90,7 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
-inline bool Application::GetIsOnPlayMode() const
+inline bool Application::IsOnPlayMode() const
 {
 	return isOnPlayMode;
 }

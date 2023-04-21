@@ -9,12 +9,6 @@ ComponentPlayer::ComponentPlayer(bool active, GameObject* owner)
 {
 }
 
-ComponentPlayer::ComponentPlayer(const ComponentPlayer& componentPlayer) :
-	Component(componentPlayer), staticPlayer(componentPlayer.staticPlayer), 
-	mousePlayer(componentPlayer.mousePlayer)
-{
-}
-
 ComponentPlayer::~ComponentPlayer()
 {
 }
