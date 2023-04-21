@@ -23,7 +23,7 @@ void WindowComponentScript::DrawWindowContents()
 	ImGui::Text("");
 
 	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
-	ComponentScript* script = static_cast<ComponentScript*>(this->component);
+	ComponentScript* script = static_cast<ComponentScript*>(component);
 
 	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), (int)(constructors.size()), 3))
 	{
@@ -55,7 +55,7 @@ void WindowComponentScript::DrawWindowContents()
 
 		if (ImGui::Button("Reset Script"))
 		{
-			ComponentScript* newScript = static_cast<ComponentScript*>(this->component);
+			ComponentScript* newScript = static_cast<ComponentScript*>(component);
 
 			ChangeScript(newScript, newScript->GetConstructName().c_str());
 			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
