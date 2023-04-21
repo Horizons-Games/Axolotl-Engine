@@ -80,12 +80,7 @@ void ModulePlayer::Move()
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
-	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
-	std::vector<float3> backPoints = { points[0], points[2], points[4], points[6] };
-	std::vector<float3> leftPoints = { points[4], points[6], points[5],  points[7] };
-	std::vector<float3> rightPoints = { points[0], points[2], points[1], points[3] };
 	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
-	std::vector<float3> topPoints = { points[2], points[3], points[6], points[7] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
 	float3 sideDirection = (points[0] - points[4]).Normalized();
@@ -95,16 +90,6 @@ void ModulePlayer::Move()
 
 	float forceParameter = 50.0f;
 	float jumpParameter = 20.0f;
-
-	float minXPoint = trans->GetEncapsuledAABB().MinX();
-	float minZPoint = trans->GetEncapsuledAABB().MinZ();
-	float maxXPoint = trans->GetEncapsuledAABB().MaxX();
-	float maxZPoint = trans->GetEncapsuledAABB().MaxZ();
-
-	float leftStep = math::Abs(minXPoint - position.x);
-	float rightStep = math::Abs(maxXPoint - position.x);
-	float forwardStep = math::Abs(maxZPoint - position.z);
-	float backwardStep = math::Abs(minZPoint - position.z);
 
 	float size = 0.0f;
 	float sizeForce = 0.0f;
@@ -136,19 +121,7 @@ void ModulePlayer::Move()
 			jumpVector += -trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->IsColliding(frontPoints, direction, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
-		{
-			position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
-			trans->SetPosition(position);
-
-			trans->UpdateTransformMatrices();
-			trans->GetObjectOBB().GetCornerPoints(points);
-			backPoints = { points[0], points[2], points[4], points[6] };
-			leftPoints = { points[4], points[6], points[5],  points[7] };
-			rightPoints = { points[0], points[2], points[1], points[3] };
-			
-		}
-		else 
+		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f)) 
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -177,17 +150,7 @@ void ModulePlayer::Move()
 			jumpVector += trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->IsColliding(backPoints, -direction, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
-		{
-			position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
-			trans->SetPosition(position);
-
-			trans->UpdateTransformMatrices();
-			trans->GetObjectOBB().GetCornerPoints(points);
-			leftPoints = { points[4], points[6], points[5],  points[7] };
-			rightPoints = { points[0], points[2], points[1], points[3] };
-		}
-		else 
+		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -218,16 +181,7 @@ void ModulePlayer::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();;
 		}
 
-		if (!collider->IsColliding(leftPoints, -sideDirection, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
-		{
-			position += trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
-			trans->SetPosition(position);
-
-			trans->UpdateTransformMatrices();
-			trans->GetObjectOBB().GetCornerPoints(points);
-			rightPoints = { points[0], points[2], points[1], points[3] };
-		}
-		else 
+		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -257,14 +211,7 @@ void ModulePlayer::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->IsColliding(rightPoints, sideDirection, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
-		{
-			position -= trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
-			trans->SetPosition(position);
-
-			trans->UpdateTransformMatrices();
-		}
-		else 
+		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -277,9 +224,6 @@ void ModulePlayer::Move()
 			}
 		}
 	}
-
-
-	
 
 	rigidBody->AddForce(forceVector * forceParameter);
 	trans->UpdateTransformMatrices();
