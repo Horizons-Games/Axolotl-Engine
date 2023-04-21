@@ -69,30 +69,37 @@ void ComponentRigidBody::Update()
 			v0 = float3::zero;
 		}
 
-		////Rotation
-		//Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
-		//Quat wq_0 = angularVelocityQuat * q;
+		if (useRotationController) 
+		{
+			//Rotation
+			Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
+			Quat wq_0 = angularVelocityQuat * q;
 
 
-		//float deltaValue = 0.5f * deltaTime;
-		//Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+			float deltaValue = 0.5f * deltaTime;
+			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
-		//Quat nextRotation(q.x + deltaRotation.x,
-		//	q.y + deltaRotation.y,
-		//	q.z + deltaRotation.z,
-		//	q.w + deltaRotation.w);
-		//nextRotation.Normalize();
+			Quat nextRotation(q.x + deltaRotation.x,
+				q.y + deltaRotation.y,
+				q.z + deltaRotation.z,
+				q.w + deltaRotation.w);
+			nextRotation.Normalize();
 
-		//q = nextRotation;
+			q = nextRotation;
+
+			ApplyTorque();
+
+			float4x4 rotationMatrix = float4x4::FromQuat(q);
+			transform->SetRotation(rotationMatrix);
+		}
+		
 
 		//Apply proportional controllers
 		ApplyForce();
-		//ApplyTorque();
 
 		//Update Transform
 		transform->SetPosition(x);
-		/*float4x4 rotationMatrix = float4x4::FromQuat(q);
-		transform->SetRotation(rotationMatrix);*/
+		
 	}
 
 	
