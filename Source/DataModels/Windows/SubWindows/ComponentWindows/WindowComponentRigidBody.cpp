@@ -45,6 +45,21 @@ void WindowComponentRigidBody::DrawWindowContents()
 			asRigidBody->SetMass(mass);
 		}
 
+		float3 g = -asRigidBody->GetGravity();
+
+		ImGui::Text("Gravity:"); ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		if (ImGui::DragFloat("##Gravity", &g.y, 0.1f, 1.0f, 10.0f, "%.2f"))
+		{
+			if (g.y < 1.0f)
+			{
+				g.y = 1.0f;
+			}
+
+			g.y = -g.y;
+			asRigidBody->SetGravity(g);
+		}
+
 		float KpForce = asRigidBody->GetKpForce();
 		float KpTorque = asRigidBody->GetKpTorque();
 		bool isUsingPositionController = asRigidBody->GetUsePositionController();

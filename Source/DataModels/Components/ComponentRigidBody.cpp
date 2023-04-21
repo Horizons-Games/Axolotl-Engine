@@ -26,7 +26,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 {
 	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	isKinematic = true;
-	isOnSurface = false;
 	mass = 1.0f;
 
 	height = -math::inf;

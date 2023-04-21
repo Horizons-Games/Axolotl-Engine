@@ -24,8 +24,6 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	float3 ObtainNextPositionGravity();
-
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
 
@@ -42,6 +40,9 @@ public:
 	
 	float GetMass() const;
 	void SetMass(float newMass);
+
+	float3 GetGravity() const;
+	void SetGravity(float3 newGravity);
 	
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
@@ -60,7 +61,6 @@ public:
 private:
 	ComponentTransform* transform;
 	bool isKinematic;
-	bool isOnSurface;
 	float mass;
 
 	float3 x;
@@ -129,6 +129,16 @@ inline float ComponentRigidBody::GetMass() const
 inline void ComponentRigidBody::SetMass(float newMass)
 {
 	mass = newMass;
+}
+
+inline float3 ComponentRigidBody::GetGravity() const
+{
+	return g;
+}
+
+inline void ComponentRigidBody::SetGravity(float3 newGravity)
+{
+	g = newGravity;
 }
 
 inline bool ComponentRigidBody::GetUsePositionController() const
