@@ -217,20 +217,8 @@ void ModelImporter::ImportMaterials(const aiScene* scene,
 				pathTextures[0] = diffusePath;
 			}
 		}
-		// Getting the specular texture
-		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
-		{
-			std::string specularPath = "";
 
-			CheckPathMaterial(filePath, file, specularPath);
-
-			if (specularPath != "")
-			{
-				pathTextures[1] = specularPath;
-			}
-		}
-
-		if (scene->mMaterials[i]->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
+		if (material->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
 		{
 			std::string normalPath = "";
 
@@ -239,6 +227,30 @@ void ModelImporter::ImportMaterials(const aiScene* scene,
 			if (normalPath != "")
 			{
 				pathTextures[1] = normalPath;
+			}
+		}
+
+		if (material->GetTexture(aiTextureType_LIGHTMAP, 0, &file) == AI_SUCCESS)
+		{
+			std::string occlusionPath = "";
+
+			CheckPathMaterial(filePath, file, occlusionPath);
+
+			if (occlusionPath != "")
+			{
+				pathTextures[2] = occlusionPath;
+			}
+		}
+
+		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+		{
+			std::string specularPath = "";
+
+			CheckPathMaterial(filePath, file, specularPath);
+
+			if (specularPath != "")
+			{
+				pathTextures[3] = specularPath;
 			}
 		}
 

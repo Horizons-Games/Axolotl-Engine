@@ -1,6 +1,8 @@
 #include "WindowMaterialInput.h"
 
 #include "Application.h"
+#include "Components/ComponentMeshRenderer.h"
+
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceMaterial.h"

@@ -20,8 +20,13 @@ bool ModuleProgram::Start()
 {
 	programs.reserve((int) ProgramType::PROGRAM_TYPE_SIZE);
 	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
+
+	programs.push_back(CreateProgram("default_vertex.glsl", "specular_fragment.glsl", "Specular"));
+
 	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
+
 	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
+
 	programs.push_back(CreateProgram("2D_vertex.glsl", "2D_fragment.glsl", "Sprite"));
 
 	return true;
@@ -45,6 +50,7 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string vtxShade
 													  const std::string programName)
 {
 	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
+
 	unsigned fragmentShader =
 		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
 
@@ -75,7 +81,9 @@ bool ModuleProgram::CleanUp()
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data;
+
 	App->fileSystem->Load(shaderFileName.c_str(), data);
+
 	return data;
 }
 
@@ -83,23 +91,31 @@ unsigned ModuleProgram::CompileShader(unsigned type, const std::string& source)
 {
 	const char* sourceAsCharLValue = source.c_str();
 	unsigned shaderID = glCreateShader(type);
+
 	glShaderSource(shaderID, 1, &sourceAsCharLValue, 0);
 	glCompileShader(shaderID);
 
 	int res = GL_FALSE;
+
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &res);
+
 	if (res == GL_FALSE)
 	{
 		int len = 0;
+
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &len);
+
 		if (len > 0)
 		{
 			int written = 0;
 			char* info = (char*) malloc(len);
+
 			glGetShaderInfoLog(shaderID, len, &written, info);
 			ENGINE_LOG("Log Info: %s", info);
+
 			free(info);
 		}
 	}
+
 	return shaderID;
 }

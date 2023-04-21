@@ -7,7 +7,8 @@ class Program;
 
 enum class ProgramType
 {
-	MESHSHADER,
+	DEFAULT,
+	SPECULAR,
 	HIGHLIGHT,
 	SKYBOX,
 	SPRITE,
@@ -44,7 +45,7 @@ private:
 
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
-	if (programs.empty() || programs.size() > (int) ProgramType::PROGRAM_TYPE_SIZE)
+	if (programs.empty() || programs.size() > static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE))
 	{
 		return nullptr;
 	}
