@@ -49,6 +49,7 @@ GeometryBatch::~GeometryBatch()
 	instanceData.clear();
 	delete defaultMaterial;
 	CleanUp();
+	glDeleteSync(gSync);
 }
 
 void GeometryBatch::FillBuffers()
@@ -142,9 +143,10 @@ void GeometryBatch::FillMaterial()
 		}
 
 		materialToRender.push_back(newMaterial);
+		materialData[i] = newMaterial;
 	}
 
-	glNamedBufferData(materials, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
+	//glNamedBufferData(materials, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -202,29 +204,31 @@ void GeometryBatch::CreateVAO()
 
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, 500 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
+	//glBufferData(GL_DRAW_INDIRECT_BUFFER, 5000 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	const GLuint bindingPointModel = 10;
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
-
-	//BufferRange will be for double buffering
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
-	
-	//transformData = (float4x4*)(glMapNamedBuffer(transforms, GL_DYNAMIC_DRAW));
 	transformData = (float4x4*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4),mapFlags));
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
 	const GLuint bindingPointMaterial = 11;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+	materialData = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	//glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, resourcesMaterial.size() * sizeof(Material));
-	//glNamedBufferStorage(materials, resourcesMaterial.size() * sizeof(Material), NULL, bufferFlags);
-	//materialData = (ResourceMaterial*)glMapNamedBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
-	//	resourcesMaterial.size() * sizeof(Material), bufferFlags);
-	
+
 	glBindVertexArray(0);
+
+	dirtyBatch = false;
+}
+
+void GeometryBatch::ClearBuffer()
+{
+	glDeleteBuffers(1, &indirectBuffer);
+	glDeleteBuffers(1, &transforms);
+	glDeleteBuffers(1, &materials);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -242,6 +246,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
 		reserveModelSpace = true;
+		dirtyBatch = true;
 	}
 }
 
@@ -295,6 +300,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	reserveModelSpace = true;
+	dirtyBatch = true;
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
 	}
@@ -382,12 +388,10 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 		commands.push_back(newCommand);
 		drawCount++;
 	}
-	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
+	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	//glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
 	
-	//glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
-
 	program->Activate();
 	glBindVertexArray(vao);
 

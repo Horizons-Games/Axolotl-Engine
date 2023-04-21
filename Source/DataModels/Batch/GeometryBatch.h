@@ -51,6 +51,7 @@ public:
 	const int GetFlags() const;
 
 	void CreateVAO();
+	void ClearBuffer();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
@@ -64,6 +65,8 @@ public:
 	void ReserveModelSpace();
 
 	bool CleanUp();
+
+	bool dirtyBatch;
 
 private:
 
@@ -105,6 +108,7 @@ private:
 	GLbitfield mapFlags = GL_MAP_WRITE_BIT |GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
 	GLbitfield createFlags = mapFlags | GL_DYNAMIC_STORAGE_BIT;
 	float4x4* transformData;
+	Material* materialData;
 
 	ResourceMaterial* defaultMaterial;
 
