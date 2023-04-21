@@ -45,6 +45,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 	TypeFieldPair field;
 	for(const auto& it : stateAsShared->GetParameters())
 	{
+		ImGui::SetNextItemWidth(110);
 		std::string name = it.first;
 		name.resize(24);
 		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
@@ -58,16 +59,17 @@ void WindowStateMachineEditor::DrawWindowContents()
 		}
 		ImGui::SameLine();
 		ValidFieldType value = it.second.second;
+		ImGui::SetNextItemWidth(90);
 		switch (it.second.first)
 		{
 		case FieldType::FLOAT:
-			if(ImGui::DragFloat("#Float", &std::get<float>(value)))
+			if(ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
 			{
 				stateAsShared->SetParameter(it.first, value);
 			}
 			break;
 		case FieldType::BOOL:
-			if (ImGui::Checkbox("#Bool", &std::get<bool>(value)))
+			if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
 			{
 				stateAsShared->SetParameter(it.first, value);
 			}
