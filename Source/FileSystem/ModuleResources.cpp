@@ -43,7 +43,7 @@ bool ModuleResources::Init()
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
 
-	CreateAssetAndLibFolders();
+	CreateAssetAndLibFolders();	
 
 #ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);

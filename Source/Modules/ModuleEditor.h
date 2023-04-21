@@ -26,6 +26,7 @@ public:
 	void Resized();
 
 	const WindowScene* GetScene() const;
+		  WindowMainMenu* GetMainMenu() const;
 	const WindowDebug* GetDebugOptions() const;
 
 	bool IsSceneFocused() const;
@@ -47,12 +48,21 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	GameObject* copyObject;
+	std::unique_ptr<GameObject> copyObject;
+	std::string StateWindows();
+	void CreateFolderSettings();
+	static const std::string settingsFolder;
+	static const std::string set;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
+}
+
+inline WindowMainMenu* ModuleEditor::GetMainMenu() const
+{
+	return mainMenu.get();
 }
 
 inline const WindowDebug* ModuleEditor::GetDebugOptions() const

@@ -2,11 +2,13 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
-#include "ModuleUI.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
+#include "Windows/WindowMainMenu.h"
+#include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
-
 
 #ifdef DEBUG
 #include "optick.h"
@@ -128,6 +130,7 @@ update_status ModuleInput::Update()
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+                App->camera->RecalculateOrthoProjectionMatrix();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -188,6 +191,10 @@ update_status ModuleInput::Update()
 #endif // ENGINE
     }
 
+#ifdef ENGINE
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
+        App->editor->GetMainMenu()->ShortcutSave();}
+#endif
     return status;
 }
 

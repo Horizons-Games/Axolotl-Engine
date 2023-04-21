@@ -26,7 +26,9 @@ struct SpotLight
 	vec4 color; 		//16 //16	// rgb colour+alpha intensity
 	vec3 aim;			//12 //32
 	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48   --> 52 
+	float outerAngle;	//4  //48 
+    float padding1;     //4  //52
+    vec2  padding2;     //8  //56 --> 64
 };
 
 layout(std140, binding=1) uniform Ambient

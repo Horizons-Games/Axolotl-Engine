@@ -61,6 +61,7 @@ public:
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
+	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<GameObject*>& GetSceneCameras() const;
 	const std::vector<GameObject*>& GetSceneCanvas() const;
@@ -68,7 +69,7 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 
-	void SetRoot(std::unique_ptr<GameObject> newRoot);
+	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
@@ -77,6 +78,11 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
+
+	void AddStaticObject(GameObject* gameObject);
+	void RemoveStaticObject(GameObject* gameObject);
+	void AddNonStaticObject(GameObject* gameObject);
+	void RemoveNonStaticObject(GameObject* gameObject);
 
 	void InitNewEmptyScene();
 
@@ -111,7 +117,9 @@ private:
 	unsigned ssboSpot;
 	
 	AABB rootQuadtreeAABB;
+	//Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
+	std::vector<GameObject*> nonStaticObjects;
 };
 
 inline GameObject* Scene::GetRoot()
@@ -189,3 +197,14 @@ inline Skybox* Scene::GetSkybox() const
 	return skybox.get();
 }
 
+inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
+{
+	return nonStaticObjects;
+}
+
+
+
+inline void Scene::AddNonStaticObject(GameObject* gameObject)
+{
+	nonStaticObjects.push_back(gameObject);
+}

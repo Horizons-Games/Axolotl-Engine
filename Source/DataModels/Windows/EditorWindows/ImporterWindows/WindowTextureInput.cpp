@@ -1,12 +1,11 @@
 #include "WindowTextureInput.h"
-
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
+WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* material, TextureType textureType) :
 	WindowFileBrowser(), windowComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
@@ -46,7 +45,7 @@ void WindowTextureInput::DoThisIfOk()
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(filePath);
-		
+
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:
