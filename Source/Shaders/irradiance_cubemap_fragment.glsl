@@ -40,17 +40,16 @@ vec2 hammersley2D(uint i, uint N)
 
 void main()
 {
-	vec4 gammaCorrection = vec4(2.2);
 	vec3 normal = normalize(texcoords);
-	// TODO: Approximate irradiance integral around hemisphere
-	// defined by normal
-	
-	// Here needs to be the MonteCarlo integration
+	mat3 tangentSpace = computeTangetSpace(normal);
+
 	vec3 irradiance = vec3(0.0);
 	for(int i=0; i< NUM_SAMPLES; ++i)
 	{
-		vec2 random = hammersley2D(i, NUM_SAMPLES);
-		irradiance += texture(environment, hemisphereSample(random[0], random[1])).rgb; // / samplePDF;
+		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
+		vec3 sample_dir = tangentSpace * hemisphereSample(rand_value[0], rand_value[1]);
+		irradiance += texture(environment, sample_dir).rgb;
 	}
+
 	fragColor = vec4(irradiance/float(NUM_SAMPLES), 1.0);
 }
