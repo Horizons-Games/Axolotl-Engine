@@ -40,6 +40,21 @@ public:
 	bool GetIsKinematic() const;
 	void SetIsKinematic(bool newIsKinematic);
 	
+	float GetMass() const;
+	void SetMass(float newMass);
+	
+	bool GetUsePositionController() const;
+	void SetUsePositionController(bool newUsePositionController);
+	
+	bool GetUseRotationController() const;
+	void SetUseRotationController(bool newUsePositionController);
+	
+	float GetKpForce() const;
+	void SetKpForce(float newKpForce);
+	
+	float GetKpTorque() const;
+	void SetKpTorque(float newKpForce);
+	
 	void SetBottomHitPoint(float height);
 
 private:
@@ -104,4 +119,54 @@ inline void ComponentRigidBody::DisableRotationController()
 inline void ComponentRigidBody::SetBottomHitPoint(float height)
 {
 	this->height = height;
+}
+
+inline float ComponentRigidBody::GetMass() const
+{
+	return mass;
+}
+
+inline void ComponentRigidBody::SetMass(float newMass)
+{
+	mass = newMass;
+}
+
+inline bool ComponentRigidBody::GetUsePositionController() const
+{
+	return usePositionController;
+}
+
+inline void ComponentRigidBody::SetUsePositionController(bool newUsePositionController)
+{
+	usePositionController = newUsePositionController;
+}
+
+inline bool ComponentRigidBody::GetUseRotationController() const
+{
+	return useRotationController;
+}
+
+inline void ComponentRigidBody::SetUseRotationController(bool newUseRotationController)
+{
+	useRotationController = newUseRotationController;
+}
+
+inline float ComponentRigidBody::GetKpForce() const
+{
+	return KpForce;
+}
+
+inline void ComponentRigidBody::SetKpForce(float newKpForce)
+{
+	KpForce = newKpForce;
+}
+
+inline float ComponentRigidBody::GetKpTorque() const
+{
+	return KpTorque;
+}
+
+inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
+{
+	KpTorque = newKpTorque;
 }

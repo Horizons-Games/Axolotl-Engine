@@ -215,6 +215,13 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+
+	meta["isKinematic"] = (bool)GetIsKinematic();
+	meta["mass"] = (float)GetMass();
+	meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["useRotationController"] = (bool)GetUseRotationController();
+	meta["KpForce"] = (float)GetKpForce();
+	meta["KpTorque"] = (float)GetKpTorque();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -223,4 +230,11 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+
+	SetIsKinematic((bool)meta["isKinematic"]);
+	SetMass((float)meta["mass"]);
+	SetUsePositionController((bool)meta["usePositionController"]);
+	SetUseRotationController((bool)meta["useRotationController"]);
+	SetKpForce((float)meta["KpForce"]);
+	SetKpTorque((float)meta["KpTorque"]);
 }
