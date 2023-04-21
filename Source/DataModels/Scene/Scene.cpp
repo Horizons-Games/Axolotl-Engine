@@ -265,7 +265,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				->CreateComponent(ComponentType::MESHRENDERER));
 		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
-
 	}
 }
 
