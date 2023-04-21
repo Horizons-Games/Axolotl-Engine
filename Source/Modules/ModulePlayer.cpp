@@ -92,60 +92,168 @@ void ModulePlayer::Move()
 	float3 verticalDirection = float3::unitY;
 
 	RaycastHit hit;
-	//Forward
-	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE && 
-		!collider->IsColliding(frontPoints, direction, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
-	{
-		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
-		trans->SetPosition(position);
 
-		trans->UpdateTransformMatrices();
-		trans->GetObjectOBB().GetCornerPoints(points);
-		backPoints = { points[0], points[2], points[4], points[6] };
-		leftPoints = { points[4], points[6], points[5],  points[7] };
-		rightPoints = { points[0], points[2], points[1], points[3] };
+	float forceParameter = 10.0f;
+	float jumpParameter = 15.0f;
+
+	float minXPoint = trans->GetEncapsuledAABB().MinX();
+	float minZPoint = trans->GetEncapsuledAABB().MinZ();
+	float maxXPoint = trans->GetEncapsuledAABB().MaxX();
+	float maxZPoint = trans->GetEncapsuledAABB().MaxZ();
+
+	float leftStep = math::Abs(minXPoint - position.x);
+	float rightStep = math::Abs(maxXPoint - position.x);
+	float forwardStep = math::Abs(maxZPoint - position.z);
+	float backwardStep = math::Abs(minZPoint - position.z);
+
+	float size = 0.0f;
+	float sizeExpanded = 0.0f;
+
+	float3 jumpVector = float3::unitY;
+	float3 forceVector = float3::zero;
+
+	//Forward
+	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	{
+		
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		{
+			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
+			forceVector = direction;
+		}
+		size = speed * deltaTime * 1.1f;
+
+		if (!collider->IsColliding(frontPoints, direction, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f)) 
+		{
+			position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
+			trans->SetPosition(position);
+
+			trans->UpdateTransformMatrices();
+			trans->GetObjectOBB().GetCornerPoints(points);
+			backPoints = { points[0], points[2], points[4], points[6] };
+			leftPoints = { points[4], points[6], points[5],  points[7] };
+			rightPoints = { points[0], points[2], points[1], points[3] };
+
+			jumpVector += trans->GetGlobalForward().Normalized();
+		}
+		else 
+		{
+			if (sizeExpanded != 0.0f) 
+			{
+				forceVector = -direction;
+			}
+			
+		}
 	}
 
 	//Backward
-	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE && 
-		!collider->IsColliding(backPoints, -direction, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
+	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
-		trans->SetPosition(position);
+		float size = 0.0f;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		{
+			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
+			forceVector = -direction;
+		}
+		size = speed * deltaTime * 1.1f;
 
-		trans->UpdateTransformMatrices();
-		trans->GetObjectOBB().GetCornerPoints(points);
-		leftPoints = { points[4], points[6], points[5],  points[7] };
-		rightPoints = { points[0], points[2], points[1], points[3] };
+		if (!collider->IsColliding(backPoints, -direction, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
+			trans->SetPosition(position);
+
+			trans->UpdateTransformMatrices();
+			trans->GetObjectOBB().GetCornerPoints(points);
+			leftPoints = { points[4], points[6], points[5],  points[7] };
+			rightPoints = { points[0], points[2], points[1], points[3] };
+
+			jumpVector += -trans->GetGlobalForward().Normalized();
+		}
+		else 
+		{
+			if (sizeExpanded != 0.0f)
+			{
+				forceVector = direction;
+			}
+		}
 	}
 
 	//Left
-	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE && 
-		!collider->IsColliding(leftPoints, -sideDirection, speed  * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
+	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
-		trans->SetPosition(position);
+		float size = 0.0f;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		{
+			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
+			forceVector = -sideDirection;
+		}
+		size = speed * deltaTime * 1.1f;
 
-		trans->UpdateTransformMatrices();
-		trans->GetObjectOBB().GetCornerPoints(points);
-		rightPoints = { points[0], points[2], points[1], points[3] };
+		if (!collider->IsColliding(leftPoints, -sideDirection, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			position += trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
+			trans->SetPosition(position);
+
+			trans->UpdateTransformMatrices();
+			trans->GetObjectOBB().GetCornerPoints(points);
+			rightPoints = { points[0], points[2], points[1], points[3] };
+
+			jumpVector += trans->GetGlobalRight().Normalized();
+		}
+		else 
+		{
+			if (sizeExpanded != 0.0f)
+			{
+				forceVector = sideDirection;
+			}
+		}
 	}
 
 	//Right
-	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE && 
-		!collider->IsColliding(rightPoints, sideDirection, speed * deltaTime * 1.1f, hit, trans->GetLocalAABB().Size().y * 0.05f))
+	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
-		trans->SetPosition(position);
+		float size = 0.0f;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		{
+			sizeExpanded = speed * deltaTime * 1.1f * forceParameter;
+			forceVector = sideDirection;
+		}
+		size = speed * deltaTime * 1.1f;
 
+		if (!collider->IsColliding(rightPoints, sideDirection, size + sizeExpanded, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			position -= trans->GetGlobalRight().Normalized() * speed * 2 / 3 * deltaTime;
+			trans->SetPosition(position);
+
+			trans->UpdateTransformMatrices();
+
+			jumpVector += -trans->GetGlobalRight().Normalized();
+		}
+		else 
+		{
+			if (sizeExpanded != 0.0f)
+			{
+				forceVector = -sideDirection;
+			}
+		}
+	}
+
+	rigidBody->AddForce(forceVector* forceParameter);
+	trans->UpdateTransformMatrices();
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
+	{
+		rigidBody->AddForce(jumpVector * jumpParameter);
 		trans->UpdateTransformMatrices();
 	}
 
 	//bottom
 	float maxHeight = -math::inf;
 
-	for (float3 bottomPoint : bottomPoints) 
+	std::vector<float3> extraPoints;
+	collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
+	for (float3 bottomPoint : extraPoints) 
 	{
+		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y)/5;
 		Ray ray(bottomPoint, -float3::unitY);
 		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		bool hasHit = Physics::Raycast(line, hit);

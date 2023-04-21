@@ -32,7 +32,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	height = -math::inf;
 	x = transform->GetPosition();
 	q = transform->GetRotation().RotatePart().ToQuat();
-	g = float3(0.0f, -9.81f, 0.0f);
+	g = float3(0.0f, -2.81f, 0.0f);
 	v0 = float3(0.0f, 0.0f, 0.0f);
 	w0 = float3(0.0f, 0.0f, 0.0f);
 }
@@ -66,8 +66,6 @@ void ComponentRigidBody::Update()
 			x.y = height + verticalDistanceToFeet;
 			v0 = float3::zero;
 		}
-
-		
 
 		////Rotation
 		//Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
