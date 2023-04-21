@@ -442,7 +442,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 
 		if (parent == 0)
 		{
-			loadedScene->SetRoot(std::unique_ptr<GameObject>(gameObject));
+			loadedScene->SetRoot(gameObject);
 			continue;
 		}
 
