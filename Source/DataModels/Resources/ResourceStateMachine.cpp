@@ -1,4 +1,5 @@
 #include "ResourceStateMachine.h"
+#include <string> 
 
 ResourceStateMachine::ResourceStateMachine(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath)
@@ -68,4 +69,55 @@ void ResourceStateMachine::EraseTransition(unsigned int id)
 	remove(stateOrigin->transitionsOriginedHere.begin(), stateOrigin->transitionsOriginedHere.end(), id);
 	remove(stateOrigin->transitionsDestinedHere.begin(), stateOrigin->transitionsDestinedHere.end(), id);
 	transitions.erase(id);
+}
+
+void ResourceStateMachine::SetParameter(const std::string& parameterName, ValidFieldType value)
+{
+	parameters[parameterName].second = value;
+}
+
+void ResourceStateMachine::AddParameter(std::string parameterName, FieldType type, ValidFieldType value)
+{
+	int nextNum = 0;
+	for (const auto& it : parameters)
+	{
+		std::string noParenthesis = parameterName;
+		size_t pos = it.first.find_first_of("(");
+		if (pos != std::string::npos)
+		{
+			noParenthesis = it.first.substr(0, pos);
+			if (noParenthesis == parameterName)
+			{
+				size_t posFinal = it.first.find_last_of(")");
+				if (posFinal != std::string::npos)
+				{
+					std::string number = 
+						it.first.substr(pos + 1, posFinal);
+					number.pop_back();
+					int num = std::stoi(number) + 1; //TODO I don't want to check if this is a number, help
+					if (num > nextNum) nextNum = num;
+				}
+				else if (1 > nextNum) nextNum = 1;
+				
+			}
+		}
+		else if (noParenthesis == parameterName) if (1 > nextNum) nextNum = 1;
+	}
+
+	/*int count = std::count_if(std::begin(parameters), std::begin(parameters),
+		[&parameterName](std::pair<const std::string,TypeFieldPair>& it)
+		{
+			std::string noParenthesis = parameterName;
+			size_t pos = it.first.find_first_of("(");
+			if (pos != std::string::npos) noParenthesis = it.first.substr(it.first.find_first_of("("));
+			return noParenthesis == it.first;
+		}
+	);*/
+
+	if (nextNum != 0)
+	{
+		parameterName = parameterName + "(" + std::to_string(nextNum) + ")";
+	}
+
+	parameters[parameterName] = std::make_pair(type, value);
 }

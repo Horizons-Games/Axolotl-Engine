@@ -5,16 +5,7 @@
 #include <unordered_map>
 #include <variant>
 
-#include "Auxiliar/Reflection/Field.h"
 #include "Auxiliar/Reflection/TypeToEnum.h"
-
-
-#define REGISTER_FIELD(Name, Type) \
-	this->parameters.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
-		#Name, \
-		[this] { return this->Get##Name(); }, \
-		[this](const Type& value) { this->Set##Name(value); } \
-	)));
 
 struct State
 {
@@ -34,7 +25,7 @@ struct Transition
 };
 
 //for now only allow floats
-using ValidFieldType = std::variant<Field<float>>;
+using ValidFieldType = std::variant<float,bool>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class ResourceStateMachine : virtual public Resource
@@ -45,8 +36,6 @@ public:
 		const std::string& assetsPath,
 		const std::string& libraryPath);
 	virtual ~ResourceStateMachine() override;
-
-	void AddParameter(const std::string& parameterName);
 
 	ResourceType GetType() const override;
 
@@ -74,6 +63,11 @@ public:
 
 	void EraseTransition(unsigned int id);
 
+	void SetParameter(const std::string& parameterName, ValidFieldType value);
+	void AddParameter(std::string parameterName, FieldType type, ValidFieldType value);
+	const std::unordered_map<std::string, TypeFieldPair>& GetParameters() const;
+	void EraseParameter(const std::string& parameterName);
+
 protected:
 	void InternalLoad() override {};
 	void InternalUnload() override {};
@@ -81,13 +75,8 @@ protected:
 private:
 	std::vector<State*> states;
 	std::unordered_map<UID, Transition> transitions;
-	std::vector<TypeFieldPair> parameters;
+	std::unordered_map<std::string, TypeFieldPair> parameters;
 };
-
-inline void ResourceStateMachine::AddParameter(const std::string& parameterName)
-{
-	/*REGISTER_FIELD(parameterName, float);*/
-}
 
 inline ResourceType ResourceStateMachine::GetType() const
 {
@@ -122,4 +111,14 @@ inline void ResourceStateMachine::SetStateName(unsigned int id, std::string name
 inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource)
 {
 	states[id]->resource = resource;
+}
+
+inline const std::unordered_map<std::string, TypeFieldPair>& ResourceStateMachine::GetParameters() const
+{
+	return parameters;
+}
+
+inline void ResourceStateMachine::EraseParameter(const std::string& parameterName)
+{
+	parameters.erase(parameterName);
 }

@@ -2,7 +2,8 @@
 
 enum class FieldType
 {
-	FLOAT
+	FLOAT,
+	BOOL
 };
 
 template<typename T>

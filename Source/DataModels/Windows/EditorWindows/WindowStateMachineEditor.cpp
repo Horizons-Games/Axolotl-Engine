@@ -26,12 +26,65 @@ void WindowStateMachineEditor::DrawWindowContents()
 	ImGui::BeginChild("Side_lists", ImVec2(200, 0));
 	ImGui::Text("Parameters");
 	ImGui::SameLine();
-	if (ImGui::Button("+"))
+	if (ImGui::BeginMenu("+"))
 	{
-		
+		if(ImGui::MenuItem("New Float"))
+		{
+			stateAsShared->AddParameter("NewFloat", FieldType::FLOAT, 0.0f);
+		}
+		if (ImGui::MenuItem("New Bool"))
+		{
+			stateAsShared->AddParameter("NewBool", FieldType::BOOL, false);
+		}
+		ImGui::EndMenu();
 	}
 	ImGui::Separator();
+
+	const std::string* oldName = nullptr;
+	std::string newName;
+	TypeFieldPair field;
+	for(const auto& it : stateAsShared->GetParameters())
+	{
+		std::string name = it.first;
+		name.resize(24);
+		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			if(ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
+			{
+				oldName = &it.first;
+				newName = name;
+				field = it.second;
+			}
+		}
+		ImGui::SameLine();
+		ValidFieldType value = it.second.second;
+		switch (it.second.first)
+		{
+		case FieldType::FLOAT:
+			if(ImGui::DragFloat("#Float", &std::get<float>(value)))
+			{
+				stateAsShared->SetParameter(it.first, value);
+			}
+			break;
+		case FieldType::BOOL:
+			if (ImGui::Checkbox("#Bool", &std::get<bool>(value)))
+			{
+				stateAsShared->SetParameter(it.first, value);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (newName != "")
+	{
+		stateAsShared->EraseParameter(*oldName);
+		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
+	}
+
 	ImGui::Text("");
+
 	if (stateAsShared && stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
 	{
 		State* state = stateAsShared->GetStates()[stateIdSelected];
@@ -39,7 +92,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		ImGui::Separator();
 		std::string name = state->name;
 		name.resize(24);
-		if (ImGui::InputText("Name:", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText("##Name", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			stateAsShared->SetStateName(stateIdSelected, name);
 		}
