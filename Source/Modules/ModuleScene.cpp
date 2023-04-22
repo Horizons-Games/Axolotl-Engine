@@ -92,7 +92,7 @@ update_status ModuleScene::PreUpdate()
 		App->scriptFactory->UpdateNotifier();
 	}
 
-	if (App->GetIsOnPlayMode())
+	if (App->IsOnPlayMode())
 	{
 		if (!App->scriptFactory->IsCompiling())
 		{
@@ -116,7 +116,7 @@ update_status ModuleScene::Update()
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 	
-	if (App->GetIsOnPlayMode())
+	if (App->IsOnPlayMode())
 	{
 		if (!App->scriptFactory->IsCompiling()) 
 		{
@@ -134,7 +134,7 @@ update_status ModuleScene::Update()
 
 update_status ModuleScene::PostUpdate()
 {
-	if (App->GetIsOnPlayMode())
+	if (App->IsOnPlayMode())
 	{
 		if (!App->scriptFactory->IsCompiling())
 		{
