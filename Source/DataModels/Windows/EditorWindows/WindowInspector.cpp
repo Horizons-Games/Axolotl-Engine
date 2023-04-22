@@ -153,6 +153,14 @@ void WindowInspector::InspectSelectedGameObject()
 					AddComponentMeshCollider();
 				}
 			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::SCRIPT)) {
+				if (ImGui::MenuItem("Create Script Component"))
+				{
+					AddComponentScript();
+				}
+			}
+
 		}
 
 		else
@@ -350,4 +358,9 @@ void WindowInspector::AddComponentMockState()
 void WindowInspector::AddComponentMeshCollider()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
+}
+
+void WindowInspector::AddComponentScript()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
 }

@@ -38,7 +38,8 @@ update_status ModuleUI::Update()
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform =
+			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 		AABB2D aabb2d = transform->GetWorldAABB();
 		float2 point = App->input->GetMousePosition();
 #ifdef ENGINE
@@ -68,7 +69,7 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->camera->GetCamera()->GetFrustum()->SetOrthographic(width, height);
+	App->camera->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
 
 	glDisable(GL_DEPTH_TEST);
 

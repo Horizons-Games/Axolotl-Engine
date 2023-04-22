@@ -80,9 +80,12 @@ update_status ModulePlayer::Update()
 	}
 	
 #else //ENGINE
-	player->Update();
-	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
-	trans->UpdateTransformMatrices();
+	if (player)
+	{
+		player->Update();
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+	}
 #endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }

@@ -87,9 +87,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     ImGui::PopStyleColor();
 
     ImGui::PushID(gameObjectLabel);
-    if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
-        (ImGui::IsMouseClicked(ImGuiMouseButton_Right)
-            && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
+    if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left)
+        && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+        ||
+       (ImGui::IsMouseReleased(ImGuiMouseButton_Right) 
+        && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
         App->scene->ChangeSelectedGameObject(gameObject);
     }
