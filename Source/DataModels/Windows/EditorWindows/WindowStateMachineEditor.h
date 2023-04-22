@@ -21,6 +21,10 @@ protected:
 	void DrawWindowContents() override;
 
 private:
+	void DrawAddParameterMenu(std::shared_ptr<ResourceStateMachine>& stateAsShared);
+	void DrawParameters(std::shared_ptr<ResourceStateMachine>& stateAsShared);
+
+
 	std::shared_ptr<ResourceStateMachine> stateMachine;
 	int stateIdSelected;
 	unsigned long long transitionIdSelected;

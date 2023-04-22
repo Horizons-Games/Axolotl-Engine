@@ -30,77 +30,10 @@ void WindowStateMachineEditor::DrawWindowContents()
 	ImGui::BeginChild("Side_lists", ImVec2(300, 0));
 	ImGui::Text("Parameters");
 	ImGui::SameLine();
-	if (ImGui::BeginMenu("+"))
-	{
-		if(ImGui::MenuItem("New Float"))
-		{
-			stateAsShared->AddParameter("NewFloat", FieldType::FLOAT, 0.0f);
-		}
-		if (ImGui::MenuItem("New Bool"))
-		{
-			stateAsShared->AddParameter("NewBool", FieldType::BOOL, false);
-		}
-		ImGui::EndMenu();
-	}
+	DrawAddParameterMenu(stateAsShared);
 	ImGui::Separator();
 
-	const std::string* oldName = nullptr;
-	std::string newName;
-	TypeFieldPair field;
-	for(const auto& it : stateAsShared->GetParameters())
-	{
-		
-		std::string name = it.first;
-		name.resize(24);
-		ImGui::SetNextItemWidth(10);
-		if(ImGui::Button(("x##" + name).c_str()))
-		{
-			parameterIdSelected = name;
-		}
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(110);
-		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			if(ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
-			{
-				oldName = &it.first;
-				newName = name;
-				field = it.second;
-			}
-		}
-		ImGui::SameLine();
-		ValidFieldType value = it.second.second;
-		ImGui::SetNextItemWidth(90);
-		switch (it.second.first)
-		{
-		case FieldType::FLOAT:
-			if(ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
-			{
-				stateAsShared->SetParameter(it.first, value);
-			}
-			break;
-		case FieldType::BOOL:
-			if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
-			{
-				stateAsShared->SetParameter(it.first, value);
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
-	if(parameterIdSelected != "") 
-	{
-		stateAsShared->EraseParameter(parameterIdSelected.c_str());
-		parameterIdSelected = "";
-	}
-
-	if (newName != "")
-	{
-		stateAsShared->EraseParameter(*oldName);
-		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
-	}
+	DrawParameters(stateAsShared);
 
 	ImGui::Text("");
 
@@ -146,30 +79,32 @@ void WindowStateMachineEditor::DrawWindowContents()
 		ImGui::Separator();
 		for (int i = 0; i < it->second.conditions.size(); i++)
 		{
-			Conditions* condition = it->second.conditions[i];
+			Condition& condition = it->second.conditions[i];
 			ImGui::SetNextItemWidth(90);
-			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition->parameter.c_str()))
+			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition.parameter.c_str()))
 			{
 				for (const auto& parameter : stateAsShared->GetParameters())
+				{
 					if (ImGui::Selectable(parameter.first.c_str()))
 					{
 						stateAsShared->SelectConditionParameter(parameter.first.c_str(), condition);
 					}
+				}
 				ImGui::EndCombo();
 			}
 			ImGui::SameLine();
 
-			if(condition->parameter != "")
+			if(condition.parameter != "")
 			{
-				const auto& itParameter = stateAsShared->GetParameters().find(condition->parameter);
+				const auto& itParameter = stateAsShared->GetParameters().find(condition.parameter);
 				if(itParameter != stateAsShared->GetParameters().end())
 				{
-					ValidFieldType valueCondition = condition->value;
+					ValidFieldType valueCondition = condition.value;
 					switch (itParameter->second.first)
 					{
 					case FieldType::FLOAT:
 						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition->conditionType)]))
+						if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition.conditionType)]))
 						{
 							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
 							{
@@ -190,7 +125,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 							break;
 					case FieldType::BOOL:
 						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition->conditionType) - (boolNamesOffset)]))
+						if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
 						{
 							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
 							{
@@ -467,5 +402,82 @@ void WindowStateMachineEditor::SetResourceOnState(const std::shared_ptr<Resource
 	if (stateMachine && stateIdSelected != -1)
 	{
 		stateMachine->SetStateResource(stateIdSelected, resource);
+	}
+}
+
+void WindowStateMachineEditor::DrawAddParameterMenu(std::shared_ptr<ResourceStateMachine>& stateAsShared)
+{
+	if (ImGui::BeginMenu("+"))
+	{
+		if (ImGui::MenuItem("New Float"))
+		{
+			stateAsShared->AddParameter("NewFloat", FieldType::FLOAT, 0.0f);
+		}
+		if (ImGui::MenuItem("New Bool"))
+		{
+			stateAsShared->AddParameter("NewBool", FieldType::BOOL, false);
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachine>& stateAsShared)
+{
+	const std::string* oldName = nullptr;
+	std::string newName;
+	TypeFieldPair field;
+	for (const auto& it : stateAsShared->GetParameters())
+	{
+
+		std::string name = it.first;
+		name.resize(24);
+		ImGui::SetNextItemWidth(10);
+		if (ImGui::Button(("x##" + name).c_str()))
+		{
+			parameterIdSelected = name;
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(110);
+		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
+			{
+				oldName = &it.first;
+				newName = name;
+				field = it.second;
+			}
+		}
+		ImGui::SameLine();
+		ValidFieldType value = it.second.second;
+		ImGui::SetNextItemWidth(90);
+		switch (it.second.first)
+		{
+		case FieldType::FLOAT:
+			if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
+			{
+				stateAsShared->SetParameter(it.first, value);
+			}
+			break;
+		case FieldType::BOOL:
+			if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
+			{
+				stateAsShared->SetParameter(it.first, value);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (parameterIdSelected != "")
+	{
+		stateAsShared->EraseParameter(parameterIdSelected.c_str());
+		parameterIdSelected = "";
+	}
+
+	if (newName != "")
+	{
+		stateAsShared->EraseParameter(*oldName);
+		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
 	}
 }
