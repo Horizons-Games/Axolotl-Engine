@@ -127,39 +127,39 @@ void ResourceStateMachine::AddParameter(std::string parameterName, FieldType typ
 
 void ResourceStateMachine::AddCondition(const UID transition)
 {
-	Conditions* condition = new Conditions();
+	Condition condition;
 	if (parameters.size() > 0)
 	{
 		SelectConditionParameter(parameters.begin()->first, condition);
 	}
-	transitions[transition].conditions.push_back(condition);
+	transitions[transition].conditions.push_back(std::move(condition));
 }
 
-void ResourceStateMachine::SelectConditionParameter(const std::string& parameter, Conditions* condition)
+void ResourceStateMachine::SelectConditionParameter(const std::string& parameter, Condition& condition)
 {
-	condition->parameter = parameter;
+	condition.parameter = parameter;
 	const auto& it = parameters.find(parameter);
 	switch (it->second.first)
 	{
 	case FieldType::FLOAT:
-		condition->conditionType = ConditionType::GREATER;
-		condition->value = 0.0f;
+		condition.conditionType = ConditionType::GREATER;
+		condition.value = 0.0f;
 		break;
 	case FieldType::BOOL:
-		condition->conditionType = ConditionType::TRUECONDITION;
-		condition->value = true;
+		condition.conditionType = ConditionType::TRUECONDITION;
+		condition.value = true;
 		break;
 	default:
 		break;
 	}
 }
 
-void ResourceStateMachine::SelectCondition(const ConditionType& type, Conditions* condition)
+void ResourceStateMachine::SelectCondition(const ConditionType& type, Condition& condition)
 {
-	condition->conditionType = type;
+	condition.conditionType = type;
 }
 
-void ResourceStateMachine::SelectConditionValue(const ValidFieldType value, Conditions* condition)
+void ResourceStateMachine::SelectConditionValue(const ValidFieldType value, Condition& condition)
 {
-	condition->value = value;
+	condition.value = value;
 }

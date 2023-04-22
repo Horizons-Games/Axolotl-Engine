@@ -30,19 +30,20 @@ struct State
 	std::vector<UID> transitionsDestinedHere;
 };
 
-struct Conditions
+struct Condition
 {
 	std::string parameter;
 	ConditionType conditionType;
 	ValidFieldType value;
 };
 
+
 struct Transition
 {
 	State* origin;
 	State* destination;
 	double transitionDuration;
-	std::vector<Conditions*> conditions;
+	std::vector<Condition> conditions;
 };
 
 class ResourceStateMachine : virtual public Resource
@@ -65,7 +66,7 @@ public:
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
 	const std::vector<State*>& GetStates() const;
-	const std::unordered_map<UID, Transition>& GetTransitions() const;
+	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
 
 	void AddNewState(int x, int y);
@@ -87,9 +88,9 @@ public:
 
 	void AddCondition(const UID transition);
 
-	void SelectConditionParameter(const std::string& parameter, Conditions* condition);
-	void SelectCondition(const ConditionType& type, Conditions* condition);
-	void SelectConditionValue(const ValidFieldType value, Conditions* condition);
+	void SelectConditionParameter(const std::string& parameter, Condition& condition);
+	void SelectCondition(const ConditionType& type, Condition& condition);
+	void SelectConditionValue(const ValidFieldType value, Condition& condition);
 
 protected:
 	void InternalLoad() override {};
@@ -121,7 +122,7 @@ inline const std::vector<State*>& ResourceStateMachine::GetStates() const
 	return states;
 }
 
-inline const std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions() const
+inline std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions()
 {
 	return transitions;
 }
