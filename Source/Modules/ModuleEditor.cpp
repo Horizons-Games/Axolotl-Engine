@@ -338,7 +338,7 @@ void ModuleEditor::RefreshInspector() const
 
 }
 
-std::pair<int, int> ModuleEditor::GetAvailableRegion()
+std::pair<float, float> ModuleEditor::GetAvailableRegion()
 {
 #ifdef ENGINE
 	ImVec2 region = scene->GetAvailableRegion();

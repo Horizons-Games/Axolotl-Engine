@@ -272,6 +272,20 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		break;
 	}
 
+	case ComponentType::PLAYER:
+	{
+
+		newComponent = std::make_unique<ComponentPlayer>(static_cast<ComponentPlayer&>(*component));
+		break;
+	}
+
+	case ComponentType::RIGIDBODY:
+	{
+
+		newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
+		break;
+	}
+
 	default:
 		assert(false && "Wrong component type introduced");
 	}

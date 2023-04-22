@@ -8,6 +8,7 @@ class ComponentRigidBody : public Component, public Updatable
 {
 public:
 	ComponentRigidBody(bool active, GameObject* owner);
+	ComponentRigidBody(const ComponentRigidBody& componentRigidBody);
 	~ComponentRigidBody() override;
 
 	void Update() override;
