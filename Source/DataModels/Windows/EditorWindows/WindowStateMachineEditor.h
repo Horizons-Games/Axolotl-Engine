@@ -25,7 +25,7 @@ private:
 	void DrawParameters(std::shared_ptr<ResourceStateMachine>& stateAsShared);
 
 
-	std::shared_ptr<ResourceStateMachine> stateMachine;
+	std::weak_ptr<ResourceStateMachine> stateMachine;
 	int stateIdSelected;
 	unsigned long long transitionIdSelected;
 	std::string parameterIdSelected;
@@ -38,5 +38,5 @@ private:
 
 inline void WindowStateMachineEditor::SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource)
 {
-	//stateMachine = resource;
+	stateMachine = resource;
 }

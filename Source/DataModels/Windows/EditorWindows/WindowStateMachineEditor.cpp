@@ -21,136 +21,147 @@ static int boolNamesOffset = IM_ARRAYSIZE(conditionNamesFloat);
 WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("StateMachineEditor"),
 stateIdSelected(-1), transitionIdSelected(-1),parameterIdSelected(""), creatingTransition(false), openContextMenu(false), sizeState(200, 50), inputResource(std::make_unique<WindowResourceInput>())
 {
-	stateMachine = std::make_shared<ResourceStateMachine>(0, "", "", "");
 }
 
 void WindowStateMachineEditor::DrawWindowContents()
 {
-	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine;
+	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
+
 	ImGui::BeginChild("Side_lists", ImVec2(300, 0));
-	ImGui::Text("Parameters");
-	ImGui::SameLine();
-	DrawAddParameterMenu(stateAsShared);
-	ImGui::Separator();
-
-	DrawParameters(stateAsShared);
-
-	ImGui::Text("");
-
-	if (stateAsShared && stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
+	if (stateAsShared) 
 	{
-		State* state = stateAsShared->GetStates()[stateIdSelected];
-		ImGui::Text("State");
-		ImGui::Separator();
-		std::string name = state->name;
-		name.resize(24);
-		if (ImGui::InputText("##Name", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			stateAsShared->SetStateName(stateIdSelected, name);
-		}
-
-		if(state->resource == nullptr)
-		{
-			inputResource->DrawWindowContents();
-		}
-		else 
-		{
-			ImGui::Text(state->resource->GetFileName().c_str());
-			ImGui::SameLine();
-			if (ImGui::Button("x"))
-			{
-				state->resource = nullptr;
-			};
-		}
-	}
-	if (stateAsShared && transitionIdSelected != -1)
-	{
-		auto it = stateAsShared->GetTransitions().find(transitionIdSelected);
-		ImGui::Text("Transition");
-		ImGui::Separator();
-
-		ImGui::Text((it->second.origin->name + " -> " + it->second.destination->name).c_str());
-		ImGui::Text("Conditions");
+		ImGui::Text("Parameters");
 		ImGui::SameLine();
-		if(ImGui::Button("+##2")) 
-		{
-			stateAsShared->AddCondition(transitionIdSelected);
-		}
+		DrawAddParameterMenu(stateAsShared);
 		ImGui::Separator();
-		for (int i = 0; i < it->second.conditions.size(); i++)
+		DrawParameters(stateAsShared);
+
+		ImGui::Text("");
+
+		if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
 		{
-			Condition& condition = it->second.conditions[i];
-			ImGui::SetNextItemWidth(90);
-			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition.parameter.c_str()))
+			State* state = stateAsShared->GetStates()[stateIdSelected];
+			ImGui::Text("State");
+			ImGui::Separator();
+			std::string name = state->name;
+			name.resize(24);
+			if (ImGui::InputText("##Name", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
-				for (const auto& parameter : stateAsShared->GetParameters())
-				{
-					if (ImGui::Selectable(parameter.first.c_str()))
-					{
-						stateAsShared->SelectConditionParameter(parameter.first.c_str(), condition);
-					}
-				}
-				ImGui::EndCombo();
+				stateAsShared->SetStateName(stateIdSelected, name);
 			}
+
+			if (state->resource == nullptr)
+			{
+				inputResource->DrawWindowContents();
+			}
+			else
+			{
+				ImGui::Text(state->resource->GetFileName().c_str());
+				ImGui::SameLine();
+				if (ImGui::Button("x"))
+				{
+					state->resource = nullptr;
+				};
+			}
+		}
+		if (transitionIdSelected != -1)
+		{
+			auto it = stateAsShared->GetTransitions().find(transitionIdSelected);
+			ImGui::Text("Transition");
+			ImGui::Separator();
+
+			std::string title = it->second.origin->name.c_str();
+			std::string title2 = it->second.destination->name.c_str();
+			ImGui::Text((title  + " -> " + title2).c_str());
+			ImGui::Text("Conditions");
 			ImGui::SameLine();
-
-			if(condition.parameter != "")
+			if (ImGui::Button("+##2"))
 			{
-				const auto& itParameter = stateAsShared->GetParameters().find(condition.parameter);
-				if(itParameter != stateAsShared->GetParameters().end())
-				{
-					ValidFieldType valueCondition = condition.value;
-					switch (itParameter->second.first)
-					{
-					case FieldType::FLOAT:
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition.conditionType)]))
-						{
-							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
-							{
-								if (ImGui::Selectable(conditionNamesFloat[i]))
-								{
-									stateAsShared->SelectCondition(static_cast<ConditionType>(i
-										), condition);
-								}
-							}
-							ImGui::EndCombo();
-						}
-						ImGui::SameLine();
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::DragFloat(("##ConditionFloat" + std::to_string(i)).c_str(), &std::get<float>(valueCondition)))
-						{
-							stateAsShared->SelectConditionValue(valueCondition, condition);
-						}
-							break;
-					case FieldType::BOOL:
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
-						{
-							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
-							{
-								if (ImGui::Selectable(conditionNamesBool[i]))
-								{
-									stateAsShared->SelectCondition(static_cast<ConditionType>(i + boolNamesOffset
-										), condition);
-								}
-							}
-							ImGui::EndCombo();
-						}
-						break;
-					default:
-						break;
-					}	
-				}
-				else
-				{
-					ImGui::Text("Parameter not found!");
-				}
-
+				stateAsShared->AddCondition(transitionIdSelected);
 			}
+			ImGui::Separator();
+			for (int i = 0; i < it->second.conditions.size(); i++)
+			{
+				Condition& condition = it->second.conditions[i];
+				ImGui::SetNextItemWidth(90);
+				if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition.parameter.c_str()))
+				{
+					for (const auto& parameter : stateAsShared->GetParameters())
+					{
+						if (ImGui::Selectable(parameter.first.c_str()))
+						{
+							stateAsShared->SelectConditionParameter(parameter.first.c_str(), condition);
+						}
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::SameLine();
+
+				if (condition.parameter != "")
+				{
+					const auto& itParameter = stateAsShared->GetParameters().find(condition.parameter);
+					if (itParameter != stateAsShared->GetParameters().end())
+					{
+						ValidFieldType valueCondition = condition.value;
+						switch (itParameter->second.first)
+						{
+						case FieldType::FLOAT:
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition.conditionType)]))
+							{
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
+								{
+									if (ImGui::Selectable(conditionNamesFloat[i]))
+									{
+										stateAsShared->SelectCondition(static_cast<ConditionType>(i
+											), condition);
+									}
+								}
+								ImGui::EndCombo();
+							}
+							ImGui::SameLine();
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::DragFloat(("##ConditionFloat" + std::to_string(i)).c_str(), &std::get<float>(valueCondition)))
+							{
+								stateAsShared->SelectConditionValue(valueCondition, condition);
+							}
+							break;
+						case FieldType::BOOL:
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
+							{
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
+								{
+									if (ImGui::Selectable(conditionNamesBool[i]))
+									{
+										stateAsShared->SelectCondition(static_cast<ConditionType>(i + boolNamesOffset
+											), condition);
+									}
+								}
+								ImGui::EndCombo();
+							}
+							break;
+						default:
+							break;
+						}
+					}
+					else
+					{
+						ImGui::Text("Parameter not found!");
+					}
+
+				}
+			}
+		}
+
+		if (ImGui::Button("Save"))
+		{
+			stateAsShared->SetChanged(true);
+			App->resources->ReimportResource(stateAsShared->GetUID());
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::SameLine();
 
     static ImVec2 scrolling(0.0f, 0.0f);
@@ -399,9 +410,10 @@ void WindowStateMachineEditor::DrawWindowContents()
 
 void WindowStateMachineEditor::SetResourceOnState(const std::shared_ptr<Resource>& resource)
 {
-	if (stateMachine && stateIdSelected != -1)
+	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
+	if (stateAsShared && stateIdSelected != -1)
 	{
-		stateMachine->SetStateResource(stateIdSelected, resource);
+		stateAsShared->SetStateResource(stateIdSelected, resource);
 	}
 }
 
