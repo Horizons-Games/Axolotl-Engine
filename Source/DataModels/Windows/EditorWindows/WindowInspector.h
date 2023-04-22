@@ -40,6 +40,7 @@ private:
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentMeshCollider();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;

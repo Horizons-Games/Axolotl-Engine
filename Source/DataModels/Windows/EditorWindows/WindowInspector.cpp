@@ -147,6 +147,12 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) {
+				if (ImGui::MenuItem("Create Mesh Collider Component"))
+				{
+					AddComponentMeshCollider();
+				}
+			}
 		}
 
 		else
@@ -340,4 +346,8 @@ void WindowInspector::AddComponentRigidBody()
 void WindowInspector::AddComponentMockState()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}
+void WindowInspector::AddComponentMeshCollider()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
 }

@@ -288,6 +288,7 @@
     <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentMeshCollider.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
@@ -399,6 +400,10 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -527,6 +532,7 @@
     <ClInclude Include="DataModels\Components\Component.h" />
     <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
+    <ClInclude Include="DataModels\Components\ComponentMeshCollider.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
     <ClInclude Include="DataModels\Components\ComponentMockState.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
@@ -645,6 +651,10 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
