@@ -116,7 +116,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	return false;
 }
 
-void ComponentMeshCollider::GetMinMaxPoints(std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const
+void ComponentMeshCollider::GetMinMaxPoints(const std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const
 {
 	points = startingPoints;
 
@@ -172,7 +172,6 @@ void ComponentMeshCollider::GetPointsGivenDirection(std::vector<float3>& newPoin
 		newPoints = { points[2], points[3], points[6], points[7] };
 		break;
 	}
-	return;
 }
 
 float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& points, Direction direction)

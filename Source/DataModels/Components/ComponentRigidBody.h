@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "ComponentTransform.h"
 
 #include "Math/float3.h"
 #include "Math/Quat.h"
@@ -13,6 +12,8 @@ enum class ForceMode
 	Impulse,
 	VelocityChange
 };
+
+class ComponentTransform;
 
 class ComponentRigidBody :
 	public Component

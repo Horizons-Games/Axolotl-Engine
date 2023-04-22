@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Camera.h"
-#include "Math/float3x3.h"
+#include "Math/float3.h"
 class GameObject;
 
 class CameraEngine : public Camera
