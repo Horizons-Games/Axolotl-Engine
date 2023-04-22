@@ -117,6 +117,7 @@ Cubemap::~Cubemap()
     glDeleteRenderbuffers(1, &renderBuffer);
     glDeleteTextures(1, &cubemapTex);
     glDeleteTextures(1, &irradianceTex);
+    glDeleteTextures(1, &preFilteredTex);
     glDeleteVertexArrays(1, &cubeVAO);
     glDeleteBuffers(1, &cubeVBO);
 }
