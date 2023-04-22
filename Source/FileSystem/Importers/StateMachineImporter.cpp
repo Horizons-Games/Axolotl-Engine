@@ -39,15 +39,20 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	unsigned int countResources = 0;
 #endif
 
-	unsigned int header[2] =
+	unsigned int header[3] =
 	{
 		resource->GetNumStates(),
-		resource->GetNumTransitions()
+		resource->GetNumTransitions(),
+		resource->GetNumParameters()
 	};
 
 	size = sizeof(header)
-		+ (sizeof(unsigned int) + sizeof(UID)) * resource->GetNumStates()
-		+ (sizeof(unsigned int) * 2 + sizeof(double)) * resource->GetNumTransitions();
+		//size of 3 vectors + size of our own UID and resource UID + size of int pair Pos (This last maybe on meta?)
+		+ (sizeof(unsigned int) * 3 + sizeof(UID) * 2 + sizeof(int) * 2) * resource->GetNumStates();
+		// size of 2 vectors (Included NameKey on Map) + size of 2 UIDs State + double
+		+ (sizeof(unsigned int) * 2 + sizeof(UID) * 2 + sizeof(double)) * resource->GetNumTransitions();
+		// size of name vector + enum
+		+ (sizeof(unsigned int) * 2) * resource->GetNumParameters();
 	
 	for(const State* state : resource->GetStates())
 	{

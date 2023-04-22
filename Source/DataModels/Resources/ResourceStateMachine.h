@@ -65,6 +65,7 @@ public:
 
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
+	unsigned int GetNumParameters() const;
 	const std::vector<State*>& GetStates() const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
@@ -115,6 +116,11 @@ inline unsigned int ResourceStateMachine::GetNumStates() const
 inline unsigned int ResourceStateMachine::GetNumTransitions() const
 {
 	return transitions.size();
+}
+
+inline unsigned int ResourceStateMachine::GetNumParameters() const
+{
+	return parameters.size();
 }
 
 inline const std::vector<State*>& ResourceStateMachine::GetStates() const
