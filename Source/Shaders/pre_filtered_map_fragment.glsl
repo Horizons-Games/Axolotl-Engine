@@ -7,7 +7,7 @@ uniform samplerCube environment;
 
 in vec3 texCoords;
 
-in uniform float roughness;
+layout(location = 0) uniform float roughness;
 
 out vec4 fragColor;
 
@@ -57,7 +57,6 @@ void main()
 	for (int i = 0; i < NUM_SAMPLES; ++i)
 	{
 		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
-		rand_value[0];
 		vec3 H = tangentSpace * hemisphereSampleGGX(rand_value[0], rand_value[1], roughness);
 		vec3 L = reflect(-V, H);
 		float NdotL = max(dot(N, L), 0.0);
