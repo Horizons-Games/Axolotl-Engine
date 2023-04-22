@@ -16,12 +16,19 @@ public:
 	bool IsValidProgram() const;
 
 	void BindUniformFloat4x4(const std::string& name, const float* data, bool transpose);
+	void BindUniformFloat4x4(const int location, const float* data, bool transpose);
 	void BindUniformFloat3(const std::string& name, const float3& data);
+	void BindUniformFloat3(const int location, const float3& data);
 	void BindUniformFloat4(const std::string& name, const float4& data);
+	void BindUniformFloat4(const int location, const float4& data);
 	void BindUniformFloat(const std::string& name, const float data);
+	void BindUniformFloat(const int location, const float data);
 	void BindUniformInt(const std::string& name, int value);
+	void BindUniformInt(const int location, int value);
 	void BindUniformBlock(const std::string& name, const unsigned value);
+	void BindUniformBlock(const int blockIndex, const unsigned value);
 	void BindShaderStorageBlock(const std::string& name, const unsigned value);
+	void BindShaderStorageBlock(const int resourceIndex, const unsigned value);
 
 	const std::string& GetFragementShaderFileName() const;
 	const std::string& GetVertexShaderFileName() const;

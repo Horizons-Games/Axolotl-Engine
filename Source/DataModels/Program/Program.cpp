@@ -56,10 +56,20 @@ void Program::BindUniformFloat4x4(const std::string& name, const float* data, bo
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, transpose, data);
 }
 
+void Program::BindUniformFloat4x4(const int location, const float* data, bool transpose)
+{
+	glUniformMatrix4fv(location, 1, transpose, data);
+}
+
 void Program::BindUniformFloat3(const std::string& name, const float3& data)
 {
 	glUniform3f(glGetUniformLocation(id, name.c_str()),
 		data.x, data.y, data.z);
+}
+
+void Program::BindUniformFloat3(const int location, const float3& data)
+{
+	glUniform3f(location, data.x, data.y, data.z);
 }
 
 void Program::BindUniformFloat4(const std::string& name, const float4& data)
@@ -68,9 +78,19 @@ void Program::BindUniformFloat4(const std::string& name, const float4& data)
 		data.x, data.y, data.z, data.w);
 }
 
+void Program::BindUniformFloat4(const int location, const float4& data)
+{
+	glUniform4f(location, data.x, data.y, data.z, data.w);
+}
+
 void Program::BindUniformFloat(const std::string& name, const float data)
 {
 	glUniform1f(glGetUniformLocation(id, name.c_str()), data);
+}
+
+void Program::BindUniformFloat(const int location, const float data)
+{
+	glUniform1f(location, data);
 }
 
 void Program::BindUniformInt(const std::string& name, int value)
@@ -78,12 +98,27 @@ void Program::BindUniformInt(const std::string& name, int value)
 	glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 }
 
+void Program::BindUniformInt(const int location, int value)
+{
+	glUniform1i(location, value);
+}
+
 void Program::BindUniformBlock(const std::string& name, const unsigned value)
 {
 	glUniformBlockBinding(id, glGetUniformBlockIndex(id, name.c_str()), value);
 }
 
+void Program::BindUniformBlock(const int blockIndex, const unsigned value)
+{
+	glUniformBlockBinding(id, blockIndex, value);
+}
+
 void Program::BindShaderStorageBlock(const std::string& name, const unsigned value)
 {
 	glShaderStorageBlockBinding(id, glGetProgramResourceIndex(id, GL_SHADER_STORAGE_BLOCK, name.c_str()), value);
+}
+
+void Program::BindShaderStorageBlock(const int resourceIndex, const unsigned value)
+{
+	glShaderStorageBlockBinding(id, resourceIndex, value);
 }
