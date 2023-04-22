@@ -92,16 +92,14 @@ update_status ModuleScene::PreUpdate()
 		App->scriptFactory->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode())
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		if (!App->scriptFactory->IsCompiling())
+
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-				{
-					componentScript->PreUpdate();
-				}
+				componentScript->PreUpdate();
 			}
 		}
 	}
@@ -116,16 +114,13 @@ update_status ModuleScene::Update()
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 	
-	if (App->IsOnPlayMode())
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		if (!App->scriptFactory->IsCompiling()) 
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-				{
-					componentScript->Update();
-				} 
+				componentScript->Update();
 			}
 		}
 	}
@@ -134,16 +129,13 @@ update_status ModuleScene::Update()
 
 update_status ModuleScene::PostUpdate()
 {
-	if (App->IsOnPlayMode())
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		if (!App->scriptFactory->IsCompiling())
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-				{
-					componentScript->PostUpdate();
-				}
+				componentScript->PostUpdate();
 			}
 		}
 	}
