@@ -86,6 +86,11 @@ void ComponentRigidBody::Update()
 			{
 				x.y = height + verticalDistanceToFeet;
 				v0 = float3::zero;
+				bootsOnGround = true;
+			}
+			else 
+			{
+				bootsOnGround = false;
 			}
 
 			if (useRotationController)

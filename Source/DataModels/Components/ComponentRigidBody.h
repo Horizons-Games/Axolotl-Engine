@@ -45,6 +45,8 @@ public:
 
 	float3 GetGravity() const;
 	void SetGravity(float3 newGravity);
+
+	bool IsOnGround() const;
 	
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
@@ -72,6 +74,7 @@ private:
 	float3 w0;
 
 	float height;
+	bool bootsOnGround = false;
 
 	float3 targetPosition;
 	Quat targetRotation;
@@ -121,6 +124,11 @@ inline void ComponentRigidBody::DisableRotationController()
 inline void ComponentRigidBody::SetBottomHitPoint(float height)
 {
 	this->height = height;
+}
+
+inline bool ComponentRigidBody::IsOnGround() const
+{
+	return bootsOnGround;
 }
 
 inline float ComponentRigidBody::GetMass() const

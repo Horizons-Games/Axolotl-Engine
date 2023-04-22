@@ -122,7 +122,7 @@ void ModulePlayer::Move()
 	RaycastHit hit;
 
 	float forceParameter = 50.0f;
-	float jumpParameter = 20.0f;
+	float jumpParameter = 150.0f;
 
 	float size = 0.0f;
 	float sizeForce = 0.0f;
@@ -136,7 +136,7 @@ void ModulePlayer::Move()
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		sizeForce = deltaTime * forceParameter;
-		sizeJump = deltaTime * jumpParameter;
+		
 	}
 
 	//Forward
@@ -259,13 +259,19 @@ void ModulePlayer::Move()
 	}
 
 	rigidBody->AddForce(forceVector * forceParameter);
-	trans->UpdateTransformMatrices();
+	
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
 	{
-		rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
-		trans->UpdateTransformMatrices();
+		sizeJump = deltaTime * jumpParameter;
+		if (rigidBody->IsOnGround()) 
+		{
+			rigidBody->AddForce(jumpVector* jumpParameter, ForceMode::Acceleration);
+		}
+		
 	}
+
+	trans->UpdateTransformMatrices();
 
 	//bottom
 	float maxHeight = -math::inf;
