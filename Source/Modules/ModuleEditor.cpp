@@ -128,6 +128,7 @@ bool ModuleEditor::Start()
 
 bool ModuleEditor::CleanUp()
 {
+#ifdef ENGINE
 	rapidjson::Document doc;
 	Json json(doc, doc);	
 	
@@ -138,6 +139,8 @@ bool ModuleEditor::CleanUp()
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);	
 	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+#endif
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
