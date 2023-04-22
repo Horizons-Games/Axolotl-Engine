@@ -57,11 +57,9 @@ public:
 	void CopyComponent(ComponentType type, Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	//template <typename T,
-	//	std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
-	//const std::vector<T*> GetComponentsByType(ComponentType type) const;
-	template <class T>
-	std::vector<T*> GetComponentsByType(ComponentType type);
+	template <typename T,
+		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
+	const std::vector<T*> GetComponentsByType(ComponentType type) const;
 	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
@@ -210,7 +208,7 @@ inline const std::vector<Component*> GameObject::GetComponents() const
 	return rawComponent;
 }
 
-/*template <typename T,
+template <typename T,
 	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
 inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
@@ -225,21 +223,7 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 	}
 
 	return components;
-}*/
-template <class T>
-std::vector<T*> GameObject::GetComponentsByType(ComponentType type) {
-	std::vector<T*> components;
-
-	for (const std::unique_ptr<Component>& component : this->components)
-	{
-		if (component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
-	return components;
 }
-
 
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
