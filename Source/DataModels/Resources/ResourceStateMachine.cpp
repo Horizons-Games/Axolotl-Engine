@@ -15,7 +15,7 @@ int ResourceStateMachine::GetIdState(const State& state) const
 {
 	for (int i = 0; i < states.size(); i++)
 	{
-		if (states[i]->name == state.name) return i;
+		if (states[i]->id == state.id) return i;
 	}
 	return -1;
 }
