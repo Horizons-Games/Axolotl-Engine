@@ -1,6 +1,7 @@
 #pragma once
-
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script performs what it was recommended that a basic script should do in the Gameplay Systems PPT
 
