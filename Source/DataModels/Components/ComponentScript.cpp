@@ -40,7 +40,7 @@ void ComponentScript::PreUpdate()
 {
 	if (script)
 	{
-		script->PreUpdate(App->GetDeltaTime() /*should be OnPlayTime*/);
+		script->PreUpdate(App->GetDeltaTime());
 	}
 }
 
@@ -48,7 +48,7 @@ void ComponentScript::Update()
 {
 	if (script)
 	{
-		script->Update(App->GetDeltaTime() /*should be OnPlayTime*/);
+		script->Update(App->GetDeltaTime());
 	}
 }
 
@@ -56,7 +56,7 @@ void ComponentScript::PostUpdate()
 {
 	if (script)
 	{
-		script->PostUpdate(App->GetDeltaTime() /*should be OnPlayTime*/);
+		script->PostUpdate(App->GetDeltaTime());
 	}
 }
 

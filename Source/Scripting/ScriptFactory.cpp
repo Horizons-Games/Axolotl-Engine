@@ -25,7 +25,7 @@ ScriptFactory::~ScriptFactory()
 {
 	if (pRuntimeObjectSystem)
 	{
-		//Aixo falla
+		//This doesn't work. Need to check if it's actually necessary
 		//pRuntimeObjectSystem->CleanObjectFiles();
 	}
 	if (pRuntimeObjectSystem && pRuntimeObjectSystem->GetObjectFactorySystem())
@@ -46,8 +46,7 @@ bool ScriptFactory::Init()
 	pCompilerLogger = new LogSystem();
 
 	pRuntimeObjectSystem->SetAdditionalCompileOptions("/std:c++20");
-	//Tener un RuntimeObjectSystem por cada script
-	if (!pRuntimeObjectSystem->Initialise(pCompilerLogger, 0))
+	if (!pRuntimeObjectSystem->Initialise(pCompilerLogger, nullptr))
 	{
 		pRuntimeObjectSystem = 0;
 		return false;
