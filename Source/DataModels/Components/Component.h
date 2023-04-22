@@ -17,7 +17,8 @@ enum class ComponentType
 	BUTTON,
 	RIGIDBODY,
 	MOCKSTATE,
-	MESHCOLLIDER
+	MESHCOLLIDER,
+	SCRIPT
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -154,6 +155,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_MockState";
 	case ComponentType::MESHCOLLIDER:
 		return "Component_MeshCollider";
+	case ComponentType::SCRIPT:
+		return "Component_Script";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -215,6 +218,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_MockState")
 	{
 		return ComponentType::MOCKSTATE;
+	}
+
+	if (typeName == "Component_Script")
+	{
+		return ComponentType::SCRIPT;
 	}
 	
 	if (typeName == "Component_MeshCollider")
