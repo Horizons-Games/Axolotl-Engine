@@ -78,7 +78,7 @@ update_status ModulePlayer::Update()
 	}
 	
 #else //ENGINE
-	player->Update();
+	//player->Update();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 	trans->UpdateTransformMatrices();
 #endif //GAMEMODE
@@ -160,20 +160,16 @@ void ModulePlayer::LoadNewPlayer()
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
 		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
 		{
+			SetPlayer(parentOfOwner);
+			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			
-			SetPlayer(camera->GetParent());
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
 			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
 			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
-			App->camera->SetSelectedCamera(0);
 #else
-			SetPlayer(camera->GetParent());
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->RemoveGameObjectAndChildren(camera->GetParent());
-			App->camera->SetSelectedCamera(0);
-
+			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
 #endif // ENGINE			
+			App->camera->SetSelectedCamera(0);
+			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
 				App->input->SetShowCursor(true);
