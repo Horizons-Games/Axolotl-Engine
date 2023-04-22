@@ -6,7 +6,6 @@
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
-#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
 #include "ModuleUI.h"
