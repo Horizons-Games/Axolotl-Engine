@@ -39,7 +39,15 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
 	: Component(componentRigidBody),
-	isKinematic(componentRigidBody.isKinematic), m(componentRigidBody.m), g(componentRigidBody.g), v0(componentRigidBody.v0)
+	transform(componentRigidBody.transform),
+	isKinematic(componentRigidBody.isKinematic), 
+	mass(componentRigidBody.mass),
+	height(componentRigidBody.height),
+	x(componentRigidBody.x),
+	q(componentRigidBody.q),
+	g(componentRigidBody.g), 
+	v0(componentRigidBody.v0),
+	w0(componentRigidBody.w0)
 {
 }
 
