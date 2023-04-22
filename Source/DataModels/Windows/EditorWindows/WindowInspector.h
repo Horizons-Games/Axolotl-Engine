@@ -40,6 +40,7 @@ private:
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentMeshCollider();
 	void AddComponentScript();
 
 	GameObject* lastSelectedGameObject;

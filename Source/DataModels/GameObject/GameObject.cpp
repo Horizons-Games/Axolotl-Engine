@@ -15,6 +15,7 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
 
 #include "Application.h"
@@ -472,6 +473,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::MOCKSTATE:
 		{
 			newComponent = std::make_unique<ComponentMockState>(true, this);
+			break;
+		}
+
+		case ComponentType::MESHCOLLIDER:
+		{
+			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
 			break;
 		}
 
