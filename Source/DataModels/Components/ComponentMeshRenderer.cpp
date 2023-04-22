@@ -54,7 +54,7 @@ void ComponentMeshRenderer::InitBones()
 		skinPalette[i] = float4x4::identity;
 	}
 
-	size_t numPoint = skinPalette.size();
+	//size_t numPoint = skinPalette.size();
 
 	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
 
@@ -75,12 +75,26 @@ void ComponentMeshRenderer::Update()
 {
 	if (!bones.empty())
 	{
-		const std::vector<Bone>& bindBones = mesh->GetBones();
+		GameObject* root = GetOwner()->GetRootGO();
 
-		for (unsigned int i = 0; i < bindBones.size(); ++i)
+		if (root)
 		{
-			skinPalette[i] = static_cast<ComponentTransform*>(bones[i]->GetComponent(ComponentType::TRANSFORM))
-				->GetGlobalMatrix() * bindBones[i].transform;
+			const std::vector<Bone>& bindBones = mesh->GetBones();
+
+			for (unsigned int i = 0; i < bindBones.size(); ++i)
+			{
+				GameObject* boneNode = root->FindGameObject(bindBones[i].name);
+
+				if (boneNode)
+				{
+					skinPalette[i] = static_cast<ComponentTransform*>(bones[i]->
+						GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix() * bindBones[i].transform;
+				}
+				else
+				{
+					skinPalette[i] = float4x4::identity;
+				}
+			}
 		}
 	}
 }

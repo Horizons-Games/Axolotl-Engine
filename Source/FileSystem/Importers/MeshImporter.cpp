@@ -204,8 +204,10 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	unsigned int* indexesPointer = new unsigned int[size];
 	bytes = resource->GetNumFaces() * sizeof(unsigned int) * 3;
 	memcpy(indexesPointer, fileBuffer, bytes);
+
 	std::vector<unsigned int> aux(indexesPointer, indexesPointer + resource->GetNumFaces() * 3);
 	std::vector<std::vector<unsigned int>> faces;
+
 	for (unsigned int i = 0; i + 2 < (resource->GetNumFaces() * 3); i += 3) 
 	{
 		std::vector<unsigned int> indexes{ aux[i], aux[i + 1], aux[i + 2] };

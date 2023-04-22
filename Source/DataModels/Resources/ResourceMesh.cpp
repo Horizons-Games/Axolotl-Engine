@@ -89,28 +89,20 @@ void ResourceMesh::CreateVBO()
 	}
 
 	unsigned boneOffset = tangentsOffset + positionSize + uvSize + normalsSize;
-	if (attaches.size() > 0)
-	{
-		unsigned bonesSize = sizeof(unsigned int[4]) * numVertices;
-
-		std::vector<std::vector<unsigned int>> bones;
-		for (const Attach &attach : this->attaches)
-		{
-			bones.push_back({attach.bones[0], attach.bones[1], attach.bones[2], attach.bones[3]});
-		}
-		glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
-	}
-
 	unsigned weightOffset = boneOffset + tangentsOffset + positionSize + uvSize + normalsSize;
 	if (attaches.size() > 0)
 	{
-		unsigned weightSize = sizeof(float[4]) * numVertices;
+		unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
+		unsigned weightSize = sizeof(float) * 4 * numVertices;
 
+		std::vector<std::vector<unsigned int>> bones;
 		std::vector<std::vector<float>> weights;
-		for (const Attach &attach : this->attaches)
+		for (unsigned int i = 0; i < numVertices; ++i)
 		{
-			weights.push_back({attach.weights[0], attach.weights[1], attach.weights[2], attach.weights[3]});
+			bones.push_back({attaches[i].bones[0], attaches[i].bones[1], attaches[i].bones[2], attaches[i].bones[3]});
+			weights.push_back({ attaches[i].weights[0], attaches[i].weights[1], attaches[i].weights[2], attaches[i].weights[3] });
 		}
+		glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
 		glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);
 	}
 }
@@ -164,7 +156,7 @@ void ResourceMesh::CreateVAO()
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
 
-	//bones indices and weights
+	//bone indices and weights
 	if (attaches.size() != 0)
 	{
 		glEnableVertexAttribArray(4);
@@ -173,7 +165,7 @@ void ResourceMesh::CreateVAO()
 
 		glEnableVertexAttribArray(5);
 		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
-			(void*)(sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int[4]) * numVertices));
+			(void*)(sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4 * numVertices));
 	}
 }
 

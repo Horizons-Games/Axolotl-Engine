@@ -322,6 +322,8 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
 	{
+		child->SetRootGO(gameObjectModel);
+
 		for (Component* component : child->GetComponents())
 		{
 			if (component->GetType() == ComponentType::MESHRENDERER)
@@ -334,7 +336,8 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 				if (!bones.empty())
 				{
-					meshRenderer->SetBones(CacheBoneHierarchy(FindRootBone(gameObjectModel, bones), bones));
+					GameObject* rootBone = FindRootBone(gameObjectModel, bones);
+					meshRenderer->SetBones(CacheBoneHierarchy(rootBone, bones));
 					meshRenderer->InitBones();
 				}
 			}

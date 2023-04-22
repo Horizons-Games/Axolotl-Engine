@@ -564,6 +564,21 @@ Component* GameObject::GetComponent(ComponentType type) const
 	return nullptr;
 }
 
+GameObject* GameObject::FindGameObject(const std::string& name)
+{
+	if (this->name == name)
+	{
+		return this;
+	}
+	else
+	{
+		for (const std::unique_ptr<GameObject>& child : children)
+		{
+			return child->FindGameObject(name);
+		}
+	}
+}
+
 bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
