@@ -299,6 +299,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::Animation:
 				animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
 				break;
+			case ResourceType::StateMachine:
+				stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
+				break;
 			default:
 				break;
 			}
@@ -315,6 +318,14 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
 		ReImportMaterialAsset(materialResource);
+	}
+	if (resource->GetType() == ResourceType::StateMachine)
+	{
+		std::shared_ptr<ResourceStateMachine> stateMachineResource = std::dynamic_pointer_cast<ResourceStateMachine>(resource);
+		char* saveBuffer = {};
+		unsigned int size = 0;
+		stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
+		App->fileSystem->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
@@ -494,6 +505,14 @@ void ModuleResources::MonitorResources()
 			{
 				std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
 				ReImportMaterialAsset(materialResource);
+			}
+			else if (resource->GetType() == ResourceType::StateMachine)
+			{
+				std::shared_ptr<ResourceStateMachine> stateMachineResource = std::dynamic_pointer_cast<ResourceStateMachine>(resource);
+				char* saveBuffer = {};
+				unsigned int size = 0;
+				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
+				App->fileSystem->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
