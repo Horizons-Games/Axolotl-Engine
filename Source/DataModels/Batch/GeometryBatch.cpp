@@ -22,7 +22,9 @@
 #endif // !ENGINE
 
 GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
-createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", ""))
+createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", "")),
+mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
+createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
 	//initialize buffers
 	glGenVertexArrays(1, &vao);
@@ -40,7 +42,7 @@ createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new Reso
 	//{
 	//	glGenBuffers(1, &materials[i]);
 	//}
-		glGenBuffers(1, &materials);
+	glGenBuffers(1, &materials);
 	program = App->program->GetProgram(ProgramType::MESHSHADER);
 }
 
@@ -256,7 +258,7 @@ void GeometryBatch::ClearBuffer()
 		glDeleteBuffers(1, &transforms[i]);
 		//glDeleteBuffers(1, &materials[i]);
 	}
-		glDeleteBuffers(1, &materials);
+	glDeleteBuffers(1, &materials);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -341,18 +343,12 @@ void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 	resourcesMaterial.erase(
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
 	reserveModelSpace = true;
+	dirtyBatch = true;
 }
 
 void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	if (frame == 0)
-	{
-		frame = 1;
-	}
-	else
-	{
-		frame = 0;
-	}
+	frame = (frame + 1) % DOUBLE_BUFFERS;
 	WaitBuffer();
 	if (createBuffers)
 	{
@@ -398,7 +394,7 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	int drawCount = 0;
 
 	std::vector<float4x4> modelMatrices (componentsInBatch.size());
-	float4x4* transforms = (float4x4*)transformData[frame];
+	float4x4* transforms = static_cast<float4x4*>(transformData[frame]);
 
 	for (auto component : componentsToRender)
 	{
@@ -427,7 +423,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	//glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
-	program = App->program->GetProgram(ProgramType::MESHSHADER);
 	program->Activate();
 	glBindVertexArray(vao);
 

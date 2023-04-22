@@ -108,8 +108,8 @@ private:
 
 	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };
 
-	GLbitfield mapFlags = GL_MAP_WRITE_BIT |GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-	GLbitfield createFlags = mapFlags | GL_DYNAMIC_STORAGE_BIT;
+	GLbitfield mapFlags;
+	GLbitfield createFlags;
 	float4x4* transformData[DOUBLE_BUFFERS];
 	//Material* materialData[DOUBLE_BUFFERS];
 	Material* materialData;
