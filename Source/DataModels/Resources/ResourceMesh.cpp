@@ -88,23 +88,21 @@ void ResourceMesh::CreateVBO()
 		glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, &tangents[0]);
 	}
 
+	unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
+	unsigned weightSize = sizeof(float) * 4 * numVertices;
+
+	std::vector<std::vector<unsigned int>> bones;
+	std::vector<std::vector<float>> weights;
+	for (unsigned int i = 0; i < numVertices; ++i)
+	{
+		bones.push_back({attaches[i].bones[0], attaches[i].bones[1], attaches[i].bones[2], attaches[i].bones[3]});
+		weights.push_back({ attaches[i].weights[0], attaches[i].weights[1], attaches[i].weights[2], attaches[i].weights[3] });
+	}
 	unsigned boneOffset = tangentsOffset + positionSize + uvSize + normalsSize;
 	unsigned weightOffset = boneOffset + tangentsOffset + positionSize + uvSize + normalsSize;
-	if (attaches.size() > 0)
-	{
-		unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
-		unsigned weightSize = sizeof(float) * 4 * numVertices;
 
-		std::vector<std::vector<unsigned int>> bones;
-		std::vector<std::vector<float>> weights;
-		for (unsigned int i = 0; i < numVertices; ++i)
-		{
-			bones.push_back({attaches[i].bones[0], attaches[i].bones[1], attaches[i].bones[2], attaches[i].bones[3]});
-			weights.push_back({ attaches[i].weights[0], attaches[i].weights[1], attaches[i].weights[2], attaches[i].weights[3] });
-		}
-		glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);
-	}
+	glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);
 }
 
 void ResourceMesh::CreateEBO()
