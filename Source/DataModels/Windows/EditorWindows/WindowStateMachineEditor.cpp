@@ -14,8 +14,12 @@
 #include "Auxiliar/Reflection/Field.h"
 #include "Auxiliar/Reflection/TypeToEnum.h"
 
+static const char* conditionNamesFloat[] = { "Greater", "Less", "Equal", "NotEqual" };
+static const char* conditionNamesBool[] = { "True", "False"};
+static int boolNamesOffset = IM_ARRAYSIZE(conditionNamesFloat);
+
 WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("StateMachineEditor"),
-stateIdSelected(-1), creatingTransition(false), openContextMenu(false), sizeState(200,50), inputResource(std::make_unique<WindowResourceInput>())
+stateIdSelected(-1), transitionIdSelected(-1),parameterIdSelected(""), creatingTransition(false), openContextMenu(false), sizeState(200, 50), inputResource(std::make_unique<WindowResourceInput>())
 {
 	stateMachine = std::make_shared<ResourceStateMachine>(0, "", "", "");
 }
@@ -23,7 +27,7 @@ stateIdSelected(-1), creatingTransition(false), openContextMenu(false), sizeStat
 void WindowStateMachineEditor::DrawWindowContents()
 {
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine;
-	ImGui::BeginChild("Side_lists", ImVec2(200, 0));
+	ImGui::BeginChild("Side_lists", ImVec2(300, 0));
 	ImGui::Text("Parameters");
 	ImGui::SameLine();
 	if (ImGui::BeginMenu("+"))
@@ -45,9 +49,16 @@ void WindowStateMachineEditor::DrawWindowContents()
 	TypeFieldPair field;
 	for(const auto& it : stateAsShared->GetParameters())
 	{
-		ImGui::SetNextItemWidth(110);
+		
 		std::string name = it.first;
 		name.resize(24);
+		ImGui::SetNextItemWidth(10);
+		if(ImGui::Button(("x##" + name).c_str()))
+		{
+			parameterIdSelected = name;
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(110);
 		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			if(ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
@@ -77,6 +88,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 		default:
 			break;
 		}
+	}
+
+	if(parameterIdSelected != "") 
+	{
+		stateAsShared->EraseParameter(parameterIdSelected.c_str());
+		parameterIdSelected = "";
 	}
 
 	if (newName != "")
@@ -115,9 +132,88 @@ void WindowStateMachineEditor::DrawWindowContents()
 	}
 	if (stateAsShared && transitionIdSelected != -1)
 	{
-		const auto& it = stateAsShared->GetTransitions().find(transitionIdSelected);
+		auto it = stateAsShared->GetTransitions().find(transitionIdSelected);
 		ImGui::Text("Transition");
 		ImGui::Separator();
+
+		ImGui::Text((it->second.origin->name + " -> " + it->second.destination->name).c_str());
+		ImGui::Text("Conditions");
+		ImGui::SameLine();
+		if(ImGui::Button("+##2")) 
+		{
+			stateAsShared->AddCondition(transitionIdSelected);
+		}
+		ImGui::Separator();
+		for (int i = 0; i < it->second.conditions.size(); i++)
+		{
+			Conditions* condition = it->second.conditions[i];
+			ImGui::SetNextItemWidth(90);
+			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition->parameter.c_str()))
+			{
+				for (const auto& parameter : stateAsShared->GetParameters())
+					if (ImGui::Selectable(parameter.first.c_str()))
+					{
+						stateAsShared->SelectConditionParameter(parameter.first.c_str(), condition);
+					}
+				ImGui::EndCombo();
+			}
+			ImGui::SameLine();
+
+			if(condition->parameter != "")
+			{
+				const auto& itParameter = stateAsShared->GetParameters().find(condition->parameter);
+				if(itParameter != stateAsShared->GetParameters().end())
+				{
+					ValidFieldType valueCondition = condition->value;
+					switch (itParameter->second.first)
+					{
+					case FieldType::FLOAT:
+						ImGui::SetNextItemWidth(90);
+						if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition->conditionType)]))
+						{
+							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
+							{
+								if (ImGui::Selectable(conditionNamesFloat[i]))
+								{
+									stateAsShared->SelectCondition(static_cast<ConditionType>(i
+										), condition);
+								}
+							}
+							ImGui::EndCombo();
+						}
+						ImGui::SameLine();
+						ImGui::SetNextItemWidth(90);
+						if (ImGui::DragFloat(("##ConditionFloat" + std::to_string(i)).c_str(), &std::get<float>(valueCondition)))
+						{
+							stateAsShared->SelectConditionValue(valueCondition, condition);
+						}
+							break;
+					case FieldType::BOOL:
+						ImGui::SetNextItemWidth(90);
+						if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition->conditionType) - (boolNamesOffset)]))
+						{
+							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
+							{
+								if (ImGui::Selectable(conditionNamesBool[i]))
+								{
+									stateAsShared->SelectCondition(static_cast<ConditionType>(i + boolNamesOffset
+										), condition);
+								}
+							}
+							ImGui::EndCombo();
+						}
+						break;
+					default:
+						break;
+					}	
+				}
+				else
+				{
+					ImGui::Text("Parameter not found!");
+				}
+
+			}
+		}
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
@@ -335,7 +431,6 @@ void WindowStateMachineEditor::DrawWindowContents()
 				if (ImGui::MenuItem("Add Transition"))
 				{
 					creatingTransition = true;
-					transitionIdSelected = stateAsShared->GetNumTransitions() - 1;
 				}
 				if (ImGui::MenuItem("Delete State"))
 				{

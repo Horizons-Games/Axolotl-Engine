@@ -124,3 +124,42 @@ void ResourceStateMachine::AddParameter(std::string parameterName, FieldType typ
 
 	parameters[parameterName] = std::make_pair(type, value);
 }
+
+void ResourceStateMachine::AddCondition(const UID transition)
+{
+	Conditions* condition = new Conditions();
+	if (parameters.size() > 0)
+	{
+		SelectConditionParameter(parameters.begin()->first, condition);
+	}
+	transitions[transition].conditions.push_back(condition);
+}
+
+void ResourceStateMachine::SelectConditionParameter(const std::string& parameter, Conditions* condition)
+{
+	condition->parameter = parameter;
+	const auto& it = parameters.find(parameter);
+	switch (it->second.first)
+	{
+	case FieldType::FLOAT:
+		condition->conditionType = ConditionType::GREATER;
+		condition->value = 0.0f;
+		break;
+	case FieldType::BOOL:
+		condition->conditionType = ConditionType::TRUECONDITION;
+		condition->value = true;
+		break;
+	default:
+		break;
+	}
+}
+
+void ResourceStateMachine::SelectCondition(const ConditionType& type, Conditions* condition)
+{
+	condition->conditionType = type;
+}
+
+void ResourceStateMachine::SelectConditionValue(const ValidFieldType value, Conditions* condition)
+{
+	condition->value = value;
+}

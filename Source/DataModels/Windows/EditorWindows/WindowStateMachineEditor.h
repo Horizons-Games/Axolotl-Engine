@@ -23,8 +23,9 @@ protected:
 private:
 	std::shared_ptr<ResourceStateMachine> stateMachine;
 	int stateIdSelected;
+	unsigned long long transitionIdSelected;
+	std::string parameterIdSelected;
 	bool creatingTransition;
-	int transitionIdSelected;
 	bool openContextMenu;
 	ImVec2 sizeState;
 

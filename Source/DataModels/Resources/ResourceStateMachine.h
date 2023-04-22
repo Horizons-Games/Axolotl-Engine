@@ -7,6 +7,19 @@
 
 #include "Auxiliar/Reflection/TypeToEnum.h"
 
+using ValidFieldType = std::variant<float, bool>;
+using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
+
+enum class ConditionType
+{
+	GREATER,
+	LESS,
+	EQUAL,
+	NOTEQUAL,
+	TRUECONDITION,
+	FALSECONDITION
+};
+
 struct State
 {
 	UID id;
@@ -17,16 +30,20 @@ struct State
 	std::vector<UID> transitionsDestinedHere;
 };
 
+struct Conditions
+{
+	std::string parameter;
+	ConditionType conditionType;
+	ValidFieldType value;
+};
+
 struct Transition
 {
 	State* origin;
 	State* destination;
 	double transitionDuration;
+	std::vector<Conditions*> conditions;
 };
-
-//for now only allow floats
-using ValidFieldType = std::variant<float,bool>;
-using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class ResourceStateMachine : virtual public Resource
 {
@@ -67,6 +84,12 @@ public:
 	void AddParameter(std::string parameterName, FieldType type, ValidFieldType value);
 	const std::unordered_map<std::string, TypeFieldPair>& GetParameters() const;
 	void EraseParameter(const std::string& parameterName);
+
+	void AddCondition(const UID transition);
+
+	void SelectConditionParameter(const std::string& parameter, Conditions* condition);
+	void SelectCondition(const ConditionType& type, Conditions* condition);
+	void SelectConditionValue(const ValidFieldType value, Conditions* condition);
 
 protected:
 	void InternalLoad() override {};
@@ -122,3 +145,4 @@ inline void ResourceStateMachine::EraseParameter(const std::string& parameterNam
 {
 	parameters.erase(parameterName);
 }
+
