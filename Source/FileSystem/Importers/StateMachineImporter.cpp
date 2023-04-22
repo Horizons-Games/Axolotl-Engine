@@ -47,16 +47,53 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	};
 
 	size = sizeof(header)
-		//size of 3 vectors + size of our own UID and resource UID + size of int pair Pos (This last maybe on meta?)
-		+ (sizeof(unsigned int) * 3 + sizeof(UID) * 2 + sizeof(int) * 2) * resource->GetNumStates();
-		// size of 2 vectors (Included NameKey on Map) + size of 2 UIDs State + double
-		+ (sizeof(unsigned int) * 2 + sizeof(UID) * 2 + sizeof(double)) * resource->GetNumTransitions();
+		//size of 3 vectors + check resource + size of our own UID + size of int pair Pos (This last maybe on meta?)
+		+ (sizeof(unsigned int) * 4 + sizeof(UID) + sizeof(int) * 2) * resource->GetNumStates();
 		// size of name vector + enum
-		+ (sizeof(unsigned int) * 2) * resource->GetNumParameters();
+		+(sizeof(unsigned int) * 2) * resource->GetNumParameters();
+		// size of 2 pos State + Own UID Key + double
+		+ (sizeof(unsigned int) * 2 + sizeof(UID) + sizeof(double)) * resource->GetNumTransitions();
 	
 	for(const State* state : resource->GetStates())
 	{
-		size += state->name.size();
+		size += sizeof(char) * state->name.size();
+		if(state->resource != nullptr) size += sizeof(UID);
+		size += sizeof(UID) * state->transitionsOriginedHere.size();
+		size += sizeof(UID) * state->transitionsDestinedHere.size();
+	}
+
+	for(const auto& it : resource->GetTransitions())
+	{
+		//Size of nameSize and Enum Condition
+		size += (sizeof(unsigned int) * 2) * it.second.conditions.size();
+
+		for (const Condition& condition : it.second.conditions) 
+		{
+			size += sizeof(char) * condition.parameter.size();
+			switch (resource->GetParameters().find(condition.parameter)->second.first)
+			{
+			case FieldType::FLOAT:
+				size += sizeof(float);
+				break;
+			case FieldType::BOOL:
+				size += sizeof(bool);
+				break;
+			}
+		}
+	}
+
+	for (const auto& it : resource->GetParameters())
+	{
+		size += sizeof(char) * it.first.size();
+		switch (it.second.first)
+		{
+		case FieldType::FLOAT:
+			size += sizeof(float);
+			break;
+		case FieldType::BOOL:
+			size += sizeof(bool);
+			break;
+		}
 	}
 
 	char* cursor = new char[size];
@@ -70,14 +107,21 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	for(const State* state : resource->GetStates())
 	{
-		unsigned int stateHeader[2] =
+		unsigned int stateHeader[4] =
 		{
 			state->name.size(),
-			state->resource != nullptr ? true : false
+			state->resource != nullptr ? true : false,
+			state->transitionsOriginedHere.size(),
+			state->transitionsDestinedHere.size()
 		};
 		
 		bytes = sizeof(stateHeader);
 		memcpy(cursor, stateHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(UID);
+		memcpy(cursor, &(state->id), bytes);
 
 		cursor += bytes;
 
@@ -99,25 +143,109 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 			cursor += bytes;
 		}
+
+		bytes = sizeof(int);
+		memcpy(cursor, &(state->auxiliarPos.first), bytes);
+		cursor += bytes;
+		memcpy(cursor, &(state->auxiliarPos.second), bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(UID) * state->transitionsOriginedHere.size();
+		memcpy(cursor, &(state->transitionsOriginedHere[0]),bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(UID) * state->transitionsDestinedHere.size();
+		memcpy(cursor, &(state->transitionsDestinedHere[0]), bytes);
+
+		cursor += bytes;
+	}
+
+	for (const auto& parameterIterator : resource->GetParameters())
+	{
+		unsigned int parameterHeader[2] =
+		{
+			parameterIterator.first.size(),
+			static_cast<unsigned int>(parameterIterator.second.first)
+		};
+
+		bytes = sizeof(parameterHeader);
+		memcpy(cursor, &parameterHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(char) * parameterHeader[0];
+		memcpy(cursor, &(parameterIterator.first[0]), bytes);
+
+		cursor += bytes;
+
+		switch (parameterIterator.second.first)
+		{
+		case FieldType::FLOAT:
+			bytes = sizeof(float);
+			break;
+		case FieldType::BOOL:
+			bytes = sizeof(bool);
+			break;
+		default:
+			break;
+		}
+		memcpy(cursor, &(parameterIterator.second.second), bytes);
+		cursor += bytes;
 	}
 
 	for (const auto& transitionIterator : resource->GetTransitions())
 	{
-		int transitionStatesID[2] =
+		unsigned int transitionHeader[3] =
 		{
 			resource->GetIdState(*transitionIterator.second.origin),
-			resource->GetIdState(*transitionIterator.second.destination)
+			resource->GetIdState(*transitionIterator.second.destination),
+			transitionIterator.second.conditions.size()
 		};
 		
-		bytes = sizeof(transitionStatesID);
-		memcpy(cursor, transitionStatesID, bytes);
+		bytes = sizeof(transitionHeader);
+		memcpy(cursor, transitionHeader, bytes);
 
 		cursor += bytes;
 
 		bytes = sizeof(double);
-		memcpy(cursor, &transitionIterator.second.transitionDuration, bytes);
+		memcpy(cursor, &(transitionIterator.second.transitionDuration), bytes);
 
 		cursor += bytes;
+
+		for(const Condition& condition : transitionIterator.second.conditions)
+		{
+			unsigned int conditionHeader[2] =
+			{
+				condition.parameter.size(),
+				static_cast<unsigned int>(condition.conditionType)
+			};
+
+			bytes = sizeof(conditionHeader);
+			memcpy(cursor, conditionHeader, bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(char) * conditionHeader[0];
+			memcpy(cursor, &(condition.parameter[0]), bytes);
+
+			cursor += bytes;
+
+			switch (resource->GetParameters().find(condition.parameter)->second.first)
+			{
+			case FieldType::FLOAT:
+				bytes = sizeof(float);
+				break;
+			case FieldType::BOOL:
+				bytes = sizeof(bool);
+				break;
+			default:
+				break;
+			}
+			memcpy(cursor, &(condition.value), bytes);
+			cursor += bytes;
+		}
 	}
 
 #ifdef ENGINE
