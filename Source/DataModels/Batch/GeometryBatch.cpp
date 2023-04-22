@@ -37,6 +37,7 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 	glGenBuffers(1, &verticesBuffer);
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
+	glGenBuffers(1, &tangentsBuffer);
 	glGenBuffers(1, &materials);
 	program = App->program->GetProgram(ProgramType::MESHSHADER);
 }
