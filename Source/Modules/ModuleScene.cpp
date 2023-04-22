@@ -116,6 +116,19 @@ void ModuleScene::OnPlay()
 	GameObject* root = loadedScene->GetRoot();
 	root->SaveOptions(jsonScene);
 
+	Json jsonGameObjects = jsonScene["GameObjects"];
+	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+	}
+
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	rootQuadtree->SaveOptions(jsonScene);
+
+	const Skybox* skybox = loadedScene->GetSkybox();
+	skybox->SaveOptions(jsonScene);
+
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 }

@@ -3,6 +3,7 @@
 #include "ComponentMockState.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
 #include "Geometry/Frustum.h"
@@ -25,6 +26,13 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 {
 }
 
+ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
+	: Component(componentRigidBody),
+	isKinematic(componentRigidBody.isKinematic), m(componentRigidBody.m), g(componentRigidBody.g), v0(componentRigidBody.v0)
+{
+}
+
+
 ComponentRigidBody::~ComponentRigidBody()
 {
 }
@@ -32,48 +40,59 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::Update()
 {
 	
-#ifndef ENGINE
-	if (isKinematic)
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
 	{
-		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-		float3 currentPos = transform->GetPosition();
-		Ray ray(currentPos, -float3::unitY);
-		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		RaycastHit hit;
-
-		bool hasHit = Physics::Raycast(line, hit);
-		float3 x;
-		float t = App->GetDeltaTime();
-		float3 x0 = currentPos;
-		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
-
-		v0.y -= g * t;
-		x = x0 + v0 * t + a;
-		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
-		if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x-x0).Length())
+#endif
+		if (isKinematic)
 		{
+			ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+			float3 currentPos = transform->GetPosition();
+			Ray ray(currentPos, -float3::unitY);
+			LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+			RaycastHit hit;
 
-			x = hit.hitPoint + float3(0.0f, verticalDistanceToFeet,0.0f);
-			v0 = float3::zero;
-			
-			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
+			bool hasHit = Physics::Raycast(line, hit);
+			float3 x;
+			float t = App->GetDeltaTime();
+			float3 x0 = currentPos;
+			float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
+
+			v0.y -= g * t;
+			x = x0 + v0 * t + a;
+			float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
+			if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x - x0).Length())
 			{
-				ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
 
-				if (mockState->GetIsWinState())
+				x = hit.hitPoint + float3(0.0f, verticalDistanceToFeet, 0.0f);
+				v0 = float3::zero;
+
+				if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
 				{
-					//TODO: win state
-					std::string sceneName = mockState->GetSceneName();
-					App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
-				}
-				else if (mockState->GetIsFailState())
-				{
-					//TODO fail state
+					ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
+
+					if (mockState->GetIsWinState())
+					{
+						//TODO: win state
+					#ifdef ENGINE			
+						ENGINE_LOG("Next scene should be %s", mockState->GetSceneName());
+						App->player->SetReadyToEliminate(true);
+						return;
+					#else
+						std::string sceneName = mockState->GetSceneName();
+						App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+					#endif				
+					}
+					else if (mockState->GetIsFailState())
+					{
+						//TODO fail state
+					}
 				}
 			}
-		}
 
-		transform->SetPosition(x);
+			transform->SetPosition(x);
+		}
+#ifdef ENGINE
 	}
 #endif
 }

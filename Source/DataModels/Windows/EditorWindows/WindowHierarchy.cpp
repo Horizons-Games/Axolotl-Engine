@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "ModuleInput.h"
 
@@ -37,7 +38,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
         {
-            if (gameObject == App->scene->GetSelectedGameObject())
+            if (gameObject == App->scene->GetSelectedGameObject() && gameObject !=App->player->GetPlayer())
             {
                 App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
                                                                             // change the focus to its parent
@@ -201,7 +202,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             gameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
             gameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
         {
-            if (ImGui::MenuItem("Delete"))
+            if (ImGui::MenuItem("Delete") && gameObject != App->player->GetPlayer())
             {
                 if (gameObject == App->scene->GetSelectedGameObject())
                 {
