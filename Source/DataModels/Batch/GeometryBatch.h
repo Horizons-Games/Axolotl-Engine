@@ -95,7 +95,6 @@ private:
 	unsigned int normalsBuffer;
 	unsigned int tangentsBuffer;
 	unsigned int transforms[DOUBLE_BUFFERS];
-	//unsigned int materials[DOUBLE_BUFFERS];
 	unsigned int materials;
 
 	bool createBuffers;
@@ -111,7 +110,6 @@ private:
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
 	float4x4* transformData[DOUBLE_BUFFERS];
-	//Material* materialData[DOUBLE_BUFFERS];
 	Material* materialData;
 	unsigned int frame = 0;
 

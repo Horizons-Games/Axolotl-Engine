@@ -37,11 +37,6 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 	glGenBuffers(1, &verticesBuffer);
 	glGenBuffers(1, &textureBuffer);
 	glGenBuffers(1, &normalsBuffer);
-	glGenBuffers(1, &tangentsBuffer);
-	//for (int i = 0; i < DOUBLE_BUFFERS; i++)
-	//{
-	//	glGenBuffers(1, &materials[i]);
-	//}
 	glGenBuffers(1, &materials);
 	program = App->program->GetProgram(ProgramType::MESHSHADER);
 }
@@ -123,7 +118,6 @@ void GeometryBatch::FillMaterial()
 {
 	std::vector<Material> materialToRender;
 	materialToRender.reserve(instanceData.size());
-	//Material* materials = (Material*)materialData[frame];
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
@@ -159,11 +153,8 @@ void GeometryBatch::FillMaterial()
 		}
 
 		materialToRender.push_back(newMaterial);
-		//materials[i] = newMaterial;
 		materialData[i] = newMaterial;
 	}
-
-	//glNamedBufferData(materials, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -221,7 +212,6 @@ void GeometryBatch::CreateVAO()
 
 	//indirect
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	//glBufferData(GL_DRAW_INDIRECT_BUFFER, 5000 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	const GLuint bindingPointModel = 10;
@@ -234,12 +224,6 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
 	const GLuint bindingPointMaterial = 11;
-	//for (int i = 0; i < DOUBLE_BUFFERS; i++)
-	//{
-	//	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials[i], 0, componentsInBatch.size() * sizeof(float4x4));
-	//	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
-	//	materialData[i] = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
-	//}
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 	materialData = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -256,7 +240,6 @@ void GeometryBatch::ClearBuffer()
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glDeleteBuffers(1, &transforms[i]);
-		//glDeleteBuffers(1, &materials[i]);
 	}
 	glDeleteBuffers(1, &materials);
 }
@@ -369,7 +352,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 
 	if (reserveModelSpace)
 	{
-		//glNamedBufferData(transforms, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
@@ -422,7 +404,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
-	//glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
 	program->Activate();
 	glBindVertexArray(vao);
 
@@ -513,7 +494,6 @@ bool GeometryBatch::CleanUp()
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glDeleteBuffers(1, &transforms[i]);
-		//glDeleteBuffers(1, &materials[i]);
 	}
 	glDeleteBuffers(1, &materials);
 	return true;
