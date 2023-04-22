@@ -54,5 +54,5 @@ inline void ComponentScript::SetScript(IScript* script)
 
 inline void ComponentScript::SetConstuctor(const std::string& constructor)
 {
-	this->constructName = constructor;
+	constructName = constructor;
 }

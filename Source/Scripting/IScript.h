@@ -56,7 +56,7 @@ inline void IScript::SetGameObject(GameObject* owner)
 
 inline void IScript::SetApplication(Application* app)
 {
-	this->App = app;
+	App = app;
 }
 
 inline const std::vector<TypeFieldPair>& IScript::GetFields() const
