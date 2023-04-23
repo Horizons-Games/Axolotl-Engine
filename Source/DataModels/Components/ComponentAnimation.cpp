@@ -7,6 +7,7 @@
 
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleResources.h"
+#include "Resources/ResourceStateMachine.h"
 
 #include "GameObject/GameObject.h"
 
@@ -113,6 +114,18 @@ void ComponentAnimation::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+
+	UID uidState = 0;
+	std::string assetPath = "";
+
+	if (stateMachine)
+	{
+		uidState = stateMachine->GetUID();
+		assetPath = stateMachine->GetAssetsPath();
+	}
+
+	meta["stateUID"] = (UID)uidState;
+	meta["assetPathState"] = assetPath.c_str();
 }
 
 void ComponentAnimation::LoadOptions(Json& meta)
@@ -121,4 +134,21 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+	std::shared_ptr<ResourceStateMachine> resourceState;
+#ifdef ENGINE
+	std::string path = meta["assetPathState"];
+	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	if (resourceExists)
+	{
+		resourceState = App->resources->RequestResource<ResourceStateMachine>(path);
+	}
+#else
+	UID uidState = meta["stateUID"];
+	resourceState = App->resources->SearchResource<ResourceStateMachine>(uidMesh);
+
+#endif
+	if (resourceState)
+	{
+		SetStateMachine(resourceState);
+	}
 }
