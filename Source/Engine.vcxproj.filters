@@ -303,6 +303,7 @@
     </ClCompile>
     <ClCompile Include="DataModels\Animation\AnimationController.cpp">
       <Filter>DataModels\Animation</Filter>
+	</ClCompile>
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -636,6 +637,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Animation\AnimationController.h">
       <Filter>DataModels\Animation</Filter>
+	</ClInclude>
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
