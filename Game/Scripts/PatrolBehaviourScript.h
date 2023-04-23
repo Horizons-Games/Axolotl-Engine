@@ -13,12 +13,8 @@ public:
 	PatrolBehaviourScript();
 	~PatrolBehaviourScript() override = default;
 
-	void Init() override {};
 	void Start() override;
-	void PreUpdate(float deltaTime) override {};
 	void Update(float deltaTime) override;
-	void PostUpdate(float deltaTime) override {};
-	void CleanUp() override {};
 
 	GameObject* GetWayPointOne() const;
 	void SetWayPointOne(GameObject* wayPointOne);
