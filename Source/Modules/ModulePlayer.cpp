@@ -49,8 +49,8 @@ update_status ModulePlayer::PreUpdate()
 		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0 
 			&& !SDL_ShowCursor(SDL_QUERY))
 		{
-			Move();
-			Rotate();
+			//Move();
+			//Rotate();
 		}
 	}
 

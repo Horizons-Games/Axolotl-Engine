@@ -109,7 +109,7 @@ void Application::OnPlay()
 	onPlayTimer.Start();
 	isOnPlayMode = true;
 	player->LoadNewPlayer();
-	if (!player->GetIsLoadPlayer())
+	if (!player->IsLoadPlayer())
 	{
 		isOnPlayMode = false;
 	}
