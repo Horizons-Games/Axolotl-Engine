@@ -4,6 +4,9 @@
 
 // This script performs what it was recommended that a basic script should do in the Gameplay Systems PPT
 
+class ComponentTransform;
+class ComponentRigidBody;
+
 class PatrolBehaviourScript : public Script
 {
 public:
@@ -11,7 +14,7 @@ public:
 	~PatrolBehaviourScript() override = default;
 
 	void Init() override {};
-	void Start() override {};
+	void Start() override;
 	void PreUpdate(float deltaTime) override {};
 	void Update(float deltaTime) override;
 	void PostUpdate(float deltaTime) override {};
@@ -27,4 +30,8 @@ public:
 private:
 	GameObject* wayPointOne;
 	GameObject* wayPointTwo;
+
+	//ComponentTransform* wayPointOneTransform;
+	//ComponentTransform* wayPointTwoTransform;
+	//ComponentRigidBody* ownerRigidBody;
 };
