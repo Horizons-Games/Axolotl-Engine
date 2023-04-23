@@ -21,12 +21,15 @@ void PatrolBehaviourScript::Start()
 	//wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
 
 	//ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	//ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
+	// Ideally, these values should be set above as this script's variables
 	ComponentTransform* wayPointOneTransform = 
 		static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
 
 	ComponentRigidBody* ownerRigidBody = 
 		static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	// ----------------
 
 	if (ownerRigidBody && ownerRigidBody->GetActive())
 	{
@@ -38,10 +41,11 @@ void PatrolBehaviourScript::Start()
 
 void PatrolBehaviourScript::Update(float deltaTime)
 {
-	ComponentTransform* ownerTransform =
-		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ENGINE_LOG("%s", "Now patrolling...");
 
 	// Ideally, these values should be set in the Start() as this script's variables
+	ComponentTransform* ownerTransform =
+		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentTransform* wayPointOneTransform = 
 		static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
 	ComponentTransform* wayPointTwoTransform = 
@@ -51,15 +55,19 @@ void PatrolBehaviourScript::Update(float deltaTime)
 		static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	// ----------------
 
-	// If one of the waypoints is reached, change destiny to the other one
-	// In this case, we'll check the z value, but there should be a better solution
-	if (ownerTransform->GetPosition().z == wayPointOneTransform->GetPosition().z)
+	// When this behaviour is triggered, the enemy will patrol between its waypoints
+	// (This can be modularized into any amout when the scripts can accept vectors)
+	if (ownerTransform->GetPosition().x == wayPointOneTransform->GetPosition().x &&
+		ownerTransform->GetPosition().y == wayPointOneTransform->GetPosition().y &&
+		ownerTransform->GetPosition().z == wayPointOneTransform->GetPosition().z)
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
 		ownerRigidBody->SetRotationTarget(Quat(wayPointTwoTransform->GetRotation()));
 	}
 
-	else if (ownerTransform->GetPosition().z == wayPointTwoTransform->GetPosition().z)
+	else if (ownerTransform->GetPosition().x == wayPointTwoTransform->GetPosition().x
+		&& ownerTransform->GetPosition().y == wayPointTwoTransform->GetPosition().y
+		&& ownerTransform->GetPosition().z == wayPointTwoTransform->GetPosition().z)
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
 		ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));

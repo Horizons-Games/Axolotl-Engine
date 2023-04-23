@@ -2,7 +2,7 @@
 
 #include "Scripting\Script.h"
 
-// This script performs a generic patrol between two (or more) waypoints
+// This script performs a generic patrol behaviour between two (or more) waypoints
 
 class ComponentTransform;
 class ComponentRigidBody;
@@ -29,5 +29,6 @@ private:
 
 	//ComponentTransform* wayPointOneTransform;
 	//ComponentTransform* wayPointTwoTransform;
+	//ComponentTransform* ownerTransform;
 	//ComponentRigidBody* ownerRigidBody;
 };
