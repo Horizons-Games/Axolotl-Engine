@@ -298,6 +298,9 @@
     <ClCompile Include="..\Game\Scripts\SeekingBehaviourScript.cpp">
       <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -626,6 +629,9 @@
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
       <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -699,6 +705,9 @@
     </Filter>
     <Filter Include="UserScripts\EnemyBehaviour">
       <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Enemies">
+      <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
