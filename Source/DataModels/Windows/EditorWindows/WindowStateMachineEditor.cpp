@@ -330,7 +330,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 					state->auxiliarPos = std::make_pair<int, int>(posState.x + io.MouseDelta.x, posState.y + io.MouseDelta.y);
 					//stateAsShared->EditState(i, state);
 				}
-				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) && i != 0)
+				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 				{
 					stateIdSelected = i;
 					openContextMenu = true;
@@ -358,12 +358,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 			else 
 			{
 				draw_list->AddRectFilled(
-					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2 - 110, maxRect.y + 2 - 15),
+					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2),
 					IM_COL32(0, 120, 0, 255),
 					4.0f
 				);
 				draw_list->AddRectFilledMultiColor(
-					minRect, ImVec2(maxRect.x - 110, maxRect.y - 15),
+					minRect, maxRect,
 					IM_COL32(0, 125, 0, 255), IM_COL32(0, 125, 0, 255),
 					IM_COL32(0, 85, 0, 255), IM_COL32(0, 85, 0, 255)
 				);
@@ -395,7 +395,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 				{
 					creatingTransition = true;
 				}
-				if (ImGui::MenuItem("Delete State"))
+				if (stateIdSelected != 0 && ImGui::MenuItem("Delete State"))
 				{
 					stateAsShared->EraseState(stateIdSelected);
 					stateIdSelected = -1;
