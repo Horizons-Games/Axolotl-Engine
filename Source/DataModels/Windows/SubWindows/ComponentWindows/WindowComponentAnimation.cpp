@@ -5,6 +5,7 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "Resources/ResourceStateMachine.h"
 
 
 WindowComponentAnimation::WindowComponentAnimation(ComponentAnimation* component) :
@@ -24,9 +25,16 @@ void WindowComponentAnimation::DrawWindowContents()
 	std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
 	if (state)
 	{
+		ImGui::Text(state->GetFileName().c_str());
+		ImGui::SameLine();
 		if (ImGui::Button("Edit StateMachine"))
 		{
 			App->editor->SetStateMachineWindowEditor(state);
+		}
+		ImGui::SameLine();
+		if(ImGui::Button("x"))
+		{
+			asAnimation->SetStateMachine(nullptr);
 		}
 	}
 	else
