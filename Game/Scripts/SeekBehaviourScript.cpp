@@ -1,4 +1,4 @@
-#include "SeekingBehaviourScript.h"
+#include "SeekBehaviourScript.h"
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleInput.h"
@@ -7,20 +7,20 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
-REGISTERCLASS(SeekingBehaviourScript);
+REGISTERCLASS(SeekBehaviourScript);
 
-SeekingBehaviourScript::SeekingBehaviourScript() : Script(), target(nullptr)
+SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
 {
 	REGISTER_FIELD(Target, GameObject*);
 }
 
-void SeekingBehaviourScript::Start()
+void SeekBehaviourScript::Start()
 {
 	//targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
 	//ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 
-void SeekingBehaviourScript::Update(float deltaTime)
+void SeekBehaviourScript::Update(float deltaTime)
 {
 	ENGINE_LOG("%s", "Now seeking...");
 
@@ -37,12 +37,12 @@ void SeekingBehaviourScript::Update(float deltaTime)
 	ownerRigidBody->SetRotationTarget(Quat(targetTransform->GetRotation()));
 }
 
-GameObject* SeekingBehaviourScript::GetTarget() const
+GameObject* SeekBehaviourScript::GetTarget() const
 {
 	return target;
 }
 
-void SeekingBehaviourScript::SetTarget(GameObject* target)
+void SeekBehaviourScript::SetTarget(GameObject* target)
 {
 	this->target = target;
 }

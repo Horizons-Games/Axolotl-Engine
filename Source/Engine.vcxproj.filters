@@ -295,7 +295,7 @@
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
       <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SeekingBehaviourScript.cpp">
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
       <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
@@ -623,7 +623,7 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SeekingBehaviourScript.h">
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
       <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">

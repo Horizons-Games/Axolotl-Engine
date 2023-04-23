@@ -7,11 +7,11 @@
 class ComponentTransform;
 class ComponentRigidbody;
 
-class SeekingBehaviourScript : public Script
+class SeekBehaviourScript : public Script
 {
 public:
-	SeekingBehaviourScript();
-	~SeekingBehaviourScript() override = default;
+	SeekBehaviourScript();
+	~SeekBehaviourScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
