@@ -15,6 +15,8 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentMeshCollider.h"
+#include "../Components/ComponentScript.h"
 
 #include "Application.h"
 
@@ -317,6 +319,12 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		break;
 	}
 
+	case ComponentType::SCRIPT:
+	{
+		newComponent = std::make_unique<ComponentScript>(static_cast<ComponentScript&>(*component));
+		break;
+	}
+
 	default:
 		assert(false && "Wrong component type introduced");
 	}
@@ -467,6 +475,19 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
+
+		case ComponentType::MESHCOLLIDER:
+		{
+			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
+			break;
+		}
+
+		case ComponentType::SCRIPT:
+		{
+			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+
 
 		default:
 			assert(false && "Wrong component type introduced");

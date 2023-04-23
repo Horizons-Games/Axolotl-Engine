@@ -15,6 +15,8 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -32,6 +34,8 @@
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMockState.h"
+#include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentScript.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -62,8 +66,12 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 		case ComponentType::RIGIDBODY:
 			return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
+		case ComponentType::MESHCOLLIDER:
+			return std::make_unique<WindowComponentMeshCollider>(static_cast<ComponentMeshCollider*>(component));
 		case ComponentType::MOCKSTATE:
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
+		case ComponentType::SCRIPT:
+			return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 		case ComponentType::LIGHT:
 		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);

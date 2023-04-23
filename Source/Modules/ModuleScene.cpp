@@ -9,12 +9,17 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModulePlayer.h"
+#include "Components/Component.h"
 #include "Components/ComponentCamera.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentScript.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataStructures/Quadtree.h"
+
+#include "ScriptFactory.h"
+#include "IScript.h"
 
 #ifdef DEBUG
 #include "optick.h"
@@ -30,6 +35,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
+	App->scriptFactory->Init();
 	return true;
 }
 
@@ -57,6 +63,50 @@ bool ModuleScene::Start()
 	return true;
 }
 
+update_status ModuleScene::PreUpdate()
+{
+	if (App->scriptFactory->IsCompiled())
+	{
+		App->scriptFactory->LoadCompiledModules();
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				IScript* script =
+					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
+				componentScript->SetScript(script);
+
+				componentScript->Init();
+			}
+		}
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				componentScript->Start();
+			}
+		}
+	}
+
+	if (!App->scriptFactory->IsCompiling())
+	{
+		App->scriptFactory->UpdateNotifier();
+	}
+
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	{
+
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				componentScript->PreUpdate();
+			}
+		}
+	}
+	return update_status::UPDATE_CONTINUE;
+}
+
 update_status ModuleScene::Update()
 {
 #ifdef DEBUG
@@ -64,12 +114,33 @@ update_status ModuleScene::Update()
 #endif // DEBUG
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
-
+	
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	{
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				componentScript->Update();
+			}
+		}
+	}
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleScene::PostUpdate()
 {
+	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	{
+		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		{
+			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			{
+				componentScript->PostUpdate();
+			}
+		}
+	}
+
 	if (!sceneToLoad.empty())
 	{
 		LoadSceneFromJson(sceneToLoad);
@@ -113,9 +184,6 @@ void ModuleScene::OnPlay()
 
 	Json jsonScene(tmpDoc, tmpDoc);
 
-	GameObject* root = loadedScene->GetRoot();
-	root->SaveOptions(jsonScene);
-
 	Json jsonGameObjects = jsonScene["GameObjects"];
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
@@ -131,6 +199,24 @@ void ModuleScene::OnPlay()
 
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
+
+	//First Init
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
+
+	//Then Start
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+	}
 }
 
 void ModuleScene::OnPause()
@@ -141,6 +227,15 @@ void ModuleScene::OnPause()
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->CleanUp();
+		}
+	}
+
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
@@ -203,8 +298,10 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 	Json.fromBuffer(buffer);
 
+	// Load script components
 	SetSceneFromJson(Json);
 
+	//Load Script objects
 	delete buffer;
 
 #ifndef ENGINE
@@ -274,13 +371,13 @@ void ModuleScene::SetSceneFromJson(Json& json)
 			AddGameObject(obj);
 
 		}
+
 	}
 
 	App->renderer->FillRenderList(rootQuadtree);
 
 	selectedGameObject = loadedScene->GetRoot();
 	App->editor->RefreshInspector();
-	loadedScene->SetSceneGameObjects(loadedObjects);
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetSceneInteractable(loadedInteractable);
@@ -315,16 +412,24 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 		bool enabled = jsonGameObject["enabled"];
 		bool active = jsonGameObject["active"];
 		GameObject* gameObject = new GameObject(name, uid);
-		gameObject->LoadOptions(jsonGameObject);
 		gameObjectMap[uid] = gameObject;
 		childParentMap[uid] = parentUID;
 		enabledAndActive[uid] = std::make_pair(enabled, active);
 		gameObjects.push_back(gameObject);
 	}
 
+	loadedScene->SetSceneGameObjects(gameObjects);
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+
+		gameObjects[i]->LoadOptions(jsonGameObject);
+	}
+
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
 	{
-		GameObject* gameObject = (*it);
+		GameObject* gameObject = *it;
 		UID uid = gameObject->GetUID();
 		UID parent = childParentMap[uid];
 

@@ -40,6 +40,8 @@ private:
 	float speed;
 	bool isPlayerLoad;
 	bool readyToEliminate;
+
+	bool bootsOnGround = false;
 	
 };
 

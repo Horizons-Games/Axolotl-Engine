@@ -17,6 +17,8 @@ class ModuleUI;
 class ModulePlayer;
 class ModuleEditor;
 
+class ScriptFactory;
+
 class Application
 {
 public:
@@ -56,6 +58,8 @@ public:
 	ModulePlayer* player;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
+	
+	std::unique_ptr<ScriptFactory> scriptFactory;
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
@@ -66,6 +70,7 @@ private:
 	float deltaTime = 0.f;
 	bool debuggingGame;
 	bool isOnPlayMode;
+
 };
 
 extern std::unique_ptr<Application> App;

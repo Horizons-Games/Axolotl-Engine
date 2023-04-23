@@ -44,6 +44,37 @@ void WindowCamera::DrawWindowContents()
 		DEFAULT_ROTATION_SPEED, DEFAULT_ROTATION_SPEED * 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
 		App->camera->GetCamera()->SetRotationSpeed(rotationSpeed);
 
+	float kpPosition = App->camera->GetCamera()->GetKpPosition();
+	float kpRotation = App->camera->GetCamera()->GetKpRotation();
+	float interpolationDuration = App->camera->GetCamera()->GetInterpolationDuration();
+	bool isFocusing = App->camera->GetCamera()->IsFocusing();
+	bool isUsingProportionalController = App->camera->GetCamera()->IsUsingProportionalController();
+
+	if (!isFocusing) 
+	{
+		if (ImGui::Checkbox("Use Proportional Controller", &isUsingProportionalController))
+			App->camera->GetCamera()->SetUsingProportionalController(isUsingProportionalController);
+
+		if (!isUsingProportionalController) 
+		{
+			if (ImGui::SliderFloat("Interpolation Duration", &interpolationDuration,
+				0.05f, 2.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
+				App->camera->GetCamera()->SetInterpolationDuration(interpolationDuration);
+		}
+		
+	}
+
+	if (isUsingProportionalController)
+	{
+		if (ImGui::SliderFloat("KP Position", &kpPosition,
+			0.5f, 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
+			App->camera->GetCamera()->SetKpPosition(kpPosition);
+		if (ImGui::SliderFloat("KP Rotation", &kpRotation,
+			0.05f, 2.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
+			App->camera->GetCamera()->SetKpRotation(kpRotation);
+	}
+	
+
 	static float4 color = App->renderer->GetBackgroundColor();
 	ImGui::Text("Background Color");
 	if (ImGui::ColorEdit3("MyColor##1", (float*)&color))

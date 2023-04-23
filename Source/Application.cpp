@@ -13,6 +13,7 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
+#include "ScriptFactory.h"
 
 constexpr int FRAMES_BUFFER = 50;
 
@@ -41,6 +42,8 @@ Application::~Application()
 
 bool Application::Init()
 {
+	scriptFactory = std::make_unique<ScriptFactory>();
+	scriptFactory->Init();
 	bool ret = true;
 
 	for (int i = 0; i < modules.size() && ret; ++i)
@@ -110,8 +113,9 @@ void Application::OnPlay()
 	{
 		isOnPlayMode = false;
 	}
+	
+	//Active Scripts
 	scene->OnPlay();
-
 }
 
 void Application::OnStop()

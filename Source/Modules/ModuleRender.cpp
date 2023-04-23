@@ -243,7 +243,10 @@ update_status ModuleRender::Update()
 		AddToRenderList(App->player->GetPlayer());
 	}
 #else
-	AddToRenderList(App->player->GetPlayer());
+	if (App->player->GetPlayer())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
 #endif // !ENGINE
 	
 	if (isRoot) 
@@ -583,4 +586,6 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 		else
 			return true;
 	}
+
+	return false;
 }
