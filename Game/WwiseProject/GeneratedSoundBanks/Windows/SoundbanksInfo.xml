@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{53BB9D6A-16EB-1023-0DEC-1CAB0320D3BC}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{411D2850-D109-75CF-3AD3-EECEE8FF99B2}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -47,7 +47,7 @@
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{42BE329C-F195-1376-C29B-81D1665DE449}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{195CC05F-A3E6-C0A8-60B9-2D8B45825F32}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -112,6 +112,34 @@
 				</AuxBus>
 				<AuxBus Id="3545700988" Name="Reverbs"/>
 			</AuxBusses>
+			<StateGroups>
+				<StateGroup Id="444815956" Name="PlayerLife">
+					<States>
+						<State Id="655265632" Name="Alive"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="2791675679" Name="Defeated"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="832057375" Name="Zone">
+					<States>
+						<State Id="425131515" Name="SpaceStation"/>
+						<State Id="554650843" Name="Spaceship"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1560169506" Name="Boss"/>
+						<State Id="2192450996" Name="Hangar"/>
+						<State Id="3390261832" Name="Sewers"/>
+						<State Id="3434002879" Name="Cantina"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="89505537" Name="Gameplay">
+					<Switches>
+						<Switch Id="2582085496" Name="Exploration"/>
+						<Switch Id="2764240573" Name="Combat"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
 			<AcousticTextures>
 				<AcousticTexture Id="504532776" Name="Brick">
 					<Properties>
@@ -231,10 +259,130 @@
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{0E3E9487-2562-8161-CF73-30D6CFA3E27A}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{0B74D072-2679-1E64-5503-A44C92817DA0}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
+			<Media>
+				<File Id="954958858" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>First_Level_Sewers__v1.wav</ShortName>
+					<CachePath>SFX/First_Level_Sewers__v1_D79FB2B7.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="3991942870" Name="Music">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="2791675679"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="0"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="954958858"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3390261832"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="954958858"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3390261832"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="954958858"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="2192450996"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="954958858"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="2192450996"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="954958858"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+			</Events>
+			<StateGroups>
+				<StateGroup Id="444815956" Name="PlayerLife">
+					<States>
+						<State Id="655265632" Name="Alive"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="2791675679" Name="Defeated"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="832057375" Name="Zone">
+					<States>
+						<State Id="425131515" Name="SpaceStation"/>
+						<State Id="554650843" Name="Spaceship"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1560169506" Name="Boss"/>
+						<State Id="2192450996" Name="Hangar"/>
+						<State Id="3390261832" Name="Sewers"/>
+						<State Id="3434002879" Name="Cantina"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="89505537" Name="Gameplay">
+					<Switches>
+						<Switch Id="2582085496" Name="Exploration"/>
+						<Switch Id="2764240573" Name="Combat"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{60778842-9C90-8844-2D19-D5C4E3535199}</FileHash>
+	<FileHash>{67C54598-1D7F-7DB7-24D9-26F183E330DC}</FileHash>
 </SoundBanksInfo>

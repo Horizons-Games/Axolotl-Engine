@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{7DF36584-D465-4986-A090-F237C0194682}" SchemaVersion="110">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{7DF36584-D465-4986-A090-F237C0194682}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{7DF36584-D465-4986-A090-F237C0194682}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="PlayerLife" ID="{2121D6BE-3D74-4493-A744-80D675F8F7BE}">
+					<ChildrenList>
+						<State Name="None" ID="{6C351397-7A6D-413A-A351-4C926DB93B4B}"/>
+						<State Name="Alive" ID="{226B1212-7860-40D2-9395-3A445A49BA6F}"/>
+						<State Name="Defeated" ID="{495BB1D6-06EE-4596-A7AB-CEDBBB961757}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Zone" ID="{24775F15-8C62-4AD6-B87B-93367B839FCD}">
+					<ChildrenList>
+						<State Name="None" ID="{FBB126E6-19AF-4597-B972-8A5C8A8E69EA}"/>
+						<State Name="Sewers" ID="{59B8F2FA-701C-4835-85BD-A2206A72E14C}"/>
+						<State Name="Cantina" ID="{BAA010BC-711D-4F77-8A5B-9A42EFB3F016}"/>
+						<State Name="Hangar" ID="{85C5E99B-C3A7-4946-AC6C-7632D27D7284}"/>
+						<State Name="Spaceship" ID="{B6218C97-4372-49BC-9A0B-C4E0AA6147BE}"/>
+						<State Name="SpaceStation" ID="{DA04FE5C-33D3-46B9-B62D-EEFD32F6872B}"/>
+						<State Name="Boss" ID="{65FDE6F7-080B-4E92-98FD-00E6E6BF07CA}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

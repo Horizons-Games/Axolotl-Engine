@@ -1,0 +1,29 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3991942870	Music			\Music\Music	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	89505537	Gameplay			\Default Work Unit\Gameplay	
+
+Switch	ID	Name	Switch Group			Notes
+	2582085496	Exploration	Gameplay			
+	2764240573	Combat	Gameplay			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	444815956	PlayerLife			\Default Work Unit\PlayerLife	
+	832057375	Zone			\Default Work Unit\Zone	
+
+State	ID	Name	State Group			Notes
+	655265632	Alive	PlayerLife			
+	748895195	None	PlayerLife			
+	2791675679	Defeated	PlayerLife			
+	425131515	SpaceStation	Zone			
+	554650843	Spaceship	Zone			
+	748895195	None	Zone			
+	1560169506	Boss	Zone			
+	2192450996	Hangar	Zone			
+	3390261832	Sewers	Zone			
+	3434002879	Cantina	Zone			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	954958858	sewersExploration	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Defeated\sewersExploration		7690336
+

@@ -1,3 +1,19 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	444815956	PlayerLife			\Default Work Unit\PlayerLife	
+	832057375	Zone			\Default Work Unit\Zone	
+
+State	ID	Name	State Group			Notes
+	655265632	Alive	PlayerLife			
+	748895195	None	PlayerLife			
+	2791675679	Defeated	PlayerLife			
+	425131515	SpaceStation	Zone			
+	554650843	Spaceship	Zone			
+	748895195	None	Zone			
+	1560169506	Boss	Zone			
+	2192450996	Hangar	Zone			
+	3390261832	Sewers	Zone			
+	3434002879	Cantina	Zone			
+
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	504532776	Brick			\Factory Acoustic Textures\Textures\Brick	
 	513139656	Mountain			\Factory Acoustic Textures\Textures\Mountain	

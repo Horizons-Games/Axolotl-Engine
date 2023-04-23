@@ -2,7 +2,7 @@
 #include "Components/ComponentAudioListener.h"
 
 WindowComponentAudioListener::WindowComponentAudioListener(ComponentAudioListener* component) :
-	ComponentWindow("Audio Source", component)
+	ComponentWindow("Audio Listener", component)
 {
 }
 
@@ -14,9 +14,9 @@ void WindowComponentAudioListener::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ComponentAudioListener* audioSource = static_cast<ComponentAudioListener*>(component);
+	ComponentAudioListener* audioListener = static_cast<ComponentAudioListener*>(component);
 
-	if (audioSource)
+	if (audioListener)
 	{
 		ImGui::Text("");
 		ImGui::Text("Audio Listener");

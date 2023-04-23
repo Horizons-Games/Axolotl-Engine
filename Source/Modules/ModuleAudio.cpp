@@ -130,6 +130,7 @@ bool ModuleAudio::Start()
 
 bool ModuleAudio::CleanUp()
 {
+    AK::SoundEngine::StopAll();
     AK::SoundEngine::UnregisterAllGameObj();
 
 #ifndef AK_OPTIMIZED
@@ -151,7 +152,9 @@ bool ModuleAudio::CleanUp()
     // that lives in the Stream Manager, and unregisters itself as the File Location Resolver.
     lowLevelIO.Term();
     if (AK::IAkStreamMgr::Get())
+    {
         AK::IAkStreamMgr::Get()->Destroy();
+    }
 
     // Terminate the Memory Manager
     AK::MemoryMgr::Term();
