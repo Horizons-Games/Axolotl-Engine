@@ -1,6 +1,7 @@
 #include "WindowFPS.h"
 
 #include "Application.h"
+#include "Modules/ModuleWindow.h"
 
 WindowFPS::WindowFPS() : SubWindow("FPS"), 
 	fpsCaptures(100), timeCaptures(100), currentFpsIndex(0), currentTimeIndex(0), 
@@ -51,4 +52,11 @@ void WindowFPS::DrawWindowContents()
 		timeHist.erase(timeHist.begin());
 		timeHist.push_back(0);
 	}
+	
+	bool vsyncActive = App->window->GetVsync();
+	if (ImGui::Checkbox("Vsync", &vsyncActive))
+	{
+		App->window->SetVsync(vsyncActive);
+	}
+
 }

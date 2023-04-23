@@ -6,9 +6,7 @@
 #include "../../FileSystem/UniqueID.h"
 #include <memory>
 #include <iterator>
-
-#include "Geometry/AABB.h"
-#include "Geometry/OBB.h"
+#include "MathGeoLib/Include/Math/vec2d.h"
 
 class Component;
 class ComponentMeshRenderer;
@@ -43,8 +41,8 @@ public:
 
 	void InitNewEmptyGameObject(bool is3D=true);
 
-	void AddChild(std::unique_ptr<GameObject> child);
-	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
+	void LinkChild(GameObject* child);
+	GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;
@@ -78,6 +76,10 @@ public:
 	void DeactivateChildren();
 	void ActivateChildren();
 
+	bool IsStatic();
+	void SetStatic(bool newStatic);
+	void SpreadStatic();
+
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
 	bool RemoveComponent(const Component* component);
@@ -87,18 +89,7 @@ public:
 
 	void MoveUpChild(GameObject* childToMove);
 	void MoveDownChild(GameObject* childToMove);
-
-	void CalculateBoundingBoxes();
-	void Encapsule(const vec* Vertices, unsigned numVertices);
-
-	ComponentCanvas* FoundCanvasOnAnyParent();
-
-	const AABB& GetLocalAABB();
-	const AABB& GetEncapsuledAABB();
-	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes() const;
-
-	void setDrawBoundingBoxes(bool newDraw);
+	
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
 
@@ -113,6 +104,7 @@ private:
 
 	bool enabled;
 	bool active;
+	bool staticObject;
 	std::string name;
 	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;
@@ -120,11 +112,6 @@ private:
 
 	GameObject* parent;
 	std::vector<std::unique_ptr<GameObject>> children;
-
-	AABB localAABB;
-	AABB encapsuledAABB;
-	OBB objectOBB;
-	bool drawBoundingBoxes;
 
 	friend class WindowInspector;
 };
@@ -239,35 +226,17 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 	return components;
 }
 
-inline const AABB& GameObject::GetLocalAABB()
-{
-	CalculateBoundingBoxes();
-	return localAABB;
-}
-
-inline const AABB& GameObject::GetEncapsuledAABB()
-{
-	CalculateBoundingBoxes();
-	return encapsuledAABB;
-}
-
-inline const OBB& GameObject::GetObjectOBB()
-{
-	CalculateBoundingBoxes();
-	return objectOBB;
-}
-
-inline const bool GameObject::isDrawBoundingBoxes() const
-{
-	return drawBoundingBoxes;
-}
-
-inline void GameObject::setDrawBoundingBoxes(bool newDraw)
-{
-	drawBoundingBoxes = newDraw;
-}
-
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
+}
+
+inline bool GameObject::IsStatic()
+{
+	return staticObject;
+}
+
+inline void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
 }

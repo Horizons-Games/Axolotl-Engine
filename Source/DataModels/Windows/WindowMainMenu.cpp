@@ -1,5 +1,7 @@
 #include "WindowMainMenu.h"
-
+#include"Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
@@ -10,16 +12,16 @@
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) :
+WindowMainMenu::WindowMainMenu(Json &json) :
 	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
 	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
-{
-	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
+{		
+	about = std::make_unique<WindowAbout>();	
+	
+	for (const char* name: json.GetVectorNames())
 	{
-		std::pair<std::string, bool> windowNameAndEnabled;
-		if (window->GetName() == "Configuration") windowNameAndEnabled = std::make_pair(window->GetName(), false);
-		else windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
-		windowNamesAndEnabled.push_back(windowNameAndEnabled);
+		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
 	}
 }
 
@@ -27,7 +29,7 @@ WindowMainMenu::~WindowMainMenu()
 {
 }
 
-void WindowMainMenu::Draw(bool& enabled)
+void WindowMainMenu::Draw(bool &enabled)
 {
 	if (openPopup) DrawPopup();
 	else if (!isSaving && action != Actions::NONE) {
@@ -90,7 +92,7 @@ void WindowMainMenu::DrawPopup()
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
-	}
+	}	
 }
 
 void WindowMainMenu::DrawFileMenu()
@@ -142,5 +144,12 @@ void WindowMainMenu::DrawHelpMenu()
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
+}
+
+void WindowMainMenu::ShortcutSave()
+{
+	std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+	if (filePathName != "New Scene") { App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION); }
+	else { isSaving = true; }
 }
 
