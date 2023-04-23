@@ -293,10 +293,10 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts</Filter>
+      <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\SeekingBehaviourScript.cpp">
-      <Filter>UserScripts</Filter>
+      <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -620,11 +620,11 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\SeekingBehaviourScript.h">
-      <Filter>UserScripts</Filter>
+      <Filter>UserScripts\EnemyBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\EnemyBehaviour</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +696,9 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\EnemyBehaviour">
+      <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
