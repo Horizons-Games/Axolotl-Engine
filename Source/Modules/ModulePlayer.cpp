@@ -57,8 +57,8 @@ update_status ModulePlayer::PreUpdate()
 #else //ENGINE
 	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
-		Move();
-		Rotate();
+		//Move();
+		//Rotate();
 	}
 #endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
@@ -69,6 +69,7 @@ update_status ModulePlayer::Update()
 #ifdef ENGINE
 	if (isPlayerLoad && App->IsOnPlayMode())
 	{
+		player->Update();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		trans->UpdateTransformMatrices();
 		

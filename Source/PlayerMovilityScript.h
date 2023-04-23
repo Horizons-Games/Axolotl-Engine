@@ -24,9 +24,13 @@ public:
 	float GetSpeed() const;
 	void SetSpeed(float speed);
 
+	float GetJumpParameter() const;
+	void SetJumpParameter(float jumpParameter);
+
 private:
 	ComponentPlayer* componentPlayer;
 	float speed;
+	float jumpParameter;
 
 };
 
@@ -39,4 +43,15 @@ void PlayerMovilityScript::SetSpeed(float speed)
 {
 	this->speed = speed;
 }
+
+float PlayerMovilityScript::GetJumpParameter() const
+{
+	return jumpParameter;
+}
+
+void PlayerMovilityScript::SetJumpParameter(float jumpParameter)
+{
+	this->jumpParameter = jumpParameter;
+}
+
 

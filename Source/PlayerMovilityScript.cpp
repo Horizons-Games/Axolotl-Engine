@@ -17,9 +17,10 @@
 
 REGISTERCLASS(PlayerMovilityScript);
 
-PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(1.0f)
+PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(1.0f), jumpParameter(30.0f)
 {
 	REGISTER_FIELD(Speed, float);
+	REGISTER_FIELD(JumpParameter, float);
 	//REGISTER_FIELD(MovingGameObject, GameObject*);
 }
 
@@ -35,7 +36,7 @@ void PlayerMovilityScript::PreUpdate(float deltaTime)
 		&& !SDL_ShowCursor(SDL_QUERY))
 	{
 		Move();
-		//Rotate();
+		Rotate();
 	}
 	
 }
@@ -43,10 +44,10 @@ void PlayerMovilityScript::PreUpdate(float deltaTime)
 void PlayerMovilityScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
+
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	float3 position = trans->GetPosition();
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
@@ -59,7 +60,6 @@ void PlayerMovilityScript::Move()
 	RaycastHit hit;
 
 	float forceParameter = 50.0f;
-	float jumpParameter = 50.0f;
 
 	float size = 0.0f;
 	float sizeForce = 0.0f;
@@ -239,7 +239,6 @@ void PlayerMovilityScript::Move()
 
 void PlayerMovilityScript::Rotate()
 {
-	/*
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float3 newRot = trans->GetRotationXYZ();
@@ -263,5 +262,5 @@ void PlayerMovilityScript::Rotate()
 		newRot.y += App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
 		trans->UpdateTransformMatrices();
-	}*/
+	}
 }
