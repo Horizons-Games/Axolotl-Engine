@@ -30,7 +30,7 @@ void WindowComponentScript::DrawWindowContents()
 		return;
 	}
 
-	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), (int)(constructors.size()), 3))
+	if (ImGui::ListBox("Constructor", &current_item, constructors.data(), (int)(constructors.size()), 5))
 	{
 		if (script->GetConstructName() != constructors[current_item])
 		{

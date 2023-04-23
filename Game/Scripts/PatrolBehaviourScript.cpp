@@ -46,10 +46,10 @@ void PatrolBehaviourScript::Update(float deltaTime)
 		static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
 	ComponentTransform* wayPointTwoTransform = 
 		static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
-	// ----------------
 
 	ComponentRigidBody* ownerRigidBody = 
 		static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	// ----------------
 
 	// If one of the waypoints is reached, change destiny to the other one
 	// In this case, we'll check the z value, but there should be a better solution

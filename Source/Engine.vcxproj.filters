@@ -295,6 +295,9 @@
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekingBehaviourScript.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -618,6 +621,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekingBehaviourScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>

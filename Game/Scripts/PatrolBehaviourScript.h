@@ -2,7 +2,7 @@
 
 #include "Scripting\Script.h"
 
-// This script performs what it was recommended that a basic script should do in the Gameplay Systems PPT
+// This script performs a generic patrol between two (or more) waypoints
 
 class ComponentTransform;
 class ComponentRigidBody;
