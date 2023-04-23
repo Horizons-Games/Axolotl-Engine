@@ -17,7 +17,14 @@ public:
 	void PostUpdate(float deltaTime) override {};
 	void CleanUp() override {};
 
+	GameObject* GetWayPointOne() const;
+	void SetWayPointOne(GameObject* wayPointOne);
+
+	GameObject* GetWayPointTwo() const;
+	void SetWayPointTwo(GameObject* wayPointTwo);
+
 
 private:
-
+	GameObject* wayPointOne;
+	GameObject* wayPointTwo;
 };
