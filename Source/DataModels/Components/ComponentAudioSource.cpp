@@ -14,7 +14,7 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
 
     OnTransformChanged();
 
-    PostEvent(audio::CANTINA_MUSIC); //REMOVE (just for testing)
+    PostEvent(audio::PLAY_MUSIC); //REMOVE (just for testing)
     AK::SoundEngine::SetState(audio::STATE_GROUP_ZONE, audio::STATE_ID_ZONE_SEWERS);
     AK::SoundEngine::SetState(audio::STATE_GROUP_LIFE, audio::STATE_ID_LIFE_ALIVE);
     SetSwitch(audio::SWITCH_GROUP_MUSIC_GAMEPLAY, audio::SWITCH_ID_MUSIC_EXPLORATION);
@@ -38,7 +38,7 @@ void ComponentAudioSource::OnTransformChanged()
 {
     const float3& pos = transform->GetGlobalPosition();
     const float3& front = transform->GetGlobalForward();
-    const float3& correctFront = -float3(front.x, -front.y, front.z).Normalized();
+    const float3& correctFront = float3(front.x, front.y, front.z).Normalized();
     const float3& up = transform->GetGlobalUp();
 
     sourceTransform.Set(pos.x, pos.y, pos.z,

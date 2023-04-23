@@ -81,6 +81,13 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<PositioningInfo>
+								<Position Name="" ID="{24884D26-0E8D-4476-A74A-DA4360666732}">
+									<PropertyList>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+									</PropertyList>
+								</Position>
+							</PositioningInfo>
 							<ActiveSourceList>
 								<ActiveSource Name="cantina_music" ID="{F3848FFD-FC5D-4D88-9E54-BFBEE3D6FCCA}" Platform="Linked"/>
 							</ActiveSourceList>
