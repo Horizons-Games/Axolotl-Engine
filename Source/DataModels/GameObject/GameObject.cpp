@@ -108,7 +108,7 @@ void GameObject::Update()
 {
 	for (std::unique_ptr<Component>& component : components)
 	{
-		if (component->GetActive())
+		if (component->GetActive() && component->GetType() != ComponentType::SCRIPT)
 		{
 			component->Update();
 		}
