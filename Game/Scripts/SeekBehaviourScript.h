@@ -5,7 +5,7 @@
 // This script performs a seeking behaviour once the player enters in range
 
 class ComponentTransform;
-class ComponentRigidbody;
+class ComponentRigidBody;
 
 class SeekBehaviourScript : public Script
 {
@@ -22,6 +22,6 @@ public:
 private:
 	GameObject* target;
 
-	//ComponentTransform* targetTransform;
-	//ComponentRigidBody* ownerRigidBody;
+	ComponentTransform* targetTransform;
+	ComponentRigidBody* ownerRigidBody;
 };

@@ -16,21 +16,13 @@ SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
 
 void SeekBehaviourScript::Start()
 {
-	//targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
-	//ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
+	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
 	ENGINE_LOG("%s", "Now seeking...");
-
-	// Ideally, these values should be set in the Start() as this script's variables
-	ComponentTransform* targetTransform =
-		static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
-
-	ComponentRigidBody* ownerRigidBody =
-		static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	// ----------------
 
 	// When this behaviour is triggered, the enemy will go towards its target
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
