@@ -4,6 +4,15 @@
 
 // This script performs the movement for the drone
 
+class ComponentScript;
+
+enum class DroneBehavoiurs
+{
+	IDLE,
+	PATROL,
+	SEEK
+};
+
 class EnemyDroneScript : public Script
 {
 public:
@@ -14,5 +23,8 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	DroneBehavoiurs droneState;
 
+	ComponentScript* patrolScript;
+	ComponentScript* seekingScript;
 };
