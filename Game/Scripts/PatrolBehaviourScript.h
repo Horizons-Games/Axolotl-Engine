@@ -4,8 +4,8 @@
 
 // This script performs a generic patrol behaviour between two (or more) waypoints
 
-class ComponentTransform;
-class ComponentRigidBody;
+//class ComponentTransform;
+//class ComponentRigidBody;
 
 class PatrolBehaviourScript : public Script
 {

@@ -26110,8 +26110,19 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "EnemyDroneScript",
-                            "fields": null
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 6537443330755417922,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 7565490843663062490,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
