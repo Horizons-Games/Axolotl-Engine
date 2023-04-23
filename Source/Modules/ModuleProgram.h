@@ -1,8 +1,6 @@
 #pragma once
 #include "Module.h"
 
-constexpr auto ROOTPATH = "Source/Shaders/";
-
 class Program;
 
 enum class ProgramType 
@@ -12,8 +10,8 @@ enum class ProgramType
 	HIGHLIGHT,
 	SKYBOX,
 	SPRITE,
-	IRRADIANCE_MAP,
 	HDR_TO_CUBEMAP,
+	IRRADIANCE_MAP,
 	PRE_FILTERED_MAP,
 	PROGRAM_TYPE_SIZE
 };

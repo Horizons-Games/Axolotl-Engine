@@ -1,4 +1,7 @@
-#version 440
+#version 460
+#extension GL_ARB_shading_language_include : require
+
+#include "/Common/Functions/ibl_functions.glsl"
 
 #define NUM_SAMPLES 4096
 #define PI 3.1415926535897932384626433832795

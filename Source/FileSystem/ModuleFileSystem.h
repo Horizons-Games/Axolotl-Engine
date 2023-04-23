@@ -20,6 +20,7 @@ public:
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath);
 	std::vector<std::string> ListFiles(const char* directoryPath);
+	std::vector<std::string> ListFilesWithPath(const char* directoryPath);
 	long long GetModificationDate(const char* filePath) const;
 	const std::string GetPathWithoutFile(const std::string& pathWithFile);
 	const std::string GetPathWithoutExtension(const std::string& pathWithExtension);
