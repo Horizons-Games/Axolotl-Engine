@@ -4,7 +4,7 @@
 
 uniform sampler2D hdr;
 
-in vec3 texCoords;
+in vec3 texcoords;
 
 out vec4 fragColor;
 
@@ -19,7 +19,7 @@ vec2 CartesianToEquirectangular(in vec3 dir) {
 }
 
 void main() {
-	vec3 dir = normalize(texCoords);
+	vec3 dir = normalize(texcoords);
 	vec2 uv = CartesianToEquirectangular(dir);
 	fragColor = texture(hdr, uv);
 }

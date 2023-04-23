@@ -13,6 +13,7 @@ enum class ProgramType
 	HDR_TO_CUBEMAP,
 	IRRADIANCE_MAP,
 	PRE_FILTERED_MAP,
+	ENVIRONMENT_BRDF,
 	PROGRAM_TYPE_SIZE
 };
 
@@ -41,7 +42,7 @@ private:
 	unsigned CompileShader(unsigned type, const std::string& source);
 
 	std::vector<std::unique_ptr<Program> > programs;
-	std::string rootPath = "Source/Shaders/";
+	std::string rootPath = "Shaders/";
 };
 
 inline Program* ModuleProgram::GetProgram(ProgramType type) const

@@ -34,7 +34,7 @@ bool ModuleProgram::Start()
 		else
 		{ 
 			// Get the file path local to shaders/ folder:
-			std::string localPath = path.substr(rootPath.size());
+			std::string localPath = path.substr(rootPath.size() - 1);
 			// Get the absolute file path:
 
 			// Get the file content:
@@ -72,6 +72,9 @@ bool ModuleProgram::Start()
 
 	programs.push_back
 		(CreateProgram("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
+
+	programs.push_back
+		(CreateProgram("cubemap_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	return true;
 }
