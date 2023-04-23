@@ -14,7 +14,7 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
 
     OnTransformChanged();
 
-    PostEvent(audio::PLAY_MUSIC); //REMOVE (just for testing)
+    PostEvent(audio::CANTINA_MUSIC); //REMOVE (just for testing)
     AK::SoundEngine::SetState(audio::STATE_GROUP_ZONE, audio::STATE_ID_ZONE_SEWERS);
     AK::SoundEngine::SetState(audio::STATE_GROUP_LIFE, audio::STATE_ID_LIFE_ALIVE);
     SetSwitch(audio::SWITCH_GROUP_MUSIC_GAMEPLAY, audio::SWITCH_ID_MUSIC_EXPLORATION);
@@ -24,8 +24,6 @@ ComponentAudioSource::~ComponentAudioSource()
 {
     AK::SoundEngine::StopAll(sourceID);
     AK::SoundEngine::UnregisterGameObj(sourceID);
-
-    delete transform;
 }
 
 void ComponentAudioSource::Update()
