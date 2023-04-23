@@ -69,7 +69,7 @@ GameObject::GameObject(const std::string& name,
 	bool active,
 	StateOfSelection selection,
 	bool staticObject) : 
-	parent(parent), uid(uid), enabled(enabled), active(active), stateOfSelection(selection), staticObject(staticObject)
+	name(name), parent(parent), uid(uid), enabled(enabled), active(active), stateOfSelection(selection), staticObject(staticObject)
 {
 
 }
