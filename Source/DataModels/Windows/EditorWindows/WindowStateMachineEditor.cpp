@@ -38,7 +38,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 
 		ImGui::Text("");
 
-		if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected >= 0)
+		if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected > 0)
 		{
 			State* state = stateAsShared->GetStates()[stateIdSelected];
 			ImGui::Text("State");
@@ -64,6 +64,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 				};
 			}
 		}
+
 		if (transitionIdSelected != -1)
 		{
 			auto it = stateAsShared->GetTransitions().find(transitionIdSelected);
@@ -329,7 +330,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 					state->auxiliarPos = std::make_pair<int, int>(posState.x + io.MouseDelta.x, posState.y + io.MouseDelta.y);
 					//stateAsShared->EditState(i, state);
 				}
-				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) && i != 0)
 				{
 					stateIdSelected = i;
 					openContextMenu = true;
@@ -341,24 +342,40 @@ void WindowStateMachineEditor::DrawWindowContents()
 				}
 			}
 
-			draw_list->AddRectFilled(
-				ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2),
-				IM_COL32(100, 100, 120, 255), 
-				4.0f
-			);
-			draw_list->AddRectFilledMultiColor(
-				minRect, maxRect,
-				IM_COL32(65, 65, 75, 255), IM_COL32(65, 65, 75, 255),
-				IM_COL32(25, 25, 45, 255), IM_COL32(25, 25, 45, 255)
-			);
+			if(i != 0) 
+			{
+				draw_list->AddRectFilled(
+					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2),
+					IM_COL32(100, 100, 120, 255),
+					4.0f
+				);
+				draw_list->AddRectFilledMultiColor(
+					minRect, maxRect,
+					IM_COL32(65, 65, 75, 255), IM_COL32(65, 65, 75, 255),
+					IM_COL32(25, 25, 45, 255), IM_COL32(25, 25, 45, 255)
+				);
+			}
+			else 
+			{
+				draw_list->AddRectFilled(
+					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2 - 110, maxRect.y + 2 - 15),
+					IM_COL32(0, 120, 0, 255),
+					4.0f
+				);
+				draw_list->AddRectFilledMultiColor(
+					minRect, ImVec2(maxRect.x - 110, maxRect.y - 15),
+					IM_COL32(0, 125, 0, 255), IM_COL32(0, 125, 0, 255),
+					IM_COL32(0, 85, 0, 255), IM_COL32(0, 85, 0, 255)
+				);
+			}
+
 			ImGui::SetNextItemWidth(150);
 			ImGui::SetCursorScreenPos(ImVec2(minRect.x + 25, minRect.y + 10));
 			ImGui::BeginGroup(); // Lock horizontal position
 			ImGui::Text(state->name.c_str());
 			std::string resource;
 			state->resource != nullptr ? resource = state->resource->GetFileName().c_str() : resource = "Empty";
-			ImGui::Text(resource.c_str());
-			//INCLUDE RESOURCE SEARCH
+			if(i != 0) ImGui::Text(resource.c_str());
 			ImGui::EndGroup();
 			ImGui::PopID();
 		}
