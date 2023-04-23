@@ -73,7 +73,7 @@ void ComponentMeshRenderer::InitBones()
 
 void ComponentMeshRenderer::Update()
 {
-	/*if (!bones.empty())
+	if (!bones.empty())
 	{
 		GameObject* root = GetOwner()->GetRootGO();
 
@@ -87,7 +87,7 @@ void ComponentMeshRenderer::Update()
 
 				if (boneNode)
 				{
-					skinPalette[i] = static_cast<ComponentTransform*>(bones[i]->
+					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->
 						GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix() * bindBones[i].transform;
 				}
 				else
@@ -96,7 +96,7 @@ void ComponentMeshRenderer::Update()
 				}
 			}
 		}
-	}*/
+	}
 }
 
 void ComponentMeshRenderer::Draw()

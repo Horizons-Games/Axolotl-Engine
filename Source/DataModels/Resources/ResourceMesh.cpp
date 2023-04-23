@@ -166,7 +166,7 @@ void ResourceMesh::CreateVAO()
 
 	//bone indices and weights
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_UNSIGNED_INT, GL_FALSE, 0, 
+	glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, 
 		(void*)(sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
 
 	glEnableVertexAttribArray(5);
