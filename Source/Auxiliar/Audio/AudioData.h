@@ -4,7 +4,11 @@ namespace audio
 {
 	//SFX
 	static const wchar_t* SFX_DRON_SHOT_01 = L"sfx_dron_shot_01";
-	static const wchar_t* MUSIC_TEST = L"musicTest";
+
+	//Ambient
+	static const wchar_t* SFX_AMBIENT_CROWD_TALKING_01 = L"sfx_ambient_crowd_talking_01";
+	static const wchar_t* CANTINA_MUSIC = L"cantina_music";
+
 
 	//Music
 	static const wchar_t* PLAY_MUSIC = L"Music";

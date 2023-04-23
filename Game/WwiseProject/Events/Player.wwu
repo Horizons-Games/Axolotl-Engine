@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}">
 	<Events>
-		<WorkUnit Name="Player" ID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" OwnerID="{AA397C40-3770-4439-AC7E-10F711A90387}" PersistMode="Nested"/>
+		<WorkUnit Name="Player" ID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" OwnerID="{AA397C40-3770-4439-AC7E-10F711A90387}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="sfx_lightsaber_hum_01" ID="{9D53F046-160C-496C-88D4-7A9B02719068}">
+					<ChildrenList>
+						<Action Name="" ID="{04F7D749-7A8B-4178-BFBE-67CC13E3D3DA}" ShortID="246076101">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_hum_01" ID="{100F7C43-6EB0-4020-BC3B-F3493B6160A8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_lightsaber_clash" ID="{C6BFC0E5-EDF6-4D43-B6B4-D7F91DEFA39B}">
+					<ChildrenList>
+						<Action Name="" ID="{4DF4F3C2-955D-4F4A-913F-05E6D2CE3D5C}" ShortID="324150238">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_clash_01" ID="{614ADAAA-AE98-4457-BF88-EE410E966C0E}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_lightsaber_swing" ID="{512358A5-1FF3-4548-8026-6C2DC8DA12EB}">
+					<ChildrenList>
+						<Action Name="" ID="{B2F4DD12-0035-4CEA-99CF-E095E1785C45}" ShortID="898903840">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_swing" ID="{3A3B7B84-14B1-4B04-9E19-95288A5ABCC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_footsteps_run_01" ID="{B81F0C4C-D6EE-448C-AF59-D1C24DE22FD8}">
+					<ChildrenList>
+						<Action Name="" ID="{B10021E1-BB78-4C20-9F0B-8BE08C05BE65}" ShortID="614264983">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_run_01" ID="{F5722570-3AB5-4992-A0D6-7BCDF37A3232}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_footsteps_walk_01" ID="{77156415-AFB6-4CE3-B635-9FB4A0B4857C}">
+					<ChildrenList>
+						<Action Name="" ID="{0CE3BEA1-EC45-40B4-980B-686F3748C6BB}" ShortID="816824019">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_walk_01" ID="{E834357C-45EF-456E-8D45-5866BDF807B7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_lightsaber_close_01" ID="{AD4E674B-8A93-4925-98C1-1370427A31FE}">
+					<ChildrenList>
+						<Action Name="" ID="{F3DC8CA5-FC08-481E-813B-A670CED42A78}" ShortID="55371555">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_close_01" ID="{032482E1-90A0-4160-A198-8728744956C7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_lightsaber_open_01" ID="{5EC08D07-AEC5-4D92-ADA8-9F273E8817F5}">
+					<ChildrenList>
+						<Action Name="" ID="{1CCDE41C-B285-41D4-A256-502267B384F1}" ShortID="721448205">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_open_01" ID="{5600818C-8FDD-44B7-83FE-F5D4EA8553BA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

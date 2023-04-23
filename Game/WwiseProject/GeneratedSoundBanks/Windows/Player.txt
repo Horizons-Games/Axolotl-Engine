@@ -1,0 +1,19 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1792116364	sfx_lightsaber_clash			\SFX\Player\sfx_lightsaber_clash	
+	2355582310	sfx_footsteps_run_01			\SFX\Player\sfx_footsteps_run_01	
+	3222767057	sfx_lightsaber_open_01			\SFX\Player\sfx_lightsaber_open_01	
+	3335399033	sfx_lightsaber_swing			\SFX\Player\sfx_lightsaber_swing	
+	4135941005	sfx_lightsaber_hum_01			\SFX\Player\sfx_lightsaber_hum_01	
+	4171386676	sfx_footsteps_walk_01			\SFX\Player\sfx_footsteps_walk_01	
+	4219294839	sfx_lightsaber_close_01			\SFX\Player\sfx_lightsaber_close_01	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	205229415	sfx_lightsaber_swing_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_02		112092
+	268604586	sfx_footsteps_run_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_run_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_run_01		489484
+	500728904	sfx_lightsaber_open_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_open_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_open_01		301212
+	545082851	sfx_footsteps_walk_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_walk_01_C5579977.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_walk_01		932180
+	595687169	sfx_lightsaber_hum_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaberLoop_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_hum_01		1018684
+	621220616	sfx_lightsaber_clash_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_clash_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_clash_01		83256
+	660733524	sfx_lightsaber_close_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_close_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_close_01		265592
+	1036642653	sfx_lightsaber_swing_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_01		21472
+

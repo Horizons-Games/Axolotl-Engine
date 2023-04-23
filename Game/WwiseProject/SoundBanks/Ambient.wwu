@@ -5,7 +5,8 @@
 			<ChildrenList>
 				<SoundBank Name="Ambient" ID="{F9D5C006-89A7-4579-B151-FBFC432E6D2D}">
 					<ObjectInclusionList>
-						<ObjectRef Name="musicTest" ID="{E98267BD-672A-4239-9925-B995551D29F3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="2DAmbient" ID="{5FCE3C5F-CE45-42FE-88E9-0032834F61C6}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="CantinaAmbient" ID="{D24392DB-BFF1-438E-973B-81F45E2A15A4}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

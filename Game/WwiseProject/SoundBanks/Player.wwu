@@ -4,7 +4,11 @@
 		<WorkUnit Name="Player" ID="{ABEE521F-1435-4CA9-AC67-96AF8888F2D1}" OwnerID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" PersistMode="Nested">
 			<ChildrenList>
 				<SoundBank Name="Player" ID="{51CB3512-DB02-4B43-9B6A-BD1B4A6284D5}">
-					<ObjectInclusionList/>
+					<ObjectInclusionList>
+						<ObjectRef Name="PlayerLocomotions" ID="{81D45AB7-DE6F-4143-BE1A-C916F1F6C121}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="PlayerWeapons" ID="{575130A6-8F22-44CA-B788-17B12A3838A4}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="PlayerAbilities" ID="{7431AFC3-B24D-4D7E-8B8F-2FB454918F1C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>

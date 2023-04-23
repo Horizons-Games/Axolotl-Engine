@@ -1,6 +1,8 @@
 Event	ID	Name			Wwise Object Path	Notes
-	4195921398	musicTest			\Default Work Unit\Ambient\musicTest	
+	2073224732	sfx_ambient_crowd_talking_01			\SFX\Ambient\sfx_ambient_crowd_talking_01	
+	2455846751	cantina_music			\SFX\Ambient\cantina_music	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	764235251	musicTest	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\musicTest_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\musicTest		16304424
+	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
+	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
 

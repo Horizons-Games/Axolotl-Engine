@@ -1,6 +1,383 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{C302772C-A0A9-4317-9387-4E1FA6616738}">
 	<AudioObjects>
-		<WorkUnit Name="Player" ID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested"/>
+		<WorkUnit Name="Player" ID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested">
+			<ChildrenList>
+				<ActorMixer Name="PlayerLocomotions" ID="{81D45AB7-DE6F-4143-BE1A-C916F1F6C121}" ShortID="828138206">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="sfx_footsteps_run_01" ID="{F5722570-3AB5-4992-A0D6-7BCDF37A3232}" ShortID="592427598">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{7B840423-BE57-4709-B803-9CE335EADD37}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_footsteps_run_01" ID="{E2AFB129-FED9-4A99-AB08-024AE2ABCC2D}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_footsteps_run_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="268604586"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_footsteps_run_01" ID="{E2AFB129-FED9-4A99-AB08-024AE2ABCC2D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_footsteps_walk_01" ID="{E834357C-45EF-456E-8D45-5866BDF807B7}" ShortID="272206565">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{11DD5F58-03FB-416C-B4A1-70503B4A99FA}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="1160"/>
+													<Property Name="Min" Type="Real64" Value="-1109"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_footsteps_walk_01" ID="{62687DA4-6181-499D-9E07-FE682AD3E1A4}">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>sfx_footsteps_walk_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="545082851"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_footsteps_walk_01" ID="{62687DA4-6181-499D-9E07-FE682AD3E1A4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="PlayerWeapons" ID="{575130A6-8F22-44CA-B788-17B12A3838A4}" ShortID="350583839">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="sfx_lightsaber_swing" ID="{3A3B7B84-14B1-4B04-9E19-95288A5ABCC9}" ShortID="779695362">
+							<PropertyList>
+								<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="sfx_lightsaber_swing_02" ID="{27010E92-69B0-467C-B60B-38C5B308460A}" ShortID="542352685">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{1C50F894-BC50-41C6-85AC-70428909FBF1}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="326"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="sfx_lightsaber_swing_02" ID="{FC0B0E3C-67BB-4C61-8F38-7C3A924BBD56}">
+											<Language>SFX</Language>
+											<AudioFile>sfx_lightsaber_swing_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="205229415"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="sfx_lightsaber_swing_02" ID="{FC0B0E3C-67BB-4C61-8F38-7C3A924BBD56}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="sfx_lightsaber_swing_01" ID="{82BD3887-12CE-4392-8053-CAF47E4C0E1F}" ShortID="620395420">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{64FAE4B1-971E-437C-9168-4729157ADE81}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="200"/>
+															<Property Name="Min" Type="Real64" Value="-200"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{91CFFFF3-2962-4EE3-BF53-06DAF65B5016}">
+														<PropertyList>
+															<Property Name="Min" Type="Real64" Value="-8"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="sfx_lightsaber_swing_01" ID="{31E4E152-FBFE-4AE9-A511-235655A168CF}">
+											<Language>SFX</Language>
+											<AudioFile>sfx_lightsaber_swing_01.WAV</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1036642653"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="sfx_lightsaber_swing_01" ID="{31E4E152-FBFE-4AE9-A511-235655A168CF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="sfx_lightsaber_clash_01" ID="{614ADAAA-AE98-4457-BF88-EE410E966C0E}" ShortID="536454084">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{8A157D35-9C5A-4339-AE13-48B09B6CFEA2}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="227"/>
+													<Property Name="Min" Type="Real64" Value="-227"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_lightsaber_clash_01" ID="{02A8514D-8833-4350-9C71-54992B3E75F9}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_lightsaber_clash_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="621220616"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_lightsaber_clash_01" ID="{02A8514D-8833-4350-9C71-54992B3E75F9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_lightsaber_close_01" ID="{032482E1-90A0-4160-A198-8728744956C7}" ShortID="20646811">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_lightsaber_close_01" ID="{6B3A5929-E0FF-4C49-8C68-EC94C4348A50}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_lightsaber_close_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="660733524"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_lightsaber_close_01" ID="{6B3A5929-E0FF-4C49-8C68-EC94C4348A50}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_lightsaber_hum_01" ID="{100F7C43-6EB0-4020-BC3B-F3493B6160A8}" ShortID="768300757">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{AB09A0F2-1549-4BCA-8123-FC0B2F9791D4}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="Effect0">
+									<Custom>
+										<Effect Name="Guitar Distortion (Custom)" ID="{39EBC093-C1EC-4BE9-8995-B3FFB3CFD6AF}" ShortID="674397401" PluginName="Wwise Guitar Distortion" CompanyID="0" PluginID="126" PluginType="3">
+											<PropertyList>
+												<Property Name="DistortionDrive" Type="Real32" Value="17"/>
+												<Property Name="DistortionType" Type="int32" Value="2"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_lightsaberLoop_01" ID="{8E794A5E-8BE6-4F7B-9A0D-48884DC0F4B2}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_lightsaberLoop_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="595687169"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_lightsaberLoop_01" ID="{8E794A5E-8BE6-4F7B-9A0D-48884DC0F4B2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_lightsaber_open_01" ID="{5600818C-8FDD-44B7-83FE-F5D4EA8553BA}" ShortID="468714658">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{A7587225-F436-42F9-B08A-EA13056C15E1}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="51"/>
+													<Property Name="Min" Type="Real64" Value="-51"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_lightsaber_open_01" ID="{CC05B276-9065-44D1-8AA7-3149E09A32EC}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_lightsaber_open_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="500728904"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_lightsaber_open_01" ID="{CC05B276-9065-44D1-8AA7-3149E09A32EC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="PlayerAbilities" ID="{7431AFC3-B24D-4D7E-8B8F-2FB454918F1C}" ShortID="469999373">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

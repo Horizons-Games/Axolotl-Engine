@@ -9,19 +9,28 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{411D2850-D109-75CF-3AD3-EECEE8FF99B2}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{08376721-6B07-BADE-016E-1E9953C95069}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
-				<File Id="764235251" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>musicTest.wav</ShortName>
-					<CachePath>SFX/musicTest_10C4C929.wem</CachePath>
+				<File Id="106158711" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>cantina_music.wav</ShortName>
+					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="652056130" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_ambient_crowd_talking_01.wav</ShortName>
+					<CachePath>SFX/sfx_ambient_crowd_talking_01_D79FB2B7.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
-				<Event Id="4195921398" Name="musicTest">
+				<Event Id="2455846751" Name="cantina_music">
 					<MediaRefs>
-						<MediaRef Id="764235251"/>
+						<MediaRef Id="106158711"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2073224732" Name="sfx_ambient_crowd_talking_01">
+					<MediaRefs>
+						<MediaRef Id="652056130"/>
 					</MediaRefs>
 				</Event>
 			</Events>
@@ -43,9 +52,81 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{6480908F-687E-D616-59C6-BB8F9D424E2F}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{204090D5-8E07-5E4B-CF31-37071EFE42CF}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
+			<Media>
+				<File Id="205229415" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaber_swing_02.wav</ShortName>
+					<CachePath>SFX/sfx_lightsaber_swing_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="268604586" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_footsteps_run_01.wav</ShortName>
+					<CachePath>SFX/sfx_footsteps_run_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="500728904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaber_open_01.wav</ShortName>
+					<CachePath>SFX/sfx_lightsaber_open_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="545082851" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_footsteps_walk_01.wav</ShortName>
+					<CachePath>SFX/sfx_footsteps_walk_01_C5579977.wem</CachePath>
+				</File>
+				<File Id="595687169" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaberLoop_01.wav</ShortName>
+					<CachePath>SFX/sfx_lightsaberLoop_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="621220616" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaber_clash_01.wav</ShortName>
+					<CachePath>SFX/sfx_lightsaber_clash_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="660733524" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaber_close_01.wav</ShortName>
+					<CachePath>SFX/sfx_lightsaber_close_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
+					<CachePath>SFX/sfx_lightsaber_swing_01_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="2355582310" Name="sfx_footsteps_run_01">
+					<MediaRefs>
+						<MediaRef Id="268604586"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4171386676" Name="sfx_footsteps_walk_01">
+					<MediaRefs>
+						<MediaRef Id="545082851"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1792116364" Name="sfx_lightsaber_clash">
+					<MediaRefs>
+						<MediaRef Id="621220616"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4219294839" Name="sfx_lightsaber_close_01">
+					<MediaRefs>
+						<MediaRef Id="660733524"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4135941005" Name="sfx_lightsaber_hum_01">
+					<MediaRefs>
+						<MediaRef Id="595687169"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3222767057" Name="sfx_lightsaber_open_01">
+					<MediaRefs>
+						<MediaRef Id="500728904"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3335399033" Name="sfx_lightsaber_swing">
+					<MediaRefs>
+						<MediaRef Id="205229415"/>
+						<MediaRef Id="1036642653"/>
+					</MediaRefs>
+				</Event>
+			</Events>
 		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{195CC05F-A3E6-C0A8-60B9-2D8B45825F32}">
 			<ShortName>Init</ShortName>
@@ -259,7 +340,7 @@
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{0B74D072-2679-1E64-5503-A44C92817DA0}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{63693B2A-3FDE-B468-8DDB-15FAF354C0F8}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -384,5 +465,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{67C54598-1D7F-7DB7-24D9-26F183E330DC}</FileHash>
+	<FileHash>{5AFB6646-F5CC-70C9-E593-8C27FE65BBE2}</FileHash>
 </SoundBanksInfo>
