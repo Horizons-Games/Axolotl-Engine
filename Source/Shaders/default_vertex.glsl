@@ -35,7 +35,7 @@ void main()
     {
         mat4 skinT = palette[bone_indices[0]]*bone_weights[0]+palette[bone_indices[1]]*bone_weights[1]+             
               palette[bone_indices[2]]*bone_weights[2]+palette[bone_indices[3]]*bone_weights[3];
-    
+        
         position = (skinT*vec4(vertexPosition, 1.0));
         norm  = (skinT*vec4(normal, 0.0));
     }

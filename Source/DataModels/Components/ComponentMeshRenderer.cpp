@@ -73,7 +73,7 @@ void ComponentMeshRenderer::InitBones()
 
 void ComponentMeshRenderer::Update()
 {
-	if (!bones.empty())
+	/*if (!bones.empty())
 	{
 		GameObject* root = GetOwner()->GetRootGO();
 
@@ -96,7 +96,7 @@ void ComponentMeshRenderer::Update()
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void ComponentMeshRenderer::Draw()

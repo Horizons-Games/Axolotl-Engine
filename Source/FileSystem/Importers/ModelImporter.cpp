@@ -38,7 +38,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 	ENGINE_LOG("Import Model from %s", filePath);
 
-	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 	if (scene)
 	{
 		ImportNode(scene, filePath, resource, scene->mRootNode, -1);
