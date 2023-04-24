@@ -8812,7 +8812,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerMovilityScript",
+                            "constructName": "PlayerMobilityScript",
                             "fields": [
                                 {
                                     "name": "Speed",
@@ -8831,7 +8831,7 @@
                                 },
                                 {
                                     "name": "CanDash",
-                                    "value": false,
+                                    "value": true,
                                     "type": 3
                                 }
                             ]

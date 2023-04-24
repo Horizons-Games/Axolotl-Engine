@@ -1,4 +1,4 @@
-#include "PlayerMovilityScript.h"
+#include "PlayerMobilityScript.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -16,9 +16,9 @@
 
 #include "DataStructures/Quadtree.h"
 
-REGISTERCLASS(PlayerMovilityScript);
+REGISTERCLASS(PlayerMobilityScript);
 
-PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
+PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
 												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
 												canDoubleJump(true) , jumps(0), isCrouch(false)
 {
@@ -28,7 +28,7 @@ PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr
 	REGISTER_FIELD(CanDash, bool);
 }
 
-void PlayerMovilityScript::Start()
+void PlayerMobilityScript::Start()
 {
 	if (canDoubleJump) 
 	{
@@ -41,7 +41,7 @@ void PlayerMovilityScript::Start()
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 }
 
-void PlayerMovilityScript::PreUpdate(float deltaTime)
+void PlayerMobilityScript::PreUpdate(float deltaTime)
 {
 	
 	if (!componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0
@@ -53,7 +53,7 @@ void PlayerMovilityScript::PreUpdate(float deltaTime)
 	
 }
 
-void PlayerMovilityScript::Move()
+void PlayerMobilityScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 
@@ -320,7 +320,7 @@ void PlayerMovilityScript::Move()
 	}*/
 }
 
-void PlayerMovilityScript::Rotate()
+void PlayerMobilityScript::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
@@ -347,52 +347,52 @@ void PlayerMovilityScript::Rotate()
 	}
 }
 
-float PlayerMovilityScript::GetSpeed() const
+float PlayerMobilityScript::GetSpeed() const
 {
 	return speed;
 }
 
-void PlayerMovilityScript::SetSpeed(float speed)
+void PlayerMobilityScript::SetSpeed(float speed)
 {
 	this->speed = speed;
 }
 
-float PlayerMovilityScript::GetJumpParameter() const
+float PlayerMobilityScript::GetJumpParameter() const
 {
 	return jumpParameter;
 }
 
-void PlayerMovilityScript::SetJumpParameter(float jumpParameter)
+void PlayerMobilityScript::SetJumpParameter(float jumpParameter)
 {
 	this->jumpParameter = jumpParameter;
 }
 
-float PlayerMovilityScript::GetDashForce() const
+float PlayerMobilityScript::GetDashForce() const
 {
 	return dashForce;
 }
 
-void PlayerMovilityScript::SetDashForce(float dashForce)
+void PlayerMobilityScript::SetDashForce(float dashForce)
 {
 	this->dashForce = dashForce;
 }
 
-bool PlayerMovilityScript::GetCanDash() const
+bool PlayerMobilityScript::GetCanDash() const
 {
 	return canDash;
 }
 
-void PlayerMovilityScript::SetCanDash(bool canDash)
+void PlayerMobilityScript::SetCanDash(bool canDash)
 {
 	this->canDash = canDash;
 }
 
-bool PlayerMovilityScript::GetCanDoubleJump() const
+bool PlayerMobilityScript::GetCanDoubleJump() const
 {
 	return canDoubleJump;
 }
 
-void PlayerMovilityScript::SetCanDoubleJump(bool canDoubleJump)
+void PlayerMobilityScript::SetCanDoubleJump(bool canDoubleJump)
 {
 	this->canDoubleJump = canDoubleJump;
 }

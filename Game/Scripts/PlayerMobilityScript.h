@@ -4,12 +4,12 @@
 
 class ComponentPlayer;
 
-class PlayerMovilityScript : public Script
+class PlayerMobilityScript : public Script
 {
 
 public:
-	PlayerMovilityScript();
-	~PlayerMovilityScript() override = default;
+	PlayerMobilityScript();
+	~PlayerMobilityScript() override = default;
 
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
