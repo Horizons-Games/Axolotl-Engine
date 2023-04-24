@@ -1360,6 +1360,12 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Generics\Updatable.h">
+      <Filter>Auxiliar\Generics</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Generics\Drawable.h">
+      <Filter>Auxiliar\Generics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1442,6 +1448,9 @@
     </Filter>
     <Filter Include="UserScripts">
       <UniqueIdentifier>{c67e2114-139e-40b9-86b5-db58ee12ffda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Generics">
+      <UniqueIdentifier>{9a3b4dc9-373b-46fa-a799-b89316398cea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
