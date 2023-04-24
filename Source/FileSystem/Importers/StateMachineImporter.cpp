@@ -56,8 +56,8 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		+ (sizeof(unsigned int) * 4 + sizeof(UID) + sizeof(int) * 2) * resource->GetNumStates()
 		// size of name vector + enum
 		+ (sizeof(unsigned int) * 2) * resource->GetNumParameters()
-		// size of 2 pos State + Own UID Key + double
-		+ (sizeof(unsigned int) * 2 + sizeof(UID) + sizeof(double)) * resource->GetNumTransitions();
+		// size of 2 pos State + size vector conditions + Own UID Key + double
+		+ (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double)) * resource->GetNumTransitions();
 	
 	for(const State* state : resource->GetStates())
 	{
@@ -215,7 +215,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		cursor += bytes;
 
 		bytes = sizeof(UID);
-		memcpy(cursor, &transitionIterator.first, bytes);
+		memcpy(cursor, &(transitionIterator.first), bytes);
 
 		cursor += bytes;
 
@@ -257,7 +257,6 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 					//Condition bool doesn't have value
 				}
 			}
-			
 		}
 	}
 
@@ -446,7 +445,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		std::vector<Condition> conditions;
 		conditions.reserve(transitionHeader[2]);
-		for (int j = 0; j < transitionHeader[2]; j++) 
+		for (int j = 0; j < transitionHeader[2]; j++)
 		{
 			Condition condition;
 
