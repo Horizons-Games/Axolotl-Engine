@@ -26178,6 +26178,15 @@
                             "constructName": "EnemyDroneScript",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TestEnemyScript",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -26198,7 +26207,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.5,
+                            "localPos_Y": 0.5139999985694885,
                             "localPos_Z": -2.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -26227,7 +26236,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.5,
+                            "localPos_Y": 0.5139999985694885,
                             "localPos_Z": 2.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,

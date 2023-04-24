@@ -24,11 +24,13 @@ void EnemyDroneScript::Start()
 		if (gameObjectScripts[i]->GetConstructName() == "PatrolBehaviourScript")
 		{
 			patrolScript = gameObjectScripts[i];
+			patrolScript->GetScript()->Start();
 		}
 
 		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
 		{
 			seekScript = gameObjectScripts[i];
+			seekScript->GetScript()->Start();
 		}
 	}
 
@@ -58,11 +60,11 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (patrolScript && droneState == DroneBehavoiurs::PATROL)
 	{
-		patrolScript->Update();
+		patrolScript->GetScript()->Update(deltaTime);
 	}
 
 	if (seekScript && droneState == DroneBehavoiurs::SEEK)
 	{
-		seekScript->Update();
+		seekScript->GetScript()->Update(deltaTime);
 	}
 }

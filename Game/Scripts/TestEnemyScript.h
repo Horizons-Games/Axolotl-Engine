@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+// This script checks the collision of an enemy to the floor (should be renamed)
+
 class ComponentPlayer;
 
 class TestEnemyScript : public Script
