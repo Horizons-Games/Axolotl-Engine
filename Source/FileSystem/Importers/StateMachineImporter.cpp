@@ -67,26 +67,6 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		size += sizeof(UID) * state->transitionsDestinedHere.size();
 	}
 
-	for(const auto& it : resource->GetTransitions())
-	{
-		//Size of nameSize and Enum Condition
-		size += (sizeof(unsigned int) * 2) * it.second.conditions.size();
-
-		for (const Condition& condition : it.second.conditions)
-		{
-			size += sizeof(char) * condition.parameter.size();
-			switch (resource->GetParameters().find(condition.parameter)->second.first)
-			{
-			case FieldType::FLOAT:
-				size += sizeof(float);
-				break;
-			case FieldType::BOOL:
-				//Bool Condition doesn't have a value
-				break;
-			}
-		}
-	}
-
 	for (const auto& it : resource->GetParameters())
 	{
 		size += sizeof(char) * it.first.size();
@@ -98,6 +78,30 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		case FieldType::BOOL:
 			size += sizeof(bool);
 			break;
+		}
+	}
+
+	for(const auto& it : resource->GetTransitions())
+	{
+		//Size of nameSize and Enum Condition
+		size += (sizeof(unsigned int) * 2) * it.second.conditions.size();
+
+		for (const Condition& condition : it.second.conditions)
+		{
+			size += sizeof(char) * condition.parameter.size();
+			const auto& itParameter = resource->GetParameters().find(condition.parameter);
+			if(itParameter != resource->GetParameters().end())
+			{
+				switch (itParameter->second.first)
+				{
+				case FieldType::FLOAT:
+					size += sizeof(float);
+					break;
+				case FieldType::BOOL:
+					//Bool Condition doesn't have a value
+					break;
+				}
+			}
 		}
 	}
 
