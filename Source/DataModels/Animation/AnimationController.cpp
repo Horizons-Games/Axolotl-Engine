@@ -22,6 +22,7 @@ void AnimationController::Play(std::shared_ptr<ResourceAnimation> resource, bool
 void AnimationController::Stop()
 {
     isPlaying = false;
+    currentTime = 0;
 }
 
 void AnimationController::Update()
