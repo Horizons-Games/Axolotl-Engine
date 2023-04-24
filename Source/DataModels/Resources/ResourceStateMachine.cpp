@@ -68,12 +68,12 @@ void ResourceStateMachine::EraseTransition(UID id)
 	transitions.erase(id);
 }
 
-void ResourceStateMachine::SetParameter(const std::string& parameterName, ValidFieldType value)
+void ResourceStateMachine::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
 {
 	defaultParameters[parameterName].second = value;
 }
 
-void ResourceStateMachine::AddParameter(std::string parameterName, FieldType type, ValidFieldType value)
+void ResourceStateMachine::AddParameter(std::string parameterName, FieldTypeParameter type, ValidFieldTypeParameter value)
 {
 	int nextNum = 0;
 	for (const auto& it : defaultParameters)
@@ -137,11 +137,11 @@ void ResourceStateMachine::SelectConditionParameter(const std::string& parameter
 	const auto& it = defaultParameters.find(parameter);
 	switch (it->second.first)
 	{
-	case FieldType::FLOAT:
+	case FieldTypeParameter::FLOAT:
 		condition.conditionType = ConditionType::GREATER;
 		condition.value = 0.0f;
 		break;
-	case FieldType::BOOL:
+	case FieldTypeParameter::BOOL:
 		condition.conditionType = ConditionType::TRUECONDITION;
 		condition.value = true;
 		break;
@@ -155,7 +155,7 @@ void ResourceStateMachine::SelectCondition(const ConditionType& type, Condition&
 	condition.conditionType = type;
 }
 
-void ResourceStateMachine::SelectConditionValue(const ValidFieldType value, Condition& condition)
+void ResourceStateMachine::SelectConditionValue(const ValidFieldTypeParameter value, Condition& condition)
 {
 	condition.value = value;
 }

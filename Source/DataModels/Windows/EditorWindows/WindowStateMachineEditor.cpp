@@ -110,10 +110,10 @@ void WindowStateMachineEditor::DrawWindowContents()
 					const auto& itParameter = stateAsShared->GetParameters().find(condition.parameter);
 					if (itParameter != stateAsShared->GetParameters().end())
 					{
-						ValidFieldType valueCondition = condition.value;
+						ValidFieldTypeParameter valueCondition = condition.value;
 						switch (itParameter->second.first)
 						{
-						case FieldType::FLOAT:
+						case FieldTypeParameter::FLOAT:
 							ImGui::SetNextItemWidth(90);
 							if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition.conditionType)]))
 							{
@@ -134,7 +134,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 								stateAsShared->SelectConditionValue(valueCondition, condition);
 							}
 							break;
-						case FieldType::BOOL:
+						case FieldTypeParameter::BOOL:
 							ImGui::SetNextItemWidth(90);
 							if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
 							{
@@ -447,11 +447,11 @@ void WindowStateMachineEditor::DrawAddParameterMenu(std::shared_ptr<ResourceStat
 	{
 		if (ImGui::MenuItem("New Float"))
 		{
-			stateAsShared->AddParameter("NewFloat", FieldType::FLOAT, 0.0f);
+			stateAsShared->AddParameter("NewFloat", FieldTypeParameter::FLOAT, 0.0f);
 		}
 		if (ImGui::MenuItem("New Bool"))
 		{
-			stateAsShared->AddParameter("NewBool", FieldType::BOOL, false);
+			stateAsShared->AddParameter("NewBool", FieldTypeParameter::BOOL, false);
 		}
 		ImGui::EndMenu();
 	}
@@ -461,7 +461,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 {
 	const std::string* oldName = nullptr;
 	std::string newName;
-	TypeFieldPair field;
+	TypeFieldPairParameter field;
 	for (const auto& it : stateAsShared->GetParameters())
 	{
 
@@ -484,17 +484,17 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 			}
 		}
 		ImGui::SameLine();
-		ValidFieldType value = it.second.second;
+		ValidFieldTypeParameter value = it.second.second;
 		ImGui::SetNextItemWidth(90);
 		switch (it.second.first)
 		{
-		case FieldType::FLOAT:
+		case FieldTypeParameter::FLOAT:
 			if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
 			{
 				stateAsShared->SetParameter(it.first, value);
 			}
 			break;
-		case FieldType::BOOL:
+		case FieldTypeParameter::BOOL:
 			if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
 			{
 				stateAsShared->SetParameter(it.first, value);

@@ -4,11 +4,15 @@
 #include <memory>
 #include <unordered_map>
 #include <variant>
-#include "Auxiliar/Reflection/TypeToEnum.h"
 
+enum class FieldTypeParameter
+{
+	FLOAT,
+	BOOL
+};
 
-using ValidFieldType = std::variant<float, bool>;
-using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
+using ValidFieldTypeParameter = std::variant<float, bool>;
+using TypeFieldPairParameter = std::pair<FieldTypeParameter, ValidFieldTypeParameter>;
 
 enum class ConditionType
 {
@@ -34,7 +38,7 @@ struct Condition
 {
 	std::string parameter;
 	ConditionType conditionType;
-	ValidFieldType value;
+	ValidFieldTypeParameter value;
 };
 
 
@@ -70,7 +74,7 @@ public:
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
 	void SetStates(const std::vector<State*>& states);
-	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPair>& parameters);
+	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters);
 	void SetTransitions(const std::unordered_map<UID, Transition>& transitions);
 
 	void AddNewState(int x, int y);
@@ -82,16 +86,16 @@ public:
 	void SetDurationTransition(UID id, double transition);
 	void EraseTransition(UID id);
 
-	void SetParameter(const std::string& parameterName, ValidFieldType value);
-	void AddParameter(std::string parameterName, FieldType type, ValidFieldType value);
-	const std::unordered_map<std::string, TypeFieldPair>& GetParameters() const;
+	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
+	void AddParameter(std::string parameterName, FieldTypeParameter type, ValidFieldTypeParameter value);
+	const std::unordered_map<std::string, TypeFieldPairParameter>& GetParameters() const;
 	void EraseParameter(const std::string& parameterName);
 
 	void AddCondition(const UID transition);
 
 	void SelectConditionParameter(const std::string& parameter, Condition& condition);
 	void SelectCondition(const ConditionType& type, Condition& condition);
-	void SelectConditionValue(const ValidFieldType value, Condition& condition);
+	void SelectConditionValue(const ValidFieldTypeParameter value, Condition& condition);
 
 protected:
 	void InternalLoad() override {};
@@ -100,7 +104,7 @@ protected:
 private:
 	std::vector<State*> states;
 	std::unordered_map<UID, Transition> transitions;
-	std::unordered_map<std::string, TypeFieldPair> defaultParameters;
+	std::unordered_map<std::string, TypeFieldPairParameter> defaultParameters;
 };
 
 inline ResourceType ResourceStateMachine::GetType() const
@@ -138,7 +142,7 @@ inline void ResourceStateMachine::SetStates(const std::vector<State*>& states)
 	this->states = states;
 }
 
-inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPair>& parameters)
+inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)
 {
 	this->defaultParameters = parameters;
 }
@@ -158,7 +162,7 @@ inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::s
 	states[id]->resource = resource;
 }
 
-inline const std::unordered_map<std::string, TypeFieldPair>& ResourceStateMachine::GetParameters() const
+inline const std::unordered_map<std::string, TypeFieldPairParameter>& ResourceStateMachine::GetParameters() const
 {
 	return defaultParameters;
 }

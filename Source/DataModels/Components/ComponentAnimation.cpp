@@ -196,7 +196,7 @@ Transition* ComponentAnimation::CheckTransitions(State* state)
 			const auto& itParameter = parameters.find(condition.parameter);
 			if (itParameter != parameters.end()) 
 			{
-				ValidFieldType& value = itParameter->second.second;
+				ValidFieldTypeParameter& value = itParameter->second.second;
 				switch (condition.conditionType)
 				{
 				case ConditionType::GREATER:

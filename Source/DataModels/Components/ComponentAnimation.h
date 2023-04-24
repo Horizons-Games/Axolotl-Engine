@@ -34,7 +34,7 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SetParameter(const std::string& parameterName, ValidFieldType value);
+	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 
 private:
 	Transition* CheckTransitions(State* state);
@@ -44,14 +44,14 @@ private:
 
 	AnimationController* controller;
 	std::shared_ptr<ResourceStateMachine> stateMachine;
-	std::unordered_map<std::string, TypeFieldPair> parameters;
+	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	unsigned int actualState;
 	unsigned int nextState;
 
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
 };
 
-inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldType value)
+inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
 {
 	parameters[parameterName].second = value;
 }

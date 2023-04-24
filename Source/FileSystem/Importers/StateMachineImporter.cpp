@@ -72,10 +72,10 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		size += sizeof(char) * it.first.size();
 		switch (it.second.first)
 		{
-		case FieldType::FLOAT:
+		case FieldTypeParameter::FLOAT:
 			size += sizeof(float);
 			break;
-		case FieldType::BOOL:
+		case FieldTypeParameter::BOOL:
 			size += sizeof(bool);
 			break;
 		}
@@ -94,10 +94,10 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			{
 				switch (itParameter->second.first)
 				{
-				case FieldType::FLOAT:
+				case FieldTypeParameter::FLOAT:
 					size += sizeof(float);
 					break;
-				case FieldType::BOOL:
+				case FieldTypeParameter::BOOL:
 					//Bool Condition doesn't have a value
 					break;
 				}
@@ -188,13 +188,13 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 		cursor += bytes;
 
-		if(parameterIterator.second.first == FieldType::FLOAT)
+		if(parameterIterator.second.first == FieldTypeParameter::FLOAT)
 		{
 			bytes = sizeof(float);
 			float auxFloat = std::get<float>(parameterIterator.second.second);
 			memcpy(cursor, &auxFloat, bytes);
 		}
-		else if (parameterIterator.second.first == FieldType::BOOL)
+		else if (parameterIterator.second.first == FieldTypeParameter::BOOL)
 		{
 			bytes = sizeof(bool);
 			bool auxBool = std::get<bool>(parameterIterator.second.second);
@@ -249,14 +249,14 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			const auto& itParameter = resource->GetParameters().find(condition.parameter);
 			if(itParameter != resource->GetParameters().end())
 			{
-				if (itParameter->second.first == FieldType::FLOAT)
+				if (itParameter->second.first == FieldTypeParameter::FLOAT)
 				{
 					bytes = sizeof(float);
 					float auxFloat = std::get<float>(condition.value);
 					memcpy(cursor, &auxFloat, bytes);
 					cursor += bytes;
 				}
-				else if (itParameter->second.first == FieldType::BOOL)
+				else if (itParameter->second.first == FieldTypeParameter::BOOL)
 				{
 					//Condition bool doesn't have value
 				}
@@ -379,17 +379,17 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 	
 	resource->SetStates(states);
 
-	std::unordered_map<std::string, TypeFieldPair> parameters;
+	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	parameters.reserve(header[1]);
 	for(unsigned int i = 0; i < header[1]; i++)
 	{
 		std::string name;
-		TypeFieldPair parameter;
+		TypeFieldPairParameter parameter;
 
 		unsigned int parameterHeader[2];
 		bytes = sizeof(parameterHeader);
 		memcpy(parameterHeader, fileBuffer, bytes);
-		parameter.first = static_cast<FieldType>(parameterHeader[1]);
+		parameter.first = static_cast<FieldTypeParameter>(parameterHeader[1]);
 
 		fileBuffer += bytes;
 
@@ -401,14 +401,14 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		fileBuffer += bytes;
 
-		if(parameter.first == FieldType::FLOAT)
+		if(parameter.first == FieldTypeParameter::FLOAT)
 		{
 			bytes = sizeof(float);
 			float value;
 			memcpy(&value, fileBuffer, bytes);
 			parameter.second = value;
 		}
-		else if(parameter.first == FieldType::BOOL)
+		else if(parameter.first == FieldTypeParameter::BOOL)
 		{
 			bytes = sizeof(bool);
 			bool value;
@@ -471,7 +471,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			const auto& itParameter = resource->GetParameters().find(condition.parameter);
 			if(itParameter != resource->GetParameters().end())
 			{
-				if (itParameter->second.first == FieldType::FLOAT)
+				if (itParameter->second.first == FieldTypeParameter::FLOAT)
 				{
 					bytes = sizeof(float);
 					float value;
@@ -479,7 +479,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 					condition.value = value;
 					fileBuffer += bytes;
 				}
-				else if (itParameter->second.first == FieldType::BOOL)
+				else if (itParameter->second.first == FieldTypeParameter::BOOL)
 				{
 					//Condition Bool doesn't have value
 				}
