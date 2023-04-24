@@ -3,10 +3,13 @@
 #include "Globals.h"
 
 #include "Components/Component.h"
+
+#include "Math/float4x4.h"
+#include "Math/float4.h"
+
 #include "Program/Program.h"
 
 #include <memory>
-#include "Math/float4.h"
 
 #define COMPONENT_MESHRENDERED "MeshRendered"
 
@@ -22,6 +25,8 @@ public:
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
+	void InitBones();
+
 	void Update() override;
 
 	void Draw() override;
@@ -34,6 +39,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+	void SetBones(const std::vector<GameObject*>& bones);
 
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
@@ -67,9 +73,18 @@ private:
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;
 
-	WindowMeshInput* inputMesh;
+	std::vector<GameObject*> bones;
+	std::vector<float4x4> skinPalette;
 
+	unsigned ssboPalette;
+
+	WindowMeshInput* inputMesh;
 };
+
+inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)
+{
+	this->bones = bones;
+}
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {

@@ -10,8 +10,6 @@
 
 #include "FileSystem/ModuleResources.h"
 
-#include "Resources/ResourceModel.h"
-#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceAnimation.h"
@@ -27,6 +25,7 @@
 #include "Components/ComponentAnimation.h"
 
 #include "Camera/CameraGameObject.h"
+
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Program/Program.h"
 
@@ -261,6 +260,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	std::stack<std::pair<int, GameObject*>> parentsStack;
 	std::vector<ResourceModel::Node*> nodes = resourceModel->GetNodes();
+	std::vector<GameObject*> gameObjectNodes;
 
 	parentsStack.push(std::make_pair(-1, gameObjectModel));
 
@@ -277,6 +277,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		ComponentTransform* transformNode = 
 			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
+		gameObjectNodes.push_back(gameObjectNode);
 
 		float3 pos;
 		float3 scale;
@@ -312,8 +313,35 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 					->CreateComponent(ComponentType::MESHRENDERER));
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material);
+
+			gameObjectNodes.push_back(gameObjectModelMesh);
 		}
-		static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+	}
+
+	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+
+	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
+	{
+		child->SetRootGO(gameObjectNodes[0]);
+
+		for (Component* component : child->GetComponents())
+		{
+			if (component->GetType() == ComponentType::MESHRENDERER)
+			{
+				ComponentMeshRenderer* meshRenderer = 
+					static_cast<ComponentMeshRenderer*>(component);
+
+				const std::vector<Bone>& bones = 
+					meshRenderer->GetMesh()->GetBones();
+
+				if (!bones.empty())
+				{
+					GameObject* rootBone = FindRootBone(gameObjectModel, bones);
+					meshRenderer->SetBones(CacheBoneHierarchy(rootBone, bones));
+					meshRenderer->InitBones();
+				}
+			}
+		}
 	}
 }
 
@@ -329,6 +357,92 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
+}
+
+GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones)
+{
+	if (node->GetParent())
+	{
+		bool isNode = false, isParentNode = false;
+
+		for (GameObject* child : node->GetChildren())
+		{
+			isNode = false;
+			isParentNode = false;
+
+			for (const Bone& bone : bones)
+			{
+				if (child->GetParent()->GetName() == bone.name)
+				{
+					isParentNode = true;
+					break;
+				}
+				else if (child->GetName() == bone.name)
+				{
+					isNode = true;
+				}
+			}
+
+			if (isNode && !isParentNode)
+			{
+				return child;
+			}
+		}
+	}
+	else
+	{
+		for (const Bone& bone : bones)
+		{
+			if (node->GetName() == bone.name)
+			{
+				return node;
+			}
+		}
+	}
+
+	GameObject* rootBone = nullptr;
+	
+	for (GameObject* child : node->GetChildren())
+	{
+		rootBone = FindRootBone(child, bones);
+
+		if (rootBone)
+		{
+			return rootBone;
+		}
+	}
+
+	return nullptr;
+}
+
+const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones)
+{
+	std::vector<GameObject*> boneHierarchy;
+	
+	boneHierarchy.push_back(gameObjectNode);
+
+	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
+
+	for (GameObject* child : children)
+	{
+		const std::string& name = child->GetName();
+
+		for (const Bone& bone : bones)
+		{
+			if (name == bone.name)
+			{
+				const std::vector<GameObject*>& newBoneHierarchy = CacheBoneHierarchy(child, bones);
+
+				if (!newBoneHierarchy.empty())
+				{
+					boneHierarchy.insert(boneHierarchy.cend(), newBoneHierarchy.cbegin(), newBoneHierarchy.cend());
+				}
+
+				break;
+			}
+		}
+	}
+	return boneHierarchy;
 }
 
 void Scene::RemoveFatherAndChildren(const GameObject* father)

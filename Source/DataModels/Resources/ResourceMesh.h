@@ -77,8 +77,8 @@ public:
 	void SetAttachWeight(const unsigned int vertexId, const float weight);
 	void SetNumWeights(const std::vector<unsigned int>& numWeights);
 
-
 	void IncrementAttachNumBones(const unsigned int vertexId);
+	void NormalizeWeights(const unsigned int attachId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
@@ -105,10 +105,11 @@ private:
 	unsigned int numIndexes;
 	unsigned int numBones;
 	unsigned int materialIndex;
+
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
-	std::vector<float3> tangents{};
+	std::vector<float3> tangents;
 	std::vector<std::vector<unsigned int> > facesIndices;
 	std::vector<Bone> bones;
 	std::vector<Attach> attaches;
@@ -288,5 +289,24 @@ inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
 	if (attaches[vertexId].numBones < bonesPerVertex)
 	{
 		++attaches[vertexId].numBones;
+	}
+}
+
+inline void ResourceMesh::NormalizeWeights(const unsigned int attachId)
+{
+	float totalWeight = 0.0f;
+
+	for (unsigned int i = 0; i < bonesPerVertex; ++i)
+	{
+		totalWeight += attaches[attachId].weights[i];
+	}
+
+	if (totalWeight != 1.0f)
+	{
+		for (unsigned int i = 0; i < bonesPerVertex; ++i)
+		{
+			attaches[attachId].weights[i] = 
+				attaches[attachId].weights[i] / totalWeight;
+		}
 	}
 }

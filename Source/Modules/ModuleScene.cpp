@@ -76,7 +76,7 @@ update_status ModuleScene::Update()
 	}
 #endif // DEBUG
 
-	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
+	UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 
 	return update_status::UPDATE_CONTINUE;
 }

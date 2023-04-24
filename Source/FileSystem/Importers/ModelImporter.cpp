@@ -6,6 +6,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceAnimation.h"
@@ -36,10 +38,10 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 
 	ENGINE_LOG("Import Model from %s", filePath);
 
-	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 	if (scene)
 	{
-		ImportNode(scene, filePath, resource, scene->mRootNode, -1);
+		ImportNode(scene, filePath, resource, scene->mRootNode, -1, float4x4::identity);
 		ImportAnimations(scene, resource);
 		aiReleaseImport(scene);
 
@@ -321,7 +323,15 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		SaveInfoAnimation(animation, fileBuffer, size);
 
 		std::string animationName = animation->mName.C_Str();
+
+		int pos = 0;
+		while (pos = animationName.find('|') != std::string::npos) {
+			animationName.replace(pos, animationName.length(), "_");
+		}
+
 		std::string animationPath = ANIMATION_PATH + animationName + ANIMATION_EXTENSION;
+
+
 
 		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
@@ -331,55 +341,68 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 }
 
 void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const std::shared_ptr<ResourceModel>& resource,
-	const aiNode* node, int parentIdx)
+	const aiNode* node, int parentIdx, const float4x4& accTransform)
 {
 	std::string name = node->mName.C_Str();
 	const float4x4 transform = (*(float4x4*)&node->mTransformation);
-	ResourceModel::Node* resourceNode = new ResourceModel::Node;
 
-	resourceNode->name = &name[0];
-	resourceNode->parent = parentIdx;
-	resourceNode->transform = transform;
-
-	ENGINE_LOG("Node name: %s", name.c_str());
-	if (node->mParent)
+	if (name.find("$AssimpFbx$") != std::string::npos)
 	{
-		ENGINE_LOG("Parent node name: %s", node->mParent->mName.C_Str());
+		for (unsigned int i = 0; i < node->mNumChildren; ++i) 
+		{
+			const float4x4& newAcctransform = accTransform * transform;
+
+			ImportNode(scene, filePath, resource, node->mChildren[i], parentIdx, newAcctransform);
+		}
 	}
-	ENGINE_LOG("Node parentIdx: %i", parentIdx);
-
-	float3 pos;
-	float4x4 rot; 
-	float3 scale;
-
-	transform.Decompose(pos, rot, scale);
-
-	ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)", 
-		pos.x, pos.y, pos.z, RadToDeg(rot.ToEulerXYZ().x), RadToDeg(rot.ToEulerXYZ().y), RadToDeg(rot.ToEulerXYZ().z), scale.x, scale.y, scale.z);
-
-	// loading meshes and materials
-	for (int i = 0; i < node->mNumMeshes; ++i)
+	else
 	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		ResourceModel::Node* resourceNode = new ResourceModel::Node;
 
-		ENGINE_LOG("Importing mesh %s", mesh->mName.C_Str());
-		ENGINE_LOG("Importing material %s", material->GetName().C_Str());
+		resourceNode->name = &name[0];
+		resourceNode->parent = parentIdx;
+		resourceNode->transform = transform*accTransform;
 
-		std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
-		std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
+		ENGINE_LOG("Node name: %s", name.c_str());
+		if (node->mParent)
+		{
+			ENGINE_LOG("Parent node name: %s", node->mParent->mName.C_Str());
+		}
+		ENGINE_LOG("Node parentIdx: %i", parentIdx);
 
-		resourceNode->meshRenderers.push_back(std::make_pair(resourceMesh, resourceMaterial));
-	}
-	resource->AppendNode(resourceNode);
+		float3 pos;
+		float4x4 rot;
+		float3 scale;
 
-	ENGINE_LOG("\n", parentIdx);
+		transform.Decompose(pos, rot, scale);
 
-	int newParentIdx = resource->GetNumNodes() - 1;
+		ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)",
+			pos.x, pos.y, pos.z, RadToDeg(rot.ToEulerXYZ().x), RadToDeg(rot.ToEulerXYZ().y), RadToDeg(rot.ToEulerXYZ().z), scale.x, scale.y, scale.z);
 
-	for (int i = 0; i < node->mNumChildren; ++i)
-	{
-		ImportNode(scene, filePath, resource, node->mChildren[i], newParentIdx);
+		// loading meshes and materials
+		for (int i = 0; i < node->mNumMeshes; ++i)
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+			ENGINE_LOG("Importing mesh %s", mesh->mName.C_Str());
+			ENGINE_LOG("Importing material %s", material->GetName().C_Str());
+
+			std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
+			std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
+
+			resourceNode->meshRenderers.push_back(std::make_pair(resourceMesh, resourceMaterial));
+		}
+		resource->AppendNode(resourceNode);
+
+		ENGINE_LOG("\n", parentIdx);
+
+		int newParentIdx = resource->GetNumNodes() - 1;
+
+		for (int i = 0; i < node->mNumChildren; ++i)
+		{
+			ImportNode(scene, filePath, resource, node->mChildren[i], newParentIdx, float4x4::identity);
+		}
 	}
 }
 
