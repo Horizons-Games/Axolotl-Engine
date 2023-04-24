@@ -1,4 +1,4 @@
-#include "TestEnemyScript.h"
+#include "EnemyCollidesFloorScript.h"
 
 #include "Application.h"
 
@@ -12,16 +12,15 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 
-REGISTERCLASS(TestEnemyScript);
+REGISTERCLASS(EnemyCollidesFloorScript);
 
-TestEnemyScript::TestEnemyScript() : Script()
+EnemyCollidesFloorScript::EnemyCollidesFloorScript() : Script()
 {
 
 }
 
-void TestEnemyScript::PreUpdate(float deltaTime)
+void EnemyCollidesFloorScript::PreUpdate(float deltaTime)
 {
-
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));

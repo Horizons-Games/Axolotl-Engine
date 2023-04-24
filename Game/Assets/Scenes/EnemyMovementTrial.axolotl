@@ -26184,7 +26184,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "TestEnemyScript",
+                            "constructName": "EnemyCollidesFloorScript",
                             "fields": null
                         }
                     }

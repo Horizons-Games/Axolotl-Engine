@@ -304,7 +304,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerMovilityScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TestEnemyScript.cpp">
+    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -641,7 +641,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerMovilityScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TestEnemyScript.h">
+    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>
