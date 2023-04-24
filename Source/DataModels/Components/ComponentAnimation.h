@@ -2,12 +2,16 @@
 
 #include "Components/Component.h"
 
+#include "Resources/ResourceStateMachine.h"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 class AnimationController;
 class ResourceAnimation;
 class ResourceStateMachine;
+class State;
+class Transition;
 
 class ComponentAnimation : public Component
 {
@@ -16,7 +20,6 @@ public:
 	~ComponentAnimation() override;
 
 	AnimationController* GetController();
-	void SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations);
 
 	const std::shared_ptr<ResourceStateMachine>& GetStateMachine() const;
 	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
@@ -30,8 +33,11 @@ public:
 	void LoadOptions(Json& meta) override;
 
 private:
+	Transition* CheckTransitions(State* state);
+
 	AnimationController* controller;
 	std::shared_ptr<ResourceStateMachine> stateMachine;
-	std::vector<std::shared_ptr<ResourceAnimation>> animations;
-	unsigned int animationIx;
+	std::unordered_map<std::string, TypeFieldPair> parameters;
+	unsigned int actualState;
+	unsigned int nextState;
 };

@@ -7,6 +7,7 @@
 
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleResources.h"
+#include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceStateMachine.h"
 
 #include "GameObject/GameObject.h"
@@ -17,7 +18,6 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
 	: Component(ComponentType::ANIMATION, active, owner, false) 
 {
 	controller = new AnimationController();
-	animationIx = 0;
 }
 
 ComponentAnimation::~ComponentAnimation()
@@ -30,14 +30,14 @@ AnimationController* ComponentAnimation::GetController()
 	return controller;
 }
 
-void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations)
-{
-	this->animations = animations;
-	animationIx = 0;
-
-	controller->Play(animations[animationIx], true);
-	//controller->Stop();
-}
+//void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations)
+//{
+//	this->animations = animations;
+//	animationIx = 0;
+//
+//	controller->Play(animations[animationIx], true);
+//	//controller->Stop();
+//}
 
 const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
 {
@@ -47,30 +47,63 @@ const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine
 void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine)
 {
 	this->stateMachine = stateMachine;
+	if (stateMachine)
+	{
+		this->parameters = stateMachine->GetParameters();
+	}
+	actualState = 0;
 }
 
 void ComponentAnimation::Update()
 {
-	controller->Update();
-
-	if (!animations.empty() && controller->GetPlay())
+	if (stateMachine)
 	{
-		std::list<GameObject*> children = owner->GetGameObjectsInside();
+		controller->Update();
 
-		for (auto child : children)
+		if(actualState == nextState)
 		{
-			float3 pos;
-			Quat rot;
-
-			if (controller->GetTransform(&child->GetName()[0], pos, rot))
+			State* state = stateMachine->GetStates()[actualState];
+			if (state && controller->GetPlay())
 			{
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-				transform->SetPosition(pos);
-				transform->SetRotation(float4x4(rot));
+				std::list<GameObject*> children = owner->GetGameObjectsInside();
+
+				for (auto child : children)
+				{
+					float3 pos;
+					Quat rot;
+
+					if (controller->GetTransform(&child->GetName()[0], pos, rot))
+					{
+						ComponentTransform* transform =
+							static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+						transform->SetPosition(pos);
+						transform->SetRotation(float4x4(rot));
+					}
+				}
+				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+			}
+
+			Transition* checkedTransition = CheckTransitions(state);
+			if (checkedTransition != nullptr)
+			{
+				nextState = stateMachine->GetIdState(*checkedTransition->destination);
 			}
 		}
-		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+		else 
+		{
+			//Pasamos a la nueva state con tal de tener algo
+			//2. Reproducimos la TRANSICION e INTERPOLACIÓN de actualState a NextState de forma normal
+			actualState = nextState;
+			State* state = stateMachine->GetStates()[actualState];
+			if(state->resource) 
+			{
+				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), true);
+			}
+			else
+			{
+				controller->Stop();
+			}
+		}
 	}
 }
 
@@ -151,4 +184,58 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	{
 		SetStateMachine(resourceState);
 	}
+}
+
+Transition* ComponentAnimation::CheckTransitions(State* state)
+{
+	if(!state)
+	{
+		return nullptr;
+	}
+
+	for (UID idTransition : state->transitionsOriginedHere)
+	{
+		Transition& actualTransition = stateMachine->GetTransitions()[idTransition];
+		bool conditionCheck = true;
+		for(Condition& condition : actualTransition.conditions)
+		{
+			const auto& itParameter = parameters.find(condition.parameter);
+			if (itParameter != parameters.end()) 
+			{
+				ValidFieldType& value = itParameter->second.second;
+				switch (condition.conditionType)
+				{
+				case ConditionType::GREATER:
+					conditionCheck = value > condition.value;
+					break;
+				case ConditionType::LESS:
+					conditionCheck = value < condition.value;
+					break;
+				case ConditionType::EQUAL:
+					conditionCheck = value == condition.value;
+					break;
+				case ConditionType::NOTEQUAL:
+					conditionCheck = value != condition.value;
+					break;
+				case ConditionType::TRUECONDITION:
+					conditionCheck = std::get<bool>(value) == true;
+					break;
+				case ConditionType::FALSECONDITION:
+					conditionCheck = std::get<bool>(value) == false;
+					break;
+				default:
+					break;
+				}
+			}
+
+			if (!conditionCheck) break;
+		}
+		
+		if (conditionCheck) 
+		{
+			return &actualTransition;
+		}
+	}
+
+	return nullptr;
 }
