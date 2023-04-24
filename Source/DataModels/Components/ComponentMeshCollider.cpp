@@ -20,15 +20,6 @@ ComponentMeshCollider::~ComponentMeshCollider()
 {
 }
 
-void ComponentMeshCollider::Update()
-{
-}
-
-void ComponentMeshCollider::Draw()
-{
-
-}
-
 void ComponentMeshCollider::SaveOptions(Json& meta)
 {
 	// Do not delete these

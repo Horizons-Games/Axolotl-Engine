@@ -82,7 +82,7 @@ update_status ModulePlayer::Update()
 #else //ENGINE
 	if (player)
 	{
-		player->Update();
+		//player->Update();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
 		trans->UpdateTransformMatrices();
 	}
