@@ -8806,6 +8806,36 @@
                             "active": true,
                             "removed": true
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMovilityScript",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 60.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 3
+                                }
+                            ]
+                        }
                     }
                 ]
             }

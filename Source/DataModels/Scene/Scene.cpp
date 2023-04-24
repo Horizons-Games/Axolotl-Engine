@@ -1,5 +1,3 @@
-#pragma warning (disable: 4834)
-
 #include "Scene.h"
 
 #include "Application.h"
