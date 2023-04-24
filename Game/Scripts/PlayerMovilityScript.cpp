@@ -320,7 +320,6 @@ void PlayerMovilityScript::Move()
 	}*/
 }
 
-
 void PlayerMovilityScript::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
@@ -348,3 +347,52 @@ void PlayerMovilityScript::Rotate()
 	}
 }
 
+float PlayerMovilityScript::GetSpeed() const
+{
+	return speed;
+}
+
+void PlayerMovilityScript::SetSpeed(float speed)
+{
+	this->speed = speed;
+}
+
+float PlayerMovilityScript::GetJumpParameter() const
+{
+	return jumpParameter;
+}
+
+void PlayerMovilityScript::SetJumpParameter(float jumpParameter)
+{
+	this->jumpParameter = jumpParameter;
+}
+
+float PlayerMovilityScript::GetDashForce() const
+{
+	return dashForce;
+}
+
+void PlayerMovilityScript::SetDashForce(float dashForce)
+{
+	this->dashForce = dashForce;
+}
+
+bool PlayerMovilityScript::GetCanDash() const
+{
+	return canDash;
+}
+
+void PlayerMovilityScript::SetCanDash(bool canDash)
+{
+	this->canDash = canDash;
+}
+
+bool PlayerMovilityScript::GetCanDoubleJump() const
+{
+	return canDoubleJump;
+}
+
+void PlayerMovilityScript::SetCanDoubleJump(bool canDoubleJump)
+{
+	this->canDoubleJump = canDoubleJump;
+}
