@@ -100,35 +100,23 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw()
 {
-	DrawBones(owner, owner);
+	DrawBones(owner);
 }
 
-void ComponentAnimation::DrawBones(GameObject* parent, GameObject* lastNonExtraNode) const
+void ComponentAnimation::DrawBones(GameObject* parent) const
 {
 	ComponentTransform* parentTransform = 
 		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
-	ComponentTransform* lastTransform =
-		static_cast<ComponentTransform*>(lastNonExtraNode->GetComponent(ComponentType::TRANSFORM));
-
 	std::vector<GameObject*> children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
-		if (child->GetName().find("$AssimpFbx$") == std::string::npos)
-		{
-			ComponentTransform* childTransform =
-				static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform =
+			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue);
+		dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
 
-			dd::line(childTransform->GetGlobalPosition(), lastTransform->GetGlobalPosition(), dd::colors::Blue);
-			dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
-
-			DrawBones(child, child);
-		}
-		else
-		{
-			DrawBones(child, lastNonExtraNode);
-		}
-		
+		DrawBones(child);
 	}
 }
 

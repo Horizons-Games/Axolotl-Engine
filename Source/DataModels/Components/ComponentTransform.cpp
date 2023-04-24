@@ -112,10 +112,6 @@ void ComponentTransform::CalculateMatrices()
 	if (parent)
 	{
 		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
-		//parentTransform->CalculateMatrices();
-
-		// Set local matrix
-		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -125,6 +121,25 @@ void ComponentTransform::CalculateMatrices()
 	else
 	{
 		globalMatrix = localMatrix;
+	}
+}
+
+const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
+{
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
+
+	const GameObject* parent = GetOwner()->GetParent();
+	const GameObject* root = GetOwner()->GetRootGO();
+
+	if (parent != root)
+	{
+		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
+
+		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
+	}
+	else
+	{
+		return localMatrix;
 	}
 }
 

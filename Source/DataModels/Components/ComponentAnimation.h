@@ -27,7 +27,7 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void DrawBones(GameObject* parent, GameObject* lastNonExtraNode) const;
+	void DrawBones(GameObject* parent) const;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

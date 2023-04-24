@@ -27,7 +27,7 @@ protected:
 
 private:
     void ImportNode(const aiScene* scene, const char* filePath, const std::shared_ptr<ResourceModel>& resource,
-        const aiNode* parent, int parentIdx);
+        const aiNode* parent, int parentIdx, const float4x4& accTransform);
     std::shared_ptr<ResourceMesh> ImportMesh(const aiMesh* mesh, const char* filePath, int iteration);
     std::shared_ptr<ResourceMaterial> ImportMaterial(const aiMaterial* material, const char* filePath, int iteration);
     void ImportAnimations(const aiScene* scene, const std::shared_ptr<ResourceModel>& resource);
