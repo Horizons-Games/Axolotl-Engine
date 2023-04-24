@@ -82,7 +82,7 @@
         },
         {
             "GameObject": {
-                "name": "CantiaConScripts",
+                "name": "CantinaWithMovScript",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,

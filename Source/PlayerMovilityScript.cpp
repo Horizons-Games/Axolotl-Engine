@@ -34,6 +34,10 @@ void PlayerMovilityScript::Start()
 	{
 		jumps = 2;
 	}
+	else
+	{
+		jumps = 1;
+	}
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 }
 
@@ -138,7 +142,8 @@ void PlayerMovilityScript::Move()
 				childTrans->SetScale(childTrans->GetScale() / 2);
 			}
 		}
-	}else if (isCrouch)
+	}
+	else if (isCrouch)
 	{
 		size /= 4.f;
 	}
@@ -281,6 +286,11 @@ void PlayerMovilityScript::Move()
 	{
 		jumps = 2;
 	}
+	else if (rigidBody->IsOnGround() && !canDoubleJump)
+	{
+		jumps = 1;
+	}
+	
 
 	trans->UpdateTransformMatrices();
 
