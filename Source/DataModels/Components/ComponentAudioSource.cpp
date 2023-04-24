@@ -19,14 +19,6 @@ ComponentAudioSource::~ComponentAudioSource()
     AK::SoundEngine::UnregisterGameObj(sourceID);
 }
 
-void ComponentAudioSource::Update()
-{
-}
-
-void ComponentAudioSource::Draw()
-{
-}
-
 void ComponentAudioSource::OnTransformChanged()
 {
     const float3& pos = transform->GetGlobalPosition();

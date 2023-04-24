@@ -10,9 +10,6 @@ public:
 	ComponentAudioListener(const bool active, GameObject* owner);
 	~ComponentAudioListener() override;
 
-	void Update() override;
-
-	void Draw() override;
 	void OnTransformChanged() override;
 
 	void SaveOptions(Json& meta) override;

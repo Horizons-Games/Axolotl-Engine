@@ -18,14 +18,6 @@ ComponentAudioListener::~ComponentAudioListener()
     AK::SoundEngine::UnregisterGameObj(listenerID);
 }
 
-void ComponentAudioListener::Update()
-{
-}
-
-void ComponentAudioListener::Draw()
-{
-}
-
 void ComponentAudioListener::OnTransformChanged()
 {
     const float3& pos = transform->GetGlobalPosition();

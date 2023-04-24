@@ -11,9 +11,6 @@ public:
 	ComponentAudioSource(const bool active, GameObject* owner);
 	~ComponentAudioSource() override;
 
-	void Update() override;
-
-	void Draw() override;
 	void OnTransformChanged() override;
 
 	void SaveOptions(Json& meta) override;
