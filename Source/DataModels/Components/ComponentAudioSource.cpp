@@ -3,6 +3,7 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "FileSystem/Json.h"
 
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     : Component(ComponentType::AUDIOSOURCE, active, owner, true), sourceID(owner->GetUID())
@@ -36,10 +37,18 @@ void ComponentAudioSource::OnTransformChanged()
 
 void ComponentAudioSource::SaveOptions(Json& meta)
 {
+	// Do not delete these
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = (bool)active;
+	meta["removed"] = (bool)canBeRemoved;
 }
 
 void ComponentAudioSource::LoadOptions(Json& meta)
 {
+	// Do not delete these
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	canBeRemoved = (bool)meta["removed"];
 }
 
 void ComponentAudioSource::Enable()
