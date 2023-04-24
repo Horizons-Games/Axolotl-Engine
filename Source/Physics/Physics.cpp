@@ -95,6 +95,26 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	return false;
 }
 
+bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+#endif
+	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+
+	GetRaycastHitInfo(hitGameObjects, ray, hit, exceptionGameObject);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
@@ -257,6 +277,75 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				hitNormal = triangle.NormalCCW();
 				nearestHitPoint = exactHitPoint;
 			}
+		}
+	}
+
+	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = nearestHitPoint;
+	hit.normal = hitNormal;
+}
+
+void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
+{
+	GameObject* newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
+
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
+	{
+		const GameObject* actualGameObject = hitGameObject.second;
+		if (actualGameObject && actualGameObject != exceptionGameObject)
+		{
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
+				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+
+			if (!componentMeshRenderer)
+			{
+				continue;
+			}
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
+
+			if (!goMeshAsShared)
+			{
+				continue;
+			}
+
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
+				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
+			for (const Triangle& triangle : meshTriangles)
+			{
+				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+				if (!hit)
+				{
+					continue;
+				}
+
+				if (thisDistance >= minCurrentDistance)
+				{
+					continue;
+				}
+
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
+				minCurrentDistance = thisDistance;
+				hitNormal = triangle.NormalCCW();
+				nearestHitPoint = exactHitPoint;
+			}
+		}
+		else 
+		{
+			float chapuza = 0.0f;
 		}
 	}
 
