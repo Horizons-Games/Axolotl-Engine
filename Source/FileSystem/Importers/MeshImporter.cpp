@@ -262,6 +262,11 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 		}
 	}
 
+	for (unsigned int i = 0; i < resource->GetAttaches().size(); ++i)
+	{
+		resource->NormalizeWeights(i);
+	}
+
 	resource->SetBones(bones);
 	resource->SetNumWeights(allNumWeights);
 }

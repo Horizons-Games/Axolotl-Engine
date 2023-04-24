@@ -78,6 +78,7 @@ public:
 	void SetNumWeights(const std::vector<unsigned int>& numWeights);
 
 	void IncrementAttachNumBones(const unsigned int vertexId);
+	void NormalizeWeights(const unsigned int attachId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
 
@@ -86,7 +87,6 @@ protected:
 	void InternalUnload() override;
 
 private:
-	void NormalizeWeights(const unsigned int attachId);
 	void CreateVBO();
 	void CreateEBO();
 	void CreateVAO();
@@ -289,10 +289,6 @@ inline void ResourceMesh::IncrementAttachNumBones(const unsigned int vertexId)
 	if (attaches[vertexId].numBones < bonesPerVertex)
 	{
 		++attaches[vertexId].numBones;
-	} 
-	else if (attaches[vertexId].numBones == bonesPerVertex)
-	{
-		NormalizeWeights(vertexId);
 	}
 }
 
@@ -305,7 +301,7 @@ inline void ResourceMesh::NormalizeWeights(const unsigned int attachId)
 		totalWeight += attaches[attachId].weights[i];
 	}
 
-	if (totalWeight > 1.0f)
+	if (totalWeight != 1.0f)
 	{
 		for (unsigned int i = 0; i < bonesPerVertex; ++i)
 		{

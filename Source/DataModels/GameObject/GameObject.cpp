@@ -572,11 +572,17 @@ GameObject* GameObject::FindGameObject(const std::string& name)
 	}
 	else
 	{
-		for (const std::unique_ptr<GameObject>& child : children)
+		for (std::unique_ptr<GameObject>& child : children)
 		{
-			return child->FindGameObject(name);
+			GameObject* returnedGO = child->FindGameObject(name);
+
+			if (returnedGO)
+			{
+				return returnedGO;
+			}
 		}
 	}
+	return nullptr;
 }
 
 bool GameObject::IsAChild(const GameObject* child)

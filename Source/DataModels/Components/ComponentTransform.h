@@ -54,8 +54,8 @@ public:
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
-	const float4x4 CalculatePaletteGlobalMatrix();
 	void CalculateMatrices();
+	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices();
 
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
