@@ -229,7 +229,7 @@ GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* pa
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
-	gameObject->GetParent()->UnlinkChild(gameObject);
+	delete gameObject->GetParent()->UnlinkChild(gameObject);
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
@@ -293,13 +293,13 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 		Component* component = father->GetComponent(ComponentType::CAMERA);
 		if (component)
 		{
-			std::remove_if(std::begin(sceneCameras),
+			std::ignore = std::remove_if(std::begin(sceneCameras),
 				std::end(sceneCameras),
 				[&component](ComponentCamera* camera) { return camera == component; });
 		}
 	}
 
-	std::remove_if(std::begin(sceneGameObjects),
+	std::ignore = std::remove_if(std::begin(sceneGameObjects),
 		std::end(sceneGameObjects),
 		[&father](GameObject* gameObject) { return gameObject == father; });
 }
@@ -579,7 +579,7 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 
 void Scene::RemoveNonStaticObject(GameObject* gameObject)
 {
-	std::remove_if(std::begin(nonStaticObjects),
+	std::ignore = std::remove_if(std::begin(nonStaticObjects),
 		std::end(nonStaticObjects),
 		[&gameObject](GameObject* anotherObject) { return anotherObject == gameObject; });
 }
