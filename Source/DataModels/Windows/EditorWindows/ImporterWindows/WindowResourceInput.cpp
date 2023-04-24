@@ -9,8 +9,8 @@ WindowResourceInput::WindowResourceInput()
 {
 	dialogName = "Select Texture";
 	title = "Load Resource";
-	filters = "Resource Files (*.png){.png}";
-	startPath = "Assets/Textures";
+	filters = "Resource Files (*.anim){.anim}";
+	startPath = "Assets";
 }
 
 WindowResourceInput::~WindowResourceInput()
