@@ -40,13 +40,13 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 	// When this behaviour is triggered, the enemy will patrol between its waypoints
 	// (This can be modularized into any amout when the scripts can accept vectors)
-	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 0.01f))
+	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 0.1f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
 		ownerRigidBody->SetRotationTarget(Quat(wayPointTwoTransform->GetRotation()));
 	}
 
-	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 0.01f))
+	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 0.1f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
 		ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));

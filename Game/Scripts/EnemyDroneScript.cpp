@@ -34,7 +34,7 @@ void EnemyDroneScript::Start()
 		}
 	}
 
-	droneState = DroneBehavoiurs::PATROL;
+	droneState = DroneBehavoiurs::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
@@ -47,12 +47,14 @@ void EnemyDroneScript::Update(float deltaTime)
 		ComponentTransform* seekTargetTransform = 
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f))
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+			&& droneState != DroneBehavoiurs::SEEK)
 		{
 			droneState = DroneBehavoiurs::SEEK;
 		}
 
-		else
+		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+			&& droneState != DroneBehavoiurs::PATROL)
 		{
 			droneState = DroneBehavoiurs::PATROL;
 
