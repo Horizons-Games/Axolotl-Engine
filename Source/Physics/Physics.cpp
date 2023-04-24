@@ -21,6 +21,28 @@
 #include "Geometry/Triangle.h"
 #include <queue>
 
+float2 Physics::ScreenToScenePosition(const float2& mousePosition) 
+{
+#ifdef ENGINE
+	// normalize the input to [-1, 1].
+	const WindowScene* windowScene = App->editor->GetScene();
+	ImVec2 startPosScene = windowScene->GetStartPos();
+	ImVec2 endPosScene = windowScene->GetEndPos();
+	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	{
+		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x
+			&& mousePosition.y > startPosScene.y && mousePosition.y < endPosScene.y)
+		{
+			float2 mousePositionAdjusted = mousePosition;
+			mousePositionAdjusted.x -= startPosScene.x;
+			mousePositionAdjusted.y -= startPosScene.y;
+
+			return mousePositionAdjusted;
+		}
+	}
+#endif
+	return mousePosition;
+}
 bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 {
 
@@ -61,6 +83,7 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
 #endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
 
@@ -74,11 +97,15 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
-	bool hit = ray.Intersects(go->GetEncapsuledAABB(), nearDistance, farDistance);
-
-	if (hit && go->IsActive())
+	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	if (transform)
 	{
-		return true;
+		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
+
+		if (hit && go->IsActive())
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -92,6 +119,19 @@ void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitG
 	if (HasIntersection(ray, go, nearDistance, farDistance)) 
 	{
 		hitGameObjects[nearDistance] = go;
+	}
+}
+
+void Physics::AddIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects)
+{
+	float nearDistance, farDistance;
+	for (GameObject* gameObject : dynamicObjects)
+	{
+		if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+		{
+			hitGameObjects[nearDistance] = gameObject;
+		}
 	}
 }
 

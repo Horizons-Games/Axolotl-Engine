@@ -3,6 +3,7 @@
 
 class GameObject;
 class Camera;
+class ComponentPlayer;
 
 class ModulePlayer : public Module
 {
@@ -20,15 +21,36 @@ public:
 	void Rotate();
 
 	GameObject* GetPlayer();
-	void SetPlayer(std::unique_ptr<GameObject> player);
+	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
+	bool GetIsLoadPlayer();
 
 	void LoadNewPlayer();
+	void UnloadNewPlayer();
 
+	bool IsStatic();
+
+	void SetReadyToEliminate(bool readyToEliminate);
 
 private:
-	std::unique_ptr <GameObject>  player;
+	GameObject*  player;
 	Camera* cameraPlayer;
-	float speed = 3;
+	ComponentPlayer* componentPlayer;
+
+	float speed;
+	bool isPlayerLoad;
+	bool readyToEliminate;
+
+	bool bootsOnGround = false;
 	
 };
+
+inline bool ModulePlayer::GetIsLoadPlayer()
+{
+	return isPlayerLoad;
+}
+
+inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
+{
+	this->readyToEliminate =  readyToEliminate;
+}

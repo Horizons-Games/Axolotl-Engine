@@ -1,5 +1,691 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<ClCompile Include="DataModels\Timer\Timer.cpp">
+			<Filter>DataModels\Timer</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\GameObject\GameObject.cpp">
+			<Filter>DataModels\GameObject</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleDebugDraw.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleEditor.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleCamera.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleInput.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleProgram.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleRender.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleScene.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleWindow.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\SubWindow.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowRenderer.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowAbout.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowConfiguration.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowConsole.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowScene.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowFPS.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowHardware.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowWindow.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowCamera.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowHierarchy.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentTransform.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\ModuleFileSystem.cpp">
+			<Filter>FileSystem</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentLight.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentPointLight.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\UniqueID.cpp">
+			<Filter>FileSystem</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\ModuleResources.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceTexture.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Json.cpp">
+			<Filter>FileSystem</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentCamera.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\ModelImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowEditorControl.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceScene.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\MaterialImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\SceneImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp">
+			<Filter>FileSystem\Importers</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowFileBrowser.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataStructures\Quadtree.cpp">
+			<Filter>DataStructures</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Scene\Scene.cpp">
+			<Filter>DataModels\Scene</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceModel.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Skybox\Skybox.cpp">
+			<Filter>DataModels\Skybox</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Program\Program.cpp">
+			<Filter>DataModels\Program</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Camera\Camera.cpp">
+			<Filter>DataModels\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Camera\CameraEngine.cpp">
+			<Filter>DataModels\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Camera\CameraGameObject.cpp">
+			<Filter>DataModels\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Camera\CameraGod.cpp">
+			<Filter>DataModels\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\WindowMainMenu.cpp">
+			<Filter>DataModels\Windows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowResources.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="Application.cpp" />
+		<ClCompile Include="EngineLog.cpp" />
+		<ClCompile Include="Main.cpp" />
+		<ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModulePlayer.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\WindowDebug.cpp">
+			<Filter>DataModels\Windows</Filter>
+		</ClCompile>
+		<ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="Physics\Physics.cpp">
+			<Filter>Physics</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Resources\ResourceMaterial.cpp">
+			<Filter>DataModels\Resources</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentRigidBody.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentMockState.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\UI\ComponentButton.cpp">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\UI\ComponentImage.cpp">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClCompile>
+		<ClCompile Include="Modules\ModuleUI.cpp">
+			<Filter>Modules</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Components\ComponentMeshCollider.cpp">
+			<Filter>DataModels\Components</Filter>
+		</ClCompile>
+		<ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="DataModels\Timer\Timer.h">
+			<Filter>DataModels\Timer</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\Component.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\GameObject\GameObject.h">
+			<Filter>DataModels\GameObject</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\Module.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleDebugDraw.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleEditor.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleCamera.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleInput.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleProgram.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleRender.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleScene.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleWindow.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\SubWindow.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowRenderer.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowAbout.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowConfiguration.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowConsole.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowScene.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowFPS.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowHardware.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowWindow.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowCamera.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+			<Filter>DataModels\Windows\SubWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowHierarchy.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentTransform.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentMeshRenderer.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\ModuleFileSystem.h">
+			<Filter>FileSystem</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\Importer.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\MeshImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentDirLight.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentLight.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentPointLight.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentSpotLight.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentAmbient.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\UniqueID.h">
+			<Filter>FileSystem</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\TextureImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\ModuleResources.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\Resource.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceTexture.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceMesh.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Json.h">
+			<Filter>FileSystem</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentCamera.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\ModelImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceModel.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowEditorControl.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceScene.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceSkyBox.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\MaterialImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\SceneImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="FileSystem\Importers\SkyBoxImporter.h">
+			<Filter>FileSystem\Importers</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowFileBrowser.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataStructures\Quadtree.h">
+			<Filter>DataStructures</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\ResourceMaterial.h">
+			<Filter>DataModels\Resources</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Scene\Scene.h">
+			<Filter>DataModels\Scene</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Skybox\Skybox.h">
+			<Filter>DataModels\Skybox</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Program\Program.h">
+			<Filter>DataModels\Program</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentDirLight.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshRenderer.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPointLight.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSpotLight.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Camera\Camera.h">
+			<Filter>DataModels\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Camera\CameraGod.h">
+			<Filter>DataModels\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Camera\CameraEngine.h">
+			<Filter>DataModels\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Camera\CameraGameObject.h">
+			<Filter>DataModels\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\Window.h">
+			<Filter>DataModels\Windows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\WindowMainMenu.h">
+			<Filter>DataModels\Windows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h">
+			<Filter>DataModels\Resources\EditorResource</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h">
+			<Filter>DataModels\Resources\EditorResource</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
+			<Filter>Auxiliar</Filter>
+		</ClInclude>
+		<ClInclude Include="Application.h" />
+		<ClInclude Include="debug_draw.hpp" />
+		<ClInclude Include="debugdraw.h" />
+		<ClInclude Include="EngineLog.h" />
+		<ClInclude Include="Globals.h" />
+		<ClInclude Include="DataModels\Components\ComponentPlayer.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModulePlayer.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\WindowDebug.h">
+			<Filter>DataModels\Windows</Filter>
+		</ClInclude>
+		<ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
+			<Filter>DataModels\Windows\EditorWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="Physics\Physics.h">
+			<Filter>Physics</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLoadScene.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSaveScene.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentRigidBody.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentMockState.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\UI\ComponentButton.h">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\UI\ComponentImage.h">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
+			<Filter>DataModels\Components\UI</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
+			<Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+		</ClInclude>
+		<ClInclude Include="Modules\ModuleUI.h">
+			<Filter>Modules</Filter>
+		</ClInclude>
+		<ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
+			<Filter>Auxiliar\Utils</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Components\ComponentMeshCollider.h">
+			<Filter>DataModels\Components</Filter>
+		</ClInclude>
+		<ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
+			<Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Auxiliar">
+			<UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels">
+			<UniqueIdentifier>{fe9ac5d2-b879-4003-b5ff-417273c34d26}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Timer">
+			<UniqueIdentifier>{f75295bc-065a-440a-aa53-ce3dfcd97940}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\GameObject">
+			<UniqueIdentifier>{2c464690-68af-41c3-8707-3a2f09badcd2}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Components">
+			<UniqueIdentifier>{ee0f2f55-34e8-4bf6-916a-dbd0be303a49}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Windows">
+			<UniqueIdentifier>{23da8ec5-edff-4529-813f-9743ebfb0b17}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Windows\EditorWindows">
+			<UniqueIdentifier>{c69f503f-e0be-4222-8b7c-171f46e7b492}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Windows\EditorWindows\ImporterWindows">
+			<UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Windows\SubWindows">
+			<UniqueIdentifier>{cea2f6d0-e7a5-48a2-af0e-3f3d3939e443}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Windows\SubWindows\ComponentWindows">
+			<UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Resources">
+			<UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Resources\EditorResource">
+			<UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Scene">
+			<UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Skybox">
+			<UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Program">
+			<UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Camera">
+			<UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataStructures">
+			<UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="FileSystem">
+			<UniqueIdentifier>{eb59fa81-b246-4fcc-9183-24e5b1ece0ab}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="FileSystem\Importers">
+			<UniqueIdentifier>{273ef68a-81de-45e8-be83-0c756780758e}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Modules">
+			<UniqueIdentifier>{22c4c800-7a6c-4dc3-aecc-d83b0d315026}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Physics">
+			<UniqueIdentifier>{773787e8-3d55-425d-9bee-1031740c1e9a}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="DataModels\Components\UI">
+			<UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Auxiliar\Utils">
+			<UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
       <Filter>DataModels\Timer</Filter>
@@ -250,13 +936,62 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp" />
-    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
-      <Filter>DataModels\Batch</Filter>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
-      <Filter>DataModels\Batch</Filter>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentButton.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleUI.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LogSystem.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\ScriptFactory.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentScript.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentScript.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentScript.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
+      <Filter>UserScripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,16 +1270,89 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRigidBody.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h" />
-    <ClInclude Include="DataModels\Components\ComponentMockState.h" />
-    <ClInclude Include="DataModels\Batch\BatchFlags.h">
-      <Filter>DataModels\Batch</Filter>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentButton.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Batch\BatchManager.h">
-      <Filter>DataModels\Batch</Filter>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCanvas.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
-      <Filter>DataModels\Batch</Filter>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentMockState.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentButton.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentImage.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleUI.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\SystemTable.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LogSystem.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptFactory.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentScript.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\Script.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\IScript.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\InterfacesIds.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentScript.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentScript.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\Field.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
+      <Filter>Auxiliar\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Generics\Updatable.h">
+      <Filter>Auxiliar\Generics</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Generics\Drawable.h">
+      <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -611,8 +1419,23 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{773787e8-3d55-425d-9bee-1031740c1e9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DataModels\Batch">
-      <UniqueIdentifier>{93266f40-f0d7-4868-a597-794eef6533d1}</UniqueIdentifier>
+    <Filter Include="DataModels\Components\UI">
+      <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{bc030c15-1dfc-463d-97b4-05025d05b0c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Reflection">
+      <UniqueIdentifier>{a7860462-3b9f-466b-9ee6-9497d8f9ca86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Utils">
+      <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts">
+      <UniqueIdentifier>{c67e2114-139e-40b9-86b5-db58ee12ffda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Generics">
+      <UniqueIdentifier>{9a3b4dc9-373b-46fa-a799-b89316398cea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

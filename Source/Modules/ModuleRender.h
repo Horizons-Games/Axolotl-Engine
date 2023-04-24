@@ -47,6 +47,12 @@ public:
 	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
+	void UpdateProgram();
+	bool CheckIfTransparent(const GameObject* gameObject);
+	void DrawGameObject(const GameObject* gameObject);
+	void DrawSelectedHighlightGameObject(GameObject* gameObject);
+	void DrawSelectedAndChildren(GameObject* gameObject);
+	void DrawHighlight(GameObject* gameObject);
 
 	void* context;
 	float4 backgroundColor;
@@ -54,7 +60,12 @@ private:
 	BatchManager* batchManager;
 
 	unsigned uboCamera;
-
+	unsigned vbo;
+	
+	std::vector<const GameObject*> opaqueGOToDraw;
+	std::map<float, const GameObject*> transparentGOToDraw;
+	//to avoid gameobjects being drawn twice
+	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMap;
 

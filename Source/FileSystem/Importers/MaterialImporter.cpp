@@ -12,7 +12,8 @@ MaterialImporter::~MaterialImporter()
 {
 }
 
-void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
+void MaterialImporter::Import
+	(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
 	char* bufferPaths;
 
@@ -33,7 +34,9 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 		if (!path.empty()) 
 		{
-			resourceTexture.push_back(std::dynamic_pointer_cast<ResourceTexture>(App->resources->ImportResource(path)));
+			resourceTexture.push_back
+			(std::dynamic_pointer_cast<ResourceTexture>
+				(App->resources->ImportResource(path)));
 		}
 		else
 		{
@@ -60,147 +63,354 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 		resource->SetOcclusion(resourceTexture[2]);
 	}
 	
-	/*if (resourceTexture[3] != 0)
-	{
-		resource->SetSpecular(resourceTexture[3]);
-	}*/
-
 	if (resourceTexture[3] != 0)
 	{
-		resource->SetMetallicMap(resourceTexture[3]);
+		switch (resource->GetShaderType())
+		{
+			case 0:
+
+				resource->SetMetallic(resourceTexture[3]);
+
+				break;
+				
+			case 1:
+
+				resource->SetSpecular(resourceTexture[3]);
+
+				break;
+
+		}
 	}
 
 	char* buffer{};
 	unsigned int size;
+
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->fileSystem->Save
+		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
+			buffer, size);
 
 	delete buffer;
 }
 
-void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
+void MaterialImporter::Save
+	(const std::shared_ptr<ResourceMaterial>& resource, 
+		char*& fileBuffer, unsigned int& size)
 {
 #ifdef ENGINE
-	//Open Meta
+
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
+
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
+
 	delete metaBuffer;
 
-	meta["DiffuseAssetPath"] = resource->GetDiffuse() ? resource->GetDiffuse()->GetAssetsPath().c_str() : "";
-	meta["NormalAssetPath"] = resource->GetNormal() ? resource->GetNormal()->GetAssetsPath().c_str() : "";
-	meta["OcclusionAssetPath"] = resource->GetOcclusion() ? resource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] = resource->GetMetallicMap() ? resource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+	if (resource->GetDiffuse())
+	{
+		meta["DiffuseAssetPath"] = 
+			resource->GetDiffuse()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["DiffuseAssetPath"] = "";
+	}
+
+	if (resource->GetNormal())
+	{
+		meta["NormalAssetPath"] = 
+			resource->GetNormal()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["NormalAssetPath"] = "";
+	}
+
+	if (resource->GetOcclusion())
+	{
+		meta["OcclusionAssetPath"] = 
+			resource->GetOcclusion()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["OcclusionAssetPath"] = "";
+	}
+
+	switch (resource->GetShaderType())
+	{
+		case 0:
+
+			if (resource->GetMetallic())
+			{
+				meta["SpecularAssetPath"] =
+					resource->GetMetallic()->GetAssetsPath().c_str();
+			}
+			else
+			{
+				meta["SpecularAssetPath"] = "";
+			}
+
+			break;
+		case 1:
+
+			if (resource->GetSpecular())
+			{
+				meta["SpecularAssetPath"] =
+					resource->GetSpecular()->GetAssetsPath().c_str();
+			}
+			else
+			{
+				meta["SpecularAssetPath"] = "";
+			}
+
+			break;
+	}
 
 	rapidjson::StringBuffer buffer;
+
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->fileSystem->
+		Save(metaPath.c_str(), buffer.GetString(), 
+			static_cast<unsigned int>(buffer.GetSize()));
+
 #endif
+
+	UID specularUID;
+
+	switch (resource->GetShaderType())
+	{
+		case 0:
+
+			if (resource->GetMetallic())
+			{
+				specularUID = resource->GetMetallic()->GetUID();
+			}
+			else
+			{
+				specularUID = 0;
+			}
+
+			break;
+	case 1:
+
+		if (resource->GetSpecular())
+		{
+			specularUID = resource->GetSpecular()->GetUID();
+		}
+		else
+		{
+			specularUID = 0;
+		}
+
+		break;
+	}
 
 	UID texturesUIDs[4] =
 	{
 		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
 		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
 		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
-		//resource->GetSpecular() ? resource->GetSpecular()->GetUID() : 0
-		resource->GetMetallicMap() ? resource->GetMetallicMap()->GetUID() : 0
+		specularUID
 	};
 
-	float3 colors[1] = // with specular is float3 colors[2]
-	{
-		resource->GetDiffuseColor(),
-		//resource->GetSpecularColor()
-	};
-
-	size = sizeof(texturesUIDs) + sizeof(colors) + sizeof(float) * 2;
+	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
+	float3 specularColor[1] = { resource->GetSpecularColor() };
+	
+	size = sizeof(texturesUIDs) + sizeof(diffuseColor) 
+		+ sizeof(specularColor)  + sizeof(float) * 2 + sizeof(bool);
 
 	char* cursor = new char[size];
 
 	fileBuffer = cursor;
 
-	unsigned int bytes = sizeof(texturesUIDs);
+	unsigned int bytes = sizeof(unsigned int);
+	memcpy(cursor, &resource->GetShaderType(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(texturesUIDs);
 	memcpy(cursor, texturesUIDs, bytes);
 
 	cursor += bytes;
 
-	bytes = sizeof(colors);
-	memcpy(cursor, colors, bytes);
+	bytes = sizeof(diffuseColor);
+	memcpy(cursor, diffuseColor, bytes);
 
 	cursor += bytes;
 
-	/*bytes = sizeof(float);
-	memcpy(cursor, &resource->GetShininess(), bytes);
+	bytes = sizeof(specularColor);
+	memcpy(cursor, specularColor, bytes);
 
-	cursor += bytes;*/
+	cursor += bytes;
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetNormalStrength(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(bool);
+	memcpy(cursor, &resource->GetTransparent(), bytes);
 }
 
-void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
+void MaterialImporter::Load
+	(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
+	unsigned int* shaderType = new unsigned int;
+
+	memcpy(shaderType, fileBuffer, sizeof(unsigned int));
+	resource->SetShaderType(*shaderType);
+
+	fileBuffer += sizeof(unsigned int);
+
 #ifdef ENGINE
-	//Open Meta
+
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
+
+	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
+
 	delete metaBuffer;
 
 	std::string assetPath = meta["DiffuseAssetPath"];
-	if (assetPath != "") resource->SetDiffuse(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+	if (assetPath != "") 
+	{ 
+		resource->SetDiffuse
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
+	}
+
 	assetPath = meta["NormalAssetPath"];
-	if (assetPath != "") resource->SetNormal(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+	if (assetPath != "")
+	{
+		resource->SetNormal
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
+	}
+
 	assetPath = meta["OcclusionAssetPath"];
-	if (assetPath != "") resource->SetOcclusion(App->resources->RequestResource<ResourceTexture>(assetPath));
-	/*assetPath = meta["SpecularAssetPath"];
-	if (assetPath != "") resource->SetSpecular(App->resources->RequestResource<ResourceTexture>(assetPath));*/
-	assetPath = meta["MetallicAssetPath"];
-	if (assetPath != "") resource->SetMetallicMap(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+	if (assetPath != "")
+	{ 
+		resource->SetOcclusion
+		(App->resources->RequestResource<ResourceTexture>(assetPath));
+	}
+
+	assetPath = meta["SpecularAssetPath"];
+
+	if (assetPath != "")
+	{ 
+		switch (*shaderType)
+		{
+			case 0:
+
+				resource->SetMetallic
+				(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+				break;
+
+			case 1:
+
+				resource->SetSpecular
+				(App->resources->RequestResource<ResourceTexture>(assetPath));
+
+				break;
+		}
+	}
+
 #else
 	
-	if (texturesUIDs[0] != 0) resource->SetDiffuse(App->resources->SearchResource<ResourceTexture>(texturesUIDs[0]));
-	if (texturesUIDs[1] != 0) resource->SetNormal(App->resources->SearchResource<ResourceTexture>(texturesUIDs[1]));
-	if (texturesUIDs[2] != 0) resource->SetOcclusion(App->resources->SearchResource<ResourceTexture>(texturesUIDs[2]));
-	//if (texturesUIDs[3] != 0) resource->SetSpecular(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
-	if (texturesUIDs[3] != 0) resource->SetMetallicMap(App->resources->SearchResource<ResourceTexture>(texturesUIDs[3]));
+	if (texturesUIDs[0] != 0)
+	{
+		resource->SetDiffuse
+			(App->resources->SearchResource<ResourceTexture>
+												(texturesUIDs[0]));
+	}
+
+	if (texturesUIDs[1] != 0)
+	{
+		resource->SetNormal
+			(App->resources->SearchResource<ResourceTexture>
+												(texturesUIDs[1]));
+	}
+		
+	if (texturesUIDs[2] != 0)
+	{
+		resource->SetOcclusion
+			(App->resources->SearchResource<ResourceTexture>
+												(texturesUIDs[2]));
+	}
+		
+	if (texturesUIDs[3] != 0)
+	{
+		switch (*shaderType)
+		{
+		case 0:
+
+			resource->SetMetallic
+			(App->resources->SearchResource<ResourceTexture>
+				(texturesUIDs[3]));
+
+			break;
+
+		case 1:
+
+			resource->SetSpecular
+			(App->resources->SearchResource<ResourceTexture>
+				(texturesUIDs[3]));
+
+			break;
+		}
+	}
 
 #endif
 
 	fileBuffer += sizeof(texturesUIDs);
 
-	float3 colors[1]; // with specular is float3 colors[2]
-	memcpy(colors, fileBuffer, sizeof(colors));
+	float4 difuseColor;
 
-	resource->SetDiffuseColor(colors[0]);
-	//resource->SetSpecularColor(colors[1]);
+	memcpy(&difuseColor, fileBuffer, sizeof(difuseColor));
+	resource->SetDiffuseColor(difuseColor);
 
-	fileBuffer += sizeof(colors);
+	fileBuffer += sizeof(difuseColor);
 
-	/*float* shininess = new float;
-	memcpy(shininess, fileBuffer, sizeof(float));
-	resource->SetShininess(*shininess);*/
+	float3 specularColor;
 
-	//fileBuffer += sizeof(float);
+	memcpy(&specularColor, fileBuffer, sizeof(specularColor));
+	resource->SetSpecularColor(specularColor);
+
+	fileBuffer += sizeof(specularColor);
 
 	float* normalStrenght = new float;
+
 	memcpy(normalStrenght, fileBuffer, sizeof(float));
 	resource->SetNormalStrength(*normalStrenght);
 
-	//delete shininess;
+	fileBuffer += sizeof(float);
+
+	bool* isTransparent = new bool;
+
+	memcpy(isTransparent, fileBuffer, sizeof(bool));
+	resource->SetTransparent(*isTransparent);
+
+	fileBuffer += sizeof(bool);
+
+	delete shaderType;
 	delete normalStrenght;
+	delete isTransparent;
 
 #ifdef ENGINE
+
 	resource->LoadLoadOptions(meta);
-#endif // ENGINE
+
+#endif
 
 }

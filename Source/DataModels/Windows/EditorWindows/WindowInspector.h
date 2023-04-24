@@ -40,6 +40,8 @@ private:
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentMeshCollider();
+	void AddComponentScript();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
@@ -58,6 +60,4 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
-
-	bool bbDrawn;
 };

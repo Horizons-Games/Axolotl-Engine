@@ -1,4 +1,6 @@
 #pragma once
+#include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Globals.h"
 
@@ -10,32 +12,50 @@
 
 #include <memory>
 
-#define COMPONENT_MESHRENDERED "MeshRendered"
+#include "FileSystem/UniqueID.h"
 
-class ResourceMaterial;
+#include "Math/float3.h"
+#include "Math/float4.h"
+
 class ResourceMesh;
+class ResourceMaterial;
+class ResourceTexture;
 class Json;
 class WindowMeshInput;
 class WindowMaterialInput;
+class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component
+class ComponentMeshRenderer : public Component, public Drawable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
-	void Update() override;
-
-	void Draw() override;
-	void DrawHighlight();
+	void Draw() const override;
+	void DrawMeshes(Program* program) const;
+	void DrawMaterial(Program* program) const;
+	void DrawHighlight() const;
 
 	void SaveOptions(Json& meta) override;
+	/*void SaveUIDOfResourceToMeta
+		(Json& meta, const char* field, const ResourceTexture* texturePtr);*/
 	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 
+	// Common attributes (setters)
+	void SetDiffuseColor(float4& diffuseColor);
+	void SetSmoothness(float smoothness);
+	void SetNormalStrenght(float normalStrength);
+
+	// Default shader attributes (setters)
+	void SetMetalness(float metalness);
+
+	// Specular shader attributes (setters)
+	void SetSpecularColor(float3& specularColor);
+	
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 
@@ -45,31 +65,14 @@ public:
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
-	//material
-	void SetDiffuseColor(float3& diffuseColor);
-	//void SetSpecularColor(float3& specularColor);
-	//void SetShininess(float shininess);
-	void SetNormalStrenght(float normalStrength);
-	void SetSmoothness(float smoothness);
-	void SetMetalness(float metalness);
-	//void SetHasShininessAlpha(bool hasShininessAlpha);
-	void SetMetallicAlpha(bool metallicAlpha);
-
-	const float3& GetDiffuseColor() const;
-	//const float3& GetSpecularColor() const;
-	//const float GetShininess() const;
-	const float GetNormalStrenght() const;
-	const float GetSmoothness() const;
-	const float GetMetalness() const;
-	//const bool HasShininessAlpha() const;
-	const bool HasMetallicAlpha() const;
-
 private:
 	bool IsMeshLoaded();
 	bool IsMaterialLoaded();
 
 	std::shared_ptr<ResourceMesh> mesh;
 	std::shared_ptr<ResourceMaterial> material;
+
+	const unsigned int GetShaderType() const;
 
 	GeometryBatch* batch;
 	WindowMeshInput* inputMesh;
@@ -102,6 +105,15 @@ inline bool ComponentMeshRenderer::IsMeshLoaded()
 	return mesh != nullptr;
 }
 inline bool ComponentMeshRenderer::IsMaterialLoaded()
+{
+	return material != nullptr;
+}
+inline bool ComponentMeshRenderer::IsMeshLoaded() const
+{
+	return mesh != nullptr;
+}
+
+inline bool ComponentMeshRenderer::IsMaterialLoaded() const
 {
 	return material != nullptr;
 }

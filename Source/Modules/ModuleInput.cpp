@@ -2,8 +2,13 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 #include "Scene/Scene.h"
+#include "Windows/WindowMainMenu.h"
+#include "ModuleUI.h"
 #include "imgui_impl_sdl.h"
 
 #ifdef DEBUG
@@ -50,7 +55,7 @@ bool ModuleInput::Init()
                         (defaultCursor.get());
 
     #else  // ENGINE
-        SDL_ShowCursor(SDL_DISABLE);
+    SetShowCursor(false);
     #endif // GAMEMODE
 
 	return ret;
@@ -97,7 +102,7 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        status = update_status::UPDATE_STOP;
+        status = update_status::UPDATE_STOP;      
     }
 
     SDL_Event sdlEvent;
@@ -125,6 +130,8 @@ update_status ModuleInput::Update()
             {
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+                App->camera->RecalculateOrthoProjectionMatrix();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -180,12 +187,42 @@ update_status ModuleInput::Update()
 #ifndef ENGINE
         if (!App->IsDebuggingGame())
         {
-            SDL_ShowCursor(SDL_DISABLE);
+            SetShowCursor(false);
         }
 #endif // ENGINE
     }
 
+#ifdef ENGINE
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            App->player->SetReadyToEliminate(true);
+        }
+    }
+
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
+        }
+    }
+
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
+        App->editor->GetMainMenu()->ShortcutSave();}
+#endif
+
     return status;
+}
+
+void ModuleInput::SetShowCursor(bool set)
+{
+    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
 }
 
 bool ModuleInput::CleanUp()

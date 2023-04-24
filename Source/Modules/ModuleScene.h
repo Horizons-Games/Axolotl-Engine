@@ -17,6 +17,7 @@ public:
 
 	bool Init() override;
 	bool Start() override;
+	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
 
@@ -24,6 +25,7 @@ public:
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
+	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
 
 	void SaveSceneToJson(const std::string& name);
@@ -33,12 +35,20 @@ public:
 	void OnPause();
 	void OnStop();
 
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
+	void AddGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(GameObject* object);
+
+
+
+	void UpdateAllObjects() const;
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& json);
 	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
+
+	void AddGameObject(GameObject* object);
+	void RemoveGameObject(GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
@@ -58,11 +68,6 @@ inline Scene* ModuleScene::GetLoadedScene() const
 inline GameObject* ModuleScene::GetSelectedGameObject() const
 {
 	return selectedGameObject;
-}
-
-inline void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
-{
-	selectedGameObject = gameObject;
 }
 
 inline void ModuleScene::SetSceneToLoad(const std::string& name)

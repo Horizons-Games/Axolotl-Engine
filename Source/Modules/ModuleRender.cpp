@@ -2,6 +2,8 @@
 
 #include "ModuleRender.h"
 
+#include <queue>
+
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
@@ -12,8 +14,8 @@
 #include "ModuleScene.h"
 
 #ifndef ENGINE
+
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -24,10 +26,14 @@
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Scene/Scene.h"
+#include "Components/ComponentTransform.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "GameObject/GameObject.h"
 #include "Components/ComponentMeshRenderer.h"
 
+#include "Components/ComponentTransform.h"
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
@@ -119,7 +125,7 @@ bool ModuleRender::Init()
 	ENGINE_LOG("--------- Render Init ----------");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // we want a double buffer
@@ -153,6 +159,9 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
@@ -194,6 +203,7 @@ update_status ModuleRender::PreUpdate()
 	int width, height;
 
 	renderMap.clear();
+	//opaqueGOToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -214,6 +224,9 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
+
+	opaqueGOToDraw.clear();
+	transparentGOToDraw.clear();
 
 	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
 	if (skybox)
@@ -255,23 +268,6 @@ update_status ModuleRender::Update()
 		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
 	}
 
-	//if (!isRoot && goSelected != nullptr && goSelected->IsActive()) 
-	//{
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-	//	glStencilMask(0xFF); // enable writing to the stencil buffer
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	goSelected->DrawSelected();
-
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-	//	glLineWidth(25);
-	//	glPolygonMode(GL_FRONT, GL_LINE);
-	//	goSelected->DrawHighlight();
-	//	glPolygonMode(GL_FRONT, GL_FILL);
-	//	glLineWidth(1);
-	//	AddToRenderList(goSelected); //could be out
-	//}
-
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{
@@ -288,7 +284,67 @@ update_status ModuleRender::Update()
 	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
 
 	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
-	App->camera->GetCamera()->GetProjectionMatrix(), w, h);
+		App->camera->GetCamera()->GetProjectionMatrix(), w, h);
+
+
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
+
+	bool isRoot = goSelected->GetParent() == nullptr;
+
+	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
+	}
+
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
+#else
+	if (App->player->GetPlayer())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
+#endif // !ENGINE
+	
+	if (isRoot) 
+	{
+		opaqueGOToDraw.push_back(goSelected);
+	}
+	else
+	{
+		AddToRenderList(goSelected);
+	}
+
+	drawnGameObjects.clear();
+
+	//Draw opaque
+	glDepthFunc(GL_LEQUAL);
+	for (const GameObject* gameObject : opaqueGOToDraw)
+	{
+		DrawGameObject(gameObject);
+	}
+
+	// Draw Transparent
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it)
+	{	
+		DrawGameObject((*it).second);
+	}
+	glDisable(GL_BLEND);
+
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return update_status::UPDATE_CONTINUE;
+	}
+#endif //ENGINE
+
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -363,6 +419,8 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
+	float3 cameraPos = App->camera->GetCamera()->GetPosition();
+
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
@@ -377,6 +435,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 					if (component && component->GetBatch())
 					{
 						renderMap[component->GetBatch()].push_back(component);
+					if (!CheckIfTransparent(gameObject))
+						opaqueGOToDraw.push_back(gameObject);
+					else
+					{
+						const ComponentTransform* transform = 
+							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+						while (transparentGOToDraw[dist] != nullptr) //If an object is at the same position as another one
+						{ 
+							float addDistance = 0.0001f;
+							dist += addDistance;
+						}
+						transparentGOToDraw[dist] = gameObject;
 					}
 				}
 			}
@@ -392,6 +463,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 					if (component && component->GetBatch())
 					{
 						renderMap[component->GetBatch()].push_back(component);
+					if (!CheckIfTransparent(gameObject))
+						opaqueGOToDraw.push_back(gameObject);
+					else
+					{
+						const ComponentTransform* transform = 
+							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+						while (transparentGOToDraw[dist] != nullptr) 
+						{
+							float addDistance = 0.0001f;
+							dist += addDistance;
+						}
+						transparentGOToDraw[dist] = gameObject;
 					}
 				}
 			}
@@ -412,12 +496,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
-	if (gameObject == nullptr || gameObject->GetParent() == nullptr)
+	float3 cameraPos = App->camera->GetCamera()->GetPosition();
+
+	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
 
-	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
+	ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	//If an object doesn't have transform component it doesn't need to draw
+	if (transform == nullptr)
+	{
+		return;
+	}
+
+	if (App->camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
@@ -426,6 +519,19 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 			if (component && component->GetBatch())
 			{
 				renderMap[component->GetBatch()].push_back(component);
+			if (!CheckIfTransparent(gameObject))
+				opaqueGOToDraw.push_back(gameObject);
+			else
+			{
+				const ComponentTransform* transform =
+					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				while (transparentGOToDraw[dist] != nullptr) 
+				{
+					float addDistance = 0.0001f;
+					dist += addDistance;
+				}
+				transparentGOToDraw[dist] = gameObject;
 			}
 		}
 	}
@@ -457,3 +563,101 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
+void ModuleRender::DrawGameObject(const GameObject* gameObject)
+{
+	if (std::find(std::begin(drawnGameObjects), std::end(drawnGameObjects), gameObject->GetUID()) !=
+		std::end(drawnGameObjects))
+	{
+		return;
+	}
+
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
+
+	if (gameObject != nullptr && gameObject->IsActive())
+	{
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
+		{
+			DrawSelectedHighlightGameObject(goSelected);
+		}
+		else
+		{
+			gameObject->Draw();
+			drawnGameObjects.push_back(gameObject->GetUID());
+		}
+	}
+}
+
+void ModuleRender::DrawSelectedHighlightGameObject(GameObject* gameObject)
+{
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+	glStencilMask(0xFF); // enable writing to the stencil buffer
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	DrawSelectedAndChildren(gameObject);
+
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+	glLineWidth(25);
+	glPolygonMode(GL_FRONT, GL_LINE);
+	DrawHighlight(gameObject);
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glLineWidth(1);
+	glDisable(GL_STENCIL_TEST);
+}
+
+void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
+{
+	std::queue<GameObject*> gameObjectQueue;
+	gameObjectQueue.push(gameObject);
+	while (!gameObjectQueue.empty())
+	{
+		GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		currentGo->Draw();
+		drawnGameObjects.push_back(gameObject->GetUID());
+	}
+}
+
+void ModuleRender::DrawHighlight(GameObject* gameObject)
+{
+	std::queue<GameObject*> gameObjectQueue;
+	gameObjectQueue.push(gameObject);
+	while (!gameObjectQueue.empty())
+	{
+		GameObject* currentGo = gameObjectQueue.front();
+		gameObjectQueue.pop();
+		for (GameObject* child : currentGo->GetChildren())
+		{
+			if (child->IsEnabled())
+			{
+				gameObjectQueue.push(child);
+			}
+		}
+		std::vector<ComponentMeshRenderer*> meshes =
+			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		for (ComponentMeshRenderer* mesh : meshes)
+		{
+			mesh->DrawHighlight();
+		}
+	}
+}
+
+bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
+{
+	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+	if (material != nullptr && material->GetMaterial() != nullptr)
+	{
+		if (!material->GetMaterial()->GetTransparent())
+			return false;
+		else
+			return true;
+	}
+
+	return false;
+}

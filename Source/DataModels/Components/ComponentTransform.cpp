@@ -7,13 +7,23 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+#ifndef ENGINE
+#include "Modules/ModuleEditor.h"
+#include "Windows/WindowDebug.h"
+#endif //ENGINE
+
 #include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
 	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
 	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
-	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity)
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
+	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+	drawBoundingBoxes(false)
 {
 }
 
@@ -23,7 +33,8 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),
 	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
 	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
-	globalMatrix(componentTransform.GetGlobalMatrix())
+	globalMatrix(componentTransform.GetGlobalMatrix()), localAABB(componentTransform.localAABB), 
+	encapsuledAABB(localAABB), drawBoundingBoxes(false)
 {
 }
 
@@ -31,50 +42,58 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
+void ComponentTransform::Draw() const
 {
-	// Empty for now
+#ifndef ENGINE
+	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
+#endif //ENGINE
+	if (drawBoundingBoxes)
+	{
+		App->debug->DrawBoundingBox(objectOBB);
+	}
 }
 
 void ComponentTransform::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
 
-	meta["localPos_X"] = (float)pos.x;
-	meta["localPos_Y"] = (float)pos.y;
-	meta["localPos_Z"] = (float)pos.z;
+	meta["localPos_X"] = static_cast<float>(pos.x);
+	meta["localPos_Y"] = static_cast<float>(pos.y);
+	meta["localPos_Z"] = static_cast<float>(pos.z);
 
-	float3 rotation = GetRotationXYZ();
-	meta["localRot_X"] = (float)rotation.x;
-	meta["localRot_Y"] = (float)rotation.y;
-	meta["localRot_Z"] = (float)rotation.z;
+	meta["localRot_X"] = static_cast<float>(rotXYZ.x);
+	meta["localRot_Y"] = static_cast<float>(rotXYZ.y);
+	meta["localRot_Z"] = static_cast<float>(rotXYZ.z);
 
-	meta["localSca_X"] = (float)sca.x;
-	meta["localSca_Y"] = (float)sca.y;
-	meta["localSca_Z"] = (float)sca.z;
+	meta["localSca_X"] = static_cast<float>(sca.x);
+	meta["localSca_Y"] = static_cast<float>(sca.y);
+	meta["localSca_Z"] = static_cast<float>(sca.z);
 }
 
 void ComponentTransform::LoadOptions(Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
 
-	pos.x = (float) meta["localPos_X"];
-	pos.y = (float) meta["localPos_Y"];
-	pos.z = (float) meta["localPos_Z"];
+	pos.x = static_cast<float>(meta["localPos_X"]);
+	pos.y = static_cast<float>(meta["localPos_Y"]);
+	pos.z = static_cast<float>(meta["localPos_Z"]);
 		
 	float3 rotation;
-	rotation.x = (float) meta["localRot_X"];
-	rotation.y = (float) meta["localRot_Y"];
-	rotation.z = (float) meta["localRot_Z"];
+	rotation.x = static_cast<float>(meta["localRot_X"]);
+	rotation.y = static_cast<float>(meta["localRot_Y"]);
+	rotation.z = static_cast<float>(meta["localRot_Z"]);
 	SetRotation(rotation);
 				    
-	sca.x = (float) meta["localSca_X"];
-	sca.y = (float) meta["localSca_Y"];
-	sca.z = (float) meta["localSca_Z"];
+	sca.x = static_cast<float>(meta["localSca_X"]);
+	sca.y = static_cast<float>(meta["localSca_Y"]);
+	sca.z = static_cast<float>(meta["localSca_Z"]);
 
 	CalculateMatrices();
 }
@@ -105,7 +124,6 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
-	GetOwner()->Update();
 
 	if (GetOwner()->GetChildren().empty())
 		return;
@@ -146,4 +164,16 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 		}
 		break;
 	}
+}
+
+void ComponentTransform::CalculateBoundingBoxes()
+{
+	objectOBB = localAABB;
+	objectOBB.Transform(globalMatrix);
+	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
+}
+
+void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
+{
+	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
 }

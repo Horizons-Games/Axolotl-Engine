@@ -6,17 +6,17 @@
 #define EPSILON 1e-5
 
 struct Material {
-    vec3 diffuse_color;         //0 //12
-    float normal_strength;      //12 //4
-    int has_diffuse_map;        //16 //4
-    int has_normal_map;         //20 //4
-    float smoothness;           //24 //4
-    int has_metallic_alpha;     //28 //4
-    float metalness;            //32 //4
-    int has_metallic_map;       //36 //4
-    sampler2D diffuse_map;      //40 //8
-    sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8    //-->64
+    vec4 diffuse_color;         //0 //16
+    float normal_strength;      //16 //4
+    int has_diffuse_map;        //20 //4
+    int has_normal_map;         //24 //4
+    float smoothness;           //28 //4
+    int has_metallic_alpha;     //32 //4
+    float metalness;            //36 //4
+    int has_metallic_map;       //40 //4
+    sampler2D diffuse_map;      //44 //8
+    sampler2D normal_map;       //52 //8
+    sampler2D metallic_map;     //60 //8    //-->68
 };
 
 struct PointLight
@@ -31,7 +31,9 @@ struct SpotLight
 	vec4 color; 		//16 //16  	// rgb colour+alpha intensity
 	vec3 aim;			//12 //32
 	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48   --> 52 
+	float outerAngle;	//4  //48 
+    float padding1;     //4  //52
+    vec2  padding2;     //8  //56 --> 64
 };
 
 layout(std140, binding=1) uniform Ambient
@@ -100,6 +102,7 @@ float GGXNormalDistribution(float dotNH, float roughness)
     float squareRoughness = roughness*roughness;
     float squareNH = dotNH*dotNH;
 
+
     return squareRoughness/(M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
 }
 
@@ -107,7 +110,9 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 {
     vec3 L = normalize(-directionalDir);
     vec3 H = (L+V)/length(L+V);
+
     float dotNL = max(dot(N,L), EPSILON);
+
     vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
     float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
@@ -208,11 +213,14 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
-	vec3 textureMat = material.diffuse_color;
-    if (material.has_diffuse_map == 1) {
-        textureMat = texture(material.diffuse_map, TexCoord).rgb;
+	vec4 textureMat = material.diffuse_color;
+    if (material.has_diffuse_map == 1)
+    {
+        textureMat = texture(material.diffuse_map, TexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection.rgb);
+    textureMat = pow(textureMat, gammaCorrection);
+    
+    textureMat.a = material.diffuse_color.a; //Transparency
     
 	if (material.has_normal_map == 1)
 	{
@@ -223,7 +231,7 @@ void main()
         norm = normalize(norm);
         norm = normalize(space * norm);
 	}
-
+    
     vec4 colorMetallic = texture(material.metallic_map, TexCoord);
     float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
 
@@ -231,19 +239,6 @@ void main()
     vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a)) + EPSILON;
-
-    //fresnel
-    //vec4 specularMat =  vec4(material.specular_color, 0.0);
-    //if (material.has_specular_map == 1) {
-    //    specularMat = vec4(texture(specular_map, TexCoord));
-    //}
-    //specularMat = pow(specularMat, gammaCorrection);
-
-    // shininess
-    //float shininess = material.shininess;
-    //if (material.shininess_alpha == 1) {
-	//    shininess = exp2(specularMat.a * 7 + 1);
-    //}
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
@@ -263,5 +258,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, 1.0);
+    outColor = vec4(color, textureMat.a);
 }
