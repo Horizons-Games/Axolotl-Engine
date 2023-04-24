@@ -418,11 +418,8 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones)
 {
 	std::vector<GameObject*> boneHierarchy;
-
-	if (gameObjectNode->GetName().find("$AssimpFbx$") == std::string::npos)
-	{
-		boneHierarchy.push_back(gameObjectNode);
-	}
+	
+	boneHierarchy.push_back(gameObjectNode);
 
 	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
 
@@ -432,7 +429,7 @@ const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectN
 
 		for (const Bone& bone : bones)
 		{
-			if (name == bone.name || name.find("$AssimpFbx$") != std::string::npos)
+			if (name == bone.name)
 			{
 				const std::vector<GameObject*>& newBoneHierarchy = CacheBoneHierarchy(child, bones);
 
@@ -445,7 +442,6 @@ const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectN
 			}
 		}
 	}
-
 	return boneHierarchy;
 }
 
