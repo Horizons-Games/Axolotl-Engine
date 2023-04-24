@@ -10,7 +10,11 @@
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceStateMachine.h"
 
+#include "ModuleInput.h"
+
 #include "GameObject/GameObject.h"
+
+#include "Math/float3.h"
 
 #include "debugdraw.h"
 
@@ -47,8 +51,14 @@ void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMach
 
 void ComponentAnimation::Update()
 {
+
 	if (stateMachine)
 	{
+		if (actualState == 0) //Entry State 
+		{
+			SaveModelTransform(owner);
+		}
+
 		controller->Update();
 
 		if(actualState == nextState)
@@ -93,6 +103,8 @@ void ComponentAnimation::Update()
 			else
 			{
 				controller->Stop();
+				LoadModelTransform(owner);
+				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 			}
 		}
 	}
@@ -163,6 +175,9 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	{
 		SetStateMachine(resourceState);
 	}
+
+	actualState = 0;
+	nextState = 0;
 }
 
 Transition* ComponentAnimation::CheckTransitions(State* state)
@@ -197,10 +212,10 @@ Transition* ComponentAnimation::CheckTransitions(State* state)
 					conditionCheck = value != condition.value;
 					break;
 				case ConditionType::TRUECONDITION:
-					conditionCheck = std::get<bool>(value) == true;
+					conditionCheck = (std::get<bool>(value) == true);
 					break;
 				case ConditionType::FALSECONDITION:
-					conditionCheck = std::get<bool>(value) == false;
+					conditionCheck = (std::get<bool>(value) == false);
 					break;
 				default:
 					break;
@@ -217,4 +232,37 @@ Transition* ComponentAnimation::CheckTransitions(State* state)
 	}
 
 	return nullptr;
+}
+
+void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
+{
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+
+	defaultPosition[gameObject] = transform->GetLocalMatrix();
+
+	for(GameObject* children : gameObject->GetChildren())
+	{
+		SaveModelTransform(children);
+	}
+}
+
+void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
+{
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	
+	float3 position;
+	float3 scale;
+	float4x4 rot;
+
+	defaultPosition[gameObject].Decompose(position, rot, scale);
+	transform->SetPosition(position);
+	transform->SetRotation(rot);
+	transform->SetScale(scale);
+
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		LoadModelTransform(children);
+	}
 }
