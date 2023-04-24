@@ -39,7 +39,7 @@ void AnimationController::Update()
             }
             else
             {
-                currentTime = duration;
+                isPlaying = false;
             }
         }
     }
