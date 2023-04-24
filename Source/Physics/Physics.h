@@ -23,6 +23,7 @@ public:
 	static bool ScreenPointToRay(const float2& mousePosition, LineSegment& ray);
 	static float2 ScreenToScenePosition(const float2& mousePosition);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
+	static bool RaycastFirst(const LineSegment& ray);
 	static bool HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance);
 
 private:
@@ -35,6 +36,12 @@ private:
 	
 	static void AddIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
 										const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects);
+
+	static void AddFirstFoundIntersectionQuadtree(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray, Quadtree* quadtree);
+
+	static void AddFirstFoundIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects);
 
 	static void GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
 										const LineSegment& ray, RaycastHit& hit);
