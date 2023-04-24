@@ -8,6 +8,7 @@ namespace audio
 	//Ambient
 	static const wchar_t* SFX_AMBIENT_CROWD_TALKING_01 = L"sfx_ambient_crowd_talking_01";
 	static const wchar_t* CANTINA_MUSIC = L"cantina_music";
+	static const wchar_t* AUXILIAR_SEWERS_MUSIC = L"sewersMusic";
 
 
 	//Music

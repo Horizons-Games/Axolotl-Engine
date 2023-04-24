@@ -9,13 +9,17 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{08376721-6B07-BADE-016E-1E9953C95069}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{240647B3-4509-AD45-A5DF-39227EE6F611}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
 				<File Id="106158711" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cantina_music.wav</ShortName>
 					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="347047974" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>First_Level_Sewers__v1.wav</ShortName>
+					<CachePath>SFX/First_Level_Sewers__v1_10C4C929.wem</CachePath>
 				</File>
 				<File Id="652056130" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_crowd_talking_01.wav</ShortName>
@@ -26,6 +30,11 @@
 				<Event Id="2455846751" Name="cantina_music">
 					<MediaRefs>
 						<MediaRef Id="106158711"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3000297385" Name="sewersMusic">
+					<MediaRefs>
+						<MediaRef Id="347047974"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2073224732" Name="sfx_ambient_crowd_talking_01">
@@ -465,5 +474,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{5AFB6646-F5CC-70C9-E593-8C27FE65BBE2}</FileHash>
+	<FileHash>{96ED795A-3B09-FCC7-0EF7-A2F63F8ADB77}</FileHash>
 </SoundBanksInfo>
