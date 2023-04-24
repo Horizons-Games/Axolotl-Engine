@@ -55,6 +55,10 @@ void EnemyDroneScript::Update(float deltaTime)
 		else
 		{
 			droneState = DroneBehavoiurs::PATROL;
+
+			// Set the enemy back to the patrol route
+			// Ideally, this should call a function "BackToPatrol" from the patrolScript
+			patrolScript->GetScript()->Start();
 		}
 	}
 

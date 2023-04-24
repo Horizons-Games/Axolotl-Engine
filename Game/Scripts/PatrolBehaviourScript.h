@@ -22,7 +22,6 @@ public:
 	GameObject* GetWayPointTwo() const;
 	void SetWayPointTwo(GameObject* wayPointTwo);
 
-
 private:
 	GameObject* wayPointOne;
 	GameObject* wayPointTwo;
