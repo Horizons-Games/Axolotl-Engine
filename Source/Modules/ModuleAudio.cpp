@@ -134,6 +134,12 @@ bool ModuleAudio::CleanUp()
     AK::SoundEngine::UnregisterAllGameObj();
     AK::SoundEngine::RenderAudio();
 
+    // Try to prevent data race
+    // This is very far from ideal
+    // We should wait for RenderAudio to end
+    // But I couldn't figure out a way
+    AKPLATFORM::AkSleep(10);
+
 #ifndef AK_OPTIMIZED
     // Terminate Communication Services
     AK::Comm::Term();
