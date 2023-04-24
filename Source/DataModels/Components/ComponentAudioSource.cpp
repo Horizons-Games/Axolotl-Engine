@@ -5,19 +5,12 @@
 
 
 ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
-    : Component(ComponentType::AUDIOSOURCE, active, owner, true)
+    : Component(ComponentType::AUDIOSOURCE, active, owner, true), sourceID(owner->GetUID())
 {
-    sourceID = owner->GetUID();
-
     AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName().c_str());
     transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
     OnTransformChanged();
-
-    PostEvent(audio::PLAY_MUSIC); //REMOVE (just for testing)
-    AK::SoundEngine::SetState(audio::STATE_GROUP_ZONE, audio::STATE_ID_ZONE_SEWERS);
-    AK::SoundEngine::SetState(audio::STATE_GROUP_LIFE, audio::STATE_ID_LIFE_ALIVE);
-    SetSwitch(audio::SWITCH_GROUP_MUSIC_GAMEPLAY, audio::SWITCH_ID_MUSIC_EXPLORATION);
 }
 
 ComponentAudioSource::~ComponentAudioSource()

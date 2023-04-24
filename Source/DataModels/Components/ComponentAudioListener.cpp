@@ -4,10 +4,8 @@
 
 
 ComponentAudioListener::ComponentAudioListener(const bool active, GameObject* owner)
-    : Component(ComponentType::AUDIOLISTENER, active, owner, true)
+    : Component(ComponentType::AUDIOLISTENER, active, owner, true), listenerID(owner->GetUID())
 {
-    listenerID = owner->GetUID();
-
     AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName().c_str());
     AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
     transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
