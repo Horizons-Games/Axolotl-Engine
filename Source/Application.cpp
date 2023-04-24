@@ -66,8 +66,10 @@ bool Application::Start()
 
 update_status Application::Update()
 {
+	bool playModeStart = isOnPlayMode;
 	float ms;
-	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
+
+	(playModeStart) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
 
 	update_status ret = update_status::UPDATE_CONTINUE;
 
@@ -81,14 +83,14 @@ update_status Application::Update()
 		ret = modules[i]->PostUpdate();
 
 	float dt;
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
+	(playModeStart) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
-	(isOnPlayMode) ?
+	(playModeStart) ?
 		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
 
 	return ret;

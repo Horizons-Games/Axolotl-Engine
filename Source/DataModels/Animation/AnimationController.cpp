@@ -30,7 +30,8 @@ void AnimationController::Update()
     {
         float duration = resource->GetDuration();
 
-        currentTime += App->GetDeltaTime()*10;
+        ENGINE_LOG("DeltaTime: %f", App->GetDeltaTime());
+        currentTime += App->GetDeltaTime() * 10;
         if (currentTime > duration)
         {
             if (isLooping)

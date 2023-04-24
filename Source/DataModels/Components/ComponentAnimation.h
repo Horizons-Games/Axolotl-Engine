@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
+
 #include "Components/Component.h"
 
 #include <vector>
@@ -8,7 +11,7 @@
 class AnimationController;
 class ResourceAnimation;
 
-class ComponentAnimation : public Component
+class ComponentAnimation : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentAnimation(const bool active, GameObject* owner);
@@ -18,7 +21,7 @@ public:
 	void SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations);
 
 	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void DrawBones(GameObject* parent) const;
 

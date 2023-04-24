@@ -51,23 +51,33 @@ public:
 	const std::vector<std::shared_ptr<ResourceMesh>>& GetMeshes() const;
 	const std::vector<std::shared_ptr<ResourceMaterial>>& GetMaterials() const;
 	const std::vector<std::shared_ptr<ResourceAnimation>>& GetAnimations() const;
+
 	OptionsModel& GetOptions();
 
-	void SetNodes(const std::vector<Node*>& nodes);
+	void SetNumMeshes(const unsigned int numMeshes);
+	void SetNumMaterials(const unsigned int numMaterials);
+	void SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials);
+	void SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes);
 	void SetAnimations(const std::vector<std::shared_ptr<ResourceAnimation>>& animations);
+	void SetNodes(const std::vector<Node*>& nodes);
 
 	void AppendNode(Node* node);
-
 
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
 
 private:
-	OptionsModel options;
+	size_t numMeshes;
+	size_t numMaterials;
 
 	std::vector<Node*> nodes;
+	
+	std::vector<std::shared_ptr<ResourceMesh>> meshes;
+	std::vector<std::shared_ptr<ResourceMaterial>> materials;
 	std::vector<std::shared_ptr<ResourceAnimation>> animations;
+
+	OptionsModel options;
 };
 
 inline ResourceType ResourceModel::GetType() const
@@ -80,6 +90,26 @@ inline const size_t ResourceModel::GetNumNodes() const
 	return nodes.size();
 }
 
+inline const size_t ResourceModel::GetNumMeshes() const
+{
+	return numMeshes;
+}
+
+inline const size_t ResourceModel::GetNumMaterials() const
+{
+	return numMaterials;
+}
+
+inline const std::vector<std::shared_ptr<ResourceMesh>>& ResourceModel::GetMeshes() const
+{
+	return meshes;
+}
+
+inline const std::vector<std::shared_ptr<ResourceMaterial>>& ResourceModel::GetMaterials() const
+{
+	return materials;
+}
+
 inline const std::vector<ResourceModel::Node*>& ResourceModel::GetNodes() const
 {
 	return nodes;
@@ -88,11 +118,6 @@ inline const std::vector<ResourceModel::Node*>& ResourceModel::GetNodes() const
 inline OptionsModel& ResourceModel::GetOptions()
 {
 	return options;
-}
-
-inline void ResourceModel::SetNodes(const std::vector<Node*>& nodes)
-{
-	this->nodes = nodes;
 }
 
 inline const std::vector<std::shared_ptr<ResourceAnimation>>& ResourceModel::GetAnimations() const
@@ -110,6 +135,32 @@ inline void ResourceModel::SetAnimations(const std::vector<std::shared_ptr<Resou
 	this->animations = animations;
 }
 
+inline void ResourceModel::SetNumMeshes(const unsigned int numMeshes)
+{
+	this->numMeshes = numMeshes;
+}
+
+inline void ResourceModel::SetNumMaterials(const unsigned int numMaterials)
+{
+	this->numMaterials = numMaterials;
+}
+
+inline void ResourceModel::SetNodes(const std::vector<Node*>& nodes)
+{
+	this->nodes = nodes;
+}
+
+inline void ResourceModel::SetMeshes(const std::vector<std::shared_ptr<ResourceMesh>>& meshes)
+{
+	this->meshes = meshes;
+	this->numMeshes = meshes.size();
+}
+
+inline void ResourceModel::SetMaterials(const std::vector<std::shared_ptr<ResourceMaterial>>& materials)
+{
+	this->materials = materials;
+	this->numMaterials = materials.size();
+}
 
 inline void ResourceModel::AppendNode(Node* node)
 {

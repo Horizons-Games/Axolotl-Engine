@@ -63,7 +63,7 @@ void ComponentAnimation::Update()
 	}
 }
 
-void ComponentAnimation::Draw()
+void ComponentAnimation::Draw() const
 {
 	DrawBones(owner);
 }
