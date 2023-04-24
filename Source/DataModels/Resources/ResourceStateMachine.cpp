@@ -60,12 +60,7 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 	transitions[uid] = transition;
 }
 
-void ResourceStateMachine::EditDestinyTransition(unsigned int idTransition, unsigned int idState)
-{
-	transitions[idTransition].destination = states[idState];
-}
-
-void ResourceStateMachine::EraseTransition(unsigned int id)
+void ResourceStateMachine::EraseTransition(UID id)
 {
 	State* stateOrigin = transitions[id].origin;
 	remove(stateOrigin->transitionsOriginedHere.begin(), stateOrigin->transitionsOriginedHere.end(), id);

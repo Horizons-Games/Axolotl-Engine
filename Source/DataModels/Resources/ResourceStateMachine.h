@@ -76,14 +76,11 @@ public:
 	void AddNewState(int x, int y);
 	void SetStateName(unsigned int id, std::string name);
 	void SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource);
-
 	void EraseState(unsigned int id);
 
 	void AddNewTransition(int idOrigin, int idDestiny);
-
-	void EditDestinyTransition(unsigned int idTransition, unsigned int idState);
-
-	void EraseTransition(unsigned int id);
+	void SetDurationTransition(UID id, double transition);
+	void EraseTransition(UID id);
 
 	void SetParameter(const std::string& parameterName, ValidFieldType value);
 	void AddParameter(std::string parameterName, FieldType type, ValidFieldType value);
@@ -164,6 +161,11 @@ inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::s
 inline const std::unordered_map<std::string, TypeFieldPair>& ResourceStateMachine::GetParameters() const
 {
 	return defaultParameters;
+}
+
+inline void ResourceStateMachine::SetDurationTransition(UID id, double transition)
+{
+	transitions[id].transitionDuration = transition;
 }
 
 inline void ResourceStateMachine::EraseParameter(const std::string& parameterName)

@@ -74,6 +74,13 @@ void WindowStateMachineEditor::DrawWindowContents()
 			std::string title = it->second.origin->name.c_str();
 			std::string title2 = it->second.destination->name.c_str();
 			ImGui::Text((title  + " -> " + title2).c_str());
+
+			double duration = it->second.transitionDuration;
+			if(ImGui::InputDouble("Duration:", &duration))
+			{
+				stateAsShared->SetDurationTransition(transitionIdSelected, duration);
+			}
+
 			ImGui::Text("Conditions");
 			ImGui::SameLine();
 			if (ImGui::Button("+##2"))
