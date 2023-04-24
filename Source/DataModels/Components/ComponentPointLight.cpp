@@ -57,7 +57,7 @@ void ComponentPointLight::Draw() const
 		return;
 	}
 #endif //ENGINE
-	if (IsActive() && GetOwner() == App->scene->GetSelectedGameObject())
+	if (IsEnabled() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

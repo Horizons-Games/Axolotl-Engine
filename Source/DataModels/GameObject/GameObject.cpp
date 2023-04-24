@@ -143,7 +143,7 @@ void GameObject::Draw() const
 {
 	for (const std::unique_ptr<Component>& component : components)
 	{
-		if (component->IsActive())
+		if (component->IsEnabled())
 		{
 			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
 			if (drawable)

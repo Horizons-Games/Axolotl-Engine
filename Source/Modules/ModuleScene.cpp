@@ -75,7 +75,7 @@ update_status ModuleScene::PreUpdate()
 					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
-				if (componentScript->IsActive())
+				if (componentScript->IsEnabled())
 				{
 					componentScript->Init();
 				}
@@ -85,7 +85,7 @@ update_status ModuleScene::PreUpdate()
 		{
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				if (componentScript->IsActive())
+				if (componentScript->IsEnabled())
 				{
 					componentScript->Start();
 				}
@@ -102,7 +102,7 @@ update_status ModuleScene::PreUpdate()
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			if (dynamic_cast<Component*>(updatable)->IsActive())
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
 				updatable->PreUpdate();
 			}
@@ -121,7 +121,7 @@ update_status ModuleScene::Update()
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			if (dynamic_cast<Component*>(updatable)->IsActive())
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
 				updatable->Update();
 			}
@@ -136,7 +136,7 @@ update_status ModuleScene::PostUpdate()
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			if (dynamic_cast<Component*>(updatable)->IsActive())
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
 				updatable->PostUpdate();
 			}
