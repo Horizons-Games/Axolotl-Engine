@@ -37,7 +37,7 @@ void ResourceMesh::InternalUnload()
 
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &vao);
+	glDeleteVertexArrays(1, &vao);
 	vbo = 0;
 	ebo = 0;
 	vao = 0;
