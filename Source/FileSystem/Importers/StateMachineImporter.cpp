@@ -243,18 +243,23 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 			cursor += bytes;
 
-			switch (resource->GetParameters().find(condition.parameter)->second.first)
+			const auto& itParameter = resource->GetParameters().find(condition.parameter);
+			if(itParameter != resource->GetParameters().end())
 			{
-			case FieldType::FLOAT:
-				bytes = sizeof(float);
-				break;
-			case FieldType::BOOL:
-				bytes = sizeof(bool);
-				break;
-			default:
-				break;
+				if (itParameter->second.first == FieldType::FLOAT)
+				{
+					bytes = sizeof(float);
+					float auxFloat = std::get<float>(condition.value);
+					memcpy(cursor, &auxFloat, bytes);
+				}
+				else if (itParameter->second.first == FieldType::BOOL)
+				{
+					bytes = sizeof(bool);
+					bool auxBool = std::get<bool>(condition.value);
+					memcpy(cursor, &auxBool, bytes);
+				}
 			}
-			memcpy(cursor, &(condition.value), bytes);
+
 			cursor += bytes;
 		}
 	}
@@ -463,18 +468,24 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			
 			fileBuffer += bytes;
 
-			switch (resource->GetParameters().find(condition.parameter)->second.first)
+			const auto& itParameter = resource->GetParameters().find(condition.parameter);
+			if(itParameter != resource->GetParameters().end())
 			{
-			case FieldType::FLOAT:
-				bytes = sizeof(float);
-				break;
-			case FieldType::BOOL:
-				bytes = sizeof(bool);
-				break;
-			default:
-				break;
+				if (itParameter->second.first == FieldType::FLOAT)
+				{
+					bytes = sizeof(float);
+					float value;
+					memcpy(&value, fileBuffer, bytes);
+					condition.value = value;
+				}
+				else if (itParameter->second.first == FieldType::BOOL)
+				{
+					bytes = sizeof(bool);
+					bool value;
+					memcpy(&value, fileBuffer, bytes);
+					condition.value = value;
+				}
 			}
-			memcpy(&(condition.value), fileBuffer, bytes);
 
 			fileBuffer += bytes;
 
