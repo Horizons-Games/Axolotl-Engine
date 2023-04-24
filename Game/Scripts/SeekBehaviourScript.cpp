@@ -16,7 +16,10 @@ SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
 
 void SeekBehaviourScript::Start()
 {
-	targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
+	if (target)
+	{
+		targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
+	}
 	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 

@@ -5,6 +5,7 @@
 // This script performs the movement for the drone
 
 class ComponentScript;
+class ComponentTransform;
 
 enum class DroneBehavoiurs
 {
@@ -26,5 +27,6 @@ private:
 	DroneBehavoiurs droneState;
 
 	ComponentScript* patrolScript;
-	ComponentScript* seekingScript;
+	ComponentScript* seekScript;
+	ComponentTransform* ownerTransform;
 };
