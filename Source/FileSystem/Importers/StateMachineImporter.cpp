@@ -72,7 +72,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		//Size of nameSize and Enum Condition
 		size += (sizeof(unsigned int) * 2) * it.second.conditions.size();
 
-		for (const Condition& condition : it.second.conditions) 
+		for (const Condition& condition : it.second.conditions)
 		{
 			size += sizeof(char) * condition.parameter.size();
 			switch (resource->GetParameters().find(condition.parameter)->second.first)
@@ -81,7 +81,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 				size += sizeof(float);
 				break;
 			case FieldType::BOOL:
-				size += sizeof(bool);
+				//Bool Condition doesn't have a value
 				break;
 			}
 		}
@@ -141,7 +141,6 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			jsonResources[countResources] = state->resource->GetAssetsPath().c_str();
 			++countResources;
 #endif
-
 			bytes = sizeof(UID);
 			UID resourceOfStateUID = state->resource->GetUID();
 			memcpy(cursor, &resourceOfStateUID, bytes);
@@ -251,16 +250,14 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 					bytes = sizeof(float);
 					float auxFloat = std::get<float>(condition.value);
 					memcpy(cursor, &auxFloat, bytes);
+					cursor += bytes;
 				}
 				else if (itParameter->second.first == FieldType::BOOL)
 				{
-					bytes = sizeof(bool);
-					bool auxBool = std::get<bool>(condition.value);
-					memcpy(cursor, &auxBool, bytes);
+					//Condition bool doesn't have value
 				}
 			}
-
-			cursor += bytes;
+			
 		}
 	}
 
@@ -477,17 +474,13 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 					float value;
 					memcpy(&value, fileBuffer, bytes);
 					condition.value = value;
+					fileBuffer += bytes;
 				}
 				else if (itParameter->second.first == FieldType::BOOL)
 				{
-					bytes = sizeof(bool);
-					bool value;
-					memcpy(&value, fileBuffer, bytes);
-					condition.value = value;
+					//Condition Bool doesn't have value
 				}
 			}
-
-			fileBuffer += bytes;
 
 			conditions.push_back(condition);
 		}
