@@ -27,14 +27,10 @@ bool CameraGameObject::Update()
 
 	if (App->input->GetInFocus())
 	{
-#ifdef ENGINE
-		UpdateCameraWithMousePos();
-#else // ENGINE
-		if (!App->player->IsStatic())
+		if (!App->player->IsStatic() && !SDL_ShowCursor(SDL_QUERY))
 		{
 			UpdateCameraWithMousePos();
 		}
-#endif
 	}
 	return true;
 }

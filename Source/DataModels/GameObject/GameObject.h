@@ -35,13 +35,12 @@ public:
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta);
 
-	void Update();
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D=true);
 
-	void AddChild(std::unique_ptr<GameObject> child);
-	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
+	void LinkChild(GameObject* child);
+	GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;
@@ -95,11 +94,18 @@ public:
 	bool CompareTag(const std::string& commingTag) const;
 
 private:
+	GameObject(const std::string& name,
+			   GameObject* parent,
+			   UID uid,
+			   bool enabled,
+			   bool active,
+			   StateOfSelection selection,
+			   bool staticObject);
+
 	bool IsAChild(const GameObject* child);
 
 private:
 	UID uid;
-	UID parentUID;
 
 	bool enabled;
 	bool active;

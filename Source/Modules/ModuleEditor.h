@@ -32,7 +32,7 @@ public:
 	bool IsSceneFocused() const;
 	void SetResourceOnInspector(const std::weak_ptr<Resource>& resource) const;
 	void RefreshInspector() const;
-	std::pair<int, int> GetAvailableRegion();
+	std::pair<float, float> GetAvailableRegion();
 
 private:
 	void CopyAnObject();
@@ -48,7 +48,11 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	GameObject* copyObject;
+	std::unique_ptr<GameObject> copyObject;
+	std::string StateWindows();
+	void CreateFolderSettings();
+	static const std::string settingsFolder;
+	static const std::string set;
 };
 
 inline const WindowScene* ModuleEditor::GetScene() const

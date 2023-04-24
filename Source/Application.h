@@ -15,10 +15,10 @@ class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
 class ModuleAudio;
-#ifndef ENGINE
 class ModulePlayer;
-#endif //ENGINE
 class ModuleEditor;
+
+class ScriptFactory;
 
 class Application
 {
@@ -32,12 +32,18 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void OnPlay();
+	void OnStop();
+	void OnPause();
+
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
+	bool IsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
+	void SetIsOnPlayMode(bool newIsOnPlayMode);
 	void SwitchDebuggingGame();
 
 public:
@@ -51,19 +57,22 @@ public:
 	ModuleResources* resources;
 	ModuleCamera* camera;
 	ModuleAudio* audio;
-#ifndef ENGINE
 	ModulePlayer* player;
-#endif // ENGINE
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
+	
+	std::unique_ptr<ScriptFactory> scriptFactory;
 
 private:
 	std::vector<std::unique_ptr<Module> > modules;
-	std::unique_ptr<Timer> appTimer;
+	Timer appTimer;
+	Timer onPlayTimer;
 
 	int maxFramerate;
 	float deltaTime = 0.f;
 	bool debuggingGame;
+	bool isOnPlayMode;
+
 };
 
 extern std::unique_ptr<Application> App;
@@ -83,6 +92,11 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
+inline bool Application::IsOnPlayMode() const
+{
+	return isOnPlayMode;
+}
+
 inline bool Application::IsDebuggingGame() const
 {
 	return debuggingGame;
@@ -91,6 +105,11 @@ inline bool Application::IsDebuggingGame() const
 inline void Application::SetDebuggingGame(bool debuggingGame)
 {
 	this->debuggingGame = debuggingGame;
+}
+
+inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
+{
+	isOnPlayMode = newIsOnPlayMode;
 }
 
 inline void Application::SwitchDebuggingGame()

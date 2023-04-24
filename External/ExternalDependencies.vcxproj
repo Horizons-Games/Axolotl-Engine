@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugEngine|Win32">
-      <Configuration>DebugEngine</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugGame|Win32">
-      <Configuration>DebugGame</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="DebugGame|x64">
       <Configuration>DebugGame</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseEngine|Win32">
-      <Configuration>ReleaseEngine</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="DebugEngine|x64">
       <Configuration>DebugEngine</Configuration>
@@ -25,10 +13,6 @@
       <Configuration>ReleaseEngine</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseGame|Win32">
-      <Configuration>ReleaseGame</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="ReleaseGame|x64">
       <Configuration>ReleaseGame</Configuration>
       <Platform>x64</Platform>
@@ -36,128 +20,82 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FontIcons\CustomFont.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="FontIcons\CustomImGuiFileDialogConfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGuiFileDialog\dirent\dirent.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGuiFileDialog\ImGuiFileDialog.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGuiFileDialog\ImGuiFileDialogConfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGuiFileDialog\stb\stb_image.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGuiFileDialog\stb\stb_image_resize.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imgui.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\ImGuizmo.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_sdl.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_internal.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_rectpack.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_textedit.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -252,91 +190,85 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIOBlocking.h" />
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIODeferred.h" />
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.h" />
+    <ClInclude Include="RuntimeCompiler\Include\AUArray.h" />
+    <ClInclude Include="RuntimeCompiler\Include\BuildTool.h" />
+    <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h" />
+    <ClInclude Include="RuntimeCompiler\Include\Compiler.h" />
+    <ClInclude Include="RuntimeCompiler\Include\FileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiler\Include\FileSystemUtils.h" />
+    <ClInclude Include="RuntimeCompiler\Include\ICompilerLogger.h" />
+    <ClInclude Include="RuntimeCompiler\Include\IFileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherImpl.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.h" />
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32_AltImpl.h" />
+    <ClInclude Include="RuntimeObjectSystem\IObject.h" />
+    <ClInclude Include="RuntimeObjectSystem\IObjectFactorySystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\IRuntimeObjectSystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\ISimpleSerializer.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterface.h" />
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterfacePerModule.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeInclude.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeLinkLibrary.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeObjectSystem.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeProtector.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeSourceDependency.h" />
+    <ClInclude Include="RuntimeObjectSystem\RuntimeTracking.h" />
+    <ClInclude Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FontIcons\CustomFont.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\ImGuizmo.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_demo.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_draw.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_sdl.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_tables.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-      </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
@@ -396,17 +328,27 @@
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp" />
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp" />
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\FileChangeNotifier.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.cpp" />
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\ObjectInterfacePerModuleSource.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformWindows.cpp" />
+    <ClCompile Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="ImGuiFileDialog\dirent\ChangeLog">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </None>
@@ -418,11 +360,10 @@
     <None Include="MathGeoLib\Include\Math\float2.inl" />
     <None Include="MathGeoLib\Include\Math\Matrix.inl" />
     <None Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.inl" />
+    <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FontIcons\CustomFont.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </Image>
@@ -434,26 +375,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -483,18 +404,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -508,79 +417,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-    <Link>
-      <TargetMachine>MachineX86</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-    <Link>
-      <TargetMachine>MachineX86</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <TargetMachine>MachineX86</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <TargetMachine>MachineX86</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -595,7 +434,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -610,7 +449,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -625,7 +464,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>

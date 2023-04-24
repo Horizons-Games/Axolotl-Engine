@@ -4,24 +4,6 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{267dae69-2738-48c3-8a92-691a8efac7cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MathGeoLib">
-      <UniqueIdentifier>{10b1df1f-a8b4-424f-9b7d-5d185649e801}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MathGeoLib\Algorithm">
-      <UniqueIdentifier>{0e26c7af-24fd-4d2a-a1b6-43abbac75236}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MathGeoLib\Algorithm\Random">
-      <UniqueIdentifier>{9f73daaf-649a-44ae-8ee6-c6cc8a41f8c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MathGeoLib\Geometry">
-      <UniqueIdentifier>{66ffa238-5c59-45e9-ab86-210cfc405517}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MathGeoLib\Math">
-      <UniqueIdentifier>{ace69234-7176-4bea-a898-64829c2e8d14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MathGeoLib\Time">
-      <UniqueIdentifier>{b03d7beb-7a36-446f-8503-25ab4fdd9e43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui\ImGuiFileDialog">
       <UniqueIdentifier>{10c26ba9-9d8b-40b2-aad1-f8ccb263e5cb}</UniqueIdentifier>
     </Filter>
@@ -36,6 +18,39 @@
     </Filter>
     <Filter Include="wwise">
       <UniqueIdentifier>{742d93d5-813d-4215-89b4-3534a28a2c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeCompiler">
+      <UniqueIdentifier>{814213ba-f222-452f-bdb1-0120d8411c89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeCompiler\FileWatcher">
+      <UniqueIdentifier>{9f598cea-ae97-4c75-ab88-9bd83f44c4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem">
+      <UniqueIdentifier>{a4876c9e-d910-41e6-b351-5cc6bca4814e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem\SimpleSerializer">
+      <UniqueIdentifier>{29242396-53ad-48c7-8882-79a2699a0eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RuntimeObjectSystem\ObjectFactorySystem">
+      <UniqueIdentifier>{8dc987a7-4388-4c5f-a3d8-ae16353302ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib">
+      <UniqueIdentifier>{dfeb6ef1-1d21-4ae9-ab2d-6187e07ba98b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib\Algorithm">
+      <UniqueIdentifier>{261df50b-4228-4f07-a6fc-700dba28b6c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib\Algorithm\Random">
+      <UniqueIdentifier>{a15d64f8-2bd8-414a-a03a-95f63f8baca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib\Geometry">
+      <UniqueIdentifier>{a59f1835-9e4a-4123-b2a4-09f0a415fe3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib\Math">
+      <UniqueIdentifier>{ba5a80a7-9894-48ff-bf65-d1997afbde38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathGeoLib\Time">
+      <UniqueIdentifier>{902c045f-8547-48c2-af5a-44a23a3644bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +83,120 @@
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="FontIcons\CustomFont.h">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClInclude>
+    <ClInclude Include="FontIcons\CustomImGuiFileDialogConfig.h">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\dirent\dirent.h">
+      <Filter>ImGui\ImGuiFileDialog\dirent</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\stb\stb_image.h">
+      <Filter>ImGui\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\stb\stb_image_resize.h">
+      <Filter>ImGui\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\AUArray.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\BuildTool.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\Compiler.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\FileChangeNotifier.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\FileSystemUtils.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\ICompilerLogger.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\IFileChangeNotifier.h">
+      <Filter>RuntimeCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherImpl.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32_AltImpl.h">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IObject.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IObjectFactorySystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\IRuntimeObjectSystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ISimpleSerializer.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterface.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectInterfacePerModule.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeInclude.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeLinkLibrary.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeObjectSystem.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeProtector.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeSourceDependency.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\RuntimeTracking.h">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.h">
+      <Filter>RuntimeObjectSystem\SimpleSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.h">
+      <Filter>RuntimeObjectSystem\ObjectFactorySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathBuildConfig.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathGeoLib.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathGeoLibFwd.h">
+      <Filter>MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\Include\Algorithm\GJK.h">
       <Filter>MathGeoLib\Algorithm</Filter>
@@ -189,12 +318,6 @@
     <ClInclude Include="MathGeoLib\Include\Math\float4.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\Include\Math\float4_neon.h">
-      <Filter>MathGeoLib\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\Include\Math\float4_sse.h">
-      <Filter>MathGeoLib\Math</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\Include\Math\float4d.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
@@ -205,6 +328,12 @@
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\Include\Math\float4x4_sse.h">
+      <Filter>MathGeoLib\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\Math\float4_neon.h">
+      <Filter>MathGeoLib\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\Math\float4_sse.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\Include\Math\FloatCmp.h">
@@ -267,10 +396,10 @@
     <ClInclude Include="MathGeoLib\Include\Math\simd.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\Include\Math\sse_mathfun.h">
+    <ClInclude Include="MathGeoLib\Include\Math\SSEMath.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\Include\Math\SSEMath.h">
+    <ClInclude Include="MathGeoLib\Include\Math\sse_mathfun.h">
       <Filter>MathGeoLib\Math</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\Include\Math\Swap.h">
@@ -388,6 +517,54 @@
     </ClCompile>
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="FontIcons\CustomFont.cpp">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\FileChangeNotifier.cpp">
+      <Filter>RuntimeCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcher.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherOSX.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherWin32.cpp">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\ObjectInterfacePerModuleSource.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\RuntimeObjectSystem_PlatformWindows.cpp">
+      <Filter>RuntimeObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\SimpleSerializer\SimpleSerializer.cpp">
+      <Filter>RuntimeObjectSystem\SimpleSerializer</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeObjectSystem\ObjectFactorySystem\ObjectFactorySystem.cpp">
+      <Filter>RuntimeObjectSystem\ObjectFactorySystem</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib\Include\Algorithm\GJK.cpp">
       <Filter>MathGeoLib\Algorithm</Filter>
@@ -559,6 +736,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="FontIcons\CustomFont.ifs">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </None>
+    <None Include="ImGuiFileDialog\dirent\ChangeLog">
+      <Filter>ImGui\ImGuiFileDialog\dirent</Filter>
+    </None>
+    <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~">
+      <Filter>RuntimeCompiler\FileWatcher</Filter>
+    </None>
     <None Include="MathGeoLib\Include\Geometry\KDTree.inl">
       <Filter>MathGeoLib\Geometry</Filter>
     </None>

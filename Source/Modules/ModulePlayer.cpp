@@ -4,6 +4,8 @@
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "ModuleRender.h"
 #include "Scene/Scene.h"
 #include "ModuleInput.h"
 
@@ -11,13 +13,16 @@
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),componentPlayer(nullptr) {};
+ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
+	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -30,36 +35,69 @@ bool ModulePlayer::Init()
 bool ModulePlayer::Start()
 {
 	//Initialize the player
+#ifndef ENGINE
 	LoadNewPlayer();
+#endif //GAMEMODE
 	return true;
 }
 
 update_status ModulePlayer::PreUpdate()
 {
+#ifdef ENGINE
+	if (isPlayerLoad && App->IsOnPlayMode())
+	{
+		if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0 
+			&& !SDL_ShowCursor(SDL_QUERY))
+		{
+			Move();
+			Rotate();
+		}
+	}
+
+#else //ENGINE
 	if (player && !componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0)
 	{
 		Move();
 		Rotate();
 	}
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModulePlayer::Update()
 {
-	player->Update();
-	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
-	trans->UpdateTransformMatrices();
+#ifdef ENGINE
+	if (isPlayerLoad && App->IsOnPlayMode())
+	{
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+		
+		if (readyToEliminate)
+		{
+			App->OnStop();
+			readyToEliminate = false;
+		}
+	}
+	
+#else //ENGINE
+	if (player)
+	{
+		//player->Update();
+		ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+		trans->UpdateTransformMatrices();
+	}
+#endif //GAMEMODE
 	return update_status::UPDATE_CONTINUE;
 }
 
 GameObject* ModulePlayer::GetPlayer()
 {
-	return player.get();
+	return player;
 }
 
-void ModulePlayer::SetPlayer(std::unique_ptr<GameObject> newPlayer)
+void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
-	player = std::move(newPlayer);
+	player = newPlayer;
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
@@ -72,38 +110,195 @@ void ModulePlayer::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f)?App->GetDeltaTime():1.f;
 	ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(player->GetComponent(ComponentType::MESHCOLLIDER));
+	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(player->GetComponent(ComponentType::RIGIDBODY));
 	float3 position = trans->GetPosition();
+
+	math::vec points[8];
+	trans->GetObjectOBB().GetCornerPoints(points);
+	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
+
+	float3 direction = (points[1] - points[0]).Normalized();
+	float3 sideDirection = (points[0] - points[4]).Normalized();
+	float3 verticalDirection = float3::unitY;
+
+	RaycastHit hit;
+
+	float forceParameter = 50.0f;
+	float jumpParameter = 150.0f;
+
+	float size = 0.0f;
+	float sizeForce = 0.0f;
+	float sizeJump = 0.0f;
+
+	float3 jumpVector = float3::unitY;
+	float3 forceVector = float3::zero;
+
+	size = speed * deltaTime * 1.1f;
+	
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	{
+		sizeForce = deltaTime * forceParameter;
+		
+	}
+
 	//Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalForward().Normalized() * speed * deltaTime;
-		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		forceVector += direction;
+		jumpVector += trans->GetGlobalForward().Normalized();
+
+		if (sizeForce == 0.0f)
+		{
+			forceVector += -direction;
+		}
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += -trans->GetGlobalForward().Normalized();
+		}
+
+		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f)) 
+		{
+			if (sizeForce != 0.0f)
+			{
+				forceVector += -direction;
+			}
+			if (sizeJump != 0.0f)
+			{
+				jumpVector += -trans->GetGlobalForward().Normalized();
+			}
+		}
 	}
 
 	//Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalForward().Normalized() * speed * deltaTime;
-		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		forceVector += -direction;
+		jumpVector += -trans->GetGlobalForward().Normalized();
+
+		if (sizeForce == 0.0f)
+		{
+			forceVector += direction;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalForward().Normalized();
+		}
+
+		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			if (sizeForce != 0.0f)
+			{
+				forceVector += direction;
+			}
+			
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalForward().Normalized();
+			}
+		}
 	}
 
 	//Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		position += trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
-		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+
+		forceVector += -sideDirection;
+		jumpVector += -trans->GetGlobalRight().Normalized();
+
+		if (sizeForce == 0.0f)
+		{
+			forceVector += sideDirection;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalRight().Normalized();;
+		}
+
+		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			if (sizeForce != 0.0f)
+			{
+				forceVector += sideDirection;
+			}
+
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalRight().Normalized();;
+			}
+		}
 	}
 
 	//Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
-		position += -trans->GetGlobalRight().Normalized() * speed*2/3 * deltaTime;
-		trans->SetPosition(position);
-		//trans->UpdateTransformMatrices();
+		forceVector += sideDirection;
+		jumpVector += -trans->GetGlobalRight().Normalized();
+
+		if (sizeForce == 0.0f)
+		{
+			forceVector += -sideDirection;
+		}
+
+		if (sizeJump == 0.0f)
+		{
+			jumpVector += trans->GetGlobalRight().Normalized();
+		}
+
+		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		{
+			if (sizeForce != 0.0f)
+			{
+				forceVector += -sideDirection;
+			}
+
+			if (sizeJump != 0.0f) 
+			{
+				jumpVector += trans->GetGlobalRight().Normalized();
+			}
+		}
 	}
+
+	rigidBody->AddForce(forceVector * forceParameter);
+	
+	
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
+	{
+		sizeJump = deltaTime * jumpParameter;
+		if (rigidBody->IsOnGround()) 
+		{
+			rigidBody->AddForce(jumpVector* jumpParameter, ForceMode::Acceleration);
+		}
+		
+	}
+
+
+	//bottom
+	float maxHeight = -math::inf;
+
+	std::vector<float3> extraPoints;
+	collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
+	for (float3 bottomPoint : extraPoints) 
+	{
+		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y)/5;
+		Ray ray(bottomPoint, -float3::unitY);
+		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+		bool hasHit = Physics::Raycast(line, hit);
+
+		if (hasHit && hit.hitPoint.y > maxHeight)
+		{
+			maxHeight = hit.hitPoint.y;
+		}
+	}
+
+	rigidBody->SetBottomHitPoint(maxHeight);
+
+	//top
+	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))
+	{
+	}*/
 }
 
 void ModulePlayer::Rotate()
@@ -115,21 +310,47 @@ void ModulePlayer::Rotate()
 		float3 newRot = trans->GetRotationXYZ();
 		newRot.y += - App->input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
-		//trans->UpdateTransformMatrices();
+		trans->UpdateTransformMatrices();
+
+
+		//Corroborate that you don't fuse with a wall
+		ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(player->GetComponent(ComponentType::MESHCOLLIDER));
+		math::vec points[8];
+		trans->GetObjectOBB().GetCornerPoints(points);
+		std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
+		float3 direction = (points[1] - points[0]).Normalized();
+		RaycastHit hit;
+		if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7))
+		{
+			float deltaTime = App->GetDeltaTime();
+			ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));
+			float3 newRot = trans->GetRotationXYZ();
+			newRot.y += App->input->GetMouseMotion().x * deltaTime;
+			trans->SetRotation(newRot);
+			trans->UpdateTransformMatrices();
+		}
+
 	}
 }
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<GameObject*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
-	for (GameObject* camera : cameras)
+	std::vector<ComponentCamera*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	for (ComponentCamera* camera : cameras)
 	{
-		if (camera->GetParent()->GetComponent(ComponentType::PLAYER))
+		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
+		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
 		{
-			SetPlayer(camera->GetParent()->GetParent()->RemoveChild(camera->GetParent()));
-			cameraPlayer = static_cast<ComponentCamera*>(camera->GetComponent(ComponentType::CAMERA))->GetCamera();
-			App->scene->RemoveGameObjectAndChildren(camera->GetParent());
+			SetPlayer(parentOfOwner);
+			cameraPlayer = camera->GetCamera();
+#ifdef ENGINE
+			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
+			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+#else
+			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
+#endif // ENGINE			
 			App->camera->SetSelectedCamera(0);
+			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
 				App->input->SetShowCursor(true);
@@ -138,10 +359,20 @@ void ModulePlayer::LoadNewPlayer()
 			{
 				App->input->SetShowCursor(false);
 			}
+			isPlayerLoad = true;
+			return;
 		}
 	}
+	isPlayerLoad = false;
+	ENGINE_LOG("Player is not load");
 }
 
+void ModulePlayer::UnloadNewPlayer()
+{
+	App->camera->SetSelectedCamera(-1);
+	player = nullptr;
+	isPlayerLoad = false;
+}
 
 bool ModulePlayer::IsStatic()
 {
