@@ -46,6 +46,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			asMeshRenderer->SetMaterial(material);
 			asMeshRenderer->GetBatch()->ReserveModelSpace();
+			InitMaterialValues();
 			newMaterial = false;
 		}
 
