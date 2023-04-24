@@ -132,6 +132,7 @@ bool ModuleAudio::CleanUp()
 {
     AK::SoundEngine::StopAll();
     AK::SoundEngine::UnregisterAllGameObj();
+    AK::SoundEngine::RenderAudio();
 
 #ifndef AK_OPTIMIZED
     // Terminate Communication Services
