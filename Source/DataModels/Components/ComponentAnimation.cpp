@@ -30,15 +30,6 @@ AnimationController* ComponentAnimation::GetController()
 	return controller;
 }
 
-//void ComponentAnimation::SetAnimations(std::vector<std::shared_ptr<ResourceAnimation>> animations)
-//{
-//	this->animations = animations;
-//	animationIx = 0;
-//
-//	controller->Play(animations[animationIx], true);
-//	//controller->Stop();
-//}
-
 const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
 {
 	return stateMachine;
