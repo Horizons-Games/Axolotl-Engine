@@ -123,6 +123,8 @@ void ComponentRigidBody::Update()
 
 			//Update Transform
 			transform->SetPosition(x);
+
+			//transform->UpdateTransformMatrices();
 		}
 
 #ifdef ENGINE
