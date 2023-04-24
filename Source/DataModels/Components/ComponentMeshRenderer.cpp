@@ -80,11 +80,6 @@ void ComponentMeshRenderer::Update()
 		if (root)
 		{
 			const std::vector<Bone>& bindBones = mesh->GetBones();
-			const float4x4& invertedRootBoneTransform = root ? static_cast<ComponentTransform*>(root->
-				GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Inverted() : float4x4::identity;
-
-			const float4x4& localMatrix = static_cast<ComponentTransform*>(GetOwner()->
-				GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 			for (unsigned int i = 0; i < mesh->GetNumBones(); ++i)
 			{
