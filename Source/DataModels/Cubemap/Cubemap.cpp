@@ -21,20 +21,20 @@ Cubemap::Cubemap()
     //Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	glGenRenderbuffers(1, &renderBuffer);
+	//glGenRenderbuffers(1, &renderBuffer);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, CUBEMAP_RESOLUTION, CUBEMAP_RESOLUTION);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
+	//glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, CUBEMAP_RESOLUTION, CUBEMAP_RESOLUTION);
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
     // Disable depth testing
     glDisable(GL_DEPTH_TEST);
 
     // from hdr to Cubemap
-	glGenTextures(1, &cubemapTex);
+	glGenTextures(1, &cubemap);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTex);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 
@@ -43,7 +43,7 @@ Cubemap::Cubemap()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     Program* hdrToCubemapProgram = App->program->GetProgram(ProgramType::HDR_TO_CUBEMAP);
@@ -57,9 +57,9 @@ Cubemap::Cubemap()
     RenderToCubeMap(hdrToCubemapProgram, CUBEMAP_RESOLUTION);
 
     // irradianceMap
-    glGenTextures(1, &irradianceTex);
+    glGenTextures(1, &irradiance);
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceTex);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, irradiance);
     for (unsigned int i = 0; i < 6; ++i)
     {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 
@@ -75,14 +75,14 @@ Cubemap::Cubemap()
 	irradianceProgram->Activate();
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, cubemapTex);
+    glBindTexture(GL_TEXTURE_2D, cubemap);
 
     RenderToCubeMap(irradianceProgram, IRRADIANCE_MAP_RESOLUTION);
 
     // pre-filtered map
-    glGenTextures(1, &preFilteredTex);
+    glGenTextures(1, &preFiltered);
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP, preFilteredTex);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
     for (unsigned int i = 0; i < 6; ++i)
     {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, PRE_FILTERED_MAP_RESOLUTION,
@@ -100,13 +100,30 @@ Cubemap::Cubemap()
     preFilteredProgram->Activate();
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, cubemapTex);
+    glBindTexture(GL_TEXTURE_2D, cubemap);
     
     for (int roughness = 0; roughness <= numMipMaps; ++roughness)
     {
-        preFilteredProgram->BindUniformFloat(0, roughness);
+        preFilteredProgram->BindUniformFloat(0, static_cast<float>(roughness));
         RenderToCubeMap(preFilteredProgram, PRE_FILTERED_MAP_RESOLUTION, roughness);
     }
+
+    //environment BRDF
+    glGenTextures(1, &environmentBRDF);
+
+    glBindTexture(GL_TEXTURE_2D, environmentBRDF);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION, 0, GL_RG, GL_FLOAT, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    Program* environmentBRDFProgram = App->program->GetProgram(ProgramType::ENVIRONMENT_BRDF);
+    environmentBRDFProgram->Activate();
+    glViewport(0, 0, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, environmentBRDF, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    environmentBRDFProgram->Deactivate();
     
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -115,9 +132,10 @@ Cubemap::~Cubemap()
 {
     glDeleteFramebuffers(1, &frameBuffer);
     glDeleteRenderbuffers(1, &renderBuffer);
-    glDeleteTextures(1, &cubemapTex);
-    glDeleteTextures(1, &irradianceTex);
-    glDeleteTextures(1, &preFilteredTex);
+    glDeleteTextures(1, &cubemap);
+    glDeleteTextures(1, &irradiance);
+    glDeleteTextures(1, &preFiltered);
+    glDeleteTextures(1, &environmentBRDF);
     glDeleteVertexArrays(1, &cubeVAO);
     glDeleteBuffers(1, &cubeVBO);
 }
@@ -133,17 +151,17 @@ void Cubemap::RenderToCubeMap(Program* usedProgram, int resolution, int roughnes
     frustum.SetPos(float3::zero);
     frustum.SetViewPlaneDistances(0.1f, 100.0f);
 
-    usedProgram->BindUniformFloat4x4("proj", frustum.ProjectionMatrix().ptr(), GL_TRUE);
+    usedProgram->BindUniformFloat4x4(1, frustum.ProjectionMatrix().ptr(), GL_TRUE);
 
     glViewport(0, 0, resolution, resolution);
     for (unsigned int i = 0; i < 6; ++i)
     {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, roughness);
+            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemap, roughness);
         frustum.SetFront(front[i]);
         frustum.SetUp(up[i]);
         
-        usedProgram->BindUniformFloat4x4("view", frustum.ViewMatrix().ptr(), GL_TRUE);
+        usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
         // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // don't know if we need it
         RenderCube();
     }

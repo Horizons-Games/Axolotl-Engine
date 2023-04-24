@@ -20,9 +20,10 @@ private:
 	GLuint frameBuffer;
 	GLuint renderBuffer;
 
-	GLuint cubemapTex;
-	GLuint irradianceTex;
-	GLuint preFilteredTex;
+	GLuint cubemap;
+	GLuint irradiance;
+	GLuint preFiltered;
+	GLuint environmentBRDF;
 
 	unsigned int cubeVAO;
 	unsigned int cubeVBO;

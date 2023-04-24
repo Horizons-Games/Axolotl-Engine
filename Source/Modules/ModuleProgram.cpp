@@ -74,7 +74,7 @@ bool ModuleProgram::Start()
 		(CreateProgram("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
 
 	programs.push_back
-		(CreateProgram("cubemap_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
+		(CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	return true;
 }
