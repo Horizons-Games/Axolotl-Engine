@@ -56,6 +56,7 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 	UID uid = UniqueID::GenerateUID();
 	states[idDestiny]->transitionsDestinedHere.push_back(uid);
 	states[idOrigin]->transitionsOriginedHere.push_back(uid);
+	transition.transitionDuration = 0.0;
 	transitions[uid] = transition;
 }
 
