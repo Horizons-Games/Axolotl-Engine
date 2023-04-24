@@ -317,6 +317,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 	for (int i = 0; i < scene->mNumAnimations; ++i)
 	{
 		aiAnimation* animation = scene->mAnimations[i];
+		
 
 		char* fileBuffer{};
 		unsigned int size = 0;
@@ -330,8 +331,6 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		}
 
 		std::string animationPath = ANIMATION_PATH + animationName + ANIMATION_EXTENSION;
-
-
 
 		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
@@ -440,18 +439,6 @@ std::shared_ptr<ResourceMaterial> ModelImporter::ImportMaterial(const aiMaterial
 			pathTextures[0] = diffusePath;
 		}
 	}
-	//Getting the specular texture
-	if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
-	{
-		std::string specularPath = "";
-
-		CheckPathMaterial(filePath, file, specularPath);
-
-		if (specularPath != "")
-		{
-			pathTextures[1] = specularPath;
-		}
-	}
 
 	if (material->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
 	{
@@ -462,6 +449,30 @@ std::shared_ptr<ResourceMaterial> ModelImporter::ImportMaterial(const aiMaterial
 		if (normalPath != "")
 		{
 			pathTextures[1] = normalPath;
+		}
+	}
+
+	if (material->GetTexture(aiTextureType_LIGHTMAP, 0, &file) == AI_SUCCESS)
+	{
+		std::string occlusionPath = "";
+
+		CheckPathMaterial(filePath, file, occlusionPath);
+
+		if (occlusionPath != "")
+		{
+			pathTextures[2] = occlusionPath;
+		}
+	}
+
+	if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+	{
+		std::string specularPath = "";
+
+		CheckPathMaterial(filePath, file, specularPath);
+
+		if (specularPath != "")
+		{
+			pathTextures[3] = specularPath;
 		}
 	}
 

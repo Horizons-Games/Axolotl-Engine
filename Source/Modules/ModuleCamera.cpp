@@ -8,9 +8,7 @@
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 
 #include "Scene/Scene.h"
@@ -136,7 +134,19 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	{
 #ifdef ENGINE
 		selectedPosition = 0;
-		selectedCamera = camera.get();
+		if (App->IsOnPlayMode())
+		{
+			selectedCamera = App->player->GetCameraPlayer();
+			if (!selectedCamera)
+			{
+				selectedPosition = 1;
+				selectedCamera = camera.get();
+			}
+		}
+		else
+		{
+			selectedCamera = camera.get();
+		}
 #else
 		selectedPosition = 0;
 		selectedCamera = App->player->GetCameraPlayer();
@@ -162,15 +172,13 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 #endif // !ENGINE
 	else
 	{
-		std::vector<GameObject*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
+		std::vector<ComponentCamera*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
 		if (loadedCameras.size() >= cameraNumber)
 		{
 #ifdef ENGINE
-			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras
-				[cameraNumber - 1]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+			selectedCamera = loadedCameras[cameraNumber - 1l]->GetCamera();
 #else
-			selectedCamera = (static_cast<ComponentCamera*>(loadedCameras
-				[cameraNumber - 2]->GetComponent(ComponentType::CAMERA)))->GetCamera();
+			selectedCamera = loadedCameras[cameraNumber - 2l]->GetCamera();
 #endif
 			selectedPosition = cameraNumber;
 			camera->SetPosition(selectedCamera->GetPosition());

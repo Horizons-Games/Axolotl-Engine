@@ -17,7 +17,9 @@ enum class ComponentType
 	IMAGE,
 	BUTTON,
 	RIGIDBODY,
-	MOCKSTATE
+	MOCKSTATE,
+	MESHCOLLIDER,
+	SCRIPT
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -33,23 +35,17 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void Init(); // In case any component needs an init to do something once created
-
-	virtual void Update() = 0; // Abstract because each component will perform its own Update
-
-	virtual void Draw();
-
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
 
 	virtual void Enable();
 	virtual void Disable();
 
-	bool GetActive();
-	ComponentType GetType();
+	bool IsEnabled() const;
+	ComponentType GetType() const;
 
-	GameObject* GetOwner();
-	bool GetCanBeRemoved();
+	GameObject* GetOwner() const;
+	bool CanBeRemoved() const;
 
 	void SetOwner(GameObject* owner);
 
@@ -77,10 +73,6 @@ inline Component::~Component()
 {
 }
 
-inline void Component::Init()
-{
-}
-
 inline void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
@@ -97,26 +89,22 @@ inline void Component::Disable()
 	}
 }
 
-inline void Component::Draw()
-{
-}
-
-inline bool Component::GetActive()
+inline bool Component::IsEnabled() const
 {
 	return active;
 }
 
-inline ComponentType Component::GetType()
+inline ComponentType Component::GetType() const
 {
 	return type;
 }
 
-inline GameObject* Component::GetOwner()
+inline GameObject* Component::GetOwner() const
 {
 	return owner;
 }
 
-inline bool Component::GetCanBeRemoved()
+inline bool Component::CanBeRemoved() const
 {
 	return canBeRemoved;
 }
@@ -154,6 +142,10 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
+	case ComponentType::MESHCOLLIDER:
+		return "Component_MeshCollider";
+	case ComponentType::SCRIPT:
+		return "Component_Script";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -215,6 +207,16 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_MockState")
 	{
 		return ComponentType::MOCKSTATE;
+	}
+
+	if (typeName == "Component_Script")
+	{
+		return ComponentType::SCRIPT;
+	}
+	
+	if (typeName == "Component_MeshCollider")
+	{
+		return ComponentType::MESHCOLLIDER;
 	}
 	
 	if (typeName == "Component_Animation")

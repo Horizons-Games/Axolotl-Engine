@@ -11,16 +11,17 @@ Timer::~Timer()
 void Timer::Start()
 {
 	startTick = SDL_GetTicks();
+	stopped = false;
 }
 
 float Timer::Read()
 {
 	if (stopped)
 	{
-		return (float)(startTick - stopTick);
+		return static_cast<float>(startTick - stopTick);
 	}
 
-	return (float)(SDL_GetTicks() - startTick);
+	return static_cast<float>(SDL_GetTicks() - startTick); 
 }
 
 float Timer::Stop()
@@ -28,7 +29,7 @@ float Timer::Stop()
 	stopped = true;
 	stopTick = SDL_GetTicks();
 
-	return (float)(SDL_GetTicks() - startTick);
+	return static_cast<float>(SDL_GetTicks() - startTick);
 }
 
 

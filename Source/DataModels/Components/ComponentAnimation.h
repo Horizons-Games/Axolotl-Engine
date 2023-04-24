@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
+
 #include "Components/Component.h"
 
 #include "Resources/ResourceStateMachine.h"
@@ -15,7 +18,7 @@ class State;
 class Transition;
 class GameObject;
 
-class ComponentAnimation : public Component
+class ComponentAnimation : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentAnimation(const bool active, GameObject* owner);
@@ -27,7 +30,7 @@ public:
 	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
 
 	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void DrawBones(GameObject* parent) const;
 

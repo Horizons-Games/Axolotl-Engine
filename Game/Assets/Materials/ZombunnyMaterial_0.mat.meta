@@ -11,8 +11,9 @@
     "smoothness": 0.5699999928474426,
     "metalness": 0.0,
     "hasMetallicAlpha": false,
-    "DiffuseAssetPath": "Assets/Textures/ZomBunnyDiffuse.png",
-    "NormalAssetPath": "Assets/Textures/ZomBunnyNormals.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/ZomBunnySpecular.tif"
+    "MetallicAssetPath": "Assets/Textures/ZomBunnySpecular.tif",
+    "SpecularAssetPath": ""
 }

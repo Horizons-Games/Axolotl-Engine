@@ -36,7 +36,6 @@ public:
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta);
 
-	void Update();
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D=true);
@@ -100,11 +99,18 @@ public:
 	GameObject* FindGameObject(const std::string& name);
 
 private:
+	GameObject(const std::string& name,
+			   GameObject* parent,
+			   UID uid,
+			   bool enabled,
+			   bool active,
+			   StateOfSelection selection,
+			   bool staticObject);
+
 	bool IsAChild(const GameObject* child);
 
 private:
 	UID uid;
-	UID parentUID;
 
 	bool enabled;
 	bool active;

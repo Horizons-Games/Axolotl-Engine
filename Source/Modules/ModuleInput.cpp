@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
@@ -101,7 +102,7 @@ update_status ModuleInput::Update()
 
     if (keyboard[SDL_SCANCODE_ESCAPE]) 
     {
-        status = update_status::UPDATE_STOP;
+        status = update_status::UPDATE_STOP;      
     }
 
     SDL_Event sdlEvent;
@@ -192,9 +193,30 @@ update_status ModuleInput::Update()
     }
 
 #ifdef ENGINE
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            App->player->SetReadyToEliminate(true);
+        }
+    }
+
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
+        }
+    }
+
     if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
         App->editor->GetMainMenu()->ShortcutSave();}
 #endif
+
     return status;
 }
 

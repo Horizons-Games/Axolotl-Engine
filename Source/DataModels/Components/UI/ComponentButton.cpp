@@ -13,14 +13,6 @@ ComponentButton::~ComponentButton()
 {
 }
 
-void ComponentButton::Update()
-{
-}
-
-void ComponentButton::Draw()
-{
-}
-
 void ComponentButton::SaveOptions(Json& meta)
 {
 	// Do not delete these

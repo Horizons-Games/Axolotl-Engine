@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/Component.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 #include "Geometry/AABB2D.h"
 
@@ -12,7 +13,7 @@
 
 class ComponentCanvas;
 
-class ComponentTransform2D : public Component
+class ComponentTransform2D : public Component, public Updatable
 {
 public:
 	ComponentTransform2D(const bool active, GameObject* owner);
