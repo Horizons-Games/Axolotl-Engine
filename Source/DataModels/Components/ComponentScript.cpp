@@ -22,7 +22,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->Init();
 	}
@@ -30,7 +30,7 @@ void ComponentScript::Init()
 
 void ComponentScript::Start()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->Start();
 	}
@@ -38,7 +38,7 @@ void ComponentScript::Start()
 
 void ComponentScript::PreUpdate()
 {
-	if (script && !App->scriptFactory->IsCompiling())
+	if (IsEnabled() && script && !App->scriptFactory->IsCompiling())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -46,7 +46,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (script && !App->scriptFactory->IsCompiling())
+	if (IsEnabled() && script && !App->scriptFactory->IsCompiling())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -54,7 +54,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (script && !App->scriptFactory->IsCompiling())
+	if (IsEnabled() && script && !App->scriptFactory->IsCompiling())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -62,7 +62,7 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::CleanUp()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->CleanUp();
 	}

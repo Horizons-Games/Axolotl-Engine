@@ -30,7 +30,7 @@ public:
 	bool Move(Direction direction, float distance, RaycastHit& hit, float stepSize = 0);
 	bool StepsMove(int steps, Direction direction, float distance, RaycastHit& hit, float stepSize = 0);
 
-	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, RaycastHit& hit, float stepSize = 0) const;
+	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize = 0) const;
 	void GetMinMaxPoints(const std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const;
 
 private:
