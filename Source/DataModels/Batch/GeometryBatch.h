@@ -52,6 +52,7 @@ public:
 
 	void CreateVAO();
 	void ClearBuffer();
+	void UpdateBuffer();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
@@ -103,6 +104,9 @@ private:
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
+
+	const GLuint bindingPointModel = 10;
+	const GLuint bindingPointMaterial = 11;
 
 
 	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };

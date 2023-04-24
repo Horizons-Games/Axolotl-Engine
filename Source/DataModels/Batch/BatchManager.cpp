@@ -71,7 +71,7 @@ void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMe
 	if (batch->dirtyBatch)
 	{
 		batch->ClearBuffer();
-		batch->CreateVAO();
+		batch->UpdateBuffer();
 		batch->dirtyBatch = false;
 
 	}

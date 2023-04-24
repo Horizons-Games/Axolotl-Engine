@@ -117,8 +117,7 @@ void GeometryBatch::FillBuffers()
 
 void GeometryBatch::FillMaterial()
 {
-	std::vector<Material> materialToRender;
-	materialToRender.reserve(instanceData.size());
+
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
@@ -152,8 +151,6 @@ void GeometryBatch::FillMaterial()
 		{
 			newMaterial.metallic_map = texture->GetHandle();
 		}
-
-		materialToRender.push_back(newMaterial);
 		materialData[i] = newMaterial;
 	}
 }
@@ -215,7 +212,6 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
-	const GLuint bindingPointModel = 10;
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
@@ -224,7 +220,6 @@ void GeometryBatch::CreateVAO()
 	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	
-	const GLuint bindingPointMaterial = 11;
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 	materialData = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -243,6 +238,25 @@ void GeometryBatch::ClearBuffer()
 		glDeleteBuffers(1, &transforms[i]);
 	}
 	glDeleteBuffers(1, &materials);
+}
+
+void GeometryBatch::UpdateBuffer()
+{
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+		transformData[i] = (float4x4*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
+	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+	materialData = (Material*)(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -376,7 +390,6 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 	
 	int drawCount = 0;
 
-	std::vector<float4x4> modelMatrices (componentsInBatch.size());
 	float4x4* transforms = static_cast<float4x4*>(transformData[frame]);
 
 	for (auto component : componentsToRender)
