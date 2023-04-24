@@ -341,7 +341,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 }
 
 void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const std::shared_ptr<ResourceModel>& resource,
-	const aiNode* node, int parentIdx, float4x4 accTransform)
+	const aiNode* node, int parentIdx, const float4x4& accTransform)
 {
 	std::string name = node->mName.C_Str();
 	const float4x4 transform = (*(float4x4*)&node->mTransformation);
