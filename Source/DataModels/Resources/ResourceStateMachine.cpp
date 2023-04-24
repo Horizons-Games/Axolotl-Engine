@@ -74,13 +74,13 @@ void ResourceStateMachine::EraseTransition(unsigned int id)
 
 void ResourceStateMachine::SetParameter(const std::string& parameterName, ValidFieldType value)
 {
-	parameters[parameterName].second = value;
+	defaultParameters[parameterName].second = value;
 }
 
 void ResourceStateMachine::AddParameter(std::string parameterName, FieldType type, ValidFieldType value)
 {
 	int nextNum = 0;
-	for (const auto& it : parameters)
+	for (const auto& it : defaultParameters)
 	{
 		if (it.first == parameterName)
 		{
@@ -122,15 +122,15 @@ void ResourceStateMachine::AddParameter(std::string parameterName, FieldType typ
 		parameterName = parameterName + "(" + std::to_string(nextNum) + ")";
 	}
 
-	parameters[parameterName] = std::make_pair(type, value);
+	defaultParameters[parameterName] = std::make_pair(type, value);
 }
 
 void ResourceStateMachine::AddCondition(const UID transition)
 {
 	Condition condition;
-	if (parameters.size() > 0)
+	if (defaultParameters.size() > 0)
 	{
-		SelectConditionParameter(parameters.begin()->first, condition);
+		SelectConditionParameter(defaultParameters.begin()->first, condition);
 	}
 	transitions[transition].conditions.push_back(std::move(condition));
 }
@@ -138,7 +138,7 @@ void ResourceStateMachine::AddCondition(const UID transition)
 void ResourceStateMachine::SelectConditionParameter(const std::string& parameter, Condition& condition)
 {
 	condition.parameter = parameter;
-	const auto& it = parameters.find(parameter);
+	const auto& it = defaultParameters.find(parameter);
 	switch (it->second.first)
 	{
 	case FieldType::FLOAT:

@@ -4,8 +4,8 @@
 #include <memory>
 #include <unordered_map>
 #include <variant>
-
 #include "Auxiliar/Reflection/TypeToEnum.h"
+
 
 using ValidFieldType = std::variant<float, bool>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
@@ -103,7 +103,7 @@ protected:
 private:
 	std::vector<State*> states;
 	std::unordered_map<UID, Transition> transitions;
-	std::unordered_map<std::string, TypeFieldPair> parameters;
+	std::unordered_map<std::string, TypeFieldPair> defaultParameters;
 };
 
 inline ResourceType ResourceStateMachine::GetType() const
@@ -123,7 +123,7 @@ inline unsigned int ResourceStateMachine::GetNumTransitions() const
 
 inline unsigned int ResourceStateMachine::GetNumParameters() const
 {
-	return parameters.size();
+	return defaultParameters.size();
 }
 
 inline const std::vector<State*>& ResourceStateMachine::GetStates() const
@@ -143,7 +143,7 @@ inline void ResourceStateMachine::SetStates(const std::vector<State*>& states)
 
 inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPair>& parameters)
 {
-	this->parameters = parameters;
+	this->defaultParameters = parameters;
 }
 
 inline void ResourceStateMachine::SetTransitions(const std::unordered_map<UID, Transition>& transitions)
@@ -163,11 +163,11 @@ inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::s
 
 inline const std::unordered_map<std::string, TypeFieldPair>& ResourceStateMachine::GetParameters() const
 {
-	return parameters;
+	return defaultParameters;
 }
 
 inline void ResourceStateMachine::EraseParameter(const std::string& parameterName)
 {
-	parameters.erase(parameterName);
+	defaultParameters.erase(parameterName);
 }
 
