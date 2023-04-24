@@ -23,7 +23,7 @@ void EnemyDroneScript::Start()
 			patrolScript = gameObjectScripts[i];
 		}
 
-		else if (gameObjectScripts[i]->GetConstructName() == "SeekingBehaviourScript")
+		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
 		{
 			seekingScript = gameObjectScripts[i];
 		}
@@ -34,8 +34,6 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%s", "Enemy Drone Updates");
-
 	//TODO: Change state from PATROL to SEEK
 
 	if (patrolScript && droneState == DroneBehavoiurs::PATROL)
@@ -47,4 +45,6 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		seekingScript->Update();
 	}
+
+	ENGINE_LOG("%s", "Enemy Drone Updates");
 }
