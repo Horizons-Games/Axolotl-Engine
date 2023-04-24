@@ -25,6 +25,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sewersMusic" ID="{BCA9AE80-1EC2-4B9C-953C-303BA6DD250A}">
+					<ChildrenList>
+						<Action Name="" ID="{465D77D8-8ADC-446A-86CD-9FB9DEC72948}" ShortID="187383770">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="First_Level_Sewers__v1" ID="{CEE64C54-2203-474B-8E18-0908068F32B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
