@@ -323,7 +323,15 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		SaveInfoAnimation(animation, fileBuffer, size);
 
 		std::string animationName = animation->mName.C_Str();
+
+		int pos = 0;
+		while (pos = animationName.find('|') != std::string::npos) {
+			animationName.replace(pos, animationName.length(), "_");
+		}
+
 		std::string animationPath = ANIMATION_PATH + animationName + ANIMATION_EXTENSION;
+
+
 
 		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
