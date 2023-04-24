@@ -8813,7 +8813,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerMovilityScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]

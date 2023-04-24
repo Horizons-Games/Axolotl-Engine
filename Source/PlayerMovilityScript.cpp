@@ -11,21 +11,29 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components//ComponentPlayer.h"
+#include "Components/ComponentCamera.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
 REGISTERCLASS(PlayerMovilityScript);
 
-PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(1.0f), jumpParameter(30.0f)
+PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
+												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
+												canDoubleJump(true) , jumps(0), isCrouch(false)
 {
 	REGISTER_FIELD(Speed, float);
 	REGISTER_FIELD(JumpParameter, float);
-	//REGISTER_FIELD(MovingGameObject, GameObject*);
+	REGISTER_FIELD(DashForce, float);
+	REGISTER_FIELD(CanDash, bool);
 }
 
 void PlayerMovilityScript::Start()
 {
+	if (canDoubleJump) 
+	{
+		jumps = 2;
+	}
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 }
 
@@ -70,10 +78,69 @@ void PlayerMovilityScript::Move()
 
 	size = speed * deltaTime * 1.1f;
 
+	// Dash pressing E during 0.2 sec
+	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && GetCanDash())
+	{
+		sizeForce = deltaTime * dashForce;
+		if (nextDash == 0)
+		{
+			nextDash = SDL_GetTicks() + 200;
+
+		}
+
+		if (nextDash < SDL_GetTicks())
+		{
+			canDash = false;
+			nextDash += 5000;
+		}	
+	}
+
+	// Cooldown Dash
+	if (nextDash > 0 && nextDash < SDL_GetTicks())
+	{
+		canDash = true;
+		nextDash = 0;
+	}
+
+	// Run, duplicate the speed
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
-		sizeForce = deltaTime * forceParameter;
+		size *= 2;
+	}
 
+	// Crouch
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
+	{
+		isCrouch = true;
+		trans->SetScale(trans->GetScale() / 2);
+		std::vector<GameObject*> children = owner->GetChildren();
+		for (auto child : children) 
+		{
+			if (child->GetComponent(ComponentType::CAMERA))
+			{
+				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				childTrans->SetScale(childTrans->GetScale() * 2);
+			}
+
+		}
+		size /= 4.f;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
+	{
+		isCrouch = false;
+		trans->SetScale(trans->GetScale() * 2);
+		std::vector<GameObject*> children = owner->GetChildren();
+		for (auto child : children)
+		{
+			if (child->GetComponent(ComponentType::CAMERA))
+			{
+				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				childTrans->SetScale(childTrans->GetScale() / 2);
+			}
+		}
+	}else if (isCrouch)
+	{
+		size /= 4.f;
 	}
 
 	//Forward
@@ -197,15 +264,22 @@ void PlayerMovilityScript::Move()
 
 	//rigidBody->AddForce(forceVector * forceParameter);
 
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
+	// Jump
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 	{
 		sizeJump = deltaTime * jumpParameter;
-		if (rigidBody->IsOnGround())
+		jumps -= 1;
+		if (rigidBody->IsOnGround() || jumps > 0)
 		{
 			rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
 		}
 
+	}
+	
+	// Control Double Jump
+	if (rigidBody->IsOnGround() && canDoubleJump)
+	{
+		jumps = 2;
 	}
 
 	trans->UpdateTransformMatrices();
@@ -264,3 +338,4 @@ void PlayerMovilityScript::Rotate()
 		trans->UpdateTransformMatrices();
 	}
 }
+
