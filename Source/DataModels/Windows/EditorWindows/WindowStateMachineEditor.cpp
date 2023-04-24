@@ -47,7 +47,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 			name.resize(24);
 			if (ImGui::InputText("##Name", &name[0], 24, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
-				stateAsShared->SetStateName(stateIdSelected, name);
+				stateAsShared->SetStateName(stateIdSelected, name.c_str());
 			}
 
 			if (state->resource == nullptr)
@@ -472,7 +472,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
 			{
 				oldName = &it.first;
-				newName = name;
+				newName = name.c_str();
 				field = it.second;
 			}
 		}
