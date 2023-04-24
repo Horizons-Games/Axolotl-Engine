@@ -40,7 +40,7 @@ public:
 
 
 
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
+	void UpdateAllObjects() const;
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 

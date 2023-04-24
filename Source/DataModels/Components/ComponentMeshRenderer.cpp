@@ -46,12 +46,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		mesh->Unload();
 }
 
-void ComponentMeshRenderer::Update()
-{
-
-}
-
-void ComponentMeshRenderer::Draw()
+void ComponentMeshRenderer::Draw() const
 {
 	if (material)
 	{
@@ -70,7 +65,7 @@ void ComponentMeshRenderer::Draw()
 	}
 }
 
-void ComponentMeshRenderer::DrawMeshes(Program* program)
+void ComponentMeshRenderer::DrawMeshes(Program* program) const
 {
 
 #ifdef ENGINE
@@ -114,7 +109,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 	}
 }
 
-void ComponentMeshRenderer::DrawMaterial(Program* program)
+void ComponentMeshRenderer::DrawMaterial(Program* program) const
 {
 
 #ifdef ENGINE
@@ -235,7 +230,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 	}
 }
 
-void ComponentMeshRenderer::DrawHighlight()
+void ComponentMeshRenderer::DrawHighlight() const
 {
 	if (IsMeshLoaded())
 	{

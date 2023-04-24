@@ -40,7 +40,7 @@ ComponentDirLight::~ComponentDirLight()
 {
 }
 
-void ComponentDirLight::Draw()
+void ComponentDirLight::Draw() const
 {
 #ifndef ENGINE
 	if (!App->editor->GetDebugOptions()->GetDrawDirLight())
