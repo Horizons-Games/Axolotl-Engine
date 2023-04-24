@@ -22,15 +22,6 @@ ComponentCanvas::~ComponentCanvas()
 {
 }
 
-void ComponentCanvas::Update()
-{
-}
-
-void ComponentCanvas::Draw()
-{
-
-}
-
 void ComponentCanvas::SaveOptions(Json& meta)
 {
 	// Do not delete these

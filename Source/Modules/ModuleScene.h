@@ -38,9 +38,6 @@ public:
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(GameObject* object);
 
-
-
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 

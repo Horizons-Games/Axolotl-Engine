@@ -132,11 +132,6 @@ void ComponentRigidBody::Update()
 #endif
 }
 
-void ComponentRigidBody::Draw()
-{
-	
-}
-
 void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
 {
 	switch (mode)

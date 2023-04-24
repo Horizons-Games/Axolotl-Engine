@@ -1,25 +1,23 @@
 #pragma once
 #include "Component.h"
-#include "IScript.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 class Json;
 class IScript;
 
-class ComponentScript : public Component
+class ComponentScript : public Component, public Updatable
 {
 public:
 	ComponentScript(bool active, GameObject* owner);
 
 	~ComponentScript() override;
 
-	virtual void Init() override;
+	virtual void Init();
 	virtual void Start();
-	virtual void PreUpdate();
+	virtual void PreUpdate() override;
 	virtual void Update() override;
-	virtual void PostUpdate();
+	virtual void PostUpdate() override;
 	virtual void CleanUp();
-	
-	void Draw() override {};
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

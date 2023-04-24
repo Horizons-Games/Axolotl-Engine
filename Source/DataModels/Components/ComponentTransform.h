@@ -2,27 +2,25 @@
 #pragma warning (disable: 26495)
 #pragma warning (disable: 4172)
 
-#include "Components/Component.h"
+#include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Math/float4x4.h"
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
 
-#define COMPONENT_TRANSFORM "Transform"
-
 class Json;
 class ComponentLight;
 
-class ComponentTransform : public Component
+class ComponentTransform : public Component, public Drawable
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
 	ComponentTransform(const ComponentTransform& componentTransform);
 	~ComponentTransform() override;
 
-	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

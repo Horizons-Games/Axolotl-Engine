@@ -92,14 +92,20 @@ update_status ModuleScene::PreUpdate()
 					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
-				componentScript->Init();
+				if (componentScript->IsEnabled())
+				{
+					componentScript->Init();
+				}
 			}
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				componentScript->Start();
+				if (componentScript->IsEnabled())
+				{
+					componentScript->Start();
+				}
 			}
 		}
 	}
@@ -109,14 +115,13 @@ update_status ModuleScene::PreUpdate()
 		App->scriptFactory->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	if (App->IsOnPlayMode())
 	{
-
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->PreUpdate();
+				updatable->PreUpdate();
 			}
 		}
 	}
@@ -128,16 +133,14 @@ update_status ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-
-	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 	
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->Update();
+				updatable->Update();
 			}
 		}
 	}
@@ -148,11 +151,11 @@ update_status ModuleScene::PostUpdate()
 {
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->PostUpdate();
+				updatable->PostUpdate();
 			}
 		}
 	}
@@ -176,22 +179,6 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	gameObject->SetParentAsChildSelected();
 	selectedGameObject = gameObject;
-}
-
-void ModuleScene::UpdateGameObjectAndDescendants(GameObject* gameObject) const
-{
-	assert(gameObject != nullptr);
-
-	if (!gameObject->IsEnabled())
-		return;
-
-	if (gameObject != loadedScene->GetRoot())
-		gameObject->Update();
-
-	for (GameObject* child : gameObject->GetChildren())
-	{
-		UpdateGameObjectAndDescendants(child);
-	}
 }
 
 void ModuleScene::OnPlay()
@@ -344,8 +331,8 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
-	std::vector<GameObject*> loadedCameras{};
-	std::vector<GameObject*> loadedCanvas{};
+	std::vector<ComponentCamera*> loadedCameras{};
+	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
 	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
@@ -354,14 +341,12 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	{
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
-		if (!camerasOfObj.empty())
-		{
-			loadedCameras.push_back(obj);
-		}
+		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
-		if (obj->GetComponent(ComponentType::CANVAS) != nullptr)
+		Component* canvas = obj->GetComponent(ComponentType::CANVAS);
+		if (canvas != nullptr)
 		{
-			loadedCanvas.push_back(obj);
+			loadedCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
 		}
 		Component* button = obj->GetComponent(ComponentType::BUTTON);
 		if (button != nullptr)
