@@ -42,5 +42,4 @@ private:
 	bool canDoubleJump;
 	bool isCrouch;
 	unsigned int jumps;
-
 };

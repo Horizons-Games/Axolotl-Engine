@@ -88,7 +88,7 @@ void PlayerMovilityScript::Move()
 		sizeForce = deltaTime * dashForce;
 		if (nextDash == 0)
 		{
-			nextDash = SDL_GetTicks() + 200;
+			nextDash = (float)(SDL_GetTicks()) + 200.0f;
 
 		}
 
@@ -336,7 +336,7 @@ void PlayerMovilityScript::Rotate()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	float3 direction = (points[1] - points[0]).Normalized();
-	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7))
+	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7f))
 	{
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
