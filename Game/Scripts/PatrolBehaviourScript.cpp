@@ -19,7 +19,7 @@ void PatrolBehaviourScript::Start()
 	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-	if (ownerRigidBody && ownerRigidBody->GetActive())
+	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
 		// Initally set the first waypoint as the destiny
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());

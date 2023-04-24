@@ -321,7 +321,7 @@ void ModulePlayer::Rotate()
 		std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 		float3 direction = (points[1] - points[0]).Normalized();
 		RaycastHit hit;
-		if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7, hit))
+		if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7f, hit))
 		{
 			float deltaTime = App->GetDeltaTime();
 			ComponentTransform* trans = static_cast<ComponentTransform*>(player->GetComponent(ComponentType::TRANSFORM));

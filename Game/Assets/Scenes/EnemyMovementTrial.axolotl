@@ -26108,7 +26108,7 @@
                     {
                         "Component": {
                             "type": "Component_Script",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
@@ -26128,7 +26128,7 @@
                     {
                         "Component": {
                             "type": "Component_Script",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "constructName": "SeekBehaviourScript",
                             "fields": [
