@@ -381,9 +381,40 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{35B5385F-5F9C-9D65-775B-45CA20991969}">
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{13FAB44A-AACC-FF2B-9C92-49B6CA792BBA}">
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
+			<Media>
+				<File Id="48055455" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_ui_buttonHover_01.wav</ShortName>
+					<CachePath>SFX/sfx_ui_buttonHover_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="872873447" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_ui_buttonBack_01.wav</ShortName>
+					<CachePath>SFX/sfx_ui_buttonBack_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="979155077" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_ui_buttonPress_01.wav</ShortName>
+					<CachePath>SFX/sfx_ui_buttonPress_01_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="797520661" Name="sfx_button_back_01">
+					<MediaRefs>
+						<MediaRef Id="872873447"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3449466020" Name="sfx_button_hover_01">
+					<MediaRefs>
+						<MediaRef Id="48055455"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2910963833" Name="sfx_button_press_01">
+					<MediaRefs>
+						<MediaRef Id="979155077"/>
+					</MediaRefs>
+				</Event>
+			</Events>
 		</SoundBank>
 		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{11F631FF-1F58-415A-AD05-4C6B2B417421}">
 			<ShortName>Music</ShortName>
@@ -511,5 +542,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{DB720648-5E64-8DFD-1F9F-122219488EE7}</FileHash>
+	<FileHash>{62CA1651-438A-9EA2-696E-BDC4B4BDE482}</FileHash>
 </SoundBanksInfo>
