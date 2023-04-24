@@ -304,6 +304,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerMovilityScript.cpp">
       <Filter>UserScripts</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TestEnemyScript.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -636,6 +639,9 @@
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMovilityScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TestEnemyScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>
