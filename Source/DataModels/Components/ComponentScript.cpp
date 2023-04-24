@@ -38,7 +38,7 @@ void ComponentScript::Start()
 
 void ComponentScript::PreUpdate()
 {
-	if (script)
+	if (script && !App->scriptFactory->IsCompiling())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -46,7 +46,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (script)
+	if (script && !App->scriptFactory->IsCompiling())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -54,7 +54,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (script)
+	if (script && !App->scriptFactory->IsCompiling())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}

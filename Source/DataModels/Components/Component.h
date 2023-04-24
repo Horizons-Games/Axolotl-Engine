@@ -40,7 +40,7 @@ public:
 	virtual void Enable();
 	virtual void Disable();
 
-	bool GetActive() const;
+	bool IsActive() const;
 	ComponentType GetType() const;
 
 	GameObject* GetOwner() const;
@@ -88,7 +88,7 @@ inline void Component::Disable()
 	}
 }
 
-inline bool Component::GetActive() const
+inline bool Component::IsActive() const
 {
 	return active;
 }

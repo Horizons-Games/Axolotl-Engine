@@ -75,14 +75,20 @@ update_status ModuleScene::PreUpdate()
 					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
-				componentScript->Init();
+				if (componentScript->IsActive())
+				{
+					componentScript->Init();
+				}
 			}
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				componentScript->Start();
+				if (componentScript->IsActive())
+				{
+					componentScript->Start();
+				}
 			}
 		}
 	}
@@ -92,14 +98,13 @@ update_status ModuleScene::PreUpdate()
 		App->scriptFactory->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	if (App->IsOnPlayMode())
 	{
-
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsActive())
 			{
-				componentScript->PreUpdate();
+				updatable->PreUpdate();
 			}
 		}
 	}
@@ -111,16 +116,14 @@ update_status ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-
-	UpdateAllObjects();
 	
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsActive())
 			{
-				componentScript->Update();
+				updatable->Update();
 			}
 		}
 	}
@@ -131,11 +134,11 @@ update_status ModuleScene::PostUpdate()
 {
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsActive())
 			{
-				componentScript->PostUpdate();
+				updatable->PostUpdate();
 			}
 		}
 	}
@@ -159,14 +162,6 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	gameObject->SetParentAsChildSelected();
 	selectedGameObject = gameObject;
-}
-
-void ModuleScene::UpdateAllObjects() const
-{
-	for (Updatable* updatable : loadedScene->GetSceneUpdatable())
-	{
-		updatable->Update();
-	}
 }
 
 void ModuleScene::OnPlay()
