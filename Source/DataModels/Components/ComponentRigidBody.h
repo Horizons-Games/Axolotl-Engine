@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 #include "Math/float3.h"
 #include "Math/Quat.h"
@@ -15,8 +16,7 @@ enum class ForceMode
 
 class ComponentTransform;
 
-class ComponentRigidBody :
-	public Component
+class ComponentRigidBody : public Component, public Updatable
 {
 public:
 	ComponentRigidBody(bool active, GameObject* owner);
@@ -24,7 +24,6 @@ public:
 	~ComponentRigidBody() override;
 
 	void Update() override;
-	void Draw() override;
 
 	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
 	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);

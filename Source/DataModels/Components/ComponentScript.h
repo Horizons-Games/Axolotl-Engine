@@ -12,14 +12,12 @@ public:
 
 	~ComponentScript() override;
 
-	virtual void Init() override;
+	virtual void Init();
 	virtual void Start();
 	virtual void PreUpdate();
-	virtual void Update() override;
+	virtual void Update();
 	virtual void PostUpdate();
 	virtual void CleanUp();
-	
-	void Draw() override {};
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
