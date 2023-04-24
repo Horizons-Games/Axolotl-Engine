@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+// This script handles the movement/rotation and abilities of the player
+
 class ComponentPlayer;
 
 class PlayerMobilityScript : public Script
