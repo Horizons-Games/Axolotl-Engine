@@ -21,6 +21,7 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/UI/ComponentCanvas.h"
 
 #include "Camera/CameraGameObject.h"
@@ -223,6 +224,14 @@ GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* pa
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);
+	return gameObject;
+}
+
+GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
+
 	return gameObject;
 }
 

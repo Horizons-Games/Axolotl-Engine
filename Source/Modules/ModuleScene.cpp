@@ -152,6 +152,12 @@ update_status ModuleScene::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
+bool ModuleScene::CleanUp()
+{
+	loadedScene = nullptr;
+	return true;
+}
+
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
 	loadedScene = std::move(newScene);

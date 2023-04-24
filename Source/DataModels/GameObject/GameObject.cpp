@@ -15,6 +15,8 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
 
@@ -445,6 +447,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHCOLLIDER:
 		{
 			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
@@ -511,6 +525,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	return nullptr;
 }
+
 
 bool GameObject::RemoveComponent(const Component* component)
 {
