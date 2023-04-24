@@ -322,7 +322,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
 	{
-		child->SetRootGO(gameObjectModel);
+		child->SetRootGO(gameObjectNodes[0]);
 
 		for (Component* component : child->GetComponents())
 		{

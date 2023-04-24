@@ -83,7 +83,6 @@ void ComponentAnimation::DrawBones(GameObject* parent, GameObject* lastNonExtraN
 		{
 			ComponentTransform* childTransform =
 				static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-
 			dd::line(childTransform->GetGlobalPosition(), lastTransform->GetGlobalPosition(), dd::colors::Blue);
 			dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
 

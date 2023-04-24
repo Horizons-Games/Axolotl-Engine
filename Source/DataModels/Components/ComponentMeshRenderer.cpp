@@ -80,15 +80,20 @@ void ComponentMeshRenderer::Update()
 		if (root)
 		{
 			const std::vector<Bone>& bindBones = mesh->GetBones();
+			const float4x4& invertedRootBoneTransform = root ? static_cast<ComponentTransform*>(root->
+				GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Inverted() : float4x4::identity;
 
-			for (unsigned int i = 0; i < bindBones.size(); ++i)
+			const float4x4& localMatrix = static_cast<ComponentTransform*>(GetOwner()->
+				GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			for (unsigned int i = 0; i < mesh->GetNumBones(); ++i)
 			{
-				GameObject* boneNode = root->FindGameObject(bindBones[i].name);
+				const GameObject* boneNode = root->FindGameObject(bindBones[i].name);
 
 				if (boneNode)
 				{
 					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->
-						GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix() * bindBones[i].transform;
+						GetComponent(ComponentType::TRANSFORM))->CalculatePaletteGlobalMatrix() * bindBones[i].transform;
 				}
 				else
 				{

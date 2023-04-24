@@ -54,6 +54,7 @@ public:
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
+	const float4x4 CalculatePaletteGlobalMatrix();
 	void CalculateMatrices();
 	void UpdateTransformMatrices();
 
