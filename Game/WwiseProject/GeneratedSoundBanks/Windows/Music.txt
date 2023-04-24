@@ -1,4 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
+	1917263390	StopMusic			\Music\StopMusic	
 	3991942870	Music			\Music\Music	
 
 Switch Group	ID	Name			Wwise Object Path	Notes

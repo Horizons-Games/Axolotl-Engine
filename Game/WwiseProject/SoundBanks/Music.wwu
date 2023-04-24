@@ -5,7 +5,7 @@
 			<ChildrenList>
 				<SoundBank Name="Music" ID="{F3BD5133-554B-44F3-AF06-006ABD86FA0D}">
 					<ObjectInclusionList>
-						<ObjectRef Name="Music" ID="{ABDC034D-7809-4506-9AEA-23EBC8C6CE84}" WorkUnitID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Music" ID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" WorkUnitID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

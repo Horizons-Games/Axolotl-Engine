@@ -285,12 +285,18 @@
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="2"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="Pitch" Type="int32">
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{AB09A0F2-1549-4BCA-8123-FC0B2F9791D4}"/>
 										</ModifierInfo>
 									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-11</Value>
+									</ValueList>
 								</Property>
 							</PropertyList>
 							<ReferenceList>

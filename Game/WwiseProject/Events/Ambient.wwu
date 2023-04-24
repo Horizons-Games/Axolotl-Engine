@@ -36,6 +36,30 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="ambient_cantina_stop" ID="{AFFBD876-E50B-4AA1-8239-FBBCEFD9A81C}">
+					<ChildrenList>
+						<Action Name="" ID="{15C5CAAF-EC02-40F2-B247-366BEBB3CE1E}" ShortID="984803577">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{0FDBACC6-8071-40A8-9509-67AD0A981012}" ShortID="505223356">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -754,12 +754,11 @@
 						</Effect>
 						<Effect Name="Underground_Parking1" ID="{8DA66AA3-6CA0-41A0-B7A2-BB6FCABFCDA8}" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
 							<PropertyList>
-								<Property Name="DryLevel" Type="Real32" Value="-4.3"/>
-								<Property Name="HFRatio" Type="Real32" Value="6.4"/>
+								<Property Name="HFRatio" Type="Real32" Value="10"/>
 								<Property Name="NumberOfDelays" Type="int32" Value="12"/>
 								<Property Name="PreDelay" Type="Real32" Value="0.02"/>
-								<Property Name="ReverbTime" Type="Real32" Value="2.5"/>
-								<Property Name="WetLevel" Type="Real32" Value="-29"/>
+								<Property Name="ReverbTime" Type="Real32" Value="2.4"/>
+								<Property Name="WetLevel" Type="Real32" Value="-15"/>
 							</PropertyList>
 						</Effect>
 					</ChildrenList>
@@ -1258,8 +1257,8 @@
 								<Effect Name="Room_Medium" ID="{F5C06EC1-E4A4-4332-A7D3-A89E2986B74F}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="1.1"/>
-										<Property Name="Density" Type="Real32" Value="100"/>
-										<Property Name="Diffusion" Type="Real32" Value="46"/>
+										<Property Name="Density" Type="Real32" Value="84"/>
+										<Property Name="Diffusion" Type="Real32" Value="33"/>
 										<Property Name="ERLevel" Type="Real32" Value="-23"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="590"/>
 										<Property Name="Filter3Freq" Type="Real32" Value="8440"/>
@@ -1269,7 +1268,7 @@
 										<Property Name="ReverbLevel" Type="Real32" Value="-22"/>
 										<Property Name="RoomShape" Type="Real32" Value="55"/>
 										<Property Name="RoomSize" Type="Real32" Value="15"/>
-										<Property Name="StereoWidth" Type="Real32" Value="115"/>
+										<Property Name="StereoWidth" Type="Real32" Value="103"/>
 									</PropertyList>
 								</Effect>
 								<Effect Name="Room_Small" ID="{577F1466-A63B-47F7-98BD-C56E433F8B5D}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">

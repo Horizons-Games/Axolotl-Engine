@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{240647B3-4509-AD45-A5DF-39227EE6F611}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{08255216-9C65-FDB0-F36B-121589C442C5}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -27,6 +27,12 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="3747747529" Name="ambient_cantina_stop">
+					<MediaRefs>
+						<MediaRef Id="106158711"/>
+						<MediaRef Id="652056130"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2455846751" Name="cantina_music">
 					<MediaRefs>
 						<MediaRef Id="106158711"/>
@@ -61,7 +67,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{204090D5-8E07-5E4B-CF31-37071EFE42CF}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{8F887826-3296-93C7-8C95-604D583BE794}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -98,13 +104,28 @@
 					<CachePath>SFX/sfx_lightsaber_swing_01_10C4C929.wem</CachePath>
 				</File>
 			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="674397401" Name="Guitar Distortion (Custom)" LibName="Wwise Guitar Distortion" LibId="8257539"/>
+				</Custom>
+			</Plugins>
 			<Events>
 				<Event Id="2355582310" Name="sfx_footsteps_run_01">
 					<MediaRefs>
 						<MediaRef Id="268604586"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3050257279" Name="sfx_footsteps_run_stop">
+					<MediaRefs>
+						<MediaRef Id="268604586"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="4171386676" Name="sfx_footsteps_walk_01">
+					<MediaRefs>
+						<MediaRef Id="545082851"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1430818805" Name="sfx_footsteps_walk_stop">
 					<MediaRefs>
 						<MediaRef Id="545082851"/>
 					</MediaRefs>
@@ -123,6 +144,21 @@
 					<MediaRefs>
 						<MediaRef Id="595687169"/>
 					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="674397401"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="964751236" Name="sfx_lightsaber_hum_stop">
+					<MediaRefs>
+						<MediaRef Id="595687169"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="674397401"/>
+						</Custom>
+					</PluginRefs>
 				</Event>
 				<Event Id="3222767057" Name="sfx_lightsaber_open_01">
 					<MediaRefs>
@@ -137,7 +173,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{195CC05F-A3E6-C0A8-60B9-2D8B45825F32}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{78D1FBAE-3E21-0ACD-79E9-D1AE55BAF6AC}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -349,7 +385,7 @@
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{63693B2A-3FDE-B468-8DDB-15FAF354C0F8}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{11F631FF-1F58-415A-AD05-4C6B2B417421}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -443,6 +479,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="1917263390" Name="StopMusic"/>
 			</Events>
 			<StateGroups>
 				<StateGroup Id="444815956" Name="PlayerLife">
@@ -474,5 +511,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{96ED795A-3B09-FCC7-0EF7-A2F63F8ADB77}</FileHash>
+	<FileHash>{DB720648-5E64-8DFD-1F9F-122219488EE7}</FileHash>
 </SoundBanksInfo>

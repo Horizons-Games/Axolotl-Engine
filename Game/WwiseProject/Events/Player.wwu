@@ -80,6 +80,48 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sfx_lightsaber_hum_stop" ID="{3B602DB9-4FDA-4DF5-9CBC-FBB63502C511}">
+					<ChildrenList>
+						<Action Name="" ID="{DD94B4BA-B26E-48B1-9D71-47E783B54CAB}" ShortID="1035932864">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_lightsaber_hum_01" ID="{100F7C43-6EB0-4020-BC3B-F3493B6160A8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_footsteps_walk_stop" ID="{1407A4B4-FA7A-42C5-B5ED-2991E29F45E5}">
+					<ChildrenList>
+						<Action Name="" ID="{F1D64F1B-0193-4D73-9B5A-AACFC728EF26}" ShortID="592257123">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_walk_01" ID="{E834357C-45EF-456E-8D45-5866BDF807B7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_footsteps_run_stop" ID="{24FC265F-775F-47AA-BD73-291E53D28CD3}">
+					<ChildrenList>
+						<Action Name="" ID="{D1C659FA-852E-4977-971B-69E8ED03F3C9}" ShortID="815770005">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_run_01" ID="{F5722570-3AB5-4992-A0D6-7BCDF37A3232}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
