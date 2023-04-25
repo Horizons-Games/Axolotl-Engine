@@ -82,7 +82,7 @@
         },
         {
             "GameObject": {
-                "name": "EnemyMovementTrial",
+                "name": "CantinaScriptsVS2",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -8793,7 +8793,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": true,
-                            "mass": 10.0,
+                            "mass": 15.0,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 0.0,
@@ -8821,7 +8821,7 @@
                                 },
                                 {
                                     "name": "JumpParameter",
-                                    "value": 60.0,
+                                    "value": 120.0,
                                     "type": 0
                                 },
                                 {
