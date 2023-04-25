@@ -47,7 +47,8 @@ ModuleEditor::ModuleEditor() :
 	scene(nullptr), 
 	windowResized(false), 
 	copyObject(nullptr),
-	stateMachineWindowEnable(true)
+	stateMachineWindowEnable(true),
+	stateMachineEditor(nullptr)
 {
 }
 
@@ -117,7 +118,7 @@ bool ModuleEditor::Init()
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
-	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
+	stateMachineEditor = new WindowStateMachineEditor();
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -300,7 +301,9 @@ void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceState
 
 void ModuleEditor::SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource)
 {
+#ifdef ENGINE
 	stateMachineEditor->SetResourceOnState(resource);
+#endif
 }
 
 bool ModuleEditor::IsSceneFocused() const

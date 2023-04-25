@@ -333,7 +333,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			bytes = sizeof(UID);
 			memcpy(&resourcePointer, fileBuffer, bytes);
 			std::shared_ptr<Resource> mesh = App->resources->SearchResource<Resource>(resourcePointer);
-			state.resource = resource;
+			state->resource = resource;
 			fileBuffer += bytes;
 #endif
 		}

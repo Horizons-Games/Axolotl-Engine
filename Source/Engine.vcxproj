@@ -209,12 +209,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -487,12 +493,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTextureInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

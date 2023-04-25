@@ -48,7 +48,7 @@ private:
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
-	std::unique_ptr<WindowStateMachineEditor> stateMachineEditor;
+	WindowStateMachineEditor* stateMachineEditor = nullptr;
 	bool stateMachineWindowEnable;
 
 	WindowInspector* inspector;
