@@ -114,7 +114,7 @@ update_status ModuleUI::PostUpdate()
 #ifndef ENGINE
 				button->OnClicked();
 #endif // ENGINE
-				button->SetHovered(false);
+				//button->SetHovered(false);
 				button->SetClicked(false);
 			}
 		}

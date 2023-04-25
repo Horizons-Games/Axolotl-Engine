@@ -11,7 +11,10 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     AK::SoundEngine::RegisterGameObj(sourceID, owner->GetName().c_str());
     transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-    OnTransformChanged();
+    if (transform)
+    {
+        OnTransformChanged();
+    }
 }
 
 ComponentAudioSource::~ComponentAudioSource()
