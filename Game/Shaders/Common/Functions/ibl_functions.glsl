@@ -53,4 +53,14 @@ mat3 computeTangetSpace(in vec3 normal)
 	return mat3(right, up, normal);
 }
 
+vec2 CartesianToEquirectangular(in vec3 dir) {
+	float phi = atan(dir.z, dir.x);
+	phi = phi / (2.0 * PI) + 0.5;
+
+	float theta = asin(dir.y);
+	theta = theta / PI + 0.5;
+
+	return vec2(phi, theta);
+}
+
 #endif

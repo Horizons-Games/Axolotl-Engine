@@ -7,7 +7,7 @@ uniform samplerCube environment;
 
 in vec3 texcoords;
 
-layout(location = 0) uniform float roughness;
+layout(location = 4) uniform float roughness;
 
 out vec4 fragColor;
 

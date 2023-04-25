@@ -10,7 +10,6 @@ out vec3 texcoords;
 void main()
 {
 	texcoords = vec3(-pos.x, pos.yz);
-	mat3 rotView = mat3(view); // remove translation from the view matrix
-	vec4 p = proj * vec4(rotView * pos, 1.0);
+	vec4 p = proj * vec4(mat3(view) * pos, 1.0);
 	gl_Position = p.xyww;
 }
