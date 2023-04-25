@@ -325,6 +325,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -680,6 +683,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -765,6 +771,9 @@
     </Filter>
     <Filter Include="UserScripts\Player">
       <UniqueIdentifier>{374c9ff0-7112-4fbc-9163-7a6f2719cda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Audio">
+      <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
@@ -422,6 +423,7 @@
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
