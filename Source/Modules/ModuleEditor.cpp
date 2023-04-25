@@ -68,7 +68,6 @@ bool ModuleEditor::Init()
 #ifdef ENGINE
 	rapidjson::Document doc;
 	Json json(doc, doc);
-	std::string buffer = StateWindows();
 
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
@@ -78,12 +77,14 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
+
+	std::string buffer = StateWindows();
 	if (buffer.empty())
 	{
 		rapidjson::StringBuffer newBuffer;
-		for (int i = 0; i < windows.size(); ++i)
+		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
-			json[windows[i].get()->GetName().c_str()] = true;
+			json[window->GetName().c_str()] = window->DefaultActiveState();
 		}
 		json.toBuffer(newBuffer);
 	}
@@ -91,6 +92,25 @@ bool ModuleEditor::Init()
 	{
 		char* bufferPointer = buffer.data();
 		json.fromBuffer(bufferPointer);
+
+		auto windowNameNotInJson = [&json](const std::string& windowName)
+		{
+			std::vector<const char*> namesInJson = json.GetVectorNames();
+			return std::none_of(std::begin(namesInJson),
+								std::end(namesInJson),
+								[&windowName](const char* name)
+								{
+									return windowName == name;
+								});
+		};
+
+		for (const std::unique_ptr<EditorWindow>& window : windows)
+		{
+			if (windowNameNotInJson(window->GetName()))
+			{
+				json[window->GetName().c_str()] = window->DefaultActiveState();
+			}
+		}
 	}
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
@@ -112,6 +132,7 @@ bool ModuleEditor::Start()
 
 bool ModuleEditor::CleanUp()
 {
+#ifdef ENGINE
 	rapidjson::Document doc;
 	Json json(doc, doc);
 
@@ -122,6 +143,8 @@ bool ModuleEditor::CleanUp()
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);
 	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+#endif
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -338,7 +361,7 @@ void ModuleEditor::RefreshInspector() const
 #endif // ENGINE
 }
 
-std::pair<int, int> ModuleEditor::GetAvailableRegion()
+std::pair<float, float> ModuleEditor::GetAvailableRegion()
 {
 #ifdef ENGINE
 	ImVec2 region = scene->GetAvailableRegion();
@@ -366,6 +389,6 @@ void ModuleEditor::CreateFolderSettings()
 	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(settingsFolder.c_str());
+		App->fileSystem->CreateDirectory(settingsFolder.c_str());
 	}
 }

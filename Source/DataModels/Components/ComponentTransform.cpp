@@ -55,12 +55,7 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
-{
-	// Empty for now
-}
-
-void ComponentTransform::Draw()
+void ComponentTransform::Draw() const
 {
 #ifndef ENGINE
 	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
@@ -143,7 +138,10 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
-	GetOwner()->Update();
+	for (Component* components : GetOwner()->GetComponents())
+	{
+		components->OnTransformChanged();
+	}
 
 	if (GetOwner()->GetChildren().empty())
 		return;

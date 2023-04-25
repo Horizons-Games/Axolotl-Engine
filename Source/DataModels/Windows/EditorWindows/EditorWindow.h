@@ -11,6 +11,7 @@ public:
 	void Draw(bool& enabled) override;
 
 	bool IsFocused() const;
+	virtual bool DefaultActiveState() const;
 
 protected:
 	EditorWindow(const std::string& name);
@@ -25,4 +26,9 @@ private:
 inline bool EditorWindow::IsFocused() const
 {
 	return focused;
+}
+
+inline bool EditorWindow::DefaultActiveState() const
+{
+	return true;
 }

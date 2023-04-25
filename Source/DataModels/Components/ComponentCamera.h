@@ -1,4 +1,6 @@
 #pragma once
+#include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
 #include "Component.h"
 
 #include "Geometry/Frustum.h"
@@ -6,8 +8,6 @@
 #include "Geometry/Plane.h"
 
 class CameraGameObject;
-
-#define COMPONENT_CAMERA "Camera"
 
 /*
 enum class ECameraFrustumMode
@@ -24,7 +24,7 @@ const static ECameraFrustumMode GetFrustumModeByName(const std::string& name);
 class Json;
 class ComponentTransform;
 
-class ComponentCamera : public Component
+class ComponentCamera : public Component, public Updatable, public Drawable
 {
 public:
 	ComponentCamera(bool active, GameObject* owner);
@@ -32,7 +32,7 @@ public:
 	~ComponentCamera() override;
 
 	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

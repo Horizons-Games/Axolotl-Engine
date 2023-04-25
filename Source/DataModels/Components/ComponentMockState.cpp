@@ -21,14 +21,6 @@ ComponentMockState::~ComponentMockState()
 {
 }
 
-void ComponentMockState::Update()
-{
-}
-
-void ComponentMockState::Draw()
-{
-}
-
 void ComponentMockState::SaveOptions(Json& meta)
 {
 	// Do not delete these

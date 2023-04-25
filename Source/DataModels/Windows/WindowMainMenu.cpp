@@ -1,5 +1,6 @@
 #include "WindowMainMenu.h"
 #include "Application.h"
+#include "Application.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/Json.h"
@@ -155,7 +156,7 @@ void WindowMainMenu::DrawHelpMenu()
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
 		if (ImGui::MenuItem("GitHub Link"))
-			ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+			ShellExecuteA(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);

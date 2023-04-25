@@ -49,7 +49,7 @@ void ComponentCamera::Update()
 	}
 }
 
-void ComponentCamera::Draw()
+void ComponentCamera::Draw() const
 {
 #ifdef ENGINE
 	if (camera->IsDrawFrustum())

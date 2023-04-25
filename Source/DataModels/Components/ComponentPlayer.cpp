@@ -12,14 +12,6 @@ ComponentPlayer::~ComponentPlayer()
 {
 }
 
-void ComponentPlayer::Update()
-{
-}
-
-void ComponentPlayer::Draw()
-{
-}
-
 void ComponentPlayer::SaveOptions(Json& meta)
 {
 	// Do not delete these

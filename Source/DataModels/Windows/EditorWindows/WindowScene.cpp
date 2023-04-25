@@ -38,8 +38,10 @@ void WindowScene::DrawWindowContents()
 
 	ImGui::Image(
 		(void*) App->renderer->GetRenderedTexture(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
-
-	DrawGuizmo();
+	if (!App->IsOnPlayMode())
+	{
+		DrawGuizmo();
+	}
 }
 
 bool WindowScene::isMouseInsideManipulator(float x, float y) const

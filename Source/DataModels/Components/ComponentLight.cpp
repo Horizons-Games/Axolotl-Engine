@@ -11,9 +11,7 @@ ComponentLight::ComponentLight(LightType type, bool canBeRemoved) :
 	Component(ComponentType::LIGHT, true, nullptr, canBeRemoved),
 	color(float3(1.0f, 1.0f, 1.0f)),
 	intensity(1.0f),
-	lightType(type)
-{
-}
+	lightType(type){};
 
 ComponentLight::ComponentLight(LightType type, GameObject* gameObject, bool canBeRemoved) :
 	Component(ComponentType::LIGHT, true, gameObject, canBeRemoved),

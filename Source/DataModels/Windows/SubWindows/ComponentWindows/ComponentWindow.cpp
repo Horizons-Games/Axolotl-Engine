@@ -1,30 +1,38 @@
 #include "ComponentWindow.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
 
 #include "Application.h"
 #include "Components/ComponentAmbient.h"
+#include "Components/ComponentAudioListener.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
+#include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
@@ -62,8 +70,16 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 			case ComponentType::RIGIDBODY:
 				return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
+			case ComponentType::AUDIOSOURCE:
+				return std::make_unique<WindowComponentAudioSource>(static_cast<ComponentAudioSource*>(component));
+			case ComponentType::AUDIOLISTENER:
+				return std::make_unique<WindowComponentAudioListener>(static_cast<ComponentAudioListener*>(component));
+			case ComponentType::MESHCOLLIDER:
+				return std::make_unique<WindowComponentMeshCollider>(static_cast<ComponentMeshCollider*>(component));
 			case ComponentType::MOCKSTATE:
 				return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
+			case ComponentType::SCRIPT:
+				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 			case ComponentType::LIGHT:
 
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
@@ -112,7 +128,7 @@ void ComponentWindow::DrawEnableComponent()
 
 		ImGui::Text("Enabled");
 		ImGui::SameLine();
-		bool enable = component->GetActive();
+		bool enable = component->IsEnabled();
 		ImGui::Checkbox(ss.str().c_str(), &enable);
 
 		(enable) ? component->Enable() : component->Disable();
@@ -121,7 +137,7 @@ void ComponentWindow::DrawEnableComponent()
 
 void ComponentWindow::DrawDeleteComponent()
 {
-	if (component && component->GetCanBeRemoved())
+	if (component && component->CanBeRemoved())
 	{
 		std::stringstream ss;
 		ss << "Remove Comp. " << windowUUID;

@@ -10,6 +10,7 @@
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "GL/glew.h"
 #include "Physics/Physics.h"
@@ -57,7 +58,7 @@ update_status ModuleUI::Update()
 		}
 	}
 
-	std::vector<GameObject*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
+	std::vector<ComponentCanvas*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
 
@@ -66,17 +67,22 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->camera->GetCamera()->GetFrustum()->SetOrthographic(width, height);
+	App->camera->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
 
 	glDisable(GL_DEPTH_TEST);
 
-	for (GameObject* canvas : canvasScene)
+	for (ComponentCanvas* canvas : canvasScene)
 	{
-		if (canvas->IsEnabled())
+		GameObject* owner = canvas->GetOwner();
+		if (owner->IsEnabled())
 		{
-			for (GameObject* children : canvas->GetChildren())
+			for (GameObject* child : owner->GetChildren())
 			{
-				DrawChildren(children);
+				// ugh, should look for a better way, but it's 2AM
+				for (ComponentImage* image : child->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+				{
+					image->Draw();
+				}
 			}
 		}
 	}
@@ -105,7 +111,7 @@ update_status ModuleUI::PostUpdate()
 #ifndef ENGINE
 				button->OnClicked();
 #endif // ENGINE
-				button->SetHovered(false);
+	   // button->SetHovered(false);
 				button->SetClicked(false);
 			}
 		}
@@ -113,23 +119,12 @@ update_status ModuleUI::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleUI::DrawChildren(GameObject* gameObject)
-{
-	if (gameObject->IsEnabled())
-	{
-		gameObject->Draw();
-		for (GameObject* children : gameObject->GetChildren())
-		{
-			DrawChildren(children);
-		}
-	}
-}
-
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
-	for (GameObject* canvas : App->scene->GetLoadedScene()->GetSceneCanvas())
+	std::vector<ComponentCanvas*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
+	for (ComponentCanvas* canvas : canvasScene)
 	{
-		((ComponentCanvas*) (canvas->GetComponent(ComponentType::CANVAS)))->RecalculateSizeAndScreenFactor();
+		canvas->RecalculateSizeAndScreenFactor();
 	}
 
 	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())

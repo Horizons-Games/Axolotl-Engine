@@ -8,9 +8,6 @@ public:
 	ComponentButton(bool active, GameObject* owner);
 	~ComponentButton() override;
 
-	void Update() override;
-	void Draw() override;
-
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 

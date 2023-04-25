@@ -13,12 +13,14 @@
 #include "Resources/ResourceModel.h"
 #include "Resources/ResourceSkyBox.h"
 
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -60,16 +62,11 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 bool Scene::IsInsideACamera(const OBB& obb) const
 {
 	// TODO: We have to add all the cameras in the future
-	for (GameObject* cameraGameObject : sceneCameras)
+	for (ComponentCamera* camera : sceneCameras)
 	{
-		if (cameraGameObject)
+		if (camera->GetCamera()->IsInside(obb))
 		{
-			ComponentCamera* camera =
-				static_cast<ComponentCamera*>(cameraGameObject->GetComponent(ComponentType::CAMERA));
-			if (camera && camera->GetCamera()->IsInside(obb))
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return false;
@@ -157,8 +154,8 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(gameObject);
+	Component* component = gameObject->CreateComponent(ComponentType::CAMERA);
+	sceneCameras.push_back(static_cast<ComponentCamera*>(component));
 
 	return gameObject;
 }
@@ -172,8 +169,8 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 		static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
 	trans->SetPosition(float3(0, 0, -2));
 	trans->CalculateMatrices();
-	gameObject->CreateComponent(ComponentType::CANVAS);
-	sceneCanvas.push_back(gameObject);
+	Component* canvas = gameObject->CreateComponent(ComponentType::CANVAS);
+	sceneCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
 
 	return gameObject;
 }
@@ -236,10 +233,18 @@ GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* pa
 	return gameObject;
 }
 
+GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
+
+	return gameObject;
+}
+
 void Scene::DestroyGameObject(GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
-	gameObject->GetParent()->UnlinkChild(gameObject);
+	delete gameObject->GetParent()->UnlinkChild(gameObject);
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
@@ -299,27 +304,25 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 		RemoveFatherAndChildren(child);
 	}
 
-	Component* component = father->GetComponent(ComponentType::CAMERA);
-	if (component)
 	{
-		for (std::vector<GameObject*>::iterator it = sceneCameras.begin(); it != sceneCameras.end(); ++it)
+		Component* component = father->GetComponent(ComponentType::CAMERA);
+		if (component)
 		{
-			if (father == *it)
-			{
-				sceneCameras.erase(it);
-				return;
-			}
+			std::ignore = std::remove_if(std::begin(sceneCameras),
+										 std::end(sceneCameras),
+										 [&component](ComponentCamera* camera)
+										 {
+											 return camera == component;
+										 });
 		}
 	}
 
-	for (std::vector<GameObject*>::const_iterator it = sceneGameObjects.begin(); it != sceneGameObjects.end(); ++it)
-	{
-		if (*it == father)
-		{
-			sceneGameObjects.erase(it);
-			return;
-		}
-	}
+	std::ignore = std::remove_if(std::begin(sceneGameObjects),
+								 std::end(sceneGameObjects),
+								 [&father](GameObject* gameObject)
+								 {
+									 return gameObject == father;
+								 });
 }
 
 void Scene::GenerateLights()
@@ -589,12 +592,10 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 
 void Scene::RemoveNonStaticObject(GameObject* gameObject)
 {
-	for (std::vector<GameObject*>::iterator it = nonStaticObjects.begin(); it != nonStaticObjects.end(); ++it)
-	{
-		if (*it == gameObject)
-		{
-			nonStaticObjects.erase(it);
-			break;
-		}
-	}
+	std::ignore = std::remove_if(std::begin(nonStaticObjects),
+								 std::end(nonStaticObjects),
+								 [&gameObject](GameObject* anotherObject)
+								 {
+									 return anotherObject == gameObject;
+								 });
 }

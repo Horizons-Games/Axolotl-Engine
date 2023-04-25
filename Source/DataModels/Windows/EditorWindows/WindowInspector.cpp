@@ -151,6 +151,32 @@ void WindowInspector::InspectSelectedGameObject()
 					AddComponentMockState();
 				}
 			}
+
+			if (ImGui::MenuItem("Create AudioSource Component"))
+			{
+				AddComponentAudioSource();
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER))
+			{
+				if (ImGui::MenuItem("Create AudioListener Component"))
+				{
+					AddComponentAudioListener();
+				}
+			}
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER))
+			{
+				if (ImGui::MenuItem("Create Mesh Collider Component"))
+				{
+					AddComponentMeshCollider();
+				}
+			}
+
+			if (ImGui::MenuItem("Create Script Component"))
+			{
+				AddComponentScript();
+			}
 		}
 
 		else
@@ -349,4 +375,24 @@ void WindowInspector::AddComponentRigidBody()
 void WindowInspector::AddComponentMockState()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}
+
+void WindowInspector::AddComponentAudioSource()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOSOURCE);
+}
+
+void WindowInspector::AddComponentAudioListener()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOLISTENER);
+}
+
+void WindowInspector::AddComponentMeshCollider()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
+}
+
+void WindowInspector::AddComponentScript()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
 }

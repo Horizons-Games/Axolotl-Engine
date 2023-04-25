@@ -16,7 +16,6 @@ public:
 
 	update_status PostUpdate();
 
-	void DrawChildren(GameObject* gameObject);
 	void RecalculateCanvasSizeAndScreenFactor();
 	void LoadVBO();
 	void CreateVAO();

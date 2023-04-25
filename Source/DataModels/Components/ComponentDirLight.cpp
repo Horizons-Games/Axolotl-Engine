@@ -39,7 +39,7 @@ ComponentDirLight::~ComponentDirLight()
 {
 }
 
-void ComponentDirLight::Draw()
+void ComponentDirLight::Draw() const
 {
 #ifndef ENGINE
 	if (!App->editor->GetDebugOptions()->GetDrawDirLight())
@@ -47,7 +47,7 @@ void ComponentDirLight::Draw()
 		return;
 	}
 #endif // ENGINE
-	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
+	if (IsEnabled() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));

@@ -36,8 +36,6 @@ void WindowComponentCamera::DrawWindowContents()
 			"Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
-		ImGui::Separator();
-
 		asCamera->GetCamera()->SetIsDrawFrustum(drawFrustum);
 		EFrustumMode newFrustumMode = static_cast<EFrustumMode>(frustumModeAsNumber);
 		asCamera->GetCamera()->SetFrustumMode(newFrustumMode);

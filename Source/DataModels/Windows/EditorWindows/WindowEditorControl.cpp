@@ -1,9 +1,8 @@
 #include "WindowEditorControl.h"
 
 #include "Application.h"
+#include "ModulePlayer.h"
 #include "ModuleScene.h"
-
-static bool playButtonState = false;
 
 WindowEditorControl::WindowEditorControl() : EditorWindow("Editor Control")
 {
@@ -29,15 +28,13 @@ void WindowEditorControl::DrawWindowContents()
 
 	if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 	{
-		(playButtonState) ? App->scene->OnStop() : App->scene->OnPlay();
-
-		playButtonState = !playButtonState;
+		(App->IsOnPlayMode()) ? App->player->SetReadyToEliminate(true) : App->OnPlay();
 	}
 	ImGui::SameLine();
 
 	if (ImGui::Button("||"))
 	{
-		App->scene->OnPause();
+		App->OnPause();
 	}
 	ImGui::SameLine();
 }

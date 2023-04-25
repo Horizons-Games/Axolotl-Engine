@@ -4,6 +4,7 @@
 #include "FileSystem/Json.h"
 
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleDebugDraw.h"
@@ -46,9 +47,15 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 
 ComponentPointLight::~ComponentPointLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
-void ComponentPointLight::Draw()
+void ComponentPointLight::Draw() const
 {
 #ifndef ENGINE
 	if (!App->editor->GetDebugOptions()->GetDrawPointLight())
@@ -56,7 +63,7 @@ void ComponentPointLight::Draw()
 		return;
 	}
 #endif // ENGINE
-	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
+	if (IsEnabled() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));

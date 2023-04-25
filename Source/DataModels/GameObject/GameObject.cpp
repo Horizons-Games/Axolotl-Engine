@@ -1,14 +1,18 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAmbient.h"
+#include "../Components/ComponentAudioListener.h"
+#include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
+#include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentMockState.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentRigidBody.h"
+#include "../Components/ComponentScript.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentTransform.h"
 #include "../Components/UI/ComponentButton.h"
@@ -30,13 +34,7 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
-	name(name),
-	uid(uid),
-	enabled(true),
-	active(true),
-	parent(nullptr),
-	stateOfSelection(StateOfSelection::NO_SELECTED),
-	staticObject(false)
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
 {
 }
 
@@ -44,22 +42,26 @@ GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::Gen
 {
 }
 
-GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
+GameObject::GameObject(const std::string& name, GameObject* parent) :
+	GameObject(name,
+			   parent,
+			   UniqueID::GenerateUID(),
+			   true,
+			   (parent->IsEnabled() && parent->IsActive()),
+			   StateOfSelection::NO_SELECTED,
+			   false)
 {
-	this->parent = parent; // constructor using delegate constructor cannot use initializer lists
 	this->parent->LinkChild(this);
-	this->parentUID = parent->GetUID();
-	active = (parent->IsEnabled() && parent->IsActive());
 }
 
 GameObject::GameObject(const GameObject& gameObject) :
-	name(gameObject.GetName()),
-	parent(gameObject.GetParent()),
-	uid(UniqueID::GenerateUID()),
-	enabled(true),
-	active(true),
-	stateOfSelection(StateOfSelection::NO_SELECTED),
-	staticObject(gameObject.staticObject)
+	GameObject(gameObject.GetName(),
+			   gameObject.GetParent(),
+			   UniqueID::GenerateUID(),
+			   true,
+			   true,
+			   StateOfSelection::NO_SELECTED,
+			   gameObject.staticObject)
 {
 	for (auto component : gameObject.GetComponents())
 	{
@@ -74,67 +76,27 @@ GameObject::GameObject(const GameObject& gameObject) :
 	}
 }
 
+GameObject::GameObject(const std::string& name,
+					   GameObject* parent,
+					   UID uid,
+					   bool enabled,
+					   bool active,
+					   StateOfSelection selection,
+					   bool staticObject) :
+	name(name),
+	parent(parent),
+	uid(uid),
+	enabled(enabled),
+	active(active),
+	stateOfSelection(selection),
+	staticObject(staticObject)
+{
+}
+
 GameObject::~GameObject()
 {
-	// This should not be here
-	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight = false, hadPointLight = false;
-	for (ComponentLight* light : lights)
-	{
-		switch (light->GetLightType())
-		{
-			case LightType::SPOT:
-				hadSpotLight = true;
-				break;
-			case LightType::POINT:
-				hadPointLight = true;
-				break;
-		}
-	}
-	//
-
 	components.clear();
-
 	children.clear();
-
-	// This should not be here
-	Scene* currentScene = App->scene->GetLoadedScene();
-
-	if (hadSpotLight)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
-	if (hadPointLight)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
-	//
-}
-
-void GameObject::Update()
-{
-	for (std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Update();
-		}
-	}
-
-	// if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
-}
-
-void GameObject::Draw() const
-{
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Draw();
-		}
-	}
 }
 
 void GameObject::SaveOptions(Json& meta)
@@ -194,6 +156,21 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
+void GameObject::Draw() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->IsEnabled())
+		{
+			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
+			if (drawable)
+			{
+				drawable->Draw();
+			}
+		}
+	}
+}
+
 void GameObject::InitNewEmptyGameObject(bool is3D)
 {
 	if (is3D)
@@ -216,8 +193,7 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	parent->UnlinkChild(this);
-	newParent->LinkChild(this);
+	newParent->LinkChild(parent->UnlinkChild(this));
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
@@ -308,6 +284,24 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		case ComponentType::LIGHT:
 		{
 			CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
+			break;
+		}
+
+		case ComponentType::PLAYER:
+		{
+			newComponent = std::make_unique<ComponentPlayer>(static_cast<ComponentPlayer&>(*component));
+			break;
+		}
+
+		case ComponentType::RIGIDBODY:
+		{
+			newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
+			break;
+		}
+
+		case ComponentType::SCRIPT:
+		{
+			newComponent = std::make_unique<ComponentScript>(static_cast<ComponentScript&>(*component));
 			break;
 		}
 
@@ -462,6 +456,30 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
+			break;
+		}
+
+		case ComponentType::MESHCOLLIDER:
+		{
+			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
+			break;
+		}
+
+		case ComponentType::SCRIPT:
+		{
+			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+
 		default:
 			assert(false && "Wrong component type introduced");
 	}
@@ -469,6 +487,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->scene->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+
 		components.push_back(std::move(newComponent));
 		return referenceBeforeMove;
 	}

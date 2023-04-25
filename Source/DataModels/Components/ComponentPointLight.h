@@ -2,8 +2,6 @@
 
 #include "ComponentLight.h"
 
-#define COMPONENT_POINTLIGHT "PointLight"
-
 struct PointLight
 {
 	float4 position;
@@ -23,7 +21,7 @@ public:
 
 	~ComponentPointLight() override;
 
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

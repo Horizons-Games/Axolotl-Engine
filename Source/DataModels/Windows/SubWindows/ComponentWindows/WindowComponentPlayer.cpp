@@ -18,17 +18,20 @@ void WindowComponentPlayer::DrawWindowContents()
 	ImGui::Text("");
 	ComponentPlayer* asPlayer = static_cast<ComponentPlayer*>(component);
 
-	bool isStatic = asPlayer->IsStatic();
-
-	if (ImGui::Checkbox("Static Player", &isStatic))
+	if (asPlayer)
 	{
-		asPlayer->SetStatic(isStatic);
-	}
+		bool isStatic = asPlayer->IsStatic();
 
-	bool haveMouse = asPlayer->HaveMouseActivated();
+		if (ImGui::Checkbox("Static Player", &isStatic))
+		{
+			asPlayer->SetStatic(isStatic);
+		}
 
-	if (ImGui::Checkbox("Mouse when Player", &haveMouse))
-	{
-		asPlayer->SetMouse(haveMouse);
+		bool haveMouse = asPlayer->HaveMouseActivated();
+
+		if (ImGui::Checkbox("Mouse when Player", &haveMouse))
+		{
+			asPlayer->SetMouse(haveMouse);
+		}
 	}
 }

@@ -1,13 +1,12 @@
 #pragma once
 #pragma warning(disable : 26495)
 
+#include "Auxiliar/Generics/Drawable.h"
 #include "Component.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Math/float3.h"
-
-#define COMPONENT_LIGHT "Light"
 
 enum class LightType
 {
@@ -23,7 +22,7 @@ const static LightType GetLightTypeByName(const std::string& name);
 
 class Json;
 
-class ComponentLight : public Component
+class ComponentLight : public Component, public Drawable
 {
 public:
 	ComponentLight(const bool active, GameObject* owner);
@@ -35,12 +34,10 @@ public:
 
 	virtual ~ComponentLight() override;
 
-	void Update() override;
+	virtual void Draw() const override{};
 
 	void Enable() override;
 	void Disable() override;
-
-	virtual void Draw() override{};
 
 	virtual void SaveOptions(Json& meta) override{};
 	virtual void LoadOptions(Json& meta) override{};
@@ -58,11 +55,6 @@ protected:
 
 	LightType lightType;
 };
-
-inline void ComponentLight::Update()
-{
-	Draw();
-}
 
 inline void ComponentLight::Enable()
 {
