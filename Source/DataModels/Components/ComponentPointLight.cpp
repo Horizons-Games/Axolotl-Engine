@@ -45,8 +45,11 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 ComponentPointLight::~ComponentPointLight()
 {
 	Scene* currentScene = App->scene->GetLoadedScene();
-	currentScene->UpdateScenePointLights();
-	currentScene->RenderPointLights();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
 void ComponentPointLight::Draw() const

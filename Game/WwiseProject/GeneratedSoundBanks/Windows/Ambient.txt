@@ -1,0 +1,11 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2073224732	sfx_ambient_crowd_talking_01			\SFX\Ambient\sfx_ambient_crowd_talking_01	
+	2455846751	cantina_music			\SFX\Ambient\cantina_music	
+	3000297385	sewersMusic			\SFX\Ambient\sewersMusic	
+	3747747529	ambient_cantina_stop			\SFX\Ambient\ambient_cantina_stop	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
+	347047974	First_Level_Sewers__v1	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\First_Level_Sewers__v1		7690336
+	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
+

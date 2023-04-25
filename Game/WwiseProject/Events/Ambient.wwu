@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}">
+	<Events>
+		<WorkUnit Name="Ambient" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" OwnerID="{AA397C40-3770-4439-AC7E-10F711A90387}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="cantina_music" ID="{CB9B8F6D-4D5A-4D0B-95B3-0F5FD4E5F4ED}">
+					<ChildrenList>
+						<Action Name="" ID="{AD6A228B-0BF1-4730-B08C-846A21F22760}" ShortID="96327179">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_ambient_crowd_talking_01" ID="{0CB3B3B2-9711-47F0-BB07-938839E77AAE}">
+					<ChildrenList>
+						<Action Name="" ID="{ED4E8A02-EA91-41EF-A491-3B38E9D62CBD}" ShortID="254834309">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sewersMusic" ID="{BCA9AE80-1EC2-4B9C-953C-303BA6DD250A}">
+					<ChildrenList>
+						<Action Name="" ID="{465D77D8-8ADC-446A-86CD-9FB9DEC72948}" ShortID="187383770">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="First_Level_Sewers__v1" ID="{CEE64C54-2203-474B-8E18-0908068F32B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="ambient_cantina_stop" ID="{AFFBD876-E50B-4AA1-8239-FBBCEFD9A81C}">
+					<ChildrenList>
+						<Action Name="" ID="{15C5CAAF-EC02-40F2-B247-366BEBB3CE1E}" ShortID="984803577">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{0FDBACC6-8071-40A8-9509-67AD0A981012}" ShortID="505223356">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
