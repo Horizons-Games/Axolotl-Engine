@@ -13,7 +13,8 @@ enum class ResourceType
 	Scene,
 	Material,
 	SkyBox,
-	Animation
+	Animation,
+	StateMachine
 };
 
 class Resource

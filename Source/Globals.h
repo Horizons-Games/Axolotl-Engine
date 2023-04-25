@@ -69,6 +69,7 @@ enum class TextureType
 #define SCENE_EXTENSION ".axolotl"
 #define SKYBOX_EXTENSION ".sky"
 #define MATERIAL_EXTENSION ".mat"
+#define STATEMACHINE_EXTENSION ".state"
 #define MESH_EXTENSION ".mesh"
 #define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"

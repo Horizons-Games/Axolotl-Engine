@@ -983,9 +983,24 @@
     </ClCompile>
     <ClCompile Include="DataModels\Animation\AnimationController.cpp">
       <Filter>DataModels\Animation</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceStateMachine.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LogSystem.cpp">
       <Filter>Scripting</Filter>
@@ -1332,7 +1347,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Animation\AnimationController.h">
       <Filter>DataModels\Animation</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -1369,11 +1384,26 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceStateMachine.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\StateMachineImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts</Filter>

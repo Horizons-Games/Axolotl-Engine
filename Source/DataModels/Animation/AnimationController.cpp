@@ -22,6 +22,7 @@ void AnimationController::Play(std::shared_ptr<ResourceAnimation> resource, bool
 void AnimationController::Stop()
 {
     isPlaying = false;
+    currentTime = 0;
 }
 
 void AnimationController::Update()
@@ -30,7 +31,6 @@ void AnimationController::Update()
     {
         float duration = resource->GetDuration();
 
-        ENGINE_LOG("DeltaTime: %f", App->GetDeltaTime());
         currentTime += App->GetDeltaTime() * 10;
         if (currentTime > duration)
         {
@@ -40,7 +40,7 @@ void AnimationController::Update()
             }
             else
             {
-                currentTime = duration;
+                isPlaying = false;
             }
         }
     }
