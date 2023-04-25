@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginInfo Platform="Windows" BasePlatform="Windows">
+	<PluginLibs>
+		<PluginLib LibName="Wwise Guitar Distortion" LibId="8257539" Type="Effect" DLL="AkGuitarDistortion" StaticLib="AkGuitarDistortionFX"/>
+		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
+		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
+	</PluginLibs>
+	<FileHash>{E7C16CFB-21FC-85A4-25E5-B45CB2E5FEA1}</FileHash>
+</PluginInfo>

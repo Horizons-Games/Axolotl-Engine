@@ -398,12 +398,12 @@ void ModuleResources::CreateAssetAndLibFolders()
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(ASSETS_PATH);
 	if (assetsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(ASSETS_PATH);
+		App->fileSystem->CreateDirectory(ASSETS_PATH);
 	}
 	bool libraryFolderNotCreated = !App->fileSystem->Exists(LIB_PATH);
 	if (libraryFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(LIB_PATH);
+		App->fileSystem->CreateDirectory(LIB_PATH);
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill:
@@ -425,14 +425,14 @@ void ModuleResources::CreateAssetAndLibFolders()
 		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
 		if (assetsFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
+			App->fileSystem->CreateDirectory(assetsFolderOfType.c_str());
 		}
 
 		std::string libraryFolderOfType = LIB_PATH + folderOfType;
 		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
 		if (libraryFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
+			App->fileSystem->CreateDirectory(libraryFolderOfType.c_str());
 		}
 	}
 }

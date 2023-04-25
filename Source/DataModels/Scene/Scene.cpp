@@ -32,6 +32,16 @@
 #include "Resources/ResourceAnimation.h"
 
 #include <stack>
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentPointLight.h"
+#include "Components/ComponentSpotLight.h"
+#include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/UI/ComponentCanvas.h"
 
 Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr), 
 	uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
@@ -229,6 +239,14 @@ GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* pa
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
 	gameObject->CreateComponentLight(type);
+	return gameObject;
+}
+
+GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
+
 	return gameObject;
 }
 

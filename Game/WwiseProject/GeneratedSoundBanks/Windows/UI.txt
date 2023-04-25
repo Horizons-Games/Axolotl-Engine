@@ -1,0 +1,10 @@
+Event	ID	Name			Wwise Object Path	Notes
+	797520661	sfx_button_back_01			\SFX\UI\sfx_button_back_01	
+	2910963833	sfx_button_press_01			\SFX\UI\sfx_button_press_01	
+	3449466020	sfx_button_hover_01			\SFX\UI\sfx_button_hover_01	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	48055455	sfx_button_hover_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonHover_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_hover_01		51876
+	872873447	sfx_button_back_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonBack_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_back_01		51876
+	979155077	sfx_button_press_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonPress_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_press_01		68840
+

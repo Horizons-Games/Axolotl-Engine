@@ -141,6 +141,9 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
+	for(Component* components : GetOwner()->GetComponents()) {
+		components->OnTransformChanged();
+	}
 
 	if (GetOwner()->GetChildren().empty())
 		return;

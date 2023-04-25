@@ -154,6 +154,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
                 ImGui::EndMenu();
             }
+            
+            if (ImGui::BeginMenu("Audio"))
+            {
+                if (ImGui::MenuItem("Audio Source"))
+                {
+                    App->scene->GetLoadedScene()->CreateAudioSourceGameObject("Audio Source", gameObject);
+                }
+                
+                ImGui::EndMenu();
+            }
         }
         else
         {
