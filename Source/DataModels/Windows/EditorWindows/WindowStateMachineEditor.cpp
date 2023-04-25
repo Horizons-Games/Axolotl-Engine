@@ -271,7 +271,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImVec2 pCenter = ImVec2(center.x - triangleLength / 2.f, center.y - triangleHeight / 2.f);
 
 			ImGui::SetCursorScreenPos(pCenter);
-			ImGui::InvisibleButton("state", ImVec2(triangleLength, triangleHeight));
+			ImGui::InvisibleButton(("transition" + std::to_string(it.first)).c_str(), ImVec2(triangleLength, triangleHeight));
 
 			if (ImGui::IsItemActive() || ImGui::IsItemHovered())
 			{
@@ -307,7 +307,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);
 			ImVec2 maxRect = ImVec2(origin.x + posState.x + sizeState.x, origin.y + posState.y + sizeState.y);
 			ImGui::SetCursorScreenPos(minRect);
-			ImGui::InvisibleButton("state", ImVec2(sizeState.x, sizeState.y));
+			ImGui::InvisibleButton(("state" + std::to_string(i)).c_str(), ImVec2(sizeState.x, sizeState.y));
 			if (ImGui::IsItemActive() || ImGui::IsItemHovered())
 			{
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
