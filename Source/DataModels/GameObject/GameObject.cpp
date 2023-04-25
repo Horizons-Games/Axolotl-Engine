@@ -180,8 +180,7 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	parent->UnlinkChild(this);
-	newParent->LinkChild(this);
+	newParent->LinkChild(parent->UnlinkChild(this));
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
