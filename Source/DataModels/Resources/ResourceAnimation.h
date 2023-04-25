@@ -38,7 +38,7 @@ public:
 	double GetDuration() const;
 
 	void SetDuration(double duration);
-	void SetChannels(std::unordered_map<std::string, ResourceAnimation::Channel*> channels);
+	void SetChannels(const std::unordered_map<std::string, ResourceAnimation::Channel*> channels);
 
 protected:
 	void InternalLoad() override {};
@@ -84,7 +84,7 @@ inline void ResourceAnimation::SetDuration(double duration)
 	this->duration = duration;
 }
 
-inline void ResourceAnimation::SetChannels(std::unordered_map<std::string, ResourceAnimation::Channel*> channels)
+void ResourceAnimation::SetChannels(const std::unordered_map<std::string, ResourceAnimation::Channel*> channels)
 {
 	this->channels = channels;
 }

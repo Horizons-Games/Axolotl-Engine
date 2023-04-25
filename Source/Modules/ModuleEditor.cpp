@@ -13,6 +13,7 @@
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/WindowDebug.h"
+#include "Windows/EditorWindows/WindowStateMachineEditor.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -22,7 +23,6 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 #include "Windows/EditorWindows/WindowAssetFolder.h"
-#include "Windows/EditorWindows/WindowStateMachineEditor.h"
 #include "Resources/ResourceStateMachine.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
@@ -118,7 +118,7 @@ bool ModuleEditor::Init()
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
-	stateMachineEditor = new WindowStateMachineEditor();
+	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();

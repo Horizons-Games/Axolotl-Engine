@@ -2,8 +2,6 @@
 
 #include "Resource.h"
 
-#include "Components/ComponentMeshRenderer.h"
-
 #include "Math/float4x4.h"
 
 #include <vector>
