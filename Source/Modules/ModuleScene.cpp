@@ -388,10 +388,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		{
 			//Quadtree treatment
 			AddGameObject(obj);
-
 		}
-
 	}
+
+	SetSceneRootAnimObjects(loadedObjects);
 
 	App->renderer->FillRenderList(rootQuadtree);
 
@@ -403,6 +403,24 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 	loadedScene->InitLights();
+}
+
+void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
+{
+	for (GameObject* go : gameObjects)
+	{
+		if (go->GetComponent(ComponentType::ANIMATION) != nullptr)
+		{
+			GameObject* rootGo = go;
+
+			go->SetRootGO(rootGo);
+
+			for (GameObject* child : go->GetGameObjectsInside())
+			{
+				child->SetRootGO(rootGo);
+			}
+		}
+	}
 }
 
 /*

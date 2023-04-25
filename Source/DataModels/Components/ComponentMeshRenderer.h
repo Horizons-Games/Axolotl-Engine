@@ -93,8 +93,6 @@ private:
 	std::vector<GameObject*> bones;
 	std::vector<float4x4> skinPalette;
 
-	unsigned ssboPalette;
-
 	WindowMeshInput* inputMesh;
 };
 

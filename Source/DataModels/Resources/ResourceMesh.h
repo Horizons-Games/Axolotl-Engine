@@ -50,6 +50,7 @@ public:
 	unsigned int GetNumIndexes() const;
 	unsigned int GetNumBones() const;
 	unsigned int GetMaterialIndex() const;
+	unsigned int GetSSBOPalette() const;
 	const std::vector<float3>& GetVertices() const;
 	const std::vector<float3>& GetTextureCoords() const;
 	const std::vector<float3>& GetNormals() const;
@@ -105,6 +106,7 @@ private:
 	unsigned int numIndexes;
 	unsigned int numBones;
 	unsigned int materialIndex;
+	unsigned int ssboPalette;
 
 	std::vector<float3> vertices;
 	std::vector<float3> textureCoords;
@@ -161,6 +163,11 @@ inline unsigned int ResourceMesh::GetNumBones() const
 inline unsigned int ResourceMesh::GetMaterialIndex() const
 {
 	return materialIndex;
+}
+
+inline unsigned int ResourceMesh::GetSSBOPalette() const
+{
+	return ssboPalette;
 }
 
 inline const std::vector<float3>& ResourceMesh::GetVertices() const

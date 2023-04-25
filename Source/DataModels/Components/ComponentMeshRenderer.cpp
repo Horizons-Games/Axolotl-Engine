@@ -58,21 +58,6 @@ void ComponentMeshRenderer::InitBones()
 	{
 		skinPalette[i] = float4x4::identity;
 	}
-
-	Program* program = App->program->GetProgram
-	(ProgramType(material->GetShaderType()));
-
-	if (program)
-	{
-		glGenBuffers(1, &ssboPalette);
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * skinPalette.size(),
-			nullptr, GL_DYNAMIC_DRAW);
-
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, ssboPalette);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	}
 }
 
 void ComponentMeshRenderer::Update()
@@ -84,6 +69,10 @@ void ComponentMeshRenderer::Update()
 		if (root)
 		{
 			const std::vector<Bone>& bindBones = mesh->GetBones();
+
+			const unsigned int numBones = mesh->GetNumBones();
+
+			skinPalette.resize(numBones);
 
 			for (unsigned int i = 0; i < mesh->GetNumBones(); ++i)
 			{
@@ -150,7 +139,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	}
 
 	program->BindUniformInt("hasBones", hasBones);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, mesh->GetSSBOPalette());
 	if (hasBones)
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
