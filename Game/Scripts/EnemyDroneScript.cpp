@@ -7,7 +7,7 @@
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), 
-		droneState(DroneBehavoiurs::IDLE), ownerTransform(nullptr)
+		droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
 {
 
 }
@@ -34,7 +34,7 @@ void EnemyDroneScript::Start()
 		}
 	}
 
-	droneState = DroneBehavoiurs::IDLE;
+	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
@@ -48,15 +48,15 @@ void EnemyDroneScript::Update(float deltaTime)
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
 		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
-			&& droneState != DroneBehavoiurs::SEEK)
+			&& droneState != DroneBehaviours::SEEK)
 		{
-			droneState = DroneBehavoiurs::SEEK;
+			droneState = DroneBehaviours::SEEK;
 		}
 
 		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
-			&& droneState != DroneBehavoiurs::PATROL)
+			&& droneState != DroneBehaviours::PATROL)
 		{
-			droneState = DroneBehavoiurs::PATROL;
+			droneState = DroneBehaviours::PATROL;
 
 			// Set the enemy back to the patrol route
 			// Ideally, this should call a function "BackToPatrol" from the patrolScript
@@ -64,12 +64,12 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 	}
 
-	if (patrolScript && droneState == DroneBehavoiurs::PATROL)
+	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
 		patrolScript->GetScript()->Update(deltaTime);
 	}
 
-	if (seekScript && droneState == DroneBehavoiurs::SEEK)
+	if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->GetScript()->Update(deltaTime);
 	}

@@ -7,7 +7,7 @@
 class ComponentScript;
 class ComponentTransform;
 
-enum class DroneBehavoiurs
+enum class DroneBehaviours
 {
 	IDLE,
 	PATROL,
@@ -24,7 +24,7 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	DroneBehavoiurs droneState;
+	DroneBehaviours droneState;
 
 	ComponentScript* patrolScript;
 	ComponentScript* seekScript;
