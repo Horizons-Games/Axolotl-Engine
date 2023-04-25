@@ -82,7 +82,7 @@
         },
         {
             "GameObject": {
-                "name": "EnemyMovementTrial",
+                "name": "CantinaScriptsVS2",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -8836,6 +8836,13 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -17194,6 +17201,13 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]

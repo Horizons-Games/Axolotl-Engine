@@ -5,6 +5,14 @@
 // This script handles the movement/rotation and abilities of the player
 
 class ComponentPlayer;
+class ComponentAudioSource;
+
+// Little fix until we could check if an audio is being reproduced
+enum class PlayerActions
+{
+	IDLE,
+	WALKING
+};
 
 class PlayerMobilityScript : public Script
 {
@@ -44,4 +52,7 @@ private:
 	bool canDoubleJump;
 	bool isCrouch;
 	unsigned int jumps;
+
+	ComponentAudioSource* componentAudio;
+	PlayerActions playerState;
 };
