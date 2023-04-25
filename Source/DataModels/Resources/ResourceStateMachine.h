@@ -32,6 +32,8 @@ struct State
 	std::pair<int, int> auxiliarPos;
 	std::vector<UID> transitionsOriginedHere;
 	std::vector<UID> transitionsDestinedHere;
+
+	~State() = default;
 };
 
 struct Condition
@@ -70,10 +72,10 @@ public:
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
 	unsigned int GetNumParameters() const;
-	const std::vector<State*>& GetStates() const;
+	std::vector<State*> GetStates() const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
-	void SetStates(const std::vector<State*>& states);
+	void AddState(std::unique_ptr<State> state);
 	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters);
 	void SetTransitions(const std::unordered_map<UID, Transition>& transitions);
 
@@ -102,7 +104,7 @@ protected:
 	void InternalUnload() override {};
 
 private:
-	std::vector<State*> states;
+	std::vector<std::unique_ptr<State>> states;
 	std::unordered_map<UID, Transition> transitions;
 	std::unordered_map<std::string, TypeFieldPairParameter> defaultParameters;
 };
@@ -127,9 +129,16 @@ inline unsigned int ResourceStateMachine::GetNumParameters() const
 	return defaultParameters.size();
 }
 
-inline const std::vector<State*>& ResourceStateMachine::GetStates() const
+inline std::vector<State*> ResourceStateMachine::GetStates() const
 {
-	return states;
+	std::vector<State*> rawStates;
+	rawStates.reserve(states.size());
+
+	if (!states.empty())
+		std::transform(std::begin(states), std::end(states), std::begin(rawStates),
+			[](const std::unique_ptr<State>& go) { return go.get(); });
+
+	return rawStates;
 }
 
 inline std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions()
@@ -137,9 +146,9 @@ inline std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions
 	return transitions;
 }
 
-inline void ResourceStateMachine::SetStates(const std::vector<State*>& states)
+inline void ResourceStateMachine::AddState(std::unique_ptr<State> state)
 {
-	this->states = states;
+	states.push_back(std::move(state));
 }
 
 inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)

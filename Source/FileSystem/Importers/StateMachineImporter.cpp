@@ -293,11 +293,9 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 	fileBuffer += bytes;
 
-	std::vector<State*> states;
-	states.reserve(header[0]);
 	for(unsigned int i = 0; i < header[0]; i++)
 	{
-		State* state = new State();
+		std::unique_ptr<State> state = std::make_unique<State>();
 
 		unsigned int stateHeader[4];
 		bytes = sizeof(stateHeader);
@@ -374,10 +372,8 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		fileBuffer += bytes;
 
-		states.push_back(state);
+		resource->AddState(std::move(state));
 	}
-	
-	resource->SetStates(states);
 
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	parameters.reserve(header[1]);
