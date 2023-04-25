@@ -10,17 +10,21 @@
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
-#include "Components//ComponentPlayer.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentAudioSource.h"
+
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerMobilityScript);
 
 PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
 												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
-												canDoubleJump(true) , jumps(0), isCrouch(false)
+												canDoubleJump(true) , jumps(0), isCrouch(false),
+												componentAudio(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(Speed, float);
 	REGISTER_FIELD(JumpParameter, float);
@@ -38,7 +42,9 @@ void PlayerMobilityScript::Start()
 	{
 		jumps = 1;
 	}
+
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
+	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 }
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
@@ -88,8 +94,7 @@ void PlayerMobilityScript::Move()
 		sizeForce = deltaTime * dashForce;
 		if (nextDash == 0)
 		{
-			nextDash = (float)(SDL_GetTicks()) + 200.0f;
-
+			nextDash = static_cast<float>(SDL_GetTicks()) + 200.0f;
 		}
 
 		if (nextDash < SDL_GetTicks())
@@ -148,9 +153,15 @@ void PlayerMobilityScript::Move()
 		size /= 4.f;
 	}
 
-	//Forward
+	// Forward
 	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			playerState = PlayerActions::WALKING;
+		}
+
 		forceVector += direction;
 		jumpVector += trans->GetGlobalForward().Normalized();
 
@@ -176,9 +187,15 @@ void PlayerMobilityScript::Move()
 		}
 	}
 
-	//Backward
+	// Backward
 	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			playerState = PlayerActions::WALKING;
+		}
+
 		forceVector += -direction;
 		jumpVector += -trans->GetGlobalForward().Normalized();
 
@@ -206,9 +223,14 @@ void PlayerMobilityScript::Move()
 		}
 	}
 
-	//Left
+	// Left
 	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			playerState = PlayerActions::WALKING;
+		}
 
 		forceVector += -sideDirection;
 		jumpVector += -trans->GetGlobalRight().Normalized();
@@ -237,9 +259,15 @@ void PlayerMobilityScript::Move()
 		}
 	}
 
-	//Right
+	// Right
 	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			playerState = PlayerActions::WALKING;
+		}
+
 		forceVector += sideDirection;
 		jumpVector += -trans->GetGlobalRight().Normalized();
 
@@ -264,6 +292,19 @@ void PlayerMobilityScript::Move()
 			{
 				jumpVector += trans->GetGlobalRight().Normalized();
 			}
+		}
+	}
+
+	// No movement input
+	if (App->input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+		App->input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+		App->input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+		App->input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::WALKING)
+		{
+			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			playerState = PlayerActions::IDLE;
 		}
 	}
 

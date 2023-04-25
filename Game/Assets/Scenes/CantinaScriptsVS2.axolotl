@@ -8836,6 +8836,13 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -17194,6 +17201,13 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -29793,6 +29807,51 @@
                             "assetPathMesh": "Assets/Meshes/DroneV2_87.mesh",
                             "materialUID": 869891762275968672,
                             "assetPathMaterial": "Assets/Materials/DroneV2_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cantina Music",
+                "tag": "",
+                "uid": 16217004872204196871,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.976187705993652,
+                            "localPos_Y": 1.0184545516967773,
+                            "localPos_Z": -6.267689228057861,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CantinaMusicScript",
+                            "fields": null
                         }
                     }
                 ]

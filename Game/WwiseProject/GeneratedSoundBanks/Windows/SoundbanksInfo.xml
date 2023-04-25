@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{08255216-9C65-FDB0-F36B-121589C442C5}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{0DFD9651-BFB6-3635-C869-584F955EA7E5}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -26,17 +26,32 @@
 					<CachePath>SFX/sfx_ambient_crowd_talking_01_D79FB2B7.wem</CachePath>
 				</File>
 			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="829913711" Name="Matrix Reverb (Custom)" LibName="Wwise Matrix Reverb" LibId="7536643"/>
+				</Custom>
+			</Plugins>
 			<Events>
 				<Event Id="3747747529" Name="ambient_cantina_stop">
 					<MediaRefs>
 						<MediaRef Id="106158711"/>
 						<MediaRef Id="652056130"/>
 					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="829913711"/>
+						</Custom>
+					</PluginRefs>
 				</Event>
 				<Event Id="2455846751" Name="cantina_music">
 					<MediaRefs>
 						<MediaRef Id="106158711"/>
 					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="829913711"/>
+						</Custom>
+					</PluginRefs>
 				</Event>
 				<Event Id="3000297385" Name="sewersMusic">
 					<MediaRefs>
@@ -173,7 +188,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{78D1FBAE-3E21-0ACD-79E9-D1AE55BAF6AC}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2BDDD8A0-6B48-299F-BD9B-FA51575B0925}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -542,5 +557,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{62CA1651-438A-9EA2-696E-BDC4B4BDE482}</FileHash>
+	<FileHash>{70190A1E-EBD8-34F9-F864-90454A2BD54A}</FileHash>
 </SoundBanksInfo>
