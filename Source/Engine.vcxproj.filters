@@ -292,6 +292,27 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
+      <Filter>UserScripts\EnemyBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
+      <Filter>UserScripts\EnemyBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp">
+      <Filter>UserScripts\Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
+      <Filter>UserScripts\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
+      <Filter>UserScripts\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -303,6 +324,12 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
+      <Filter>UserScripts\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -626,6 +653,27 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
+      <Filter>UserScripts\EnemyBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\EnemyBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
+      <Filter>UserScripts\Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -637,6 +685,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -708,6 +762,24 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\EnemyBehaviour">
+      <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Enemies">
+      <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Auxiliar">
+      <UniqueIdentifier>{b64e48db-e074-4748-b95c-06af30b4bb9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Basics">
+      <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player">
+      <UniqueIdentifier>{374c9ff0-7112-4fbc-9163-7a6f2719cda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Audio">
+      <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1011,12 +1083,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
-      <Filter>UserScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
-      <Filter>UserScripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1366,14 +1432,8 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
       <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
-      <Filter>UserScripts</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Updatable.h">
       <Filter>Auxiliar\Generics</Filter>

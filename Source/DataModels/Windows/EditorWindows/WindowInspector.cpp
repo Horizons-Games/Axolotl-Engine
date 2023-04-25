@@ -114,7 +114,8 @@ void WindowInspector::InspectSelectedGameObject()
 				AddComponentMeshRenderer();
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) 
+			{
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
 					AddComponentLight(LightType::SPOT);
@@ -126,21 +127,24 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) 
+			{
 				if (ImGui::MenuItem("Create Player Component"))
 				{
 					AddComponentPlayer();
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) 
+			{
 				if (ImGui::MenuItem("Create RigidBody Component"))
 				{
 					AddComponentRigidBody();
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) 
+			{
 				if (ImGui::MenuItem("Create MockState Component"))
 				{
 					AddComponentMockState();
@@ -160,20 +164,18 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 			
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) 
+			{
 				if (ImGui::MenuItem("Create Mesh Collider Component"))
 				{
 					AddComponentMeshCollider();
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::SCRIPT)) {
-				if (ImGui::MenuItem("Create Script Component"))
-				{
-					AddComponentScript();
-				}
+			if (ImGui::MenuItem("Create Script Component"))
+			{
+				AddComponentScript();
 			}
-
 		}
 
 		else

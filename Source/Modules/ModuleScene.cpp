@@ -35,6 +35,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	App->scriptFactory->Init();
+
 	return true;
 }
 
@@ -55,8 +56,24 @@ bool ModuleScene::Start()
 #else //ENGINE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
+		LoadSceneFromJson("Lib/Scenes/CantinaScriptsVS2.axolotl");
 	}
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+}
 #endif //GAMEMODE
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
