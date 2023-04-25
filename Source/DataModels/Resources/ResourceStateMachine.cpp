@@ -63,8 +63,8 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 void ResourceStateMachine::EraseTransition(UID id)
 {
 	State* stateOrigin = transitions[id].origin;
-	remove(stateOrigin->transitionsOriginedHere.begin(), stateOrigin->transitionsOriginedHere.end(), id);
-	remove(stateOrigin->transitionsDestinedHere.begin(), stateOrigin->transitionsDestinedHere.end(), id);
+	std::ignore = remove(stateOrigin->transitionsOriginedHere.begin(), stateOrigin->transitionsOriginedHere.end(), id);
+	std::ignore = remove(stateOrigin->transitionsDestinedHere.begin(), stateOrigin->transitionsDestinedHere.end(), id);
 	transitions.erase(id);
 }
 
