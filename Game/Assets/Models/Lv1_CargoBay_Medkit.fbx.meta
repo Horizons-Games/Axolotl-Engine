@@ -1,11 +1,11 @@
 {
-    "UID": 15342506521045001501,
+    "UID": 3390479394442657434,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_Medkit.Cube.001.mesh"
+        "Assets/Meshes/Lv1_CargoBay_Medkit.Cube.001_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_Medkit.Medpack.mat"
+        "Assets/Materials/Lv1_CargoBay_MedkitMedpack_0.mat"
     ],
     "AnimAssetPaths": null
 }

@@ -1,11 +1,11 @@
 {
-    "UID": 14051384774803642335,
+    "UID": 11166753147828394410,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_RunWayJoint.Cylinder.mesh"
+        "Assets/Meshes/Lv1_CargoBay_RunWayJoint.Cylinder_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_RunWayJoint.Body.mat"
+        "Assets/Materials/Lv1_CargoBay_RunWayJointBody_0.mat"
     ],
     "AnimAssetPaths": null
 }

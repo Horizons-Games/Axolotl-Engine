@@ -1,11 +1,11 @@
 {
-    "UID": 1372460929446148090,
+    "UID": 11806275042237531545,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_Wall2.Cube.013.mesh"
+        "Assets/Meshes/Lv1_CargoBay_Wall2.Cube.013_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_Wall2.DefaultMaterial.mat"
+        "Assets/Materials/Lv1_CargoBay_Wall2DefaultMaterial_0.mat"
     ],
     "AnimAssetPaths": null
 }

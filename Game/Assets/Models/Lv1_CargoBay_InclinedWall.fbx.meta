@@ -1,11 +1,11 @@
 {
-    "UID": 14271445190485797661,
+    "UID": 8133989282105537306,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_InclinedWall.Cube.001.mesh"
+        "Assets/Meshes/Lv1_CargoBay_InclinedWall.Cube.001_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_InclinedWall.Material.mat"
+        "Assets/Materials/Lv1_CargoBay_InclinedWallMaterial_0.mat"
     ],
     "AnimAssetPaths": null
 }

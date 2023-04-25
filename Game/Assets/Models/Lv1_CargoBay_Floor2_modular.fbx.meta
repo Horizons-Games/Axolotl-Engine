@@ -1,21 +1,21 @@
 {
-    "UID": 2539392424472661771,
+    "UID": 5910078571444246081,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.005.mesh",
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.006.mesh",
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.007.mesh",
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.001.mesh",
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.002.mesh",
-        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.003.mesh"
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.005_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.006_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.007_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.001_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.002_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modular.Plane.003_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat",
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat",
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat",
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat",
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat",
-        "Assets/Materials/Lv1_CargoBay_Floor2_modular.DefaultMaterial.mat"
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularDefaultMaterial_0.mat"
     ],
     "AnimAssetPaths": null
 }

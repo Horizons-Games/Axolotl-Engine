@@ -330,7 +330,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 			animationName.replace(pos, animationName.length(), "_");
 		}
 
-		std::string animationPath = ANIMATION_PATH + animationName + ANIMATION_EXTENSION;
+		std::string animationPath = ANIMATION_PATH + resource->GetFileName() + "." + animationName + ANIMATION_EXTENSION;
 
 		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
@@ -413,7 +413,7 @@ std::shared_ptr<ResourceMesh> ModelImporter::ImportMesh(const aiMesh* mesh, cons
 	SaveInfoMesh(mesh, fileBuffer, size);
 
 	std::string name = mesh->mName.C_Str();
-	std::string meshPath = MESHES_PATH + name + "_" + std::to_string(iteration) + MESH_EXTENSION;
+	std::string meshPath = MESHES_PATH + App->fileSystem->GetFileName(filePath) + "." + name + "_" + std::to_string(iteration) + MESH_EXTENSION;
 
 	App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
 	std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
@@ -481,7 +481,7 @@ std::shared_ptr<ResourceMaterial> ModelImporter::ImportMaterial(const aiMaterial
 
 	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string name = material->GetName().C_Str();
-	std::string materialPath = MATERIAL_PATH + name + "_" + std::to_string(iteration)
+	std::string materialPath = MATERIAL_PATH + App->fileSystem->GetFileName(filePath) + name + "_" + std::to_string(iteration)
 		+ MATERIAL_EXTENSION;
 
 	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);

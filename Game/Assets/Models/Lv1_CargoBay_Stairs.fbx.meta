@@ -1,11 +1,11 @@
 {
-    "UID": 17088070325700248681,
+    "UID": 14151819216015019957,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_Stairs.Cube.006.mesh"
+        "Assets/Meshes/Lv1_CargoBay_Stairs.Cube.006_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_Stairs.Stairs.mat"
+        "Assets/Materials/Lv1_CargoBay_StairsStairs_0.mat"
     ],
     "AnimAssetPaths": null
 }
