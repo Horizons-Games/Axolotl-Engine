@@ -409,7 +409,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 					transitionIdSelected = -1;
 				}
 			}
-			else if (transitionIdSelected >= 0 && transitionIdSelected < stateAsShared->GetNumTransitions())
+			else if (transitionIdSelected != -1)
 			{
 				if (ImGui::MenuItem("Delete Transition"))
 				{

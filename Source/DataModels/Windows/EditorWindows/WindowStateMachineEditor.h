@@ -27,7 +27,7 @@ private:
 
 	std::weak_ptr<ResourceStateMachine> stateMachine;
 	int stateIdSelected;
-	unsigned long long transitionIdSelected;
+	long long transitionIdSelected;
 	std::string parameterIdSelected;
 	bool creatingTransition;
 	bool openContextMenu;
