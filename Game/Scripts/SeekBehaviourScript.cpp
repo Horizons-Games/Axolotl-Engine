@@ -29,7 +29,9 @@ void SeekBehaviourScript::Update(float deltaTime)
 
 	// When this behaviour is triggered, the enemy will go towards its target
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
-	ownerRigidBody->SetRotationTarget(Quat(targetTransform->GetRotation()));
+
+	Quat xCorrectness(0.7071f, 0.0f, 0.0f, 0.7071f);
+	ownerRigidBody->SetRotationTarget(Quat(targetTransform->GetRotation()) * xCorrectness);
 }
 
 GameObject* SeekBehaviourScript::GetTarget() const
