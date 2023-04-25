@@ -77,7 +77,7 @@ void ComponentMeshRenderer::InitBones()
 
 void ComponentMeshRenderer::Update()
 {
-	if (!bones.empty())
+	if (mesh->GetNumBones() > 0)
 	{
 		GameObject* root = GetOwner()->GetRootGO();
 
@@ -137,48 +137,45 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 #endif
 
-	if (this->IsMeshLoaded())
+	if (!mesh->IsLoaded())
 	{
-		// --------- Bones -----------
-		int hasBones = 0;
-		if (!skinPalette.empty())
-		{
-			hasBones = 1;
-		}
-
-		program->BindUniformInt("hasBones", hasBones);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
-		if (hasBones)
-		{
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
-		}
-		// ---------------------------
-			
-		if (!mesh->IsLoaded())
-		{
-			mesh->Load();
-		}
-
-		const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
-		const float4x4& model =
-			static_cast<ComponentTransform*>(GetOwner()
-				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-
-		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
-
-		glBindVertexArray(mesh->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
-
-		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		mesh->Load();
 	}
+
+	// --------- Bones -----------
+	int hasBones = 0;
+	if (!skinPalette.empty())
+	{
+		hasBones = 1;
+	}
+
+	program->BindUniformInt("hasBones", hasBones);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
+	if (hasBones)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
+	}
+	// ---------------------------
+
+	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+	const float4x4& model =
+		static_cast<ComponentTransform*>(GetOwner()
+			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+	glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+
+	glBindVertexArray(mesh->GetVAO());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+
+	glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void ComponentMeshRenderer::DrawMaterial(Program* program) const
@@ -304,45 +301,42 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 
 void ComponentMeshRenderer::DrawHighlight() const
 {
-	if (IsMeshLoaded())
+	if (!mesh->IsLoaded())
 	{
-		if (!mesh->IsLoaded())
-		{
-			mesh->Load();
-		}
+		mesh->Load();
+	}
 
-		float scale = 10.1f;
-		Program* program = App->program->GetProgram(ProgramType::HIGHLIGHT);
+	float scale = 10.1f;
+	Program* program = App->program->GetProgram(ProgramType::HIGHLIGHT);
 
-		if (program)
-		{
-			program->Activate();
-			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-			const float4x4& proj = 
-							App->camera->GetCamera()->GetProjectionMatrix();
-			const float4x4& model =
-				static_cast<ComponentTransform*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM))
-														->GetGlobalMatrix();
+	if (program)
+	{
+		program->Activate();
+		const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = 
+						App->camera->GetCamera()->GetProjectionMatrix();
+		const float4x4& model =
+			static_cast<ComponentTransform*>(GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))
+													->GetGlobalMatrix();
 
-			GLint programInUse;
+		GLint programInUse;
 
-			glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
+		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-			glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-			glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-			glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
-			glBindVertexArray(mesh->GetVAO());
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-			glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, 
-													GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, 
+												GL_UNSIGNED_INT, nullptr);
 
-			glBindVertexArray(0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			program->Deactivate();
-		}
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		program->Deactivate();
 	}
 }
 

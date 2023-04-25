@@ -11,6 +11,8 @@
 #include <memory>
 #include <unordered_map>
 
+#define NON_STATE 9999
+
 class AnimationController;
 class ResourceAnimation;
 class ResourceStateMachine;
@@ -44,14 +46,14 @@ private:
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
-
 	AnimationController* controller;
 	std::shared_ptr<ResourceStateMachine> stateMachine;
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
+	std::unordered_map<GameObject*, float4x4> defaultPosition;
+
 	unsigned int actualState;
 	unsigned int nextState;
-
-	std::unordered_map<GameObject*, float4x4> defaultPosition;
+	int lastState;
 };
 
 inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)

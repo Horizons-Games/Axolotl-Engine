@@ -22,6 +22,7 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
 	: Component(ComponentType::ANIMATION, active, owner, false) 
 {
 	controller = new AnimationController();
+	lastState = NON_STATE;
 }
 
 ComponentAnimation::~ComponentAnimation()
@@ -51,10 +52,9 @@ void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMach
 
 void ComponentAnimation::Update()
 {
-
 	if (stateMachine)
 	{
-		if (actualState == 0) //Entry State 
+		if ((actualState == 0) & (lastState == NON_STATE)) //Entry State 
 		{
 			SaveModelTransform(owner);
 		}
@@ -64,7 +64,7 @@ void ComponentAnimation::Update()
 		if(actualState == nextState)
 		{
 			State* state = stateMachine->GetStates()[actualState];
-			if (state && controller->GetPlay())
+			if (state && controller->GetPlay() && App->IsOnPlayMode())
 			{
 				std::list<GameObject*> children = owner->GetGameObjectsInside();
 
@@ -107,12 +107,20 @@ void ComponentAnimation::Update()
 				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 			}
 		}
+		lastState = actualState;
+	}
+	else
+	{
+		lastState == NON_STATE;
 	}
 }
 
 void ComponentAnimation::Draw() const
 {
-	DrawBones(owner);
+	if (!App->IsOnPlayMode())
+	{
+		DrawBones(owner);
+	}
 }
 
 void ComponentAnimation::DrawBones(GameObject* parent) const

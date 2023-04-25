@@ -125,21 +125,27 @@ update_status ModuleScene::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
-
-	for (GameObject* object : loadedScene->GetSceneGameObjects())
-	{
-		if (object->GetComponent(ComponentType::ANIMATION) != nullptr)
-		{
-			ComponentAnimation* animation =
-				static_cast<ComponentAnimation*>(object->GetComponent(ComponentType::ANIMATION));
-
-			animation->Update();
-		}
-	}
 #endif // DEBUG
 
 	//UpdateGameObjectAndDescendants(loadedScene->GetRoot());
 	
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	for (GameObject* go : App->scene->GetLoadedScene()->GetSceneGameObjects())
+	{
+		if (go->GetComponent(ComponentType::ANIMATION) != nullptr)
+		{
+			ComponentAnimation* animation =
+				static_cast<ComponentAnimation*>(go->GetComponent(ComponentType::ANIMATION));
+
+			animation->Update();
+
+			if (selectedGo == go)
+			{
+				animation->Draw();
+			}
+		}
+	}
+
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())

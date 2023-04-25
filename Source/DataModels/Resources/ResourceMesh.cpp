@@ -26,6 +26,7 @@ ResourceMesh::~ResourceMesh()
 
 void ResourceMesh::InternalLoad()
 {
+
 	CreateVBO();
 	CreateEBO();
 	CreateVAO();
@@ -33,8 +34,6 @@ void ResourceMesh::InternalLoad()
 
 void ResourceMesh::InternalUnload()
 {
-	bones.clear();
-
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteVertexArrays(1, &vao);
