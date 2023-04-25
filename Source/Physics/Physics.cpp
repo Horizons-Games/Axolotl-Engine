@@ -297,10 +297,18 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
+	std::vector<GameObject*> children = exceptionGameObject->GetChildren();
+
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
-		if (actualGameObject && actualGameObject != exceptionGameObject)
+		
+		bool isInside = false;
+
+		auto it = std::find(children.begin(), children.end(), actualGameObject);
+
+		isInside = it != children.end();
+		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
 		{
 			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
 				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));

@@ -29,28 +29,43 @@ void EnemyCollidesFloorScript::PreUpdate(float deltaTime)
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
 
+	//RaycastHit hit;
+
+	//trans->UpdateTransformMatrices();
+
+	////bottom
+	//float maxHeight = -math::inf;
+
+	//std::vector<float3> extraPoints;
+	//collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
+	//for (float3 bottomPoint : extraPoints)
+	//{
+	//	//bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 10;
+	//	Ray ray(bottomPoint, -float3::unitY);
+	//	LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+	//	bool hasHit = Physics::Raycast(line, hit, owner);
+
+	//	if (hasHit && hit.hitPoint.y > maxHeight)
+	//	{
+	//		maxHeight = hit.hitPoint.y;
+	//	}
+
+	//}
+
+	//rigidBody->SetBottomHitPoint(maxHeight);
+
+	
+
 	RaycastHit hit;
+	Ray ray(trans->GetPosition(), -float3::unitY);
+	LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+	bool hasHit = Physics::Raycast(line, hit, owner);
 
-	trans->UpdateTransformMatrices();
-
-	//bottom
-	float maxHeight = -math::inf;
-
-	std::vector<float3> extraPoints;
-	collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
-	for (float3 bottomPoint : extraPoints)
+	if (hasHit && hit.hitPoint.y)
 	{
-		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 10;
-		Ray ray(bottomPoint, -float3::unitY);
-		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		bool hasHit = Physics::Raycast(line, hit, owner);
-
-		if (hasHit && hit.hitPoint.y > maxHeight)
-		{
-			maxHeight = hit.hitPoint.y;
-		}
-
+		rigidBody->SetBottomHitPoint(hit.hitPoint.y + 1.5f);
 	}
 
-	rigidBody->SetBottomHitPoint(maxHeight);
+	trans->UpdateTransformMatrices();
+	
 }

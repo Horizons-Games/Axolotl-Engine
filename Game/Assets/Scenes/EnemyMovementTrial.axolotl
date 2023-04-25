@@ -26080,119 +26080,6 @@
         },
         {
             "GameObject": {
-                "name": "enemy capsule (OLD)",
-                "tag": "",
-                "uid": 15671312433701056772,
-                "parentUID": 5457140795048261378,
-                "enabled": false,
-                "active": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.5,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17190841663404106931,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 194633202040158942,
-                            "assetPathMaterial": "Assets/Materials/White.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshCollider",
-                            "active": true,
-                            "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": true,
-                            "mass": 1.0,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": false,
-                            "removed": true,
-                            "constructName": "PatrolBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "WayPointOne",
-                                    "value": 6537443330755417922,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WayPointTwo",
-                                    "value": 7565490843663062490,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": false,
-                            "removed": true,
-                            "constructName": "SeekBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "Target",
-                                    "value": 5159296902579712234,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": false,
-                            "removed": true,
-                            "constructName": "EnemyDroneScript",
-                            "fields": null
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "EnemyCollidesFloorScript",
-                            "fields": null
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "enemyWaypoint1",
                 "tag": "",
                 "uid": 6537443330755417922,
@@ -26265,8 +26152,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 1.466583251953125,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": 3.152822494506836,
+                            "localPos_Z": 7.370784516069762e-8,
                             "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -26289,10 +26176,10 @@
                             "removed": true,
                             "isKinematic": true,
                             "mass": 1.0,
-                            "usePositionController": false,
+                            "usePositionController": true,
                             "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806
+                            "KpForce": 0.75,
+                            "KpTorque": 2.0
                         }
                     },
                     {
@@ -29824,6 +29711,46 @@
                             "removed": true,
                             "meshUID": 14396455768878539178,
                             "assetPathMesh": "Assets/Meshes/DroneV2_86.mesh",
+                            "materialUID": 869891762275968672,
+                            "assetPathMaterial": "Assets/Materials/DroneV2_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DroneV2_87",
+                "tag": "",
+                "uid": 6931154933083827264,
+                "parentUID": 15931486763441935000,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8716326663965855504,
+                            "assetPathMesh": "Assets/Meshes/DroneV2_87.mesh",
                             "materialUID": 869891762275968672,
                             "assetPathMaterial": "Assets/Materials/DroneV2_0.mat"
                         }
