@@ -328,6 +328,9 @@
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -684,6 +687,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
