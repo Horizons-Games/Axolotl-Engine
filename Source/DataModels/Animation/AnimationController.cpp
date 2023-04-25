@@ -31,7 +31,6 @@ void AnimationController::Update()
     {
         float duration = resource->GetDuration();
 
-        ENGINE_LOG("DeltaTime: %f", App->GetDeltaTime());
         currentTime += App->GetDeltaTime() * 10;
         if (currentTime > duration)
         {
