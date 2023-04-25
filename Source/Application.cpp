@@ -73,52 +73,33 @@ bool Application::Start()
 update_status Application::Update()
 {
 	bool playModeStart = isOnPlayMode;
-	float ms;
+    float ms;
 
-#ifdef ENGINE
-	(playModeStart) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
-	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
-#else
-	ms = appTimer.Read();
-#endif // ENGINE
+    (playModeStart) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
 
-	update_status ret = update_status::UPDATE_CONTINUE;
+    update_status ret = update_status::UPDATE_CONTINUE;
 
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PreUpdate();
+    for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
+        ret = modules[i]->PreUpdate();
 
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->Update();
+    for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
+        ret = modules[i]->Update();
 
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PostUpdate();
+    for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
+        ret = modules[i]->PostUpdate();
 
-	float dt;
-	
-#ifdef ENGINE
-	(playModeStart) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
-#else
-	dt = (appTimer.Read() - ms) / 1000.0f;
-#endif // ENGINE
+    float dt;
+    (isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
 
+    if (dt < 1000.0f / GetMaxFrameRate())
+    {
+        SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+    }
 
-	if (dt < 1000.0f / GetMaxFrameRate())
-	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
-	}
+    (playModeStart) ?
+        deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
 
-
-#ifdef ENGINE
-	(playModeStart) ? deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
-	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#else
-	deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#endif // ENGINE
-	
-
-	return ret;
+    return ret; 
 }
 
 bool Application::CleanUp()

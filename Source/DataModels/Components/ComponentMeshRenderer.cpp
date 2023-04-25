@@ -126,6 +126,11 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 #endif
 
+	if (!mesh)
+	{
+		return;
+	}
+
 	if (!mesh->IsLoaded())
 	{
 		mesh->Load();
@@ -290,6 +295,10 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 
 void ComponentMeshRenderer::DrawHighlight() const
 {
+	if (!mesh)
+	{
+		return;
+	}
 	if (!mesh->IsLoaded())
 	{
 		mesh->Load();

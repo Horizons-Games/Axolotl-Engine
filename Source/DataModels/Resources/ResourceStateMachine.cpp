@@ -9,6 +9,11 @@ ResourceStateMachine::ResourceStateMachine(UID resourceUID, const std::string& f
 
 ResourceStateMachine::~ResourceStateMachine()
 {
+	for(State* state : states)
+	{
+		delete state;
+	}
+	states.clear();
 }
 
 int ResourceStateMachine::GetIdState(const State& state) const
