@@ -88,8 +88,7 @@ void PlayerMobilityScript::Move()
 		sizeForce = deltaTime * dashForce;
 		if (nextDash == 0)
 		{
-			nextDash = (float)(SDL_GetTicks()) + 200.0f;
-
+			nextDash = static_cast<float>(SDL_GetTicks()) + 200.0f;
 		}
 
 		if (nextDash < SDL_GetTicks())
