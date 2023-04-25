@@ -1,4 +1,4 @@
-#include "PlayerMovilityScript.h"
+#include "PlayerMobilityScript.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -16,9 +16,9 @@
 
 #include "DataStructures/Quadtree.h"
 
-REGISTERCLASS(PlayerMovilityScript);
+REGISTERCLASS(PlayerMobilityScript);
 
-PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
+PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
 												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
 												canDoubleJump(true) , jumps(0), isCrouch(false)
 {
@@ -28,7 +28,7 @@ PlayerMovilityScript::PlayerMovilityScript() : Script(), componentPlayer(nullptr
 	REGISTER_FIELD(CanDash, bool);
 }
 
-void PlayerMovilityScript::Start()
+void PlayerMobilityScript::Start()
 {
 	if (canDoubleJump) 
 	{
@@ -41,7 +41,7 @@ void PlayerMovilityScript::Start()
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 }
 
-void PlayerMovilityScript::PreUpdate(float deltaTime)
+void PlayerMobilityScript::PreUpdate(float deltaTime)
 {
 	
 	if (!componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0
@@ -53,7 +53,7 @@ void PlayerMovilityScript::PreUpdate(float deltaTime)
 	
 }
 
-void PlayerMovilityScript::Move()
+void PlayerMobilityScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 
@@ -88,7 +88,7 @@ void PlayerMovilityScript::Move()
 		sizeForce = deltaTime * dashForce;
 		if (nextDash == 0)
 		{
-			nextDash = SDL_GetTicks() + 200;
+			nextDash = (float)(SDL_GetTicks()) + 200.0f;
 
 		}
 
@@ -320,8 +320,7 @@ void PlayerMovilityScript::Move()
 	}*/
 }
 
-
-void PlayerMovilityScript::Rotate()
+void PlayerMobilityScript::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
@@ -337,7 +336,7 @@ void PlayerMovilityScript::Rotate()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	float3 direction = (points[1] - points[0]).Normalized();
-	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7))
+	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7f))
 	{
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
@@ -348,3 +347,52 @@ void PlayerMovilityScript::Rotate()
 	}
 }
 
+float PlayerMobilityScript::GetSpeed() const
+{
+	return speed;
+}
+
+void PlayerMobilityScript::SetSpeed(float speed)
+{
+	this->speed = speed;
+}
+
+float PlayerMobilityScript::GetJumpParameter() const
+{
+	return jumpParameter;
+}
+
+void PlayerMobilityScript::SetJumpParameter(float jumpParameter)
+{
+	this->jumpParameter = jumpParameter;
+}
+
+float PlayerMobilityScript::GetDashForce() const
+{
+	return dashForce;
+}
+
+void PlayerMobilityScript::SetDashForce(float dashForce)
+{
+	this->dashForce = dashForce;
+}
+
+bool PlayerMobilityScript::GetCanDash() const
+{
+	return canDash;
+}
+
+void PlayerMobilityScript::SetCanDash(bool canDash)
+{
+	this->canDash = canDash;
+}
+
+bool PlayerMobilityScript::GetCanDoubleJump() const
+{
+	return canDoubleJump;
+}
+
+void PlayerMobilityScript::SetCanDoubleJump(bool canDoubleJump)
+{
+	this->canDoubleJump = canDoubleJump;
+}
