@@ -111,7 +111,7 @@ void ComponentAnimation::Update()
 	}
 	else
 	{
-		lastState == NON_STATE;
+		lastState = NON_STATE;
 	}
 }
 
