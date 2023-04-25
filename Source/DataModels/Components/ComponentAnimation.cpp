@@ -168,7 +168,7 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	}
 #else
 	UID uidState = meta["stateUID"];
-	resourceState = App->resources->SearchResource<ResourceStateMachine>(uidMesh);
+	resourceState = App->resources->SearchResource<ResourceStateMachine>(uidState);
 
 #endif
 	if (resourceState)
