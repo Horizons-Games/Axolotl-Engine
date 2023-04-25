@@ -11,11 +11,6 @@ ModuleCommand::~ModuleCommand()
 {
 }
 
-bool ModuleCommand::Init()
-{
-	return true;
-}
-
 update_status ModuleCommand::Update()
 {
 	if (
@@ -31,11 +26,6 @@ update_status ModuleCommand::Update()
 		Redo();
 	}
 	return update_status::UPDATE_CONTINUE;
-}
-
-bool ModuleCommand::Cleanup()
-{
-	return true;
 }
 
 void ModuleCommand::Undo()
