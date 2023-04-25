@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{A69E7318-1DDF-BBBD-3E23-A2DA70EAEA1F}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{0DFD9651-BFB6-3635-C869-584F955EA7E5}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -557,5 +557,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4618ED47-B292-7816-BDBC-A651F62FE2E9}</FileHash>
+	<FileHash>{70190A1E-EBD8-34F9-F864-90454A2BD54A}</FileHash>
 </SoundBanksInfo>
