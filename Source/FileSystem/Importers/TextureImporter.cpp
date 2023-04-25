@@ -44,6 +44,10 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			if (FAILED(result)) // WIC failed try with HDR
 			{
 				result = DirectX::LoadFromHDRFile(path, &md, img);
+				if (FAILED(result))
+				{
+					ENGINE_LOG("Can not load the texture.");
+				}
 			}
 		}
 	}
