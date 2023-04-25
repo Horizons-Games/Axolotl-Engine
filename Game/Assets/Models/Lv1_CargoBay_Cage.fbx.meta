@@ -1,0 +1,11 @@
+{
+    "UID": 4613343610488854089,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_Cage.Cube.030.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_Cage.Cage.mat"
+    ],
+    "AnimAssetPaths": null
+}

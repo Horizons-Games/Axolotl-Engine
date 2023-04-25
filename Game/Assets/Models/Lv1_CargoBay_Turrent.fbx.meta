@@ -1,0 +1,11 @@
+{
+    "UID": 17271837243361148222,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_Turrent.Mesh.001.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_Turrent.lambert1.mat"
+    ],
+    "AnimAssetPaths": null
+}

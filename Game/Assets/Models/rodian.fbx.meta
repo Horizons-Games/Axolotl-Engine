@@ -1,0 +1,17 @@
+{
+    "UID": 17042984207870838338,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/rodian.Head.002.mesh",
+        "Assets/Meshes/rodian.Head.004.mesh",
+        "Assets/Meshes/rodian.Head.001.mesh",
+        "Assets/Meshes/rodian.Head.003.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/rodian.Hands and Arms.mat",
+        "Assets/Materials/rodian.Down.mat",
+        "Assets/Materials/rodian.Head.mat",
+        "Assets/Materials/rodian.Torso.mat"
+    ],
+    "AnimAssetPaths": null
+}

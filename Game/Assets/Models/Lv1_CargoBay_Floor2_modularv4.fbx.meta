@@ -1,0 +1,19 @@
+{
+    "UID": 10773353597604211745,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modularv4.Plane.005.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modularv4.Plane.007.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modularv4.Plane.002.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modularv4.Plane.003.mesh",
+        "Assets/Meshes/Lv1_CargoBay_Floor2_modularv4.Plane.004.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularv4.DefaultMaterial.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularv4.DefaultMaterial.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularv4.DefaultMaterial.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularv4.DefaultMaterial.mat",
+        "Assets/Materials/Lv1_CargoBay_Floor2_modularv4.DefaultMaterial.mat"
+    ],
+    "AnimAssetPaths": null
+}

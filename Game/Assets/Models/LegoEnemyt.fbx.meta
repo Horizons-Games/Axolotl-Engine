@@ -1,0 +1,13 @@
+{
+    "UID": 18152680150895273338,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/LegoEnemyt.Scene.112.mesh",
+        "Assets/Meshes/LegoEnemyt.Scene.112.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/LegoEnemyt.Default-Material.001.mat",
+        "Assets/Materials/LegoEnemyt.helmet_Material.001.mat"
+    ],
+    "AnimAssetPaths": null
+}
