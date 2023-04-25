@@ -313,6 +313,18 @@
     <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAudioSource.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioListener.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -655,6 +667,18 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAudioSource.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioListener.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAudioSource.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1026,6 +1050,7 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1390,6 +1415,8 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h" />
+    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>

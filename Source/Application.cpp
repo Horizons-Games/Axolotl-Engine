@@ -6,6 +6,7 @@
 #include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleAudio.h"
 #include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
@@ -27,6 +28,7 @@ Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), deb
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
 	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
+	modules.push_back(std::unique_ptr<ModuleAudio>(audio = new ModuleAudio()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));

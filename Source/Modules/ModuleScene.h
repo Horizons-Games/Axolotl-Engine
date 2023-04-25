@@ -20,6 +20,7 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
+	bool CleanUp() override;
 
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);

@@ -32,7 +32,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	height = -math::inf;
 	x = transform->GetPosition();
 	q = transform->GetRotation().RotatePart().ToQuat();
-	g = float3(0.0f, -1.00f, 0.0f);
+	g = float3(0.0f, -9.00f, 0.0f);
 	v0 = float3(0.0f, 0.0f, 0.0f);
 	w0 = float3(0.0f, 0.0f, 0.0f);
 }

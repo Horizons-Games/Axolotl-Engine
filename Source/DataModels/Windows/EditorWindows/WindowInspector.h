@@ -40,6 +40,8 @@ private:
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentAudioSource();
+	void AddComponentAudioListener();
 	void AddComponentMeshCollider();
 	void AddComponentScript();
 
