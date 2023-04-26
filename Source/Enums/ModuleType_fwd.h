@@ -19,5 +19,5 @@ enum class ModuleType;
 template<typename T>
 struct ModuleToEnum
 {
-	const static ModuleType value = static_cast<ModuleType>(-1);
+	const static ModuleType value;
 };

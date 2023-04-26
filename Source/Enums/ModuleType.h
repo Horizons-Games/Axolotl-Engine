@@ -18,7 +18,6 @@ enum class ModuleType
 	UI,
 	RESOURCES,
 	DEBUGDRAW,
-	LAST,
 };
 
 template<>
