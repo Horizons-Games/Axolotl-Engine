@@ -101,6 +101,6 @@ inline ScriptFactory* Application::GetScriptFactory() const
 template<typename M>
 M* Application::GetModule()
 {
-	int index = IndexOfModule<M>::value;
-	return index >= 0 ? static_cast<M*>(modules[index].get()) : nullptr;
+	int index = static_cast<int>(ModuleToEnum<M>::value);
+	return static_cast<M*>(modules[index].get());
 }

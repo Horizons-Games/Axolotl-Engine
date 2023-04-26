@@ -18,83 +18,83 @@ enum class ModuleType
 	UI,
 	RESOURCES,
 	DEBUGDRAW,
-	LAST = DEBUGDRAW,
+	LAST,
 };
 
 template<>
-struct IndexOfModule<ModuleRender>
+struct ModuleToEnum<ModuleRender>
 {
-	const static int value = static_cast<int>(ModuleType::RENDER);
+	const static ModuleType value = ModuleType::RENDER;
 };
 
 template<>
-struct IndexOfModule<ModuleWindow>
+struct ModuleToEnum<ModuleWindow>
 {
-	const static int value = static_cast<int>(ModuleType::WINDOW);
+	const static ModuleType value = ModuleType::WINDOW;
 };
 
 template<>
-struct IndexOfModule<ModuleInput>
+struct ModuleToEnum<ModuleInput>
 {
-	const static int value = static_cast<int>(ModuleType::INPUT);
+	const static ModuleType value = ModuleType::INPUT;
 };
 
 template<>
-struct IndexOfModule<ModuleProgram>
+struct ModuleToEnum<ModuleProgram>
 {
-	const static int value = static_cast<int>(ModuleType::PROGRAM);
+	const static ModuleType value = ModuleType::PROGRAM;
 };
 
 template<>
-struct IndexOfModule<ModuleFileSystem>
+struct ModuleToEnum<ModuleFileSystem>
 {
-	const static int value = static_cast<int>(ModuleType::FILESYSTEM);
+	const static ModuleType value = ModuleType::FILESYSTEM;
 };
 
 template<>
-struct IndexOfModule<ModuleResources>
+struct ModuleToEnum<ModuleResources>
 {
-	const static int value = static_cast<int>(ModuleType::RESOURCES);
+	const static ModuleType value = ModuleType::RESOURCES;
 };
 
 template<>
-struct IndexOfModule<ModuleScene>
+struct ModuleToEnum<ModuleScene>
 {
-	const static int value = static_cast<int>(ModuleType::SCENE);
+	const static ModuleType value = ModuleType::SCENE;
 };
 
 template<>
-struct IndexOfModule<ModuleCamera>
+struct ModuleToEnum<ModuleCamera>
 {
-	const static int value = static_cast<int>(ModuleType::CAMERA);
+	const static ModuleType value = ModuleType::CAMERA;
 };
 
 template<>
-struct IndexOfModule<ModuleDebugDraw>
+struct ModuleToEnum<ModuleDebugDraw>
 {
-	const static int value = static_cast<int>(ModuleType::DEBUGDRAW);
+	const static ModuleType value = ModuleType::DEBUGDRAW;
 };
 
 template<>
-struct IndexOfModule<ModuleUI>
+struct ModuleToEnum<ModuleUI>
 {
-	const static int value = static_cast<int>(ModuleType::UI);
+	const static ModuleType value = ModuleType::UI;
 };
 
 template<>
-struct IndexOfModule<ModuleAudio>
+struct ModuleToEnum<ModuleAudio>
 {
-	const static int value = static_cast<int>(ModuleType::AUDIO);
+	const static ModuleType value = ModuleType::AUDIO;
 };
 
 template<>
-struct IndexOfModule<ModulePlayer>
+struct ModuleToEnum<ModulePlayer>
 {
-	const static int value = static_cast<int>(ModuleType::PLAYER);
+	const static ModuleType value = ModuleType::PLAYER;
 };
 
 template<>
-struct IndexOfModule<ModuleEditor>
+struct ModuleToEnum<ModuleEditor>
 {
-	const static int value = static_cast<int>(ModuleType::EDITOR);
+	const static ModuleType value = ModuleType::EDITOR;
 };

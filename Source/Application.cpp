@@ -26,20 +26,20 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), debuggingGame(false),
 isOnPlayMode(false), onPlayTimer(Timer())
 {
-	modules.reserve(static_cast<int>(ModuleType::LAST));
-	modules[IndexOfModule<ModuleWindow>::value] = std::make_unique<ModuleWindow>();
-	modules[IndexOfModule<ModuleFileSystem>::value] = std::make_unique<ModuleFileSystem>();
-	modules[IndexOfModule<ModuleEditor>::value] = std::make_unique<ModuleEditor>();
-	modules[IndexOfModule<ModuleInput>::value] = std::make_unique<ModuleInput>();
-	modules[IndexOfModule<ModuleProgram>::value] = std::make_unique<ModuleProgram>();
-	modules[IndexOfModule<ModuleCamera>::value] = std::make_unique<ModuleCamera>();
-	modules[IndexOfModule<ModuleAudio>::value] = std::make_unique<ModuleAudio>();
-	modules[IndexOfModule<ModuleScene>::value] = std::make_unique<ModuleScene>();
-	modules[IndexOfModule<ModulePlayer>::value] = std::make_unique<ModulePlayer>();
-	modules[IndexOfModule<ModuleRender>::value] = std::make_unique<ModuleRender>();
-	modules[IndexOfModule<ModuleUI>::value] = std::make_unique<ModuleUI>();
-	modules[IndexOfModule<ModuleResources>::value] = std::make_unique<ModuleResources>();
-	modules[IndexOfModule<ModuleDebugDraw>::value] = std::make_unique<ModuleDebugDraw>();
+	modules.resize(static_cast<int>(ModuleType::LAST));
+	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
+	modules[static_cast<int>(ModuleToEnum<ModuleFileSystem>::value)] = std::make_unique<ModuleFileSystem>();
+	modules[static_cast<int>(ModuleToEnum<ModuleEditor>::value)] = std::make_unique<ModuleEditor>();
+	modules[static_cast<int>(ModuleToEnum<ModuleInput>::value)] = std::make_unique<ModuleInput>();
+	modules[static_cast<int>(ModuleToEnum<ModuleProgram>::value)] = std::make_unique<ModuleProgram>();
+	modules[static_cast<int>(ModuleToEnum<ModuleCamera>::value)] = std::make_unique<ModuleCamera>();
+	modules[static_cast<int>(ModuleToEnum<ModuleAudio>::value)] = std::make_unique<ModuleAudio>();
+	modules[static_cast<int>(ModuleToEnum<ModuleScene>::value)] = std::make_unique<ModuleScene>();
+	modules[static_cast<int>(ModuleToEnum<ModulePlayer>::value)] = std::make_unique<ModulePlayer>();
+	modules[static_cast<int>(ModuleToEnum<ModuleRender>::value)] = std::make_unique<ModuleRender>();
+	modules[static_cast<int>(ModuleToEnum<ModuleUI>::value)] = std::make_unique<ModuleUI>();
+	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
+	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
 }
 
 Application::~Application()
