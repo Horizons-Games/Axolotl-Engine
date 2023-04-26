@@ -24,16 +24,9 @@ void WindowMaterialInput::DoThisIfOk()
 {
 	if (componentMeshRenderer)
 	{
+		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		this->ImportResourceAsync(filePath);
-	}
-}
-
-void WindowMaterialInput::GetResourceAfterImport()
-{
-	if (componentMaterial && this->futureResource.valid())
-	{
-		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(this->futureResource.get());
-		componentMeshRenderer->SetMaterial(material);
+		std::shared_ptr<ResourceMaterial> resource = std::dynamic_pointer_cast<ResourceMaterial>(App->resources->RequestResource(filePath));
+		componentMeshRenderer->SetMaterial(resource);
 	}
 }
