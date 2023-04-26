@@ -46,16 +46,20 @@ Cubemap::Cubemap()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     Program* hdrToCubemapProgram = App->program->GetProgram(ProgramType::HDR_TO_CUBEMAP);
     hdrToCubemapProgram->Activate();
 
+    hdrToCubemapProgram->BindUniformInt("hdr", 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, hdrTexture->GetGlTexture());
     
     RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
+
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
     // irradianceMap
     glGenTextures(1, &irradiance);
@@ -74,7 +78,8 @@ Cubemap::Cubemap()
 
 	Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
 	irradianceProgram->Activate();
-    
+
+    irradianceProgram->BindUniformInt("environment", 0);    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 
@@ -103,6 +108,7 @@ Cubemap::Cubemap()
     Program* preFilteredProgram = App->program->GetProgram(ProgramType::PRE_FILTERED_MAP);
     preFilteredProgram->Activate();
 
+    preFilteredProgram->BindUniformInt("environment", 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
     
