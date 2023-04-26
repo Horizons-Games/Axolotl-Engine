@@ -17,7 +17,7 @@ class ModuleEditor;
 enum class ModuleType;
 
 template<typename T>
-struct ModuleToEnum
+struct IndexOfModule
 {
-	const static ModuleType value;
+	const static int value = -1;
 };

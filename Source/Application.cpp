@@ -26,19 +26,20 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), debuggingGame(false),
 isOnPlayMode(false), onPlayTimer(Timer())
 {
-	modules.insert({ ModuleToEnum<ModuleWindow>::value, std::make_unique<ModuleWindow>() });
-	modules.insert({ ModuleToEnum<ModuleFileSystem>::value, std::make_unique<ModuleFileSystem>() });
-	modules.insert({ ModuleToEnum<ModuleEditor>::value, std::make_unique<ModuleEditor>() });
-	modules.insert({ ModuleToEnum<ModuleInput>::value, std::make_unique<ModuleInput>() });
-	modules.insert({ ModuleToEnum<ModuleProgram>::value, std::make_unique<ModuleProgram>() });
-	modules.insert({ ModuleToEnum<ModuleCamera>::value, std::make_unique<ModuleCamera>() });
-	modules.insert({ ModuleToEnum<ModuleAudio>::value, std::make_unique<ModuleAudio>() });
-	modules.insert({ ModuleToEnum<ModuleScene>::value, std::make_unique<ModuleScene>() });
-	modules.insert({ ModuleToEnum<ModulePlayer>::value, std::make_unique<ModulePlayer>() });
-	modules.insert({ ModuleToEnum<ModuleRender>::value, std::make_unique<ModuleRender>() });
-	modules.insert({ ModuleToEnum<ModuleUI>::value, std::make_unique<ModuleUI>() });
-	modules.insert({ ModuleToEnum<ModuleResources>::value, std::make_unique<ModuleResources>() });
-	modules.insert({ ModuleToEnum<ModuleDebugDraw>::value, std::make_unique<ModuleDebugDraw>() });
+	modules.reserve(static_cast<int>(ModuleType::LAST));
+	modules[IndexOfModule<ModuleWindow>::value] = std::make_unique<ModuleWindow>();
+	modules[IndexOfModule<ModuleFileSystem>::value] = std::make_unique<ModuleFileSystem>();
+	modules[IndexOfModule<ModuleEditor>::value] = std::make_unique<ModuleEditor>();
+	modules[IndexOfModule<ModuleInput>::value] = std::make_unique<ModuleInput>();
+	modules[IndexOfModule<ModuleProgram>::value] = std::make_unique<ModuleProgram>();
+	modules[IndexOfModule<ModuleCamera>::value] = std::make_unique<ModuleCamera>();
+	modules[IndexOfModule<ModuleAudio>::value] = std::make_unique<ModuleAudio>();
+	modules[IndexOfModule<ModuleScene>::value] = std::make_unique<ModuleScene>();
+	modules[IndexOfModule<ModulePlayer>::value] = std::make_unique<ModulePlayer>();
+	modules[IndexOfModule<ModuleRender>::value] = std::make_unique<ModuleRender>();
+	modules[IndexOfModule<ModuleUI>::value] = std::make_unique<ModuleUI>();
+	modules[IndexOfModule<ModuleResources>::value] = std::make_unique<ModuleResources>();
+	modules[IndexOfModule<ModuleDebugDraw>::value] = std::make_unique<ModuleDebugDraw>();
 }
 
 Application::~Application()
@@ -55,9 +56,9 @@ bool Application::Init()
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
 
-	for (const auto& enumAndModule : modules)
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		if (!enumAndModule.second->Init())
+		if (!module->Init())
 		{
 			return false;
 		}
@@ -70,9 +71,9 @@ bool Application::Start()
 {
 	appTimer.Start();
 
-	for (const auto& enumAndModule : modules)
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		if (!enumAndModule.second->Start())
+		if (!module->Start())
 		{
 			return false;
 		}
@@ -90,27 +91,27 @@ update_status Application::Update()
 	ms = appTimer.Read();
 #endif // ENGINE
 
-	for (const auto& enumAndModule : modules)
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = enumAndModule.second->PreUpdate();
+		update_status result = module->PreUpdate();
 		if (result != update_status::UPDATE_CONTINUE)
 		{
 			return result;
 		}
 	}
 
-	for (const auto& enumAndModule : modules)
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = enumAndModule.second->Update();
+		update_status result = module->Update();
 		if (result != update_status::UPDATE_CONTINUE)
 		{
 			return result;
 		}
 	}
 
-	for (const auto& enumAndModule : modules)
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = enumAndModule.second->PostUpdate();
+		update_status result = module->PostUpdate();
 		if (result != update_status::UPDATE_CONTINUE)
 		{
 			return result;
@@ -143,9 +144,9 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	std::ranges::reverse_view reverseModules = std::ranges::reverse_view{ modules };
-	for (const auto& enumAndModule : reverseModules)
+	for (const std::unique_ptr<Module>& module : reverseModules)
 	{
-		if (!enumAndModule.second->CleanUp())
+		if (!module->CleanUp())
 		{
 			return false;
 		}
