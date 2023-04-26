@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{C302772C-A0A9-4317-9387-4E1FA6616738}">
+	<AudioObjects>
+		<WorkUnit Name="Ambient" ID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested">
+			<ChildrenList>
+				<ActorMixer Name="2DAmbient" ID="{5FCE3C5F-CE45-42FE-88E9-0032834F61C6}" ShortID="177640358">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="2DAmbient" ID="{0C2B7246-DFF5-4E3D-A0BD-B2341A18BEB2}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="First_Level_Sewers__v1" ID="{CEE64C54-2203-474B-8E18-0908068F32B3}" ShortID="97423702">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="First_Level_Sewers__v1" ID="{CC52A5C4-2BFA-4CEA-BA23-81EADBD2D02E}">
+									<Language>SFX</Language>
+									<AudioFile>First_Level_Sewers__v1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="347047974"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="First_Level_Sewers__v1" ID="{CC52A5C4-2BFA-4CEA-BA23-81EADBD2D02E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="CantinaAmbient" ID="{D24392DB-BFF1-438E-973B-81F45E2A15A4}" ShortID="1057592169">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="3DAmbient" ID="{866B6033-936B-4DAB-9800-DC90707AD040}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" ShortID="935882122">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="2DAmbient" ID="{0C2B7246-DFF5-4E3D-A0BD-B2341A18BEB2}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_ambient_crowd_talking_01" ID="{F6958A0A-BCD3-4F35-BEE3-42A867FD5921}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_ambient_crowd_talking_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="652056130"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_ambient_crowd_talking_01" ID="{F6958A0A-BCD3-4F35-BEE3-42A867FD5921}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" ShortID="471174214">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="Effect0">
+									<Custom>
+										<Effect Name="Matrix Reverb (Custom)" ID="{0B680566-0A3E-4ADE-B242-D5270AA9CD5E}" ShortID="829913711" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
+											<PropertyList>
+												<Property Name="DryLevel" Type="Real32" Value="-2.3"/>
+												<Property Name="WetLevel" Type="Real32" Value="-32"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="cantina_music" ID="{F3848FFD-FC5D-4D88-9E54-BFBEE3D6FCCA}">
+									<Language>SFX</Language>
+									<AudioFile>cantina_music.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="106158711"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<PositioningInfo>
+								<Position Name="" ID="{24884D26-0E8D-4476-A74A-DA4360666732}">
+									<PropertyList>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+									</PropertyList>
+								</Position>
+							</PositioningInfo>
+							<ActiveSourceList>
+								<ActiveSource Name="cantina_music" ID="{F3848FFD-FC5D-4D88-9E54-BFBEE3D6FCCA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

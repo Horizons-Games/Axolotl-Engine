@@ -1,12 +1,12 @@
 #include "WindowTextureInput.h"
-
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
+WindowTextureInput::WindowTextureInput
+	(WindowComponentMeshRenderer* material, TextureType textureType) :
 	WindowFileBrowser(), windowComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
@@ -22,17 +22,19 @@ WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, Textur
 	case TextureType::OCCLUSION:
 		title = "Load Occlusion";
 		break;
-	/*case TextureType::SPECULAR:
-		title = "Load Specular";
-		break;*/
 	case TextureType::METALLIC:
 		title = "Load Metallic";
+		break;
+	case TextureType::SPECULAR:
+		title = "Load Specular";
 		break;
 	default:
 		break;
 	}
 
-	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
+	filters = 
+		"Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
+
 	startPath = "Assets/Textures";
 }
 
@@ -57,19 +59,32 @@ void WindowTextureInput::GetResourceAfterImport()
 			std::dynamic_pointer_cast<ResourceTexture>(this->futureResource.get());
 		switch (textureType)
 		{
-		case TextureType::DIFFUSE:
-			windowComponent->SetDiffuse(texture);
-			break;
-		case TextureType::NORMAL:
-			windowComponent->SetNormal(texture);
-			break;
-		case TextureType::OCCLUSION:
-			break;
-		case TextureType::METALLIC:
-			windowComponent->SetMetalic(texture);
-			break;
-		default:
-			break;
+			case TextureType::DIFFUSE:
+
+				windowComponent->SetDiffuse(texture);
+
+				break;
+
+			case TextureType::NORMAL:
+
+				windowComponent->SetNormal(texture);
+
+				break;
+			case TextureType::OCCLUSION:
+
+				break;
+
+			case TextureType::METALLIC:
+
+				windowComponent->SetMetallic(texture);
+
+				break;
+
+			case TextureType::SPECULAR:
+
+				windowComponent->SetSpecular(texture);
+
+				break;
 		}
 	}
 }

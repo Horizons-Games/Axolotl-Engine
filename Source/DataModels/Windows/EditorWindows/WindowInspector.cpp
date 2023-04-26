@@ -14,7 +14,7 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), bbDrawn(false), lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -68,32 +68,23 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				lastSelectedGameObject->SetName(name);
 			}
-			
+			ImGui::SameLine();
+			bool staticness = lastSelectedGameObject->IsStatic();
+			//This should be changed into a pop-up windows 
+			if (ImGui::Checkbox("Static", &staticness))
+			{
+				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SpreadStatic();
+			}
+
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
+			tag.resize(24);
 			if (ImGui::InputText("##Tag", &tag[0], 24))
 			{
-				//removing c_str makes it so the setter only works when tag.size >= 17. God knows why
-				lastSelectedGameObject->SetTag(tag.c_str());
+				lastSelectedGameObject->SetTag(tag);
 			}
-		}
-
-		ImGui::Checkbox("##Draw Bounding Box", &(lastSelectedGameObject->drawBoundingBoxes));
-		ImGui::SameLine();
-		ImGui::Text("Draw Bounding Box");
-
-		if (lastSelectedGameObject->drawBoundingBoxes != bbDrawn)
-		{
-			for (GameObject* child : lastSelectedGameObject->GetChildren())
-			{
-				if (child->drawBoundingBoxes == bbDrawn)
-				{
-					child->setDrawBoundingBoxes(!bbDrawn);
-				}
-			}
-
-			bbDrawn = lastSelectedGameObject->drawBoundingBoxes;
 		}
 
 		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
@@ -123,14 +114,8 @@ void WindowInspector::InspectSelectedGameObject()
 				AddComponentMeshRenderer();
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MATERIAL)) {
-				if (ImGui::MenuItem("Create Material Component"))
-				{
-					AddComponentMaterial();
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) 
+			{
 				if (ImGui::MenuItem("Create Spot Light Component"))
 				{
 					AddComponentLight(LightType::SPOT);
@@ -142,27 +127,55 @@ void WindowInspector::InspectSelectedGameObject()
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) 
+			{
 				if (ImGui::MenuItem("Create Player Component"))
 				{
 					AddComponentPlayer();
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) 
+			{
 				if (ImGui::MenuItem("Create RigidBody Component"))
 				{
 					AddComponentRigidBody();
 				}
 			}
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) {
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) 
+			{
 				if (ImGui::MenuItem("Create MockState Component"))
 				{
 					AddComponentMockState();
 				}
 			}
+			
+			if (ImGui::MenuItem("Create AudioSource Component"))
+			{
+				AddComponentAudioSource();
+			}
 
+			if (!lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)) {
+				if (ImGui::MenuItem("Create AudioListener Component"))
+				{
+					AddComponentAudioListener();
+				}
+			}
+			
+
+			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) 
+			{
+				if (ImGui::MenuItem("Create Mesh Collider Component"))
+				{
+					AddComponentMeshCollider();
+				}
+			}
+
+			if (ImGui::MenuItem("Create Script Component"))
+			{
+				AddComponentScript();
+			}
 		}
 
 		else
@@ -332,11 +345,6 @@ void WindowInspector::AddComponentMeshRenderer()
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
-void WindowInspector::AddComponentMaterial()
-{
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MATERIAL);
-}
-
 void WindowInspector::AddComponentLight(LightType type)
 {
 	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
@@ -361,4 +369,24 @@ void WindowInspector::AddComponentRigidBody()
 void WindowInspector::AddComponentMockState()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+}
+
+void WindowInspector::AddComponentAudioSource()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOSOURCE);
+}
+
+void WindowInspector::AddComponentAudioListener()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOLISTENER);
+}
+
+void WindowInspector::AddComponentMeshCollider()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
+}
+
+void WindowInspector::AddComponentScript()
+{
+	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
 }

@@ -23,8 +23,18 @@ void WindowComponentButton::DrawWindowContents()
 
 	if(asButton)
 	{
-		ImGui::ColorEdit3("Color Hovered", (float*)&asButton->GetColorHovered());
-		ImGui::ColorEdit3("Color Clicked", (float*)&asButton->GetColorClicked());
+		float4 colorHovered = asButton->GetColorHovered();
+		if(ImGui::ColorEdit4("Color Hovered", (float*)&colorHovered))
+		{
+			asButton->SetColorHovered(colorHovered);
+		}
+
+		float4 colorClicked = asButton->GetColorClicked();
+		if(ImGui::ColorEdit4("Color Clicked", (float*)&colorClicked))
+		{
+			asButton->SetColorClicked(colorClicked);
+		}
+
 		char* sceneName = (char*)asButton->GetSceneName();
 		ImGui::InputText("##Scene name", sceneName, 24);
 	}

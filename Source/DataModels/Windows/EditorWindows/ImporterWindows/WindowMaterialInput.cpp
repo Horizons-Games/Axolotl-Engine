@@ -1,12 +1,14 @@
 #include "WindowMaterialInput.h"
 
 #include "Application.h"
-#include "FileSystem/ModuleResources.h"
-#include "Resources/ResourceMaterial.h"
-#include "Components/ComponentMaterial.h"
+#include "Components/ComponentMeshRenderer.h"
 
-WindowMaterialInput::WindowMaterialInput(ComponentMaterial* componentMaterial) :
-	WindowFileBrowser(), componentMaterial(componentMaterial)
+#include "FileSystem/ModuleResources.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "Resources/ResourceMaterial.h"
+
+WindowMaterialInput::WindowMaterialInput(ComponentMeshRenderer* componentMeshRenderer) :
+	WindowFileBrowser(), componentMeshRenderer(componentMeshRenderer)
 {
 	dialogName = "Select Material";
 	title = "Load Material";
@@ -20,7 +22,7 @@ WindowMaterialInput::~WindowMaterialInput()
 
 void WindowMaterialInput::DoThisIfOk()
 {
-	if (componentMaterial)
+	if (componentMeshRenderer)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		this->ImportResourceAsync(filePath);
@@ -32,6 +34,6 @@ void WindowMaterialInput::GetResourceAfterImport()
 	if (componentMaterial && this->futureResource.valid())
 	{
 		std::shared_ptr<ResourceMaterial> material = std::dynamic_pointer_cast<ResourceMaterial>(this->futureResource.get());
-		componentMaterial->SetMaterial(material);
+		componentMeshRenderer->SetMaterial(material);
 	}
 }

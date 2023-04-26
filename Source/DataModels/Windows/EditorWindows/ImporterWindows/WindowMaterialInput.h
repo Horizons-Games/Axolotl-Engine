@@ -2,12 +2,12 @@
 
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
-class ComponentMaterial;
+class ComponentMeshRenderer;
 
 class WindowMaterialInput : public WindowFileBrowser
 {
 public:
-	WindowMaterialInput(ComponentMaterial* componentMaterial);
+	WindowMaterialInput(ComponentMeshRenderer* componentMeshRenderer);
 	~WindowMaterialInput() override;
 
 	void DoThisIfOk() override;
@@ -16,7 +16,7 @@ protected:
 	void GetResourceAfterImport() override;
 
 private:
-	ComponentMaterial* componentMaterial;
+	ComponentMeshRenderer* componentMeshRenderer;
 
 	friend class WindowComponentMaterial;
 };

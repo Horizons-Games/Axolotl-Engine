@@ -2,23 +2,25 @@
 #pragma warning (disable: 26495)
 #pragma warning (disable: 4172)
 
-#include "Components/Component.h"
+#include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Math/float4x4.h"
 
-#define COMPONENT_TRANSFORM "Transform"
+#include "Geometry/AABB.h"
+#include "Geometry/OBB.h"
 
 class Json;
 class ComponentLight;
 
-class ComponentTransform : public Component
+class ComponentTransform : public Component, public Drawable
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
 	ComponentTransform(const ComponentTransform& componentTransform);
 	~ComponentTransform() override;
 
-	void Update() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
@@ -31,17 +33,24 @@ public:
 	const float3& GetScale() const;
 	const float3& GetLocalForward() const;
 	const float3& GetGlobalForward() const;
-	const float3& GetGlobalFront() const;
+	const float3& GetGlobalUp() const;
 	const float3& GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
+
+	const float4x4& GetLocalMatrix() const;
+	const float4x4& GetGlobalMatrix() const;
+
+	const AABB& GetLocalAABB();
+	const AABB& GetEncapsuledAABB();
+	const OBB& GetObjectOBB();
+	bool IsDrawBoundingBoxes() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
 	void SetScale(const float3& scale);
 
-	const float4x4& GetLocalMatrix() const;
-	const float4x4& GetGlobalMatrix() const;
+	void SetDrawBoundingBoxes(bool newDraw);
 
 	void CalculateMatrices();
 	void UpdateTransformMatrices();
@@ -50,6 +59,9 @@ public:
 								   bool translationModified,
 								   bool rotationModified);
 	
+	void CalculateBoundingBoxes();
+	void Encapsule(const vec* vertices, unsigned numVertices);
+
 private:
 	float3 pos;
 	float4x4 rot;
@@ -63,6 +75,11 @@ private:
 
 	float4x4 localMatrix;
 	float4x4 globalMatrix;
+
+	AABB localAABB;
+	AABB encapsuledAABB;
+	OBB objectOBB;
+	bool drawBoundingBoxes;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
@@ -110,7 +127,7 @@ inline const float3& ComponentTransform::GetGlobalForward() const
 	return globalMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalFront() const
+inline const float3& ComponentTransform::GetGlobalUp() const
 {
 	return globalMatrix.WorldY();
 }
@@ -118,6 +135,39 @@ inline const float3& ComponentTransform::GetGlobalFront() const
 inline const float3& ComponentTransform::GetGlobalRight() const
 {
 	return globalMatrix.WorldX();
+}
+
+inline const float4x4& ComponentTransform::GetLocalMatrix() const
+{
+	return localMatrix;
+}
+
+inline const float4x4& ComponentTransform::GetGlobalMatrix() const
+{
+	return globalMatrix;
+}
+
+inline const AABB& ComponentTransform::GetLocalAABB()
+{
+	CalculateBoundingBoxes();
+	return localAABB;
+}
+
+inline const AABB& ComponentTransform::GetEncapsuledAABB()
+{
+	CalculateBoundingBoxes();
+	return encapsuledAABB;
+}
+
+inline const OBB& ComponentTransform::GetObjectOBB()
+{
+	CalculateBoundingBoxes();
+	return objectOBB;
+}
+
+inline bool ComponentTransform::IsDrawBoundingBoxes() const
+{
+	return drawBoundingBoxes;
 }
 
 inline void ComponentTransform::SetPosition(const float3& position)
@@ -146,12 +196,7 @@ inline void ComponentTransform::SetScale(const float3& scale)
 	if (sca.z <= 0) sca.z = 0.0001f;
 }
 
-inline const float4x4& ComponentTransform::GetLocalMatrix() const
+inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)
 {
-	return localMatrix;
-}
-
-inline const float4x4& ComponentTransform::GetGlobalMatrix() const
-{
-	return globalMatrix;
+	drawBoundingBoxes = newDraw;
 }

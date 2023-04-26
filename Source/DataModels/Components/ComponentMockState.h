@@ -10,9 +10,6 @@ public:
 	ComponentMockState(bool active, GameObject* owner);
 	~ComponentMockState() override;
 
-	void Update() override;
-	void Draw() override;
-
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
@@ -61,4 +58,3 @@ inline void ComponentMockState::SetSceneName(const std::string& newTag)
 {
 	sceneName = newTag;
 }
-

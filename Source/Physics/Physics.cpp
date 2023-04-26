@@ -83,6 +83,7 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
 #endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
 
@@ -94,13 +95,61 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	return false;
 }
 
-bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
+bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
 {
-	bool hit = ray.Intersects(go->GetEncapsuledAABB(), nearDistance, farDistance);
+	std::map<float, const GameObject*> hitGameObjects;
 
-	if (hit && go->IsActive())
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+#endif
+	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+
+	GetRaycastHitInfo(hitGameObjects, ray, hit, exceptionGameObject);
+
+	if (hit.gameObject != nullptr)
 	{
 		return true;
+	}
+
+	return false;
+}
+
+bool Physics::RaycastFirst(const LineSegment& ray)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+#endif
+	if (hitGameObjects.size() == 0)
+	{
+		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+	}
+	if (hitGameObjects.size() == 0)
+	{
+		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+	}
+
+	if (hitGameObjects.size() != 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
+{
+	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	if (transform)
+	{
+		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
+
+		if (hit && go->IsActive())
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -114,6 +163,19 @@ void Physics::AddIntersectionGameObject(std::map<float, const GameObject*>& hitG
 	if (HasIntersection(ray, go, nearDistance, farDistance)) 
 	{
 		hitGameObjects[nearDistance] = go;
+	}
+}
+
+void Physics::AddIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects)
+{
+	float nearDistance, farDistance;
+	for (GameObject* gameObject : dynamicObjects)
+	{
+		if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+		{
+			hitGameObjects[nearDistance] = gameObject;
+		}
 	}
 }
 
@@ -145,14 +207,17 @@ void Physics::AddIntersectionQuadtree(std::map<float, const GameObject*>& hitGam
 		}
 
 		if (currentQuadtree->IsLeaf())
-		{
+		{ 
 			continue;
 		}
+		else
+		{
+			quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+			quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+			quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+			quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
 
-		quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
-		quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
-		quadtreeQueue.push(currentQuadtree->GetBackRightNode());
-		quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+		}
 	}
 }
 
@@ -219,4 +284,137 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	hit.distance = minCurrentDistance;
 	hit.hitPoint = nearestHitPoint;
 	hit.normal = hitNormal;
+}
+
+void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
+{
+	GameObject* newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
+
+	std::vector<GameObject*> children = exceptionGameObject->GetChildren();
+
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
+	{
+		const GameObject* actualGameObject = hitGameObject.second;
+		
+		bool isInside = false;
+
+		auto it = std::find(children.begin(), children.end(), actualGameObject);
+
+		isInside = it != children.end();
+		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+		{
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
+				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+
+			if (!componentMeshRenderer)
+			{
+				continue;
+			}
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
+
+			if (!goMeshAsShared)
+			{
+				continue;
+			}
+
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
+				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
+			for (const Triangle& triangle : meshTriangles)
+			{
+				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+				if (!hit)
+				{
+					continue;
+				}
+
+				if (thisDistance >= minCurrentDistance)
+				{
+					continue;
+				}
+
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
+				minCurrentDistance = thisDistance;
+				hitNormal = triangle.NormalCCW();
+				nearestHitPoint = exactHitPoint;
+			}
+		}
+		else 
+		{
+			float chapuza = 0.0f;
+		}
+	}
+
+	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = nearestHitPoint;
+	hit.normal = hitNormal;
+}
+
+void Physics::AddFirstFoundIntersectionDynamicObjects(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, const std::vector<GameObject*>& dynamicObjects)
+{
+	float nearDistance, farDistance;
+	for (GameObject* gameObject : dynamicObjects)
+	{
+		if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+		{
+			hitGameObjects[nearDistance] = gameObject;
+			return;
+		}
+	}
+}
+
+void Physics::AddFirstFoundIntersectionQuadtree(std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, Quadtree* quadtree)
+{
+	std::queue<const Quadtree*> quadtreeQueue;
+	quadtreeQueue.push(quadtree);
+
+	while (!quadtreeQueue.empty())
+	{
+		const Quadtree* currentQuadtree = quadtreeQueue.front();
+		quadtreeQueue.pop();
+
+		if (!ray.Intersects(currentQuadtree->GetBoundingBox()))
+		{
+			continue;
+		}
+
+		if (currentQuadtree->IsLeaf())
+		{
+			std::set<GameObject*> quadtreeGameObjects = currentQuadtree->GetGameObjects();
+
+			float nearDistance, farDistance;
+			for (GameObject* gameObject : quadtreeGameObjects)
+			{
+				if (HasIntersection(ray, gameObject, nearDistance, farDistance))
+				{
+					hitGameObjects[nearDistance] = gameObject;
+					return;
+				}
+			}
+		}
+		else 
+		{
+			quadtreeQueue.push(currentQuadtree->GetFrontRightNode());
+			quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
+			quadtreeQueue.push(currentQuadtree->GetBackRightNode());
+			quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
+
+		}
+
+	}
 }

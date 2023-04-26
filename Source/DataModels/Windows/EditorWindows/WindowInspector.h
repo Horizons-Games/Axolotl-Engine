@@ -36,11 +36,14 @@ private:
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
-	void AddComponentMaterial();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
 	void AddComponentRigidBody();
 	void AddComponentMockState();
+	void AddComponentAudioSource();
+	void AddComponentAudioListener();
+	void AddComponentMeshCollider();
+	void AddComponentScript();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
@@ -59,6 +62,4 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
-
-	bool bbDrawn;
 };

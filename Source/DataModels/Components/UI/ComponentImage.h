@@ -1,47 +1,43 @@
 #pragma once
-#include "../Component.h"
-#include "Math/float3.h"
+#include "DataModels/Components/Component.h"
+#include "Auxiliar/Generics/Drawable.h"
+
+#include "Math/float4.h"
 #include <memory>
 
 class ResourceTexture;
 class ResourceMesh;
 
-class ComponentImage :
-	public Component
+class ComponentImage : public Component, public Drawable
 {
 public:
 	ComponentImage(bool active, GameObject* owner);
 	~ComponentImage() override;
 
-	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	std::shared_ptr<ResourceTexture>& GetImage();
-	float3& GetColor();
-	float3 GetFullColor();
-	void SetImage(const std::shared_ptr<ResourceTexture>& image);
+	float4 GetFullColor() const;
 
-	void LoadVBO();
-	void CreateVAO();
+	std::shared_ptr<ResourceTexture> GetImage() const;
+	float4 GetColor() const;
+
+	void SetImage(const std::shared_ptr<ResourceTexture>& image);
+	void SetColor(const float4& color);
 
 private:
 	std::shared_ptr<ResourceTexture> image;
-	float3 color;
-
-	unsigned vbo;
-	unsigned vao;
-
+	float4 color;
 };
 
-inline std::shared_ptr<ResourceTexture>& ComponentImage::GetImage()
+inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
 {
 	return image;
 }
 
-inline float3& ComponentImage::GetColor()
+inline float4 ComponentImage::GetColor() const
 {
 	return color;
 }
@@ -49,5 +45,10 @@ inline float3& ComponentImage::GetColor()
 inline void ComponentImage::SetImage(const std::shared_ptr<ResourceTexture>& image)
 {
 	this->image = image;
+}
+
+inline void ComponentImage::SetColor(const float4& color)
+{
+	this->color = color;
 }
 

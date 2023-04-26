@@ -11,15 +11,12 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-#ifndef ENGINE
 #include "ModulePlayer.h"
-#endif // !ENGINE
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentMaterial.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
 
@@ -230,17 +227,32 @@ update_status ModuleRender::Update()
 	bool isRoot = goSelected->GetParent() == nullptr;
 
 	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
+	}
 
-#ifndef ENGINE
-	AddToRenderList(App->player->GetPlayer());
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
+#else
+	if (App->player->GetPlayer())
+	{
+		AddToRenderList(App->player->GetPlayer());
+	}
 #endif // !ENGINE
-
+	
 	if (isRoot) 
 	{
 		opaqueGOToDraw.push_back(goSelected);
 	}
-
-	AddToRenderList(goSelected);
+	else
+	{
+		AddToRenderList(goSelected);
+	}
 
 	drawnGameObjects.clear();
 
@@ -411,18 +423,19 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
-	if (gameObject->GetParent() == nullptr || gameObject->GetParent() == nullptr)
+	if (gameObject->GetParent() == nullptr)
 	{
 		return;
 	}
 
+	ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 	//If an object doesn't have transform component it doesn't need to draw
-	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
+	if (transform == nullptr)
 	{
 		return;
 	}
 
-	if (App->camera->GetCamera()->IsInside(gameObject->GetEncapsuledAABB()))
+	if (App->camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
@@ -482,7 +495,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected)
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}
@@ -528,12 +541,6 @@ void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
 		}
 		currentGo->Draw();
 		drawnGameObjects.push_back(gameObject->GetUID());
-#ifdef ENGINE
-		if (currentGo->isDrawBoundingBoxes())
-		{
-			App->debug->DrawBoundingBox(currentGo->GetObjectOBB());
-		}
-#endif // ENGINE
 	}
 }
 
@@ -563,7 +570,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	ComponentMaterial* material = static_cast<ComponentMaterial*>(gameObject->GetComponent(ComponentType::MATERIAL));
+	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->GetTransparent())
@@ -571,4 +578,6 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 		else
 			return true;
 	}
+
+	return false;
 }

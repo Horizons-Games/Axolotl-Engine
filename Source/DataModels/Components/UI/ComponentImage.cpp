@@ -11,6 +11,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
+#include "ModuleUI.h"
 
 #include "DataModels/Program/Program.h"
 #include "ComponentButton.h"
@@ -21,37 +22,32 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 ComponentImage::ComponentImage(bool active, GameObject* owner)
-	: Component(ComponentType::IMAGE, active, owner, true), color(float3(1.0f, 1.0f, 1.0f))
+	: Component(ComponentType::IMAGE, active, owner, true), color(float4(1.0f, 1.0f, 1.0f, 1.0f))
 {
-	//provisional TODO
-	LoadVBO();
-	CreateVAO();
 }
 
 ComponentImage::~ComponentImage()
 {
 }
 
-void ComponentImage::Update()
-{
-}
-
-void ComponentImage::Draw()
+void ComponentImage::Draw() const
 {
 	Program* program = App->program->GetProgram(ProgramType::SPRITE);
 	if(program)
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		program->Activate();
-		std::pair<int,int> region = App->editor->GetAvailableRegion();
 		
-		const float4x4& proj = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
-		const float4x4& model =
-				static_cast<ComponentTransform2D*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM2D))->GetGlobalScaledMatrix();
+		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(GetOwner()
+			->GetComponent(ComponentType::TRANSFORM2D));
+
+		const float4x4& proj = App->camera->GetOrthoProjectionMatrix();
+		const float4x4& model = transform->GetGlobalScaledMatrix();
 		float4x4 view = float4x4::identity;
 
-		ComponentCanvas* canvas = GetOwner()->FoundCanvasOnAnyParent();
+		ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
 		if(canvas)
 		{
 			canvas->RecalculateSizeAndScreenFactor();
@@ -63,10 +59,10 @@ void ComponentImage::Draw()
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(vao);
+		glBindVertexArray(App->userInterface->GetQuadVAO());
 
 		glActiveTexture(GL_TEXTURE0);
-		program->BindUniformFloat3("spriteColor", GetFullColor());
+		program->BindUniformFloat4("spriteColor", GetFullColor());
 		if (image) 
 		{
 			image->Load();
@@ -84,6 +80,7 @@ void ComponentImage::Draw()
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+		glDisable(GL_BLEND);
 		program->Deactivate();
 	}
 }
@@ -92,8 +89,8 @@ void ComponentImage::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
 
 	UID uidImage = 0;
 	std::string assetPath = "";
@@ -103,20 +100,21 @@ void ComponentImage::SaveOptions(Json& meta)
 		uidImage = image->GetUID();
 		assetPath = image->GetAssetsPath();
 	}
-	meta["imageUID"] = (UID)uidImage;
+	meta["imageUID"] = static_cast<UID>(uidImage);
 	meta["assetPathImage"] = assetPath.c_str();
 
-	meta["color_x"] = (float)color.x;
-	meta["color_y"] = (float)color.y;
-	meta["color_z"] = (float)color.z;
+	meta["color_x"] = static_cast<float>(color.x);
+	meta["color_y"] = static_cast<float>(color.y);
+	meta["color_z"] = static_cast<float>(color.z);
+	meta["color_w"] = static_cast<float>(color.w);
 }
 
 void ComponentImage::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
 
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
@@ -138,12 +136,13 @@ void ComponentImage::LoadOptions(Json& meta)
 	}
 #endif
 
-	color.x = (float)meta["color_x"];
-	color.y = (float)meta["color_y"];
-	color.z = (float)meta["color_z"];
+	color.x = static_cast<float>(meta["color_x"]);
+	color.y = static_cast<float>(meta["color_y"]);
+	color.z = static_cast<float>(meta["color_z"]);
+	color.w = static_cast<float>(meta["color_w"]);
 }
 
-inline float3 ComponentImage::GetFullColor()
+inline float4 ComponentImage::GetFullColor() const
 {
 	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
 	if(button != nullptr)
@@ -152,32 +151,4 @@ inline float3 ComponentImage::GetFullColor()
 		if (button->IsHovered()) return button->GetColorHovered();
 	}
 	return color;
-}
-
-void ComponentImage::LoadVBO()
-{
-	float vertices[] = {
-		// positions          
-		-0.5,  0.5, 0.0f, 1.0f,
-		-0.5, -0.5, 0.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5,  0.5, 1.0f, 1.0f,
-		-0.5,  0.5, 0.0f, 1.0f
-	};
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-}
-
-void ComponentImage::CreateVAO()
-{
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-	glBindVertexArray(0);
 }

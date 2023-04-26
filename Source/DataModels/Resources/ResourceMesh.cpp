@@ -29,7 +29,7 @@ void ResourceMesh::InternalUnload()
 {
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &vao);
+	glDeleteVertexArrays(1, &vao);
 	vbo = 0;
 	ebo = 0;
 	vao = 0;
@@ -141,6 +141,7 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 
 	// Vertices
 	std::vector<float3> vertices;
+	vertices.reserve(numVertices);
 	for (unsigned i = 0; i < numVertices; ++i) 
 	{
 		// Adapt the mesh vertices to the model matrix of its gameobject transform
