@@ -682,6 +682,7 @@
     </ClInclude>
     <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Enums\ModuleType.h" />
+    <ClInclude Include="Enums\ModuleType_fwd.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />

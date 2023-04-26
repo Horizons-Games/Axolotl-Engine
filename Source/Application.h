@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "Timer/Timer.h"
 
-#include "Enums/ModuleType.h"
+#include "Enums/ModuleType_fwd.h"
 
 #include <map>
 
@@ -36,7 +36,8 @@ public:
 	void SwitchDebuggingGame();
 
 	ScriptFactory* GetScriptFactory() const;
-	template<typename M> M* GetModule();
+	template<typename M>
+	M*GetModule();
 
 private:	
 	std::unique_ptr<ScriptFactory> scriptFactory;
