@@ -4,7 +4,6 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
 class ModuleProgram;
-class ModuleTexture;
 class ModuleFileSystem;
 class ModuleResources;
 class ModuleScene;
@@ -15,22 +14,22 @@ class ModuleAudio;
 class ModulePlayer;
 class ModuleEditor;
 
+// Order matters: they will Init/start/update in this order
 enum class ModuleType
 {
-	RENDER,
 	WINDOW,
+	FILESYSTEM,
+	EDITOR,
 	INPUT,
 	PROGRAM,
-	TEXTURE,
-	FILESYSTEM,
-	RESOURCES,
-	SCENE,
 	CAMERA,
-	DEBUGDRAW,
-	UI,
 	AUDIO,
+	SCENE,
 	PLAYER,
-	EDITOR
+	RENDER,
+	UI,
+	RESOURCES,
+	DEBUGDRAW,
 };
 
 template<typename T>
@@ -60,12 +59,6 @@ template<>
 struct ModuleToEnum<ModuleProgram>
 {
 	const static ModuleType value = ModuleType::PROGRAM;
-};
-
-template<>
-struct ModuleToEnum<ModuleTexture>
-{
-	const static ModuleType value = ModuleType::TEXTURE;
 };
 
 template<>

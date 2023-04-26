@@ -24,7 +24,6 @@ constexpr int FRAMES_BUFFER = 50;
 Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), debuggingGame(false),
 isOnPlayMode(false), onPlayTimer(Timer())
 {
-	// Order matters: they will Init/start/update in this order
 	modules.insert({ ModuleToEnum<ModuleWindow>::value, std::make_unique<ModuleWindow>() });
 	modules.insert({ ModuleToEnum<ModuleFileSystem>::value, std::make_unique<ModuleFileSystem>() });
 	modules.insert({ ModuleToEnum<ModuleEditor>::value, std::make_unique<ModuleEditor>() });
