@@ -132,7 +132,7 @@ inline unsigned int ResourceStateMachine::GetNumParameters() const
 inline std::vector<State*> ResourceStateMachine::GetStates() const
 {
 	std::vector<State*> rawStates;
-	rawStates.reserve(states.size());
+	rawStates.resize(states.size());
 
 	if (!states.empty())
 		std::transform(std::begin(states), std::end(states), std::begin(rawStates),
