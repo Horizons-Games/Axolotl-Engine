@@ -326,10 +326,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		std::string animationName = animation->mName.C_Str();
 
 		int pos = 0;
-		while (pos = animationName.find('|') != std::string::npos) {
-			animationName.replace(pos, animationName.length(), "_");
-		}
-
+		std::replace(std::begin(animationName), std::end(animationName), '|', '_');
 		std::string animationPath = ANIMATION_PATH + resource->GetFileName() + "." + animationName + ANIMATION_EXTENSION;
 
 		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
