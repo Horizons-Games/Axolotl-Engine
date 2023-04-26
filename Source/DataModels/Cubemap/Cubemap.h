@@ -28,6 +28,8 @@ private:
 	unsigned int cubeVAO;
 	unsigned int cubeVBO;
 
-	std::shared_ptr<ResourceTexture> hdrTexture;
+	unsigned int hdrTexture;
+
+	//std::shared_ptr<ResourceTexture> hdrTexture;
 };
 
