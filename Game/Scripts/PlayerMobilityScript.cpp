@@ -174,7 +174,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += -trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -209,7 +209,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -245,7 +245,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -281,7 +281,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
