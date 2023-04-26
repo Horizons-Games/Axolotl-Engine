@@ -128,10 +128,10 @@ update_status ModuleInput::Update()
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
                 sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
-                App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-                App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
-                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
-                App->camera->RecalculateOrthoProjectionMatrix();
+                App->GetModule<ModuleRender>()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModule<ModuleRender>()->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModule<ModuleUI>()->RecalculateCanvasSizeAndScreenFactor();
+                App->GetModule<ModuleCamera>()->RecalculateOrthoProjectionMatrix();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -174,7 +174,7 @@ update_status ModuleInput::Update()
 
             std::string dropFilePath(droppedFilePath);
             std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
+            App->GetModule<ModuleScene>()->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
             SDL_free(droppedFilePath);    // Free dropped_filedir memory
             break;
         }
@@ -199,7 +199,7 @@ update_status ModuleInput::Update()
     {
         if (App->IsOnPlayMode())
         {
-            App->player->SetReadyToEliminate(true);
+            App->GetModule<ModulePlayer>()->SetReadyToEliminate(true);
         }
     }
 
@@ -214,7 +214,7 @@ update_status ModuleInput::Update()
     }
 
     if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
-        App->editor->GetMainMenu()->ShortcutSave();}
+        App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();}
 #endif
 
     return status;

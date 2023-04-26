@@ -100,7 +100,7 @@ std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data;
 
-	App->fileSystem->Load(shaderFileName.c_str(), data);
+	App->GetModule<ModuleFileSystem>()->Load(shaderFileName.c_str(), data);
 
 	return data;
 }

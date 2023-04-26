@@ -73,8 +73,8 @@ WindowFileBrowser::~WindowFileBrowser()
 void WindowFileBrowser::SaveAsWindow(bool& isSaving)
 {
 	ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
-	std::string sceneName = App->scene->GetLoadedScene()->GetRoot()->GetName();
-	if (!App->fileSystem->Exists(("Assets/Scenes/" + sceneName + SCENE_EXTENSION).c_str()))
+	std::string sceneName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
+	if (!App->GetModule<ModuleFileSystem>()->Exists(("Assets/Scenes/" + sceneName + SCENE_EXTENSION).c_str()))
 	{
 		Uint32 flags = ImGuiFileDialogFlags_Modal;
 		if (isSave)
@@ -143,5 +143,5 @@ void WindowFileBrowser::Browser()
 void WindowFileBrowser::DoThisIfOk()
 {
 	std::string filePathName = fileDialogImporter.GetFilePathName();
-	App->resources->ImportResource(filePathName);
+	App->GetModule<ModuleResources>()->ImportResource(filePathName);
 }

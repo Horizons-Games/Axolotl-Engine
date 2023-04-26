@@ -60,11 +60,11 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 							asSpotLight->GetOwner()->RemoveComponent(asSpotLight);
 
-							App->scene->GetLoadedScene()->UpdateScenePointLights();
-							App->scene->GetLoadedScene()->RenderPointLights();
+							App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+							App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
 
 							modified = true;
-							App->editor->RefreshInspector();
+							App->GetModule<ModuleEditor>()->RefreshInspector();
 							ImGui::EndCombo();
 							ImGui::EndTable();
 							return;
@@ -157,8 +157,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-				App->scene->GetLoadedScene()->RenderSpotLights();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 			}
 
 			ImGui::EndTable();

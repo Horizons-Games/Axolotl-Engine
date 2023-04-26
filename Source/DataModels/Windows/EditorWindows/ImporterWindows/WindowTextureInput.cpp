@@ -49,7 +49,7 @@ void WindowTextureInput::DoThisIfOk()
 		std::string filePath = 
 			std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceTexture> texture = 
-			App->resources->RequestResource<ResourceTexture>(filePath);
+			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 
 		switch (textureType)
 		{

@@ -31,12 +31,12 @@ void HelloWorldScript::Update(float deltaTime)
 	}
 
 	// When pressing a key, a new GameObject is created
-	GameObject* sceneRoot = App->scene->GetLoadedScene()->GetRoot();
+	GameObject* sceneRoot = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
 
 	// If you press P 3 times, the engine explodes, but that has nothing to do with Scripting (IMO)
-	if (App->input->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
 	{
-		App->scene->GetLoadedScene()->Create3DGameObject("Empty Capsule", sceneRoot, Premade3D::CAPSULE);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->Create3DGameObject("Empty Capsule", sceneRoot, Premade3D::CAPSULE);
 	}
 }
 

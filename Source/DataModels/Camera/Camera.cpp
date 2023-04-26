@@ -99,7 +99,7 @@ Camera::~Camera()
 bool Camera::Init()
 {
 	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &w, &h);
 	aspectRatio = float(w) / h;
 
 	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
@@ -205,22 +205,22 @@ void Camera::KeyboardRotate()
 
 	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
 	{
 		if (rotationAngle + rotationSpeed * acceleration < 180)
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
 	{
 		if (rotationAngle - rotationSpeed * acceleration > 0)
 			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
 		yaw = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 
 	float deltaTime = App->GetDeltaTime();
@@ -238,8 +238,8 @@ void Camera::FreeLook()
 {
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -App->GetModule<ModuleInput>()->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -App->GetModule<ModuleInput>()->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 	
 	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
 	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
@@ -386,7 +386,7 @@ void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 {
 	if (gameObject != nullptr)
 	{
-		App->scene->ChangeSelectedGameObject(gameObject);
-		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
+		App->GetModule<ModuleScene>()->ChangeSelectedGameObject(gameObject);
+		App->GetModule<ModuleScene>()->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

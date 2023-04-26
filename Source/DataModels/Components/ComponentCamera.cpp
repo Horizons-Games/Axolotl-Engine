@@ -55,7 +55,7 @@ void ComponentCamera::Draw() const
 
 #ifdef ENGINE
 	if(camera->IsDrawFrustum())
-		App->debug->DrawFrustum(*camera->GetFrustum());
+		App->GetModule<ModuleDebugDraw>()->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
 
 }

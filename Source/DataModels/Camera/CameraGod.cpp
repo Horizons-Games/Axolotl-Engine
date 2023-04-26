@@ -20,13 +20,13 @@ CameraGod::~CameraGod()
 
 bool CameraGod::Update()
 {
-	if (App->input->GetInFocus())
+	if (App->GetModule<ModuleInput>()->GetInFocus())
 	{
 		projectionMatrix = frustum->ProjectionMatrix();
 		viewMatrix = frustum->ViewMatrix();
 
 		//Shift speed
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 		{
 			Run();
 		}
@@ -66,7 +66,7 @@ void CameraGod::Move()
 	float deltaTime = App->GetDeltaTime();
 
 	//Forward
-	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		position += frustum->Front().Normalized() *
 			moveSpeed * acceleration * deltaTime;
@@ -74,7 +74,7 @@ void CameraGod::Move()
 	}
 
 	//Backward
-	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		position += -(frustum->Front().Normalized()) *
 			moveSpeed * acceleration * deltaTime;
@@ -82,28 +82,28 @@ void CameraGod::Move()
 	}
 
 	//Left
-	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		position += -(frustum->WorldRight()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Right
-	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		position += frustum->WorldRight() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Up
-	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
 		position += frustum->Up() * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
 	}
 
 	//Down
-	if (App->input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
 		position += -(frustum->Up()) * moveSpeed * acceleration * deltaTime;
 		SetPosition(position);
@@ -114,12 +114,12 @@ void CameraGod::KeepMouseCentered()
 {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
-	App->input->SetMouseMotionX(float(mouseX - lastMouseX));
-	App->input->SetMouseMotionY(float(mouseY - lastMouseY));
+	App->GetModule<ModuleInput>()->SetMouseMotionX(float(mouseX - lastMouseX));
+	App->GetModule<ModuleInput>()->SetMouseMotionY(float(mouseY - lastMouseY));
 
 	int width, height;
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);	
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+	SDL_WarpMouseInWindow(App->GetModule<ModuleWindow>()->GetWindow(), width / 2, height / 2);	
 
 	lastMouseX = width / 2;
 	lastMouseY = height / 2;

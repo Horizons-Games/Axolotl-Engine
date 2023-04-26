@@ -17,42 +17,42 @@ WindowFrustum::~WindowFrustum()
 
 void WindowFrustum::DrawWindowContents()
 {
-	bool showAABBs = App->debug->IsShowingBoundingBoxes();
+	bool showAABBs = App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes();
 	if (ImGui::Checkbox("Show bounding boxes", &showAABBs))
 	{
-		App->debug->ShowBoundingBoxes(showAABBs);
+		App->GetModule<ModuleDebugDraw>()->ShowBoundingBoxes(showAABBs);
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum"};
 
-	int currentFrustum = (int)App->camera->GetCamera()->GetFrustumMode();
+	int currentFrustum = (int)App->GetModule<ModuleCamera>()->GetCamera()->GetFrustumMode();
 	if (ImGui::ListBox("Frustum Mode\n(single select)", &currentFrustum, listbox_items, IM_ARRAYSIZE(listbox_items), 3))
 	{
-		App->camera->GetCamera()->SetFrustumMode((EFrustumMode)currentFrustum);
+		App->GetModule<ModuleCamera>()->GetCamera()->SetFrustumMode((EFrustumMode)currentFrustum);
 	}
 
-	float vFrustum = App->camera->GetCamera()->GetFrustumOffset();
+	float vFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustumOffset();
 	if (ImGui::SliderFloat("Offset", &vFrustum, MIN_FRUSTUM, MAX_FRUSTUM, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {
-		App->camera->GetCamera()->SetFrustumOffset(vFrustum);
+		App->GetModule<ModuleCamera>()->GetCamera()->SetFrustumOffset(vFrustum);
 	}
 
-	bool isQuadtreeFreezed = App->scene->GetLoadedScene()->GetRootQuadtree()->IsFreezed();
+	bool isQuadtreeFreezed = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->IsFreezed();
 	if (ImGui::Checkbox("Freeze Quadtree", &isQuadtreeFreezed))
 	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()->SetFreezedStatus(isQuadtreeFreezed);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->SetFreezedStatus(isQuadtreeFreezed);
 	}
 
-	int quadrantCapacity = App->scene->GetLoadedScene()->GetRootQuadtree()->GetQuadrantCapacity();
+	int quadrantCapacity = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetQuadrantCapacity();
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()->SetQuadrantCapacity(quadrantCapacity);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->SetQuadrantCapacity(quadrantCapacity);
 		//TODO save values for future executions
 	}
 
-	float minQuadrantSideSize = App->scene->GetLoadedScene()->GetRootQuadtree()->GetMinQuadrantSideSize();
+	float minQuadrantSideSize = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetMinQuadrantSideSize();
 	if (ImGui::SliderFloat("Minimum quadrant side size", 
 		&minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp)) 
 	{
-		App->scene->GetLoadedScene()->GetRootQuadtree()->SetMinQuadrantSideSize(minQuadrantSideSize);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->SetMinQuadrantSideSize(minQuadrantSideSize);
 		//TODO save values for future executions
 	}
 

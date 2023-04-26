@@ -53,10 +53,10 @@ void WindowFPS::DrawWindowContents()
 		timeHist.push_back(0);
 	}
 	
-	bool vsyncActive = App->window->GetVsync();
+	bool vsyncActive = App->GetModule<ModuleWindow>()->GetVsync();
 	if (ImGui::Checkbox("Vsync", &vsyncActive))
 	{
-		App->window->SetVsync(vsyncActive);
+		App->GetModule<ModuleWindow>()->SetVsync(vsyncActive);
 	}
 
 }

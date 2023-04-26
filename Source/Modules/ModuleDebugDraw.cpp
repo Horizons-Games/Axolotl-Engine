@@ -612,7 +612,7 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
+    GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
     ComponentTransform* selectedTransform =
         static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
