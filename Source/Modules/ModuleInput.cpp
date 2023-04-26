@@ -199,7 +199,7 @@ update_status ModuleInput::Update()
     {
         if (App->IsOnPlayMode())
         {
-            App->player->SetReadyToEliminate(true);
+            App->OnStop();
         }
     }
 
