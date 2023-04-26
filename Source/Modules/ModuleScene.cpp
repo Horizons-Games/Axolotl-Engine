@@ -172,6 +172,7 @@ update_status ModuleScene::PostUpdate()
 bool ModuleScene::CleanUp()
 {
 	loadedScene = nullptr;
+	skybox = nullptr;
 	return true;
 }
 
