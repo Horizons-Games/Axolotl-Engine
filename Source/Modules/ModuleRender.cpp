@@ -303,6 +303,8 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
+	delete cubemap;
+
 	glDeleteBuffers(1, &vbo);
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);

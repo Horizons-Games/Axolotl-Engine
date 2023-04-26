@@ -14,7 +14,7 @@ public:
 
 private:
 	
-	void RenderToCubeMap(Program* usedProgram, int resolution, int roughness = 0);
+	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int roughness = 0);
 	void RenderCube();
 
 	GLuint frameBuffer;
