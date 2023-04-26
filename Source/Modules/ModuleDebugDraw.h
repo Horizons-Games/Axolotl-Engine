@@ -1,8 +1,6 @@
 #ifndef _MODULE_DEBUGDRAW_H_
 #define _MODULE_DEBUGDRAW_H_
 
-#pragma warning (disable: 26495)
-
 #include "Module.h"
 
 #include "Geometry/AABB.h"

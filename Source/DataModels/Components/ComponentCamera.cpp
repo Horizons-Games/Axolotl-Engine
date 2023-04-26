@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ComponentCamera.h"
 
 #include "Application.h"
