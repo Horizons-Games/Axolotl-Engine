@@ -3,6 +3,7 @@
 #include "DataModels/Batch/GeometryBatch.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMesh.h"
+#include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchFlags.h"
 
 #include <assert.h>
@@ -13,7 +14,8 @@ BatchManager::BatchManager()
 
 BatchManager::~BatchManager()
 {
-	geometryBatches.clear();
+	geometryBatchesOpaques.clear();
+	geometryBatchesTransparent.clear();
 }
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
@@ -21,6 +23,12 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 	if (newComponent)
 	{
 		GeometryBatch* batch = CheckBatchCompatibility(newComponent);
+
+		//adapt the batch to the good one before adding the component
+		std::vector<GeometryBatch*>& geometryBatches =
+			newComponent->GetMaterial()->IsTransparent()
+			? geometryBatchesTransparent
+			: geometryBatchesOpaques;
 
 		if (batch)
 		{
@@ -55,8 +63,13 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	{
 		flags |= HAS_TANGENTS;
 	}
+	//verify if it's transparent or opaque
+	std::vector<GeometryBatch*>& geometry_batches =
+		newComponent->GetMaterial()->IsTransparent()
+		? geometryBatchesTransparent
+		: geometryBatchesOpaques;
 
-	for (GeometryBatch* geometryBatch : geometryBatches)
+	for (GeometryBatch* geometryBatch : geometry_batches)
 	{
 		if (geometryBatch->GetFlags() == flags)
 		{
@@ -64,6 +77,22 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 		}
 	}
 	return nullptr;
+}
+
+void BatchManager::DrawOpaque(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+{
+		for (GeometryBatch* geometry_batch : geometryBatchesOpaques)
+		{
+			DrawBatch(batch, componentsToRender);
+		}
+}
+
+void BatchManager::DrawTransparent(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+{
+	for (GeometryBatch* geometry_batch : geometryBatchesTransparent)
+	{
+		DrawBatch(batch, componentsToRender);
+	}
 }
 
 void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)

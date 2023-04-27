@@ -11,12 +11,11 @@ struct Material {
     int has_diffuse_map;        //20 //4
     int has_normal_map;         //24 //4
     float smoothness;           //28 //4
-    int has_metallic_alpha;     //32 //4
-    float metalness;            //36 //4
-    int has_metallic_map;       //40 //4
-    sampler2D diffuse_map;      //44 //8
-    sampler2D normal_map;       //52 //8
-    sampler2D metallic_map;     //60 //8    //-->68
+    float metalness;            //32 //4
+    int has_metallic_map;       //36 //4
+    sampler2D diffuse_map;      //40 //8
+    sampler2D normal_map;       //48 //8
+    sampler2D metallic_map;     //56 //8    //-->64
 };
 
 struct PointLight

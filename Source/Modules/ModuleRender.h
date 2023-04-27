@@ -62,12 +62,14 @@ private:
 	unsigned uboCamera;
 	unsigned vbo;
 	
-	std::vector<const GameObject*> opaqueGOToDraw;
-	std::map<float, const GameObject*> transparentGOToDraw;
+	std::vector<ComponentMeshRenderer*> opaqueGOToDraw;
+	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
+	std::vector<ComponentMeshRenderer*> transparentComponents;
 	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
-	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMap;
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapOpaque;
+	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapTransparent;
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;

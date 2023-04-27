@@ -19,7 +19,8 @@ public:
 
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
-	void SetMetalic(const std::shared_ptr<ResourceTexture>& metalicMap);
+	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
+	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallicMap);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap);
 
 protected:
@@ -51,6 +52,8 @@ private:
 	std::unique_ptr<WindowMaterialInput> inputMaterial;
 	std::unique_ptr<WindowTextureInput> inputTextureDiffuse;
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
+	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
+	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 
 	ComponentMeshRenderer* oldComponent;
 

@@ -39,7 +39,7 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 	glGenBuffers(1, &normalsBuffer);
 	glGenBuffers(1, &tangentsBuffer);
 	glGenBuffers(1, &materials);
-	program = App->program->GetProgram(ProgramType::MESHSHADER);
+	program = App->program->GetProgram(ProgramType::DEFAULT);
 }
 
 GeometryBatch::~GeometryBatch()
@@ -130,9 +130,8 @@ void GeometryBatch::FillMaterial()
 		resourceMaterial->HasDiffuse(),
 		resourceMaterial->HasNormal(),
 		resourceMaterial->GetSmoothness(),
-		resourceMaterial->HasMetallicAlpha(),
 		resourceMaterial->GetMetalness(),
-		resourceMaterial->HasMetallicMap(),
+		resourceMaterial->HasMetallic(),
 		};
 
 		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -147,7 +146,7 @@ void GeometryBatch::FillMaterial()
 			newMaterial.normal_map = texture->GetHandle();
 		}
 
-		texture = resourceMaterial->GetMetallicMap();
+		texture = resourceMaterial->GetMetallic();
 		if (texture)
 		{
 			newMaterial.metallic_map = texture->GetHandle();

@@ -42,38 +42,38 @@ void WindowTextureInput::DoThisIfOk()
 {
 	if (windowComponent)
 	{
-		std::string filePath = 
-			std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceTexture> texture = 
+		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
+		std::shared_ptr<ResourceTexture> texture =
 			App->resources->RequestResource<ResourceTexture>(filePath);
 
 		switch (textureType)
 		{
-			case TextureType::DIFFUSE:
+		case TextureType::DIFFUSE:
 
-				windowComponent->SetDiffuse(texture);
+			windowComponent->SetDiffuse(texture);
 
-				break;
+			break;
 
-			case TextureType::NORMAL:
+		case TextureType::NORMAL:
 
-				windowComponent->SetNormal(texture);
+			windowComponent->SetNormal(texture);
 
-				break;
-			case TextureType::OCCLUSION:
+			break;
+		case TextureType::OCCLUSION:
 
-				break;
+			break;
 
-			case TextureType::METALLIC:
+		case TextureType::METALLIC:
 
-				windowComponent->SetMetallic(texture);
+			windowComponent->SetMetallic(texture);
 
-				break;
+			break;
 
-			case TextureType::SPECULAR:
+		case TextureType::SPECULAR:
 
-				windowComponent->SetSpecular(texture);
+			windowComponent->SetSpecular(texture);
 
-				break;
+			break;
 		}
+	}
 }

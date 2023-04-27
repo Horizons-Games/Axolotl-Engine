@@ -6,37 +6,28 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
-
-#ifndef ENGINE
-
 #include "ModulePlayer.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
-#include "DataModels/Batch/BatchManager.h"
-#include "DataModels/Batch/GeometryBatch.h"
-#include "DataModels/Program/Program.h"
-
-#include "FileSystem/ModuleFileSystem.h"
-
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Program/Program.h"
 
 #include "GameObject/GameObject.h"
-#include "Components/ComponentMeshRenderer.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
+
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -202,7 +193,8 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	renderMap.clear();
+	renderMapOpaque.clear();
+	renderMapTransparent.clear();
 	//opaqueGOToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -250,7 +242,7 @@ update_status ModuleRender::Update()
 	}
 
 	//maybe we need to bind the program
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
 	program->Activate();
 
 	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
@@ -263,11 +255,6 @@ update_status ModuleRender::Update()
 	
 	AddToRenderList(goSelected);
 	
-	for (auto batchAndComponents : renderMap)
-	{
-		batchManager->DrawBatch(batchAndComponents.first, batchAndComponents.second);
-	}
-
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{
@@ -286,12 +273,6 @@ update_status ModuleRender::Update()
 	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
 		App->camera->GetCamera()->GetProjectionMatrix(), w, h);
 
-
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
-
-	bool isRoot = goSelected->GetParent() == nullptr;
-
-	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
@@ -310,32 +291,25 @@ update_status ModuleRender::Update()
 	}
 #endif // !ENGINE
 	
-	if (isRoot) 
-	{
-		opaqueGOToDraw.push_back(goSelected);
-	}
-	else
-	{
-		AddToRenderList(goSelected);
-	}
-
 	drawnGameObjects.clear();
 
 	//Draw opaque
 	glDepthFunc(GL_LEQUAL);
-	for (const GameObject* gameObject : opaqueGOToDraw)
-	{
-		DrawGameObject(gameObject);
-	}
+		for (auto batchAndComponents : renderMapOpaque)
+		{
+			batchManager->DrawOpaque(batchAndComponents.first, batchAndComponents.second);
+		}
 
-	// Draw Transparent
+		// Draw Transparent
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (std::map<float, const GameObject*>::reverse_iterator it = transparentGOToDraw.rbegin(); it != transparentGOToDraw.rend(); ++it)
-	{	
-		DrawGameObject((*it).second);
-	}
+		for (auto batchAndComponents : renderMapTransparent)
+		{
+			batchManager->DrawTransparent(batchAndComponents.first, batchAndComponents.second);
+		}
+
+
 	glDisable(GL_BLEND);
 
 #ifndef ENGINE
@@ -424,67 +398,41 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
-		if (quadtree->IsLeaf()) 
+		if (quadtree->IsLeaf())
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				if (gameObject->IsEnabled())
 				{
+
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
 					if (component && component->GetBatch())
 					{
-						renderMap[component->GetBatch()].push_back(component);
-					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
-					else
-					{
-						const ComponentTransform* transform = 
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr) //If an object is at the same position as another one
-						{ 
-							float addDistance = 0.0001f;
-							dist += addDistance;
-						}
-						transparentGOToDraw[dist] = gameObject;
-					}
-				}
-			}
-		}
-		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
-		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
-			{
-				if (gameObject->IsEnabled())
-				{
-					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
-						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					if (component && component->GetBatch())
-					{
-						renderMap[component->GetBatch()].push_back(component);
-					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
-					else
-					{
-						const ComponentTransform* transform = 
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr) 
+						if (!CheckIfTransparent(gameObject))
 						{
-							float addDistance = 0.0001f;
-							dist += addDistance;
+							//opaqueGOToDraw.push_back(component);
+							renderMapOpaque[component->GetBatch()].push_back(component);
 						}
-						transparentGOToDraw[dist] = gameObject;
+						else
+						{
+							const ComponentTransform* transform =
+								static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+							float dist = Length(cameraPos - transform->GetGlobalPosition());
+							while (transparentGOToDraw[dist] != nullptr) //If an object is at the same position as another one
+							{
+								float addDistance = 0.0001f;
+								dist += addDistance;
+							}
+							transparentGOToDraw[dist] = component;
+							renderMapTransparent[component->GetBatch()].push_back(component);
+						}
 					}
 				}
 			}
-			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
-			FillRenderList(quadtree->GetFrontLeftNode());
-			FillRenderList(quadtree->GetBackRightNode());
-			FillRenderList(quadtree->GetBackLeftNode());
+
 		}
-		else 
+		else
 		{
 			FillRenderList(quadtree->GetFrontRightNode());
 			FillRenderList(quadtree->GetFrontLeftNode());
@@ -518,20 +466,23 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 				gameObject->GetComponent(ComponentType::MESHRENDERER));
 			if (component && component->GetBatch())
 			{
-				renderMap[component->GetBatch()].push_back(component);
-			if (!CheckIfTransparent(gameObject))
-				opaqueGOToDraw.push_back(gameObject);
-			else
-			{
-				const ComponentTransform* transform =
-					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-				float dist = Length(cameraPos - transform->GetGlobalPosition());
-				while (transparentGOToDraw[dist] != nullptr) 
+				if (!CheckIfTransparent(gameObject))
 				{
-					float addDistance = 0.0001f;
-					dist += addDistance;
+					renderMapOpaque[component->GetBatch()].push_back(component);
 				}
-				transparentGOToDraw[dist] = gameObject;
+				else
+				{
+					const ComponentTransform* transform =
+						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+					float dist = Length(cameraPos - transform->GetGlobalPosition());
+					while (transparentGOToDraw[dist] != nullptr) 
+					{
+						float addDistance = 0.0001f;
+						dist += addDistance;
+					}
+					transparentGOToDraw[dist] = component;
+					renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
+				}
 			}
 		}
 	}
@@ -653,7 +604,7 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
-		if (!material->GetMaterial()->GetTransparent())
+		if (!material->GetMaterial()->IsTransparent())
 			return false;
 		else
 			return true;

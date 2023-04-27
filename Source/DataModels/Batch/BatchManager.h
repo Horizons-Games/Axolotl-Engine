@@ -17,6 +17,10 @@ public:
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
+	void DrawOpaque(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
+
+	void DrawTransparent(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
+
 	void DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
 
 	void CleanBatches();
@@ -24,7 +28,10 @@ public:
 private:
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
 
-	std::vector<GeometryBatch*> geometryBatches;
+
+
+	std::vector<GeometryBatch*> geometryBatchesOpaques;
+	std::vector<GeometryBatch*> geometryBatchesTransparent;
 };
 
 inline void BatchManager::CleanBatches()
@@ -32,5 +39,6 @@ inline void BatchManager::CleanBatches()
 #ifndef ENGINE
 	App->resources->CleanResourceBin();
 #endif // !ENGINE
-	geometryBatches.clear();
+	geometryBatchesOpaques.clear();
+	geometryBatchesTransparent.clear();
 }

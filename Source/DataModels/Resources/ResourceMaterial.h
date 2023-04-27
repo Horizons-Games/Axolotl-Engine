@@ -37,7 +37,7 @@ public:
 	const float& GetNormalStrength() const;
 	const float& GetSmoothness() const;
 	const float& GetMetalness() const;
-	const bool& GetTransparent() const;
+	const bool& IsTransparent() const;
 	const unsigned int& GetShaderType() const;
 
 	bool HasDiffuse();
@@ -140,7 +140,7 @@ inline const float& ResourceMaterial::GetMetalness() const
 	return metalness;
 }
 
-inline const bool& ResourceMaterial::GetTransparent() const
+inline const bool& ResourceMaterial::IsTransparent() const
 {
 	return isTransparent;
 }

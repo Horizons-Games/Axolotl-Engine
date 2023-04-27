@@ -26,7 +26,7 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
 	reset(false), newMaterial(false)
 {
 	InitMaterialValues();
@@ -264,7 +264,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal()
-					|| materialResource->GetMetallicMap())
+					|| materialResource->GetMetallic())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -410,7 +410,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				App->resources->ReimportResource(materialResource->GetUID());
 				updateMaterials = true;
 			}
-		}
 
 		if (updateMaterials)
 		{
@@ -454,7 +453,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
-			isTransparent = materialResource->GetTransparent();
+			isTransparent = materialResource->IsTransparent();
 		}
 	}
 }

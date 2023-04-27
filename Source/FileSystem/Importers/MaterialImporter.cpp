@@ -252,7 +252,7 @@ void MaterialImporter::Save
 	cursor += bytes;
 
 	bytes = sizeof(bool);
-	memcpy(cursor, &resource->GetTransparent(), bytes);
+	memcpy(cursor, &resource->IsTransparent(), bytes);
 }
 
 void MaterialImporter::Load

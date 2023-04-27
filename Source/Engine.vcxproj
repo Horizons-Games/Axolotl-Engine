@@ -159,6 +159,8 @@
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp" />
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -415,6 +417,9 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Batch\BatchFlags.h" />
+    <ClInclude Include="DataModels\Batch\BatchManager.h" />
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

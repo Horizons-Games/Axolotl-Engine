@@ -62,15 +62,28 @@ public:
 	GeometryBatch* GetBatch() const;
 	void SetBatch(GeometryBatch* geometryBatch);
 
+	// Common attributes (getters)
+	const float4& GetDiffuseColor() const;
+	const float GetSmoothness() const;
+	const float GetNormalStrenght() const;
+
+	// Default shader attributes (getters)
+	const float GetMetalness() const;
+
+	// Specular shader attributes (getters)
+	const float3& GetSpecularColor() const;
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
 private:
-	bool IsMeshLoaded();
-	bool IsMaterialLoaded();
+	bool IsMeshLoaded() const;
+	bool IsMaterialLoaded() const;
 
-	std::shared_ptr<ResourceMesh> mesh;
-	std::shared_ptr<ResourceMaterial> material;
+	mutable std::shared_ptr<ResourceMesh> mesh;
+	mutable std::shared_ptr<ResourceMaterial> material;
+
+
 
 	const unsigned int GetShaderType() const;
 
@@ -100,14 +113,6 @@ inline void ComponentMeshRenderer::SetBatch(GeometryBatch* geometryBatch)
 	batch = geometryBatch;
 }
 
-inline bool ComponentMeshRenderer::IsMeshLoaded()
-{
-	return mesh != nullptr;
-}
-inline bool ComponentMeshRenderer::IsMaterialLoaded()
-{
-	return material != nullptr;
-}
 inline bool ComponentMeshRenderer::IsMeshLoaded() const
 {
 	return mesh != nullptr;

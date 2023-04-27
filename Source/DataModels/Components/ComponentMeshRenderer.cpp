@@ -53,7 +53,6 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 	}
 	if (material)
 	{
-		//batch->DeleteComponent(this);
 		material->Unload();
 	}
 }
@@ -119,9 +118,6 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
-	Program* program = App->program->GetProgram(ProgramType::MESHSHADER);
-
 	if (program)
 	{
 		program->Activate();
@@ -137,7 +133,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 		if (material)
 		{
-			const float3& diffuseColor = material->GetDiffuseColor();
+			const float4& diffuseColor = material->GetDiffuseColor();
 			glUniform3f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z); //diffuse_color
 			std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 			if (texture)
@@ -209,10 +205,9 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 				glUniform1f(9, material->HasShininessAlpha()); //shininess_alpha
 				*/
 				glUniform1f(7, material->GetSmoothness());
-				glUniform1f(8, material->HasMetallicAlpha());
-				glUniform1f(9, material->GetMetalness());
+				glUniform1f(8, material->GetMetalness());
 
-				texture = material->GetMetallicMap();
+				texture = material->GetMetallic();
 				if (texture)
 				{
 					if (!texture->IsLoaded())
@@ -220,13 +215,13 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 						texture->Load();
 					}
 
-					glUniform1i(10, 1); //has_metallic_map
+					glUniform1i(9, 1); //has_metallic_map
 					glActiveTexture(GL_TEXTURE7);
 					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 				}
 				else
 				{
-					glUniform1i(10, 0); //has_metallic_map
+					glUniform1i(9, 0); //has_metallic_map
 				}
 
 				float3 viewPos = App->camera->GetCamera()->GetPosition();
@@ -444,7 +439,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (meshExists)
 	{
-		std::shared_ptr<ResourceMesh> resourceMesh = 
+		std::shared_ptr<ResourceMesh> resourceMesh =
 			App->resources->RequestResource<ResourceMesh>(path);
 
 		if (resourceMesh)
@@ -458,7 +453,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (materialExists)
 	{
-		std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		std::shared_ptr<ResourceMaterial> resourceMaterial =
 			App->resources->RequestResource<ResourceMaterial>(path);
 
 		if (resourceMaterial)
@@ -469,7 +464,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 #else
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->resources->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -478,7 +473,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 
 	UID uidMaterial = meta["materialUID"];
-	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+	std::shared_ptr<ResourceMaterial> resourceMaterial =
 		App->resources->SearchResource<ResourceMaterial>(uidMaterial);
 
 	if (resourceMaterial)
@@ -486,27 +481,6 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		SetMaterial(resourceMaterial);
 	}
 
-#endif
-
-//Material
-#ifdef ENGINE
-	path = meta["assetPathMaterial"];
-	resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
-	if (resourceExists)
-	{
-		std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->RequestResource<ResourceMaterial>(path);
-		if (resourceMaterial)
-		{
-			SetMaterial(resourceMaterial);
-		}
-	}
-#else
-	UID uidMaterial = meta["materialUID"];
-	std::shared_ptr<ResourceMaterial> resourceMaterial = App->resources->SearchResource<ResourceMaterial>(uidMaterial);
-	if (resourceMaterial)
-	{
-		SetMaterial(resourceMaterial);
-	}
 #endif
 }
 void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
@@ -516,7 +490,12 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (mesh)
 	{
 		mesh->Load();
-		GetOwner()->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>
+			(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		transform->Encapsule
+		(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->renderer->GetBatchManager()->AddComponent(this);
 	}
 	else
@@ -563,7 +542,7 @@ void ComponentMeshRenderer::UnloadTextures()
 		{
 			texture->Unload();
 		}*/
-		texture = material->GetMetallicMap();
+		texture = material->GetMetallic();
 		if (texture)
 		{
 			texture->Unload();
@@ -606,7 +585,7 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				}
 				break;*/
 		case TextureType::METALLIC:
-			texture = material->GetMetallicMap();
+			texture = material->GetMetallic();
 			if (texture)
 			{
 				texture->Unload();
@@ -616,39 +595,12 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 	}
 }
 
-const float3& ComponentMeshRenderer::GetDiffuseColor() const {
-	return material->GetDiffuseColor();
-}
-
 /*const float3& ComponentMaterial::GetSpecularColor() const {
 	return material->GetSpecularColor();
 }
 const float ComponentMaterial::GetShininess() const {
 	return material->GetShininess();
 }*/
-
-const float ComponentMeshRenderer::GetNormalStrenght() const {
-	return material->GetNormalStrength();
-}
-
-const float ComponentMeshRenderer::GetSmoothness() const
-{
-	return material->GetSmoothness();
-}
-
-const float ComponentMeshRenderer::GetMetalness() const
-{
-	return material->GetMetalness();
-}
-
-/*const bool ComponentMaterial::HasShininessAlpha() const {
-	return material->HasShininessAlpha();
-}*/
-
-const bool ComponentMeshRenderer::HasMetallicAlpha() const
-{
-	return material->HasMetallicAlpha();
-}
 
 const unsigned int ComponentMeshRenderer::GetShaderType() const
 {

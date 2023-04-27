@@ -22,12 +22,11 @@ struct Command
 };
 
 struct Material {
-	float3 diffuse_color = float3::zero;	//0 //12
-	float normal_strength = 0;				//12 //4
-	int has_diffuse_map = 0;				//16 //4
-	int has_normal_map = 0;					//20 //4
-	float smoothness = 0;					//24 //4
-	int has_metallic_alpha = 0;				//28 //4
+	float4 diffuse_color = float4::zero;	//0 //16
+	float normal_strength = 0;				//16 //4
+	int has_diffuse_map = 0;				//20 //4
+	int has_normal_map = 0;					//24 //4
+	float smoothness = 0;					//28 //4
 	float metalness = 0;					//32 //4
 	int has_metallic_map = 0;				//36 //4
 	uint64_t diffuse_map;					//40 //8
