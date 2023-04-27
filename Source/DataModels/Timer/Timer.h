@@ -22,5 +22,6 @@ private:
 inline void Timer::Start()
 {
 	startTick = SDL_GetTicks();
+	stopped = false;
 }
 

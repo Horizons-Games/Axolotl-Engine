@@ -22,7 +22,7 @@ ModuleUI::ModuleUI()
 ModuleUI::~ModuleUI() {
 };
 
-inline bool ModuleUI::Init()
+bool ModuleUI::Init()
 {
 	LoadVBO();
 	CreateVAO();

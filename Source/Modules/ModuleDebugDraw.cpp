@@ -430,13 +430,13 @@ public:
         }
     }
 
-    inline static GLuint handleToGL(dd::GlyphTextureHandle handle)
+    static GLuint handleToGL(dd::GlyphTextureHandle handle)
     {
         const std::size_t temp = reinterpret_cast<std::size_t>(handle);
         return static_cast<GLuint>(temp);
     }
 
-    inline static dd::GlyphTextureHandle GLToHandle(const GLuint id)
+    static dd::GlyphTextureHandle GLToHandle(const GLuint id)
     {
         const std::size_t temp = static_cast<std::size_t>(id);
         return reinterpret_cast<dd::GlyphTextureHandle>(temp);
