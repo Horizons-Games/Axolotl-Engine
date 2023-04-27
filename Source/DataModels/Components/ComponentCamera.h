@@ -7,10 +7,6 @@
 #include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
 
-class CameraGameObject;
-
-#define COMPONENT_CAMERA "Camera"
-
 /*
 enum class ECameraFrustumMode
 {

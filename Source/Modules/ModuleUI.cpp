@@ -22,15 +22,10 @@ ModuleUI::ModuleUI()
 ModuleUI::~ModuleUI() {
 };
 
-bool ModuleUI::Init()
+inline bool ModuleUI::Init()
 {
 	LoadVBO();
 	CreateVAO();
-	return true;
-}
-
-bool ModuleUI::Start()
-{
 	return true;
 }
 

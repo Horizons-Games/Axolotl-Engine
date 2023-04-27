@@ -27,11 +27,6 @@ private:
 	unsigned int quadVAO;
 };
 
-inline bool ModuleUI::Init()
-{
-	return true;
-}
-
 inline bool ModuleUI::Start()
 {
 	return true;
