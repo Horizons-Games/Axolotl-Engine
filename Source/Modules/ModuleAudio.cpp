@@ -1,5 +1,8 @@
 #include "ModuleAudio.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+
 #include <assert.h>
 
 #include "AK/SoundEngine/Common/AkMemoryMgr.h" // Memory Manager interface
@@ -13,15 +16,6 @@
 #ifndef AK_OPTIMIZED
 #include "AK/Comm/AkCommunication.h"
 #endif // AK_OPTIMIZED
-
-// Bank file names
-#define BANKNAME_INIT L"Init.bnk"
-#define BANKNAME_MUSIC L"Music.bnk"
-#define BANKNAME_NPC L"NPC.bnk"
-#define BANKNAME_PLAYER L"Player.bnk"
-#define BANKNAME_AMBIENT L"Ambient.bnk"
-#define BANKNAME_UI L"UI.bnk"
-
 
 ModuleAudio::ModuleAudio()
 {
@@ -118,9 +112,7 @@ bool ModuleAudio::Init()
     }
 #endif // AK_OPTIMIZED
 
-    InitializeBanks();
-
-    return true;
+    return InitializeBanks();
 }
 
 bool ModuleAudio::Start()
@@ -187,28 +179,36 @@ update_status ModuleAudio::PostUpdate()
     return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleAudio::InitializeBanks() {
+bool ModuleAudio::InitializeBanks() {
     // Setup banks path
-//
+    std::string soundBanksFolderPath;
 
-    lowLevelIO.SetBasePath(AKTEXT("WwiseProject/GeneratedSoundBanks/Windows"));
+    {
+		const wchar_t* pathAsWChar = AKTEXT("WwiseProject/GeneratedSoundBanks/Windows");
+		lowLevelIO.SetBasePath(pathAsWChar);
+        std::wstring pathAsWString = std::wstring(pathAsWChar);
+        soundBanksFolderPath = std::string(std::begin(pathAsWString), std::end(pathAsWString));
+    }
 
     AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
-    //// Load banks synchronously (from file name).
+    // Load banks synchronously (from file name).
     AkBankID bankID; // Not used. These banks can be unloaded with their file name.
 
+    std::vector<std::string> bankFolderContents =
+        App->GetModule<ModuleFileSystem>()->ListFiles(soundBanksFolderPath.c_str());
 
-    AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
-    assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_MUSIC, bankID);
-    assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_NPC, bankID);
-    assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_PLAYER, bankID);
-    assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_AMBIENT, bankID);
-    assert(eResult == AK_Success);
-    eResult = AK::SoundEngine::LoadBank(BANKNAME_UI, bankID);
-    assert(eResult == AK_Success);
+    for (const std::string& bankFolderItem : bankFolderContents)
+    {
+        if (App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
+        {
+            std::wstring bankNameAsWString = std::wstring(std::begin(bankFolderItem), std::end(bankFolderItem));
+            AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);
+            if (eResult == AK_Success)
+            {
+                ENGINE_LOG("Failed to load bank %c; Error: %d", bankFolderItem.c_str(), eResult);
+                return false;
+            }
+        }
+    }
 }
