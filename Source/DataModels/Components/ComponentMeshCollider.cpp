@@ -96,7 +96,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		bool hasHit = Physics::RaycastFirst(line);
+		bool hasHit = Physics::RaycastFirst(line, owner);
 
 		if (hasHit) {
 			return true;
