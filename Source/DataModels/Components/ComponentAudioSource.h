@@ -15,9 +15,7 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
-
-	void Enable();
-	void Disable();
+	void Enable() override;
 
 	void PostEvent(const wchar_t* sound); //Use this function to play a sound
 	void SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound);

@@ -128,9 +128,10 @@ void ComponentWindow::DrawEnableComponent()
 
 		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->IsEnabled();
-		ImGui::Checkbox(ss.str().c_str(), &enable);
-
-		(enable) ? component->Enable() : component->Disable();
+		if (ImGui::Checkbox(ss.str().c_str(), &enable))
+		{
+			(enable) ? component->Enable() : component->Disable();
+		}
 	}
 }
 

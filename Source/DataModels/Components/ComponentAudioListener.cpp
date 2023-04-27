@@ -24,17 +24,27 @@ ComponentAudioListener::~ComponentAudioListener()
 
 void ComponentAudioListener::OnTransformChanged()
 {
-    const float3& pos = transform->GetGlobalPosition();
-    const float3& front = transform->GetGlobalForward();
-    const float3& correctFront = -float3(front.x, -front.y, front.z).Normalized();
-    const float3& up = transform->GetGlobalUp();
+    if (IsEnabled())
+    {
+        const float3& pos = transform->GetGlobalPosition();
+        const float3& front = transform->GetGlobalForward();
+        const float3& correctFront = -float3(front.x, -front.y, front.z).Normalized();
+        const float3& up = transform->GetGlobalUp();
 
-    listenerTransform.Set(pos.x, pos.y, pos.z,
-        correctFront.x, correctFront.y, correctFront.z,
-        up.x, up.y, up.z
-    );
+        listenerTransform.Set(pos.x, pos.y, pos.z,
+            correctFront.x, correctFront.y, correctFront.z,
+            up.x, up.y, up.z
+        );
 
-    AK::SoundEngine::SetPosition(listenerID, listenerTransform);
+        AK::SoundEngine::SetPosition(listenerID, listenerTransform);
+    }
+}
+
+void ComponentAudioListener::Enable()
+{
+    Component::Enable();
+
+    OnTransformChanged();
 }
 
 void ComponentAudioListener::SaveOptions(Json& meta)
@@ -51,12 +61,4 @@ void ComponentAudioListener::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
-}
-
-void ComponentAudioListener::Enable()
-{
-}
-
-void ComponentAudioListener::Disable()
-{
 }

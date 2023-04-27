@@ -14,9 +14,7 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
-
-	void Enable();
-	void Disable();
+	void Enable() override;
 
 private:
 	uint64_t listenerID;
