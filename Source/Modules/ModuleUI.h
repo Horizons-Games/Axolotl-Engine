@@ -17,8 +17,14 @@ public:
 
 	update_status PostUpdate();
 
-	void DrawChildren(GameObject* gameObject);
 	void RecalculateCanvasSizeAndScreenFactor();
+	void LoadVBO();
+	void CreateVAO();
+	unsigned int GetQuadVAO() const;
+
+private:
+	unsigned int quadVBO;
+	unsigned int quadVAO;
 };
 
 inline bool ModuleUI::Init()
@@ -30,4 +36,10 @@ inline bool ModuleUI::Start()
 {
 	return true;
 }
+
+inline unsigned int ModuleUI::GetQuadVAO() const
+{
+	return quadVAO;
+}
+
 

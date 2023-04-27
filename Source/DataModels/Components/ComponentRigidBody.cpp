@@ -1,11 +1,14 @@
 #include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
 #include "ComponentMockState.h"
+#include "ComponentTransform.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
 #include "Geometry/Frustum.h"
+#include "Math/float3x3.h"
 
 #include "GameObject/GameObject.h"
 #include "Application.h"
@@ -20,10 +23,34 @@
 
 
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
-	: Component(ComponentType::RIGIDBODY, active, owner, true),
-	isKinematic(true), m(1.0f), g(9.81f), v0(float3(0.0f, 0.0f, 0.0f))
+	: Component(ComponentType::RIGIDBODY, active, owner, true)
+{
+	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	isKinematic = true;
+	mass = 1.0f;
+
+	height = -math::inf;
+	x = transform->GetPosition();
+	q = transform->GetRotation().RotatePart().ToQuat();
+	g = float3(0.0f, -9.00f, 0.0f);
+	v0 = float3(0.0f, 0.0f, 0.0f);
+	w0 = float3(0.0f, 0.0f, 0.0f);
+}
+
+ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
+	: Component(componentRigidBody),
+	transform(componentRigidBody.transform),
+	isKinematic(componentRigidBody.isKinematic), 
+	mass(componentRigidBody.mass),
+	height(componentRigidBody.height),
+	x(componentRigidBody.x),
+	q(componentRigidBody.q),
+	g(componentRigidBody.g), 
+	v0(componentRigidBody.v0),
+	w0(componentRigidBody.w0)
 {
 }
+
 
 ComponentRigidBody::~ComponentRigidBody()
 {
@@ -31,56 +58,186 @@ ComponentRigidBody::~ComponentRigidBody()
 
 void ComponentRigidBody::Update()
 {
-	
-#ifndef ENGINE
-	if (isKinematic)
+
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
 	{
-		ComponentTransform* transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-		float3 currentPos = transform->GetPosition();
-		Ray ray(currentPos, -float3::unitY);
-		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		RaycastHit hit;
-
-		bool hasHit = Physics::Raycast(line, hit);
-		float3 x;
-		float t = App->GetDeltaTime();
-		float3 x0 = currentPos;
-		float3 a = float3(0.0f, -0.5 * g * t * t, 0.0f);
-
-		v0.y -= g * t;
-		x = x0 + v0 * t + a;
-		float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x0.y);
-		if (hasHit && x.y <= hit.hitPoint.y + verticalDistanceToFeet + (x-x0).Length())
+#endif
+		if (isKinematic)
 		{
+			float deltaTime = App->GetDeltaTime();
 
-			x = hit.hitPoint + float3(0.0f, verticalDistanceToFeet,0.0f);
-			v0 = float3::zero;
-			
-			if (hit.gameObject != nullptr && hit.gameObject->GetComponent(ComponentType::MOCKSTATE) != nullptr)
+			x = transform->GetPosition();
+			q = transform->GetRotation().RotatePart().ToQuat();
+
+			float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
+
+			// Combine gravity and external forces
+			float3 totalAcceleration = g + externalForce;
+
+			//Velocity
+			v0 += totalAcceleration * deltaTime;
+			x += v0 * deltaTime + 0.5f * totalAcceleration * deltaTime * deltaTime;
+
+			externalForce = float3::zero;
+
+			//Apply gravity
+			if (x.y <= height + verticalDistanceToFeet)
 			{
-				ComponentMockState* mockState = static_cast<ComponentMockState*>(hit.gameObject->GetComponent(ComponentType::MOCKSTATE));
-
-				if (mockState->GetIsWinState())
-				{
-					//TODO: win state
-					std::string sceneName = mockState->GetSceneName();
-					App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
-				}
-				else if (mockState->GetIsFailState())
-				{
-					//TODO fail state
-				}
+				x.y = height + verticalDistanceToFeet;
+				v0 = float3::zero;
+				bootsOnGround = true;
 			}
+			else 
+			{
+				bootsOnGround = false;
+			}
+
+			if (useRotationController)
+			{
+				//Rotation
+				Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
+				Quat wq_0 = angularVelocityQuat * q;
+
+
+				float deltaValue = 0.5f * deltaTime;
+				Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+				Quat nextRotation(q.x + deltaRotation.x,
+					q.y + deltaRotation.y,
+					q.z + deltaRotation.z,
+					q.w + deltaRotation.w);
+				nextRotation.Normalize();
+
+				q = nextRotation;
+
+				ApplyTorque();
+
+				float4x4 rotationMatrix = float4x4::FromQuat(q);
+				transform->SetRotation(rotationMatrix);
+			}
+
+
+			//Apply proportional controllers
+			ApplyForce();
+
+			//Update Transform
+			transform->SetPosition(x);
+
+			transform->UpdateTransformMatrices();
 		}
 
-		transform->SetPosition(x);
+#ifdef ENGINE
 	}
+
+	
 #endif
 }
 
-void ComponentRigidBody::Draw()
+void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
 {
-	
+	switch (mode)
+	{
+	case ForceMode::Force:
+		externalForce += force / mass;
+		break;
+	case ForceMode::Acceleration:
+		externalForce += force;
+		break;
+	case ForceMode::Impulse:
+		//TO DO
+		break;
+	case ForceMode::VelocityChange:
+		v0 += force;
+		break;
+	}
+}
+
+void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
+{
+	switch (mode)
+	{
+	case ForceMode::Force:
+		externalTorque += torque / mass;
+		break;
+	case ForceMode::Acceleration:
+		externalTorque += torque;
+		break;
+	case ForceMode::Impulse:
+		//TO DO
+		break;
+	case ForceMode::VelocityChange:
+		w0 += torque;
+		break;
+	}
+}
+
+
+void ComponentRigidBody::ApplyForce()
+{
+	if (usePositionController)
+	{
+		float deltaTime = App->GetDeltaTime();
+
+		float3 positionError = targetPosition - x;
+		float3 velocityPosition = positionError * KpForce;
+		x += + velocityPosition * deltaTime;
+	}
+}
+
+
+void ComponentRigidBody::ApplyTorque()
+{
+	float deltaTime = App->GetDeltaTime();
+	if (useRotationController)
+	{
+
+		Quat rotationError = targetRotation * q.Normalized().Inverted();
+		rotationError.Normalize();
+
+		if (!rotationError.Equals(Quat::identity, 0.05f))
+		{
+			float3 axis;
+			float angle;
+			rotationError.ToAxisAngle(axis, angle);
+			axis.Normalize();
+
+			float3 velocityRotation = axis * angle * KpTorque + externalTorque;
+			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+			Quat wq_0 = angularVelocityQuat * q;
+
+			float deltaValue = 0.5f * deltaTime;
+			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+			Quat nextRotation(q.x + deltaRotation.x,
+				q.y + deltaRotation.y,
+				q.z + deltaRotation.z,
+				q.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			q = nextRotation;
+		}
+
+		
+	}
+	else 
+	{
+		Quat angularVelocityQuat(externalTorque.x, externalTorque.y, externalTorque.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * q;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+		Quat nextRotation(q.x + deltaRotation.x,
+			q.y + deltaRotation.y,
+			q.z + deltaRotation.z,
+			q.w + deltaRotation.w);
+		nextRotation.Normalize();
+
+		q = nextRotation;
+
+	}
+	externalTorque = float3::zero;
 }
 
 void ComponentRigidBody::SaveOptions(Json& meta)
@@ -89,6 +246,13 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
+
+	meta["isKinematic"] = (bool)GetIsKinematic();
+	meta["mass"] = (float)GetMass();
+	meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["useRotationController"] = (bool)GetUseRotationController();
+	meta["KpForce"] = (float)GetKpForce();
+	meta["KpTorque"] = (float)GetKpTorque();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -97,4 +261,11 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
+
+	SetIsKinematic((bool)meta["isKinematic"]);
+	SetMass((float)meta["mass"]);
+	SetUsePositionController((bool)meta["usePositionController"]);
+	SetUseRotationController((bool)meta["useRotationController"]);
+	SetKpForce((float)meta["KpForce"]);
+	SetKpTorque((float)meta["KpTorque"]);
 }

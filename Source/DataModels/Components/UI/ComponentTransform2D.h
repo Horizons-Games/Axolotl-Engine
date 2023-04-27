@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/Component.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 #include "Geometry/AABB2D.h"
 
@@ -12,7 +13,7 @@
 
 class ComponentCanvas;
 
-class ComponentTransform2D : public Component
+class ComponentTransform2D : public Component, public Updatable
 {
 public:
 	ComponentTransform2D(const bool active, GameObject* owner);
@@ -48,6 +49,7 @@ public:
 	const AABB2D& GetWorldAABB() const;
 	
 	void CalculateMatrices();
+	void CalculateWorldBoundingBox();
 	ComponentCanvas* WhichCanvasContainsMe();
 
 private:
@@ -55,7 +57,6 @@ private:
 	float3 GetScreenPosition();
 	
 	ComponentCanvas* RecursiveWhichCanvasContainsMe(const GameObject* object);
-	void CalculateWorldBoundingBox();
 
 	float3 eulerAngles;
 

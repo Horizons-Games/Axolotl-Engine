@@ -21,20 +21,39 @@ public:
 	void Rotate();
 
 	GameObject* GetPlayer();
-	void SetPlayer(std::unique_ptr<GameObject> player);
+	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
+	bool IsLoadPlayer();
 
 	void LoadNewPlayer();
+	void UnloadNewPlayer();
 
 	bool IsStatic();
 
+	void SetReadyToEliminate(bool readyToEliminate);
+
 private:
-	std::unique_ptr <GameObject>  player;
+	GameObject*  player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
-	float speed = 3;
+
+	float speed;
+	bool isPlayerLoad;
+	bool readyToEliminate;
+
+	bool bootsOnGround = false;
 	
 };
+
+inline bool ModulePlayer::IsLoadPlayer()
+{
+	return isPlayerLoad;
+}
+
+inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
+{
+	this->readyToEliminate =  readyToEliminate;
+}
 
 inline Camera* ModulePlayer::GetCameraPlayer()
 {

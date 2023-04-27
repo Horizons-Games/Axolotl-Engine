@@ -26,8 +26,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	Update();
 }
 
-ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera):
-	Component(componentCamera)
+ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera): Component(componentCamera)
 {
 	DuplicateCamera(componentCamera.camera.get());
 }
@@ -51,7 +50,7 @@ void ComponentCamera::Update()
 	}
 }
 
-void ComponentCamera::Draw()
+void ComponentCamera::Draw() const
 {
 
 #ifdef ENGINE
