@@ -1,6 +1,18 @@
 #pragma once
 
-#include "Enums/ModuleType_fwd.h"
+class ModuleRender;
+class ModuleWindow;
+class ModuleInput;
+class ModuleProgram;
+class ModuleFileSystem;
+class ModuleResources;
+class ModuleScene;
+class ModuleCamera;
+class ModuleDebugDraw;
+class ModuleUI;
+class ModuleAudio;
+class ModulePlayer;
+class ModuleEditor;
 
 // Order matters: they will Init/start/update in this order
 enum class ModuleType
@@ -18,6 +30,11 @@ enum class ModuleType
 	UI,
 	RESOURCES,
 	DEBUGDRAW,
+};
+
+template<typename T>
+struct ModuleToEnum
+{
 };
 
 template<>

@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "Timer/Timer.h"
 
-#include "Enums/ModuleType_fwd.h"
+#include "Enums/ModuleType.h"
 
 #include <map>
 
