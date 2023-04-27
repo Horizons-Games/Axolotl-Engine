@@ -1,5 +1,3 @@
-#pragma warning (disable: 4312)
-
 #include "WindowInspector.h"
 
 #include "Application.h"

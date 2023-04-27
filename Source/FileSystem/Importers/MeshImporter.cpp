@@ -1,5 +1,3 @@
-#pragma warning (disable: 6386)
-
 #include "MeshImporter.h"
 
 #include "Application.h"

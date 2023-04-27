@@ -1,7 +1,3 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4804)
-#pragma warning (disable: 4312)
-
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"

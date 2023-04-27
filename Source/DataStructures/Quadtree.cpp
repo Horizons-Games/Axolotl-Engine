@@ -1,5 +1,3 @@
-#pragma warning (disable: 4804)
-
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
