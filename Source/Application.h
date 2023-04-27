@@ -5,8 +5,6 @@
 
 #include "Enums/ModuleType.h"
 
-#include <map>
-
 class ScriptFactory;
 
 class Application
@@ -37,12 +35,12 @@ public:
 
 	ScriptFactory* GetScriptFactory() const;
 	template<typename M>
-	M*GetModule();
+	M* GetModule();
 
 private:	
 	std::unique_ptr<ScriptFactory> scriptFactory;
 
-	std::map<ModuleType, std::unique_ptr<Module>> modules;
+	std::vector<std::unique_ptr<Module>> modules;
 	Timer appTimer;
 	Timer onPlayTimer;
 
@@ -103,5 +101,6 @@ inline ScriptFactory* Application::GetScriptFactory() const
 template<typename M>
 M* Application::GetModule()
 {
-	return static_cast<M*>(modules[ModuleToEnum<M>::value].get());
+	int index = static_cast<int>(ModuleToEnum<M>::value);
+	return static_cast<M*>(modules[index].get());
 }
