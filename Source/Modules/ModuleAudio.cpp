@@ -17,6 +17,8 @@
 #include "AK/Comm/AkCommunication.h"
 #endif // AK_OPTIMIZED
 
+#define BANKNAME_INIT L"Init.bnk"
+
 ModuleAudio::ModuleAudio()
 {
 }
@@ -198,13 +200,22 @@ bool ModuleAudio::InitializeBanks() {
     std::vector<std::string> bankFolderContents =
         App->GetModule<ModuleFileSystem>()->ListFiles(soundBanksFolderPath.c_str());
 
+    {
+		AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
+		if (eResult != AK_Success)
+		{
+            ENGINE_LOG("Failed to load bank %c; Error: %d", BANKNAME_INIT, eResult);
+			return false;
+		}
+    }
+
     for (const std::string& bankFolderItem : bankFolderContents)
     {
-        if (App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
+        if (bankFolderItem != "Init.bnk" && App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
         {
             std::wstring bankNameAsWString = std::wstring(std::begin(bankFolderItem), std::end(bankFolderItem));
             AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);
-            if (eResult == AK_Success)
+            if (eResult != AK_Success)
             {
                 ENGINE_LOG("Failed to load bank %c; Error: %d", bankFolderItem.c_str(), eResult);
                 return false;
