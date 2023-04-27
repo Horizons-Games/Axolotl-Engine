@@ -210,7 +210,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				currentTransparentIndex = 1;
 			}
 
-			const char* currentType = 
+			const char* currentType =
 				renderModes[currentTransparentIndex].c_str();
 
 			ImGui::Text("Render Mode:"); ImGui::SameLine();
@@ -272,7 +272,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
-				asMeshRenderer->UnloadTextures();				
+				asMeshRenderer->UnloadTextures();
 				materialResource->SetDiffuse(nullptr);
 				materialResource->SetNormal(nullptr);
 				materialResource->SetOcclusion(nullptr);
@@ -285,20 +285,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
-
 			if (diffuseTexture)
 			{
 				diffuseTexture->Load();
-
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(),
-					ImVec2(100, 100));
-
+				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Diffuse"))
-				
+				{
 					diffuseTexture->Unload();
 					diffuseTexture = nullptr;
 					updateMaterials = true;
-
 				}
 			}
 			else
@@ -410,7 +405,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				App->resources->ReimportResource(materialResource->GetUID());
 				updateMaterials = true;
 			}
-
+		}
 		if (updateMaterials)
 		{
 			asMeshRenderer->GetBatch()->FillMaterial();
