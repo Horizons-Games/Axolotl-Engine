@@ -192,20 +192,22 @@ void WindowMainMenu::BuildGame(GameBuildType buildType)
 		buildConfig = "ReleaseGame";
 		break;
 	}
-	std::string msbuildPath = "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
-		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"; //lpApplicationName doesn't work with spaces enclosed with quotes
+	std::string appName = "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
+		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe";
+	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
+		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
 	
 	std::string solutionPath = "..\\Source\\Engine.sln";
 	std::string configurationParameter = "/p:Configuration=" + buildConfig;
 	std::string platformParameter = "/p:Platform=x64";
 
-	std::string commandArgs = solutionPath + " " + configurationParameter + " " + platformParameter;
+	std::string commandArgs = msbuildPath + " " + solutionPath + " " + configurationParameter + " " + platformParameter;
 	
 	STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
 	PROCESS_INFORMATION processInfo = {};
 	BOOL success = CreateProcess(
-		"dir .",//msbuildPath.c_str(), // lpApplicationName
-		NULL,//commandArgs.data(), // lpCommandLine
+		appName.c_str(), // lpApplicationName
+		commandArgs.data(), // lpCommandLine
 		NULL, // lpProcessAttributes
 		NULL, // lpThreadAttributes
 		TRUE, // bInheritHandles
