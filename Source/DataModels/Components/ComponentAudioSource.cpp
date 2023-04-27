@@ -41,29 +41,6 @@ void ComponentAudioSource::OnTransformChanged()
     }
 }
 
-void ComponentAudioSource::Enable()
-{
-    Component::Enable();
-
-    OnTransformChanged();
-}
-
-void ComponentAudioSource::SaveOptions(Json& meta)
-{
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
-}
-
-void ComponentAudioSource::LoadOptions(Json& meta)
-{
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
-}
-
 void ComponentAudioSource::PostEvent(const wchar_t* sound)
 {
     if (IsEnabled())
@@ -82,4 +59,34 @@ void ComponentAudioSource::SetSwitch(const wchar_t* switchGroup, const wchar_t* 
         switchSound,
         sourceID
     );
+}
+
+void ComponentAudioSource::Enable()
+{
+    Component::Enable();
+
+    OnTransformChanged();
+}
+
+void ComponentAudioSource::Disable()
+{
+    Component::Disable();
+
+    AK::SoundEngine::StopAll(sourceID);
+}
+
+void ComponentAudioSource::SaveOptions(Json& meta)
+{
+	// Do not delete these
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = (bool)active;
+	meta["removed"] = (bool)canBeRemoved;
+}
+
+void ComponentAudioSource::LoadOptions(Json& meta)
+{
+	// Do not delete these
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	canBeRemoved = (bool)meta["removed"];
 }
