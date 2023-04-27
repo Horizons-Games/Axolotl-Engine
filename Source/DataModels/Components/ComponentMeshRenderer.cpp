@@ -485,10 +485,6 @@ const unsigned int ComponentMeshRenderer::GetShaderType() const
 void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
 {
 	this->material->SetDiffuseColor(diffuseColor);
-}*/
-
-const float ComponentMeshRenderer::GetNormalStrenght() const {
-	return material->GetNormalStrength();
 }
 
 void ComponentMeshRenderer::SetSmoothness(float smoothness)
@@ -497,13 +493,13 @@ void ComponentMeshRenderer::SetSmoothness(float smoothness)
 }
 
 void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
+{
+	this->material->SetNormalStrength(normalStrength);
+}
+
 // Default shader attributes (setters)
 
 void ComponentMeshRenderer::SetMetalness(float metalness)
-	return material->HasShininessAlpha();
-}*/
-
-const bool ComponentMeshRenderer::HasMetallicAlpha() const
 {
 	this->material->SetMetalness(metalness);
 }
@@ -511,6 +507,10 @@ const bool ComponentMeshRenderer::HasMetallicAlpha() const
 // Specular shader attributes (setters)
 
 void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
+{
+	this->material->SetSpecularColor(specularColor);
+}
+
 // Common attributes (getters)
 
 const float4& ComponentMeshRenderer::GetDiffuseColor() const
@@ -519,10 +519,6 @@ const float4& ComponentMeshRenderer::GetDiffuseColor() const
 }
 
 const float ComponentMeshRenderer::GetSmoothness() const
-	this->material->SetShininess(shininess);
-}*/
-
-void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
 {
 	return material->GetSmoothness();
 }
@@ -535,19 +531,13 @@ const float ComponentMeshRenderer::GetNormalStrenght() const
 // Default shader attributes (getters)
 
 const float ComponentMeshRenderer::GetMetalness() const
+{
+	return material->GetMetalness();
+}
+
 // Specular shader attributes (getters)
 
 const float3& ComponentMeshRenderer::GetSpecularColor() const
-}*/
-
-void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
-}*/
-
-void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
-	this->material->SetShininess(hasShininessAlpha);
-}*/
-
-void ComponentMeshRenderer::SetMetallicAlpha(bool metallicAlpha)
 {
 	return material->GetSpecularColor();
 }

@@ -58,11 +58,6 @@ private:
 	rapidjson::Document tmpDoc;
 };
 
-inline bool ModuleScene::Init()
-{
-	return true;
-}
-
 inline Scene* ModuleScene::GetLoadedScene() const
 {
 	return loadedScene.get();
