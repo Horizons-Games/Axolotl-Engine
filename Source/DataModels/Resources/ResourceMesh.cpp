@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ResourceMesh.h"
 
 #include "GL/glew.h"

@@ -194,18 +194,18 @@ void MaterialImporter::Save
 			}
 
 			break;
-	case 1:
+		case 1:
 
-		if (resource->GetSpecular())
-		{
-			specularUID = resource->GetSpecular()->GetUID();
-		}
-		else
-		{
-			specularUID = 0;
-		}
+			if (resource->GetSpecular())
+			{
+				specularUID = resource->GetSpecular()->GetUID();
+			}
+			else
+			{
+				specularUID = 0;
+			}
 
-		break;
+			break;
 	}
 
 	UID texturesUIDs[4] =
@@ -220,19 +220,19 @@ void MaterialImporter::Save
 	float3 specularColor[1] = { resource->GetSpecularColor() };
 	
 	size = sizeof(texturesUIDs) + sizeof(diffuseColor) 
-		+ sizeof(specularColor)  + sizeof(float) * 2 + sizeof(bool);
+		+ sizeof(specularColor)  + sizeof(float) + sizeof(bool) + sizeof(unsigned int);
 
 	char* cursor = new char[size];
 
 	fileBuffer = cursor;
 
-	unsigned int bytes = sizeof(unsigned int);
-	memcpy(cursor, &resource->GetShaderType(), bytes);
+	unsigned int bytes = sizeof(texturesUIDs);
+	memcpy(cursor, texturesUIDs, bytes);
 
 	cursor += bytes;
-
-	bytes = sizeof(texturesUIDs);
-	memcpy(cursor, texturesUIDs, bytes);
+		
+	bytes = sizeof(unsigned int);
+	memcpy(cursor, &resource->GetShaderType(), bytes);
 
 	cursor += bytes;
 
@@ -260,6 +260,8 @@ void MaterialImporter::Load
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
+
+	fileBuffer += sizeof(texturesUIDs);
 
 	unsigned int* shaderType = new unsigned int;
 
@@ -373,14 +375,12 @@ void MaterialImporter::Load
 
 #endif
 
-	fileBuffer += sizeof(texturesUIDs);
+	float4 diffuseColor;
 
-	float4 difuseColor;
+	memcpy(&diffuseColor, fileBuffer, sizeof(diffuseColor));
+	resource->SetDiffuseColor(diffuseColor);
 
-	memcpy(&difuseColor, fileBuffer, sizeof(difuseColor));
-	resource->SetDiffuseColor(difuseColor);
-
-	fileBuffer += sizeof(difuseColor);
+	fileBuffer += sizeof(diffuseColor);
 
 	float3 specularColor;
 
