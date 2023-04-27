@@ -171,33 +171,35 @@ update_status ModuleEditor::Update()
 #ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+	if (SDL_ShowCursor(SDL_QUERY))
+	{
+		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+			&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+		{
+			CopyAnObject();
+		}
 
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-	{
-		CopyAnObject();
-	}
-	
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-	{
-		PasteAnObject();
-	}
+		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+			&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
+		{
+			PasteAnObject();
+		}
 
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-	{
-		CutAnObject();
-	}
+		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+			&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+		{
+			CutAnObject();
+		}
 
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-	{
-		DuplicateAnObject();
+		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+			&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+		{
+			DuplicateAnObject();
+		}
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);

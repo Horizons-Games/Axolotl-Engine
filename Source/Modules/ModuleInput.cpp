@@ -213,8 +213,12 @@ update_status ModuleInput::Update()
         }
     }
 
-    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
-        App->editor->GetMainMenu()->ShortcutSave();}
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        && keysState[SDL_SCANCODE_S] == KeyState::DOWN
+        && SDL_ShowCursor(SDL_QUERY))
+    {
+        App->editor->GetMainMenu()->ShortcutSave();
+    }
 #endif
 
     return status;
