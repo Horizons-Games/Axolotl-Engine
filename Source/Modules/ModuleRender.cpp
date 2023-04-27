@@ -425,12 +425,43 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 								dist += addDistance;
 							}
 							transparentGOToDraw[dist] = component;
-							renderMapTransparent[component->GetBatch()].push_back(component);
+							renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
 						}
 					}
 				}
 			}
-
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				if (gameObject->IsEnabled())
+				{
+					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
+						gameObject->GetComponent(ComponentType::MESHRENDERER));
+					if (!CheckIfTransparent(gameObject))
+					{
+						renderMapOpaque[component->GetBatch()].push_back(component);
+					}
+					else
+					{
+						const ComponentTransform* transform =
+							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+						while (transparentGOToDraw[dist] != nullptr)
+						{
+							float addDistance = 0.0001f;
+							dist += addDistance;
+						}
+						transparentGOToDraw[dist] = component;
+						renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
+					}
+				}
+			}
+			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
+			FillRenderList(quadtree->GetFrontLeftNode());
+			FillRenderList(quadtree->GetBackRightNode());
+			FillRenderList(quadtree->GetBackLeftNode());
 		}
 		else
 		{
