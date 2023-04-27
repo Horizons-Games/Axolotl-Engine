@@ -34,9 +34,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	App->GetScriptFactory()->Init();
-
-	return true;
+	return App->GetScriptFactory()->Init();
 }
 
 bool ModuleScene::Start()

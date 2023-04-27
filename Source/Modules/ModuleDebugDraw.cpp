@@ -596,8 +596,7 @@ ModuleDebugDraw::~ModuleDebugDraw()
 bool ModuleDebugDraw::Init()
 {
     implementation = new DDRenderInterfaceCoreGL;
-    dd::initialize(implementation);
-    return true;
+    return dd::initialize(implementation);;
 }
 
 bool ModuleDebugDraw::CleanUp()

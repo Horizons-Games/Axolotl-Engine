@@ -50,13 +50,15 @@ bool ModuleCamera::Init()
 	#endif // GAMEMODE
 
 	selectedPosition = 0;
-	camera->Init();
-	return true;
+	return camera->Init();
 }
 
 bool ModuleCamera::Start()
 {
-	camera->Start();
+	if (!camera->Start())
+	{
+		return false;
+	}
 	#ifdef ENGINE
 		selectedCamera = camera.get();
 	#else // ENGINE

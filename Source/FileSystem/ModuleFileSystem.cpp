@@ -141,9 +141,11 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
     return true;
 }
 
-bool ModuleFileSystem::CleanUp() {
-    PHYSFS_deinit();
-    return true;
+bool ModuleFileSystem::CleanUp()
+{
+    // returns non-zero on success, zero on failure
+    int deinitResult = PHYSFS_deinit();
+    return deinitResult != 0;
 }
 
 std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath)

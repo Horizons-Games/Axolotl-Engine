@@ -40,7 +40,7 @@ void WindowRenderer::DrawWindowContents()
 		initialized = true;
 	}
 
-	for (int i = 0; i < (int)ProgramType::PROGRAM_TYPE_SIZE; i++)
+	for (int i = 0; i < static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE); i++)
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram((ProgramType)i);
 		if (program)
@@ -67,7 +67,11 @@ void WindowRenderer::DrawWindowContents()
 				if (vf.good()
 					&& ff.good())
 				{
-					App->GetModule<ModuleProgram>()->UpdateProgram(vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+					App->GetModule<ModuleProgram>()->UpdateProgram(
+							vertexShaderBuffers[i],
+							fragmentShaderBuffer[i],
+							static_cast<ProgramType>(i),
+							program->GetProgramName());
 					initialized = false;
 				}
 				else

@@ -22,9 +22,9 @@ public:
 	ModuleInput();
 	~ModuleInput() override;
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	bool Init() override;
+	update_status Update() override;
+	bool CleanUp() override;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;

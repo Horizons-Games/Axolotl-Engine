@@ -165,15 +165,6 @@ bool ModuleRender::Init()
 	return true;
 }
 
-bool ModuleRender::Start()
-{
-	ENGINE_LOG("--------- Render Start ----------");
-
-	//UpdateProgram();
-
-	return true;
-}
-
 update_status ModuleRender::PreUpdate()
 {
 	int width, height;
@@ -209,7 +200,6 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
@@ -220,7 +210,6 @@ update_status ModuleRender::Update()
 
 	App->GetModule<ModuleDebugDraw>()->Draw(App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix(),
 		App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix(), w, h);
-
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 

@@ -27,11 +27,6 @@ ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
 ModulePlayer::~ModulePlayer() {
 };
 
-bool ModulePlayer::Init()
-{
-	return true;
-}
-
 bool ModulePlayer::Start()
 {
 	//Initialize the player
@@ -39,16 +34,6 @@ bool ModulePlayer::Start()
 	LoadNewPlayer();
 #endif //GAMEMODE
 	return true;
-}
-
-update_status ModulePlayer::PreUpdate()
-{
-	return update_status::UPDATE_CONTINUE;
-}
-
-update_status ModulePlayer::Update()
-{
-	return update_status::UPDATE_CONTINUE;
 }
 
 GameObject* ModulePlayer::GetPlayer()
