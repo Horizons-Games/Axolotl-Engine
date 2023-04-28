@@ -35,6 +35,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init()
 {
 	App->scriptFactory->Init();
+
 	return true;
 }
 
@@ -52,12 +53,28 @@ bool ModuleScene::Start()
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
-#else //ENGINE
+#else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/MainMenuVS1.axolotl");
+		LoadSceneFromJson("Lib/Scenes/CantinaScriptsVS2.axolotl");
 	}
-#endif //GAMEMODE
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
+
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+}
+#endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
@@ -75,14 +92,20 @@ update_status ModuleScene::PreUpdate()
 					App->scriptFactory->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
-				componentScript->Init();
+				if (componentScript->IsEnabled())
+				{
+					componentScript->Init();
+				}
 			}
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
 			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				componentScript->Start();
+				if (componentScript->IsEnabled())
+				{
+					componentScript->Start();
+				}
 			}
 		}
 	}
@@ -92,14 +115,13 @@ update_status ModuleScene::PreUpdate()
 		App->scriptFactory->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
+	if (App->IsOnPlayMode())
 	{
-
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->PreUpdate();
+				updatable->PreUpdate();
 			}
 		}
 	}
@@ -111,16 +133,14 @@ update_status ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-
-	UpdateAllObjects();
 	
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->Update();
+				updatable->Update();
 			}
 		}
 	}
@@ -131,11 +151,11 @@ update_status ModuleScene::PostUpdate()
 {
 	if (App->IsOnPlayMode() && !App->scriptFactory->IsCompiling())
 	{
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			if (dynamic_cast<Component*>(updatable)->IsEnabled())
 			{
-				componentScript->PostUpdate();
+				updatable->PostUpdate();
 			}
 		}
 	}
@@ -149,6 +169,12 @@ update_status ModuleScene::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
+bool ModuleScene::CleanUp()
+{
+	loadedScene = nullptr;
+	return true;
+}
+
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
 	loadedScene = std::move(newScene);
@@ -159,14 +185,6 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
 	gameObject->SetParentAsChildSelected();
 	selectedGameObject = gameObject;
-}
-
-void ModuleScene::UpdateAllObjects() const
-{
-	for (Updatable* updatable : loadedScene->GetSceneUpdatable())
-	{
-		updatable->Update();
-	}
 }
 
 void ModuleScene::OnPlay()

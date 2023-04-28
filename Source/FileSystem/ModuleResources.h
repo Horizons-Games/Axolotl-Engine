@@ -1,6 +1,4 @@
 #pragma once
-#pragma warning (disable: 4172)
-
 #include "Module.h"
 
 #include <map>

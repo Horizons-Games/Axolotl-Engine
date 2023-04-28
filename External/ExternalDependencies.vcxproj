@@ -174,6 +174,22 @@
     <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFileHelpers.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIOBlocking.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIODeferred.h" />
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.h" />
     <ClInclude Include="RuntimeCompiler\Include\AUArray.h" />
     <ClInclude Include="RuntimeCompiler\Include\BuildTool.h" />
     <ClInclude Include="RuntimeCompiler\Include\CompileOptions.h" />
@@ -300,6 +316,18 @@
     <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHookStubs.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp" />
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\BuildTool.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformPosix.cpp" />
     <ClCompile Include="RuntimeCompiler\Include\Compiler_PlatformWindows.cpp" />
@@ -331,6 +359,7 @@
     <None Include="MathGeoLib\Include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\Include\Math\float2.inl" />
     <None Include="MathGeoLib\Include\Math\Matrix.inl" />
+    <None Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.inl" />
     <None Include="RuntimeCompiler\Include\SimpleFileWatcher\FileWatcherLinux.cpp~" />
   </ItemGroup>
   <ItemGroup>
@@ -350,21 +379,25 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -386,8 +419,8 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -395,13 +428,14 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -409,13 +443,14 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -423,13 +458,14 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -437,8 +473,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

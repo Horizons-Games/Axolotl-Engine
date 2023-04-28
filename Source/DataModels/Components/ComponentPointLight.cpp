@@ -45,8 +45,11 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 ComponentPointLight::~ComponentPointLight()
 {
 	Scene* currentScene = App->scene->GetLoadedScene();
-	currentScene->UpdateScenePointLights();
-	currentScene->RenderPointLights();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
 void ComponentPointLight::Draw() const
@@ -57,7 +60,7 @@ void ComponentPointLight::Draw() const
 		return;
 	}
 #endif //ENGINE
-	if (GetActive() && GetOwner() == App->scene->GetSelectedGameObject())
+	if (IsEnabled() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

@@ -1,6 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-
 #include "Resource.h"
 #include "Math/float3.h"
 

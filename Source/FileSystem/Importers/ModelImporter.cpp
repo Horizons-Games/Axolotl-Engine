@@ -1,6 +1,3 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 6386)
-
 #include "ModelImporter.h"
 
 #include "Application.h"

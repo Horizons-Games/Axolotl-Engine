@@ -2,7 +2,7 @@
 
 #include "ComponentWindow.h"
 
-#include "Math/float3.h"
+#include "FileSystem/UniqueID.h"
 
 class ComponentScript;
 
@@ -18,5 +18,6 @@ protected:
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
+	UID windowUID;
 };
 

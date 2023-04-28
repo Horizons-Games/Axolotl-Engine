@@ -15,6 +15,8 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
 
@@ -143,7 +145,7 @@ void GameObject::Draw() const
 {
 	for (const std::unique_ptr<Component>& component : components)
 	{
-		if (component->GetActive())
+		if (component->IsEnabled())
 		{
 			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
 			if (drawable)
@@ -176,8 +178,7 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	parent->UnlinkChild(this);
-	newParent->LinkChild(this);
+	newParent->LinkChild(parent->UnlinkChild(this));
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
@@ -445,6 +446,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHCOLLIDER:
 		{
 			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
@@ -511,6 +524,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	return nullptr;
 }
+
 
 bool GameObject::RemoveComponent(const Component* component)
 {

@@ -14,6 +14,7 @@ class ModuleScene;
 class ModuleCamera;
 class ModuleDebugDraw;
 class ModuleUI;
+class ModuleAudio;
 class ModulePlayer;
 class ModuleEditor;
 
@@ -55,6 +56,7 @@ public:
 	ModuleProgram* program;
 	ModuleResources* resources;
 	ModuleCamera* camera;
+	ModuleAudio* audio;
 	ModulePlayer* player;
 	ModuleDebugDraw* debug;
 	ModuleEditor* editor;
