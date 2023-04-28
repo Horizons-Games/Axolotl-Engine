@@ -585,7 +585,7 @@ void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
 	gameObjectQueue.push(gameObject);
 	while (!gameObjectQueue.empty())
 	{
-		GameObject* currentGo = gameObjectQueue.front();
+		const GameObject* currentGo = gameObjectQueue.front();
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
@@ -605,7 +605,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 	gameObjectQueue.push(gameObject);
 	while (!gameObjectQueue.empty())
 	{
-		GameObject* currentGo = gameObjectQueue.front();
+		const GameObject* currentGo = gameObjectQueue.front();
 		gameObjectQueue.pop();
 		for (GameObject* child : currentGo->GetChildren())
 		{
@@ -616,7 +616,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 		}
 		std::vector<ComponentMeshRenderer*> meshes =
 			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (ComponentMeshRenderer* mesh : meshes)
+		for (const ComponentMeshRenderer* mesh : meshes)
 		{
 			mesh->DrawHighlight();
 		}
@@ -625,7 +625,8 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	ComponentMeshRenderer* material = static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+	const ComponentMeshRenderer* material = 
+		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->IsTransparent())

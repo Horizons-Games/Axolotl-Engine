@@ -22,9 +22,9 @@ public:
 	bool Start() override;
 	bool CleanUp() override;
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);

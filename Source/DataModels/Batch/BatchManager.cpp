@@ -81,7 +81,7 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawOpaque(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-		for (GeometryBatch* geometry_batch : geometryBatchesOpaques)
+		for (const GeometryBatch* geometry_batch : geometryBatchesOpaques)
 		{
 			DrawBatch(batch, componentsToRender);
 		}
@@ -89,7 +89,7 @@ void BatchManager::DrawOpaque(GeometryBatch* batch, const std::vector<ComponentM
 
 void BatchManager::DrawTransparent(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
 {
-	for (GeometryBatch* geometry_batch : geometryBatchesTransparent)
+	for (const GeometryBatch* geometry_batch : geometryBatchesTransparent)
 	{
 		DrawBatch(batch, componentsToRender);
 	}
