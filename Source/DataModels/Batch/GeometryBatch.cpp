@@ -39,21 +39,25 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 	glGenBuffers(1, &normalsBuffer);
 	glGenBuffers(1, &tangentsBuffer);
 	glGenBuffers(1, &materials);
+
 	program = App->program->GetProgram(ProgramType::DEFAULT);
 }
 
 GeometryBatch::~GeometryBatch()
 {
-	componentsInBatch.clear();
 	for (ResourceInfo* resourceInfo : resourcesInfo)
 	{
 		delete resourceInfo;
 	}
 	resourcesInfo.clear();
+	componentsInBatch.clear();
 	resourcesMaterial.clear();
 	instanceData.clear();
+
 	delete defaultMaterial;
+
 	CleanUp();
+	
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		if (gSync[frame])
@@ -230,8 +234,6 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	glBindVertexArray(0);
-
-	dirtyBatch = false;
 }
 
 void GeometryBatch::ClearBuffer()
@@ -317,9 +319,12 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 			resourcesMaterial.erase(it);
 		}
 	}
+
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
+	resourcesInfo.clear();
+	resourcesMaterial.clear();
 	instanceData.clear();
-	instanceData.reserve(componentsInBatch.size());
+
 	reserveModelSpace = true;
 	dirtyBatch = true;
 #else
@@ -505,6 +510,22 @@ bool GeometryBatch::CleanUp()
 	}
 	glDeleteBuffers(1, &materials);
 	return true;
+}
+
+void GeometryBatch::UpdateBatchComponents()
+{
+	for (ComponentMeshRenderer* component : componentsInBatch)
+	{
+		std::shared_ptr<ResourceMesh> meshShared = component->GetMesh();
+		std::shared_ptr<ResourceMaterial> materialShared = component->GetMaterial();
+		if (!meshShared)
+		{
+			return;
+		}
+
+		CreateInstanceResourceMesh(meshShared.get());
+		reserveModelSpace = true;
+	}
 }
 
 void GeometryBatch::LockBuffer()

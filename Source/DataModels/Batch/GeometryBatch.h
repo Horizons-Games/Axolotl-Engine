@@ -6,6 +6,8 @@
 
 #include "GL/glew.h"
 
+#define DOUBLE_BUFFERS 2
+
 class ComponentMeshRenderer;
 class ResourceMesh;
 class ResourceMaterial;
@@ -47,28 +49,26 @@ public:
 	GeometryBatch();
 	~GeometryBatch();
 
-	const int GetFlags() const;
-
 	void CreateVAO();
 	void ClearBuffer();
+	bool CleanUp();
+
+	void UpdateBatchComponents();
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
+
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
-	
 	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
-
 	void FillMaterial();
-
 	void ReserveModelSpace();
 
-	bool CleanUp();
+	const int GetFlags() const;
 
 	bool dirtyBatch;
 
 private:
-	enum { DOUBLE_BUFFERS = 2 };
 	void FillBuffers();
 	void FillEBO();
 

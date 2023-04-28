@@ -101,8 +101,9 @@ void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMe
 	{
 		batch->ClearBuffer();
 		batch->CreateVAO();
+		batch->UpdateBatchComponents();
 		batch->dirtyBatch = false;
 
 	}
-		batch->BindBatch(componentsToRender);
+	batch->BindBatch(componentsToRender);
 }

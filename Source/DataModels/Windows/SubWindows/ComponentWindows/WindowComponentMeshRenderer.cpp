@@ -157,6 +157,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 	{
 		bool updateMaterials = false;
 		bool changeBatch = false;
+
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
 
 		if (materialResource)
