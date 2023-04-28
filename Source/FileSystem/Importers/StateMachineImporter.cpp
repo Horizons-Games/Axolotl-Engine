@@ -293,6 +293,8 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 	fileBuffer += bytes;
 
+	resource->ClearAllStates();
+	
 	for(unsigned int i = 0; i < header[0]; i++)
 	{
 		std::unique_ptr<State> state = std::make_unique<State>();

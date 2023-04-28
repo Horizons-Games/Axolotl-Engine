@@ -75,7 +75,9 @@ public:
 	std::vector<State*> GetStates() const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
+	
 	void AddState(std::unique_ptr<State> state);
+	void ClearAllStates();
 	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters);
 	void SetTransitions(const std::unordered_map<UID, Transition>& transitions);
 
@@ -149,6 +151,11 @@ inline std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions
 inline void ResourceStateMachine::AddState(std::unique_ptr<State> state)
 {
 	states.push_back(std::move(state));
+}
+
+inline void ResourceStateMachine::ClearAllStates()
+{
+	states.clear();
 }
 
 inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)
