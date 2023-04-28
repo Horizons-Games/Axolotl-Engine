@@ -302,15 +302,25 @@ void Scene::RemoveFatherAndChildren(const GameObject* father)
 		Component* component = father->GetComponent(ComponentType::CAMERA);
 		if (component)
 		{
-			std::ignore = std::remove_if(std::begin(sceneCameras),
-				std::end(sceneCameras),
-				[&component](ComponentCamera* camera) { return camera == component; });
+			sceneCameras.erase(
+				std::remove_if(std::begin(sceneCameras),
+					std::end(sceneCameras),
+					[&component](ComponentCamera* camera)
+					{
+						return camera == component;
+					}),
+				std::end(sceneCameras));
 		}
 	}
 
-	std::ignore = std::remove_if(std::begin(sceneGameObjects),
-		std::end(sceneGameObjects),
-		[&father](GameObject* gameObject) { return gameObject == father; });
+	sceneGameObjects.erase(
+		std::remove_if(std::begin(sceneGameObjects),
+			std::end(sceneGameObjects),
+			[&father](GameObject* gameObject)
+			{
+				return gameObject == father;
+			}),
+		std::end(sceneGameObjects));
 }
 
 void Scene::GenerateLights()
@@ -588,7 +598,12 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 
 void Scene::RemoveNonStaticObject(GameObject* gameObject)
 {
-	std::ignore = std::remove_if(std::begin(nonStaticObjects),
-		std::end(nonStaticObjects),
-		[&gameObject](GameObject* anotherObject) { return anotherObject == gameObject; });
+	nonStaticObjects.erase(
+		std::remove_if(std::begin(nonStaticObjects),
+			std::end(nonStaticObjects),
+			[&gameObject](GameObject* anotherObject)
+			{
+				return anotherObject == gameObject;
+			}),
+		std::end(nonStaticObjects));
 }
