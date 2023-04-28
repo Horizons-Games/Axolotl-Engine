@@ -390,11 +390,9 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 	return valid;
 }
 
-
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
-
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
@@ -404,16 +402,12 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
-
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
 					if (component && component->GetBatch())
 					{
 						if (!CheckIfTransparent(gameObject))
-						{
-							//opaqueGOToDraw.push_back(component);
 							renderMapOpaque[component->GetBatch()].push_back(component);
-						}
 						else
 						{
 							const ComponentTransform* transform =
@@ -439,22 +433,23 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
 						gameObject->GetComponent(ComponentType::MESHRENDERER));
-					if (!CheckIfTransparent(gameObject))
+					if (component && component->GetBatch())
 					{
-						renderMapOpaque[component->GetBatch()].push_back(component);
-					}
-					else
-					{
-						const ComponentTransform* transform =
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr)
+						if (!CheckIfTransparent(gameObject))
+							renderMapOpaque[component->GetBatch()].push_back(component);
+						else
 						{
-							float addDistance = 0.0001f;
-							dist += addDistance;
+							const ComponentTransform* transform =
+								static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+							float dist = Length(cameraPos - transform->GetGlobalPosition());
+							while (transparentGOToDraw[dist] != nullptr) //If an object is at the same position as another one
+							{
+								float addDistance = 0.0001f;
+								dist += addDistance;
+							}
+							transparentGOToDraw[dist] = component;
+							renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
 						}
-						transparentGOToDraw[dist] = component;
-						renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
 					}
 				}
 			}

@@ -433,22 +433,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = static_cast<bool>(meta["removed"]);
 
 #ifdef ENGINE
-
-	std::string path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->fileSystem->Exists(path.c_str());
-
-	if (meshExists)
-	{
-		std::shared_ptr<ResourceMesh> resourceMesh =
-			App->resources->RequestResource<ResourceMesh>(path);
-
-		if (resourceMesh)
-		{
-			SetMesh(resourceMesh);
-		}
-	}
-
-	path = meta["assetPathMaterial"];
+	std::string path = meta["assetPathMaterial"];
 	bool materialExists = path != "" && App->fileSystem->Exists(path.c_str());
 
 	if (materialExists)
@@ -459,6 +444,19 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		if (resourceMaterial)
 		{
 			SetMaterial(resourceMaterial);
+		}
+	}
+	 path = meta["assetPathMesh"];
+	bool meshExists = path != "" && App->fileSystem->Exists(path.c_str());
+
+	if (meshExists)
+	{
+		std::shared_ptr<ResourceMesh> resourceMesh =
+			App->resources->RequestResource<ResourceMesh>(path);
+
+		if (resourceMesh)
+		{
+			SetMesh(resourceMesh);
 		}
 	}
 #else
