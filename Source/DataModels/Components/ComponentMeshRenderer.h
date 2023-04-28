@@ -47,15 +47,24 @@ public:
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
+	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
+	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
+	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
+	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
-	void SetNormalStrenght(float normalStrength);
+	void SetNormalStrength(float normalStrength);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
 	// Specular shader attributes (setters)
 	void SetSpecularColor(float3& specularColor);
-	
+
+	void SetTransparent(bool isTransparent);
+
+	void RemoveFromBatch();
+
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 
@@ -63,6 +72,7 @@ public:
 	void SetBatch(GeometryBatch* geometryBatch);
 
 	// Common attributes (getters)
+	const unsigned int& GetShaderType() const;
 	const float4& GetDiffuseColor() const;
 	const float GetSmoothness() const;
 	const float GetNormalStrenght() const;
@@ -73,6 +83,18 @@ public:
 	// Specular shader attributes (getters)
 	const float3& GetSpecularColor() const;
 
+	const bool IsTransparent() const;
+
+	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+
+	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+
+	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+
+	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+
+	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
@@ -82,10 +104,6 @@ private:
 
 	mutable std::shared_ptr<ResourceMesh> mesh;
 	mutable std::shared_ptr<ResourceMaterial> material;
-
-
-
-	const unsigned int GetShaderType() const;
 
 	GeometryBatch* batch;
 	WindowMeshInput* inputMesh;

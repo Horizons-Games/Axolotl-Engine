@@ -593,22 +593,35 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 	}
 }
 
-/*const float3& ComponentMaterial::GetSpecularColor() const {
-	return material->GetSpecularColor();
-}
-const float ComponentMaterial::GetShininess() const {
-	return material->GetShininess();
-}*/
-
-const unsigned int ComponentMeshRenderer::GetShaderType() const
-{
-	return material->GetShaderType();
-}
-
 // Common attributes (setters)
 void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
 {
 	this->material->SetDiffuseColor(diffuseColor);
+}
+
+void ComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
+{
+	this->material->SetDiffuse(diffuse);
+}
+
+void ComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normal)
+{
+	this->material->SetNormal(normal);
+}
+
+void ComponentMeshRenderer::SetMetallic(const std::shared_ptr<ResourceTexture>& metallic)
+{
+	this->material->SetMetallic(metallic);
+}
+
+void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
+{
+	this->material->SetSpecular(specular);
+}
+
+void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
+{
+	this->material->SetShaderType(shaderType);
 }
 
 void ComponentMeshRenderer::SetSmoothness(float smoothness)
@@ -616,7 +629,7 @@ void ComponentMeshRenderer::SetSmoothness(float smoothness)
 	this->material->SetSmoothness(smoothness);
 }
 
-void ComponentMeshRenderer::SetNormalStrenght(float normalStrength)
+void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
 	this->material->SetNormalStrength(normalStrength);
 }
@@ -632,6 +645,22 @@ void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
 {
 	this->material->SetSpecularColor(specularColor);
 }
+
+void ComponentMeshRenderer::SetTransparent(bool isTransparent)
+{
+	this->material->SetTransparent(isTransparent);
+}
+
+void ComponentMeshRenderer::RemoveFromBatch()
+{
+	batch->DeleteComponent(this);
+}
+
+const unsigned int& ComponentMeshRenderer::GetShaderType() const
+{
+	return material->GetShaderType();
+}
+
 
 // Common attributes (getters)
 
@@ -662,4 +691,34 @@ const float ComponentMeshRenderer::GetMetalness() const
 const float3& ComponentMeshRenderer::GetSpecularColor() const
 {
 	return material->GetSpecularColor();
+}
+
+const bool ComponentMeshRenderer::IsTransparent() const
+{
+	return material->IsTransparent();
+}
+
+const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
+{
+	return material->GetDiffuse();;
+}
+
+const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const
+{
+	return material->GetNormal();
+}
+
+const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetOcclusion() const
+{
+	return material->GetOcclusion();
+}
+
+const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetMetallic() const
+{
+	return material->GetMetallic();
+}
+
+const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetSpecular() const
+{
+	return material->GetSpecular();
 }

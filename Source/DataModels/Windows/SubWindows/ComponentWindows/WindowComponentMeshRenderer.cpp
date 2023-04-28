@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleRender.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
@@ -155,6 +156,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 	if (asMeshRenderer)
 	{
 		bool updateMaterials = false;
+		bool changeBatch = false;
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
 
 		if (materialResource)
@@ -391,20 +393,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				materialResource->SetShaderType(currentShaderTypeIndex);
-				materialResource->SetDiffuseColor(colorDiffuse);
-				materialResource->SetSpecularColor(colorSpecular);
-				materialResource->SetDiffuse(diffuseTexture);
-				materialResource->SetMetallic(metallicMap);
-				materialResource->SetNormal(normalMap);
-				materialResource->SetSmoothness(smoothness);
-				materialResource->SetMetalness(metalness);
-				materialResource->SetNormalStrength(normalStrength);
-				materialResource->SetTransparent(isTransparent);
+				if (asMeshRenderer->IsTransparent() != isTransparent 
+					|| asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
+				{
+					asMeshRenderer->RemoveFromBatch();
+					changeBatch = true;
+				}
+				asMeshRenderer->SetShaderType(currentShaderTypeIndex);
+				asMeshRenderer->SetDiffuseColor(colorDiffuse);
+				asMeshRenderer->SetSpecularColor(colorSpecular);
+				asMeshRenderer->SetDiffuse(diffuseTexture);
+				asMeshRenderer->SetMetallic(metallicMap);
+				asMeshRenderer->SetNormal(normalMap);
+				asMeshRenderer->SetSmoothness(smoothness);
+				asMeshRenderer->SetMetalness(metalness);
+				asMeshRenderer->SetNormalStrength(normalStrength);
+				asMeshRenderer->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
 				App->resources->ReimportResource(materialResource->GetUID());
 				updateMaterials = true;
 			}
+		}
+		if (changeBatch)
+		{
+			App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
 		}
 		if (updateMaterials)
 		{

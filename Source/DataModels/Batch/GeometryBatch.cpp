@@ -236,7 +236,13 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
+	glDeleteBuffers(1, &verticesBuffer);
+	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &normalsBuffer);
+	glDeleteBuffers(1, &tangentsBuffer);
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glDeleteBuffers(1, &transforms[i]);
@@ -312,6 +318,8 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		}
 	}
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
+	instanceData.clear();
+	instanceData.reserve(componentsInBatch.size());
 	reserveModelSpace = true;
 	dirtyBatch = true;
 #else
