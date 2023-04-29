@@ -17,9 +17,9 @@ public:
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
-	void DrawOpaque(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
-	void DrawTransparent(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
-	void DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender);
+	void DrawOpaque(GeometryBatch* batch);
+	void DrawTransparent(GeometryBatch* batch);
+	void DrawBatch(GeometryBatch* batch);
 
 	void CleanBatches();
 

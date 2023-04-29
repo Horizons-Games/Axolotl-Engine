@@ -239,10 +239,6 @@ update_status ModuleRender::Update()
 		AddToRenderList(goSelected);
 	}
 
-	//maybe we need to bind the program
-	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
-	program->Activate();
-
 	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
 
@@ -295,7 +291,7 @@ update_status ModuleRender::Update()
 	glDepthFunc(GL_LEQUAL);
 		for (auto batchAndComponents : renderMapOpaque)
 		{
-			batchManager->DrawOpaque(batchAndComponents.first, batchAndComponents.second);
+			batchManager->DrawOpaque(batchAndComponents.first);
 		}
 
 		// Draw Transparent
@@ -304,7 +300,7 @@ update_status ModuleRender::Update()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		for (auto batchAndComponents : renderMapTransparent)
 		{
-			batchManager->DrawTransparent(batchAndComponents.first, batchAndComponents.second);
+			batchManager->DrawTransparent(batchAndComponents.first);
 		}
 
 

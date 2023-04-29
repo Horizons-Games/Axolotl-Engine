@@ -60,7 +60,7 @@ public:
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
 	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
 
-	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
+	void BindBatch();
 	void FillMaterial();
 	void ReserveModelSpace();
 

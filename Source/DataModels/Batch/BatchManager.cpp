@@ -79,23 +79,23 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-void BatchManager::DrawOpaque(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+void BatchManager::DrawOpaque(GeometryBatch* batch)
 {
 		for (const GeometryBatch* geometry_batch : geometryBatchesOpaques)
 		{
-			DrawBatch(batch, componentsToRender);
+			DrawBatch(batch);
 		}
 }
 
-void BatchManager::DrawTransparent(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+void BatchManager::DrawTransparent(GeometryBatch* batch)
 {
 	for (const GeometryBatch* geometry_batch : geometryBatchesTransparent)
 	{
-		DrawBatch(batch, componentsToRender);
+		DrawBatch(batch);
 	}
 }
 
-void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+void BatchManager::DrawBatch(GeometryBatch* batch)
 {
 	if (batch->dirtyBatch)
 	{
@@ -105,5 +105,5 @@ void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMe
 		batch->dirtyBatch = false;
 
 	}
-	batch->BindBatch(componentsToRender);
+	batch->BindBatch();
 }
