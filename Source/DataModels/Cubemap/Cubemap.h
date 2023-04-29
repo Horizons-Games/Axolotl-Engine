@@ -12,10 +12,12 @@ public:
 	Cubemap();
 	~Cubemap();
 
+	void DebugNSight(); //DEBUG purpouse
+
 private:
 	
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int roughness = 0);
-	void RenderCube();
+	void CreateVAO();
 
 	GLuint frameBuffer;
 	GLuint renderBuffer;

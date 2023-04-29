@@ -102,7 +102,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	{
 	case DXGI_FORMAT_R32G32B32A32_FLOAT:
 		internalFormat = GL_RGB16F;
-		format = GL_RGB;
+		format = GL_RGBA;
 		type = GL_FLOAT;
 		break;
 	case DXGI_FORMAT_R8_UNORM:
