@@ -32,6 +32,11 @@ PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr
 	REGISTER_FIELD(CanDash, bool);
 }
 
+PlayerMobilityScript::~PlayerMobilityScript()
+{
+	delete componentPlayer;
+}
+
 void PlayerMobilityScript::Start()
 {
 	if (canDoubleJump) 
