@@ -291,7 +291,7 @@ update_status ModuleRender::Update()
 	glDepthFunc(GL_LEQUAL);
 		for (auto batchAndComponents : renderMapOpaque)
 		{
-			batchManager->DrawOpaque(batchAndComponents.first);
+			batchManager->DrawOpaque();
 		}
 
 		// Draw Transparent
@@ -300,7 +300,7 @@ update_status ModuleRender::Update()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		for (auto batchAndComponents : renderMapTransparent)
 		{
-			batchManager->DrawTransparent(batchAndComponents.first);
+			batchManager->DrawTransparent();
 		}
 
 

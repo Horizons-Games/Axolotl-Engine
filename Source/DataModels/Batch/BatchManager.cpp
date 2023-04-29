@@ -79,19 +79,19 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-void BatchManager::DrawOpaque(GeometryBatch* batch)
+void BatchManager::DrawOpaque()
 {
-		for (const GeometryBatch* geometry_batch : geometryBatchesOpaques)
+		for (GeometryBatch* geometry_batch : geometryBatchesOpaques)
 		{
-			DrawBatch(batch);
+			DrawBatch(geometry_batch);
 		}
 }
 
-void BatchManager::DrawTransparent(GeometryBatch* batch)
+void BatchManager::DrawTransparent()
 {
-	for (const GeometryBatch* geometry_batch : geometryBatchesTransparent)
+	for (GeometryBatch* geometry_batch : geometryBatchesTransparent)
 	{
-		DrawBatch(batch);
+		DrawBatch(geometry_batch);
 	}
 }
 
