@@ -4,8 +4,6 @@
 
 #include "FileSystem/UniqueID.h"
 
-#include <functional>
-
 class Model;
 class GameObject;
 class Component;
@@ -13,6 +11,8 @@ class ComponentCamera;
 class Resource;
 enum class LightType;
 class ComponentWindow;
+
+class AddComponentAction;
 
 class WindowInspector : public EditorWindow
 {
@@ -26,23 +26,6 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	struct AddComponentAction
-	{
-		std::string actionName;
-		std::function<void(void)> callback;
-		std::function<bool(GameObject*)> condition;
-
-		AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback, const std::function<bool(GameObject*)>& condition)
-			: actionName(actionName), callback(callback), condition(condition)
-		{
-		}
-
-		AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback)
-			: AddComponentAction(actionName, callback, [](GameObject*) { return true; })
-		{
-		}
-	};
-
 	void InspectSelectedGameObject();
 	
 	void InspectSelectedResource();

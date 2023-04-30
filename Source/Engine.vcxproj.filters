@@ -692,6 +692,9 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\AddComponentAction.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
