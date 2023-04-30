@@ -430,8 +430,8 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 		unsigned int transitionHeader[3];
 		bytes = sizeof(transitionHeader);
 		memcpy(transitionHeader, fileBuffer, bytes);
-		transition.origin = resource->GetStates()[transitionHeader[0]];
-		transition.destination = resource->GetStates()[transitionHeader[1]];
+		transition.origin = resource->GetState(transitionHeader[0]);
+		transition.destination = resource->GetState(transitionHeader[1]);
 
 		fileBuffer += bytes;
 

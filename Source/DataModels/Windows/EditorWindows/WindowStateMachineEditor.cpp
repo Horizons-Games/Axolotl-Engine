@@ -40,7 +40,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 
 		if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected > 0)
 		{
-			State* state = stateAsShared->GetStates()[stateIdSelected];
+			State* state = stateAsShared->GetState(stateIdSelected);
 			ImGui::Text("State");
 			ImGui::Separator();
 			std::string name = state->name;
@@ -228,7 +228,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		//Draw Actual TransitionCreation
 		if(creatingTransition)
 		{
-			ImVec2 posState = ImVec2(stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.first, stateAsShared->GetStates()[stateIdSelected]->auxiliarPos.second);
+			ImVec2 posState = ImVec2(stateAsShared->GetState(stateIdSelected)->auxiliarPos.first, stateAsShared->GetState(stateIdSelected)->auxiliarPos.second);
 			ImVec2 posStateOriginCenter =
 				ImVec2(origin.x + posState.x + sizeState.x/2, origin.y + posState.y + sizeState.y/2);
 			ImVec2 postStateDestinationCenter =
@@ -301,7 +301,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		//Draw States
 		for (int i = 0; i < stateAsShared->GetNumStates(); i++)
 		{
-			State* state = stateAsShared->GetStates()[i];
+			State* state = stateAsShared->GetState(i);
 			ImGui::PushID(i);
 			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);

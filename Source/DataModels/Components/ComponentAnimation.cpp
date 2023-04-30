@@ -63,7 +63,7 @@ void ComponentAnimation::Update()
 
 		if(actualState == nextState)
 		{
-			State* state = stateMachine->GetStates()[actualState];
+			State* state = stateMachine->GetState(actualState);
 			if (state && controller->GetPlay() & App->IsOnPlayMode())
 			{
 				std::list<GameObject*> children = owner->GetGameObjectsInside();
@@ -95,7 +95,7 @@ void ComponentAnimation::Update()
 			//Pasamos a la nueva state con tal de tener algo
 			//2. Reproducimos la TRANSICION e INTERPOLACIÓN de actualState a NextState de forma normal
 			actualState = nextState;
-			State* state = stateMachine->GetStates()[actualState];
+			State* state = stateMachine->GetState(actualState);
 			if(state->resource) 
 			{
 				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), true);

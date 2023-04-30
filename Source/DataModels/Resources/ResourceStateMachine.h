@@ -73,6 +73,7 @@ public:
 	unsigned int GetNumTransitions() const;
 	unsigned int GetNumParameters() const;
 	std::vector<State*> GetStates() const;
+	State* GetState(size_t stateIndex) const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
 	
@@ -141,6 +142,15 @@ inline std::vector<State*> ResourceStateMachine::GetStates() const
 			[](const std::unique_ptr<State>& go) { return go.get(); });
 
 	return rawStates;
+}
+
+inline State* ResourceStateMachine::GetState(size_t stateIndex) const
+{
+	if (states.size() <= stateIndex)
+	{
+		return nullptr;
+	}
+	return states[stateIndex].get();
 }
 
 inline std::unordered_map<UID, Transition>& ResourceStateMachine::GetTransitions()
