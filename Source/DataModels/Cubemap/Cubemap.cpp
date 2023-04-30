@@ -24,7 +24,7 @@ Cubemap::Cubemap()
     CreateVAO();
     stbi_set_flip_vertically_on_load(true);
     int width, height, nrComponents;
-    float* data = stbi_loadf("Assets/Textures/SunsetSkyboxHD.hdr", &width, &height, &nrComponents, 0);
+    float* data = stbi_loadf("Assets/Textures/SunsetSkyboxHDR.hdr", &width, &height, &nrComponents, 0);
     SDL_assert(data);
 
     glGenTextures(1, &hdrTexture);
