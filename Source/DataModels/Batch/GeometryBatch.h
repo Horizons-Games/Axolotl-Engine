@@ -106,6 +106,9 @@ private:
 
 	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };
 
+	const GLuint bindingPointModel = 10;
+	const GLuint bindingPointMaterial = 11;
+
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
 	float4x4* transformData[DOUBLE_BUFFERS];
