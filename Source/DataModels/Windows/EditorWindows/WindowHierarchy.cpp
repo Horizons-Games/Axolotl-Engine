@@ -40,9 +40,9 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			if (gameObject == App->scene->GetSelectedGameObject() && gameObject != App->player->GetPlayer())
 			{
                 DeleteGameObject(gameObject);
-			}
 
-			return;
+                return;
+			}
         }
     }
 
