@@ -64,7 +64,7 @@ void ComponentAnimation::Update()
 		if(actualState == nextState)
 		{
 			State* state = stateMachine->GetState(actualState);
-			if (state && controller->GetPlay() & App->IsOnPlayMode())
+			if (state && controller->GetPlay())
 			{
 				std::list<GameObject*> children = owner->GetGameObjectsInside();
 
