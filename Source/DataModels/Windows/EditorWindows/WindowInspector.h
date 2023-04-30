@@ -4,6 +4,8 @@
 
 #include "FileSystem/UniqueID.h"
 
+#include <functional>
+
 class Model;
 class GameObject;
 class Component;
@@ -24,6 +26,23 @@ protected:
 	void DrawWindowContents() override;
 
 private:
+	struct AddComponentAction
+	{
+		std::string actionName;
+		std::function<void(void)> callback;
+		std::function<bool(GameObject*)> condition;
+
+		AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback, const std::function<bool(GameObject*)>& condition)
+			: actionName(actionName), callback(callback), condition(condition)
+		{
+		}
+
+		AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback)
+			: AddComponentAction(actionName, callback, [](GameObject*) { return true; })
+		{
+		}
+	};
+
 	void InspectSelectedGameObject();
 	
 	void InspectSelectedResource();
@@ -62,4 +81,5 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
+	std::vector<AddComponentAction> actions;
 };

@@ -12,28 +12,72 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
-#include <functional>
-
-struct AddComponentAction
-{
-	std::string actionName;
-	std::function<void(void)> callback;
-	bool condition;
-
-	AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback, bool condition)
-		: actionName(actionName), callback(callback), condition(condition)
-	{
-	}
-
-	AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback)
-		: AddComponentAction(actionName, callback, true)
-	{
-	}
-};
-
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+	auto gameObjectDoesNotHaveComponent = [](GameObject* gameObject, ComponentType componentType)
+	{
+		return gameObject->GetComponent(componentType) == nullptr;
+	};
+
+	actions.push_back(
+		AddComponentAction("Create Mesh Renderer Component", std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
+
+	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
+	{
+		return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LIGHT);
+	};
+	actions.push_back(
+		AddComponentAction("Create Spot Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT), isNotALight));
+	actions.push_back(
+		AddComponentAction("Create Point Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT), isNotALight));
+
+	actions.push_back(
+		AddComponentAction("Create Player Component", std::bind(&WindowInspector::AddComponentPlayer, this),
+			[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+			{
+				return gameObjectDoesNotHaveComponent(gameObject, ComponentType::PLAYER);
+			}));
+
+	actions.push_back(
+		AddComponentAction("Create RigidBody Component", std::bind(&WindowInspector::AddComponentRigidBody, this),
+			[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+			{
+				return gameObjectDoesNotHaveComponent(gameObject, ComponentType::RIGIDBODY);
+			}));
+
+	actions.push_back(
+		AddComponentAction("Create MockState Component", std::bind(&WindowInspector::AddComponentMockState, this),
+			[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+			{
+				return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MOCKSTATE);
+			}));
+
+	actions.push_back(
+		AddComponentAction("Create AudioSource Component", std::bind(&WindowInspector::AddComponentAudioSource, this)));
+	actions.push_back(
+		AddComponentAction("Create AudioListener Component", std::bind(&WindowInspector::AddComponentAudioListener, this),
+			[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+			{
+				return gameObjectDoesNotHaveComponent(gameObject, ComponentType::AUDIOLISTENER);
+			}));
+
+	actions.push_back(
+		AddComponentAction("Create Mesh Collider Component", std::bind(&WindowInspector::AddComponentMeshCollider, this),
+			[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+			{
+				return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MESHCOLLIDER);
+			}));
+
+	actions.push_back(
+		AddComponentAction("Create Script Component", std::bind(&WindowInspector::AddComponentScript, this)));
+
+	std::sort(std::begin(actions), std::end(actions),
+		[](const AddComponentAction& first, const AddComponentAction& second)
+		{
+			return first.actionName < second.actionName;
+		});
 }
 
 WindowInspector::~WindowInspector()
@@ -126,45 +170,9 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			std::vector<AddComponentAction> actions;
-			actions.push_back(
-				AddComponentAction("Create Mesh Renderer Component", std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
-			
-			bool isNotALight = !lastSelectedGameObject->GetComponent(ComponentType::LIGHT);
-			actions.push_back(
-				AddComponentAction("Create Spot Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT), isNotALight));
-			actions.push_back(
-				AddComponentAction("Create Point Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT), isNotALight));
-
-			actions.push_back(
-				AddComponentAction("Create Player Component", std::bind(&WindowInspector::AddComponentPlayer, this), !lastSelectedGameObject->GetComponent(ComponentType::PLAYER)));
-
-			actions.push_back(
-				AddComponentAction("Create RigidBody Component", std::bind(&WindowInspector::AddComponentRigidBody, this), !lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)));
-
-			actions.push_back(
-				AddComponentAction("Create MockState Component", std::bind(&WindowInspector::AddComponentMockState, this), !lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)));
-
-			actions.push_back(
-				AddComponentAction("Create AudioSource Component", std::bind(&WindowInspector::AddComponentAudioSource, this)));
-			actions.push_back(
-				AddComponentAction("Create AudioListener Component", std::bind(&WindowInspector::AddComponentAudioListener, this), !lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)));
-
-			actions.push_back(
-				AddComponentAction("Create Mesh Collider Component", std::bind(&WindowInspector::AddComponentMeshCollider, this), !lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)));
-
-			actions.push_back(
-				AddComponentAction("Create Script Component", std::bind(&WindowInspector::AddComponentScript, this)));
-
-			std::sort(std::begin(actions), std::end(actions),
-				[](const AddComponentAction& first, const AddComponentAction& second)
-				{
-					return first.actionName < second.actionName;
-				});
-
 			for (const AddComponentAction& action : actions)
 			{
-				if (action.condition && ImGui::MenuItem(action.actionName.c_str()))
+				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
 				{
 					action.callback();
 				}
