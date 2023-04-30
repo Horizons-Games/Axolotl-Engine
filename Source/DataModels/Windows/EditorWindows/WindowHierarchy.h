@@ -14,4 +14,7 @@ protected:
 
 private:
 	void DrawRecursiveHierarchy(GameObject* gameObject);
+
+    void DeleteGameObject(const GameObject* gameObject) const;
+
 };
