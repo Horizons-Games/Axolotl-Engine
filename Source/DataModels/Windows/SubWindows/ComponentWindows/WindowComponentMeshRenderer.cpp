@@ -53,6 +53,11 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			asMeshRenderer->SetMaterial(material);
 			asMeshRenderer->GetBatch()->ReserveModelSpace();
+			if (asMeshRenderer->IsTransparent() != isTransparent || asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
+			{
+				asMeshRenderer->RemoveFromBatch();
+				App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
+			}
 			InitMaterialValues();
 			newMaterial = false;
 		}
@@ -138,7 +143,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 	if (asMeshRenderer)
 	{
 		bool updateMaterials = false;
-		bool changeBatch = false;
 
 		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
 
@@ -400,6 +404,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 		if (changeBatch)
 		{
 			App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
+			changeBatch = false;
 		}
 		if (updateMaterials)
 		{

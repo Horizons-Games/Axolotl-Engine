@@ -59,6 +59,7 @@ private:
 
 	bool reset;
 	bool newMaterial;
+	bool changeBatch;
 };
 
 inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
