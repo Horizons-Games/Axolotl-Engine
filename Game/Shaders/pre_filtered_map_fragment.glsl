@@ -8,7 +8,7 @@ uniform samplerCube environment;
 in vec3 texcoords;
 
 layout(location = 4) uniform float roughness;
-layout(location = 5) uniform int resolution;
+layout(location = 5) uniform float environmentResolution;
 
 out vec4 fragColor;
 
@@ -33,7 +33,7 @@ void main()
 			float D = GGXNormalDistribution(NdotH, roughness);
 			float pdf = (D * NdotH / (4.0 * VdotH)) + 0.0001;
 
-			float saTexel  = 4.0 * PI / (6.0 * resolution * resolution);
+			float saTexel  = 4.0 * PI / (6.0 * environmentResolution * environmentResolution);
 			float saSample = 1.0 / (float(NUM_SAMPLES) * pdf + 0.0001);
 
 			float mipLevel = roughness == 0.0 ? 0.0 : 0.5 * log2(saSample / saTexel);
