@@ -32,11 +32,11 @@ void ResourceStateMachine::AddNewState(int x, int y)
 
 void ResourceStateMachine::EraseState(unsigned int id)
 {
-	for (unsigned int transitionid : states[id]->transitionsOriginedHere)
+	for (UID transitionid : states[id]->transitionsOriginedHere)
 	{
 		transitions.erase(transitionid);
 	}
-	for (unsigned int transitionid : states[id]->transitionsDestinedHere)
+	for (UID transitionid : states[id]->transitionsDestinedHere)
 	{
 		transitions.erase(transitionid);
 	}
