@@ -250,7 +250,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 	return gameObject;
 }
 
-void Scene::DestroyGameObject(GameObject* gameObject)
+void Scene::DestroyGameObject(const GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
 	delete gameObject->GetParent()->UnlinkChild(gameObject);
@@ -756,9 +756,9 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 	rootQuadtree->Remove(gameObject);
 }
 
-void Scene::RemoveNonStaticObject(GameObject* gameObject)
+void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 {
-	std::ignore = std::remove_if(std::begin(nonStaticObjects),
+	nonStaticObjects.erase(std::remove_if(std::begin(nonStaticObjects),
 		std::end(nonStaticObjects),
-		[&gameObject](GameObject* anotherObject) { return anotherObject == gameObject; });
+		[&gameObject](GameObject* anotherObject) { return anotherObject == gameObject; }), std::end(nonStaticObjects));
 }
