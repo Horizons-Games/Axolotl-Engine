@@ -87,8 +87,9 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 			mesh->Load();
 		}
 		
-		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		Camera* camera = App->GetModule<ModuleCamera>()->GetCamera();
+		const float4x4& view = camera->GetViewMatrix();
+		const float4x4& proj = camera->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -117,8 +118,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 	//this should be in an EditorComponent class, or something of the like
 	//but for now have it here
 	if (material && 
-		std::dynamic_pointer_cast<EditorResourceInterface>
-													(material)->ToDelete())
+		std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
 	{
 		material = nullptr;
 	}

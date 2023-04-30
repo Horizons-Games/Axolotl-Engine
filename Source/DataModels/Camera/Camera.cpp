@@ -205,22 +205,24 @@ void Camera::KeyboardRotate()
 
 	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	if (input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
 	{
 		if (rotationAngle + rotationSpeed * acceleration < 180)
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
 	{
 		if (rotationAngle - rotationSpeed * acceleration > 0)
 			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
 		yaw = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 
 	float deltaTime = App->GetDeltaTime();
@@ -236,10 +238,12 @@ void Camera::KeyboardRotate()
 
 void Camera::FreeLook()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->GetModule<ModuleInput>()->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->GetModule<ModuleInput>()->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 	
 	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
 	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
@@ -386,7 +390,8 @@ void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 {
 	if (gameObject != nullptr)
 	{
-		App->GetModule<ModuleScene>()->ChangeSelectedGameObject(gameObject);
-		App->GetModule<ModuleScene>()->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
+		ModuleScene* scene = App->GetModule<ModuleScene>();
+		scene->ChangeSelectedGameObject(gameObject);
+		scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }
