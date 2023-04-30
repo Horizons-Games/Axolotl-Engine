@@ -18,6 +18,7 @@ WindowLoadScene::~WindowLoadScene()
 
 void WindowLoadScene::DoThisIfOk()
 {
+	this->isLoading = false;
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 	App->GetModule<ModuleScene>()->LoadSceneFromJson(filePath);
 }

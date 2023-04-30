@@ -1,8 +1,6 @@
 #ifndef _DEBUGDRAW_H_
 #define _DEBUGDRAW_H_
 
-#pragma warning (disable: 26495)
-
 typedef math::float3 ddVec3;
 
 typedef const ddVec3& ddVec3_In;

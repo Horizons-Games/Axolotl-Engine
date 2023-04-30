@@ -24,6 +24,7 @@ void WindowMaterialInput::DoThisIfOk()
 {
 	if (componentMeshRenderer)
 	{
+		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceMaterial> material = App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(filePath);
 		componentMeshRenderer->SetMaterial(material);

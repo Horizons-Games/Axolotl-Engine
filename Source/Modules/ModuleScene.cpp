@@ -51,7 +51,7 @@ bool ModuleScene::Start()
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
 	}
-#else //ENGINE
+#else // GAME MODE
 	if (loadedScene == nullptr)
 	{
 		LoadSceneFromJson("Lib/Scenes/CantinaScriptsVS2.axolotl");
@@ -72,7 +72,7 @@ bool ModuleScene::Start()
 			componentScript->Start();
 		}
 }
-#endif //GAMEMODE
+#endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }

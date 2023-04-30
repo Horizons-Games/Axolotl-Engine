@@ -1,6 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-
 #include "Module.h"
 #include "DataStructures/Quadtree.h"
 #include "GL/glew.h"

@@ -1,5 +1,3 @@
-#pragma warning (disable: 6386)
-
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
