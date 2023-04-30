@@ -12,6 +12,25 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
+#include <functional>
+
+struct AddComponentAction
+{
+	std::string actionName;
+	std::function<void(void)> callback;
+	bool condition;
+
+	AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback, bool condition)
+		: actionName(actionName), callback(callback), condition(condition)
+	{
+	}
+
+	AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback)
+		: AddComponentAction(actionName, callback, true)
+	{
+	}
+};
+
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
@@ -107,72 +126,48 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			if (ImGui::MenuItem("Create Mesh Renderer Component"))
-			{
-				AddComponentMeshRenderer();
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) 
-			{
-				if (ImGui::MenuItem("Create Spot Light Component"))
-				{
-					AddComponentLight(LightType::SPOT);
-				}
-
-				if (ImGui::MenuItem("Create Point Light Component"))
-				{
-					AddComponentLight(LightType::POINT);
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) 
-			{
-				if (ImGui::MenuItem("Create Player Component"))
-				{
-					AddComponentPlayer();
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) 
-			{
-				if (ImGui::MenuItem("Create RigidBody Component"))
-				{
-					AddComponentRigidBody();
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) 
-			{
-				if (ImGui::MenuItem("Create MockState Component"))
-				{
-					AddComponentMockState();
-				}
-			}
+			std::vector<AddComponentAction> actions;
+			actions.push_back(
+				AddComponentAction("Create Mesh Renderer Component", std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
 			
-			if (ImGui::MenuItem("Create AudioSource Component"))
-			{
-				AddComponentAudioSource();
-			}
+			bool isNotALight = !lastSelectedGameObject->GetComponent(ComponentType::LIGHT);
+			actions.push_back(
+				AddComponentAction("Create Spot Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT), isNotALight));
+			actions.push_back(
+				AddComponentAction("Create Point Light Component", std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT), isNotALight));
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)) {
-				if (ImGui::MenuItem("Create AudioListener Component"))
+			actions.push_back(
+				AddComponentAction("Create Player Component", std::bind(&WindowInspector::AddComponentPlayer, this), !lastSelectedGameObject->GetComponent(ComponentType::PLAYER)));
+
+			actions.push_back(
+				AddComponentAction("Create RigidBody Component", std::bind(&WindowInspector::AddComponentRigidBody, this), !lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)));
+
+			actions.push_back(
+				AddComponentAction("Create MockState Component", std::bind(&WindowInspector::AddComponentMockState, this), !lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)));
+
+			actions.push_back(
+				AddComponentAction("Create AudioSource Component", std::bind(&WindowInspector::AddComponentAudioSource, this)));
+			actions.push_back(
+				AddComponentAction("Create AudioListener Component", std::bind(&WindowInspector::AddComponentAudioListener, this), !lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)));
+
+			actions.push_back(
+				AddComponentAction("Create Mesh Collider Component", std::bind(&WindowInspector::AddComponentMeshCollider, this), !lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)));
+
+			actions.push_back(
+				AddComponentAction("Create Script Component", std::bind(&WindowInspector::AddComponentScript, this)));
+
+			std::sort(std::begin(actions), std::end(actions),
+				[](const AddComponentAction& first, const AddComponentAction& second)
 				{
-					AddComponentAudioListener();
-				}
-			}
-			
+					return first.actionName < second.actionName;
+				});
 
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) 
+			for (const AddComponentAction& action : actions)
 			{
-				if (ImGui::MenuItem("Create Mesh Collider Component"))
+				if (action.condition && ImGui::MenuItem(action.actionName.c_str()))
 				{
-					AddComponentMeshCollider();
+					action.callback();
 				}
-			}
-
-			if (ImGui::MenuItem("Create Script Component"))
-			{
-				AddComponentScript();
 			}
 		}
 
