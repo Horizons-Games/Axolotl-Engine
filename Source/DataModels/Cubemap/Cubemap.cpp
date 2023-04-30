@@ -42,11 +42,6 @@ Cubemap::Cubemap()
     //Generate framebuffer & renderBuffer
     glGenFramebuffers(1, &frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    //glGenRenderbuffers(1, &renderBuffer);
-
-    //glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-    //glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, CUBEMAP_RESOLUTION, CUBEMAP_RESOLUTION);
-    //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
     // Disable depth testing
@@ -113,7 +108,7 @@ Cubemap::Cubemap()
             PRE_FILTERED_MAP_RESOLUTION, 0, GL_RGB, GL_FLOAT, nullptr);
     }
 
-    int numMipMaps = int(log(float(PRE_FILTERED_MAP_RESOLUTION)) / log(2));
+    int numMipMaps = static_cast<int>(log(static_cast<float>(PRE_FILTERED_MAP_RESOLUTION)) / log(2));
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -130,13 +125,14 @@ Cubemap::Cubemap()
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 
+    preFilteredProgram->BindUniformFloat(5, static_cast<float>(CUBEMAP_RESOLUTION));
+
     for (int mipMap = 0; mipMap <= numMipMaps; ++mipMap)
     {
         float roughness = static_cast<float>(mipMap) / static_cast<float>(numMipMaps);
         preFilteredProgram->BindUniformFloat(4, roughness);
      
         unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
-        preFilteredProgram->BindUniformInt(5, mipResolution);
         RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
     }
 
@@ -186,8 +182,8 @@ void Cubemap::DebugNSight()
 
 void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int roughness)
 {
-    const float3 front[6] = { float3::unitX, -float3::unitX, float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ };
-    const float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY };
+    const float3 front[6] = {float3::unitX, -float3::unitX, float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ};
+    const float3 up[6] = {-float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY};
 
     Frustum frustum;
     frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
@@ -208,7 +204,7 @@ void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int
         frustum.SetUp(up[i]);
         
         usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Draw cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
