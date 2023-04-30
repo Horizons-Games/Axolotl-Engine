@@ -6,6 +6,7 @@
 #include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleAudio.h"
 #include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
@@ -27,6 +28,7 @@ Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), deb
 	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
 	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
 	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
+	modules.push_back(std::unique_ptr<ModuleAudio>(audio = new ModuleAudio()));
 	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
 	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
 	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
@@ -42,6 +44,10 @@ Application::~Application()
 
 bool Application::Init()
 {
+#ifndef ENGINE
+	isOnPlayMode = true;
+#endif // !ENGINE
+
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
 	bool ret = true;
@@ -67,7 +73,11 @@ bool Application::Start()
 update_status Application::Update()
 {
 	float ms;
+#ifdef ENGINE
 	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
+#else
+	ms = appTimer.Read();
+#endif // ENGINE
 
 	update_status ret = update_status::UPDATE_CONTINUE;
 
@@ -81,15 +91,25 @@ update_status Application::Update()
 		ret = modules[i]->PostUpdate();
 
 	float dt;
+#ifdef ENGINE
 	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
+#else
+	dt = (appTimer.Read() - ms) / 1000.0f;
+#endif // ENGINE
+
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
+#ifdef ENGINE
 	(isOnPlayMode) ?
 		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
+#else
+	deltaTime = (appTimer.Read() - ms) / 1000.0f;
+#endif // ENGINE
+	
 
 	return ret;
 }
@@ -109,7 +129,7 @@ void Application::OnPlay()
 	onPlayTimer.Start();
 	isOnPlayMode = true;
 	player->LoadNewPlayer();
-	if (!player->GetIsLoadPlayer())
+	if (!player->IsLoadPlayer())
 	{
 		isOnPlayMode = false;
 	}

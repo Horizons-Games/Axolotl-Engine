@@ -76,12 +76,16 @@ update_status ModuleUI::Update()
 
 	for (ComponentCanvas* canvas : canvasScene)
 	{
-		if (canvas->GetOwner()->IsEnabled())
+		GameObject* owner = canvas->GetOwner();
+		if (owner->IsEnabled())
 		{
-			//ugh, should look for a better way, but it's 2AM
-			for (ComponentImage* image : canvas->GetOwner()->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+			for (GameObject* child : owner->GetChildren())
 			{
-				image->Draw();
+				//ugh, should look for a better way, but it's 2AM
+				for (ComponentImage* image : child->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+				{
+					image->Draw();
+				}
 			}
 		}
 	}
@@ -110,7 +114,7 @@ update_status ModuleUI::PostUpdate()
 #ifndef ENGINE
 				button->OnClicked();
 #endif // ENGINE
-				button->SetHovered(false);
+				//button->SetHovered(false);
 				button->SetClicked(false);
 			}
 		}

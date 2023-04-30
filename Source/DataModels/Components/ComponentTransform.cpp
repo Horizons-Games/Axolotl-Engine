@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -124,6 +122,9 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
+	for(Component* components : GetOwner()->GetComponents()) {
+		components->OnTransformChanged();
+	}
 
 	if (GetOwner()->GetChildren().empty())
 		return;
