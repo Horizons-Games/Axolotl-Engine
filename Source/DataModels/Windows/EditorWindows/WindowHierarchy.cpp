@@ -37,7 +37,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         if (App->input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
         {
-			DeleteGameObject(gameObject);
+			if (gameObject == App->scene->GetSelectedGameObject() && gameObject != App->player->GetPlayer())
+			{
+                DeleteGameObject(gameObject);
+			}
 
 			return;
         }
