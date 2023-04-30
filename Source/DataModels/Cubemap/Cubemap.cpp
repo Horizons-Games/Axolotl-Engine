@@ -139,7 +139,7 @@ Cubemap::Cubemap()
     glGenTextures(1, &environmentBRDF);
 
     glBindTexture(GL_TEXTURE_2D, environmentBRDF);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION, 0, GL_RG, GL_FLOAT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION, 0, GL_RG, GL_FLOAT, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -179,7 +179,7 @@ void Cubemap::DebugNSight()
 #endif
 }
 
-void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int roughness)
+void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
 {
     const float3 front[6] = {float3::unitX, -float3::unitX, float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ};
     const float3 up[6] = {-float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY};
@@ -197,7 +197,7 @@ void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int
     for (unsigned int i = 0; i < 6; ++i)
     {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, roughness);
+            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
         //glClearColor(1.0, 1.0, 1.0, 1.0);
         frustum.SetFront(front[i]);
         frustum.SetUp(up[i]);
