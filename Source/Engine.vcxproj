@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE;DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
     </ClCompile>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
     </ClCompile>
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>AK_OPTIMIZED;ENGINE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
@@ -149,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>AK_OPTIMIZED;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
@@ -392,6 +392,7 @@
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModulePhysics.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -696,6 +697,7 @@
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ModulePhysics.h" />
     <ClInclude Include="Modules\Module.h" />
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h">

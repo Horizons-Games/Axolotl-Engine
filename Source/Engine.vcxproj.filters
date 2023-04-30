@@ -331,6 +331,9 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="ModulePhysics.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -691,6 +694,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePhysics.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
