@@ -41,12 +41,10 @@ public:
 	std::future<std::shared_ptr<Resource>> ImportThread(const std::string& originalPath);
 
 	//request resource and Import if is necessary
-	const std::shared_ptr<Resource> RequestResource(const std::string assetPath);
 	template<class R = Resource>
 	const std::shared_ptr<R> RequestResource(const std::string assetPath);
 
 	//Search resource
-	const std::shared_ptr<Resource> SearchResource(UID uid);
 	template<class R = Resource>
 	const std::shared_ptr<R> SearchResource(UID uid);
 
@@ -107,11 +105,6 @@ private:
 
 	friend class WindowResources;
 };
-
-inline const std::shared_ptr<Resource> ModuleResources::RequestResource(const std::string assetPath)
-{
-	return RequestResource<Resource>(assetPath);
-}
 
 template<class R>
 const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path)
@@ -209,11 +202,6 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 	return nullptr;
-}
-
-inline const std::shared_ptr<Resource> ModuleResources::SearchResource(UID uid)
-{
-	return SearchResource<Resource>(uid);
 }
 
 template<class R>
