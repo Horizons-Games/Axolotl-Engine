@@ -132,10 +132,11 @@ Cubemap::Cubemap()
 
     for (int mipMap = 0; mipMap <= numMipMaps; ++mipMap)
     {
-        unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
-
         float roughness = static_cast<float>(mipMap) / static_cast<float>(numMipMaps);
-        preFilteredProgram->BindUniformFloat(4, static_cast<float>(roughness));
+        preFilteredProgram->BindUniformFloat(4, roughness);
+     
+        unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
+        preFilteredProgram->BindUniformInt(5, mipResolution);
         RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
     }
 
@@ -197,17 +198,17 @@ void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int
     usedProgram->BindUniformFloat4x4(1, frustum.ProjectionMatrix().ptr(), GL_TRUE);
 
     glViewport(0, 0, resolution, resolution);
-    usedProgram->BindUniformFloat4x4(1, frustum.ProjectionMatrix().ptr(), GL_TRUE);
     glBindVertexArray(cubeVAO);
     for (unsigned int i = 0; i < 6; ++i)
     {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
             GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, roughness);
-
+        //glClearColor(1.0, 1.0, 1.0, 1.0);
         frustum.SetFront(front[i]);
         frustum.SetUp(up[i]);
         
         usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Draw cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }

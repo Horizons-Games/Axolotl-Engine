@@ -8,6 +8,7 @@ uniform samplerCube environment;
 in vec3 texcoords;
 
 layout(location = 4) uniform float roughness;
+layout(location = 5) uniform int resolution;
 
 out vec4 fragColor;
 
@@ -21,12 +22,23 @@ void main()
 	for (int i = 0; i < NUM_SAMPLES; ++i)
 	{
 		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
-		vec3 H = tangentSpace * hemisphereSampleGGX(rand_value[0], rand_value[1], roughness);
+		vec3 H = normalize(tangentSpace * hemisphereSampleGGX(rand_value[0], rand_value[1], roughness));
 		vec3 L = reflect(-V, H);
 		float NdotL = max(dot(N, L), 0.0);
 		if (NdotL > 0)
 		{
-			color += texture(environment , L).rgb * NdotL;
+			float NdotH = max(dot(N, H), 0.0);
+			float VdotH = max(dot(V, H), 0.0);
+
+			float D = GGXNormalDistribution(NdotH, roughness);
+			float pdf = (D * NdotH / (4.0 * VdotH)) + 0.0001;
+
+			float saTexel  = 4.0 * PI / (6.0 * resolution * resolution);
+			float saSample = 1.0 / (float(NUM_SAMPLES) * pdf + 0.0001);
+
+			float mipLevel = roughness == 0.0 ? 0.0 : 0.5 * log2(saSample / saTexel);
+
+			color += textureLod(environment, L, mipLevel).rgb * NdotL;
 			weight += NdotL;
 		}
 	}

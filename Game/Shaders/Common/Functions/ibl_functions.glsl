@@ -21,14 +21,15 @@ vec2 hammersley2D(uint i, uint N)
 
 vec3 hemisphereSampleGGX(float u1, float u2, float roughness )
 {
-	float phi = 2.0*PI*u1;
-	float cos_theta = sqrt((1.0-u2)/(u2*(roughness*roughness-1)+1));
-	float sin_theta = sqrt(1-cos_theta*cos_theta);
+	float a = roughness * roughness; // for better results
+	float phi = 2.0 * PI * u1;
+	float cos_theta = sqrt((1.0 - u2)/(u2 * (a * a - 1) + 1));
+	float sin_theta = sqrt(1 - cos_theta * cos_theta);
 	
     // spherical to cartesian conversion
 	vec3 dir;
-	dir.x = cos(phi)*sin_theta;
-	dir.y = sin(phi)*sin_theta;
+	dir.x = cos(phi) * sin_theta;
+	dir.y = sin(phi) * sin_theta;
 	dir.z = cos_theta;
 	return dir;
 }
@@ -36,6 +37,19 @@ vec3 hemisphereSampleGGX(float u1, float u2, float roughness )
 float SmithVisibility(float NL, float NV, float roughness)
 {
 	return 0.5 / (NL * (NV * (1 - roughness) + roughness) + NV * (NL * (1 - roughness) + roughness));
+}
+
+float GGXNormalDistribution(float NdotH, float roughness)
+{
+	float a = roughness * roughness;
+    float a2 = a * a;
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+
+    return nom / denom;
 }
 
 vec3 hemisphereSample(float u1, float u2)
