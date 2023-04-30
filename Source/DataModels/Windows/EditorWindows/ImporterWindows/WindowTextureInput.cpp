@@ -48,8 +48,7 @@ void WindowTextureInput::DoThisIfOk()
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceTexture> texture =
-			std::dynamic_pointer_cast<ResourceTexture>(App->resources->RequestResource(filePath));
+		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(filePath);
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:

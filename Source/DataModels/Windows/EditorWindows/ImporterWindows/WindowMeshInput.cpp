@@ -24,7 +24,7 @@ void WindowMeshInput::DoThisIfOk()
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceMesh> resource = std::dynamic_pointer_cast<ResourceMesh>(App->resources->RequestResource(filePath));
+		std::shared_ptr<ResourceMesh> resource = App->resources->RequestResource<ResourceMesh>(filePath);
 		componentMesh->SetMesh(resource);
 	}
 }
