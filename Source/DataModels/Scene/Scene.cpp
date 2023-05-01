@@ -235,7 +235,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 	return gameObject;
 }
 
-void Scene::DestroyGameObject(GameObject* gameObject)
+void Scene::DestroyGameObject(const GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
 	delete gameObject->GetParent()->UnlinkChild(gameObject);
@@ -595,6 +595,7 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 {
 	rootQuadtree->Remove(gameObject);
 }
+
 
 void Scene::RemoveNonStaticObject(GameObject* gameObject)
 {

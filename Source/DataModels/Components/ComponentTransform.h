@@ -197,3 +197,8 @@ inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)
 {
 	drawBoundingBoxes = newDraw;
 }
+
+inline void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
+{
+	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
+}

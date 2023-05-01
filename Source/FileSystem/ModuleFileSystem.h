@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include "physfs.h"
 
 class ModuleFileSystem : public Module
 {
@@ -31,3 +32,17 @@ public:
 	void ZipFolder(struct zip_t* zip, const char* path);
 };
 
+inline bool ModuleFileSystem::CleanUp() {
+	PHYSFS_deinit();
+	return true;
+}
+
+inline bool ModuleFileSystem::Exists(const char* filePath) const
+{
+	return PHYSFS_exists(filePath);
+}
+
+inline bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
+{
+	return PHYSFS_isDirectory(directoryPath);
+}

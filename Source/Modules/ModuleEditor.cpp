@@ -276,11 +276,6 @@ update_status ModuleEditor::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::Resized()
-{
-	windowResized = true;
-}
-
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE
@@ -355,6 +350,8 @@ void ModuleEditor::DuplicateAnObject()
 				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
 	}
 }
+
+
 
 void ModuleEditor::RefreshInspector() const
 {

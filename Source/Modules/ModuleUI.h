@@ -27,6 +27,11 @@ private:
 	unsigned int quadVAO;
 };
 
+inline bool ModuleUI::Start()
+{
+	return true;
+}
+
 inline unsigned int ModuleUI::GetQuadVAO() const
 {
 	return quadVAO;
