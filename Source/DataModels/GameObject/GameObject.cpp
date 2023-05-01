@@ -178,7 +178,10 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	newParent->LinkChild(parent->UnlinkChild(this));
+	// it's fine to ignore the return value in this case
+	// since the pointer returned will be "this"
+	std::ignore = parent->UnlinkChild(this);
+	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
