@@ -13,7 +13,7 @@ class Resource;
 enum class LightType;
 class ComponentWindow;
 
-class AddComponentAction;
+struct AddComponentAction;
 
 class WindowInspector : public EditorWindow
 {
