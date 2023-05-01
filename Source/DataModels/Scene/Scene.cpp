@@ -113,7 +113,7 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
-	gameObject->MoveParent(parent);
+	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
 	ComponentTransform* childTransform = static_cast<ComponentTransform*>

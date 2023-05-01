@@ -258,7 +258,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
             if (draggedGameObject)
             {
-                draggedGameObject->MoveParent(gameObject);
+                draggedGameObject->SetParent(gameObject);
             }
         }
 

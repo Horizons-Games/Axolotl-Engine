@@ -60,8 +60,8 @@ GameObject::GameObject(const GameObject& gameObject) :
 
 	for (auto child : gameObject.GetChildren())
 	{
-		GameObject* newChild = new GameObject(static_cast<GameObject&>(*child));
-		newChild->SetParent(this);
+		GameObject* newChild = new GameObject(*child);
+		newChild->parent = this;
 		LinkChild(newChild);
 	}
 }
@@ -168,7 +168,7 @@ void GameObject::InitNewEmptyGameObject(bool is3D)
 	}
 }
 
-void GameObject::MoveParent(GameObject* newParent)
+void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 

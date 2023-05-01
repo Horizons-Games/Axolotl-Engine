@@ -68,7 +68,6 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -151,11 +150,6 @@ inline std::string GameObject::GetName() const
 inline void GameObject::SetName(const std::string& newName)
 {
 	name = newName;
-}
-
-inline void GameObject::SetParent(GameObject* newParent)
-{
-	parent = newParent;
 }
 
 inline GameObject* GameObject::GetParent() const
