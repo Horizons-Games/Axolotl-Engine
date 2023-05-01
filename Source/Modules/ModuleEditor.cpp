@@ -333,6 +333,12 @@ void ModuleEditor::CutAnObject()
 																				// change the focus to its parent
 		App->scene->GetLoadedScene()->GetRootQuadtree()->
 			RemoveGameObjectAndChildren(gameObject->GetParent());
+		
+		App->scene->GetLoadedScene()->RemoveNonStaticObject(gameObject);
+		for (const GameObject* child : gameObject->GetChildren())
+		{
+			App->scene->GetLoadedScene()->RemoveNonStaticObject(child);
+		}
 
 		App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
 	}
