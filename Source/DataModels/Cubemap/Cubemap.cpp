@@ -69,6 +69,7 @@ Cubemap::Cubemap()
     glBindTexture(GL_TEXTURE_2D, hdrTexture);
 
     RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
+    hdrToCubemapProgram->Deactivate();
 
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
     glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
@@ -96,7 +97,7 @@ Cubemap::Cubemap()
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 
     RenderToCubeMap(irradiance, irradianceProgram, IRRADIANCE_MAP_RESOLUTION);
-
+    irradianceProgram->Deactivate();
     // pre-filtered map
     glGenTextures(1, &preFiltered);
 
@@ -134,6 +135,7 @@ Cubemap::Cubemap()
         unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
         RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
     }
+    preFilteredProgram->Deactivate();
 
     //environment BRDF
     glGenTextures(1, &environmentBRDF);
@@ -202,14 +204,12 @@ void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int
         //glClearColor(1.0, 1.0, 1.0, 1.0);
         frustum.SetFront(front[i]);
         frustum.SetUp(up[i]);
-        
+
         usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Draw cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
-
-    usedProgram->Deactivate();
 }
 
 void Cubemap::CreateVAO()

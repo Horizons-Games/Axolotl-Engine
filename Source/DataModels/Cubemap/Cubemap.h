@@ -13,6 +13,11 @@ public:
 	~Cubemap();
 
 	void DebugNSight(); //DEBUG purpouse
+	
+	GLuint GetIrradiance(); //DEBUG purpouse
+	GLuint GetPrefiltered(); //DEBUG purpouse
+	GLuint GetEnvironmentBRDF(); //DEBUG purpouse
+	int GetNumMiMaps(); //DEBUG purpouse
 
 private:
 	
@@ -37,3 +42,22 @@ private:
 	//std::shared_ptr<ResourceTexture> hdrTexture;
 };
 
+inline GLuint Cubemap::GetIrradiance()
+{
+	return irradiance;
+}
+
+inline GLuint Cubemap::GetPrefiltered()
+{
+	return preFiltered;
+}
+
+inline GLuint Cubemap::GetEnvironmentBRDF()
+{
+	return environmentBRDF;
+}
+
+inline int Cubemap::GetNumMiMaps()
+{
+	return numMipMaps;
+}
