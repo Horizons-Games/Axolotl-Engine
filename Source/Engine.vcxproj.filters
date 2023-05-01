@@ -1084,6 +1084,9 @@
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1440,6 +1443,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Drawable.h">
       <Filter>Auxiliar\Generics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
