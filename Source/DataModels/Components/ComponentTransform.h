@@ -41,11 +41,13 @@ public:
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
 	bool IsDrawBoundingBoxes() const;
+	bool IsUniformScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
 	void SetScale(const float3& scale);
+	void SetUniformScale(const float3& scale, const char modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
@@ -77,6 +79,7 @@ private:
 	AABB encapsuledAABB;
 	OBB objectOBB;
 	bool drawBoundingBoxes;
+	bool uniformScale;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
@@ -162,6 +165,11 @@ inline const OBB& ComponentTransform::GetObjectOBB()
 	return objectOBB;
 }
 
+inline bool ComponentTransform::IsUniformScale() const
+{
+	return uniformScale;
+}
+
 inline bool ComponentTransform::IsDrawBoundingBoxes() const
 {
 	return drawBoundingBoxes;
@@ -188,9 +196,42 @@ inline void ComponentTransform::SetScale(const float3& scale)
 {
 	sca = scale;
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+	if (sca.x <= 0) {
+		sca.x = 0.0001f;
+	}
+	if (sca.y <= 0) {
+		sca.y = 0.0001f;
+	}
+	if (sca.z <= 0) {
+		sca.z = 0.0001f;
+	}
+}
+
+inline void ComponentTransform::SetUniformScale(const float3& scale, const char modifiedScaleAxis)
+{
+	if (modifiedScaleAxis == 'X')
+	{
+		sca.y = scale.y * scale.x / sca.x;
+		sca.z = scale.z * scale.x / sca.x;
+		sca.x = scale.x;
+	}
+	else if (modifiedScaleAxis == 'Y')
+	{
+		sca.z = scale.z * scale.y / sca.y;
+		sca.x = scale.x * scale.y / sca.y;
+		sca.y = scale.y;
+	}
+	else {
+		sca.x = scale.x * scale.z / sca.z;
+		sca.y = scale.y * scale.z / sca.z;
+		sca.z = scale.z;
+	}
+
+	if (sca.x <= 0 || sca.y <= 0 || sca.z <= 0) {
+		sca.x = 0.0001f;
+		sca.y = 0.0001f;
+		sca.z = 0.0001f;
+	}
 }
 
 inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)

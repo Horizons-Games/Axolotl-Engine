@@ -27,7 +27,9 @@ private:
 	bool translationModified;
 	bool rotationModified;
 	bool scaleModified;
+	char modifiedScaleAxis;
 
 	bool bbdraw;
+	bool uniformScale;
 };
 

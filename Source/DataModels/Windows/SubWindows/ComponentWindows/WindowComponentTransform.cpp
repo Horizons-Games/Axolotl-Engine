@@ -10,7 +10,7 @@
 #include "ModuleScene.h"
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
-	ComponentWindow("TRANSFORM", component), bbdraw(component->IsDrawBoundingBoxes())
+	ComponentWindow("TRANSFORM", component), bbdraw(component->IsDrawBoundingBoxes()), uniformScale(component->IsUniformScale())
 {
 }
 
@@ -151,6 +151,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = 'X';
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -161,6 +162,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = 'Y';
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -171,8 +173,10 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = 'Z';
 		}
-		ImGui::PopStyleVar();
+		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::Checkbox("", &uniformScale);
 
 		ImGui::EndTable();
 	}
@@ -211,7 +215,13 @@ void WindowComponentTransform::UpdateComponentTransform()
 				currentScale.z = 0.0001f; 
 			}
 
-			asTransform->SetScale(currentScale);
+			if (uniformScale) 
+			{
+				asTransform->SetUniformScale(currentScale, modifiedScaleAxis);
+			}
+			else {
+				asTransform->SetScale(currentScale);
+			}
 		}
 
 		if (scaleModified || rotationModified || translationModified)
