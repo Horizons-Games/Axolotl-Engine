@@ -16,8 +16,6 @@
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
-#include <future>
-
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
@@ -98,18 +96,13 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	return importedRes;
 }
 
-std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& originalPath)
+std::future<std::shared_ptr<Resource>> ModuleResources::ImportThread(const std::string& originalPath)
 {
-	std::promise<std::shared_ptr<Resource>> p;
-	std::future<std::shared_ptr<Resource>> f = p.get_future();
-	std::thread importThread = std::thread(
-		[&]() 
+	return std::async(std::launch::async,
+		[=]()
 		{
-			p.set_value(ImportResource(originalPath));
-		}
-	);
-	importThread.detach();
-	return f.get();
+			return RequestResource(originalPath);
+		});
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,

@@ -659,13 +659,3 @@ void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
 {
     dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
 }
-
-void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
-{
-    this->showBoundingBoxes = showBoundingBoxes;
-}
-
-bool ModuleDebugDraw::IsShowingBoundingBoxes() const
-{
-    return showBoundingBoxes;
-}
