@@ -434,6 +434,7 @@
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
+    <ClCompile Include="WindowImportScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
@@ -747,6 +748,7 @@
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
     <ClInclude Include="Scripting\SystemTable.h" />
+    <ClInclude Include="WindowImportScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

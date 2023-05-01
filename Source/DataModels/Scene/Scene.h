@@ -79,6 +79,12 @@ public:
 	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
+
+	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
+	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
+	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
+	void AddSceneInteractable(const std::vector<Component*>& interactable);
+
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);

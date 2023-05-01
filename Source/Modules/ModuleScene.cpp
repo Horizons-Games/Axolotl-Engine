@@ -317,6 +317,35 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 #endif // !ENGINE
 }
 
+void ModuleScene::ImportFromJson(const std::string& filePath)
+{
+	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	char* buffer{};
+#ifdef ENGINE
+	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
+
+	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	if (!resourceExists)
+		App->fileSystem->CopyFileInAssets(filePath, assetPath);
+	App->fileSystem->Load(assetPath.c_str(), buffer);
+#else
+	App->fileSystem->Load(filePath.c_str(), buffer);
+#endif
+	rapidjson::Document doc;
+	Json Json(doc, doc);
+
+	Json.fromBuffer(buffer);
+
+	// Load script components
+	ImportSceneFromJson(Json);
+
+	//Load Script objects
+	delete buffer;
+
+}
+
+
+
 void ModuleScene::SetSceneFromJson(Json& json)
 {
 	loadedScene = std::make_unique<Scene>();
@@ -386,6 +415,64 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 	loadedScene->InitLights();
+}
+
+
+void ModuleScene::ImportSceneFromJson(Json& json)
+{
+	Json gameObjects = json["GameObjects"];
+	std::vector<GameObject*> loadedObjects = InsertHierarchyFromJson(gameObjects);
+
+	std::vector<ComponentCamera*> loadedCameras{};
+	std::vector<ComponentCanvas*> loadedCanvas{};
+	std::vector<Component*> loadedInteractable{};
+	GameObject* ambientLight = nullptr;
+	GameObject* directionalLight = nullptr;
+
+	for (GameObject* obj : loadedObjects)
+	{
+		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
+		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
+
+		Component* canvas = obj->GetComponent(ComponentType::CANVAS);
+		if (canvas != nullptr)
+		{
+			loadedCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
+		}
+		Component* button = obj->GetComponent(ComponentType::BUTTON);
+		if (button != nullptr)
+		{
+			loadedInteractable.push_back(button);
+		}
+
+		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		for (ComponentLight* light : lightsOfObj)
+		{
+			if (light->GetLightType() == LightType::AMBIENT)
+			{
+				ambientLight = obj;
+			}
+			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			{
+				directionalLight = obj;
+			}
+		}
+		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
+		{
+			//Quadtree treatment
+			AddGameObject(obj);
+
+		}
+
+	}
+	App->editor->RefreshInspector();
+	loadedScene->AddSceneCameras(loadedCameras);
+	loadedScene->AddSceneCanvas(loadedCanvas);
+	loadedScene->AddSceneInteractable(loadedInteractable);
+	//loadedScene->DestroyGameObject(ambientLight);
+	//loadedScene->DestroyGameObject(directionalLight);
+	loadedScene->InitLights();
+
 }
 
 /*
@@ -478,6 +565,86 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 	return loadedObjects;
 }
 
+std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObjects)
+{
+	std::vector<GameObject*> gameObjects{};
+	std::unordered_map<UID, GameObject*> gameObjectMap{};
+	std::unordered_map<UID, UID> childParentMap{};
+	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+		std::string name = jsonGameObject["name"];
+		UID uid = jsonGameObject["uid"];
+		UID parentUID = jsonGameObject["parentUID"];
+		bool enabled = jsonGameObject["enabled"];
+		bool active = jsonGameObject["active"];
+		GameObject* gameObject = new GameObject(name, uid);
+		gameObjectMap[uid] = gameObject;
+		childParentMap[uid] = parentUID;
+		enabledAndActive[uid] = std::make_pair(enabled, active);
+		gameObjects.push_back(gameObject);
+	}
+
+	loadedScene->AddSceneGameObjects(gameObjects);
+
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
+
+		gameObjects[i]->LoadOptions(jsonGameObject);
+	}
+
+	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
+	{
+		GameObject* gameObject = *it;
+		UID uid = gameObject->GetUID();
+		UID parent = childParentMap[uid];
+
+		if (parent == 0)
+		{
+			loadedScene->GetRoot()->LinkChild(gameObject);
+			gameObject->SetStatic(true);
+			continue;
+		}
+
+		GameObject* parentGameObject = gameObjectMap[parent];
+		parentGameObject->LinkChild(gameObject);
+	}
+
+	std::vector<GameObject*> loadedObjects{};
+	for (const auto& uidAndGameObject : gameObjectMap)
+	{
+		GameObject* gameObject = uidAndGameObject.second;
+		loadedObjects.push_back(gameObject);
+
+		if (gameObject == loadedScene->GetRoot())
+		{
+			continue;
+		}
+
+		bool enabled = enabledAndActive[gameObject->GetUID()].first;
+		bool active = enabledAndActive[gameObject->GetUID()].second;
+		if (enabled)
+		{
+			gameObject->Enable();
+		}
+		else
+		{
+			gameObject->Disable();
+		}
+		if (active)
+		{
+			gameObject->ActivateChildren();
+		}
+		else
+		{
+			gameObject->DeactivateChildren();
+		}
+	}
+	return loadedObjects;
+}
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {

@@ -31,6 +31,7 @@ public:
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
+	void ImportFromJson(const std::string& name);
 
 	void OnPlay();
 	void OnPause();
@@ -43,7 +44,9 @@ private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SetSceneFromJson(Json& json);
+	void ImportSceneFromJson(Json& json);
 	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
+	std::vector<GameObject*> InsertHierarchyFromJson(Json& jsonGameObjects);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(GameObject* object);

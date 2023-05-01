@@ -3,6 +3,7 @@
 #include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "WindowImportScene.h"
 
 class Json;
 
@@ -32,6 +33,7 @@ private:
 	
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
+	std::unique_ptr<WindowImportScene> importScene;
 	std::unique_ptr<WindowAbout> about;
 
 	bool showAbout;

@@ -14,7 +14,7 @@ bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(Json &json) :
 	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
-	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
+	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>()), importScene(std::make_unique<WindowImportScene>())
 {		
 	about = std::make_unique<WindowAbout>();	
 	
@@ -105,6 +105,7 @@ void WindowMainMenu::DrawFileMenu()
 			action = Actions::NEW_SCENE;
 		}
 		loadScene->DrawWindowContents();
+		importScene->DrawWindowContents();
 		if (ImGui::Button((ConvertU8String(ICON_IGFD_SAVE) + " Save Scene").c_str()))
 		{
 			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
