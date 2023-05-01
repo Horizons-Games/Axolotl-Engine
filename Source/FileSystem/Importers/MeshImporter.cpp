@@ -228,6 +228,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	float vertexWeight = 0.0f;
 	unsigned int numWeights = 0u;
 
+	unsigned int bonesPerVertex = resource->GetBonesPerVertex();
+
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
 		Bone bone;
@@ -251,11 +253,17 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 		for (unsigned int j = 0; j < numWeights; ++j)
 		{	
 			memcpy(&vertexId, fileBuffer, sizeof(unsigned int));
-			resource->SetAttachBones(vertexId, i);
+			if (resource->GetNumBonesAttached(vertexId) < bonesPerVertex)
+			{
+				resource->SetAttachBones(vertexId, i);
+			}
 			fileBuffer += sizeof(unsigned int);
 
 			memcpy(&vertexWeight, fileBuffer, sizeof(float));
-			resource->SetAttachWeight(vertexId, vertexWeight);
+			if (resource->GetNumBonesAttached(vertexId) < bonesPerVertex) 
+			{
+				resource->SetAttachWeight(vertexId, vertexWeight);
+			}
 			fileBuffer += sizeof(float);
 
 			resource->IncrementAttachNumBones(vertexId);

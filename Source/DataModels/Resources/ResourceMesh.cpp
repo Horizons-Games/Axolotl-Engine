@@ -24,6 +24,10 @@ ResourceMesh::~ResourceMesh()
 	attaches.clear();
 }
 
+unsigned int ResourceMesh::GetBonesPerVertex() {
+	return bonesPerVertex;
+}
+
 void ResourceMesh::InternalLoad()
 {
 	glGenBuffers(1, &ssboPalette);

@@ -51,6 +51,7 @@ public:
 	unsigned int GetNumBones() const;
 	unsigned int GetMaterialIndex() const;
 	unsigned int GetSSBOPalette() const;
+	unsigned int GetNumBonesAttached(const unsigned int vertexId) const;
 	const std::vector<float3>& GetVertices() const;
 	const std::vector<float3>& GetTextureCoords() const;
 	const std::vector<float3>& GetNormals() const;
@@ -59,6 +60,7 @@ public:
 	const std::vector<Bone>& GetBones() const ;
 	const std::vector<Attach>& GetAttaches() const;
 	const std::vector<unsigned int>& GetNumWeights() const;
+	unsigned int GetBonesPerVertex();
 
 	OptionsMesh& GetOptions();
 
@@ -203,6 +205,11 @@ inline const std::vector<Bone>& ResourceMesh::GetBones() const
 inline const std::vector<Attach>& ResourceMesh::GetAttaches() const 
 {
 	return attaches;
+}
+
+inline unsigned int ResourceMesh::GetNumBonesAttached(const unsigned int vertexId) const
+{
+	return attaches[vertexId].numBones;
 }
 
 inline const std::vector<unsigned int>& ResourceMesh::GetNumWeights() const
