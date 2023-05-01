@@ -52,6 +52,7 @@ bool ModuleWindow::Init()
 			//Get window surface
 			screenSurface = SDL_GetWindowSurface(window.get());
 		}
+		SetResizable(true);
 	}
 
 	return ret;
