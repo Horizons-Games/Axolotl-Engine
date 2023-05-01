@@ -29,9 +29,9 @@ public:
 	const float4x4& GetGlobalRotation() const;
 	const float3& GetScale() const;
 	float3 GetLocalForward() const;
-	inline float3 GetGlobalForward() const;
-	inline float3 GetGlobalUp() const;
-	inline float3 GetGlobalRight() const;
+	float3 GetGlobalForward() const;
+	float3 GetGlobalUp() const;
+	float3 GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
 
 	const float4x4& GetLocalMatrix() const;
