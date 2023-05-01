@@ -39,12 +39,6 @@ private:
 	static const std::string rootPath;
 };
 
-
-inline bool ModuleProgram::CleanUp()
-{
-	return true;
-}
-
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
 	if (programs.empty() || programs.size() 
