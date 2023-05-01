@@ -596,6 +596,7 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 	rootQuadtree->Remove(gameObject);
 }
 
+
 void Scene::RemoveNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.erase(

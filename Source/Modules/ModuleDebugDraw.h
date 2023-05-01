@@ -36,4 +36,15 @@ private:
     static DDRenderInterfaceCoreGL* implementation;
 };
 
+
+inline void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
+{
+    this->showBoundingBoxes = showBoundingBoxes;
+}
+
+inline bool ModuleDebugDraw::IsShowingBoundingBoxes() const
+{
+    return showBoundingBoxes;
+}
+
 #endif /* _MODULE_DEBUGDRAW_H_ */

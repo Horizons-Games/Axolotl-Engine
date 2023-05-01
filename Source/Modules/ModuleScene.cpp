@@ -227,11 +227,6 @@ void ModuleScene::OnPlay()
 	}
 }
 
-void ModuleScene::OnPause()
-{
-	ENGINE_LOG("Pause pressed");
-}
-
 void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");

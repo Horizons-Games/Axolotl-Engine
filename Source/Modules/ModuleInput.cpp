@@ -211,11 +211,6 @@ update_status ModuleInput::Update()
     return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleInput::SetShowCursor(bool set)
-{
-    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
-}
-
 bool ModuleInput::CleanUp()
 {
     ENGINE_LOG("Quitting SDL input event subsystem");

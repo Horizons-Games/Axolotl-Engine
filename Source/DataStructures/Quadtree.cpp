@@ -34,11 +34,6 @@ Quadtree::~Quadtree()
 	ResetChildren();
 }
 
-bool Quadtree::IsLeaf() const
-{
-	return frontLeftNode == nullptr;
-}
-
 void Quadtree::Add(GameObject* gameObject)
 {
 	assert(gameObject != nullptr);

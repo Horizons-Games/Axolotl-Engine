@@ -47,3 +47,8 @@ inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
 {
 	this->readyToEliminate =  readyToEliminate;
 }
+
+inline Camera* ModulePlayer::GetCameraPlayer()
+{
+	return cameraPlayer;
+}
