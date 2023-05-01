@@ -190,11 +190,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	}
 }
 
-Camera* ModuleCamera::GetCamera()
-{
-	return selectedCamera;
-}
-
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
 	std::pair<int, int> region = App->editor->GetAvailableRegion();
