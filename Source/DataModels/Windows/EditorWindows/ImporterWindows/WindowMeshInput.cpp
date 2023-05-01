@@ -22,8 +22,9 @@ void WindowMeshInput::DoThisIfOk()
 {
 	if (componentMesh)
 	{
+		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(filePath);
-		componentMesh->SetMesh(mesh);
+		std::shared_ptr<ResourceMesh> resource = App->resources->RequestResource<ResourceMesh>(filePath);
+		componentMesh->SetMesh(resource);
 	}
 }

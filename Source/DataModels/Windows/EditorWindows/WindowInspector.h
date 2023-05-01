@@ -4,6 +4,7 @@
 
 #include "FileSystem/UniqueID.h"
 
+
 class Model;
 class GameObject;
 class Component;
@@ -66,3 +67,17 @@ private:
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
 	std::vector<AddComponentAction> actions;
 };
+
+
+inline bool WindowInspector::MousePosIsInWindow()
+{
+	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x
+		&& ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
+		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y
+		&& ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
+}
+
+inline bool WindowInspector::WindowRightClick()
+{
+	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
+}

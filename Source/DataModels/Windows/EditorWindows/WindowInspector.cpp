@@ -337,19 +337,6 @@ void WindowInspector::DrawTextureOptions()
 	}
 }
 
-bool WindowInspector::MousePosIsInWindow()
-{
-	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x
-		&& ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
-		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y
-		&& ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
-}
-
-bool WindowInspector::WindowRightClick()
-{
-	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
-}
-
 void WindowInspector::AddComponentMeshRenderer()
 {
 	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);

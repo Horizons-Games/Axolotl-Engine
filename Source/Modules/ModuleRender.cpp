@@ -163,15 +163,6 @@ bool ModuleRender::Init()
 	return true;
 }
 
-bool ModuleRender::Start()
-{
-	ENGINE_LOG("--------- Render Start ----------");
-
-	//UpdateProgram();
-
-	return true;
-}
-
 update_status ModuleRender::PreUpdate()
 {
 	int width, height;

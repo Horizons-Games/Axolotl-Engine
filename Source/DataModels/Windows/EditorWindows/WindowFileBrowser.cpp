@@ -8,11 +8,15 @@
 #include "DataModels/GameObject/GameObject.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
 
+#include "Timer/Timer.h"
 WindowFileBrowser::WindowFileBrowser() : EditorWindow("File Browser"),
 	title(ConvertU8String(ICON_IGFD_FOLDER) + " Import Asset"),
 	dialogName("Choose File"),
 	filters(".*"),
 	startPath("."),
+	isLoading(false),
+	timer(nullptr),
+	winLoading(std::make_unique<WindowLoading>()),
 	browserPath(fileDialogBrowser.GetCurrentPath() + "Assets")
 {
 	fileDialogBrowser.SetFileStyle(IGFD_FileStyleByFullName, "(Custom.+[.]h)",
@@ -114,6 +118,7 @@ void WindowFileBrowser::DrawWindowContents()
 	{
 		if (fileDialogImporter.IsOk())
 		{
+			isLoading = true;
 			DoThisIfOk();
 		}
 		fileDialogImporter.Close();
@@ -122,6 +127,13 @@ void WindowFileBrowser::DrawWindowContents()
 	if (title == ConvertU8String(ICON_IGFD_FOLDER) + " Import Asset")
 	{
 		Browser();
+	}
+
+	ImportResourceWithLoadingWindow();
+
+	if (futureResource.valid() && !isLoading)
+	{
+		GetResourceAfterImport();
 	}
 }
 
@@ -142,6 +154,30 @@ void WindowFileBrowser::Browser()
 
 void WindowFileBrowser::DoThisIfOk()
 {
-	std::string filePathName = fileDialogImporter.GetFilePathName();
-	App->resources->ImportResource(filePathName);
+	filePathName = fileDialogImporter.GetFilePathName();
+	this->ImportResourceAsync(filePathName);
+}
+
+void WindowFileBrowser::ImportResourceWithLoadingWindow()
+{
+	winLoading->Draw(isLoading);
+	if (isLoading && futureResource._Is_ready() && timer->Read() > 1000)
+	{
+		isLoading = false;
+		timer->Stop();
+		ENGINE_LOG("Resource loaded succesfully");
+	}
+}
+
+void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
+{
+	futureResource = App->resources->ImportThread(filePath);
+
+	timer = std::make_unique<Timer>();
+	timer->Start();
+	ENGINE_LOG("Started loading resource");
+}
+
+void WindowFileBrowser::GetResourceAfterImport()
+{
 }

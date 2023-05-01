@@ -43,6 +43,12 @@ private:
 	std::string rootPath = "Source/Shaders/";
 };
 
+
+inline bool ModuleProgram::CleanUp()
+{
+	return true;
+}
+
 inline Program* ModuleProgram::GetProgram(ProgramType type) const
 {
 	if (programs.empty() || programs.size() 
