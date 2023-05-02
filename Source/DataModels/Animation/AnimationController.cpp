@@ -12,7 +12,7 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(std::shared_ptr<ResourceAnimation> resource, bool loop)
+void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop)
 {
     this->resource = resource;
     isLooping = loop;
@@ -46,7 +46,7 @@ void AnimationController::Update()
     }
 }
 
-bool AnimationController::GetTransform(char* name, float3& pos, Quat& rot)
+bool AnimationController::GetTransform(const std::string& name, float3& pos, Quat& rot)
 {
     ResourceAnimation::Channel* channel = resource->GetChannel(name);
 

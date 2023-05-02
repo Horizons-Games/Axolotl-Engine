@@ -13,12 +13,12 @@ public:
 	AnimationController();
 	~AnimationController();
 
-	void Play(std::shared_ptr<ResourceAnimation> resource, bool loop);
+	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop);
 	void Stop();
 	
 	void Update();
 
-	bool GetTransform(char* name, float3& pos, Quat& rot);
+	bool GetTransform(const std::string& name, float3& pos, Quat& rot);
 	bool GetPlay();
 	bool GetLoop();
 
