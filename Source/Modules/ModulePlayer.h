@@ -13,9 +13,6 @@ public:
 
 	bool Start() override;
 
-	update_status PreUpdate();
-	update_status Update();
-
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();

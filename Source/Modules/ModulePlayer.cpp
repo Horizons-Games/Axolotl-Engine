@@ -47,6 +47,11 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
 }
 
+Camera* ModulePlayer::GetCameraPlayer()
+{
+	return cameraPlayer;
+}
+
 void ModulePlayer::LoadNewPlayer()
 {
 	std::vector<ComponentCamera*> cameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
