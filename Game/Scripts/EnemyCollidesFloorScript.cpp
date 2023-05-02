@@ -42,7 +42,7 @@ void EnemyCollidesFloorScript::PreUpdate(float deltaTime)
 	//{
 	//	//bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 10;
 	//	Ray ray(bottomPoint, -float3::unitY);
-	//	LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+	//	LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 	//	bool hasHit = Physics::Raycast(line, hit, owner);
 
 	//	if (hasHit && hit.hitPoint.y > maxHeight)
@@ -58,7 +58,7 @@ void EnemyCollidesFloorScript::PreUpdate(float deltaTime)
 
 	RaycastHit hit;
 	Ray ray(trans->GetPosition(), -float3::unitY);
-	LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+	LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 	bool hasHit = Physics::Raycast(line, hit, owner);
 
 	if (hasHit && hit.hitPoint.y)

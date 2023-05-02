@@ -11,14 +11,7 @@ public:
 	ModulePlayer();
 	~ModulePlayer() override;
 
-	bool Init() override;
 	bool Start() override;
-
-	update_status PreUpdate();
-	update_status Update();
-
-	void Move();
-	void Rotate();
 
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
