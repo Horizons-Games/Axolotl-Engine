@@ -138,14 +138,5 @@ void ModuleWindow::SetVsync(bool vsyncactive)
 	SDL_GL_SetSwapInterval(vsyncactive);
 }
 
-SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
-{
-	if (boolVal)
-	{
-		return SDL_TRUE;
-	}
-	return SDL_FALSE;
-}
-
 
 

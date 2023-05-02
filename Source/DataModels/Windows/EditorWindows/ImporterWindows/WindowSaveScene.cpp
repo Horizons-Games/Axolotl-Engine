@@ -21,5 +21,5 @@ void WindowSaveScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePathName = fileDialogImporter.GetCurrentFileName();
-	App->scene->SaveSceneToJson(filePathName);
+	App->GetModule<ModuleScene>()->SaveSceneToJson(filePathName);
 }

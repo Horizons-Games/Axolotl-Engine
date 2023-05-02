@@ -55,6 +55,11 @@ private:
 	static const std::string set;
 };
 
+inline void ModuleEditor::Resized()
+{
+	windowResized = true;
+}
+
 inline const WindowScene* ModuleEditor::GetScene() const
 {
 	return scene;
@@ -69,3 +74,5 @@ inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
 }
+
+

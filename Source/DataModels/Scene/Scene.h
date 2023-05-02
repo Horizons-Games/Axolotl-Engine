@@ -56,7 +56,7 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 
-	GameObject* GetRoot();
+	GameObject* GetRoot() const;
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
@@ -120,7 +120,7 @@ private:
 	std::vector<GameObject*> nonStaticObjects;
 };
 
-inline GameObject* Scene::GetRoot()
+inline GameObject* Scene::GetRoot() const
 {
 	return root.get();
 }
