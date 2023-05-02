@@ -25,7 +25,7 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {
 #ifdef ENGINE
 	// normalize the input to [-1, 1].
-	const WindowScene* windowScene = App->editor->GetScene();
+	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
@@ -48,7 +48,7 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 
 #ifdef ENGINE
 	// normalize the input to [-1, 1].
-	const WindowScene* windowScene = App->editor->GetScene();
+	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
 	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
@@ -67,7 +67,7 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 			float normalizedY = 1.0f - 2.0f * mousePositionAdjusted.y / height;
 
 
-			ray = App->camera->GetCamera()->GetFrustum()->UnProjectLineSegment(normalizedX, normalizedY);
+			ray = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->UnProjectLineSegment(normalizedX, normalizedY);
 			return true;
 		}
 	}
@@ -80,12 +80,32 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	std::map<float, const GameObject*> hitGameObjects;
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
 #endif
-	AddIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+#endif
+	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+
+	GetRaycastHitInfo(hitGameObjects, ray, hit, exceptionGameObject);
 
 	if (hit.gameObject != nullptr)
 	{
@@ -100,20 +120,46 @@ bool Physics::RaycastFirst(const LineSegment& ray)
 	std::map<float, const GameObject*> hitGameObjects;
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
 #endif
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
+		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	}
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
 	}
 
 	if (hitGameObjects.size() != 0)
 	{
 		return true;
+	}
+
+	return false;
+}
+
+bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObject)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+#endif
+
+	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	
+
+	if (hitGameObjects.size() != 0)
+	{
+		for (auto it = hitGameObjects.begin(); it != hitGameObjects.end(); it++)
+		{
+			if (!(exceptionGameObject->IsADescendant((*it).second) || exceptionGameObject == (*it).second))
+			{
+				return true;
+			}
+		}
 	}
 
 	return false;
@@ -257,6 +303,83 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				hitNormal = triangle.NormalCCW();
 				nearestHitPoint = exactHitPoint;
 			}
+		}
+	}
+
+	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = nearestHitPoint;
+	hit.normal = hitNormal;
+}
+
+void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
+{
+	GameObject* newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
+
+	std::vector<GameObject*> children = exceptionGameObject->GetChildren();
+
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
+	{
+		const GameObject* actualGameObject = hitGameObject.second;
+		
+		bool isInside = false;
+
+		auto it = std::find(children.begin(), children.end(), actualGameObject);
+
+		isInside = it != children.end();
+		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+		{
+			ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
+				(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+
+			if (!componentMeshRenderer)
+			{
+				continue;
+			}
+			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
+
+			if (!goMeshAsShared)
+			{
+				continue;
+			}
+
+			const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
+				(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
+			for (const Triangle& triangle : meshTriangles)
+			{
+				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+				if (!hit)
+				{
+					continue;
+				}
+
+				if (thisDistance >= minCurrentDistance)
+				{
+					continue;
+				}
+
+				// Only save a gameObject when any of its triangles is hit 
+				// and it is the nearest triangle to the frustum
+				newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
+				minCurrentDistance = thisDistance;
+				hitNormal = triangle.NormalCCW();
+				nearestHitPoint = exactHitPoint;
+			}
+		}
+		else 
+		{
+			float chapuza = 0.0f;
 		}
 	}
 

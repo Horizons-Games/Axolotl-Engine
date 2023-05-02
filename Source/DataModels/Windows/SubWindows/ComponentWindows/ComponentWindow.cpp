@@ -17,6 +17,8 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 
@@ -36,6 +38,8 @@
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMockState.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAudioListener.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
 
@@ -72,6 +76,10 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 		case ComponentType::RIGIDBODY:
 			return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
+		case ComponentType::AUDIOSOURCE:
+			return std::make_unique<WindowComponentAudioSource>(static_cast<ComponentAudioSource*>(component));
+		case ComponentType::AUDIOLISTENER:
+			return std::make_unique<WindowComponentAudioListener>(static_cast<ComponentAudioListener*>(component));
 		case ComponentType::MESHCOLLIDER:
 			return std::make_unique<WindowComponentMeshCollider>(static_cast<ComponentMeshCollider*>(component));
 		case ComponentType::MOCKSTATE:
@@ -128,7 +136,7 @@ void ComponentWindow::DrawEnableComponent()
 		bool enable = component->IsEnabled();
 		if (ImGui::Checkbox(ss.str().c_str(), &enable))
 		{
-			App->command->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
+			App->GetModule<ModuleCommand>()->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
 		}
 	}
 }
@@ -142,7 +150,7 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+			if (!App->GetModule<ModuleScene>()->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

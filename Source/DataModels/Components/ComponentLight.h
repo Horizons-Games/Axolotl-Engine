@@ -1,6 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-
 #include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 

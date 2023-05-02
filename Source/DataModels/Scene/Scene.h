@@ -40,6 +40,7 @@ public:
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
+	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
@@ -55,7 +56,7 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 
-	GameObject* GetRoot();
+	GameObject* GetRoot() const;
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
@@ -119,7 +120,7 @@ private:
 	std::vector<GameObject*> nonStaticObjects;
 };
 
-inline GameObject* Scene::GetRoot()
+inline GameObject* Scene::GetRoot() const
 {
 	return root.get();
 }

@@ -17,6 +17,8 @@ enum class ComponentType
 	BUTTON,
 	RIGIDBODY,
 	MOCKSTATE,
+	AUDIOSOURCE,
+	AUDIOLISTENER,
 	MESHCOLLIDER,
 	SCRIPT
 };
@@ -36,6 +38,8 @@ public:
 
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+
+	virtual void OnTransformChanged();
 
 	virtual void Enable();
 	virtual void Disable();
@@ -86,6 +90,10 @@ inline void Component::Disable()
 	{
 		active = false;
 	}
+}
+
+inline void Component::OnTransformChanged()
+{
 }
 
 inline bool Component::IsEnabled() const
@@ -139,6 +147,10 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
+	case ComponentType::AUDIOSOURCE:
+		return "Component_AudioSource";
+	case ComponentType::AUDIOLISTENER:
+		return "Component_AudioListener";
 	case ComponentType::MESHCOLLIDER:
 		return "Component_MeshCollider";
 	case ComponentType::SCRIPT:
@@ -206,6 +218,16 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::MOCKSTATE;
 	}
 
+	if (typeName == "Component_AudioSource")
+	{
+		return ComponentType::AUDIOSOURCE;
+	}
+
+	if (typeName == "Component_AudioListener")
+	{
+		return ComponentType::AUDIOLISTENER;
+	}
+	
 	if (typeName == "Component_Script")
 	{
 		return ComponentType::SCRIPT;

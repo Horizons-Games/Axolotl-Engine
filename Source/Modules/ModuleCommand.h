@@ -12,7 +12,7 @@ public:
 	ModuleCommand();
 	~ModuleCommand() override;
 
-	update_status Update();
+	update_status Update() override;
 
 	template<typename C, typename ...Args, std::enable_if_t<std::is_base_of<Command, C>::value, bool> = true >
 	void CreateAndExecuteCommand(Args&& ...args);

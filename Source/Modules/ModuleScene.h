@@ -20,6 +20,7 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
+	bool CleanUp() override;
 
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
@@ -70,4 +71,9 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
+}
+
+inline void ModuleScene::OnPause()
+{
+	ENGINE_LOG("Pause pressed");
 }

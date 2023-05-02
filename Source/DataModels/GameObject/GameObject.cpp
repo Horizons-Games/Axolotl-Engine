@@ -15,6 +15,8 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
 
@@ -176,8 +178,7 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	parent->UnlinkChild(this);
-	newParent->LinkChild(this);
+	newParent->LinkChild(parent->UnlinkChild(this));
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
@@ -445,6 +446,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHCOLLIDER:
 		{
 			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
@@ -469,7 +482,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
 		if (updatable)
 		{
-			App->scene->GetLoadedScene()->AddUpdatableObject(updatable);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
 		}
 
 		components.push_back(std::move(newComponent));
@@ -512,6 +525,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	return nullptr;
 }
 
+
 bool GameObject::RemoveComponent(const Component* component)
 {
 	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
@@ -529,14 +543,14 @@ bool GameObject::RemoveComponent(const Component* component)
 				switch (type)
 				{
 				case LightType::POINT:
-					App->scene->GetLoadedScene()->UpdateScenePointLights();
-					App->scene->GetLoadedScene()->RenderPointLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
 
 					break;
 
 				case LightType::SPOT:
-					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-					App->scene->GetLoadedScene()->RenderSpotLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 
 					break;
 				}
@@ -618,7 +632,7 @@ void GameObject::MoveUpChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it - 1, it);
-			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it - 1)).get());
 			break;
 		}
 	}
@@ -633,7 +647,7 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it, it + 1);
-			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it + 1)).get());
 			break;
 		}
 	}

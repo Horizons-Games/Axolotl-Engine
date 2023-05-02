@@ -36,7 +36,7 @@ void ComponentMeshCollider::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 }
 
-bool ComponentMeshCollider::Move(Direction direction, float size, RaycastHit& hit, float stepSize )
+bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize )
 {
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
@@ -96,7 +96,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		bool hasHit = Physics::RaycastFirst(line);
+		bool hasHit = Physics::RaycastFirst(line, owner);
 
 		if (hasHit) {
 			return true;
@@ -169,17 +169,19 @@ float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& poi
 {
 	switch (direction)
 	{
-	case Direction::FRONT:
-		return (points[1] - points[0]).Normalized();
-	case Direction::BACK:
-		return (points[0] - points[1]).Normalized();
-	case Direction::LEFT:
-		return (points[4] - points[0]).Normalized();
-	case Direction::RIGHT:
-		return (points[0] - points[4]).Normalized();
-	case Direction::UP:
-		return float3::unitY;
-	case Direction::DOWN:
-		return -float3::unitY;
+		case Direction::FRONT:
+			return (points[1] - points[0]).Normalized();
+		case Direction::BACK:
+			return (points[0] - points[1]).Normalized();
+		case Direction::LEFT:
+			return (points[4] - points[0]).Normalized();
+		case Direction::RIGHT:
+			return (points[0] - points[4]).Normalized();
+		case Direction::UP:
+			return float3::unitY;
+		case Direction::DOWN:
+			return -float3::unitY;
+		default:
+			break;
 	}
 }

@@ -13,15 +13,16 @@ ModuleCommand::~ModuleCommand()
 
 update_status ModuleCommand::Update()
 {
+	const ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
-		App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		&& App->input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
+		input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		&& input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
 		Undo();
 	}
 	else if (
-		App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		&& App->input->GetKey(SDL_SCANCODE_Y) == KeyState::DOWN)
+		input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		&& input->GetKey(SDL_SCANCODE_Y) == KeyState::DOWN)
 	{
 		Redo();
 	}
