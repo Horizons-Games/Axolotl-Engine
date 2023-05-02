@@ -1,9 +1,7 @@
 #pragma once
-#pragma warning(disable : 26495)
-
+#include "Module.h"
 #include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
-#include "Module.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -18,12 +16,12 @@ public:
 	~ModuleRender() override;
 
 	bool Init() override;
-	bool Start() override;
-	bool CleanUp() override;
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	
+	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
@@ -41,7 +39,7 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	// const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+	//const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
@@ -55,10 +53,10 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-
+	
 	std::vector<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
-	// to avoid gameobjects being drawn twice
+	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
 

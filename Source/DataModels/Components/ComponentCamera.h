@@ -7,8 +7,6 @@
 #include "Geometry/OBB.h"
 #include "Geometry/Plane.h"
 
-class CameraGameObject;
-
 /*
 enum class ECameraFrustumMode
 {
@@ -22,6 +20,7 @@ const static ECameraFrustumMode GetFrustumModeByName(const std::string& name);
 */
 
 class Json;
+class CameraGameObject;
 class ComponentTransform;
 
 class ComponentCamera : public Component, public Updatable, public Drawable
@@ -44,3 +43,9 @@ public:
 private:
 	std::unique_ptr<CameraGameObject> camera;
 };
+
+inline CameraGameObject* ComponentCamera::GetCamera()
+{
+	return camera.get();
+}
+

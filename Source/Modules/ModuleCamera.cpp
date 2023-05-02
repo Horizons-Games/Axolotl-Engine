@@ -1,69 +1,73 @@
-#pragma warning(disable : 26495)
-
 #include "Application.h"
 
 #include "ModuleCamera.h"
-#include "ModuleEditor.h"
-#include "ModuleInput.h"
-#include "ModulePlayer.h"
-#include "ModuleRender.h"
-#include "ModuleScene.h"
 #include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleRender.h"
+#include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "ModulePlayer.h"
+
 
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentCamera.h"
 
 #include "Resources/ResourceMesh.h"
 
 #include "Windows/EditorWindows/WindowScene.h"
 
+#include "Math/float3x3.h"
+#include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
 
 #ifdef ENGINE
-	#include "Camera/CameraEngine.h"
+#include "Camera/CameraEngine.h"
 #endif // ENGINE
-#include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"
+#include "Camera/CameraGameObject.h"
 
-ModuleCamera::ModuleCamera(){};
 
-ModuleCamera::~ModuleCamera(){};
+
+ModuleCamera::ModuleCamera() {};
+
+ModuleCamera::~ModuleCamera() {
+};
 
 bool ModuleCamera::Init()
 {
-#ifdef ENGINE
-	camera = std::make_unique<CameraEngine>();
-#else  // ENGINE
-	camera = std::make_unique<CameraGod>();
-#endif // GAMEMODE
+	#ifdef ENGINE
+		camera = std::make_unique <CameraEngine>();
+	#else // ENGINE
+		camera = std::make_unique <CameraGod>();
+	#endif // GAMEMODE
 
 	selectedPosition = 0;
-	camera->Init();
-	return true;
+	return camera->Init();
 }
 
 bool ModuleCamera::Start()
 {
-	camera->Start();
-#ifdef ENGINE
-	selectedCamera = camera.get();
-#else  // ENGINE
-	// selectedPosition = 1;
-	// SetSelectedCamera(selectedPosition);
-	// if (selectedCamera == nullptr)
-	//{
-	selectedPosition = 0;
-	selectedCamera = camera.get();
-	//}
-#endif // GAMEMODE
+	if (!camera->Start())
+	{
+		return false;
+	}
+	#ifdef ENGINE
+		selectedCamera = camera.get();
+	#else // ENGINE
+		//selectedPosition = 1;
+		//SetSelectedCamera(selectedPosition);
+		//if (selectedCamera == nullptr)
+		//{
+			selectedPosition = 0;
+			selectedCamera = camera.get();
+		//}
+	#endif // GAMEMODE
 
 	RecalculateOrthoProjectionMatrix();
 	return true;
@@ -73,28 +77,28 @@ update_status ModuleCamera::Update()
 {
 	if (
 #ifdef ENGINE
-		App->editor->IsSceneFocused()
-#else  // ENGINE
+		App->GetModule<ModuleEditor>()->IsSceneFocused()
+#else // ENGINE
 		true
 #endif // GAMEMODE
-	)
+		)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
 		{
 			selectedPosition--;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
 		{
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
@@ -106,19 +110,22 @@ update_status ModuleCamera::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+
 void ModuleCamera::ChangeCamera(CameraType newType)
 {
 	switch (newType)
 	{
-		case CameraType::C_GOD:
-			camera = std::make_unique<CameraGod>(std::move(camera));
-			break;
+	case CameraType::C_GOD:
+		camera = std::make_unique <CameraGod>(std::move(camera));
+		break;
 #ifdef ENGINE
-		case CameraType::C_ENGINE:
-			camera = std::make_unique<CameraEngine>(std::move(camera));
-			break;
+	case CameraType::C_ENGINE:
+		camera = std::make_unique <CameraEngine>(std::move(camera));
+		break;
 #endif // ENGINE
+
 	}
+	
 }
 
 void ModuleCamera::SetSelectedCamera(int cameraNumber)
@@ -129,7 +136,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		selectedPosition = 0;
 		if (App->IsOnPlayMode())
 		{
-			selectedCamera = App->player->GetCameraPlayer();
+			selectedCamera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 			if (!selectedCamera)
 			{
 				selectedPosition = 1;
@@ -142,7 +149,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		}
 #else
 		selectedPosition = 0;
-		selectedCamera = App->player->GetCameraPlayer();
+		selectedCamera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 		if (!selectedCamera)
 		{
 			selectedPosition = 1;
@@ -165,7 +172,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 #endif // !ENGINE
 	else
 	{
-		std::vector<ComponentCamera*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
+		std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
 		if (loadedCameras.size() >= cameraNumber)
 		{
 #ifdef ENGINE
@@ -185,13 +192,8 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	}
 }
 
-Camera* ModuleCamera::GetCamera()
-{
-	return selectedCamera;
-}
-
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
-	std::pair<int, int> region = App->editor->GetAvailableRegion();
+	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
 	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
 }

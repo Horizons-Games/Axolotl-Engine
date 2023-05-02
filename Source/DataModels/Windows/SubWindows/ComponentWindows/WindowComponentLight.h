@@ -16,3 +16,10 @@ protected:
 
 	constexpr static float max_intensity = 5000.0f;
 };
+
+inline void WindowComponentLight::DrawWindowContents()
+{
+	DrawEnableAndDeleteComponent();
+
+	ImGui::Text("This is a basic light");
+}

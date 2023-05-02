@@ -23,11 +23,6 @@ ResourceTexture::~ResourceTexture()
 	this->Unload();
 }
 
-void ResourceTexture::InternalLoad()
-{
-	CreateTexture();
-}
-
 void ResourceTexture::InternalUnload()
 {
 	glDeleteTextures(1, &glTexture);

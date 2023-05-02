@@ -22,9 +22,9 @@
 REGISTERCLASS(PlayerMobilityScript);
 
 PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
-jumpParameter(80.0f), dashForce(50.0f), canDash(true),
-canDoubleJump(true), jumps(0), isCrouch(false),
-componentAudio(nullptr), playerState(PlayerActions::IDLE)
+												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
+												canDoubleJump(true) , jumps(0), isCrouch(false),
+												componentAudio(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(Speed, float);
 	REGISTER_FIELD(JumpParameter, float);
@@ -34,7 +34,7 @@ componentAudio(nullptr), playerState(PlayerActions::IDLE)
 
 void PlayerMobilityScript::Start()
 {
-	if (canDoubleJump)
+	if (canDoubleJump) 
 	{
 		jumps = 2;
 	}
@@ -49,14 +49,14 @@ void PlayerMobilityScript::Start()
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
 {
-
-	if (!componentPlayer->IsStatic() && App->camera->GetSelectedPosition() == 0
+	
+	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
 		&& !SDL_ShowCursor(SDL_QUERY))
 	{
 		Move();
 		Rotate();
 	}
-
+	
 }
 
 void PlayerMobilityScript::Move()
@@ -89,7 +89,8 @@ void PlayerMobilityScript::Move()
 	size = speed * deltaTime * 1.1f;
 
 	// Dash pressing E during 0.2 sec
-	if (App->input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && GetCanDash())
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && GetCanDash())
 	{
 		sizeForce = deltaTime * dashForce;
 		if (nextDash == 0)
@@ -101,7 +102,7 @@ void PlayerMobilityScript::Move()
 		{
 			canDash = false;
 			nextDash += 5000;
-		}
+		}	
 	}
 
 	// Cooldown Dash
@@ -112,18 +113,18 @@ void PlayerMobilityScript::Move()
 	}
 
 	// Run, duplicate the speed
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		size *= 2;
 	}
 
 	// Crouch
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
+	if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
 	{
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
 		std::vector<GameObject*> children = owner->GetChildren();
-		for (auto child : children)
+		for (auto child : children) 
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
 			{
@@ -134,7 +135,7 @@ void PlayerMobilityScript::Move()
 		}
 		size /= 4.f;
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
+	else if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
 	{
 		isCrouch = false;
 		trans->SetScale(trans->GetScale() * 2);
@@ -154,7 +155,7 @@ void PlayerMobilityScript::Move()
 	}
 
 	// Forward
-	if (App->input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -188,7 +189,7 @@ void PlayerMobilityScript::Move()
 	}
 
 	// Backward
-	if (App->input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -224,7 +225,7 @@ void PlayerMobilityScript::Move()
 	}
 
 	// Left
-	if (App->input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -260,7 +261,7 @@ void PlayerMobilityScript::Move()
 	}
 
 	// Right
-	if (App->input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -296,10 +297,10 @@ void PlayerMobilityScript::Move()
 	}
 
 	// No movement input
-	if (App->input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
-		App->input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
-		App->input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
-		App->input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
@@ -311,7 +312,7 @@ void PlayerMobilityScript::Move()
 	//rigidBody->AddForce(forceVector * forceParameter);
 
 	// Jump
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 	{
 		sizeJump = deltaTime * jumpParameter;
 		jumps -= 1;
@@ -321,7 +322,7 @@ void PlayerMobilityScript::Move()
 		}
 
 	}
-
+	
 	// Control Double Jump
 	if (rigidBody->IsOnGround() && canDoubleJump)
 	{
@@ -331,7 +332,7 @@ void PlayerMobilityScript::Move()
 	{
 		jumps = 1;
 	}
-
+	
 
 	trans->UpdateTransformMatrices();
 
@@ -344,7 +345,7 @@ void PlayerMobilityScript::Move()
 	{
 		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 5;
 		Ray ray(bottomPoint, -float3::unitY);
-		LineSegment line(ray, App->scene->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		bool hasHit = Physics::Raycast(line, hit);
 
 		if (hasHit && hit.hitPoint.y > maxHeight)
@@ -366,7 +367,8 @@ void PlayerMobilityScript::Rotate()
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float3 newRot = trans->GetRotationXYZ();
-	newRot.y += -App->input->GetMouseMotion().x * deltaTime;
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	newRot.y += -input->GetMouseMotion().x * deltaTime;
 	trans->SetRotation(newRot);
 	trans->UpdateTransformMatrices();
 
@@ -382,7 +384,7 @@ void PlayerMobilityScript::Rotate()
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 		float3 newRot = trans->GetRotationXYZ();
-		newRot.y += App->input->GetMouseMotion().x * deltaTime;
+		newRot.y += input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);
 		trans->UpdateTransformMatrices();
 	}

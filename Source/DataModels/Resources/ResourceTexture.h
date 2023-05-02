@@ -217,3 +217,8 @@ inline void ResourceTexture::SetPixelsSize(unsigned int pixelsSize)
 {
 	this->pixelsSize = pixelsSize;
 }
+
+inline void ResourceTexture::InternalLoad()
+{
+	CreateTexture();
+}

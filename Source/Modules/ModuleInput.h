@@ -23,9 +23,9 @@ public:
 	ModuleInput();
 	~ModuleInput() override;
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	bool Init() override;
+	update_status Update() override;
+	bool CleanUp() override;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -162,6 +162,11 @@ inline void ModuleInput::SetZoomCursor()
 inline void ModuleInput::SetDefaultCursor()
 {
 	SDL_SetCursor(defaultCursor.get());
+}
+
+inline void ModuleInput::SetShowCursor(bool set)
+{
+	set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
 }
 
 inline bool ModuleInput::IsMouseWheelScrolled() const

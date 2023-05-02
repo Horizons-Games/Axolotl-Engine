@@ -15,9 +15,3 @@ WindowComponentLight::~WindowComponentLight()
 {
 }
 
-void WindowComponentLight::DrawWindowContents()
-{
-	DrawEnableAndDeleteComponent();
-
-	ImGui::Text("This is a basic light");
-}

@@ -5,12 +5,13 @@
 #include "imgui.h"
 
 #include "Application.h"
-#include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
+#include "Modules/ModuleProgram.h"
 
 #include "DataModels/Program/Program.h"
 
 int WindowRenderer::bufferSize = 128;
+
 
 WindowRenderer::WindowRenderer() : SubWindow("Renderer"), initialized(false)
 
@@ -25,11 +26,11 @@ void WindowRenderer::DrawWindowContents()
 {
 	if (!initialized)
 	{
-		vertexShaderBuffers.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
-		fragmentShaderBuffer.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
-		for (int i = 0; i < (int) ProgramType::PROGRAM_TYPE_SIZE; i++)
+		vertexShaderBuffers.resize((int)ProgramType::PROGRAM_TYPE_SIZE);
+		fragmentShaderBuffer.resize((int)ProgramType::PROGRAM_TYPE_SIZE);
+		for (int i = 0; i < (int)ProgramType::PROGRAM_TYPE_SIZE; i++)
 		{
-			Program* program = App->program->GetProgram((ProgramType) i);
+			Program* program = App->GetModule<ModuleProgram>()->GetProgram((ProgramType)i);
 			if (program)
 			{
 				vertexShaderBuffers[i] = program->GetVertexShaderFileName();
@@ -39,13 +40,14 @@ void WindowRenderer::DrawWindowContents()
 		initialized = true;
 	}
 
-	for (int i = 0; i < (int) ProgramType::PROGRAM_TYPE_SIZE; i++)
+	for (int i = 0; i < static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE); i++)
 	{
-		Program* program = App->program->GetProgram((ProgramType) i);
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram((ProgramType)i);
 		if (program)
 		{
 			std::string vertexShaderLabel = program->GetProgramName() + " vertex shader";
 			std::string fragmentShaderLabel = program->GetProgramName() + " Fragment shader";
+
 
 			ImGui::TextUnformatted(program->GetProgramName().c_str());
 			ImGui::TextUnformatted("Vertex shader");
@@ -53,7 +55,7 @@ void WindowRenderer::DrawWindowContents()
 			ImGui::TextUnformatted("Fragment shader");
 			ImGui::InputText(fragmentShaderLabel.c_str(), &fragmentShaderBuffer[i][0], bufferSize);
 
-			ImGui::Dummy(ImVec2(0.f, 5.f)); // spacing
+			ImGui::Dummy(ImVec2(0.f, 5.f)); //spacing
 
 			std::string ButtonName = program->GetProgramName() + " update";
 
@@ -62,10 +64,14 @@ void WindowRenderer::DrawWindowContents()
 				std::ifstream vf(("../Source/Shaders/" + vertexShaderBuffers[i]).c_str());
 				std::ifstream ff(("../Source/Shaders/" + fragmentShaderBuffer[i]).c_str());
 
-				if (vf.good() && ff.good())
+				if (vf.good()
+					&& ff.good())
 				{
-					App->program->UpdateProgram(
-						vertexShaderBuffers[i], fragmentShaderBuffer[i], i, program->GetProgramName());
+					App->GetModule<ModuleProgram>()->UpdateProgram(
+							vertexShaderBuffers[i],
+							fragmentShaderBuffer[i],
+							static_cast<ProgramType>(i),
+							program->GetProgramName());
 					initialized = false;
 				}
 				else
@@ -74,7 +80,7 @@ void WindowRenderer::DrawWindowContents()
 					fragmentShaderBuffer[i] = program->GetFragementShaderFileName();
 				}
 			}
-			ImGui::Dummy(ImVec2(0.f, 10.f)); // spacing
+			ImGui::Dummy(ImVec2(0.f, 10.f)); //spacing
 			ImGui::Separator();
 		}
 	}

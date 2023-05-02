@@ -692,8 +692,11 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Audio\AudioData.h">
-      <Filter>Auxiliar\Audio</Filter>
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ModuleType.h">
+      <Filter>Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -784,8 +787,8 @@
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Auxiliar\Audio">
-      <UniqueIdentifier>{31a82e1a-151b-4cd7-a22f-6d76c5a53771}</UniqueIdentifier>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1089,6 +1092,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1437,14 +1443,15 @@
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h">
       <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Drawable.h">
       <Filter>Auxiliar\Generics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

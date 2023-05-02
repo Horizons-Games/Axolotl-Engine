@@ -3,26 +3,14 @@
 #include "Module.h"
 #include "Timer/Timer.h"
 
-class ModuleRender;
-class ModuleWindow;
-class ModuleInput;
-class ModuleProgram;
-class ModuleTexture;
-class ModuleFileSystem;
-class ModuleResources;
-class ModuleScene;
-class ModuleCamera;
-class ModuleDebugDraw;
-class ModuleUI;
-class ModuleAudio;
-class ModulePlayer;
-class ModuleEditor;
+#include "Enums/ModuleType.h"
 
 class ScriptFactory;
 
 class Application
 {
 public:
+
 	Application();
 	~Application();
 
@@ -45,24 +33,13 @@ public:
 	void SetIsOnPlayMode(bool newIsOnPlayMode);
 	void SwitchDebuggingGame();
 
-public:
-	ModuleScene* scene;
-	ModuleFileSystem* fileSystem;
-	ModuleRender* renderer;
-	ModuleUI* userInterface;
-	ModuleWindow* window;
-	ModuleInput* input;
-	ModuleProgram* program;
-	ModuleResources* resources;
-	ModuleCamera* camera;
-	ModuleAudio* audio;
-	ModulePlayer* player;
-	ModuleDebugDraw* debug;
-	ModuleEditor* editor;
+	ScriptFactory* GetScriptFactory() const;
+	template<typename M>
+	M* GetModule();
 
+private:	
 	std::unique_ptr<ScriptFactory> scriptFactory;
 
-private:
 	std::vector<std::unique_ptr<Module>> modules;
 	Timer appTimer;
 	Timer onPlayTimer;
@@ -71,6 +48,7 @@ private:
 	float deltaTime = 0.f;
 	bool debuggingGame;
 	bool isOnPlayMode;
+
 };
 
 extern std::unique_ptr<Application> App;
@@ -113,4 +91,16 @@ inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
 inline void Application::SwitchDebuggingGame()
 {
 	debuggingGame = !debuggingGame;
+}
+
+inline ScriptFactory* Application::GetScriptFactory() const
+{
+	return scriptFactory.get();
+}
+
+template<typename M>
+M* Application::GetModule()
+{
+	int index = static_cast<int>(ModuleToEnum<M>::value);
+	return static_cast<M*>(modules[index].get());
 }

@@ -13,3 +13,11 @@ public:
 protected:
 	void DrawWindowContents() override;
 };
+
+
+inline void WindowComponentCanvas::DrawWindowContents()
+{
+	DrawEnableAndDeleteComponent();
+	ImGui::Text("");
+}
+

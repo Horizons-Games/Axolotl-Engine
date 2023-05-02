@@ -98,6 +98,11 @@ inline SDL_Window* ModuleWindow::GetWindow() const
 	return window.get();
 }
 
+inline SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
+{
+	return boolVal ? SDL_TRUE : SDL_FALSE;
+}
+
 inline bool ModuleWindow::IsFlagSet(SDL_WindowFlags flag) const
 {
 	Uint32 windowFlags = SDL_GetWindowFlags(GetWindow());

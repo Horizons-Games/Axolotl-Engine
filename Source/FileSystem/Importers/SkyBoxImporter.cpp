@@ -1,10 +1,10 @@
 #include "SkyBoxImporter.h"
 
 #include "Application.h"
-#include "DataModels/Resources/ResourceTexture.h"
-#include "FileSystem/Json.h"
-#include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
+#include "DataModels/Resources/ResourceTexture.h"
 
 SkyBoxImporter::SkyBoxImporter()
 {
@@ -18,8 +18,8 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 {
 	char* bufferFile;
 
-	App->fileSystem->Load(resource->GetAssetsPath().c_str(), bufferFile);
-
+	App->GetModule<ModuleFileSystem>()->Load(resource->GetAssetsPath().c_str(), bufferFile);
+	
 	rapidjson::Document doc;
 	Json Json(doc, doc);
 
@@ -35,9 +35,9 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 
 	std::vector<std::shared_ptr<ResourceTexture>> faces(6);
 
-	for (int i = 0; i < facesPaths.size(); ++i)
+	for(int i = 0; i < facesPaths.size(); ++i)
 	{
-		faces[i] = std::dynamic_pointer_cast<ResourceTexture>(App->resources->ImportResource(facesPaths[i]));
+		faces[i] = std::dynamic_pointer_cast<ResourceTexture>(App->GetModule<ModuleResources>()->ImportResource(facesPaths[i]));
 	}
 
 	resource->SetTextures(faces);
@@ -45,7 +45,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
 }
@@ -53,27 +53,27 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*& fileBuffer, unsigned int& size)
 {
 #ifdef ENGINE
-	// Open Meta
+	//Open Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
 #endif
 
-	size = (unsigned int) (sizeof(UID) * resource->GetTextures().size());
-	char* cursor = new char[size]{};
+	size = (unsigned int)(sizeof(UID) * resource->GetTextures().size());
+	char* cursor = new char[size] {};
 	fileBuffer = cursor;
 	unsigned int bytes = size;
 
 	std::vector<UID> texturesUIDs;
 	texturesUIDs.reserve(resource->GetTextures().size());
-	for (int i = 0; i < resource->GetTextures().size(); i++)
+	for(int i = 0; i < resource->GetTextures().size(); i++) 
 	{
 #ifdef ENGINE
-		// Update Meta
+		//Update Meta
 		Json jsonTexture = meta["TexturesAssetPaths"];
 		jsonTexture[i] = resource->GetTextures()[i]->GetAssetsPath().c_str();
 #endif
@@ -82,20 +82,20 @@ void SkyBoxImporter::Save(const std::shared_ptr<ResourceSkyBox>& resource, char*
 	memcpy(cursor, &(texturesUIDs[0]), bytes);
 
 #ifdef ENGINE
-	// Save Meta
+	//Save Meta
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 }
 
 void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox> resource)
 {
 #ifdef ENGINE
-	// Open Meta
+	//Open Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -106,12 +106,13 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	std::vector<std::shared_ptr<ResourceTexture>> textures;
 	textures.reserve(size);
 
-#ifdef ENGINE
+#ifdef  ENGINE
 	Json jsonTextures = meta["TexturesAssetPaths"];
 	for (int i = 0; i < size; i++)
 	{
 		std::string texturePath = jsonTextures[i];
-		textures.push_back(App->resources->RequestResource<ResourceTexture>(texturePath));
+		textures.push_back
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(texturePath));
 	}
 #else
 	UID* texturesPointer = new UID[size];
@@ -121,7 +122,8 @@ void SkyBoxImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceSkyBox
 	delete[] texturesPointer;
 	for (int i = 0; i < texturesUIDs.size(); i++)
 	{
-		textures.push_back(App->resources->SearchResource<ResourceTexture>(texturesUIDs[i]));
+		textures.push_back
+		(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[i]));
 	}
 #endif
 
