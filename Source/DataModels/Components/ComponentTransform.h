@@ -204,26 +204,20 @@ inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifi
 {
 	if (modifiedScaleAxis == Axis::X)
 	{
-		sca.y = scale.y * scale.x / sca.x;
-		sca.z = scale.z * scale.x / sca.x;
-		sca.x = scale.x;
+		sca.y = std::max(scale.y * scale.x / sca.x, 0.0001f);
+		sca.z = std::max(scale.z * scale.x / sca.x, 0.0001f);
+		sca.x = std::max(scale.x, 0.0001f);
 	}
 	else if (modifiedScaleAxis == Axis::Y)
 	{
-		sca.z = scale.z * scale.y / sca.y;
-		sca.x = scale.x * scale.y / sca.y;
-		sca.y = scale.y;
+		sca.z = std::max(scale.z * scale.y / sca.y, 0.0001f);
+		sca.x = std::max(scale.x * scale.y / sca.y, 0.0001f);
+		sca.y = std::max(scale.y, 0.0001f);
 	}
 	else {
-		sca.x = scale.x * scale.z / sca.z;
-		sca.y = scale.y * scale.z / sca.z;
-		sca.z = scale.z;
-	}
-
-	if (sca.x <= 0 || sca.y <= 0 || sca.z <= 0) {
-		sca.x = 0.0001f;
-		sca.y = 0.0001f;
-		sca.z = 0.0001f;
+		sca.x = std::max(scale.x * scale.z / sca.z, 0.0001f);
+		sca.y = std::max(scale.y * scale.z / sca.z, 0.0001f);
+		sca.z = std::max(scale.z, 0.0001f);
 	}
 }
 
