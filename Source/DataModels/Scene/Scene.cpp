@@ -130,9 +130,6 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 	}
-	App->GetModule<ModuleScene>()->AddGameObjectAndChildren(App->GetModule<ModuleScene>()->GetSelectedGameObject());
-	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject);
-	App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
