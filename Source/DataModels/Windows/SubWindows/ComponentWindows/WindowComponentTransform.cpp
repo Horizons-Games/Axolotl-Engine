@@ -151,7 +151,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
-			modifiedScaleAxis = 'X';
+			modifiedScaleAxis = Axis::X;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -162,7 +162,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
-			modifiedScaleAxis = 'Y';
+			modifiedScaleAxis = Axis::Y;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -173,7 +173,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
-			modifiedScaleAxis = 'Z';
+			modifiedScaleAxis = Axis::Z;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 		ImGui::Checkbox("", &uniformScale);

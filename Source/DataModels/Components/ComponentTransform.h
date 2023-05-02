@@ -6,6 +6,7 @@
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
+#include <DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h>
 
 class Json;
 class ComponentLight;
@@ -47,7 +48,7 @@ public:
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
 	void SetScale(const float3& scale);
-	void SetUniformScale(const float3& scale, char modifiedScaleAxis);
+	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
@@ -194,28 +195,20 @@ inline void ComponentTransform::SetRotation(const float4x4& rotation)
 
 inline void ComponentTransform::SetScale(const float3& scale)
 {
-	sca = scale;
-
-	if (sca.x <= 0) {
-		sca.x = 0.0001f;
-	}
-	if (sca.y <= 0) {
-		sca.y = 0.0001f;
-	}
-	if (sca.z <= 0) {
-		sca.z = 0.0001f;
-	}
+	sca.x = std::max(scale.x, 0.0001f);
+	sca.y = std::max(scale.y, 0.0001f);
+	sca.z = std::max(scale.z, 0.0001f);
 }
 
-inline void ComponentTransform::SetUniformScale(const float3& scale, const char modifiedScaleAxis)
+inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifiedScaleAxis)
 {
-	if (modifiedScaleAxis == 'X')
+	if (modifiedScaleAxis == Axis::X)
 	{
 		sca.y = scale.y * scale.x / sca.x;
 		sca.z = scale.z * scale.x / sca.x;
 		sca.x = scale.x;
 	}
-	else if (modifiedScaleAxis == 'Y')
+	else if (modifiedScaleAxis == Axis::Y)
 	{
 		sca.z = scale.z * scale.y / sca.y;
 		sca.x = scale.x * scale.y / sca.y;

@@ -6,6 +6,12 @@
 
 class ComponentTransform;
 
+enum class Axis {
+	X,
+	Y,
+	Z
+};
+
 class WindowComponentTransform : public ComponentWindow
 {
 public:
@@ -27,7 +33,7 @@ private:
 	bool translationModified;
 	bool rotationModified;
 	bool scaleModified;
-	char modifiedScaleAxis;
+	Axis modifiedScaleAxis;
 
 	bool bbdraw;
 	bool uniformScale;
