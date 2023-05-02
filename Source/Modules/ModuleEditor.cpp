@@ -120,7 +120,7 @@ bool ModuleEditor::Init()
 
 bool ModuleEditor::Start()
 {
-	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->GetModule<ModuleWindow>()->GetWindow(), App->GetModule<ModuleRender>()->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 	CreateFolderSettings();
 	return true;
@@ -138,7 +138,7 @@ bool ModuleEditor::CleanUp()
 	}
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);	
-	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -151,7 +151,7 @@ bool ModuleEditor::CleanUp()
 update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
+	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
 	ImGui::NewFrame();
 
 #ifdef ENGINE
@@ -180,26 +180,32 @@ update_status ModuleEditor::Update()
 			CopyAnObject();
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-		{
-			PasteAnObject();
-		}
+	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
+		|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	{
+		CopyAnObject();
+	}
+	
+	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
+	{
+		PasteAnObject();
+	}
 
-		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-		{
-			CutAnObject();
-		}
+	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+	{
+		CutAnObject();
+	}
 
-		if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-		{
-			DuplicateAnObject();
-		}
+	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+		|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+		&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+	{
+		DuplicateAnObject();
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -218,7 +224,7 @@ update_status ModuleEditor::Update()
 	ImGui::DockSpace(dockSpaceId);
 
 	static bool firstTime = true;
-	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	if (firstTime && !App->GetModule<ModuleFileSystem>()->Exists("imgui.ini"))
 	{
 		firstTime = false;
 
@@ -278,11 +284,6 @@ update_status ModuleEditor::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::Resized()
-{
-	windowResized = true;
-}
-
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE
@@ -301,11 +302,11 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 
 void ModuleEditor::CopyAnObject()
 {
-	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
+	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() 
+		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() 
+		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 	{
-		copyObject = std::make_unique<GameObject>(*App->scene->GetSelectedGameObject());
+		copyObject = std::make_unique<GameObject>(*App->GetModule<ModuleScene>()->GetSelectedGameObject());
 	}
 	
 }
@@ -314,15 +315,15 @@ void ModuleEditor::PasteAnObject()
 {
 	if(copyObject)
 	{
-		if (App->scene->GetSelectedGameObject())
+		if (App->GetModule<ModuleScene>()->GetSelectedGameObject())
 		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetSelectedGameObject());
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetSelectedGameObject());
 		}
 		else
 		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetLoadedScene()->GetRoot());
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
 		}
 	}
 }
@@ -331,27 +332,29 @@ void ModuleEditor::CutAnObject()
 {
 	CopyAnObject();
 
-	GameObject* gameObject = App->scene->GetSelectedGameObject();
-	App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
+	GameObject* gameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
 																			// change the focus to its parent
-	App->scene->GetLoadedScene()->GetRootQuadtree()->
+	App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->
 		RemoveGameObjectAndChildren(gameObject->GetParent());
 
-	App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(gameObject);
 }
 
 void ModuleEditor::DuplicateAnObject()
 {
-	if (App->scene->GetSelectedGameObject() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
+	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() 
+		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()
+		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight()
+		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 	{
-		App->scene->GetLoadedScene()->
-			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
-				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
+		App->GetModule<ModuleScene>()->GetLoadedScene()->
+			DuplicateGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetName()
+				, App->GetModule<ModuleScene>()->GetSelectedGameObject(), App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetParent());
 	}
 }
+
+
 
 void ModuleEditor::RefreshInspector() const
 {
@@ -367,17 +370,17 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->window->GetWindowSize();
+	return App->GetModule<ModuleWindow>()->GetWindowSize();
 #endif
 }
 std::string ModuleEditor::StateWindows()
 {
-	if (App->fileSystem->Exists(settingsFolder.c_str()))
+	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
 	{		
-		if (App->fileSystem->Exists(set.c_str()))
+		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->fileSystem->Load(set.c_str(), binaryBuffer);
+			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
 			return std::string(binaryBuffer);
 		}
 	}
@@ -386,9 +389,9 @@ std::string ModuleEditor::StateWindows()
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
+	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectory(settingsFolder.c_str());
+		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
 	}
 }

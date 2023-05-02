@@ -11,7 +11,6 @@ public:
 	ModulePlayer();
 	~ModulePlayer() override;
 
-	bool Init() override;
 	bool Start() override;
 
 	update_status PreUpdate();
@@ -36,3 +35,4 @@ private:
 	bool bootsOnGround = false;
 	
 };
+
