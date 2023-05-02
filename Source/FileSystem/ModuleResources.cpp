@@ -326,6 +326,7 @@ void ModuleResources::ReimportResource(UID resourceUID)
 		unsigned int size = 0;
 		stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
 		App->fileSystem->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+		delete saveBuffer;
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
