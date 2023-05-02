@@ -124,11 +124,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	if (newObject->IsStatic())
 	{
-		App->scene->GetLoadedScene()->AddStaticObject(newObject);
+		App->scene->GetLoadedScene()->AddStaticObject(gameObject);
 	}
 	else
 	{
-		App->scene->GetLoadedScene()->AddNonStaticObject(newObject);
+		App->scene->GetLoadedScene()->AddNonStaticObject(gameObject);
 	}
 
 	App->scene->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
