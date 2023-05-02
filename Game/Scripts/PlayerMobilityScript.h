@@ -6,6 +6,7 @@
 
 class ComponentPlayer;
 class ComponentAudioSource;
+class ComponentScript;
 
 // Little fix until we could check if an audio is being reproduced
 enum class PlayerActions
@@ -19,7 +20,7 @@ class PlayerMobilityScript : public Script
 
 public:
 	PlayerMobilityScript();
-	~PlayerMobilityScript();
+	~PlayerMobilityScript() {};
 
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
@@ -44,6 +45,9 @@ public:
 
 private:
 	ComponentPlayer* componentPlayer;
+	ComponentScript* moveScript;
+	ComponentScript* rotateScript;
+
 	float speed;
 	float jumpParameter;
 	float dashForce;
