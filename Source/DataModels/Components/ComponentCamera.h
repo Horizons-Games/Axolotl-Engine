@@ -48,4 +48,3 @@ inline CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera.get();
 }
-

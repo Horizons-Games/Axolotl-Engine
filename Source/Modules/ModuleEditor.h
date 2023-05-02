@@ -74,5 +74,3 @@ inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
 }
-
-

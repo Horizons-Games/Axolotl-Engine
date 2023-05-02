@@ -1,6 +1,6 @@
 #pragma once
-#include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
+#include "Component.h"
 
 #include "Math/float4x4.h"
 
@@ -55,7 +55,7 @@ public:
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-	
+
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* vertices, unsigned numVertices);
 
@@ -89,7 +89,7 @@ inline const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-inline const float4x4& ComponentTransform::GetRotation() const 
+inline const float4x4& ComponentTransform::GetRotation() const
 {
 	return rot;
 }
@@ -188,9 +188,12 @@ inline void ComponentTransform::SetScale(const float3& scale)
 {
 	sca = scale;
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+	if (sca.x <= 0)
+		sca.x = 0.0001f;
+	if (sca.y <= 0)
+		sca.y = 0.0001f;
+	if (sca.z <= 0)
+		sca.z = 0.0001f;
 }
 
 inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)

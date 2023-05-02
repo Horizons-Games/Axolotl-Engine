@@ -1,20 +1,19 @@
 #pragma once
 #include "Application.h"
 
-#include "ModuleWindow.h"
-#include "ModuleRender.h"
-#include "ModuleInput.h"
-#include "ModuleScene.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "ModuleAudio.h"
-#include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleScene.h"
+#include "ModuleAudio.h"
+#include "ModuleCamera.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
 #include "ModulePlayer.h"
+#include "ModuleProgram.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleUI.h"
+#include "ModuleWindow.h"
 #include "ScriptFactory.h"
 
 #include <ranges>
@@ -122,15 +121,13 @@ update_status Application::Update()
 	dt = (appTimer.Read() - ms) / 1000.0f;
 #endif // ENGINE
 
-
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32) (1000.0f / GetMaxFrameRate() - dt));
 	}
 
 #ifdef ENGINE
-	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
+	(isOnPlayMode) ? deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
 #else
 	deltaTime = (appTimer.Read() - ms) / 1000.0f;
 #endif // ENGINE
@@ -163,7 +160,7 @@ void Application::OnPlay()
 		isOnPlayMode = false;
 	}
 
-	//Active Scripts
+	// Active Scripts
 	GetModule<ModuleScene>()->OnPlay();
 }
 

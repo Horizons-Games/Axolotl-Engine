@@ -127,7 +127,8 @@ void WindowComponentScript::DrawWindowContents()
 						{
 							UID draggedGameObjectID = *(UID*) payload->Data;
 							GameObject* draggedGameObject =
-								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(
+									draggedGameObjectID);
 
 							if (draggedGameObject)
 							{

@@ -1,30 +1,30 @@
 #include "ModuleScene.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModuleRender.h"
 
 #include "Scene/Scene.h"
 
+#include "Components/Component.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentScript.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModulePlayer.h"
-#include "Components/Component.h"
-#include "Components/ComponentCamera.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/ComponentLight.h"
-#include "Components/ComponentScript.h"
-#include "DataModels/Skybox/Skybox.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
 
-#include "ScriptFactory.h"
 #include "IScript.h"
+#include "ScriptFactory.h"
 
 #ifdef DEBUG
-#include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
-ModuleScene::ModuleScene() : loadedScene (nullptr), selectedGameObject (nullptr)
+ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr)
 {
 }
 
@@ -71,7 +71,7 @@ bool ModuleScene::Start()
 		{
 			componentScript->Start();
 		}
-}
+	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
@@ -84,10 +84,10 @@ update_status ModuleScene::PreUpdate()
 		App->GetScriptFactory()->LoadCompiledModules();
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			for (ComponentScript* componentScript :
+				 gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
-				IScript* script =
-					App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
+				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
 
 				if (componentScript->IsEnabled())
@@ -98,7 +98,8 @@ update_status ModuleScene::PreUpdate()
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			for (ComponentScript* componentScript :
+				 gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 			{
 				if (componentScript->IsEnabled())
 				{
@@ -131,7 +132,7 @@ update_status ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-	
+
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -208,7 +209,7 @@ void ModuleScene::OnPlay()
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
-	//First Init
+	// First Init
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
@@ -217,7 +218,7 @@ void ModuleScene::OnPlay()
 		}
 	}
 
-	//Then Start
+	// Then Start
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
@@ -242,7 +243,7 @@ void ModuleScene::OnStop()
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
-	//clear the document
+	// clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
 
@@ -279,7 +280,7 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
@@ -304,13 +305,12 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	// Load script components
 	SetSceneFromJson(Json);
 
-	//Load Script objects
+	// Load Script objects
 	delete buffer;
 
 #ifndef ENGINE
 	if (App->GetModule<ModulePlayer>()->GetPlayer())
 	{
-
 		App->GetModule<ModulePlayer>()->LoadNewPlayer();
 	}
 #endif // !ENGINE
@@ -368,11 +368,9 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		}
 		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
 		{
-			//Quadtree treatment
+			// Quadtree treatment
 			AddGameObject(obj);
-
 		}
-
 	}
 
 	App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
@@ -477,7 +475,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(Json& jsonGameObje
 	return loadedObjects;
 }
 
-
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
 	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
@@ -490,7 +487,6 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 	{
 		AddGameObjectAndChildren(child);
 	}
-
 }
 
 void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
@@ -506,7 +502,6 @@ void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 		RemoveGameObjectAndChildren(child);
 	}
 }
-
 
 void ModuleScene::AddGameObject(GameObject* object)
 {
@@ -530,5 +525,4 @@ void ModuleScene::RemoveGameObject(GameObject* object)
 	{
 		loadedScene->RemoveNonStaticObject(object);
 	}
-
 }

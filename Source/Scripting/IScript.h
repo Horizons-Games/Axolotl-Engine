@@ -5,20 +5,26 @@
 
 #include "Auxiliar/Reflection/Field.h"
 #include "Enums/FieldType.h"
-#include <variant>
 #include <optional>
+#include <variant>
 
 class GameObject;
 class Application;
 
-#define REGISTER_FIELD(Name, Type) \
-    this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
-        #Name, \
-        [this] { return this->Get##Name(); }, \
-        [this](Type value) { this->Set##Name(value); } \
-    )));
+#define REGISTER_FIELD(Name, Type)                                           \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,          \
+										   Field<Type>(                      \
+											   #Name,                        \
+											   [this]                        \
+											   {                             \
+												   return this->Get##Name(); \
+											   },                            \
+											   [this](Type value)            \
+											   {                             \
+												   this->Set##Name(value);   \
+											   })));
 
-//for now only allow floats, strings, GameObjects and booleans
+// for now only allow floats, strings, GameObjects and booleans
 using ValidFieldType = std::variant<Field<float>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
@@ -92,7 +98,7 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			case FieldType::FLOAT:
 			{
 				Field<float> field = std::get<Field<float>>(enumAndField.second);
-				float value  = field.getter();
+				float value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;

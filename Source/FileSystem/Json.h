@@ -44,7 +44,8 @@ private:
 	rapidjson::Value& value;
 };
 
-inline unsigned int Json::Size() const {
+inline unsigned int Json::Size() const
+{
 	return value.IsArray() ? value.Size() : 0;
 }
 

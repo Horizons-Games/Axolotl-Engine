@@ -25,7 +25,8 @@ void WindowSpriteInput::DoThisIfOk()
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceTexture> texture = App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
+		std::shared_ptr<ResourceTexture> texture =
+			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 		component->SetImage(texture);
 	}
 }

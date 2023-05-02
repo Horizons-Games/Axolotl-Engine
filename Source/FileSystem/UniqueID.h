@@ -30,5 +30,5 @@ public:
 
 inline UID UniqueID::GenerateUID()
 {
-    return uidNew(creator);
+	return uidNew(creator);
 }

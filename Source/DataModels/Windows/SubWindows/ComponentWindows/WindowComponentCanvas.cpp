@@ -9,4 +9,3 @@ WindowComponentCanvas::WindowComponentCanvas(ComponentCanvas* component) : Compo
 WindowComponentCanvas::~WindowComponentCanvas()
 {
 }
-

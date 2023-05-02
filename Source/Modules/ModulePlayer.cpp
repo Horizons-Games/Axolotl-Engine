@@ -1,19 +1,19 @@
 
 #include "Application.h"
 
-#include "ModulePlayer.h"
-#include "ModuleScene.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
-#include "ModuleRender.h"
-#include "Scene/Scene.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentPlayer.h"
 #include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
@@ -21,18 +21,22 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
-	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
+ModulePlayer::ModulePlayer() :
+	cameraPlayer(nullptr),
+	player(nullptr),
+	componentPlayer(nullptr),
+	speed(3),
+	isPlayerLoad(false),
+	readyToEliminate(false){};
 
-ModulePlayer::~ModulePlayer() {
-};
+ModulePlayer::~ModulePlayer(){};
 
 bool ModulePlayer::Start()
 {
-	//Initialize the player
+	// Initialize the player
 #ifndef ENGINE
 	LoadNewPlayer();
-#endif //GAMEMODE
+#endif // GAMEMODE
 	return true;
 }
 
@@ -58,18 +62,19 @@ void ModulePlayer::LoadNewPlayer()
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first / App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
+			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first /
+										 App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
 			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(parentOfOwner);
-#endif // ENGINE			
+#endif // ENGINE
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
-			
-			if(componentPlayer->HaveMouseActivated()) 
+
+			if (componentPlayer->HaveMouseActivated())
 			{
 				App->GetModule<ModuleInput>()->SetShowCursor(true);
 			}
-			else 
+			else
 			{
 				App->GetModule<ModuleInput>()->SetShowCursor(false);
 			}

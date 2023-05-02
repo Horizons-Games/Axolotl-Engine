@@ -1,8 +1,8 @@
 #pragma once
 
+#include "GL/glew.h"
 #include "Math/float3.h"
 #include "Math/float4.h"
-#include "GL/glew.h"
 
 class Program
 {
@@ -80,14 +80,12 @@ inline void Program::BindUniformFloat4x4(const std::string& name, const float* d
 
 inline void Program::BindUniformFloat3(const std::string& name, const float3& data)
 {
-	glUniform3f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z);
+	glUniform3f(glGetUniformLocation(id, name.c_str()), data.x, data.y, data.z);
 }
 
 inline void Program::BindUniformFloat4(const std::string& name, const float4& data)
 {
-	glUniform4f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z, data.w);
+	glUniform4f(glGetUniformLocation(id, name.c_str()), data.x, data.y, data.z, data.w);
 }
 
 inline void Program::BindUniformFloat(const std::string& name, const float data)

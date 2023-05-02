@@ -14,4 +14,3 @@ WindowComponentLight::WindowComponentLight(const std::string& name, ComponentLig
 WindowComponentLight::~WindowComponentLight()
 {
 }
-
