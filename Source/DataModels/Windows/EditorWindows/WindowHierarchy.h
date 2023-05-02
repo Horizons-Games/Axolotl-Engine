@@ -30,4 +30,5 @@ private:
 	void DuplicateAnObject();
 
 	std::unique_ptr<GameObject> copyObject;
+	bool objectHasBeenCut;
 };

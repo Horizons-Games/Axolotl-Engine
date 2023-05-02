@@ -11,7 +11,7 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy")
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false)
 {
     flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -331,6 +331,7 @@ void WindowHierarchy::CopyAnObject()
 	if (IsModifiable(selectedGameObject))
 	{
 		copyObject = std::make_unique<GameObject>(*selectedGameObject);
+        objectHasBeenCut = false;
 	}
 }
 
@@ -348,6 +349,11 @@ void WindowHierarchy::PasteAnObject()
 			parent = loadedScene->GetRoot();
 		}
         loadedScene->DuplicateGameObject(copyObject->GetName(), copyObject.get(), parent);
+
+        if (objectHasBeenCut)
+        {
+            copyObject = nullptr;
+        }
 	}
 }
 
@@ -372,6 +378,7 @@ void WindowHierarchy::CutAnObject()
 		}
 
 		loadedScene->DestroyGameObject(selectedGameObject);
+        objectHasBeenCut = true;
 	}
 }
 
