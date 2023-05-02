@@ -175,9 +175,10 @@ void WindowComponentTransform::DrawTransformTable()
 			scaleModified = true;
 			modifiedScaleAxis = Axis::Z;
 		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
-		ImGui::Checkbox("", &uniformScale);
-
+		ImGui::PopStyleVar();
+		ImGui::TableNextColumn();
+		ImGui::Checkbox("", &uniformScale); ImGui::SameLine();
+		ImGui::Text("Maintain scale"); 
 		ImGui::EndTable();
 	}
 }
@@ -200,21 +201,6 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0)
-			{
-				currentScale.x = 0.0001f;
-			}
-			
-			if (currentScale.y <= 0)
-			{
-				currentScale.y = 0.0001f;
-			}
-			
-			if (currentScale.z <= 0) 
-			{ 
-				currentScale.z = 0.0001f; 
-			}
-
 			if (uniformScale) 
 			{
 				asTransform->SetUniformScale(currentScale, modifiedScaleAxis);
