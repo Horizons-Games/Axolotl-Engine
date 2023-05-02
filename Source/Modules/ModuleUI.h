@@ -10,12 +10,11 @@ public:
 	ModuleUI();
 	~ModuleUI();
 
-	bool Init();
-	bool Start();
+	bool Init() override;
 
-	update_status Update();
+	update_status Update() override;
 
-	update_status PostUpdate();
+	update_status PostUpdate() override;
 
 	void RecalculateCanvasSizeAndScreenFactor();
 	void LoadVBO();
@@ -26,11 +25,6 @@ private:
 	unsigned int quadVBO;
 	unsigned int quadVAO;
 };
-
-inline bool ModuleUI::Start()
-{
-	return true;
-}
 
 inline unsigned int ModuleUI::GetQuadVAO() const
 {

@@ -124,16 +124,15 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	if (newObject->IsStatic())
 	{
-		App->scene->GetLoadedScene()->AddStaticObject(gameObject);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
 	}
 	else
 	{
-		App->scene->GetLoadedScene()->AddNonStaticObject(gameObject);
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 	}
-
-	App->scene->AddGameObjectAndChildren(App->scene->GetSelectedGameObject());
-	App->scene->SetSelectedGameObject(gameObject);
-	App->scene->RemoveGameObjectAndChildren(gameObject);
+	App->GetModule<ModuleScene>()->AddGameObjectAndChildren(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject);
+	App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
@@ -184,25 +183,25 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
-	meshComponent->SetMaterial(App->resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	meshComponent->SetMaterial(App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
 	switch (type)
 	{
 	case Premade3D::CUBE:
-		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
 		break;
 	case Premade3D::PLANE:
-		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
 		break;
 	case Premade3D::CYLINDER:
-		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
 		break;
 	case Premade3D::CAPSULE:
-		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
 		break;
 	case Premade3D::CHARACTER:
-		mesh = App->resources->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
 		break;
 	default:
 		break;
@@ -235,10 +234,10 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
+	std::shared_ptr<ResourceModel> resourceModel = App->GetModule<ModuleResources>()->RequestResource<ResourceModel>(model);
 	//resourceModel->Load();
 
-	std::string modelName = App->fileSystem->GetFileName(model);
+	std::string modelName = App->GetModule<ModuleFileSystem>()->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 
@@ -511,7 +510,7 @@ void Scene::InitNewEmptyScene()
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
 	std::shared_ptr<ResourceSkyBox> resourceSkybox =
-		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
 
 	if (resourceSkybox)
 	{

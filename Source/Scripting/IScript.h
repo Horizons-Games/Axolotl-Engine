@@ -4,7 +4,7 @@
 #include "RuntimeObjectSystem/ISimpleSerializer.h"
 
 #include "Auxiliar/Reflection/Field.h"
-#include "Auxiliar/Reflection/TypeToEnum.h"
+#include "Enums/FieldType.h"
 #include <variant>
 #include <optional>
 

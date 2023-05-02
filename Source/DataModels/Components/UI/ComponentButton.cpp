@@ -55,7 +55,7 @@ void ComponentButton::LoadOptions(Json& meta)
 
 void ComponentButton::OnClicked()
 {
-	App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
 }
 
 

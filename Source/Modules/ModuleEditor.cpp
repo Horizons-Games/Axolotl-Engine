@@ -120,7 +120,7 @@ bool ModuleEditor::Init()
 
 bool ModuleEditor::Start()
 {
-	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->GetModule<ModuleWindow>()->GetWindow(), App->GetModule<ModuleRender>()->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 	CreateFolderSettings();
 	return true;
@@ -138,7 +138,7 @@ bool ModuleEditor::CleanUp()
 	}
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);	
-	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -151,7 +151,7 @@ bool ModuleEditor::CleanUp()
 update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
+	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
 	ImGui::NewFrame();
 
 #ifdef ENGINE
@@ -188,7 +188,7 @@ update_status ModuleEditor::Update()
 	ImGui::DockSpace(dockSpaceId);
 
 	static bool firstTime = true;
-	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	if (firstTime && !App->GetModule<ModuleFileSystem>()->Exists("imgui.ini"))
 	{
 		firstTime = false;
 
@@ -278,17 +278,17 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->window->GetWindowSize();
+	return App->GetModule<ModuleWindow>()->GetWindowSize();
 #endif
 }
 std::string ModuleEditor::StateWindows()
 {
-	if (App->fileSystem->Exists(settingsFolder.c_str()))
+	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
 	{		
-		if (App->fileSystem->Exists(set.c_str()))
+		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->fileSystem->Load(set.c_str(), binaryBuffer);
+			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
 			return std::string(binaryBuffer);
 		}
 	}
@@ -297,9 +297,9 @@ std::string ModuleEditor::StateWindows()
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
+	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectory(settingsFolder.c_str());
+		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
 	}
 }
