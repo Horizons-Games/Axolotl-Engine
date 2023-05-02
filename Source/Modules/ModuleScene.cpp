@@ -469,8 +469,10 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 	loadedScene->AddSceneCameras(loadedCameras);
 	loadedScene->AddSceneCanvas(loadedCanvas);
 	loadedScene->AddSceneInteractable(loadedInteractable);
-	//loadedScene->DestroyGameObject(ambientLight);
-	//loadedScene->DestroyGameObject(directionalLight);
+	RemoveGameObject(ambientLight);
+	loadedScene->DestroyGameObject(ambientLight);
+	RemoveGameObject(directionalLight);
+	loadedScene->DestroyGameObject(directionalLight);
 	loadedScene->InitLights();
 
 }
