@@ -255,7 +255,6 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 	{
 	case ComponentType::TRANSFORM:
 	{
-		
 		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
 		break;
 	}
@@ -298,8 +297,32 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		break;
 	}
 
+	case ComponentType::AUDIOLISTENER:
+	{
+		newComponent = std::make_unique<ComponentAudioListener>(*static_cast<ComponentAudioListener*>(component));
+		break;
+	}
+
+	case ComponentType::AUDIOSOURCE:
+	{
+		newComponent = std::make_unique<ComponentAudioSource>(*static_cast<ComponentAudioSource*>(component));
+		break;
+	}
+
+	case ComponentType::IMAGE:
+	{
+		newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
+		break;
+	}
+
+	case ComponentType::BUTTON:
+	{
+		newComponent = std::make_unique<ComponentButton>(*static_cast<ComponentButton*>(component));
+		break;
+	}
+
 	default:
-		assert(false && "Wrong component type introduced");
+		ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
