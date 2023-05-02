@@ -144,11 +144,11 @@ bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObje
 	std::map<float, const GameObject*> hitGameObjects;
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
 #endif
 
-	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->scene->GetLoadedScene()->GetRootQuadtree());
-	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->scene->GetLoadedScene()->GetNonStaticObjects());
+	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
 	
 
 	if (hitGameObjects.size() != 0)
