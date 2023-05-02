@@ -47,7 +47,7 @@ public:
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
 	void SetScale(const float3& scale);
-	void SetUniformScale(const float3& scale, const char modifiedScaleAxis);
+	void SetUniformScale(const float3& scale, char modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
