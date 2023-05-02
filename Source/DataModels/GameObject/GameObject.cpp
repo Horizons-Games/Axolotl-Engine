@@ -10,7 +10,6 @@
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentAnimation.h"
-//#include "../Components/UI/ComponentBoundingBox2D.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
