@@ -692,6 +692,12 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ModuleType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
@@ -783,6 +789,9 @@
     </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1438,9 +1447,6 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Updatable.h">
       <Filter>Auxiliar\Generics</Filter>
     </ClInclude>

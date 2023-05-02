@@ -48,13 +48,15 @@ bool ModuleCamera::Init()
 	#endif // GAMEMODE
 
 	selectedPosition = 0;
-	camera->Init();
-	return true;
+	return camera->Init();
 }
 
 bool ModuleCamera::Start()
 {
-	camera->Start();
+	if (!camera->Start())
+	{
+		return false;
+	}
 	#ifdef ENGINE
 		selectedCamera = camera.get();
 	#else // ENGINE
@@ -75,28 +77,28 @@ update_status ModuleCamera::Update()
 {
 	if (
 #ifdef ENGINE
-		App->editor->IsSceneFocused()
+		App->GetModule<ModuleEditor>()->IsSceneFocused()
 #else // ENGINE
 		true
 #endif // GAMEMODE
 		)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
 		{
 			selectedPosition--;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
 		{
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
@@ -134,7 +136,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		selectedPosition = 0;
 		if (App->IsOnPlayMode())
 		{
-			selectedCamera = App->player->GetCameraPlayer();
+			selectedCamera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 			if (!selectedCamera)
 			{
 				selectedPosition = 1;
@@ -147,7 +149,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		}
 #else
 		selectedPosition = 0;
-		selectedCamera = App->player->GetCameraPlayer();
+		selectedCamera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 		if (!selectedCamera)
 		{
 			selectedPosition = 1;
@@ -170,7 +172,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 #endif // !ENGINE
 	else
 	{
-		std::vector<ComponentCamera*> loadedCameras = App->scene->GetLoadedScene()->GetSceneCameras();
+		std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
 		if (loadedCameras.size() >= cameraNumber)
 		{
 #ifdef ENGINE
@@ -192,6 +194,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
-	std::pair<int, int> region = App->editor->GetAvailableRegion();
+	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
 	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
 }
