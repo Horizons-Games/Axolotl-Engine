@@ -55,6 +55,10 @@ private:
 	float4x4 orthoProjectionMatrix;
 };
 
+inline Camera* ModuleCamera::GetCamera()
+{
+	return selectedCamera;
+}
 
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {
