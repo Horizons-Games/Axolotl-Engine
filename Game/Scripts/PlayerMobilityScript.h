@@ -19,7 +19,7 @@ class PlayerMobilityScript : public Script
 
 public:
 	PlayerMobilityScript();
-	~PlayerMobilityScript() override = default;
+	~PlayerMobilityScript();
 
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
