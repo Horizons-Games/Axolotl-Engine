@@ -39,4 +39,8 @@ private:
 inline void WindowStateMachineEditor::SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource)
 {
 	stateMachine = resource;
+	transitionIdSelected = -1;
+	stateIdSelected = -1;
+	creatingTransition = false;
+	openContextMenu = false;
 }
