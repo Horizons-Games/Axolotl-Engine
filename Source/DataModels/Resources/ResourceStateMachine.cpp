@@ -42,11 +42,11 @@ void ResourceStateMachine::EraseState(unsigned int id)
 {
 	for (UID transitionid : states[id]->transitionsOriginedHere)
 	{
-		transitions.erase(transitionid);
+		EraseTransition(transitionid);
 	}
 	for (UID transitionid : states[id]->transitionsDestinedHere)
 	{
-		transitions.erase(transitionid);
+		EraseTransition(transitionid);
 	}
 	deadStates.push_back(id);
 	states[id]->~State();
