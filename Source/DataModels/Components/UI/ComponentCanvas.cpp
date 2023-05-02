@@ -42,7 +42,7 @@ void ComponentCanvas::LoadOptions(Json& meta)
 
 void ComponentCanvas::RecalculateSizeAndScreenFactor() 
 {
-	std::pair<int,int> region = App->editor->GetAvailableRegion();
+	std::pair<int,int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
 	size = float2(region.first, region.second);
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;

@@ -28,7 +28,7 @@ void WindowEditorControl::DrawWindowContents()
 
     if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
     {
-        (App->IsOnPlayMode()) ? App->player->SetReadyToEliminate(true) : App->OnPlay();
+        (App->IsOnPlayMode()) ? App->GetModule<ModulePlayer>()->SetReadyToEliminate(true) : App->OnPlay();
     }
     ImGui::SameLine();
 
