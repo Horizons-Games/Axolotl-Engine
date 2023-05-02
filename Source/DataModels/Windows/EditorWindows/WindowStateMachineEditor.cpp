@@ -241,7 +241,10 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 		ImGui::Separator();
 		for (int i = 0; i < it->second.conditions.size(); i++)
 		{
+			if(ImGui::Button(("X##" + std::to_string(i)).c_str()))
 			{
+				stateAsShared->EraseCondition(transitionIdSelected, i);
+				break;
 			}
 
 			ImGui::SameLine();
