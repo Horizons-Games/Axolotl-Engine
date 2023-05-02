@@ -27,6 +27,18 @@ mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
 	//initialize buffers
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &ebo);
+	glGenBuffers(1, &indirectBuffer);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glGenBuffers(1, &transforms[i]);
+	}
+	glGenBuffers(1, &verticesBuffer);
+	glGenBuffers(1, &textureBuffer);
+	glGenBuffers(1, &normalsBuffer);
+	glGenBuffers(1, &tangentsBuffer);
+	glGenBuffers(1, &materials);
 	program = App->program->GetProgram(ProgramType::DEFAULT);
 }
 
@@ -173,31 +185,25 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
-	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	//verify which data to send in buffer
-	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	//vertices
-	glGenBuffers(1, &verticesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
-	glGenBuffers(1, &textureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
-	glGenBuffers(1, &normalsBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 
 	//tangents
-	glGenBuffers(1, &tangentsBuffer);
 	if (flags & HAS_TANGENTS)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
@@ -206,20 +212,17 @@ void GeometryBatch::CreateVAO()
 	}
 
 	//indirect
-	glGenBuffers(1, &indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
-		glGenBuffers(1, &transforms[i]);
 		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
-		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4),mapFlags));
+		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
 	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-	glGenBuffers(1, &materials);
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 	materialData = static_cast<Material*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -230,13 +233,13 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &ebo);
+	//glDeleteVertexArrays(1, &vao);
+	//glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
-	glDeleteBuffers(1, &verticesBuffer);
-	glDeleteBuffers(1, &textureBuffer);
-	glDeleteBuffers(1, &normalsBuffer);
-	glDeleteBuffers(1, &tangentsBuffer);
+	//glDeleteBuffers(1, &verticesBuffer);
+	//glDeleteBuffers(1, &textureBuffer);
+	//glDeleteBuffers(1, &normalsBuffer);
+	//glDeleteBuffers(1, &tangentsBuffer);
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glDeleteBuffers(1, &transforms[i]);
