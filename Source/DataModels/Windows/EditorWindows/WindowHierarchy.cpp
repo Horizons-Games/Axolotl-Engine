@@ -28,7 +28,8 @@ void WindowHierarchy::DrawWindowContents()
 
     ModuleInput* input = App->GetModule<ModuleInput>();
 
-    if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
+    if (SDL_ShowCursor(SDL_QUERY)
+        && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
         || input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
     {
         if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
