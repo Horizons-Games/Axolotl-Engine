@@ -573,23 +573,27 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 	std::unordered_map<UID, GameObject*> gameObjectMap{};
 	std::unordered_map<UID, UID> childParentMap{};
 	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+	//Map created in order to create new ID to the object (now you can import 2 times the same scene)
+	std::unordered_map<UID, UID> uidMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 		std::string name = jsonGameObject["name"];
-		UID uid = jsonGameObject["uid"];
+		UID oldUID = jsonGameObject["uid"];
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
 		bool active = jsonGameObject["active"];
-		GameObject* gameObject = new GameObject(name, uid);
-		gameObjectMap[uid] = gameObject;
-		childParentMap[uid] = parentUID;
-		enabledAndActive[uid] = std::make_pair(enabled, active);
+		GameObject* gameObject = new GameObject(name);
+		UID newUID = gameObject->GetUID();
+		uidMap[newUID] = oldUID;
+		uidMap[oldUID] = newUID;
+		gameObjectMap[newUID] = gameObject;
+		childParentMap[newUID] = parentUID;
+		enabledAndActive[newUID] = std::make_pair(enabled, active);
 		gameObjects.push_back(gameObject);
 	}
 
-	loadedScene->AddSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -601,17 +605,19 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
 	{
 		GameObject* gameObject = *it;
-		UID uid = gameObject->GetUID();
-		UID parent = childParentMap[uid];
+		UID newUID = gameObject->GetUID();
+		UID oldUID = uidMap[newUID];
+		UID oldParent = childParentMap[newUID];
 
-		if (parent == 0)
+		if (oldParent == 0)
 		{
 			loadedScene->GetRoot()->LinkChild(gameObject);
 			gameObject->SetStatic(true);
 			continue;
 		}
+		UID newParent = uidMap[oldParent];
 
-		GameObject* parentGameObject = gameObjectMap[parent];
+		GameObject* parentGameObject = gameObjectMap[newParent];
 		parentGameObject->LinkChild(gameObject);
 	}
 
@@ -645,6 +651,7 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 			gameObject->DeactivateChildren();
 		}
 	}
+	loadedScene->AddSceneGameObjects(gameObjects);
 	return loadedObjects;
 }
 
