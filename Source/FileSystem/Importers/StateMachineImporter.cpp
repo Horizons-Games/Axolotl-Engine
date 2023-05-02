@@ -410,6 +410,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			deadStates.push_back(i);
 		}
 	}
+	resource->SetDeadStates(deadStates);
 
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	parameters.reserve(header[1]);
