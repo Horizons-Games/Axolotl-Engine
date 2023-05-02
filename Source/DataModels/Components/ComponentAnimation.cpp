@@ -54,7 +54,7 @@ void ComponentAnimation::Update()
 {
 	if (stateMachine)
 	{
-		if ((actualState == 0) & (lastState == NON_STATE)) //Entry State 
+		if ((actualState == 0) && (lastState == NON_STATE)) //Entry State 
 		{
 			SaveModelTransform(owner);
 		}
@@ -84,16 +84,14 @@ void ComponentAnimation::Update()
 				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 			}
 
-			Transition* checkedTransition = CheckTransitions(state);
-			if (checkedTransition != nullptr)
+			Transition foundTransition;
+			if (CheckTransitions(state, foundTransition))
 			{
-				nextState = stateMachine->GetIdState(*checkedTransition->destination);
+				nextState = foundTransition.destinationState;
 			}
 		}
 		else 
 		{
-			//Pasamos a la nueva state con tal de tener algo
-			//2. Reproducimos la TRANSICION e INTERPOLACIÓN de actualState a NextState de forma normal
 			actualState = nextState;
 			State* state = stateMachine->GetState(actualState);
 			if(state->resource) 
@@ -188,11 +186,11 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	nextState = 0;
 }
 
-Transition* ComponentAnimation::CheckTransitions(State* state)
+bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 {
 	if(!state)
 	{
-		return nullptr;
+		return false;
 	}
 
 	for (UID idTransition : state->transitionsOriginedHere)
@@ -235,11 +233,12 @@ Transition* ComponentAnimation::CheckTransitions(State* state)
 		
 		if (conditionCheck) 
 		{
-			return &actualTransition;
+			transition = actualTransition;
+			return true;
 		}
 	}
 
-	return nullptr;
+	return false;
 }
 
 void ComponentAnimation::SaveModelTransform(GameObject* gameObject)

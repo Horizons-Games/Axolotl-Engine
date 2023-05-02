@@ -42,7 +42,7 @@ public:
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 
 private:
-	Transition* CheckTransitions(State* state);
+	bool CheckTransitions(State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
