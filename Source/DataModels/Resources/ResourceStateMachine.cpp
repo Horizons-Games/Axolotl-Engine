@@ -16,18 +16,26 @@ int ResourceStateMachine::GetIdState(const State& state) const
 {
 	for (int i = 0; i < states.size(); i++)
 	{
-		if (states[i]->id == state.id) return i;
+		if (states[i] != nullptr && states[i]->id == state.id) return i;
 	}
 	return -1;
 }
 
 void ResourceStateMachine::AddNewState(int x, int y)
 {
-	std::unique_ptr<State> state = std::make_unique<State>();
-	state->name = "NewState";
-	state->id = UniqueID::GenerateUID();
-	state->auxiliarPos = std::pair<int, int>(x, y);
-	states.push_back(std::move(state));
+	std::unique_ptr<State> state = 
+		std::make_unique<State>(UniqueID::GenerateUID(), "NewState",x,y);
+
+	if (deadStates.empty()) 
+	{
+		states.push_back(std::move(state));
+	}
+	else 
+	{
+		unsigned int index = deadStates.back();
+		states[index] = std::move(state);
+		deadStates.pop_back();
+	}
 }
 
 void ResourceStateMachine::EraseState(unsigned int id)
@@ -40,7 +48,9 @@ void ResourceStateMachine::EraseState(unsigned int id)
 	{
 		transitions.erase(transitionid);
 	}
-	states.erase(states.begin() + id);
+	deadStates.push_back(id);
+	states[id]->~State();
+	states[id] = nullptr;
 }
 
 void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
@@ -48,22 +58,19 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 	for (UID transitionId : states[idOrigin]->transitionsOriginedHere)
 	{
 		const auto& it = transitions.find(transitionId);
-		if (it->second.destination->id == states[idDestiny]->id) return;
+		if (it != std::end(transitions) && it->second.destinationState == idDestiny) return;
 	}
 
-	Transition transition;
-	transition.origin = states[idOrigin].get();
-	transition.destination = states[idDestiny].get();
+	Transition transition (idOrigin, idDestiny, 0.0);
 	UID uid = UniqueID::GenerateUID();
 	states[idDestiny]->transitionsDestinedHere.push_back(uid);
 	states[idOrigin]->transitionsOriginedHere.push_back(uid);
-	transition.transitionDuration = 0.0;
 	transitions[uid] = transition;
 }
 
 void ResourceStateMachine::EraseTransition(UID id)
 {
-	State* stateOrigin = transitions[id].origin;
+	State* stateOrigin = states[transitions[id].originState].get();
 	stateOrigin->transitionsOriginedHere.erase(
 		std::remove(
 			std::begin(stateOrigin->transitionsOriginedHere),
@@ -169,4 +176,9 @@ void ResourceStateMachine::SelectCondition(const ConditionType& type, Condition&
 void ResourceStateMachine::SelectConditionValue(const ValidFieldTypeParameter value, Condition& condition)
 {
 	condition.value = value;
+}
+
+void ResourceStateMachine::EraseCondition(const UID transition, unsigned int index)
+{
+	transitions[transition].conditions.erase(std::begin(transitions[transition].conditions) + index);
 }

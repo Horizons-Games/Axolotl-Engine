@@ -26,6 +26,8 @@ void StateMachineImporter::Import(const char* filePath, std::shared_ptr<Resource
 	Save(resource, saveBuffer, size);
 	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
+	delete loadBuffer;
+	delete saveBuffer;
 }
 
 void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& resource, char*& fileBuffer, unsigned int& size)
@@ -52,19 +54,26 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	};
 
 	size = sizeof(header)
-		//size of 3 vectors + check resource + size of our own UID + size of int pair Pos (This last maybe on meta?)
-		+ (sizeof(unsigned int) * 4 + sizeof(UID) + sizeof(int) * 2) * resource->GetNumStates()
+		// check State
+		+ sizeof(unsigned int) * resource->GetNumStates()
 		// size of name vector + enum
 		+ (sizeof(unsigned int) * 2) * resource->GetNumParameters()
 		// size of 2 pos State + size vector conditions + Own UID Key + double
 		+ (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double)) * resource->GetNumTransitions();
 	
-	for(const State* state : resource->GetStates())
+	for(int i = 0; i < resource->GetNumStates(); i++)
 	{
-		size += sizeof(char) * state->name.size();
-		if(state->resource != nullptr) size += sizeof(UID);
-		size += sizeof(UID) * state->transitionsOriginedHere.size();
-		size += sizeof(UID) * state->transitionsDestinedHere.size();
+		const State* state = resource->GetState(i);
+		if (state != nullptr)
+		{
+			size += sizeof(unsigned int) * 4; //size of 3 vectors + check resource
+			size += sizeof(UID); //own UID
+			size += sizeof(int) * 2; //Auxiliar Pos
+			size += sizeof(char) * state->name.size();
+			if(state->resource != nullptr) size += sizeof(UID);
+			size += sizeof(UID) * state->transitionsOriginedHere.size();
+			size += sizeof(UID) * state->transitionsDestinedHere.size();
+		}
 	}
 
 	for (const auto& it : resource->GetParameters())
@@ -114,60 +123,71 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	cursor += bytes;
 
-	for(const State* state : resource->GetStates())
+	for(int i = 0; i < resource->GetNumStates(); i++)
 	{
-		unsigned int stateHeader[4] =
+		const State* state = resource->GetState(i);
+
+		unsigned int checkState = state != nullptr;
+		bytes = sizeof(unsigned int);
+		memcpy(cursor, &checkState, bytes);
+
+		cursor += bytes;
+
+		if(state != nullptr) 
 		{
-			state->name.size(),
-			state->resource != nullptr ? true : false,
-			state->transitionsOriginedHere.size(),
-			state->transitionsDestinedHere.size()
-		};
-		
-		bytes = sizeof(stateHeader);
-		memcpy(cursor, stateHeader, bytes);
+			unsigned int stateHeader[4] =
+			{
+				state->name.size(),
+				state->resource != nullptr ? true : false,
+				state->transitionsOriginedHere.size(),
+				state->transitionsDestinedHere.size()
+			};
 
-		cursor += bytes;
+			bytes = sizeof(stateHeader);
+			memcpy(cursor, stateHeader, bytes);
 
-		bytes = sizeof(UID);
-		memcpy(cursor, &(state->id), bytes);
+			cursor += bytes;
 
-		cursor += bytes;
-
-		bytes = sizeof(char) * stateHeader[0];
-		memcpy(cursor, &(state->name[0]), bytes);
-
-		cursor += bytes;
-
-		if(state->resource != nullptr)
-		{
-#ifdef ENGINE
-			jsonResources[countResources] = state->resource->GetAssetsPath().c_str();
-			++countResources;
-#endif
 			bytes = sizeof(UID);
-			UID resourceOfStateUID = state->resource->GetUID();
-			memcpy(cursor, &resourceOfStateUID, bytes);
+			memcpy(cursor, &(state->id), bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(char) * stateHeader[0];
+			memcpy(cursor, &(state->name[0]), bytes);
+
+			cursor += bytes;
+
+			if (state->resource != nullptr)
+			{
+#ifdef ENGINE
+				jsonResources[countResources] = state->resource->GetAssetsPath().c_str();
+				++countResources;
+#endif
+				bytes = sizeof(UID);
+				UID resourceOfStateUID = state->resource->GetUID();
+				memcpy(cursor, &resourceOfStateUID, bytes);
+
+				cursor += bytes;
+			}
+
+			bytes = sizeof(int);
+			memcpy(cursor, &(state->auxiliarPos.first), bytes);
+			cursor += bytes;
+			memcpy(cursor, &(state->auxiliarPos.second), bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(UID) * state->transitionsOriginedHere.size();
+			if (!state->transitionsOriginedHere.empty()) memcpy(cursor, &(state->transitionsOriginedHere[0]), bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(UID) * state->transitionsDestinedHere.size();
+			if (!state->transitionsDestinedHere.empty())memcpy(cursor, &(state->transitionsDestinedHere[0]), bytes);
 
 			cursor += bytes;
 		}
-
-		bytes = sizeof(int);
-		memcpy(cursor, &(state->auxiliarPos.first), bytes);
-		cursor += bytes;
-		memcpy(cursor, &(state->auxiliarPos.second), bytes);
-
-		cursor += bytes;
-
-		bytes = sizeof(UID) * state->transitionsOriginedHere.size();
-		if(!state->transitionsOriginedHere.empty()) memcpy(cursor, &(state->transitionsOriginedHere[0]),bytes);
-
-		cursor += bytes;
-
-		bytes = sizeof(UID) * state->transitionsDestinedHere.size();
-		if (!state->transitionsDestinedHere.empty())memcpy(cursor, &(state->transitionsDestinedHere[0]), bytes);
-
-		cursor += bytes;
 	}
 
 	for (const auto& parameterIterator : resource->GetParameters())
@@ -208,8 +228,8 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	{
 		unsigned int transitionHeader[3] =
 		{
-			resource->GetIdState(*transitionIterator.second.origin),
-			resource->GetIdState(*transitionIterator.second.destination),
+			transitionIterator.second.originState,
+			transitionIterator.second.destinationState,
 			transitionIterator.second.conditions.size()
 		};
 		
@@ -294,87 +314,101 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 	fileBuffer += bytes;
 
 	resource->ClearAllStates();
-	
+	std::vector<unsigned int> deadStates;
 	for(unsigned int i = 0; i < header[0]; i++)
 	{
 		std::unique_ptr<State> state = std::make_unique<State>();
 
-		unsigned int stateHeader[4];
-		bytes = sizeof(stateHeader);
-		memcpy(stateHeader, fileBuffer, bytes);
+		unsigned int checkState;
+		bytes = sizeof(unsigned int);
+		memcpy(&checkState, fileBuffer, bytes);
 
 		fileBuffer += bytes;
 
-		bytes = sizeof(UID);
-		memcpy(&(state->id), fileBuffer, bytes);
-
-		fileBuffer += bytes;
-
-		char* name = new char[stateHeader[0]]{};
-		bytes = sizeof(char) * stateHeader[0];
-		memcpy(name, fileBuffer, bytes);
-		state->name = std::string(name, stateHeader[0]);
-		delete[] name;
-
-		fileBuffer += bytes;
-		
-		if(stateHeader[1])
+		if(checkState)
 		{
-#ifdef ENGINE
-			std::string resourcePath = jsonResources[countResources];
-			std::shared_ptr<Resource> resource = App->resources->RequestResource<Resource>(resourcePath);
+			unsigned int stateHeader[4];
+			bytes = sizeof(stateHeader);
+			memcpy(stateHeader, fileBuffer, bytes);
 
-			state->resource = resource;
-			++countResources;
-
-			fileBuffer += sizeof(UID);
-#else
-			UID resourcePointer;
-			bytes = sizeof(UID);
-			memcpy(&resourcePointer, fileBuffer, bytes);
-			std::shared_ptr<Resource> mesh = App->resources->SearchResource<Resource>(resourcePointer);
-			state->resource = resource;
 			fileBuffer += bytes;
+
+			bytes = sizeof(UID);
+			memcpy(&(state->id), fileBuffer, bytes);
+
+			fileBuffer += bytes;
+
+			char* name = new char[stateHeader[0]]{};
+			bytes = sizeof(char) * stateHeader[0];
+			memcpy(name, fileBuffer, bytes);
+			state->name = std::string(name, stateHeader[0]);
+			delete[] name;
+
+			fileBuffer += bytes;
+
+			if (stateHeader[1])
+			{
+#ifdef ENGINE
+				std::string resourcePath = jsonResources[countResources];
+				std::shared_ptr<Resource> resource = App->resources->RequestResource<Resource>(resourcePath);
+
+				state->resource = resource;
+				++countResources;
+
+				fileBuffer += sizeof(UID);
+#else
+				UID resourcePointer;
+				bytes = sizeof(UID);
+				memcpy(&resourcePointer, fileBuffer, bytes);
+				std::shared_ptr<Resource> mesh = App->resources->SearchResource<Resource>(resourcePointer);
+				state->resource = resource;
+				fileBuffer += bytes;
 #endif
+			}
+
+			int firstPos;
+			int secondPos;
+			bytes = sizeof(int);
+			memcpy(&firstPos, fileBuffer, bytes);
+
+			fileBuffer += bytes;
+
+			memcpy(&secondPos, fileBuffer, bytes);
+			state->auxiliarPos = std::make_pair(firstPos, secondPos);
+
+			fileBuffer += bytes;
+
+			UID* transitionsOriginedPointer = new UID[stateHeader[2]];
+			bytes = sizeof(UID) * stateHeader[2];
+			if (stateHeader[2] > 0)
+			{
+				memcpy(transitionsOriginedPointer, fileBuffer, bytes);
+				std::vector<UID> transitionsOrigined = std::vector(transitionsOriginedPointer, transitionsOriginedPointer + stateHeader[2]);
+				state->transitionsOriginedHere = transitionsOrigined;
+			}
+			delete[] transitionsOriginedPointer;
+
+			fileBuffer += bytes;
+
+			UID* transitionsDestinedPointer = new UID[stateHeader[3]];
+			bytes = sizeof(UID) * stateHeader[3];
+			if (stateHeader[3] > 0)
+			{
+				memcpy(transitionsDestinedPointer, fileBuffer, bytes);
+				std::vector<UID> transitionsDestined = std::vector(transitionsDestinedPointer, transitionsDestinedPointer + stateHeader[3]);
+				state->transitionsDestinedHere = transitionsDestined;
+			}
+			delete[] transitionsDestinedPointer;
+
+			fileBuffer += bytes;
+
+			resource->AddState(std::move(state));
 		}
-
-		int firstPos;
-		int secondPos;
-		bytes = sizeof(int);
-		memcpy(&firstPos, fileBuffer, bytes);
-
-		fileBuffer += bytes;
-
-		memcpy(&secondPos, fileBuffer, bytes);
-		state->auxiliarPos = std::make_pair(firstPos, secondPos);
-
-		fileBuffer += bytes;
-
-		UID* transitionsOriginedPointer = new UID[stateHeader[2]];
-		bytes = sizeof(UID) * stateHeader[2];
-		if(stateHeader[2] > 0)
+		else 
 		{
-			memcpy(transitionsOriginedPointer, fileBuffer, bytes);
-			std::vector<UID> transitionsOrigined = std::vector(transitionsOriginedPointer, transitionsOriginedPointer + stateHeader[2]);
-			state->transitionsOriginedHere = transitionsOrigined;
+			resource->AddState(nullptr);
+			deadStates.push_back(i);
 		}
-		delete[] transitionsOriginedPointer;
-
-		fileBuffer += bytes;
-
-		UID* transitionsDestinedPointer = new UID[stateHeader[3]];
-		bytes = sizeof(UID) * stateHeader[3];
-		if(stateHeader[3] > 0) 
-		{
-			memcpy(transitionsDestinedPointer, fileBuffer, bytes);
-			std::vector<UID> transitionsDestined = std::vector(transitionsDestinedPointer, transitionsDestinedPointer + stateHeader[3]);
-			state->transitionsDestinedHere = transitionsDestined;
-		}
-		delete[] transitionsDestinedPointer;
-
-		fileBuffer += bytes;
-
-		resource->AddState(std::move(state));
 	}
 
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
@@ -430,8 +464,8 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 		unsigned int transitionHeader[3];
 		bytes = sizeof(transitionHeader);
 		memcpy(transitionHeader, fileBuffer, bytes);
-		transition.origin = resource->GetState(transitionHeader[0]);
-		transition.destination = resource->GetState(transitionHeader[1]);
+		transition.originState = transitionHeader[0];
+		transition.destinationState = transitionHeader[1];
 
 		fileBuffer += bytes;
 

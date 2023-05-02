@@ -33,6 +33,18 @@ struct State
 	std::vector<UID> transitionsOriginedHere;
 	std::vector<UID> transitionsDestinedHere;
 
+	State() :
+		id(0)
+	{
+	}
+
+	State(const UID& id, const std::string& name, int x, int y) : 
+		id(id), 
+		name(name), 
+		auxiliarPos(std::pair<int, int>(x, y)) 
+	{
+	}
+
 	~State() = default;
 };
 
@@ -46,10 +58,26 @@ struct Condition
 
 struct Transition
 {
-	State* origin;
-	State* destination;
+	unsigned int originState;
+	unsigned int destinationState;
 	double transitionDuration;
 	std::vector<Condition> conditions;
+
+	Transition() : 
+		originState(0), 
+		destinationState(0), 
+		transitionDuration(0.0) 
+	{
+	}
+	
+	Transition(unsigned int originState, unsigned int destinationState, double transitionDuration) :
+		originState(originState),
+		destinationState(destinationState),
+		transitionDuration(transitionDuration)
+	{
+	}
+
+	~Transition() = default;
 };
 
 class ResourceStateMachine : virtual public Resource
@@ -72,7 +100,6 @@ public:
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
 	unsigned int GetNumParameters() const;
-	std::vector<State*> GetStates() const;
 	State* GetState(size_t stateIndex) const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
@@ -86,6 +113,7 @@ public:
 	void SetStateName(unsigned int id, std::string name);
 	void SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource);
 	void EraseState(unsigned int id);
+	void SetDeadStates(const std::vector<unsigned int>& deadStates);
 
 	void AddNewTransition(int idOrigin, int idDestiny);
 	void SetDurationTransition(UID id, double transition);
@@ -97,10 +125,10 @@ public:
 	void EraseParameter(const std::string& parameterName);
 
 	void AddCondition(const UID transition);
-
 	void SelectConditionParameter(const std::string& parameter, Condition& condition);
 	void SelectCondition(const ConditionType& type, Condition& condition);
 	void SelectConditionValue(const ValidFieldTypeParameter value, Condition& condition);
+	void EraseCondition(const UID transition, unsigned int index);
 
 protected:
 	void InternalLoad() override {};
@@ -108,6 +136,8 @@ protected:
 
 private:
 	std::vector<std::unique_ptr<State>> states;
+	std::vector<unsigned int> deadStates;
+
 	std::unordered_map<UID, Transition> transitions;
 	std::unordered_map<std::string, TypeFieldPairParameter> defaultParameters;
 };
@@ -132,24 +162,13 @@ inline unsigned int ResourceStateMachine::GetNumParameters() const
 	return defaultParameters.size();
 }
 
-inline std::vector<State*> ResourceStateMachine::GetStates() const
-{
-	std::vector<State*> rawStates;
-	rawStates.resize(states.size());
-
-	if (!states.empty())
-		std::transform(std::begin(states), std::end(states), std::begin(rawStates),
-			[](const std::unique_ptr<State>& go) { return go.get(); });
-
-	return rawStates;
-}
-
 inline State* ResourceStateMachine::GetState(size_t stateIndex) const
 {
 	if (states.size() <= stateIndex)
 	{
 		return nullptr;
 	}
+
 	return states[stateIndex].get();
 }
 
@@ -180,12 +199,24 @@ inline void ResourceStateMachine::SetTransitions(const std::unordered_map<UID, T
 
 inline void ResourceStateMachine::SetStateName(unsigned int id, std::string name)
 {
-	states[id]->name = name;
+	if(states[id] != nullptr)
+	{
+		states[id]->name = name;
+	}
+}
+
+
+inline void ResourceStateMachine::SetDeadStates(const std::vector<unsigned int>& deadStates)
+{
+	this->deadStates = deadStates;
 }
 
 inline void ResourceStateMachine::SetStateResource(unsigned int id, const std::shared_ptr<Resource>& resource)
 {
-	states[id]->resource = resource;
+	if (states[id] != nullptr)
+	{
+		states[id]->resource = resource;
+	}
 }
 
 inline const std::unordered_map<std::string, TypeFieldPairParameter>& ResourceStateMachine::GetParameters() const
