@@ -8,11 +8,7 @@ public:
 	ModulePhysics();
 	~ModulePhysics() override;
 
-	bool Init() override;
-	update_status Update();
-	bool CleanUp();
-
-	
+	bool Init() override;	
 private:
 
 };
