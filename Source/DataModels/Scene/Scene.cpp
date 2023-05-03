@@ -238,6 +238,8 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
+	rootQuadtree->RemoveGameObjectAndChildren(gameObject);
+	RemoveNonStaticObject(gameObject);
 	delete gameObject->GetParent()->UnlinkChild(gameObject);
 }
 
@@ -291,34 +293,52 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void Scene::RemoveFatherAndChildren(const GameObject* father)
+void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 {
-	for (GameObject* child : father->GetChildren())
+	for (GameObject* child : gameObject->GetChildren())
 	{
 		RemoveFatherAndChildren(child);
 	}
 
-	{
-		Component* component = father->GetComponent(ComponentType::CAMERA);
-		if (component)
-		{
-			sceneCameras.erase(
-				std::remove_if(std::begin(sceneCameras),
-					std::end(sceneCameras),
-					[&component](ComponentCamera* camera)
-					{
-						return camera == component;
-					}),
-				std::end(sceneCameras));
-		}
-	}
+	sceneCameras.erase(
+		std::remove_if(std::begin(sceneCameras), std::end(sceneCameras),
+			[gameObject](const ComponentCamera* camera)
+			{
+				return camera->GetOwner() == gameObject;
+			}),
+		std::end(sceneCameras));
+
+	sceneCanvas.erase(
+		std::remove_if(std::begin(sceneCanvas), std::end(sceneCanvas),
+			[gameObject](const ComponentCanvas* canvas)
+			{
+				return canvas->GetOwner() == gameObject;
+			}),
+		std::end(sceneCanvas));
+
+	sceneInteractableComponents.erase(
+		std::remove_if(std::begin(sceneInteractableComponents), std::end(sceneInteractableComponents),
+			[gameObject](const Component* interactible)
+			{
+				return interactible->GetOwner() == gameObject;
+			}),
+		std::end(sceneInteractableComponents));
+	
+	sceneUpdatableObjects.erase(
+		std::remove_if(std::begin(sceneUpdatableObjects), std::end(sceneUpdatableObjects),
+			[gameObject](const Updatable* updatable)
+			{
+				const Component* component = dynamic_cast<const Component*>(updatable);
+				return component == nullptr || component->GetOwner() == gameObject;
+			}),
+		std::end(sceneUpdatableObjects));
 
 	sceneGameObjects.erase(
 		std::remove_if(std::begin(sceneGameObjects),
 			std::end(sceneGameObjects),
-			[&father](GameObject* gameObject)
+			[&gameObject](GameObject* gameObject)
 			{
-				return gameObject == father;
+				return gameObject == gameObject;
 			}),
 		std::end(sceneGameObjects));
 }

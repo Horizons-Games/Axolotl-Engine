@@ -320,8 +320,6 @@ void WindowHierarchy::DeleteGameObject(const GameObject* gameObject) const
 		loadedScene->GetRootQuadtree()->
 			RemoveGameObjectAndChildren(gameObject->GetParent());
 	}
-	loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject);
-	loadedScene->RemoveNonStaticObject(gameObject);
 	loadedScene->DestroyGameObject(gameObject);
 }
 
