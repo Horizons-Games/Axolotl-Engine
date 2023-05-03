@@ -331,7 +331,7 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="WindowImportScene.cpp">
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
   </ItemGroup>
@@ -695,14 +695,14 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="WindowImportScene.h">
-      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\FieldType.h">
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

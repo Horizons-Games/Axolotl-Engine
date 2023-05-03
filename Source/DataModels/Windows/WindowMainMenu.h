@@ -3,7 +3,7 @@
 #include "EditorWindows/WindowAbout.h"
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
-#include "WindowImportScene.h"
+#include "EditorWindows/ImporterWindows/WindowImportScene.h"
 
 class Json;
 
