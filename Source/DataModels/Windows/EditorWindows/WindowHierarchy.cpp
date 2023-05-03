@@ -160,7 +160,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             Create2DObjectMenu(gameObject);
         }
 
-        MoveObjectMenu(gameObject, children);
+        MoveObjectMenu(gameObject);
 
         if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != App->GetModule<ModulePlayer>()->GetPlayer())
         {
@@ -237,27 +237,19 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 	}
 }
 
-void WindowHierarchy::MoveObjectMenu(GameObject* gameObject, std::vector<GameObject*>& children)
+void WindowHierarchy::MoveObjectMenu(GameObject* gameObject)
 {
     // The root can't be neither deleted nor moved up/down
 	if (gameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot())
 	{
 		if (ImGui::MenuItem("Move Up"))
 		{
-			if (!children.empty()
-				&& children[0] != gameObject)
-			{
-				gameObject->GetParent()->MoveUpChild(gameObject);
-			}
+			gameObject->GetParent()->MoveUpChild(gameObject);
 		}
 
 		if (ImGui::MenuItem("Move Down"))
 		{
-			if (!children.empty()
-				&& children[children.size() - 1] != gameObject)
-			{
-				gameObject->GetParent()->MoveDownChild(gameObject);
-			}
+			gameObject->GetParent()->MoveDownChild(gameObject);
 		}
 	}
 }
