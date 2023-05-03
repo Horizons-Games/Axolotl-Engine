@@ -53,7 +53,7 @@ public:
 
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
-	void CopyComponent(ComponentType type, Component* component);
+	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
 	template <typename T,

@@ -55,7 +55,7 @@ GameObject::GameObject(const GameObject& gameObject) :
 {
 	for (auto component : gameObject.GetComponents())
 	{
-		CopyComponent(component->GetType(), component);
+		CopyComponent(component);
 	}
 
 	for (auto child : gameObject.GetChildren())
@@ -247,10 +247,11 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	}
 }
 
-void GameObject::CopyComponent(ComponentType type, Component* component)
+void GameObject::CopyComponent(Component* component)
 {
 	std::unique_ptr<Component> newComponent;
 
+	ComponentType type = component->GetType();
 	switch (type)
 	{
 	case ComponentType::TRANSFORM:
@@ -318,6 +319,18 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 	case ComponentType::BUTTON:
 	{
 		newComponent = std::make_unique<ComponentButton>(*static_cast<ComponentButton*>(component));
+		break;
+	}
+
+	case ComponentType::TRANSFORM2D:
+	{
+		newComponent = std::make_unique<ComponentTransform2D>(*static_cast<ComponentTransform2D*>(component));
+		break;
+	}
+
+	case ComponentType::CANVAS:
+	{
+		newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
 		break;
 	}
 

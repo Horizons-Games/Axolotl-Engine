@@ -116,9 +116,21 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+	ComponentTransform* transform = static_cast<ComponentTransform*>
 		(gameObject->GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
+	if (transform)
+	{
+		transform->UpdateTransformMatrices();
+	}
+	else
+	{
+		ComponentTransform2D* transform2D = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		if (transform2D)
+		{
+			transform2D->CalculateMatrices();
+		}
+	}
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
