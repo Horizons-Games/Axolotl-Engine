@@ -188,7 +188,7 @@ update_status ModuleInput::Update()
     {
         if (App->IsOnPlayMode())
         {
-            App->OnStop();
+            App->GetModule<ModulePlayer>()->SetReadyToEliminate(true);
         }
     }
 
@@ -202,9 +202,7 @@ update_status ModuleInput::Update()
         }
     }
 
-    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
-        && keysState[SDL_SCANCODE_S] == KeyState::DOWN
-        && SDL_ShowCursor(SDL_QUERY))
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN)
     {
         App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
     }
