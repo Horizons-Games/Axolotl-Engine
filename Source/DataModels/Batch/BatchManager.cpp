@@ -14,7 +14,16 @@ BatchManager::BatchManager()
 
 BatchManager::~BatchManager()
 {
+	for (GeometryBatch* batch : geometryBatchesOpaques)
+	{
+		delete batch;
+	}
 	geometryBatchesOpaques.clear();
+
+	for (GeometryBatch* batch : geometryBatchesTransparent)
+	{
+		delete batch;
+	}
 	geometryBatchesTransparent.clear();
 }
 
@@ -39,7 +48,6 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 			batch = new GeometryBatch();
 
 			batch->AddComponentMeshRenderer(newComponent);
-			batch->CreateVAO();
 			geometryBatches.push_back(batch);
 		}
 	}
@@ -81,17 +89,33 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawOpaque()
 {
-		for (GeometryBatch* geometry_batch : geometryBatchesOpaques)
+		for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
 		{
-			DrawBatch(geometry_batch);
+			if (!geometryBatch->IsEmpty())
+			{
+				DrawBatch(geometryBatch);
+			}
+			else
+			{
+				erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+				delete geometryBatch;
+			}
 		}
 }
 
 void BatchManager::DrawTransparent()
 {
-	for (GeometryBatch* geometry_batch : geometryBatchesTransparent)
+	for (GeometryBatch* geometryBatch : geometryBatchesTransparent)
 	{
-		DrawBatch(geometry_batch);
+		if (!geometryBatch->IsEmpty())
+		{
+			DrawBatch(geometryBatch);
+		}
+		else
+		{
+			erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+			delete geometryBatch;
+		}
 	}
 }
 

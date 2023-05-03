@@ -238,15 +238,23 @@ update_status ModuleRender::Update()
 	{
 		AddToRenderList(goSelected);
 	}
+	
+	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
+	program->Activate();
 
 	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+	float3 viewPos = App->camera->GetCamera()->GetPosition();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
+	program->BindUniformFloat3("viewPos", viewPos);
+
+	program->Deactivate();
+
 	AddToRenderList(goSelected);
 	
 #ifndef ENGINE

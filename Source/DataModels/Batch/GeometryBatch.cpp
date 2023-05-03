@@ -27,41 +27,29 @@ mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
 	//initialize buffers
-	//glGenVertexArrays(1, &vao);
-	//glGenBuffers(1, &ebo);
-	//glGenBuffers(1, &indirectBuffer);
-	//for (int i = 0; i < DOUBLE_BUFFERS; i++)
-	//{
-	//	glGenBuffers(1, &transforms[i]);
-	//}
-	//glGenBuffers(1, &verticesBuffer);
-	//glGenBuffers(1, &textureBuffer);
-	//glGenBuffers(1, &normalsBuffer);
-	//glGenBuffers(1, &tangentsBuffer);
-	//glGenBuffers(1, &materials);
+	CreateVAO();
+
 	program = App->program->GetProgram(ProgramType::DEFAULT);
 }
 
 GeometryBatch::~GeometryBatch()
 {
-	for (ResourceInfo* resourceInfo : resourcesInfo)
+	/*for (ResourceInfo* resourceInfo : resourcesInfo)
 	{
 		delete resourceInfo;
-	}
-	resourcesInfo.clear();
-	componentsInBatch.clear();
+	}*/
+	//resourcesInfo.clear();
+	//componentsInBatch.clear();
 	resourcesMaterial.clear();
-	instanceData.clear();
-
-	delete defaultMaterial;
+	//instanceData.clear();
 
 	CleanUp();
 	
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
-		if (gSync[frame])
+		if (gSync[i])
 		{
-			glDeleteSync(gSync[frame]);
+			glDeleteSync(gSync[i]);
 		}
 	}
 }
@@ -125,16 +113,16 @@ void GeometryBatch::FillMaterial()
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
-		ResourceMaterial* resourceMaterial = resourcesMaterial[materialIndex];
+		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
 		Material newMaterial =
 		{
-		resourceMaterial->GetDiffuseColor(),
-		resourceMaterial->GetNormalStrength(),
-		resourceMaterial->HasDiffuse(),
-		resourceMaterial->HasNormal(),
-		resourceMaterial->GetSmoothness(),
-		resourceMaterial->GetMetalness(),
-		resourceMaterial->HasMetallic(),
+			resourceMaterial->GetDiffuseColor(),
+			resourceMaterial->GetNormalStrength(),
+			resourceMaterial->HasDiffuse(),
+			resourceMaterial->HasNormal(),
+			resourceMaterial->GetSmoothness(),
+			resourceMaterial->GetMetalness(),
+			resourceMaterial->HasMetallic(),
 		};
 
 		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -185,37 +173,51 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
-	if(!glIsBuffer(vao))
-	glGenVertexArrays(1, &vao);
+	if (!glIsBuffer(vao))
+	{
+		glGenVertexArrays(1, &vao);
+	}
 	glBindVertexArray(vao);
+
 	//verify which data to send in buffer
 	if (!glIsBuffer(ebo))
-	glGenBuffers(1, &ebo);
+	{
+		glGenBuffers(1, &ebo);
+	}
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
 	//vertices
 	if (!glIsBuffer(verticesBuffer))
-	glGenBuffers(1, &verticesBuffer);
+	{
+		glGenBuffers(1, &verticesBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
 	if (!glIsBuffer(textureBuffer))
-	glGenBuffers(1, &textureBuffer);
+	{
+		glGenBuffers(1, &textureBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
 	if (!glIsBuffer(normalsBuffer))
-	glGenBuffers(1, &normalsBuffer);
+	{
+		glGenBuffers(1, &normalsBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 
 	//tangents
 	if (!glIsBuffer(tangentsBuffer))
-	glGenBuffers(1, &tangentsBuffer);
+	{
+		glGenBuffers(1, &tangentsBuffer);
+	}
 	if (flags & HAS_TANGENTS)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
@@ -223,14 +225,18 @@ void GeometryBatch::CreateVAO()
 
 	//indirect
 	if (!glIsBuffer(indirectBuffer))
-	glGenBuffers(1, &indirectBuffer);
+	{
+		glGenBuffers(1, &indirectBuffer);
+	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		if (!glIsBuffer(transforms[i]))
-		glGenBuffers(1, &transforms[i]);
+		{
+			glGenBuffers(1, &transforms[i]);
+		}
 		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -238,7 +244,9 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	if (!glIsBuffer(materials))
-	glGenBuffers(1, &materials);
+	{
+		glGenBuffers(1, &materials);
+	}
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
 	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
 	materialData = static_cast<Material*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
@@ -287,13 +295,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	bool findMesh = false;
 	bool findMaterial = false;
 
-	for (ComponentMeshRenderer* compare : componentsInBatch)
+	for (const ComponentMeshRenderer* compare : componentsInBatch)
 	{
-		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
+		if (compare->GetMesh().get() == componentToDelete->GetMesh().get() && compare != componentToDelete)
 		{
 			findMesh = true;
 		}
-		if (compare->GetMaterial() == componentToDelete->GetMaterial() && compare != componentToDelete)
+		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get() && compare != componentToDelete)
 		{
 			findMaterial = true;
 		}
@@ -317,13 +325,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		}
 		createBuffers = true;
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMesh());
+		App->resources->FillResourceBin(componentToDelete->GetMesh().get());
 #endif //ENGINE
 	}
 	if (!findMaterial)
 	{
 #ifdef ENGINE
-		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get());
+		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial());
 		// If element was found
 		if (it != resourcesMaterial.end())
 		{
@@ -339,7 +347,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	reserveModelSpace = true;
 	dirtyBatch = true;
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMaterial());
+		App->resources->FillResourceBin(componentToDelete->GetMaterial().get());
 	}
 #endif //ENGINE
 }
@@ -348,7 +356,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 {
 	resourcesMaterial.erase(
-			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial()));
 	reserveModelSpace = true;
 	//dirtyBatch = true;
 }
@@ -385,7 +393,7 @@ void GeometryBatch::BindBatch()
 		{
 			if (component->GetMaterial())
 			{
-				CreateInstanceResourceMaterial(component->GetMaterial().get());
+				CreateInstanceResourceMaterial(component->GetMaterial());
 			}
 			else
 			{
@@ -442,7 +450,7 @@ void GeometryBatch::BindBatch()
 
 void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 {
-	for (ResourceInfo* info : resourcesInfo)
+	for (const ResourceInfo* info : resourcesInfo)
 	{
 		if (info->resourceMesh == mesh)
 		{
@@ -474,7 +482,7 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 	createBuffers = true;
 }
 
-void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
+void GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material)
 {
 	auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), material);
 	int index;
@@ -494,7 +502,7 @@ void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
 	}
 }
 
-ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
+ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
 {
 	for (auto info : resourcesInfo)
 	{
@@ -509,24 +517,21 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 
 bool GeometryBatch::CleanUp()
 {
-	glDeleteVertexArrays(1,&vao);
-	glDeleteBuffers(1,&ebo);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &verticesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
 	glDeleteBuffers(1, &normalsBuffer);
 	glDeleteBuffers(1, &tangentsBuffer);
-	for (int i = 0; i < DOUBLE_BUFFERS; i++)
-	{
-		glDeleteBuffers(1, &transforms[i]);
-	}
+	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
 	return true;
 }
 
 void GeometryBatch::UpdateBatchComponents()
 {
-	for (ComponentMeshRenderer* component : componentsInBatch)
+	for (const ComponentMeshRenderer* component : componentsInBatch)
 	{
 		std::shared_ptr<ResourceMesh> meshShared = component->GetMesh();
 		std::shared_ptr<ResourceMaterial> materialShared = component->GetMaterial();
@@ -555,9 +560,11 @@ void GeometryBatch::WaitBuffer()
 	{
 		while (1)
 		{
-			GLenum waitReturn = glClientWaitSync(gSync[frame], GL_SYNC_FLUSH_COMMANDS_BIT, 1);
+			GLenum waitReturn = glClientWaitSync(gSync[frame], GL_SYNC_FLUSH_COMMANDS_BIT, 1000);
 			if (waitReturn == GL_ALREADY_SIGNALED || waitReturn == GL_CONDITION_SATISFIED)
+			{
 				return;
+			}
 		}
 	}
 }

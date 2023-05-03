@@ -64,6 +64,8 @@ public:
 	void FillMaterial();
 	void ReserveModelSpace();
 
+	bool IsEmpty() const;
+
 	const int GetFlags() const;
 
 	bool dirtyBatch;
@@ -73,16 +75,16 @@ private:
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
-	void CreateInstanceResourceMaterial(ResourceMaterial* material);
+	void CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material);
 
-	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
+	ResourceInfo* FindResourceInfo(const ResourceMesh* mesh);
 
 	void LockBuffer();
 	void WaitBuffer();
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<ResourceInfo*> resourcesInfo;
-	std::vector<ResourceMaterial*> resourcesMaterial;
+	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::vector<int> instanceData;
 
 	unsigned int ebo;
@@ -115,7 +117,7 @@ private:
 	Material* materialData;
 	unsigned int frame = 0;
 
-	ResourceMaterial* defaultMaterial;
+	std::shared_ptr<ResourceMaterial> defaultMaterial;
 
 	Program* program;
 
@@ -130,4 +132,9 @@ inline const int GeometryBatch::GetFlags() const
 inline void GeometryBatch::ReserveModelSpace()
 {
 	reserveModelSpace = true;
+}
+
+inline bool GeometryBatch::IsEmpty() const
+{
+	return componentsInBatch.empty();
 }
