@@ -49,12 +49,12 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ resource->GetNumBones() * sizeof(float4x4)
-		+ resource->GetNumVertices() * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+		+ resource->GetNumBones() * (/*sizeof(float4x4) +*/ sizeof(unsigned int));
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
 		size += resource->GetBones()[i].name.size();
+		size += resource->GetNumWeights()[i] * (sizeof(unsigned int) + sizeof(float));
 	}
 	
 	char* cursor = new char[size];
@@ -108,10 +108,10 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		bytes = sizeof(float4x4);
+		/*bytes = sizeof(float4x4);
 		memcpy(cursor, &(resource->GetBones()[i].transform), bytes);
 
-		cursor += bytes;
+		cursor += bytes;*/
 
 		bytes = resource->GetBones()[i].name.size() + sizeof('\0');
 		memcpy(cursor, resource->GetBones()[i].name.c_str(), bytes);
@@ -234,8 +234,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	{
 		Bone bone;
 
-		memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
-		fileBuffer += sizeof(float4x4);
+		/*memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
+		fileBuffer += sizeof(float4x4);*/
 
 		while(fileBuffer[bone.name.length()] != '\0')
 		{

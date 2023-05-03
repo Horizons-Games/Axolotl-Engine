@@ -412,7 +412,7 @@ std::shared_ptr<ResourceMesh> ModelImporter::ImportMesh(const aiMesh* mesh, cons
 	std::string name = mesh->mName.C_Str();
 	std::string meshPath = MESHES_PATH + App->fileSystem->GetFileName(filePath) + "." + name + "_" + std::to_string(iteration) + MESH_EXTENSION;
 
-	App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
+	App->fileSystem->Save(meshPath.c_str(), fileBuffer, size);
 	std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
 
 	return resourceMesh;
@@ -607,7 +607,6 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsigned int &size) 
 {
-
 	unsigned int numIndexes = 3;
 
 	unsigned int hasTangents = ourMesh->mTangents != nullptr;
@@ -629,12 +628,12 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 	}
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ ourMesh->mNumBones * sizeof(float4x4)
-		+ ourMesh->mNumVertices * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+		+ ourMesh->mNumBones * (/*sizeof(aiMatrix4x4) +*/ sizeof(unsigned int));
 
 	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
 	{
 		size += ourMesh->mBones[i]->mName.length;
+		size += ourMesh->mBones[i]->mNumWeights * (sizeof(unsigned int) + sizeof(float));
 	}
 	
 	char* cursor = new char[size] {};
@@ -688,10 +687,10 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
 	{
-		bytes = sizeof(aiMatrix4x4);
+		/*bytes = sizeof(aiMatrix4x4);
 		memcpy(cursor, &(ourMesh->mBones[i]->mOffsetMatrix), bytes);
 
-		cursor += bytes;
+		cursor += bytes;*/
 
 		bytes = ourMesh->mBones[i]->mName.length + sizeof('\0');
 		memcpy(cursor, ourMesh->mBones[i]->mName.C_Str(), bytes);
