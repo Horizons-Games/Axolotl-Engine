@@ -81,12 +81,8 @@ bool Application::Start()
 
 update_status Application::Update()
 {
-	float ms;
-#ifdef ENGINE
-	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
-#else
-	ms = appTimer.Read();
-#endif // ENGINE
+	bool playMode = isOnPlayMode;
+	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
@@ -115,25 +111,15 @@ update_status Application::Update()
 		}
 	}
 
-	float dt;
-#ifdef ENGINE
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
-#else
-	dt = (appTimer.Read() - ms) / 1000.0f;
-#endif // ENGINE
+	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
+	float minframeTime = 1000.0f / GetMaxFrameRate();
 
-
-	if (dt < 1000.0f / GetMaxFrameRate())
+	if (dt < minframeTime)
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32)(minframeTime - dt));
 	}
 
-#ifdef ENGINE
-	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#else
-	deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#endif // ENGINE
+	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
 
 	return update_status::UPDATE_CONTINUE;
 }
