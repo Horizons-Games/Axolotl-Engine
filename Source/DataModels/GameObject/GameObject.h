@@ -84,8 +84,8 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-	void MoveUpChild(GameObject* childToMove);
-	void MoveDownChild(GameObject* childToMove);
+	void MoveUpChild(const GameObject* childToMove);
+	void MoveDownChild(const GameObject* childToMove);
 	
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
