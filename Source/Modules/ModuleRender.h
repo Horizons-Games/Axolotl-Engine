@@ -16,12 +16,12 @@ public:
 	~ModuleRender() override;
 
 	bool Init() override;
-	bool Start() override;
-	bool CleanUp() override;
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	
+	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
@@ -69,15 +69,6 @@ private:
 
 	friend class ModuleEditor;
 };
-
-inline bool ModuleRender::Start()
-{
-	ENGINE_LOG("--------- Render Start ----------");
-
-	//UpdateProgram();
-
-	return true;
-}
 
 inline void ModuleRender::SetBackgroundColor(float4 color)
 {

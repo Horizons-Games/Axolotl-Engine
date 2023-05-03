@@ -10,14 +10,15 @@ public:
 
 	bool Init() override;
 	bool Start() override;
+
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+
 	bool CleanUp() override;
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
-
 private:
-	void InitializeBanks();
+	bool InitializeBanks();
 
 	CAkFilePackageLowLevelIOBlocking lowLevelIO;
 };
