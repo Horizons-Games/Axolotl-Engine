@@ -329,7 +329,7 @@ void ModuleScene::ImportFromJson(const std::string& filePath)
 	
 	App->GetModule<ModuleFileSystem>()->Load(assetPath.c_str(), buffer);
 #else
-	App->fileSystem->Load(filePath.c_str(), buffer);
+	App->GetModule<ModuleFileSystem>()->Load(filePath.c_str(), buffer);
 #endif
 	rapidjson::Document doc;
 	Json Json(doc, doc);
