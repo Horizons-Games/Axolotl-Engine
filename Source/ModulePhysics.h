@@ -2,13 +2,13 @@
 
 #include "Module.h"
 
-class ModulePhysics
+class ModulePhysics : public Module
 {
 public:
 	ModulePhysics();
-	~ModulePhysics();
+	~ModulePhysics() override;
 
-	bool Init();
+	bool Init() override;
 	update_status Update();
 	bool CleanUp();
 
