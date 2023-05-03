@@ -23,7 +23,7 @@ void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> re
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+	//App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;
@@ -49,7 +49,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ resource->GetNumBones() * (/*sizeof(float4x4) +*/ sizeof(unsigned int));
+		+ resource->GetNumBones() * (sizeof(float4x4) + sizeof(unsigned int) * 2);
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
@@ -108,12 +108,18 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		/*bytes = sizeof(float4x4);
+		bytes = sizeof(float4x4);
 		memcpy(cursor, &(resource->GetBones()[i].transform), bytes);
 
-		cursor += bytes;*/
+		cursor += bytes;
 
-		bytes = resource->GetBones()[i].name.size() + sizeof('\0');
+		bytes = sizeof(unsigned int);
+		unsigned int sizeNameHeader = resource->GetBones()[i].name.size();
+		memcpy(cursor, &sizeNameHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeNameHeader;
 		memcpy(cursor, resource->GetBones()[i].name.c_str(), bytes);
 
 		cursor += bytes;
@@ -234,15 +240,20 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 	{
 		Bone bone;
 
-		/*memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
-		fileBuffer += sizeof(float4x4);*/
+		memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
+		fileBuffer += sizeof(float4x4);
+		
+		unsigned int sizeOfName;
+		bytes = sizeof(unsigned int);
+		memcpy(&sizeOfName, fileBuffer, bytes);
+		fileBuffer += bytes;
 
-		while(fileBuffer[bone.name.length()] != '\0')
-		{
-			bone.name.push_back(fileBuffer[bone.name.length()]);
-		}
-
-		fileBuffer += bone.name.length() + sizeof('\0');
+		char* name = new char[sizeOfName]{};
+		bytes = sizeOfName;
+		memcpy(name, fileBuffer, bytes);
+		fileBuffer += bytes;
+		bone.name = std::string(name, sizeOfName);
+		delete[] name;
 
 		bones.push_back(bone);
 

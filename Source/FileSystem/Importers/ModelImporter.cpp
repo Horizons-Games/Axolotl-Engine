@@ -628,7 +628,7 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 	}
 	size = sizeof(header) + ourMesh->mNumFaces * (sizeof(unsigned int) * numIndexes)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ ourMesh->mNumBones * (/*sizeof(aiMatrix4x4) +*/ sizeof(unsigned int));
+		+ ourMesh->mNumBones * (sizeof(aiMatrix4x4) + sizeof(unsigned int) * 2);
 
 	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
 	{
@@ -687,12 +687,18 @@ void ModelImporter::SaveInfoMesh(const aiMesh* ourMesh, char*& fileBuffer, unsig
 
 	for (unsigned int i = 0; i < ourMesh->mNumBones; ++i)
 	{
-		/*bytes = sizeof(aiMatrix4x4);
+		bytes = sizeof(aiMatrix4x4);
 		memcpy(cursor, &(ourMesh->mBones[i]->mOffsetMatrix), bytes);
 
-		cursor += bytes;*/
+		cursor += bytes;
 
-		bytes = ourMesh->mBones[i]->mName.length + sizeof('\0');
+		bytes = sizeof(unsigned int);
+		unsigned int sizeNameHeader = ourMesh->mBones[i]->mName.length;
+		memcpy(cursor, &sizeNameHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeNameHeader;
 		memcpy(cursor, ourMesh->mBones[i]->mName.C_Str(), bytes);
 
 		cursor += bytes;
