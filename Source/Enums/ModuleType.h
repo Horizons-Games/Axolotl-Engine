@@ -13,12 +13,14 @@ class ModuleUI;
 class ModuleAudio;
 class ModulePlayer;
 class ModuleEditor;
+class ModuleCommand;
 
 // Order matters: they will Init/start/update in this order
 enum class ModuleType
 {
 	WINDOW,
 	FILESYSTEM,
+	COMMAND,
 	EDITOR,
 	INPUT,
 	PROGRAM,
@@ -114,4 +116,10 @@ template<>
 struct ModuleToEnum<ModuleEditor>
 {
 	const static ModuleType value = ModuleType::EDITOR;
+};
+
+template<>
+struct ModuleToEnum<ModuleCommand>
+{
+	const static ModuleType value = ModuleType::COMMAND;
 };
