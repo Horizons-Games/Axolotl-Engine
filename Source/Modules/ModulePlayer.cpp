@@ -22,15 +22,10 @@
 #include "Components/ComponentTransform.h"
 
 ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
-	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
+	componentPlayer(nullptr), speed(3){};
 
 ModulePlayer::~ModulePlayer() {
 };
-
-bool ModulePlayer::Init()
-{
-	return true;
-}
 
 bool ModulePlayer::Start()
 {
@@ -39,16 +34,6 @@ bool ModulePlayer::Start()
 	LoadNewPlayer();
 #endif //GAMEMODE
 	return true;
-}
-
-update_status ModulePlayer::PreUpdate()
-{
-	return update_status::UPDATE_CONTINUE;
-}
-
-update_status ModulePlayer::Update()
-{
-	return update_status::UPDATE_CONTINUE;
 }
 
 GameObject* ModulePlayer::GetPlayer()
@@ -69,7 +54,7 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<ComponentCamera*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	std::vector<ComponentCamera*> cameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
@@ -78,34 +63,31 @@ void ModulePlayer::LoadNewPlayer()
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first / App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
+			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(parentOfOwner);
 #endif // ENGINE			
-			App->camera->SetSelectedCamera(0);
+			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
-				App->input->SetShowCursor(true);
+				App->GetModule<ModuleInput>()->SetShowCursor(true);
 			}
 			else 
 			{
-				App->input->SetShowCursor(false);
+				App->GetModule<ModuleInput>()->SetShowCursor(false);
 			}
-			isPlayerLoad = true;
 			return;
 		}
 	}
-	isPlayerLoad = false;
 	ENGINE_LOG("Player is not load");
 }
 
 void ModulePlayer::UnloadNewPlayer()
 {
-	App->camera->SetSelectedCamera(-1);
+	App->GetModule<ModuleCamera>()->SetSelectedCamera(-1);
 	player = nullptr;
-	isPlayerLoad = false;
 }
 
 bool ModulePlayer::IsStatic()

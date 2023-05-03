@@ -29,27 +29,22 @@ bool ModuleUI::Init()
 	return true;
 }
 
-bool ModuleUI::Start()
-{
-	return true;
-}
-
 update_status ModuleUI::Update()
 {
-	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ComponentTransform2D* transform =
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 		AABB2D aabb2d = transform->GetWorldAABB();
-		float2 point = App->input->GetMousePosition();
+		float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #ifdef ENGINE
-		point = Physics::ScreenToScenePosition(App->input->GetMousePosition());
+		point = Physics::ScreenToScenePosition(App->GetModule<ModuleInput>()->GetMousePosition());
 #endif // ENGINE
 		if (aabb2d.Contains(point))
 		{
 			button->SetHovered(true);
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
+			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
 			{
 				button->SetClicked(true);
 			}
@@ -61,16 +56,16 @@ update_status ModuleUI::Update()
 		}
 	}
 
-	std::vector<ComponentCanvas*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
+	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 	int width, height;
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->camera->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
+	App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -91,8 +86,8 @@ update_status ModuleUI::Update()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	App->camera->GetCamera()->GetFrustum()->
-		SetHorizontalFovAndAspectRatio(math::DegToRad(90), App->camera->GetCamera()->GetAspectRatio());
+	App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->
+		SetHorizontalFovAndAspectRatio(math::DegToRad(90), App->GetModule<ModuleCamera>()->GetCamera()->GetAspectRatio());
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -104,12 +99,12 @@ update_status ModuleUI::Update()
 
 update_status ModuleUI::PostUpdate()
 {
-	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		if(button->IsClicked())
 		{
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
+			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
 			{
 #ifndef ENGINE
 				button->OnClicked();
@@ -124,13 +119,13 @@ update_status ModuleUI::PostUpdate()
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
-	std::vector<ComponentCanvas*> canvasScene = App->scene->GetLoadedScene()->GetSceneCanvas();
+	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 	for (ComponentCanvas* canvas : canvasScene)
 	{
 		canvas->RecalculateSizeAndScreenFactor();
 	}
 
-	for (Component* interactable : App->scene->GetLoadedScene()->GetSceneInteractable())
+	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentTransform2D* transform = 
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));

@@ -23,7 +23,7 @@ void WindowAssetFolder::DrawWindowContents()
 		ImGui::InputText("Name", &name[0], 64);
 		if (ImGui::Button("Save", ImVec2(120, 0)))
 		{ 
-			App->resources->CreateDefaultResource(ResourceType::Material, name);
+			App->GetModule<ModuleResources>()->CreateDefaultResource(ResourceType::Material, name);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SetItemDefaultFocus();
