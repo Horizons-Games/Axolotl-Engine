@@ -108,8 +108,6 @@ void GeometryBatch::FillBuffers()
 
 void GeometryBatch::FillMaterial()
 {
-	std::vector<Material> materialToRender;
-	materialToRender.reserve(instanceData.size());
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
@@ -142,8 +140,6 @@ void GeometryBatch::FillMaterial()
 		{
 			newMaterial.metallic_map = texture->GetHandle();
 		}
-
-		materialToRender.push_back(newMaterial);
 		materialData[i] = newMaterial;
 	}
 }
@@ -248,7 +244,7 @@ void GeometryBatch::CreateVAO()
 		glGenBuffers(1, &materials);
 	}
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
-	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(Material), nullptr, createFlags);
 	materialData = static_cast<Material*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
@@ -409,7 +405,7 @@ void GeometryBatch::BindBatch()
 	
 	int drawCount = 0;
 
-	float4x4* transforms = static_cast<float4x4*>(transformData[frame]);
+	float4x4* transformsAux = static_cast<float4x4*>(transformData[frame]);
 
 	for (auto component : componentsInBatch)
 	{
@@ -421,7 +417,7 @@ void GeometryBatch::BindBatch()
 
 		unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
 
-		transforms[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+		transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 			
 		//do a for for all the instaces existing
