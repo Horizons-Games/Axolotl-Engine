@@ -171,6 +171,7 @@
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -432,7 +433,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
-    <ClCompile Include="PlayerMoveScript.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
@@ -444,6 +444,7 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="Application.h" />
@@ -743,7 +744,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Physics\Physics.h" />
-    <ClInclude Include="PlayerMoveScript.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />

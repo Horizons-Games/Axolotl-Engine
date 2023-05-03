@@ -331,7 +331,7 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMoveScript.cpp">
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -701,7 +701,7 @@
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMoveScript.h">
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>

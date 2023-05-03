@@ -24,16 +24,8 @@
 REGISTERCLASS(PlayerMobilityScript);
 
 PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), 
-												moveScript(nullptr), rotateScript(nullptr),
-												speed(6.0f),
-												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
-												canDoubleJump(true) , jumps(0), isCrouch(false),
-												componentAudio(nullptr), playerState(PlayerActions::IDLE)
+												moveScript(nullptr), rotateScript(nullptr)
 {
-	REGISTER_FIELD(Speed, float);
-	REGISTER_FIELD(JumpParameter, float);
-	REGISTER_FIELD(DashForce, float);
-	REGISTER_FIELD(CanDash, bool);
 }
 
 void PlayerMobilityScript::Start()
@@ -44,7 +36,7 @@ void PlayerMobilityScript::Start()
 
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerMobilityScript")
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
 		{
 			moveScript = gameObjectScripts[i];
 			moveScript->GetScript()->Start();
@@ -57,17 +49,7 @@ void PlayerMobilityScript::Start()
 		}
 	}
 
-	if (canDoubleJump) 
-	{
-		jumps = 2;
-	}
-	else
-	{
-		jumps = 1;
-	}
-
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 }
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
@@ -76,21 +58,13 @@ void PlayerMobilityScript::PreUpdate(float deltaTime)
 	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
 		&& !SDL_ShowCursor(SDL_QUERY))
 	{
-		moveScript->PreUpdate();
-		//Move();
+		if (moveScript)
+		{
+			moveScript->PreUpdate();
+		}
 		Rotate();
 	}
 	
-}
-
-void PlayerMobilityScript::Move()
-{
-	
-
-	//top
-	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))
-	{
-	}*/
 }
 
 void PlayerMobilityScript::Rotate()
@@ -119,54 +93,4 @@ void PlayerMobilityScript::Rotate()
 		trans->SetRotation(newRot);
 		trans->UpdateTransformMatrices();
 	}
-}
-
-float PlayerMobilityScript::GetSpeed() const
-{
-	return speed;
-}
-
-void PlayerMobilityScript::SetSpeed(float speed)
-{
-	this->speed = speed;
-}
-
-float PlayerMobilityScript::GetJumpParameter() const
-{
-	return jumpParameter;
-}
-
-void PlayerMobilityScript::SetJumpParameter(float jumpParameter)
-{
-	this->jumpParameter = jumpParameter;
-}
-
-float PlayerMobilityScript::GetDashForce() const
-{
-	return dashForce;
-}
-
-void PlayerMobilityScript::SetDashForce(float dashForce)
-{
-	this->dashForce = dashForce;
-}
-
-bool PlayerMobilityScript::GetCanDash() const
-{
-	return canDash;
-}
-
-void PlayerMobilityScript::SetCanDash(bool canDash)
-{
-	this->canDash = canDash;
-}
-
-bool PlayerMobilityScript::GetCanDoubleJump() const
-{
-	return canDoubleJump;
-}
-
-void PlayerMobilityScript::SetCanDoubleJump(bool canDoubleJump)
-{
-	this->canDoubleJump = canDoubleJump;
 }

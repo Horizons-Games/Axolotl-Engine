@@ -7,28 +7,43 @@
 
 #include "Scene/Scene.h"
 
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentPlayer.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentAudioSource.h"
-
-#include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-PlayerMoveScript::PlayerMoveScript() : componentTransform(nullptr)
-{
+REGISTERCLASS(PlayerMoveScript);
 
+PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
+										componentAudio(nullptr), playerState(PlayerActions::IDLE),
+										speed(6.0f),
+										jumpParameter(80.0f), dashForce(50.0f), canDash(true),
+										canDoubleJump(true), jumps(0), isCrouch(false),
+										nextDash(0)
+{
+	REGISTER_FIELD(Speed, float);
+	REGISTER_FIELD(JumpParameter, float);
+	REGISTER_FIELD(DashForce, float);
+	REGISTER_FIELD(CanDash, bool);
 }
 
 void PlayerMoveScript::Start()
 {
 	componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+
+	if (canDoubleJump)
+	{
+		jumps = 2;
+	}
+	else
+	{
+		jumps = 1;
+	}
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -332,4 +347,54 @@ void PlayerMoveScript::Move()
 	}
 
 	rigidBody->SetBottomHitPoint(maxHeight);
+}
+
+float PlayerMoveScript::GetSpeed() const
+{
+	return speed;
+}
+
+void PlayerMoveScript::SetSpeed(float speed)
+{
+	this->speed = speed;
+}
+
+float PlayerMoveScript::GetJumpParameter() const
+{
+	return jumpParameter;
+}
+
+void PlayerMoveScript::SetJumpParameter(float jumpParameter)
+{
+	this->jumpParameter = jumpParameter;
+}
+
+float PlayerMoveScript::GetDashForce() const
+{
+	return dashForce;
+}
+
+void PlayerMoveScript::SetDashForce(float dashForce)
+{
+	this->dashForce = dashForce;
+}
+
+bool PlayerMoveScript::GetCanDash() const
+{
+	return canDash;
+}
+
+void PlayerMoveScript::SetCanDash(bool canDash)
+{
+	this->canDash = canDash;
+}
+
+bool PlayerMoveScript::GetCanDoubleJump() const
+{
+	return canDoubleJump;
+}
+
+void PlayerMoveScript::SetCanDoubleJump(bool canDoubleJump)
+{
+	this->canDoubleJump = canDoubleJump;
 }
