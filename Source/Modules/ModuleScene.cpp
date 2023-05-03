@@ -318,15 +318,16 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 void ModuleScene::ImportFromJson(const std::string& filePath)
 {
-	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
+	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
-	bool resourceExists = App->fileSystem->Exists(assetPath.c_str());
+	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
 	if (!resourceExists)
-		App->fileSystem->CopyFileInAssets(filePath, assetPath);
-	App->fileSystem->Load(assetPath.c_str(), buffer);
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets(filePath, assetPath);
+	
+	App->GetModule<ModuleFileSystem>()->Load(assetPath.c_str(), buffer);
 #else
 	App->fileSystem->Load(filePath.c_str(), buffer);
 #endif
@@ -464,7 +465,7 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 		}
 
 	}
-	App->editor->RefreshInspector();
+	App->GetModule<ModuleEditor>()->RefreshInspector();
 	loadedScene->AddSceneCameras(loadedCameras);
 	loadedScene->AddSceneCanvas(loadedCanvas);
 	loadedScene->AddSceneInteractable(loadedInteractable);

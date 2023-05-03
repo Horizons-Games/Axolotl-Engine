@@ -20,5 +20,5 @@ void WindowImportScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	App->scene->ImportFromJson(filePath);
+	App->GetModule<ModuleScene>()->ImportFromJson(filePath);
 }
