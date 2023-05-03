@@ -1,9 +1,12 @@
 #pragma once
 
-#include "EditorWindows/WindowAbout.h"
-#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
-#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
-#include "EditorWindows/ImporterWindows/WindowImportScene.h"
+#include "Window.h"
+
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
+class WindowLoadScene;
+class WindowSaveScene;
+class WindowImportScene;
+class WindowAbout;
 
 class Json;
 

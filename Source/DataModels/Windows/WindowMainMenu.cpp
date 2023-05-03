@@ -9,6 +9,11 @@
 
 #include "SDL.h"
 
+#include "EditorWindows/WindowAbout.h"
+#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "EditorWindows/ImporterWindows/WindowImportScene.h"
+
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
