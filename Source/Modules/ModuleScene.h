@@ -3,11 +3,14 @@
 #include "Module.h"
 
 #include "FileSystem/Json.h"
+#include "FileSystem/UniqueID.h"
+#include <map>
 
 class GameObject;
 class Quadtree;
 class Scene;
 class Skybox;
+
 
 class ModuleScene : public Module
 {
@@ -28,6 +31,7 @@ public:
 	void SetSelectedGameObject(GameObject* gameObject);
 	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
+	bool hasNewUID(UID oldUID, UID& newUID);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -59,6 +63,7 @@ private:
 
 	//to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
+	std::map<UID, UID> uidMap;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const

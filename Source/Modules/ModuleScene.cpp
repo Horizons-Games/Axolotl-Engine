@@ -574,7 +574,6 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 	std::unordered_map<UID, UID> childParentMap{};
 	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
 	//Map created in order to create new ID to the object (now you can import 2 times the same scene)
-	std::unordered_map<UID, UID> uidMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -593,7 +592,7 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 		enabledAndActive[newUID] = std::make_pair(enabled, active);
 		gameObjects.push_back(gameObject);
 	}
-
+	loadedScene->AddSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -651,7 +650,7 @@ std::vector<GameObject*> ModuleScene::InsertHierarchyFromJson(Json& jsonGameObje
 			gameObject->DeactivateChildren();
 		}
 	}
-	loadedScene->AddSceneGameObjects(gameObjects);
+	uidMap.clear();
 	return loadedObjects;
 }
 
@@ -708,4 +707,19 @@ void ModuleScene::RemoveGameObject(GameObject* object)
 		loadedScene->RemoveNonStaticObject(object);
 	}
 
+}
+
+
+bool ModuleScene::hasNewUID(UID oldUID, UID& newUID)
+{
+	const auto& uid = uidMap.find(oldUID);
+	if (uid == uidMap.end())
+	{
+		return false;
+	}
+	else 
+	{
+		newUID = uid->second;
+		return true;
+	}
 }
