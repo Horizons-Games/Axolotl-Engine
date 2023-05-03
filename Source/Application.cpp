@@ -92,13 +92,12 @@ update_status Application::Update()
 
 	float dt;
 #ifdef ENGINE
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
+	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) : dt = (appTimer.Read() - ms);
 #else
-	dt = (appTimer.Read() - ms) / 1000.0f;
+	dt = (appTimer.Read() - ms);
 #endif // ENGINE
 
-
-	if (dt < 1000.0f / GetMaxFrameRate())
+	if (dt < (1000.0f / GetMaxFrameRate()))
 	{
 		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
@@ -110,7 +109,6 @@ update_status Application::Update()
 	deltaTime = (appTimer.Read() - ms) / 1000.0f;
 #endif // ENGINE
 	
-
 	return ret;
 }
 
