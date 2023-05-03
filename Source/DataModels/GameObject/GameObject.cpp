@@ -653,7 +653,8 @@ void GameObject::MoveChild(const GameObject* child, DirectionToMove direction)
 		});
 	if (childIterator == childrenVectorEnd)
 	{
-		ENGINE_LOG("Object being moved (%d) is not a child of this (%d)", child->GetUID(), this->GetUID());
+		ENGINE_LOG("Object being moved (%s) is not a child of this (%s)",
+			std::to_string(child->GetUID()).c_str(), std::to_string(this->GetUID()).c_str());
 		return;
 	}
 	
@@ -662,7 +663,7 @@ void GameObject::MoveChild(const GameObject* child, DirectionToMove direction)
 	{
 		if (childIterator == childrenVectorBegin)
 		{
-			ENGINE_LOG("Trying to move child (%d) out of children vector bounds", child->GetUID());
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", std::to_string(child->GetUID()).c_str());
 			return;
 		}
 		childToSwap = std::prev(childIterator);
@@ -671,7 +672,7 @@ void GameObject::MoveChild(const GameObject* child, DirectionToMove direction)
 	{
 		if (childIterator == std::prev(childrenVectorEnd))
 		{
-			ENGINE_LOG("Trying to move child (%d) out of children vector bounds", child->GetUID());
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", std::to_string(child->GetUID()).c_str());
 			return;
 		}
 		childToSwap = std::next(childIterator);
