@@ -331,9 +331,31 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceParticle.cpp">
+    <ClCompile Include="DataModels\Resources\ResourceParticleSytem.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ParticleEmitter.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ParticleModule.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleBase.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\EmitterInstance.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentParticleSystem.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleSpawn.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModulePosition.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -701,9 +723,31 @@
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Resources\ResourceParticle.h">
+    <ClInclude Include="DataModels\Resources\ResourceParticleSystem.h">
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ParticleEmitter.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ParticleModule.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleBase.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\EmitterInstance.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentParticleSystem.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleSpawn.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModulePosition.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
