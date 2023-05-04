@@ -13,6 +13,8 @@ class Resource;
 enum class LightType;
 class ComponentWindow;
 
+struct AddComponentAction;
+
 class WindowInspector : public EditorWindow
 {
 public:
@@ -63,7 +65,9 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
+	std::vector<AddComponentAction> actions;
 };
+
 
 inline bool WindowInspector::MousePosIsInWindow()
 {

@@ -698,6 +698,9 @@
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\AddComponentAction.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
