@@ -15,7 +15,9 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentScript.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Resources/ResourceCubemap.h"
 #include "DataStructures/Quadtree.h"
 
 #include "ScriptFactory.h"
@@ -47,13 +49,7 @@ bool ModuleScene::Start()
 	{
 		loadedScene = CreateEmptyScene();
 	}
-	std::shared_ptr<ResourceSkyBox> resourceSkybox =
-		App->resources->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
-
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
-	}
+	
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
@@ -281,6 +277,9 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	const Skybox* skybox = loadedScene->GetSkybox();
 	skybox->SaveOptions(jsonScene);
 
+	const Cubemap* cubemap = loadedScene->GetCubemap();
+	cubemap->SaveOptions(jsonScene);
+
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
@@ -334,6 +333,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetSkybox(std::make_unique<Skybox>());
 	Skybox* skybox = loadedScene->GetSkybox();
 	skybox->LoadOptions(json);
+
+	loadedScene->SetCubemap(std::make_unique<Cubemap>());
+	Cubemap* cubemap = loadedScene->GetCubemap();
+	cubemap->LoadOptions(json);
 
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);

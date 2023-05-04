@@ -6,6 +6,8 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
+#include "Cubemap/Cubemap.h"
+
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
@@ -68,10 +70,12 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
+	Cubemap* GetCubemap() const;
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
+	void SetCubemap(std::unique_ptr<Cubemap> cubemap);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
@@ -95,6 +99,7 @@ private:
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;
+	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
@@ -198,6 +203,16 @@ inline Quadtree* Scene::GetRootQuadtree() const
 inline Skybox* Scene::GetSkybox() const
 {
 	return skybox.get();
+}
+
+inline Cubemap* Scene::GetCubemap() const
+{
+	return cubemap.get();
+}
+
+inline void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)
+{
+	this->cubemap = std::move(cubemap);
 }
 
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const

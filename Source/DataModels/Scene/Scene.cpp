@@ -12,6 +12,7 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceCubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
@@ -28,6 +29,7 @@
 
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 
 Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr),
@@ -526,6 +528,14 @@ void Scene::InitNewEmptyScene()
 	if (resourceSkybox)
 	{
 		skybox = std::make_unique<Skybox>(resourceSkybox);
+	}
+
+	std::shared_ptr<ResourceCubemap> resourceCubemap =
+		App->resources->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
+
+	if (resourceCubemap)
+	{
+		cubemap = std::make_unique<Cubemap>(resourceCubemap);
 	}
 
 	InitLights();
