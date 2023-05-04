@@ -142,26 +142,28 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 	bool translationModified,
 	bool rotationModified)
 {
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+
 	switch (lightComponent->GetLightType())
 	{
 	case LightType::DIRECTIONAL:
 		if (rotationModified)
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
+			scene->GetLoadedScene()->RenderDirectionalLight();
 		break;
 
 	case LightType::POINT:
 		if (translationModified)
 		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			scene->GetLoadedScene()->UpdateScenePointLights();
+			scene->GetLoadedScene()->RenderPointLights();
 		}
 		break;
 
 	case LightType::SPOT:
 		if (translationModified || rotationModified)
 		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			scene->GetLoadedScene()->UpdateSceneSpotLights();
+			scene->GetLoadedScene()->RenderSpotLights();
 		}
 		break;
 	}

@@ -40,6 +40,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Text("Type"); ImGui::SameLine();
 
+			ModuleScene* scene = App->GetModule<ModuleScene>();
+			
 			if (ImGui::BeginCombo("##combo", currentType))
 			{
 				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
@@ -60,8 +62,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 							asSpotLight->GetOwner()->RemoveComponent(asSpotLight);
 
-							App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-							App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+							scene->GetLoadedScene()->UpdateScenePointLights();
+							scene->GetLoadedScene()->RenderPointLights();
 
 							modified = true;
 							App->GetModule<ModuleEditor>()->RefreshInspector();
@@ -157,8 +159,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+				scene->GetLoadedScene()->UpdateSceneSpotLights();
+				scene->GetLoadedScene()->RenderSpotLights();
 			}
 
 			ImGui::EndTable();

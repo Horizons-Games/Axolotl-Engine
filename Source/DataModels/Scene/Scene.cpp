@@ -121,6 +121,7 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	childTransform->UpdateTransformMatrices();
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	//Quadtree treatment
 	if (!rootQuadtree->InQuadrant(gameObject))
@@ -139,9 +140,9 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	{
 		rootQuadtree->Add(gameObject);
 	}
-	App->GetModule<ModuleScene>()->AddGameObjectAndChildren(App->GetModule<ModuleScene>()->GetSelectedGameObject());
-	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject);
-	App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
+	scene->AddGameObjectAndChildren(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	scene->SetSelectedGameObject(gameObject);
+	scene->RemoveGameObjectAndChildren(gameObject);
 
 	return gameObject;
 }
@@ -190,27 +191,29 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
+	ModuleResources* resources = App->GetModule<ModuleResources>();
+
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
-	meshComponent->SetMaterial(App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	meshComponent->SetMaterial(resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
 	switch (type)
 	{
 	case Premade3D::CUBE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+		mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
 		break;
 	case Premade3D::PLANE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+		mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
 		break;
 	case Premade3D::CYLINDER:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+		mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
 		break;
 	case Premade3D::CAPSULE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+		mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
 		break;
 	case Premade3D::CHARACTER:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+		mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
 		break;
 	default:
 		break;
