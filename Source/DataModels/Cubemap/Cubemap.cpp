@@ -4,8 +4,10 @@
 #include "ModuleProgram.h"
 
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/Json.h"
 
 #include "DataModels/Program/Program.h"
+#include "DataModels/Resources/ResourceCubemap.h"
 
 #include "Resources/ResourceTexture.h"
 
@@ -19,24 +21,66 @@
 #define PRE_FILTERED_MAP_RESOLUTION 128
 #define ENVIRONMENT_BRDF_RESOLUTION 512
 
-Cubemap::Cubemap()
+Cubemap::Cubemap() : cubemapRes(nullptr), frameBuffer(0), cubemap(0), irradiance(0), preFiltered(0), environmentBRDF(0),
+                    cubeVAO(0), cubeVBO(0), numMipMaps(0)
 {
+}
+
+Cubemap::~Cubemap()
+{
+    glDeleteFramebuffers(1, &frameBuffer);
+    glDeleteTextures(1, &cubemap);
+    glDeleteTextures(1, &irradiance);
+    glDeleteTextures(1, &preFiltered);
+    glDeleteTextures(1, &environmentBRDF);
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteBuffers(1, &cubeVBO);
+}
+
+Cubemap::Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes) : cubemapRes(cubemapRes)
+{
+    GenerateMaps();
+}
+
+void Cubemap::SaveOptions(Json& json) const
+{
+    Json jsonSkybox = json["Cubemap"];
+
+    jsonSkybox["cubemapUID"] = cubemapRes->GetUID();
+    jsonSkybox["cubemapAssetPath"] = cubemapRes->GetAssetsPath().c_str();
+}
+
+void Cubemap::LoadOptions(Json& json)
+{
+    Json jsonSkybox = json["Cubemap"];
+
+    UID resUID = jsonSkybox["cubemapUID"];
+    std::string resPath = jsonSkybox["cubemapAssetPath"];
+
+#ifdef ENGINE
+    cubemapRes = App->resources->RequestResource<ResourceCubemap>(resPath);
+#else
+    cubemapRes = App->resources->SearchResource<ResourceCubemap>(resUID);
+#endif // ENGINE
+    GenerateMaps();
+}
+
+void Cubemap::DebugNSight()
+{
+#ifdef ENGINE
+    Program* program = App->program->GetProgram(ProgramType::DEFAULT);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
+
+    glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
+    program->Deactivate();
+#endif
+}
+
+void Cubemap::GenerateMaps()
+{
+    cubemapRes->Load();
     CreateVAO();
-    stbi_set_flip_vertically_on_load(true);
-    int width, height, nrComponents;
-    float* data = stbi_loadf("Assets/Textures/SunsetSkyboxHDR.hdr", &width, &height, &nrComponents, 0);
-    SDL_assert(data);
-
-    glGenTextures(1, &hdrTexture);
-    glBindTexture(GL_TEXTURE_2D, hdrTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data); // note how we specify the texture's data value to be float
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    stbi_image_free(data);
 
     //Generate framebuffer & renderBuffer
     glGenFramebuffers(1, &frameBuffer);
@@ -66,7 +110,7 @@ Cubemap::Cubemap()
 
     hdrToCubemapProgram->BindUniformInt("hdr", 0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, hdrTexture);
+    glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
 
     RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
     hdrToCubemapProgram->Deactivate();
@@ -131,7 +175,7 @@ Cubemap::Cubemap()
     {
         float roughness = static_cast<float>(mipMap) / static_cast<float>(numMipMaps);
         preFilteredProgram->BindUniformFloat(4, roughness);
-     
+
         unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
         RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
     }
@@ -158,30 +202,6 @@ Cubemap::Cubemap()
     glEnable(GL_DEPTH_TEST);
 }
 
-Cubemap::~Cubemap()
-{
-    glDeleteFramebuffers(1, &frameBuffer);
-    glDeleteRenderbuffers(1, &renderBuffer);
-    glDeleteTextures(1, &cubemap);
-    glDeleteTextures(1, &irradiance);
-    glDeleteTextures(1, &preFiltered);
-    glDeleteTextures(1, &environmentBRDF);
-    glDeleteVertexArrays(1, &cubeVAO);
-    glDeleteBuffers(1, &cubeVBO);
-}
-
-void Cubemap::DebugNSight()
-{
-#ifdef ENGINE
-    Program* program = App->program->GetProgram(ProgramType::DEFAULT);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, hdrTexture);
-
-    glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
-    program->Deactivate();
-#endif
-}
-
 void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
 {
     const float3 front[6] = {float3::unitX, -float3::unitX, float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ};
@@ -201,12 +221,10 @@ void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int
     {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
             GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
-        //glClearColor(1.0, 1.0, 1.0, 1.0);
         frustum.SetFront(front[i]);
         frustum.SetUp(up[i]);
 
         usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Draw cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }

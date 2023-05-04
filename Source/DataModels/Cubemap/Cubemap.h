@@ -2,8 +2,9 @@
 #include "GL/glew.h"
 #include <memory>
 
-class ResourceTexture;
+class ResourceCubemap;
 class Program;
+class Json;
 
 class Cubemap
 {
@@ -11,21 +12,25 @@ public:
 
 	Cubemap();
 	~Cubemap();
+	Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes);
+
+	void SaveOptions(Json& json) const;
+	void LoadOptions(Json& json);
 
 	void DebugNSight(); //DEBUG purpouse
 	
-	GLuint GetIrradiance(); //DEBUG purpouse
-	GLuint GetPrefiltered(); //DEBUG purpouse
-	GLuint GetEnvironmentBRDF(); //DEBUG purpouse
-	int GetNumMiMaps(); //DEBUG purpouse
+	GLuint GetIrradiance();
+	GLuint GetPrefiltered();
+	GLuint GetEnvironmentBRDF();
+	int GetNumMiMaps();
 
 private:
 	
+	void GenerateMaps();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void CreateVAO();
 
 	GLuint frameBuffer;
-	GLuint renderBuffer;
 
 	GLuint cubemap;
 	GLuint irradiance;
@@ -37,9 +42,7 @@ private:
 
 	int numMipMaps;
 
-	unsigned int hdrTexture;
-
-	//std::shared_ptr<ResourceTexture> hdrTexture;
+	std::shared_ptr<ResourceCubemap> cubemapRes;
 };
 
 inline GLuint Cubemap::GetIrradiance()
