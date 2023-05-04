@@ -18,12 +18,6 @@ public:
 	void PostUpdate(float deltaTime) override {};
 	void CleanUp() override {};
 
-	std::string GetHelloWorld() const;
-	void SetHelloWorld(const std::string& helloWorld);
-
-	GameObject* GetMovingGameObject() const;
-	void SetMovingGameObject(GameObject* movingGameObject);
-
 private:
 	std::string helloWorld;
 	GameObject* movingGameObject;
