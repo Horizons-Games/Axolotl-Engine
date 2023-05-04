@@ -26,3 +26,8 @@ public:
 	static UID GenerateUID();
 	static std::string GenerateUUID();
 };
+
+inline UID UniqueID::GenerateUID()
+{
+    return uidNew(creator);
+}

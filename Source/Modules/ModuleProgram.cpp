@@ -10,6 +10,8 @@
 
 #include <fstream>
 
+const std::string ModuleProgram::rootPath = "Source/Shaders/";
+
 ModuleProgram::ModuleProgram()
 {
 }
@@ -79,23 +81,21 @@ bool ModuleProgram::Start()
 	return true;
 }
 
-void ModuleProgram::UpdateProgram
-	(const std::string& vtxShaderFileName, 
-		const std::string& frgShaderFileName, int programType,
-		const std::string programName)
+void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName, 
+		const std::string& frgShaderFileName, ProgramType programType,
+		const std::string& programName)
 {
 	std::unique_ptr<Program> program = 
 		CreateProgram(vtxShaderFileName, frgShaderFileName, programName);
 
 	if (program)
 	{
-		programs[programType] = std::move(program);
+		programs[static_cast<int>(programType)] = std::move(program);
 	}
 }
 
-std::unique_ptr<Program> ModuleProgram::CreateProgram
-	(const std::string vtxShaderFileName, const std::string frgShaderFileName,
-		const std::string programName)
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName, const std::string& frgShaderFileName,
+		const std::string& programName)
 {
 	unsigned vertexShader =
 		CompileShader
@@ -127,16 +127,11 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram
 	return program;
 }
 
-bool ModuleProgram::CleanUp()
-{
-	return true;
-}
-
 std::string ModuleProgram::LoadShaderSource(const std::string& shaderFileName)
 {
 	char* data;
 
-	App->fileSystem->Load(shaderFileName.c_str(), data);
+	App->GetModule<ModuleFileSystem>()->Load(shaderFileName.c_str(), data);
 
 	return data;
 }

@@ -70,3 +70,8 @@ inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
 }
+
+inline void ModuleScene::OnPause()
+{
+	ENGINE_LOG("Pause pressed");
+}

@@ -41,7 +41,7 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
 }
 
@@ -121,7 +121,7 @@ bool ModuleEditor::Init()
 
 bool ModuleEditor::Start()
 {
-	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->GetModule<ModuleWindow>()->GetWindow(), App->GetModule<ModuleRender>()->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 	CreateFolderSettings();
 	return true;
@@ -139,7 +139,7 @@ bool ModuleEditor::CleanUp()
 	}
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);	
-	App->fileSystem->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -152,7 +152,7 @@ bool ModuleEditor::CleanUp()
 update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
+	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
 	ImGui::NewFrame();
 
 #ifdef ENGINE
@@ -173,34 +173,6 @@ update_status ModuleEditor::Update()
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-	{
-		CopyAnObject();
-	}
-	
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-	{
-		PasteAnObject();
-	}
-
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-	{
-		CutAnObject();
-	}
-
-	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-		|| App->input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-		&& App->input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-	{
-		DuplicateAnObject();
-	}
-
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
 
@@ -217,7 +189,7 @@ update_status ModuleEditor::Update()
 	ImGui::DockSpace(dockSpaceId);
 
 	static bool firstTime = true;
-	if (firstTime && !App->fileSystem->Exists("imgui.ini"))
+	if (firstTime && !App->GetModule<ModuleFileSystem>()->Exists("imgui.ini"))
 	{
 		firstTime = false;
 
@@ -277,11 +249,6 @@ update_status ModuleEditor::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::Resized()
-{
-	windowResized = true;
-}
-
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE
@@ -298,60 +265,6 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 #endif
 }
 
-void ModuleEditor::CopyAnObject()
-{
-	if (App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
-	{
-		copyObject = std::make_unique<GameObject>(*App->scene->GetSelectedGameObject());
-	}
-	
-}
-
-void ModuleEditor::PasteAnObject()
-{
-	if(copyObject)
-	{
-		if (App->scene->GetSelectedGameObject())
-		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetSelectedGameObject());
-		}
-		else
-		{
-			App->scene->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->scene->GetLoadedScene()->GetRoot());
-		}
-	}
-}
-
-void ModuleEditor::CutAnObject()
-{
-	CopyAnObject();
-
-	GameObject* gameObject = App->scene->GetSelectedGameObject();
-	App->scene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-																			// change the focus to its parent
-	App->scene->GetLoadedScene()->GetRootQuadtree()->
-		RemoveGameObjectAndChildren(gameObject->GetParent());
-
-	App->scene->GetLoadedScene()->DestroyGameObject(gameObject);
-}
-
-void ModuleEditor::DuplicateAnObject()
-{
-	if (App->scene->GetSelectedGameObject() 
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetRoot()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetAmbientLight()
-		&& App->scene->GetSelectedGameObject() != App->scene->GetLoadedScene()->GetDirectionalLight())
-	{
-		App->scene->GetLoadedScene()->
-			DuplicateGameObject(App->scene->GetSelectedGameObject()->GetName()
-				, App->scene->GetSelectedGameObject(), App->scene->GetSelectedGameObject()->GetParent());
-	}
-}
-
 void ModuleEditor::RefreshInspector() const
 {
 #ifdef ENGINE
@@ -366,17 +279,17 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->window->GetWindowSize();
+	return App->GetModule<ModuleWindow>()->GetWindowSize();
 #endif
 }
 std::string ModuleEditor::StateWindows()
 {
-	if (App->fileSystem->Exists(settingsFolder.c_str()))
+	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
 	{		
-		if (App->fileSystem->Exists(set.c_str()))
+		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->fileSystem->Load(set.c_str(), binaryBuffer);
+			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
 			return std::string(binaryBuffer);
 		}
 	}
@@ -385,9 +298,9 @@ std::string ModuleEditor::StateWindows()
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->fileSystem->Exists(settingsFolder.c_str());
+	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectory(settingsFolder.c_str());
+		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
 	}
 }

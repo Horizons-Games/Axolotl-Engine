@@ -32,7 +32,7 @@ ComponentImage::~ComponentImage()
 
 void ComponentImage::Draw() const
 {
-	Program* program = App->program->GetProgram(ProgramType::SPRITE);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPRITE);
 	if(program)
 	{
 		glEnable(GL_BLEND);
@@ -43,7 +43,7 @@ void ComponentImage::Draw() const
 		ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(GetOwner()
 			->GetComponent(ComponentType::TRANSFORM2D));
 
-		const float4x4& proj = App->camera->GetOrthoProjectionMatrix();
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
 		const float4x4& model = transform->GetGlobalScaledMatrix();
 		float4x4 view = float4x4::identity;
 
@@ -59,7 +59,7 @@ void ComponentImage::Draw() const
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
 		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
 
-		glBindVertexArray(App->userInterface->GetQuadVAO());
+		glBindVertexArray(App->GetModule<ModuleUI>()->GetQuadVAO());
 
 		glActiveTexture(GL_TEXTURE0);
 		program->BindUniformFloat4("spriteColor", GetFullColor());
@@ -118,10 +118,10 @@ void ComponentImage::LoadOptions(Json& meta)
 
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
-	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
-		std::shared_ptr<ResourceTexture> resourceImage = App->resources->RequestResource<ResourceTexture>(path);
+		std::shared_ptr<ResourceTexture> resourceImage = App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(path);
 		if (resourceImage)
 		{
 			image = resourceImage;
@@ -129,7 +129,7 @@ void ComponentImage::LoadOptions(Json& meta)
 	}
 #else
 	UID uidImage = meta["imageUID"];
-	std::shared_ptr<ResourceTexture> resourceImage = App->resources->SearchResource<ResourceTexture>(uidImage);
+	std::shared_ptr<ResourceTexture> resourceImage = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(uidImage);
 	if (resourceImage)
 	{
 		image = resourceImage;

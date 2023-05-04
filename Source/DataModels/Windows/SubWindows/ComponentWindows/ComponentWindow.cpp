@@ -1,5 +1,7 @@
 #include "ComponentWindow.h"
 
+#include <sstream>
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
@@ -40,6 +42,10 @@
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
+
+#include "ComponentWindow.h"
+#include "ModuleCommand.h"
+#include "Commands/CommandComponentEnabled.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -128,9 +134,10 @@ void ComponentWindow::DrawEnableComponent()
 
 		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->IsEnabled();
-		ImGui::Checkbox(ss.str().c_str(), &enable);
-
-		(enable) ? component->Enable() : component->Disable();
+		if (ImGui::Checkbox(ss.str().c_str(), &enable))
+		{
+			App->GetModule<ModuleCommand>()->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
+		}
 	}
 }
 
@@ -143,7 +150,7 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+			if (!App->GetModule<ModuleScene>()->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

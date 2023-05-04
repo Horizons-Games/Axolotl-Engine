@@ -43,7 +43,7 @@ public:
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
-	void DestroyGameObject(GameObject* gameObject);
+	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
@@ -58,7 +58,7 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 
-	GameObject* GetRoot();
+	GameObject* GetRoot() const;
 	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
@@ -86,7 +86,7 @@ public:
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
-	void RemoveNonStaticObject(GameObject* gameObject);
+	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 
 	void InitNewEmptyScene();
@@ -125,7 +125,7 @@ private:
 	std::vector<GameObject*> nonStaticObjects;
 };
 
-inline GameObject* Scene::GetRoot()
+inline GameObject* Scene::GetRoot() const
 {
 	return root.get();
 }

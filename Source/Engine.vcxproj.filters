@@ -704,6 +704,12 @@
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ModuleType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -792,6 +798,9 @@
     </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1096,6 +1105,12 @@
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleCommand.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1308,6 +1323,12 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Commands\Command.h">
+      <Filter>DataModels\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h">
+      <Filter>DataModels\Commands</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Camera\Camera.h">
       <Filter>DataModels\Camera</Filter>
     </ClInclude>
@@ -1453,17 +1474,93 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Updatable.h">
       <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Drawable.h">
       <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\ModuleCommand.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{63d396b9-4239-47e8-b629-8ccdfeb9ed44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{c91453bb-e0c9-4c12-a995-0c020d2586ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGui">
+      <UniqueIdentifier>{54dbcdcc-9ea9-4362-a596-39b1dd4da081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib">
+      <UniqueIdentifier>{5d6d2ce2-f37e-471c-b590-6128348925ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib\Algorithm">
+      <UniqueIdentifier>{768d07c6-eaf2-4191-b734-04c75ca5abf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib\Geometry">
+      <UniqueIdentifier>{62cb0c5b-15f9-499f-8c49-792a90b0d2a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib\Math">
+      <UniqueIdentifier>{76bf3803-80b4-4a92-8676-efcc00ffc736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib\Time">
+      <UniqueIdentifier>{bf70a3e3-59fb-46f0-bec3-c42deaed688e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MathGeoLib\Algorithm\Random">
+      <UniqueIdentifier>{fe175828-1f83-44c7-a6d6-2f60f91d19ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuiFileDialog">
+      <UniqueIdentifier>{f4cda053-e527-4a31-8d11-f6489ebcb4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\FontIcons">
+      <UniqueIdentifier>{75d33d15-d2af-41b6-a7a4-c3ecb1146cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuiFileDialog\dirent">
+      <UniqueIdentifier>{a8e5ca38-c495-4ee5-bc5f-b0f9711a25af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuiFileDialog\stb">
+      <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources">
+      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
+      <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataStructures">
+      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Scene">
+      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Skybox">
+      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Program">
+      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
+      <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Commands">
+      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Camera">
+      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataModels\Resources\EditorResource">
+      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>
@@ -1547,6 +1644,9 @@
     </Filter>
     <Filter Include="Auxiliar\Generics">
       <UniqueIdentifier>{9a3b4dc9-373b-46fa-a799-b89316398cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Commands">
+      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
