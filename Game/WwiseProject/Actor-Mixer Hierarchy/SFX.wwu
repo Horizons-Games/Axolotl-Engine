@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{C302772C-A0A9-4317-9387-4E1FA6616738}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}">
+	<AudioObjects>
+		<WorkUnit Name="SFX" ID="{C302772C-A0A9-4317-9387-4E1FA6616738}" OwnerID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" PersistMode="Nested">
+			<ChildrenList>
+				<WorkUnit Name="NPC" ID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Reference"/>
+				<WorkUnit Name="Player" ID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" PersistMode="Reference"/>
+				<WorkUnit Name="Ambient" ID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" PersistMode="Reference"/>
+				<WorkUnit Name="UI" ID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}" PersistMode="Reference"/>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

@@ -1,7 +1,3 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4804)
-#pragma warning (disable: 4312)
-
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
@@ -46,16 +42,11 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 		mesh->Unload();
 }
 
-void ComponentMeshRenderer::Update()
-{
-
-}
-
-void ComponentMeshRenderer::Draw()
+void ComponentMeshRenderer::Draw() const
 {
 	if (material)
 	{
-		Program* program = App->program->GetProgram
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram
 		(ProgramType(material->GetShaderType()));
 
 		if (program)
@@ -70,7 +61,7 @@ void ComponentMeshRenderer::Draw()
 	}
 }
 
-void ComponentMeshRenderer::DrawMeshes(Program* program)
+void ComponentMeshRenderer::DrawMeshes(Program* program) const
 {
 
 #ifdef ENGINE
@@ -92,8 +83,9 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 			mesh->Load();
 		}
 		
-		const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+		Camera* camera = App->GetModule<ModuleCamera>()->GetCamera();
+		const float4x4& view = camera->GetViewMatrix();
+		const float4x4& proj = camera->GetProjectionMatrix();
 		const float4x4& model =
 			static_cast<ComponentTransform*>(GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -114,7 +106,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program)
 	}
 }
 
-void ComponentMeshRenderer::DrawMaterial(Program* program)
+void ComponentMeshRenderer::DrawMaterial(Program* program) const
 {
 
 #ifdef ENGINE
@@ -122,8 +114,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 	//this should be in an EditorComponent class, or something of the like
 	//but for now have it here
 	if (material && 
-		std::dynamic_pointer_cast<EditorResourceInterface>
-													(material)->ToDelete())
+		std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
 	{
 		material = nullptr;
 	}
@@ -230,12 +221,12 @@ void ComponentMeshRenderer::DrawMaterial(Program* program)
 				break;
 		}
 
-		float3 viewPos = App->camera->GetCamera()->GetPosition();
+		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
 	}
 }
 
-void ComponentMeshRenderer::DrawHighlight()
+void ComponentMeshRenderer::DrawHighlight() const
 {
 	if (IsMeshLoaded())
 	{
@@ -245,14 +236,14 @@ void ComponentMeshRenderer::DrawHighlight()
 		}
 
 		float scale = 10.1f;
-		Program* program = App->program->GetProgram(ProgramType::HIGHLIGHT);
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HIGHLIGHT);
 
 		if (program)
 		{
 			program->Activate();
-			const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+			const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 			const float4x4& proj = 
-							App->camera->GetCamera()->GetProjectionMatrix();
+							App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 			const float4x4& model =
 				static_cast<ComponentTransform*>(GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))
@@ -316,12 +307,12 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 #ifdef ENGINE
 
 	std::string path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->fileSystem->Exists(path.c_str());
+	bool meshExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
 	{
 		std::shared_ptr<ResourceMesh> resourceMesh = 
-			App->resources->RequestResource<ResourceMesh>(path);
+			App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(path);
 
 		if (resourceMesh)
 		{
@@ -330,12 +321,12 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 
 	path = meta["assetPathMaterial"];
-	bool materialExists = path != "" && App->fileSystem->Exists(path.c_str());
+	bool materialExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
 	{
 		std::shared_ptr<ResourceMaterial> resourceMaterial = 
-			App->resources->RequestResource<ResourceMaterial>(path);
+			App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(path);
 
 		if (resourceMaterial)
 		{
@@ -346,7 +337,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	UID uidMesh = meta["meshUID"];
 	std::shared_ptr<ResourceMesh> resourceMesh = 
-		App->resources->SearchResource<ResourceMesh>(uidMesh);
+		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
 	{
@@ -355,7 +346,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	UID uidMaterial = meta["materialUID"];
 	std::shared_ptr<ResourceMaterial> resourceMaterial = 
-		App->resources->SearchResource<ResourceMaterial>(uidMaterial);
+		App->GetModule<ModuleResources>()->SearchResource<ResourceMaterial>(uidMaterial);
 
 	if (resourceMaterial)
 	{

@@ -1,8 +1,6 @@
 #pragma once
 #include "ComponentLight.h"
 
-#define COMPONENT_AMBIENT "Ambient"
-
 class Json;
 
 class ComponentAmbient : public ComponentLight
@@ -14,7 +12,7 @@ public:
 	ComponentAmbient(const float3& color, GameObject* parent);
 	~ComponentAmbient() override;
 
-	void Draw() override {};
+	void Draw() const override {};
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

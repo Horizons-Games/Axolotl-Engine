@@ -11,19 +11,12 @@ public:
 	ModulePlayer();
 	~ModulePlayer() override;
 
-	bool Init() override;
 	bool Start() override;
-
-	update_status PreUpdate();
-	update_status Update();
-
-	void Move();
-	void Rotate();
 
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
-	bool GetIsLoadPlayer();
+	bool IsLoadPlayer();
 
 	void LoadNewPlayer();
 	void UnloadNewPlayer();
@@ -45,7 +38,7 @@ private:
 	
 };
 
-inline bool ModulePlayer::GetIsLoadPlayer()
+inline bool ModulePlayer::IsLoadPlayer()
 {
 	return isPlayerLoad;
 }
@@ -53,4 +46,9 @@ inline bool ModulePlayer::GetIsLoadPlayer()
 inline void ModulePlayer::SetReadyToEliminate(bool readyToEliminate)
 {
 	this->readyToEliminate =  readyToEliminate;
+}
+
+inline Camera* ModulePlayer::GetCameraPlayer()
+{
+	return cameraPlayer;
 }

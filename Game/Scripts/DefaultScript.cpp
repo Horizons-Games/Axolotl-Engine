@@ -1,8 +1,5 @@
 #include "DefaultScript.h"
 
-#include "Modules/ModuleScene.h"
-#include "Scene/Scene.h"
-
 REGISTERCLASS(DefaultScript);
 
 DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons"), character(nullptr), check(true)

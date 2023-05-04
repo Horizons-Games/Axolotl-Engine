@@ -13,15 +13,6 @@ ComponentButton::~ComponentButton()
 {
 }
 
-void ComponentButton::Update()
-{
-}
-
-void ComponentButton::Draw()
-{
-
-}
-
 void ComponentButton::SaveOptions(Json& meta)
 {
 	// Do not delete these
@@ -64,7 +55,7 @@ void ComponentButton::LoadOptions(Json& meta)
 
 void ComponentButton::OnClicked()
 {
-	App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
 }
 
 

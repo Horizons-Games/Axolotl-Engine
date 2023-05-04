@@ -20,15 +20,6 @@ ComponentMeshCollider::~ComponentMeshCollider()
 {
 }
 
-void ComponentMeshCollider::Update()
-{
-}
-
-void ComponentMeshCollider::Draw()
-{
-
-}
-
 void ComponentMeshCollider::SaveOptions(Json& meta)
 {
 	// Do not delete these
@@ -57,7 +48,7 @@ bool ComponentMeshCollider::Move(Direction direction, float size, RaycastHit& hi
 	GetPointsGivenDirection(usedPoints, PositionPoints, direction);
 	float3 movementDirection = GetMovementGivenDirection(PositionPoints, direction);
 
-	if (!IsColliding(usedPoints, movementDirection, size, hit, stepSize))
+	if (!IsColliding(usedPoints, movementDirection, size, stepSize))
 	{
 		position += movementDirection * size;
 		trans->SetPosition(position);
@@ -83,7 +74,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 	float3 movementDirection = GetMovementGivenDirection(PositionPoints, direction);
 	for (int i = steps; i > 0; i--)
 	{
-		if(!IsColliding(usedPoints, movementDirection, sectionMove*(float)i, hit, stepSize))
+		if(!IsColliding(usedPoints, movementDirection, sectionMove*(float)i, stepSize))
 		{
 			position += movementDirection * sectionMove * (float)i;
 			trans->SetPosition(position);
@@ -96,7 +87,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 	return false;
 }
 
-bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, RaycastHit& hit, float stepSize) const
+bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize) const
 {
 	std::vector<float3> points;
 	GetMinMaxPoints(startingPoints, points, stepSize);
@@ -105,7 +96,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		bool hasHit = Physics::Raycast(line, hit);
+		bool hasHit = Physics::RaycastFirst(line);
 
 		if (hasHit) {
 			return true;
@@ -178,17 +169,19 @@ float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& poi
 {
 	switch (direction)
 	{
-	case Direction::FRONT:
-		return (points[1] - points[0]).Normalized();
-	case Direction::BACK:
-		return (points[0] - points[1]).Normalized();
-	case Direction::LEFT:
-		return (points[4] - points[0]).Normalized();
-	case Direction::RIGHT:
-		return (points[0] - points[4]).Normalized();
-	case Direction::UP:
-		return float3::unitY;
-	case Direction::DOWN:
-		return -float3::unitY;
+		case Direction::FRONT:
+			return (points[1] - points[0]).Normalized();
+		case Direction::BACK:
+			return (points[0] - points[1]).Normalized();
+		case Direction::LEFT:
+			return (points[4] - points[0]).Normalized();
+		case Direction::RIGHT:
+			return (points[0] - points[4]).Normalized();
+		case Direction::UP:
+			return float3::unitY;
+		case Direction::DOWN:
+			return -float3::unitY;
+		default:
+			break;
 	}
 }

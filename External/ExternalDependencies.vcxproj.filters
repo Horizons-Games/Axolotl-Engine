@@ -16,6 +16,9 @@
     <Filter Include="ImGui\ImGuiFileDialog\dirent">
       <UniqueIdentifier>{efa2ea3e-da59-47dc-a2d7-a2c6ebff6b0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="wwise">
+      <UniqueIdentifier>{742d93d5-813d-4215-89b4-3534a28a2c78}</UniqueIdentifier>
+    </Filter>
     <Filter Include="RuntimeCompiler">
       <UniqueIdentifier>{814213ba-f222-452f-bdb1-0120d8411c89}</UniqueIdentifier>
     </Filter>
@@ -411,6 +414,84 @@
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h">
       <Filter>MathGeoLib\Time</Filter>
     </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathBuildConfig.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathGeoLib.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Include\MathGeoLibFwd.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="FontIcons\CustomFont.h">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClInclude>
+    <ClInclude Include="FontIcons\CustomImGuiFileDialogConfig.h">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\dirent\dirent.h">
+      <Filter>ImGui\ImGuiFileDialog\dirent</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\stb\stb_image.h">
+      <Filter>ImGui\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialog\stb\stb_image_resize.h">
+      <Filter>ImGui\ImGuiFileDialog\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFileHelpers.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIOBlocking.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkFilePackageLowLevelIODeferred.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h">
+      <Filter>wwise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -611,6 +692,48 @@
     <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp">
       <Filter>MathGeoLib\Time</Filter>
     </ClCompile>
+    <ClCompile Include="FontIcons\CustomFont.cpp">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>ImGui\ImGuiFileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLUT.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkGeneratedSoundBanksResolver.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkJobWorkerMgr.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkMultipleFileLocation.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHookStubs.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookBlocking.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\AkPlatformProfilerHooks.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp">
+      <Filter>wwise</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">
@@ -642,6 +765,15 @@
     </None>
     <None Include="MathGeoLib\Include\Math\Matrix.inl">
       <Filter>MathGeoLib\Math</Filter>
+    </None>
+    <None Include="FontIcons\CustomFont.ifs">
+      <Filter>ImGui\ImGuiFontIcons</Filter>
+    </None>
+    <None Include="ImGuiFileDialog\dirent\ChangeLog">
+      <Filter>ImGui\ImGuiFileDialog\dirent</Filter>
+    </None>
+    <None Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackageLowLevelIO.inl">
+      <Filter>wwise</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

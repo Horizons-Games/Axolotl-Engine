@@ -15,6 +15,8 @@
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentMockState.h"
+#include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
 
@@ -31,8 +33,8 @@
 #include "Scene/Scene.h"
 
 // Root constructor
-GameObject::GameObject(const std::string& name, UID uid) : name(name), uid(uid), enabled(true),
-	active(true), parent(nullptr), stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(false)
+GameObject::GameObject(const std::string& name, UID uid) :
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
 {
 }
 
@@ -40,92 +42,46 @@ GameObject::GameObject(const std::string& name) : GameObject(name, UniqueID::Gen
 {
 }
 
-GameObject::GameObject(const std::string& name, GameObject* parent) : GameObject(name)
+GameObject::GameObject(const std::string& name, GameObject* parent) :
+	GameObject(name, parent, UniqueID::GenerateUID(), true,
+		(parent->IsEnabled() && parent->IsActive()), StateOfSelection::NO_SELECTED, false)
 {
-	this->parent = parent; //constructor using delegate constructor cannot use initializer lists
 	this->parent->LinkChild(this);
-	this->parentUID = parent->GetUID();
-	active = (parent->IsEnabled() && parent->IsActive());
 }
 
-GameObject::GameObject(const GameObject& gameObject): name(gameObject.GetName()), parent(gameObject.GetParent()),
-	uid(UniqueID::GenerateUID()), enabled(true), active(true),
-	stateOfSelection(StateOfSelection::NO_SELECTED), staticObject(gameObject.staticObject)
+GameObject::GameObject(const GameObject& gameObject) :
+	GameObject(gameObject.GetName(), gameObject.GetParent(), UniqueID::GenerateUID(), true, true,
+		StateOfSelection::NO_SELECTED, gameObject.staticObject)
 {
 	for (auto component : gameObject.GetComponents())
 	{
-		CopyComponent(component->GetType(), component);
+		CopyComponent(component);
 	}
 
 	for (auto child : gameObject.GetChildren())
 	{
-		GameObject* newChild = new GameObject(static_cast<GameObject&>(*child));
-		newChild->SetParent(this);
+		GameObject* newChild = new GameObject(*child);
+		newChild->parent = this;
 		LinkChild(newChild);
 	}
 }
 
+GameObject::GameObject(const std::string& name,
+	GameObject* parent,
+	UID uid,
+	bool enabled,
+	bool active,
+	StateOfSelection selection,
+	bool staticObject) : 
+	name(name), parent(parent), uid(uid), enabled(enabled), active(active), stateOfSelection(selection), staticObject(staticObject)
+{
+
+}
+
 GameObject::~GameObject()
 {
-	// This should not be here
-	std::vector<ComponentLight*> lights = GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-	bool hadSpotLight = false, hadPointLight = false;
-	for (ComponentLight* light : lights)
-	{
-		switch (light->GetLightType())
-		{
-		case LightType::SPOT:
-			hadSpotLight = true;
-			break;
-		case LightType::POINT:
-			hadPointLight = true;
-			break;
-		}
-	}
-	//
-
 	components.clear();
-
 	children.clear();
-
-	// This should not be here
-	Scene* currentScene = App->scene->GetLoadedScene();
-
-	if (hadSpotLight)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
-	if (hadPointLight)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
-	//
-}
-
-void GameObject::Update()
-{
-	for (std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Update();
-		}
-	}
-
-	//if (drawBoundingBoxes) App->debug->DrawBoundingBox(objectOBB);
-}
-
-void GameObject::Draw() const
-{
-	for (const std::unique_ptr<Component>& component : components)
-	{
-		if (component->GetActive())
-		{
-			component->Draw();
-		}
-	}
 }
 
 void GameObject::SaveOptions(Json& meta)
@@ -185,6 +141,21 @@ void GameObject::LoadOptions(Json& meta)
 	}
 }
 
+void GameObject::Draw() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->IsEnabled())
+		{
+			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
+			if (drawable)
+			{
+				drawable->Draw();
+			}
+		}
+	}
+}
+
 void GameObject::InitNewEmptyGameObject(bool is3D)
 {
 	if (is3D)
@@ -197,7 +168,7 @@ void GameObject::InitNewEmptyGameObject(bool is3D)
 	}
 }
 
-void GameObject::MoveParent(GameObject* newParent)
+void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 
@@ -207,7 +178,9 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	parent->UnlinkChild(this);
+	// it's fine to ignore the return value in this case
+	// since the pointer returned will be "this"
+	std::ignore = parent->UnlinkChild(this);
 	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
@@ -274,15 +247,15 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	}
 }
 
-void GameObject::CopyComponent(ComponentType type, Component* component)
+void GameObject::CopyComponent(Component* component)
 {
 	std::unique_ptr<Component> newComponent;
 
+	ComponentType type = component->GetType();
 	switch (type)
 	{
 	case ComponentType::TRANSFORM:
 	{
-		
 		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
 		break;
 	}
@@ -325,8 +298,44 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		break;
 	}
 
+	case ComponentType::AUDIOLISTENER:
+	{
+		newComponent = std::make_unique<ComponentAudioListener>(*static_cast<ComponentAudioListener*>(component));
+		break;
+	}
+
+	case ComponentType::AUDIOSOURCE:
+	{
+		newComponent = std::make_unique<ComponentAudioSource>(*static_cast<ComponentAudioSource*>(component));
+		break;
+	}
+
+	case ComponentType::IMAGE:
+	{
+		newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
+		break;
+	}
+
+	case ComponentType::BUTTON:
+	{
+		newComponent = std::make_unique<ComponentButton>(*static_cast<ComponentButton*>(component));
+		break;
+	}
+
+	case ComponentType::TRANSFORM2D:
+	{
+		newComponent = std::make_unique<ComponentTransform2D>(*static_cast<ComponentTransform2D*>(component));
+		break;
+	}
+
+	case ComponentType::CANVAS:
+	{
+		newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
+		break;
+	}
+
 	default:
-		assert(false && "Wrong component type introduced");
+		ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -476,6 +485,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::AUDIOSOURCE:
+		{
+			newComponent = std::make_unique<ComponentAudioSource>(true, this);
+			break;
+		}
+
+		case ComponentType::AUDIOLISTENER:
+		{
+			newComponent = std::make_unique<ComponentAudioListener>(true, this);
+			break;
+		}
+
 		case ComponentType::MESHCOLLIDER:
 		{
 			newComponent = std::make_unique<ComponentMeshCollider>(true, this);
@@ -496,6 +517,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+
 		components.push_back(std::move(newComponent));
 		return referenceBeforeMove;
 	}
@@ -536,6 +564,7 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	return nullptr;
 }
 
+
 bool GameObject::RemoveComponent(const Component* component)
 {
 	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
@@ -553,14 +582,14 @@ bool GameObject::RemoveComponent(const Component* component)
 				switch (type)
 				{
 				case LightType::POINT:
-					App->scene->GetLoadedScene()->UpdateScenePointLights();
-					App->scene->GetLoadedScene()->RenderPointLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
 
 					break;
 
 				case LightType::SPOT:
-					App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-					App->scene->GetLoadedScene()->RenderSpotLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 
 					break;
 				}
@@ -642,7 +671,7 @@ void GameObject::MoveUpChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it - 1, it);
-			App->scene->SetSelectedGameObject((*(it - 1)).get());
+			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it - 1)).get());
 			break;
 		}
 	}
@@ -657,7 +686,7 @@ void GameObject::MoveDownChild(GameObject* childToMove)
 		if ((*it).get() == childToMove)
 		{
 			std::iter_swap(it, it + 1);
-			App->scene->SetSelectedGameObject((*(it + 1)).get());
+			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it + 1)).get());
 			break;
 		}
 	}
