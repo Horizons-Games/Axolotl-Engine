@@ -13,9 +13,6 @@
 
 #include "Geometry/Frustum.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 #define CUBEMAP_RESOLUTION 512
 #define IRRADIANCE_MAP_RESOLUTION 128
 #define PRE_FILTERED_MAP_RESOLUTION 128
