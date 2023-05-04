@@ -32,12 +32,6 @@
 
 #include "Scene/Scene.h"
 
-enum class GameObject::DirectionToMove
-{
-	UP,
-	DOWN
-};
-
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
 	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
@@ -641,7 +635,7 @@ bool GameObject::IsAChild(const GameObject* child)
 	return false;
 }
 
-void GameObject::MoveChild(const GameObject* child, DirectionToMove direction)
+void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction)
 {
 	auto childrenVectorBegin = std::begin(children);
 	auto childrenVectorEnd = std::end(children);
@@ -659,7 +653,7 @@ void GameObject::MoveChild(const GameObject* child, DirectionToMove direction)
 	}
 	
 	auto childToSwap = childrenVectorEnd;
-	if (direction == DirectionToMove::UP)
+	if (direction == HierarchyDirection::UP)
 	{
 		if (childIterator == childrenVectorBegin)
 		{
@@ -710,12 +704,12 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 
 void GameObject::MoveUpChild(const GameObject* childToMove)
 {
-	MoveChild(childToMove, DirectionToMove::UP);
+	MoveChild(childToMove, HierarchyDirection::UP);
 }
 
 void GameObject::MoveDownChild(const GameObject* childToMove)
 {
-	MoveChild(childToMove, DirectionToMove::DOWN);
+	MoveChild(childToMove, HierarchyDirection::DOWN);
 }
 
 void GameObject::SetParentAsChildSelected()

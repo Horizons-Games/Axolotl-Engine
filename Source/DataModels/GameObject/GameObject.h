@@ -103,8 +103,12 @@ private:
 
 	bool IsAChild(const GameObject* child);
 
-	enum class DirectionToMove;
-	void MoveChild(const GameObject* child, DirectionToMove direction);
+	enum class HierarchyDirection
+	{
+		UP,
+		DOWN
+	};
+	void MoveChild(const GameObject* child, HierarchyDirection direction);
 
 private:
 	UID uid;
