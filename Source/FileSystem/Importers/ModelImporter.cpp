@@ -1,6 +1,3 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 6386)
-
 #include "ModelImporter.h"
 
 #include "Application.h"
@@ -48,7 +45,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+		App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
 
 		delete buffer;
 	}
@@ -64,7 +61,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -174,7 +171,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 }
 
@@ -184,7 +181,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -493,13 +490,13 @@ std::shared_ptr<ResourceMaterial> ModelImporter::ImportMaterial(const aiMaterial
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
 {
 	struct stat buffer {};
-	std::string name = App->fileSystem->GetFileName(file.data);
-	name += App->fileSystem->GetFileExtension(file.data);
+	std::string name = App->GetModule<ModuleFileSystem>()->GetFileName(file.data);
+	name += App->GetModule<ModuleFileSystem>()->GetFileExtension(file.data);
 	
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
-		std::string path = App->fileSystem->GetPathWithoutFile(filePath);
+		std::string path = App->GetModule<ModuleFileSystem>()->GetPathWithoutFile(filePath);
 		//Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{

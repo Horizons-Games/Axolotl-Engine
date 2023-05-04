@@ -1,7 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4172)
-
 #include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 
@@ -9,6 +6,7 @@
 
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 
 class Json;
 class ComponentLight;
@@ -31,10 +29,10 @@ public:
 	const float3& GetRotationXYZ() const;
 	const float4x4& GetGlobalRotation() const;
 	const float3& GetScale() const;
-	const float3& GetLocalForward() const;
-	const float3& GetGlobalForward() const;
-	const float3& GetGlobalUp() const;
-	const float3& GetGlobalRight() const;
+	float3 GetLocalForward() const;
+	float3 GetGlobalForward() const;
+	float3 GetGlobalUp() const;
+	float3 GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
 
 	const float4x4& GetLocalMatrix() const;
@@ -44,11 +42,13 @@ public:
 	const AABB& GetEncapsuledAABB();
 	const OBB& GetObjectOBB();
 	bool IsDrawBoundingBoxes() const;
+	bool IsUniformScale() const;
 
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
 	void SetScale(const float3& scale);
+	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
@@ -81,6 +81,7 @@ private:
 	AABB encapsuledAABB;
 	OBB objectOBB;
 	bool drawBoundingBoxes;
+	bool uniformScale;
 };
 
 inline const float3& ComponentTransform::GetPosition() const
@@ -118,22 +119,22 @@ inline const float3& ComponentTransform::GetGlobalScale() const
 	return globalSca;
 }
 
-inline const float3& ComponentTransform::GetLocalForward() const
+inline float3 ComponentTransform::GetLocalForward() const
 {
 	return localMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalForward() const
+inline float3 ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalUp() const
+inline float3 ComponentTransform::GetGlobalUp() const
 {
 	return globalMatrix.WorldY();
 }
 
-inline const float3& ComponentTransform::GetGlobalRight() const
+inline float3 ComponentTransform::GetGlobalRight() const
 {
 	return globalMatrix.WorldX();
 }
@@ -166,6 +167,11 @@ inline const OBB& ComponentTransform::GetObjectOBB()
 	return objectOBB;
 }
 
+inline bool ComponentTransform::IsUniformScale() const
+{
+	return uniformScale;
+}
+
 inline bool ComponentTransform::IsDrawBoundingBoxes() const
 {
 	return drawBoundingBoxes;
@@ -190,14 +196,38 @@ inline void ComponentTransform::SetRotation(const float4x4& rotation)
 
 inline void ComponentTransform::SetScale(const float3& scale)
 {
-	sca = scale;
+	sca.x = std::max(scale.x, 0.0001f);
+	sca.y = std::max(scale.y, 0.0001f);
+	sca.z = std::max(scale.z, 0.0001f);
+}
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifiedScaleAxis)
+{
+	if (modifiedScaleAxis == Axis::X)
+	{
+		sca.y = std::max(scale.y * scale.x / sca.x, 0.0001f);
+		sca.z = std::max(scale.z * scale.x / sca.x, 0.0001f);
+		sca.x = std::max(scale.x, 0.0001f);
+	}
+	else if (modifiedScaleAxis == Axis::Y)
+	{
+		sca.z = std::max(scale.z * scale.y / sca.y, 0.0001f);
+		sca.x = std::max(scale.x * scale.y / sca.y, 0.0001f);
+		sca.y = std::max(scale.y, 0.0001f);
+	}
+	else {
+		sca.x = std::max(scale.x * scale.z / sca.z, 0.0001f);
+		sca.y = std::max(scale.y * scale.z / sca.z, 0.0001f);
+		sca.z = std::max(scale.z, 0.0001f);
+	}
 }
 
 inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)
 {
 	drawBoundingBoxes = newDraw;
+}
+
+inline void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
+{
+	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
 }

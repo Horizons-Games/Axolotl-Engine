@@ -22,7 +22,7 @@ void WindowComponentScript::DrawWindowContents()
 
 	ImGui::Text("");
 
-	std::vector<const char*> constructors = App->scriptFactory->GetConstructors();
+	std::vector<const char*> constructors = App->GetScriptFactory()->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(component);
 
 	if (!script)
@@ -127,7 +127,7 @@ void WindowComponentScript::DrawWindowContents()
 						{
 							UID draggedGameObjectID = *(UID*)payload->Data;
 							GameObject* draggedGameObject =
-								App->scene->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
 							if (draggedGameObject)
 							{
@@ -176,7 +176,7 @@ void WindowComponentScript::DrawWindowContents()
 void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
 {
 	newScript->SetConstuctor(selectedScript);
-	IScript* Iscript = App->scriptFactory->ConstructScript(selectedScript);
+	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
 	Iscript->SetGameObject(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);

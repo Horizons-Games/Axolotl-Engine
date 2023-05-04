@@ -1,5 +1,3 @@
-#pragma warning (disable: 4312)
-
 #include "WindowInspector.h"
 
 #include "Application.h"
@@ -14,9 +12,89 @@
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
+#include "Auxiliar/AddComponentAction.h"
+
 WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+	auto gameObjectDoesNotHaveComponent = [](GameObject* gameObject, ComponentType componentType)
+	{
+		return gameObject->GetComponent(componentType) == nullptr;
+	};
+
+	actions.push_back(
+		AddComponentAction("Create Mesh Renderer Component", std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
+
+	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
+	{
+		return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LIGHT);
+	};
+	actions.push_back(AddComponentAction("Create Spot Light Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
+	actions.push_back(AddComponentAction("Create Point Light Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction("Create Player Component",
+		std::bind(&WindowInspector::AddComponentPlayer, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::PLAYER);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction("Create RigidBody Component",
+		std::bind(&WindowInspector::AddComponentRigidBody, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::RIGIDBODY);
+		},
+		ComponentFunctionality::PHYSICS));
+
+	actions.push_back(AddComponentAction("Create MockState Component",
+		std::bind(&WindowInspector::AddComponentMockState, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MOCKSTATE);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction("Create AudioSource Component",
+		std::bind(&WindowInspector::AddComponentAudioSource, this),
+		ComponentFunctionality::AUDIO));
+	actions.push_back(AddComponentAction("Create AudioListener Component",
+		std::bind(&WindowInspector::AddComponentAudioListener, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::AUDIOLISTENER);
+		},
+		ComponentFunctionality::AUDIO));
+
+	actions.push_back(AddComponentAction("Create Mesh Collider Component",
+		std::bind(&WindowInspector::AddComponentMeshCollider, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MESHCOLLIDER);
+		},
+		ComponentFunctionality::PHYSICS));
+
+	actions.push_back(AddComponentAction("Create Script Component",
+		std::bind(&WindowInspector::AddComponentScript, this),
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction("Create Animation Component",
+		std::bind(&WindowInspector::AddComponentAnimation, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::ANIMATION);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	std::sort(std::begin(actions), std::end(actions));
 }
 
 WindowInspector::~WindowInspector()
@@ -25,11 +103,11 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
-	if (!resource.expired() && lastSelectedGameObject != App->scene->GetSelectedGameObject())
+	if (!resource.expired() && lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		resource = std::weak_ptr<Resource>();
 	}
-	
+
 	if (resource.expired())
 	{
 		InspectSelectedGameObject();
@@ -42,7 +120,7 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	lastSelectedGameObject = App->scene->GetSelectedGameObject();
+	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
 	{
@@ -87,9 +165,9 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 		}
 
-		if (lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-			lastSelectedGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-			lastSelectedGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		if (lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
+			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
+			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
 		}
@@ -98,9 +176,9 @@ void WindowInspector::InspectSelectedGameObject()
 	ImGui::Separator();
 
 	if (WindowRightClick() &&
-		lastSelectedGameObject != App->scene->GetLoadedScene()->GetRoot() &&
-		lastSelectedGameObject != App->scene->GetLoadedScene()->GetAmbientLight() &&
-		lastSelectedGameObject != App->scene->GetLoadedScene()->GetDirectionalLight())
+		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
+		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
+		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -109,80 +187,12 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			if (ImGui::MenuItem("Create Mesh Renderer Component"))
+			for (const AddComponentAction& action : actions)
 			{
-				AddComponentMeshRenderer();
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::LIGHT)) 
-			{
-				if (ImGui::MenuItem("Create Spot Light Component"))
+				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
 				{
-					AddComponentLight(LightType::SPOT);
+					action.callback();
 				}
-
-				if (ImGui::MenuItem("Create Point Light Component"))
-				{
-					AddComponentLight(LightType::POINT);
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::PLAYER)) 
-			{
-				if (ImGui::MenuItem("Create Player Component"))
-				{
-					AddComponentPlayer();
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::ANIMATION)) 
-			{
-				if (ImGui::MenuItem("Create Animation Component"))
-				{
-					AddComponentAnimation();
-				}
-			}
-			
-			if (!lastSelectedGameObject->GetComponent(ComponentType::RIGIDBODY)) 
-			{
-				if (ImGui::MenuItem("Create RigidBody Component"))
-				{
-					AddComponentRigidBody();
-				}
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MOCKSTATE)) 
-			{
-				if (ImGui::MenuItem("Create MockState Component"))
-				{
-					AddComponentMockState();
-				}
-			}
-			
-			if (ImGui::MenuItem("Create AudioSource Component"))
-			{
-				AddComponentAudioSource();
-			}
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::AUDIOLISTENER)) {
-				if (ImGui::MenuItem("Create AudioListener Component"))
-				{
-					AddComponentAudioListener();
-				}
-			}
-			
-
-			if (!lastSelectedGameObject->GetComponent(ComponentType::MESHCOLLIDER)) 
-			{
-				if (ImGui::MenuItem("Create Mesh Collider Component"))
-				{
-					AddComponentMeshCollider();
-				}
-			}
-
-			if (ImGui::MenuItem("Create Script Component"))
-			{
-				AddComponentScript();
 			}
 		}
 
@@ -309,7 +319,7 @@ void WindowInspector::DrawTextureOptions()
 		ImGui::Combo("WrapFilterS", &wrapS, wrapFilters, IM_ARRAYSIZE(wrapFilters));
 		ImGui::Combo("WrapFilterT", &wrapT, wrapFilters, IM_ARRAYSIZE(wrapFilters));
 
-		
+
 	}
 	ImGui::Separator();
 	ImGui::Text("");
@@ -331,36 +341,23 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->GetLoadOptions().wrapT = (TextureWrap)wrapT;
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
-		App->resources->ReimportResource(resourceTexture->GetUID());
+		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
 	}
-}
-
-bool WindowInspector::MousePosIsInWindow()
-{
-	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x
-		&& ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
-		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y
-		&& ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
-}
-
-bool WindowInspector::WindowRightClick()
-{
-	return (ImGui::GetIO().MouseClicked[1] && MousePosIsInWindow());
 }
 
 void WindowInspector::AddComponentMeshRenderer()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
 void WindowInspector::AddComponentLight(LightType type)
 {
-	App->scene->GetSelectedGameObject()->CreateComponentLight(type);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponentLight(type);
 }
 
 void WindowInspector::AddComponentPlayer()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
 void WindowInspector::AddComponentAnimation()
@@ -376,30 +373,30 @@ void WindowInspector::ResetSelectedGameObject()
 
 void WindowInspector::AddComponentRigidBody()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
 }
 
 void WindowInspector::AddComponentMockState()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
 
 void WindowInspector::AddComponentAudioSource()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOSOURCE);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOSOURCE);
 }
 
 void WindowInspector::AddComponentAudioListener()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOLISTENER);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AUDIOLISTENER);
 }
 
 void WindowInspector::AddComponentMeshCollider()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MESHCOLLIDER);
 }
 
 void WindowInspector::AddComponentScript()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
 }
