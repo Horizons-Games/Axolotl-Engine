@@ -29,7 +29,10 @@ void Skybox::Draw() const
     Program* program = App->program->GetProgram(ProgramType::SKYBOX);
     if (program && skyboxRes) 
     {
-        skyboxRes->Load();
+        if (!skyboxRes->IsLoaded())
+        {
+            skyboxRes->Load();
+        }
         glDepthMask(GL_FALSE);
 
         program->Activate();
