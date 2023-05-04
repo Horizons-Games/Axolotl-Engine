@@ -188,13 +188,13 @@ update_status ModuleInput::Update()
     {
         if (App->IsOnPlayMode())
         {
-            App->GetModule<ModulePlayer>()->SetReadyToEliminate(true);
+            App->OnStop();
         }
     }
 
     if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
         || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
-        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_B] == KeyState::DOWN)
     {
         if (App->IsOnPlayMode())
         {

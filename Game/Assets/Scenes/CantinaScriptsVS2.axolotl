@@ -8813,20 +8813,36 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerMobilityScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMoveScript",
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 4.0,
+                                    "value": 2.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "JumpParameter",
-                                    "value": 120.0,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "DashForce",
-                                    "value": 50.0,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
@@ -8839,9 +8855,11 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_AudioSource",
+                            "type": "Component_Script",
                             "active": true,
-                            "removed": true
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": null
                         }
                     }
                 ]
