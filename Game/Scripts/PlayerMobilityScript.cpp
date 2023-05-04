@@ -68,5 +68,4 @@ void PlayerMobilityScript::PreUpdate(float deltaTime)
 			rotateScript->PreUpdate();
 		}
 	}
-	
 }
