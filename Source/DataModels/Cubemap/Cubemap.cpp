@@ -58,7 +58,7 @@ void Cubemap::LoadOptions(Json& json)
     std::string resPath = jsonSkybox["cubemapAssetPath"];
 
 #ifdef ENGINE
-    cubemapRes = App->resources->RequestResource<ResourceCubemap>(resPath);
+    cubemapRes = App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>(resPath);
 #else
     cubemapRes = App->resources->SearchResource<ResourceCubemap>(resUID);
 #endif // ENGINE
@@ -68,7 +68,7 @@ void Cubemap::LoadOptions(Json& json)
 void Cubemap::DebugNSight()
 {
 #ifdef ENGINE
-    Program* program = App->program->GetProgram(ProgramType::DEFAULT);
+    Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
 
@@ -105,7 +105,7 @@ void Cubemap::GenerateMaps()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    Program* hdrToCubemapProgram = App->program->GetProgram(ProgramType::HDR_TO_CUBEMAP);
+    Program* hdrToCubemapProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HDR_TO_CUBEMAP);
     hdrToCubemapProgram->Activate();
 
     hdrToCubemapProgram->BindUniformInt("hdr", 0);
@@ -133,7 +133,7 @@ void Cubemap::GenerateMaps()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    Program* irradianceProgram = App->program->GetProgram(ProgramType::IRRADIANCE_MAP);
+    Program* irradianceProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::IRRADIANCE_MAP);
     irradianceProgram->Activate();
 
     irradianceProgram->BindUniformInt("environment", 0);
@@ -162,7 +162,7 @@ void Cubemap::GenerateMaps()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
     glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
-    Program* preFilteredProgram = App->program->GetProgram(ProgramType::PRE_FILTERED_MAP);
+    Program* preFilteredProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PRE_FILTERED_MAP);
     preFilteredProgram->Activate();
 
     preFilteredProgram->BindUniformInt("environment", 0);
@@ -191,7 +191,7 @@ void Cubemap::GenerateMaps()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    Program* environmentBRDFProgram = App->program->GetProgram(ProgramType::ENVIRONMENT_BRDF);
+    Program* environmentBRDFProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::ENVIRONMENT_BRDF);
     environmentBRDFProgram->Activate();
     glViewport(0, 0, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, environmentBRDF, 0);

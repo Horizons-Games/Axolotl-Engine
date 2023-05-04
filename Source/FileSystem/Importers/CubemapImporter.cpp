@@ -19,8 +19,8 @@ CubemapImporter::~CubemapImporter()
 void CubemapImporter::Import(const char* filePath, std::shared_ptr<ResourceCubemap> resource)
 {
 	char* bufferFile;
-
-	App->fileSystem->Load(resource->GetAssetsPath().c_str(), bufferFile);
+	
+	App->GetModule<ModuleFileSystem>()->Load(resource->GetAssetsPath().c_str(), bufferFile);
 
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -30,14 +30,14 @@ void CubemapImporter::Import(const char* filePath, std::shared_ptr<ResourceCubem
 	std::string texturePath = Json["texture"];
 
 	std::shared_ptr<ResourceTexture> hdrTexture = std::dynamic_pointer_cast<ResourceTexture>(
-		App->resources->ImportResource(texturePath));
+		App->GetModule<ModuleResources>()->ImportResource(texturePath));
 
 	resource->SetHDRTexture(hdrTexture);
 
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
 }
@@ -48,7 +48,7 @@ void CubemapImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceCubem
 	//Open Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -60,7 +60,7 @@ void CubemapImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceCubem
 #ifdef  ENGINE
 	Json jsonTexture = meta["TextureAssetPath"];
 
-	hdrTexture = App->resources->RequestResource<ResourceTexture>(jsonTexture);
+	hdrTexture = App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(jsonTexture);
 #else
 	UID* texturePointer = new UID;
 	unsigned int bytes = sizeof(UID);
@@ -78,7 +78,7 @@ void CubemapImporter::Save(const std::shared_ptr<ResourceCubemap>& resource, cha
 	//Open Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -98,6 +98,6 @@ void CubemapImporter::Save(const std::shared_ptr<ResourceCubemap>& resource, cha
 	//Save Meta
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 }

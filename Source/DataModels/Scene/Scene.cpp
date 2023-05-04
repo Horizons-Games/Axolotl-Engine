@@ -551,7 +551,7 @@ void Scene::InitNewEmptyScene()
 	}
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
-		App->resources->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
+		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
 	if (resourceCubemap)
 	{

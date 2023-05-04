@@ -10,7 +10,7 @@
 
 #include <fstream>
 
-const std::string ModuleProgram::rootPath = "Source/Shaders/";
+const std::string ModuleProgram::rootPath = "Shaders/";
 
 ModuleProgram::ModuleProgram()
 {
@@ -23,13 +23,13 @@ ModuleProgram::~ModuleProgram()
 bool ModuleProgram::Start()
 {
 	std::string directory = rootPath + "Common/";
-	std::vector<std::string> files = App->fileSystem->ListFilesWithPath(directory.c_str());
+	std::vector<std::string> files = App->GetModule<ModuleFileSystem>()->ListFilesWithPath(directory.c_str());
 	for (auto i = 0; i < files.size(); i++) {
 		std::string path = files[i];
-		if (App->fileSystem->IsDirectory(path.c_str())) 
+		if (App->GetModule<ModuleFileSystem>()->IsDirectory(path.c_str()))
 		{
 			path += "/";
-			std::vector<std::string> filesInsideDirectory = App->fileSystem->ListFilesWithPath(path.c_str());
+			std::vector<std::string> filesInsideDirectory = App->GetModule<ModuleFileSystem>()->ListFilesWithPath(path.c_str());
 			files.reserve(files.size() + filesInsideDirectory.size());
 			files.insert(files.end(), filesInsideDirectory.begin(), filesInsideDirectory.end());
 		}
