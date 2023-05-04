@@ -383,7 +383,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (asMeshRenderer->IsTransparent() != isTransparent 
 					|| asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
 				{
-					asMeshRenderer->RemoveFromBatch();
 					changeBatch = true;
 				}
 				asMeshRenderer->SetShaderType(currentShaderTypeIndex);
@@ -403,7 +402,13 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 		}
 		if (changeBatch)
 		{
-			App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
+			std::vector<ComponentMeshRenderer*> componentToMove;
+			componentToMove.clear();
+			componentToMove = asMeshRenderer->ChangeOfBatch();
+			for (ComponentMeshRenderer* component : componentToMove)
+			{
+				App->renderer->GetBatchManager()->AddComponent(component);
+			}
 			changeBatch = false;
 		}
 		if (updateMaterials)

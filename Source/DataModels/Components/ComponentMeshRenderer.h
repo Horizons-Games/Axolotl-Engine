@@ -65,6 +65,8 @@ public:
 
 	void RemoveFromBatch();
 
+	std::vector<ComponentMeshRenderer*> ChangeOfBatch();
+
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 

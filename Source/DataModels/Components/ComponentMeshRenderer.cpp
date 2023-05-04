@@ -652,6 +652,11 @@ void ComponentMeshRenderer::RemoveFromBatch()
 	batch->DeleteComponent(this);
 }
 
+std::vector<ComponentMeshRenderer*> ComponentMeshRenderer::ChangeOfBatch()
+{
+	return batch->ChangeBatch(this);
+}
+
 const unsigned int& ComponentMeshRenderer::GetShaderType() const
 {
 	return material->GetShaderType();

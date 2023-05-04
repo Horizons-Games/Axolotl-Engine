@@ -348,6 +348,55 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 #endif //ENGINE
 }
 
+std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(ComponentMeshRenderer* componentToDelete)
+{
+	componentToMove.clear();
+	int val = 0;
+	bool findMaterial = false;
+	for (ComponentMeshRenderer* compare : componentsInBatch)
+	{
+
+		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get())
+		{
+			findMaterial = true;
+		}
+
+		if (findMaterial)
+		{
+			componentToMove.push_back(compare);
+			for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++)
+			{
+				if ((*it)->resourceMesh == compare->GetMesh().get())
+				{
+					delete (*it);
+					resourcesInfo.erase(it);
+					break;
+				}
+			}
+			createBuffers = true;
+
+			auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), compare->GetMaterial());
+			// If element was found
+			if (it != resourcesMaterial.end())
+			{
+				resourcesMaterial.erase(it);
+			}
+			val++;
+			ENGINE_LOG("Material delete = %d", val);
+			componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), compare));
+			findMaterial = false;
+		}
+	}
+	resourcesInfo.clear();
+	resourcesMaterial.clear();
+	instanceData.clear();
+
+	reserveModelSpace = true;
+	dirtyBatch = true;
+
+	return componentToMove;
+}
+
 
 void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
 {

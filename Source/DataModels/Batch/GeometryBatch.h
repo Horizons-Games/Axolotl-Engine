@@ -59,6 +59,7 @@ public:
 
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
 	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
+	std::vector< ComponentMeshRenderer*> ChangeBatch(ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch();
 	void FillMaterial();
@@ -86,6 +87,7 @@ private:
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::vector<int> instanceData;
+	std::vector<ComponentMeshRenderer*> componentToMove;
 
 	unsigned int ebo;
 	unsigned int vao;
