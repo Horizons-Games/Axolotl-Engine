@@ -57,7 +57,7 @@ void Cubemap::LoadOptions(Json& json)
 #ifdef ENGINE
     cubemapRes = App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>(resPath);
 #else
-    cubemapRes = App->resources->SearchResource<ResourceCubemap>(resUID);
+    cubemapRes = App->GetModule<ModuleResources>()->SearchResource<ResourceCubemap>(resUID);
 #endif // ENGINE
     GenerateMaps();
 }
