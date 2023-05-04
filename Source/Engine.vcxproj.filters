@@ -334,6 +334,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -702,6 +705,9 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,12 +14,10 @@ class PlayerMobilityScript : public Script
 
 public:
 	PlayerMobilityScript();
-	~PlayerMobilityScript() {};
+	~PlayerMobilityScript() override {};
 
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
-
-	void Rotate();
 
 private:
 	ComponentPlayer* componentPlayer;

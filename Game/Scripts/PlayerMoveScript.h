@@ -16,13 +16,12 @@ class ComponentAudioSource;
 class PlayerMoveScript :
     public Script
 {
+public:
 	PlayerMoveScript();
 	~PlayerMoveScript() override = default;
 
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
-
-	void Move();
 
 	float GetSpeed() const;
 	void SetSpeed(float speed);
@@ -38,6 +37,9 @@ class PlayerMoveScript :
 
 	bool GetCanDoubleJump() const;
 	void SetCanDoubleJump(bool canDoubleJump);
+
+private:
+	void Move();
 
 private:
 	ComponentTransform* componentTransform;

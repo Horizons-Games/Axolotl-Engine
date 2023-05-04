@@ -172,6 +172,7 @@
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -445,6 +446,7 @@
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="Application.h" />
