@@ -331,6 +331,9 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceParticle.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -698,6 +701,9 @@
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceParticle.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -789,6 +795,9 @@
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\ParticleSystem">
+      <UniqueIdentifier>{1426e775-b621-433b-b6cf-306a93828634}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

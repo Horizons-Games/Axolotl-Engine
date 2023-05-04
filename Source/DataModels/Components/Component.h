@@ -20,7 +20,8 @@ enum class ComponentType
 	AUDIOSOURCE,
 	AUDIOLISTENER,
 	MESHCOLLIDER,
-	SCRIPT
+	SCRIPT,
+	PARTICLE
 };
 
 const static std::string GetNameByType(ComponentType type);
