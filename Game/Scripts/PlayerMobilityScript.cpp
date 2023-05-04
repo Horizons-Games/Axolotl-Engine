@@ -26,10 +26,10 @@ PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr
 												canDoubleJump(true) , jumps(0), isCrouch(false),
 												componentAudio(nullptr), playerState(PlayerActions::IDLE)
 {
-	REGISTER_FIELD(Speed, float);
-	REGISTER_FIELD(JumpParameter, float);
-	REGISTER_FIELD(DashForce, float);
-	REGISTER_FIELD(CanDash, bool);
+	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
+	REGISTER_FIELD_WITH_ACCESSORS(JumpParameter, float);
+	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
+	REGISTER_FIELD_WITH_ACCESSORS(CanDash, bool);
 }
 
 void PlayerMobilityScript::Start()

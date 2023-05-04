@@ -1423,7 +1423,7 @@
     </ClInclude>
     <ClInclude Include="Scripting\SystemTable.h">
       <Filter>Scripting</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClCompile Include="Scripting\ScriptFactory.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
