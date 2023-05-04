@@ -336,9 +336,9 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 	sceneGameObjects.erase(
 		std::remove_if(std::begin(sceneGameObjects),
 			std::end(sceneGameObjects),
-			[&gameObject](GameObject* gameObject)
+			[&gameObject](GameObject* gameObjectToDelete)
 			{
-				return gameObject == gameObject;
+				return gameObjectToDelete == gameObject;
 			}),
 		std::end(sceneGameObjects));
 }
