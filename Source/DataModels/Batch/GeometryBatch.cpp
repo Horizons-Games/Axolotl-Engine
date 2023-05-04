@@ -383,9 +383,13 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(ComponentMeshRend
 			}
 			val++;
 			ENGINE_LOG("Material delete = %d", val);
-			componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), compare));
 			findMaterial = false;
 		}
+	}
+
+	for (ComponentMeshRenderer* compare : componentToMove)
+	{
+		componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), compare));
 	}
 	resourcesInfo.clear();
 	resourcesMaterial.clear();
