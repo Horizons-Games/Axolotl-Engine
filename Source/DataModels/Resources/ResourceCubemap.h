@@ -1,6 +1,6 @@
 #pragma once
-#include "Resource.h"
 
+#include "Resource.h"
 #include <memory>
 
 class ResourceTexture;
@@ -22,7 +22,6 @@ public:
 	void SaveLoadOptions(Json& meta) override {};
 	void LoadLoadOptions(Json& meta) override {};
 
-	unsigned int GetEnviromentTexture() const;
 	const std::shared_ptr<ResourceTexture>& GetHDRTexture() const;
 
 	void SetHDRTexture(const std::shared_ptr<ResourceTexture>& textures);
@@ -35,18 +34,11 @@ protected:
 
 private:
 	std::shared_ptr<ResourceTexture> hdrTexture;
-
-	unsigned int enviromentTexture;
 };
 
 inline ResourceType ResourceCubemap::GetType() const
 {
 	return ResourceType::Cubemap;
-}
-
-inline unsigned int ResourceCubemap::GetEnviromentTexture() const
-{
-	return enviromentTexture;
 }
 
 inline const std::shared_ptr<ResourceTexture>& ResourceCubemap::GetHDRTexture() const
