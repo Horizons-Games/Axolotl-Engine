@@ -92,6 +92,8 @@ void CubemapImporter::Save(const std::shared_ptr<ResourceCubemap>& resource, cha
 
 	UID textureUID;
 	textureUID = resource->GetHDRTexture()->GetUID();
+	Json jsonTexture = meta["TextureAssetPath"];
+	jsonTexture = resource->GetHDRTexture()->GetAssetsPath().c_str();
 	memcpy(cursor, &textureUID, bytes);
 
 #ifdef ENGINE
