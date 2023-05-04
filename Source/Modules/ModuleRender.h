@@ -71,8 +71,6 @@ private:
 	std::string vertexShader;
 	std::string fragmentShader;
 
-	Cubemap* cubemap;
-
 	friend class ModuleEditor;
 };
 

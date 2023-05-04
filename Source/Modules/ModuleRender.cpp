@@ -173,8 +173,6 @@ bool ModuleRender::Start()
 
 	//UpdateProgram();
 
-	cubemap = new Cubemap();
-
 	return true;
 }
 
@@ -211,7 +209,6 @@ update_status ModuleRender::Update()
 	{
 		skybox->Draw();
 	}
-
 
 	if (App->debug->IsShowingBoundingBoxes())
 	{
@@ -301,8 +298,6 @@ bool ModuleRender::CleanUp()
 	ENGINE_LOG("Destroying renderer");
 
 	SDL_GL_DeleteContext(context);
-
-	delete cubemap;
 
 	glDeleteBuffers(1, &vbo);
 #ifdef ENGINE
