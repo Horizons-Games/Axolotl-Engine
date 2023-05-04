@@ -67,6 +67,7 @@ enum class TextureType
 #define HDR_TEXTURE_EXTENSION ".hdr"
 #define SCENE_EXTENSION ".axolotl"
 #define SKYBOX_EXTENSION ".sky"
+#define CUBEMAP_EXTENSION ".cube"
 #define MATERIAL_EXTENSION ".mat"
 #define MESH_EXTENSION ".mesh"
 #define META_EXTENSION ".meta"

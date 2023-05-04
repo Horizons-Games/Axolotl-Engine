@@ -8,11 +8,13 @@
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
+#include "FileSystem/Importers/CubemapImporter.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceCubemap.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
@@ -39,6 +41,7 @@ bool ModuleResources::Init()
 	meshImporter = std::make_unique<MeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
+	cubemapImporter = std::make_unique<CubemapImporter>();
 
 	CreateAssetAndLibFolders();	
 
@@ -148,6 +151,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	case ResourceType::SkyBox:
 		res = std::shared_ptr<EditorResource<ResourceSkyBox>>(new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
+	case ResourceType::Cubemap:
+		res = std::shared_ptr<EditorResource<ResourceCubemap>>(new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	default:
 		return nullptr;
 	}
@@ -169,6 +175,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::SkyBox:
 		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Cubemap:
+		return std::make_shared<ResourceCubemap>(uid, fileName, assetsPath, libraryPath);
 	default:
 		return nullptr;
 	}
@@ -275,6 +283,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::SkyBox:
 				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 				break;
+			case ResourceType::Cubemap:
+				cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
+				break;
 			default:
 				break;
 			}
@@ -345,8 +356,10 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		materialImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMaterial>(resource));
 		break;
 	case ResourceType::SkyBox:
-		skyboxImporter->Import(originalPath.c_str(),
-			std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+		skyboxImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+		break;
+	case ResourceType::Cubemap:
+		cubemapImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceCubemap>(resource));
 		break;
 	default:
 		break;
@@ -369,12 +382,15 @@ void ModuleResources::CreateAssetAndLibFolders()
 	//(actually there is a library that looks really clean but might be overkill:
 	// https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,
-												  ResourceType::Mesh,
-												  ResourceType::Model,
-												  ResourceType::Scene,
-												  ResourceType::Texture,
-												  ResourceType::SkyBox,												  
+	std::vector<ResourceType> allResourceTypes = 
+	{	
+		ResourceType::Material,
+		ResourceType::Mesh,
+		ResourceType::Model,
+		ResourceType::Scene,
+		ResourceType::Texture,
+		ResourceType::SkyBox,
+		ResourceType::Cubemap
 	};
 	for (ResourceType type : allResourceTypes)
 	{
@@ -433,11 +449,9 @@ void ModuleResources::MonitorResources()
 						toCreateMeta.push_back(resource);
 					}
 					//these type's assets are binary files changed in runtime
-					else if (resource->GetType() != ResourceType::Mesh &&
-						resource->GetType() != ResourceType::Material)
+					else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
 					{
-						long long assetTime =
-							App->fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
+						long long assetTime = App->fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
 						long long libTime =
 							App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
 						if (assetTime > libTime)
@@ -576,6 +590,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::SkyBox;
 	}
+	else if (normalizedExtension == CUBEMAP_EXTENSION)
+	{
+		return ResourceType::Cubemap;
+	}
 	else if (normalizedExtension == SCENE_EXTENSION) 
 	{
 		return ResourceType::Scene;
@@ -607,7 +625,9 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 	case ResourceType::Material:
 		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox";	
+		return "SkyBox";
+	case ResourceType::Cubemap:
+		return "Cubemaps";
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";
@@ -617,17 +637,33 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 {
 	if (typeName == "Models")
+	{
 		return ResourceType::Model;
+	}
 	if (typeName == "Textures")
+	{
 		return ResourceType::Texture;
+	}
 	if (typeName == "Meshes")
+	{
 		return ResourceType::Mesh;
+	}
 	if (typeName == "Scenes")
+	{
 		return ResourceType::Scene;
+	}
 	if (typeName == "Materials")
+	{
 		return ResourceType::Material;
+	}
 	if (typeName == "SkyBox")
+	{
 		return ResourceType::SkyBox;
+	}
+	if (typeName == "Cubemaps")
+	{
+		return ResourceType::Cubemap;
+	}
 	return ResourceType::Unknown;
 }
 
