@@ -49,12 +49,12 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 	}
 	size = sizeof(header) + resource->GetNumFaces() * (sizeof(unsigned int) * 3)
 		+ static_cast<unsigned long long>(sizeOfVectors) * static_cast<unsigned long long>(numOfVectors)
-		+ resource->GetNumBones() * sizeof(float4x4)
-		+ resource->GetNumVertices() * (4 * sizeof(unsigned int) + 4 * sizeof(float));
+		+ resource->GetNumBones() * (sizeof(float4x4) + sizeof(unsigned int) * 2);
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
 		size += resource->GetBones()[i].name.size();
+		size += resource->GetNumWeights()[i] * (sizeof(unsigned int) + sizeof(float));
 	}
 	
 	char* cursor = new char[size];
@@ -113,7 +113,13 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char* &fi
 
 		cursor += bytes;
 
-		bytes = resource->GetBones()[i].name.size() + sizeof('\0');
+		bytes = sizeof(unsigned int);
+		unsigned int sizeNameHeader = resource->GetBones()[i].name.size();
+		memcpy(cursor, &sizeNameHeader, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeNameHeader;
 		memcpy(cursor, resource->GetBones()[i].name.c_str(), bytes);
 
 		cursor += bytes;
@@ -236,26 +242,32 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 		memcpy(&bone.transform, fileBuffer, sizeof(float4x4));
 		fileBuffer += sizeof(float4x4);
+		
+		unsigned int sizeOfName;
+		bytes = sizeof(unsigned int);
+		memcpy(&sizeOfName, fileBuffer, bytes);
+		fileBuffer += bytes;
 
-		while(fileBuffer[bone.name.length()] != '\0')
-		{
-			bone.name.push_back(fileBuffer[bone.name.length()]);
-		}
-
-		fileBuffer += bone.name.length() + sizeof('\0');
+		char* name = new char[sizeOfName]{};
+		bytes = sizeOfName;
+		memcpy(name, fileBuffer, bytes);
+		fileBuffer += bytes;
+		bone.name = std::string(name, sizeOfName);
+		delete[] name;
 
 		bones.push_back(bone);
 
 		memcpy(&numWeights, fileBuffer, sizeof(unsigned int));
 		fileBuffer += sizeof(unsigned int);
-		allNumWeights.push_back(numWeights);
 
+		unsigned int numWeightsAfterBonesLimit = 0;
 		for (unsigned int j = 0; j < numWeights; ++j)
 		{	
 			memcpy(&vertexId, fileBuffer, sizeof(unsigned int));
 			if (resource->GetNumBonesAttached(vertexId) < bonesPerVertex)
 			{
 				resource->SetAttachBones(vertexId, i);
+				numWeightsAfterBonesLimit++;
 			}
 			fileBuffer += sizeof(unsigned int);
 
@@ -268,6 +280,8 @@ void MeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMesh> re
 
 			resource->IncrementAttachNumBones(vertexId);
 		}
+		allNumWeights.push_back(numWeightsAfterBonesLimit);
+
 	}
 
 	for (unsigned int i = 0; i < resource->GetAttaches().size(); ++i)
