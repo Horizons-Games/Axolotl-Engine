@@ -25,7 +25,6 @@ public:
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject);
 	static bool RaycastFirst(const LineSegment& ray);
-	static bool RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObject);
 	static bool HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance);
 
 private:

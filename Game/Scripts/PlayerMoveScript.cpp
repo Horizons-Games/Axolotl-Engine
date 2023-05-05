@@ -111,7 +111,7 @@ void PlayerMoveScript::Move()
 	}
 
 	// Crouch
-	/*if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
+	if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
 	{
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
@@ -144,7 +144,7 @@ void PlayerMoveScript::Move()
 	else if (isCrouch)
 	{
 		size /= 4.f;
-	}*/
+	}
 
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)

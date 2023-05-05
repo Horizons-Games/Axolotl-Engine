@@ -115,32 +115,6 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 	return false;
 }
 
-bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObject)
-{
-	std::map<float, const GameObject*> hitGameObjects;
-
-#ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
-#endif
-
-	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
-
-
-	if (hitGameObjects.size() != 0)
-	{
-		for (auto it = hitGameObjects.begin(); it != hitGameObjects.end(); it++)
-		{
-			if (!(exceptionGameObject->IsADescendant((*it).second) || exceptionGameObject == (*it).second))
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
 bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
