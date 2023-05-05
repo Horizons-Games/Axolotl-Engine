@@ -87,7 +87,7 @@ void MaterialImporter::Import
 	unsigned int size;
 
 	Save(resource, buffer, size);
-	fileSystem)->Save
+	fileSystem->Save
 		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
 			buffer, size);
 
