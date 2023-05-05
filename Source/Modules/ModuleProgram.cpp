@@ -10,7 +10,11 @@
 
 #include <fstream>
 
+#ifdef ENGINE
 const std::string ModuleProgram::rootPath = "Shaders/";
+#else
+const std::string ModuleProgram::rootPath = "Game/Shaders/";
+#endif
 
 ModuleProgram::ModuleProgram()
 {
@@ -38,7 +42,7 @@ bool ModuleProgram::Start()
 			// Get the file path local to shaders/ folder:
 			std::string localPath = path.substr(rootPath.size() - 1);
 			// Get the absolute file path:
-
+			path = "Shaders/" + localPath;
 			// Get the file content:
 			std::ifstream fileStream(path);
 			std::stringstream fileBuffer;

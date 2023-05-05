@@ -65,8 +65,8 @@ void CubemapImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceCubem
 	UID* texturePointer = new UID;
 	unsigned int bytes = sizeof(UID);
 	memcpy(texturePointer, fileBuffer, bytes);
-	hdrTexture = App->resources->SearchResource<ResourceTexture>(texturePointer);
 	delete[] texturePointer;
+	hdrTexture = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(textureUIDs[0]);
 #endif
 
 	resource->SetHDRTexture(hdrTexture);
@@ -92,8 +92,11 @@ void CubemapImporter::Save(const std::shared_ptr<ResourceCubemap>& resource, cha
 
 	UID textureUID;
 	textureUID = resource->GetHDRTexture()->GetUID();
+#ifdef ENGINE
 	Json jsonTexture = meta["TextureAssetPath"];
 	jsonTexture = resource->GetHDRTexture()->GetAssetsPath().c_str();
+#endif
+	
 	memcpy(cursor, &textureUID, bytes);
 
 #ifdef ENGINE
