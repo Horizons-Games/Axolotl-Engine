@@ -80,10 +80,11 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	std::map<float, const GameObject*> hitGameObjects;
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
 #endif
-	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
 
@@ -98,12 +99,13 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject)
 {
 	std::map<float, const GameObject*> hitGameObjects;
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
 #endif
-	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit, exceptionGameObject);
 
@@ -118,17 +120,18 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
 #endif
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
 	}
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
 	}
 
 	if (hitGameObjects.size() != 0)

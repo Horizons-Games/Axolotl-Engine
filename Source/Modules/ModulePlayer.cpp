@@ -49,7 +49,10 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<ComponentCamera*> cameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	std::vector<ComponentCamera*> cameras = scene->GetLoadedScene()->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
@@ -58,20 +61,20 @@ void ModulePlayer::LoadNewPlayer()
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first / App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+			scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(parentOfOwner);
+			scene->RemoveGameObjectAndChildren(parentOfOwner);
 #endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 			
 			if(componentPlayer->HaveMouseActivated()) 
 			{
-				App->GetModule<ModuleInput>()->SetShowCursor(true);
+				input->SetShowCursor(true);
 			}
 			else 
 			{
-				App->GetModule<ModuleInput>()->SetShowCursor(false);
+				input->SetShowCursor(false);
 			}
 			isPlayerLoad = true;
 			return;

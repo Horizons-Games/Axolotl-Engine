@@ -14,7 +14,7 @@ WindowCamera::~WindowCamera()
 
 void WindowCamera::DrawWindowContents()
 {
-	ModuleCamera* camera = camera;
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
 	float hFov = camera->GetCamera()->GetHFOV();
 	if (ImGui::SliderFloat("Horizontal FOV", &hFov, MIN_HFOV, MAX_HFOV, "%.0f", ImGuiSliderFlags_AlwaysClamp)) {

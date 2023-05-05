@@ -259,7 +259,8 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	Json jsonScene(doc, doc);
 
 	GameObject* root = loadedScene->GetRoot();
-	root->SetName(App->GetModule<ModuleFileSystem>()->GetFileName(name).c_str());
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	root->SetName(fileSystem->GetFileName(name).c_str());
 
 	Json jsonGameObjects = jsonScene["GameObjects"];
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
@@ -279,22 +280,25 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	std::string fileName = fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
 	if (!resourceExists)
-		App->GetModule<ModuleFileSystem>()->CopyFileInAssets(filePath, assetPath);
-	App->GetModule<ModuleFileSystem>()->Load(assetPath.c_str(), buffer);
+	{
+		fileSystem->CopyFileInAssets(filePath, assetPath);
+	}
+	fileSystem->Load(assetPath.c_str(), buffer);
 #else
-	App->GetModule<ModuleFileSystem>()->Load(filePath.c_str(), buffer);
+	fileSystem->Load(filePath.c_str(), buffer);
 #endif
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -308,10 +312,10 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 	delete buffer;
 
 #ifndef ENGINE
-	if (App->GetModule<ModulePlayer>()->GetPlayer())
+	ModulePlayer* player = App->GetModule<ModulePlayer>();
+	if (player->GetPlayer())
 	{
-
-		App->GetModule<ModulePlayer>()->LoadNewPlayer();
+		player->LoadNewPlayer();
 	}
 #endif // !ENGINE
 }
