@@ -20,6 +20,6 @@ WindowResourceInput::~WindowResourceInput()
 void WindowResourceInput::DoThisIfOk()
 {
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	std::shared_ptr<Resource> resource = App->resources->RequestResource<Resource>(filePath);
-	App->editor->SetResourceOnStateMachineEditor(resource);
+	std::shared_ptr<Resource> resource = App->GetModule<ModuleResources>()->RequestResource<Resource>(filePath);
+	App->GetModule<ModuleEditor>()->SetResourceOnStateMachineEditor(resource);
 }

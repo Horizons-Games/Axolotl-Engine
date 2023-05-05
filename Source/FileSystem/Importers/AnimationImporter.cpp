@@ -7,13 +7,13 @@
 void AnimationImporter::Import(const char* filePath, std::shared_ptr<ResourceAnimation> resource)
 {
 	char* loadBuffer;
-	App->fileSystem->Load(filePath, loadBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(filePath, loadBuffer);
 	Load(loadBuffer, resource);
 
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;

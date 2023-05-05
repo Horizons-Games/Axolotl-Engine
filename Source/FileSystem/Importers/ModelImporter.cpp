@@ -241,8 +241,8 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 			std::string meshPath = jsonMeshes[countMeshes];
 			std::string matPath = jsonMat[countMat];
 
-			std::shared_ptr<ResourceMesh> mesh = App->resources->RequestResource<ResourceMesh>(meshPath);
-			std::shared_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(matPath);
+			std::shared_ptr<ResourceMesh> mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(meshPath);
+			std::shared_ptr<ResourceMaterial> material = App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(matPath);
 
 			node->meshRenderers.push_back(std::make_pair(mesh, material));
 
@@ -285,7 +285,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	{
 		std::string animPath = jsonAnims[countAnim];
 
-		std::shared_ptr<ResourceAnimation> anim = App->resources->RequestResource<ResourceAnimation>(animPath);
+		std::shared_ptr<ResourceAnimation> anim = App->GetModule<ModuleResources>()->RequestResource<ResourceAnimation>(animPath);
 		animations.push_back(anim);
 		++countAnim;
 		fileBuffer += sizeof(UID);
@@ -326,8 +326,8 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		std::replace(std::begin(animationName), std::end(animationName), '|', '_');
 		std::string animationPath = ANIMATION_PATH + resource->GetFileName() + "." + animationName + ANIMATION_EXTENSION;
 
-		App->fileSystem->Save(animationPath.c_str(), fileBuffer, size);
-		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->resources->ImportResource(animationPath));
+		App->GetModule<ModuleFileSystem>()->Save(animationPath.c_str(), fileBuffer, size);
+		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(App->GetModule<ModuleResources>()->ImportResource(animationPath));
 		animations.push_back(resourceAnimation);
 	}
 	resource->SetAnimations(animations);
@@ -407,10 +407,10 @@ std::shared_ptr<ResourceMesh> ModelImporter::ImportMesh(const aiMesh* mesh, cons
 	SaveInfoMesh(mesh, fileBuffer, size);
 
 	std::string name = mesh->mName.C_Str();
-	std::string meshPath = MESHES_PATH + App->fileSystem->GetFileName(filePath) + "." + name + "_" + std::to_string(iteration) + MESH_EXTENSION;
+	std::string meshPath = MESHES_PATH + App->GetModule<ModuleFileSystem>()->GetFileName(filePath) + "." + name + "_" + std::to_string(iteration) + MESH_EXTENSION;
 
-	App->fileSystem->Save(meshPath.c_str(), fileBuffer, size);
-	std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
+	App->GetModule<ModuleFileSystem>()->Save(meshPath.c_str(), fileBuffer, size);
+	std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->GetModule<ModuleResources>()->ImportResource(meshPath));
 
 	return resourceMesh;
 }
@@ -473,14 +473,14 @@ std::shared_ptr<ResourceMaterial> ModelImporter::ImportMaterial(const aiMaterial
 	char* fileBuffer{};
 	unsigned int size = 0;
 
-	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
+	App->GetModule<ModuleFileSystem>()->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string name = material->GetName().C_Str();
-	std::string materialPath = MATERIAL_PATH + App->fileSystem->GetFileName(filePath) + name + "_" + std::to_string(iteration)
+	std::string materialPath = MATERIAL_PATH + App->GetModule<ModuleFileSystem>()->GetFileName(filePath) + name + "_" + std::to_string(iteration)
 		+ MATERIAL_EXTENSION;
 
-	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
+	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), fileBuffer, size);
 	std::shared_ptr<ResourceMaterial> resourceMaterial =
-		std::dynamic_pointer_cast<ResourceMaterial>(App->resources->ImportResource(materialPath));
+		std::dynamic_pointer_cast<ResourceMaterial>(App->GetModule<ModuleResources>()->ImportResource(materialPath));
 
 	delete fileBuffer;
 

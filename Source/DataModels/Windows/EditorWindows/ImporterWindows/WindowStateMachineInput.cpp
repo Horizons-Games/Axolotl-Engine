@@ -24,7 +24,7 @@ void WindowStateMachineInput::DoThisIfOk()
 	if (component)
 	{
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceStateMachine> stateMachine = App->resources->RequestResource<ResourceStateMachine>(filePath);
+		std::shared_ptr<ResourceStateMachine> stateMachine = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(filePath);
 		component->SetStateMachine(stateMachine);
 	}
 }

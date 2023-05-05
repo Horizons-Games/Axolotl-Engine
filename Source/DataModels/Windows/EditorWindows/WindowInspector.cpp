@@ -362,7 +362,7 @@ void WindowInspector::AddComponentPlayer()
 
 void WindowInspector::AddComponentAnimation()
 {
-	App->scene->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
 }
 
 void WindowInspector::ResetSelectedGameObject()

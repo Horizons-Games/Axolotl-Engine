@@ -58,7 +58,7 @@ void ComponentMeshRenderer::InitBones()
 
 void ComponentMeshRenderer::Update()
 {
-	if (mesh->GetNumBones() > 0)
+	if (mesh && mesh->GetNumBones() > 0)
 	{
 		GameObject* root = GetOwner()->GetRootGO();
 
@@ -147,8 +147,8 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	}
 	// ---------------------------
 
-	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 	const float4x4& model =
 		static_cast<ComponentTransform*>(GetOwner()
 			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

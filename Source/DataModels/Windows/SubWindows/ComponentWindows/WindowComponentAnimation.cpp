@@ -29,7 +29,7 @@ void WindowComponentAnimation::DrawWindowContents()
 		ImGui::SameLine();
 		if (ImGui::Button("Edit StateMachine"))
 		{
-			App->editor->SetStateMachineWindowEditor(state);
+			App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
 		}
 		ImGui::SameLine();
 		if(ImGui::Button("x"))

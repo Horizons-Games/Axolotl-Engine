@@ -260,9 +260,9 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
-	std::shared_ptr<ResourceModel> resourceModel = App->resources->RequestResource<ResourceModel>(model);
+	std::shared_ptr<ResourceModel> resourceModel = App->GetModule<ModuleResources>()->RequestResource<ResourceModel>(model);
 	std::vector<std::shared_ptr<ResourceAnimation>> animations = resourceModel->GetAnimations();
-	std::string modelName = App->fileSystem->GetFileName(model);
+	std::string modelName = App->GetModule<ModuleFileSystem>()->GetFileName(model);
 
 	GameObject* gameObjectModel = CreateGameObject(modelName.c_str(), GetRoot());
 

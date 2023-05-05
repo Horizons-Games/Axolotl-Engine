@@ -167,10 +167,10 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	std::shared_ptr<ResourceStateMachine> resourceState;
 #ifdef ENGINE
 	std::string path = meta["assetPathState"];
-	bool resourceExists = path != "" && App->fileSystem->Exists(path.c_str());
+	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
-		resourceState = App->resources->RequestResource<ResourceStateMachine>(path);
+		resourceState = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(path);
 	}
 #else
 	UID uidState = meta["stateUID"];

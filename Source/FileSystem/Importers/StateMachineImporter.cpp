@@ -18,13 +18,13 @@ StateMachineImporter::~StateMachineImporter()
 void StateMachineImporter::Import(const char* filePath, std::shared_ptr<ResourceStateMachine> resource)
 {
 	char* loadBuffer{};
-	App->fileSystem->Load(filePath, loadBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(filePath, loadBuffer);
 	Load(loadBuffer, resource);
 
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
-	App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;
@@ -36,7 +36,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -287,7 +287,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 }
 
@@ -297,7 +297,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -350,7 +350,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			{
 #ifdef ENGINE
 				std::string resourcePath = jsonResources[countResources];
-				std::shared_ptr<Resource> resource = App->resources->RequestResource<Resource>(resourcePath);
+				std::shared_ptr<Resource> resource = App->GetModule<ModuleResources>()->RequestResource<Resource>(resourcePath);
 
 				state->resource = resource;
 				++countResources;

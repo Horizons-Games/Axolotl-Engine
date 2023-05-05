@@ -159,11 +159,6 @@ inline void GameObject::SetName(const std::string& newName)
 	name = newName;
 }
 
-inline void GameObject::SetParent(GameObject* newParent)
-{
-	parent = newParent;
-}
-
 inline void GameObject::SetRootGO(GameObject* newRootGO)
 {
 	root = newRootGO;

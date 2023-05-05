@@ -75,7 +75,7 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 		assetsPath += STATEMACHINE_EXTENSION;
 		/*importedRes = CreateNewResource("DefaultStateMachine", assetsPath, ResourceType::StateMachine);
 		stateMachineImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
-		App->fileSystem->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
 		ImportResource(assetsPath);
 		break;
 	default:
@@ -318,7 +318,7 @@ void ModuleResources::ReimportResource(UID resourceUID)
 		char* saveBuffer = {};
 		unsigned int size = 0;
 		stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-		App->fileSystem->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+		App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 		delete saveBuffer;
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
@@ -506,7 +506,7 @@ void ModuleResources::MonitorResources()
 				char* saveBuffer = {};
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->fileSystem->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}

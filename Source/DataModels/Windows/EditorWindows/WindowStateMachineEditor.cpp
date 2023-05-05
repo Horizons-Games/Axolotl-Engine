@@ -12,7 +12,6 @@
 #include "Geometry/LineSegment2D.h"
 
 #include "Auxiliar/Reflection/Field.h"
-#include "Auxiliar/Reflection/TypeToEnum.h"
 
 static const char* conditionNamesFloat[] = { "Greater", "Less", "Equal", "NotEqual" };
 static const char* conditionNamesBool[] = { "True", "False"};
@@ -54,7 +53,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		if (ImGui::Button("Save"))
 		{
 			stateAsShared->SetChanged(true);
-			App->resources->ReimportResource(stateAsShared->GetUID());
+			App->GetModule<ModuleResources>()->ReimportResource(stateAsShared->GetUID());
 		}
 	}
 
