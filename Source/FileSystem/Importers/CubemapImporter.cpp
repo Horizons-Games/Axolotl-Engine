@@ -65,8 +65,9 @@ void CubemapImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceCubem
 	UID* texturePointer = new UID;
 	unsigned int bytes = sizeof(UID);
 	memcpy(texturePointer, fileBuffer, bytes);
-	delete[] texturePointer;
-	hdrTexture = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(textureUIDs[0]);
+	UID texture = *texturePointer;
+	delete texturePointer;
+	hdrTexture = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texture);
 #endif
 
 	resource->SetHDRTexture(hdrTexture);
