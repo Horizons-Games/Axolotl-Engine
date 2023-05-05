@@ -28,6 +28,11 @@ PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr
 {
 }
 
+PlayerMobilityScript::~PlayerMobilityScript()
+{
+	delete componentPlayer;
+}
+
 void PlayerMobilityScript::Start()
 {
 
