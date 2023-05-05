@@ -286,7 +286,6 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &vbo);
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
