@@ -19,7 +19,7 @@
 #define ENVIRONMENT_BRDF_RESOLUTION 512
 
 Cubemap::Cubemap() : cubemapRes(nullptr), frameBuffer(0), cubemap(0), irradiance(0), preFiltered(0), environmentBRDF(0),
-                    cubeVAO(0), cubeVBO(0), numMipMaps(0)
+cubeVAO(0), cubeVBO(0), numMipMaps(0)
 {
 }
 

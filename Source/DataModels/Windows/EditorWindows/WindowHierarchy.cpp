@@ -299,7 +299,6 @@ bool WindowHierarchy::IsModifiable(const GameObject* gameObject) const
     Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
     return gameObject != loadedScene->GetRoot() &&
-        gameObject != loadedScene->GetAmbientLight() &&
         gameObject != loadedScene->GetDirectionalLight();
 }
 

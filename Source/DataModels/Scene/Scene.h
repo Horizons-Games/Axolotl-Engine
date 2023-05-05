@@ -50,7 +50,6 @@ public:
 
 	void GenerateLights();
 
-	void RenderAmbientLight() const;
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
@@ -59,7 +58,6 @@ public:
 	void UpdateSceneSpotLights();
 
 	GameObject* GetRoot() const;
-	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
@@ -80,7 +78,6 @@ public:
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
-	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
 
 	void AddStaticObject(GameObject* gameObject);
@@ -108,13 +105,11 @@ private:
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
-	GameObject* ambientLight;
 	GameObject* directionalLight;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
 
-	unsigned uboAmbient;
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
@@ -128,11 +123,6 @@ private:
 inline GameObject* Scene::GetRoot() const
 {
 	return root.get();
-}
-
-inline const GameObject* Scene::GetAmbientLight() const
-{
-	return ambientLight;
 }
 
 inline const GameObject* Scene::GetDirectionalLight() const
@@ -183,11 +173,6 @@ inline void Scene::SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 inline void Scene::SetSceneInteractable(const std::vector<Component*>& interactable)
 {
 	sceneInteractableComponents = interactable;
-}
-
-inline void Scene::SetAmbientLight(GameObject* ambientLight)
-{
-	this->ambientLight = ambientLight;
 }
 
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)

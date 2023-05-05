@@ -4,7 +4,6 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentLight.h"
-#include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
@@ -537,10 +536,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	switch (lightType)
 	{
-	case LightType::AMBIENT:
-		newComponent = std::make_unique<ComponentAmbient>(float3(0.05f), this);
-		break;
-
 	case LightType::DIRECTIONAL:
 		newComponent = std::make_unique<ComponentDirLight>(float3(1.0f), 1.0f, this);
 		break;

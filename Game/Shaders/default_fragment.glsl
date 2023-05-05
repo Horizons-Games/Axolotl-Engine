@@ -30,24 +30,19 @@ struct SpotLight
     vec2  padding2;     //8  //56 --> 64
 };
 
-//layout(std140, binding=1) uniform Ambient
-//{
-//	vec3 ambientValue;		//12	//0
-//};
-
-layout(std140, binding=2) uniform Directional
+layout(std140, binding=1) uniform Directional
 {
 	vec3 directionalDir;  	//12	//0
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
 };
 
-readonly layout(std430, binding=3) buffer PointLights
+readonly layout(std430, binding=2) buffer PointLights
 {
 	uint num_point;			//4		//0
 	PointLight points[]; 	//32	//16
 };
 
-readonly layout(std430, binding=4) buffer SpotLights
+readonly layout(std430, binding=3) buffer SpotLights
 {
 	uint num_spot;
 	SpotLight spots[];

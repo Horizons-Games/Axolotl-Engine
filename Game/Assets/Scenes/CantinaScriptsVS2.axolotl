@@ -449,47 +449,6 @@
         },
         {
             "GameObject": {
-                "name": "Ambient_Light",
-                "tag": "",
-                "uid": 1518028370349053460,
-                "parentUID": 5457140795048261378,
-                "enabled": true,
-                "active": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 8.478012084960938,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05882352590560913,
-                            "color_light_Y": 0.05876415967941284,
-                            "color_light_Z": 0.05853517726063728,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "main bar",
                 "tag": "",
                 "uid": 8696054659987268988,
@@ -29875,5 +29834,9 @@
     "Skybox": {
         "skyboxUID": 2819121758081834511,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 15512669924688363963,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

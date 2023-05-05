@@ -16,8 +16,6 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentPointLight.h"
-#include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
@@ -32,8 +30,7 @@
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 
-Scene::Scene() : root(nullptr), ambientLight(nullptr), directionalLight(nullptr),
-uboAmbient(0), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
+Scene::Scene() : root(nullptr), directionalLight(nullptr), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
@@ -349,24 +346,13 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 
 void Scene::GenerateLights()
 {
-	// Ambient
-
-	glGenBuffers(1, &uboAmbient);
-	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(float3), nullptr, GL_STATIC_DRAW);
-
-	const unsigned bindingAmbient = 1;
-
-	glBindBufferRange(GL_UNIFORM_BUFFER, bindingAmbient, uboAmbient, 0, sizeof(float3));
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
 	// Directional 
 
 	glGenBuffers(1, &uboDirectional);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
-	const unsigned bindingDirectional = 2;
+	const unsigned bindingDirectional = 1;
 
 	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -379,7 +365,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingPoint = 3;
+	const unsigned bindingPoint = 2;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -392,21 +378,10 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingSpot = 4;
+	const unsigned bindingSpot = 3;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-}
-
-void Scene::RenderAmbientLight() const
-{
-	ComponentLight* ambientComp =
-		static_cast<ComponentLight*>(ambientLight->GetComponent(ComponentType::LIGHT));
-	float3 ambientValue = ambientComp->GetColor();
-
-	glBindBuffer(GL_UNIFORM_BUFFER, uboAmbient);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &ambientValue);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
@@ -536,9 +511,6 @@ void Scene::InitNewEmptyScene()
 
 	rootQuadtree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
-	ambientLight = CreateGameObject("Ambient_Light", root.get());
-	ambientLight->CreateComponentLight(LightType::AMBIENT);
-
 	directionalLight = CreateGameObject("Directional_Light", root.get());
 	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
 
@@ -568,7 +540,6 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 
-	RenderAmbientLight();
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();

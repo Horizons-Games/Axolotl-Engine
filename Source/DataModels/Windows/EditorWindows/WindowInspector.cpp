@@ -86,7 +86,6 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 
 		if (lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
 			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
@@ -97,7 +96,6 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (WindowRightClick() &&
 		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
 		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");

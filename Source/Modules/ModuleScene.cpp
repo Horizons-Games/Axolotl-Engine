@@ -337,7 +337,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
-	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
@@ -360,11 +359,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
 		{
-			if (light->GetLightType() == LightType::AMBIENT)
-			{
-				ambientLight = obj;
-			}
-			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			if (light->GetLightType() == LightType::DIRECTIONAL)
 			{
 				directionalLight = obj;
 			}
@@ -385,7 +380,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetSceneInteractable(loadedInteractable);
-	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 	loadedScene->InitLights();
 }
