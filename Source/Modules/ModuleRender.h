@@ -56,8 +56,6 @@ private:
 	void* context;
 	float4 backgroundColor;
 
-	unsigned vbo;
-	
 	std::vector<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	//to avoid gameobjects being drawn twice
