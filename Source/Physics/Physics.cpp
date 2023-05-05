@@ -78,11 +78,11 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
 	std::map<float, const GameObject*> hitGameObjects;
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 #ifdef ENGINE
 	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
 #endif
-	ModuleScene* scene = App->GetModule<ModuleScene>();
 	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
 	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
 
