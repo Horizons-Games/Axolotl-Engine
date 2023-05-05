@@ -75,9 +75,9 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::Update()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
 #ifdef ENGINE
-		ModuleInput* input = App->GetModule<ModuleInput>();
 		App->GetModule<ModuleEditor>()->IsSceneFocused()
 #else // ENGINE
 		true

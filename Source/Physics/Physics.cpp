@@ -80,9 +80,9 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 	std::map<float, const GameObject*> hitGameObjects;
 
 #ifdef ENGINE
-	ModuleScene* scene = App->GetModule<ModuleScene>();
 	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
 #endif
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
 	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
 
