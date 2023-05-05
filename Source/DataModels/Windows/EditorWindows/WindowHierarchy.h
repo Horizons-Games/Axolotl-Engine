@@ -17,7 +17,7 @@ private:
 
     void Create2DObjectMenu(GameObject* gameObject);
 
-    void MoveObjectMenu(GameObject* gameObject, std::vector<GameObject*>& children);
+    void MoveObjectMenu(GameObject* gameObject);
 
     void Create3DObjectMenu(GameObject* gameObject);
 
