@@ -32,6 +32,11 @@ PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr
 	REGISTER_FIELD(CanDash, bool);
 }
 
+PlayerMobilityScript::~PlayerMobilityScript()
+{
+	delete componentPlayer;
+}
+
 void PlayerMobilityScript::Start()
 {
 	if (canDoubleJump) 
@@ -175,7 +180,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += -trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -210,7 +215,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -246,7 +251,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -282,7 +287,7 @@ void PlayerMobilityScript::Move()
 			jumpVector += trans->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, hit, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -346,7 +351,7 @@ void PlayerMobilityScript::Move()
 		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 5;
 		Ray ray(bottomPoint, -float3::unitY);
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		bool hasHit = Physics::Raycast(line, hit);
+		bool hasHit = Physics::Raycast(line, hit, owner);
 
 		if (hasHit && hit.hitPoint.y > maxHeight)
 		{
@@ -379,7 +384,7 @@ void PlayerMobilityScript::Rotate()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	float3 direction = (points[1] - points[0]).Normalized();
-	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.7f))
+	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.5f))
 	{
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));

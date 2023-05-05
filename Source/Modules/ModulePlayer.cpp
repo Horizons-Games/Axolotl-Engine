@@ -22,7 +22,7 @@
 #include "Components/ComponentTransform.h"
 
 ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
-	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
+	componentPlayer(nullptr), speed(3){};
 
 ModulePlayer::~ModulePlayer() {
 };
@@ -45,6 +45,11 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
 	player = newPlayer;
 	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
+}
+
+Camera* ModulePlayer::GetCameraPlayer()
+{
+	return cameraPlayer;
 }
 
 void ModulePlayer::LoadNewPlayer()
@@ -76,11 +81,9 @@ void ModulePlayer::LoadNewPlayer()
 			{
 				input->SetShowCursor(false);
 			}
-			isPlayerLoad = true;
 			return;
 		}
 	}
-	isPlayerLoad = false;
 	ENGINE_LOG("Player is not load");
 }
 
@@ -88,7 +91,6 @@ void ModulePlayer::UnloadNewPlayer()
 {
 	App->GetModule<ModuleCamera>()->SetSelectedCamera(-1);
 	player = nullptr;
-	isPlayerLoad = false;
 }
 
 bool ModulePlayer::IsStatic()
