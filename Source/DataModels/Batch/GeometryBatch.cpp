@@ -21,26 +21,35 @@
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
-GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
-createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", "")),
+GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
+createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), 
+defaultMaterial(new ResourceMaterial(0, "", "", "")), 
 mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
 	//initialize buffers
 	CreateVAO();
 
-	program = App->program->GetProgram(ProgramType::DEFAULT);
+	if (flags & HAS_METALLIC)
+	{
+		program = App->program->GetProgram(ProgramType::DEFAULT);
+	}
+	
+	else if (flags & HAS_SPECULAR)
+	{
+		program = App->program->GetProgram(ProgramType::SPECULAR);
+	}
 }
 
 GeometryBatch::~GeometryBatch()
 {
-	/*for (ResourceInfo* resourceInfo : resourcesInfo)
+	for (ResourceInfo* resourceInfo : resourcesInfo)
 	{
 		delete resourceInfo;
-	}*/
+	}
 	//resourcesInfo.clear();
-	//componentsInBatch.clear();
-	resourcesMaterial.clear();
+	componentsInBatch.clear();
+	//resourcesMaterial.clear();
 	//instanceData.clear();
 
 	CleanUp();
@@ -108,39 +117,79 @@ void GeometryBatch::FillBuffers()
 
 void GeometryBatch::FillMaterial()
 {
+	fillMaterials = false;
+
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
 		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
-		Material newMaterial =
-		{
-			resourceMaterial->GetDiffuseColor(),
-			resourceMaterial->GetNormalStrength(),
-			resourceMaterial->HasDiffuse(),
-			resourceMaterial->HasNormal(),
-			resourceMaterial->GetSmoothness(),
-			resourceMaterial->GetMetalness(),
-			resourceMaterial->HasMetallic(),
-		};
 
-		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
-		if (texture)
+		if (flags & HAS_METALLIC)
 		{
-			newMaterial.diffuse_map = texture->GetHandle();
+			MaterialMetallic newMaterial =
+			{
+				resourceMaterial->GetDiffuseColor(),
+				resourceMaterial->HasDiffuse(),
+				resourceMaterial->HasNormal(),
+				resourceMaterial->HasMetallic(),
+				resourceMaterial->GetSmoothness(),
+				resourceMaterial->GetMetalness(),
+				resourceMaterial->GetNormalStrength()
+			};
+
+			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
+			if (texture)
+			{
+				newMaterial.diffuse_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetNormal();
+			if (texture)
+			{
+				newMaterial.normal_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetMetallic();
+			if (texture)
+			{
+				newMaterial.metallic_map = texture->GetHandle();
+			}
+			metallicMaterialData[i] = newMaterial;
 		}
 
-		texture = resourceMaterial->GetNormal();
-		if (texture)
+		else if (flags & HAS_SPECULAR)
 		{
-			newMaterial.normal_map = texture->GetHandle();
-		}
+			MaterialSpecular newMaterial =
+			{
+				resourceMaterial->GetDiffuseColor(),
+				resourceMaterial->GetSpecularColor(),
+				resourceMaterial->HasDiffuse(),
+				resourceMaterial->HasNormal(),
+				resourceMaterial->HasSpecular(),
+				resourceMaterial->GetSmoothness(),
+				resourceMaterial->GetMetalness(),
+				resourceMaterial->GetNormalStrength()
+			};
 
-		texture = resourceMaterial->GetMetallic();
-		if (texture)
-		{
-			newMaterial.metallic_map = texture->GetHandle();
+			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
+			if (texture)
+			{
+				newMaterial.diffuse_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetNormal();
+			if (texture)
+			{
+				newMaterial.normal_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetSpecular();
+			if (texture)
+			{
+				newMaterial.specular_map = texture->GetHandle();
+			}
+			specularMaterialData[i] = newMaterial;
 		}
-		materialData[i] = newMaterial;
 	}
 }
 
@@ -225,7 +274,6 @@ void GeometryBatch::CreateVAO()
 		glGenBuffers(1, &indirectBuffer);
 	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
@@ -233,21 +281,41 @@ void GeometryBatch::CreateVAO()
 		{
 			glGenBuffers(1, &transforms[i]);
 		}
-		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, componentsInBatch.size() * sizeof(float4x4));
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, 
+			componentsInBatch.size() * sizeof(float4x4));
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
-		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
+
+		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+			componentsInBatch.size() * sizeof(float4x4), mapFlags));
 	}
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	if (!glIsBuffer(materials))
 	{
 		glGenBuffers(1, &materials);
 	}
-	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * sizeof(float4x4));
-	glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(Material), nullptr, createFlags);
-	materialData = static_cast<Material*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch.size() * sizeof(float4x4), mapFlags));
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, 
+		componentsInBatch.size() * sizeof(float4x4));
 
+	if (flags & HAS_METALLIC)
+	{
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialMetallic), nullptr, createFlags);
+
+		metallicMaterialData = static_cast<MaterialMetallic*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
+			.size() * sizeof(float4x4), mapFlags));
+	}
+	
+	else if (flags & HAS_SPECULAR)
+	{
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialSpecular), nullptr, createFlags);
+
+		specularMaterialData = static_cast<MaterialSpecular*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
+			.size() * sizeof(float4x4), mapFlags));
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
@@ -279,14 +347,16 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		}
 		
 		CreateInstanceResourceMesh(meshShared.get());
+		CreateInstanceResourceMaterial(materialShared);
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
+		fillMaterials = true;
 		reserveModelSpace = true;
 		dirtyBatch = true;
 	}
 }
 
-void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
+void GeometryBatch::DeleteComponent(const ComponentMeshRenderer* componentToDelete)
 {
 	bool findMesh = false;
 	bool findMaterial = false;
@@ -340,6 +410,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	resourcesMaterial.clear();
 	instanceData.clear();
 
+	fillMaterials = true;
 	reserveModelSpace = true;
 	dirtyBatch = true;
 #else
@@ -348,7 +419,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 #endif //ENGINE
 }
 
-std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(ComponentMeshRenderer* componentToDelete)
+std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMeshRenderer* componentToDelete)
 {
 	componentToMove.clear();
 	int val = 0;
@@ -402,7 +473,7 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(ComponentMeshRend
 }
 
 
-void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
+void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelete)
 {
 	resourcesMaterial.erase(
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial()));
@@ -438,7 +509,7 @@ void GeometryBatch::BindBatch()
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
-		for (ComponentMeshRenderer* component : componentsInBatch)
+		for (const ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
 			{
@@ -449,9 +520,14 @@ void GeometryBatch::BindBatch()
 				CreateInstanceResourceMaterial(defaultMaterial);
 			}
 		}
-		FillMaterial();
 		reserveModelSpace = false;
 	}
+
+	if (fillMaterials)
+	{
+		FillMaterial();
+	}
+
 
 	std::vector<Command> commands;
 	commands.reserve(componentsInBatch.size());
@@ -504,24 +580,6 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 		if (info->resourceMesh == mesh)
 		{
 			return;
-		}
-	}
-
-	if (flags == 0)
-	{
-		if (mesh->GetNormals().size() != 0)
-		{
-			flags |= HAS_NORMALS;
-		}
-
-		if (mesh->GetTextureCoords().size() != 0)
-		{
-			flags |= HAS_TEXTURE_COORDINATES;
-		}
-
-		if (mesh->GetTangents().size() != 0)
-		{
-			flags |= HAS_TANGENTS;
 		}
 	}
 

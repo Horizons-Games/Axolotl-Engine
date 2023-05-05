@@ -1,16 +1,22 @@
-#version 440
+#version 460
+
+#extension GL_ARB_bindless_texture : require
 
 #define PI 3.1415926535897932384626433832795
 #define EPSILON 1e-5
 
 struct Material {
-    vec4 diffuse_color;         //location 3
-    int has_diffuse_map;        //location 4
-    float smoothness;           //location 5
-    float normal_strength;      //location 6
-    int has_normal_map;         //location 7
-    vec3 specular_color;        //location 8
-    int has_specular_map;       //location 9
+    vec4 diffuse_color;         //0  //16
+    vec3 specular_color;        //16 //16       
+    int has_diffuse_map;        //32 //4
+    int has_normal_map;         //36 //4
+    int has_specular_map;       //40 //4
+    float smoothness;           //44 //4
+    float normal_strength;      //48 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D specular_map;     //64 //8    
+    vec2 padding;               //72 //8 --> 80
 };
 
 struct PointLight
@@ -56,21 +62,21 @@ struct Light {
     vec3 color;
 };
 
-layout(location = 3) uniform Material material; // 0-9
-layout(binding = 5) uniform sampler2D diffuse_map;
-layout(binding = 6) uniform sampler2D normal_map;
-layout(binding = 7) uniform sampler2D specular_map;
-
 uniform Light light;
 
 in vec3 fragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
-
 in vec2 TexCoord;
 
+in flat int InstanceIndex;
+
 out vec4 outColor;
+
+readonly layout(std430, binding = 11) buffer Materials {
+    Material materials[];
+};
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 {
@@ -164,7 +170,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 L = normalize(FragPos - pos);
         vec3 H = (-L+V)/length(-L+V);
-        float dotNL = max(dot(N, -L), EPSILON);
+        float dotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
@@ -197,7 +203,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
   
 void main()
 {
-	vec3 norm = Normal;
+	Material material = materials[InstanceIndex];
+
+    vec3 norm = Normal;
     vec3 tangent = fragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
@@ -206,7 +214,7 @@ void main()
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord); 
+        textureMat = texture(material.diffuse_map, TexCoord); 
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = pow(textureMat, gammaCorrection);
@@ -216,7 +224,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -226,13 +234,12 @@ void main()
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(specular_map, TexCoord));
+        specularMat = vec4(texture(material.specular_map, TexCoord));
     }
 
     vec3 f0 = specularMat.rgb;
 
     // smoothness and roughness
-    float smoothness = material.smoothness;
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     
     // Lights

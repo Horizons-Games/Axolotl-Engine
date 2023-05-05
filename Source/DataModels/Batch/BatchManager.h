@@ -24,9 +24,7 @@ public:
 	void CleanBatches();
 
 private:
-	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent);
-
-
+	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags);
 
 	std::vector<GeometryBatch*> geometryBatchesOpaques;
 	std::vector<GeometryBatch*> geometryBatchesTransparent;

@@ -380,11 +380,12 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				if (asMeshRenderer->IsTransparent() != isTransparent 
-					|| asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
+				if (asMeshRenderer->IsTransparent() != isTransparent || 
+					asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
 				{
 					changeBatch = true;
 				}
+
 				asMeshRenderer->SetShaderType(currentShaderTypeIndex);
 				asMeshRenderer->SetDiffuseColor(colorDiffuse);
 				asMeshRenderer->SetSpecularColor(colorSpecular);
@@ -396,6 +397,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetNormalStrength(normalStrength);
 				asMeshRenderer->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
+
 				App->resources->ReimportResource(materialResource->GetUID());
 				updateMaterials = true;
 			}
@@ -413,7 +415,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 		}
 		if (updateMaterials)
 		{
-			asMeshRenderer->GetBatch()->FillMaterial();
+			asMeshRenderer->GetBatch()->SetFillMaterials(true);
+			//asMeshRenderer->GetBatch()->FillMaterial();
 		}
 	}
 }

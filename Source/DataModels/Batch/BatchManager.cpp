@@ -31,13 +31,13 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 {
 	if (newComponent)
 	{
-		GeometryBatch* batch = CheckBatchCompatibility(newComponent);
+		int flags = 0;
+
+		GeometryBatch* batch = CheckBatchCompatibility(newComponent, flags);
 
 		//adapt the batch to the good one before adding the component
 		std::vector<GeometryBatch*>& geometryBatches =
-			newComponent->GetMaterial()->IsTransparent()
-			? geometryBatchesTransparent
-			: geometryBatchesOpaques;
+			newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
 
 		if (batch)
 		{
@@ -45,7 +45,7 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 		}
 		else
 		{
-			batch = new GeometryBatch();
+			batch = new GeometryBatch(flags);
 
 			batch->AddComponentMeshRenderer(newComponent);
 			geometryBatches.push_back(batch);
@@ -53,29 +53,41 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 	}
 }
 
-GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent)
+GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags)
 {
-	int flags = 0;
+	std::shared_ptr<ResourceMesh> mesh = newComponent->GetMesh();
+	std::shared_ptr<ResourceMaterial> material = newComponent->GetMaterial();
 
-	if (newComponent->GetMesh()->GetNormals().size() != 0)
+	if (mesh->GetNormals().size() != 0)
 	{
 		flags |= HAS_NORMALS;
 	}
 
-	if (newComponent->GetMesh()->GetTextureCoords().size() != 0)
+	if (mesh->GetTextureCoords().size() != 0)
 	{
 		flags |= HAS_TEXTURE_COORDINATES;
 	}
 
-	if (newComponent->GetMesh()->GetTangents().size() != 0)
+	if (mesh->GetTangents().size() != 0)
 	{
 		flags |= HAS_TANGENTS;
 	}
+
+	if (material)
+	{
+		if (material->GetShaderType() == 0)
+		{
+			flags |= HAS_METALLIC;
+		}
+		else if (material->GetShaderType() == 1)
+		{
+			flags |= HAS_SPECULAR;
+		}
+	}
+
 	//verify if it's transparent or opaque
-	std::vector<GeometryBatch*>& geometry_batches =
-		newComponent->GetMaterial()->IsTransparent()
-		? geometryBatchesTransparent
-		: geometryBatchesOpaques;
+	std::vector<GeometryBatch*>& geometry_batches = 
+		newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
 
 	for (GeometryBatch* geometryBatch : geometry_batches)
 	{
@@ -89,18 +101,18 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 void BatchManager::DrawOpaque()
 {
-		for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
+	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
+	{
+		if (!geometryBatch->IsEmpty())
 		{
-			if (!geometryBatch->IsEmpty())
-			{
-				DrawBatch(geometryBatch);
-			}
-			else
-			{
-				erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
-				delete geometryBatch;
-			}
+			DrawBatch(geometryBatch);
 		}
+		else
+		{
+			erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+			delete geometryBatch;
+		}
+	}
 }
 
 void BatchManager::DrawTransparent()
@@ -113,7 +125,7 @@ void BatchManager::DrawTransparent()
 		}
 		else
 		{
-			erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+			erase_if(geometryBatchesTransparent, [](auto const& pi) { return pi->IsEmpty(); });
 			delete geometryBatch;
 		}
 	}

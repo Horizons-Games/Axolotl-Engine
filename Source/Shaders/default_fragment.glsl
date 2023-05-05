@@ -7,15 +7,15 @@
 
 struct Material {
     vec4 diffuse_color;         //0 //16
-    float normal_strength;      //16 //4
-    int has_diffuse_map;        //20 //4
-    int has_normal_map;         //24 //4
+    int has_diffuse_map;        //16 //4       
+    int has_normal_map;         //20 //4
+    int has_metallic_map;       //24 //4
     float smoothness;           //28 //4
     float metalness;            //32 //4
-    int has_metallic_map;       //36 //4
+    float normal_strength;      //36 //4
     sampler2D diffuse_map;      //40 //8
     sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8    //-->64
+    sampler2D metallic_map;     //56 //8 --> 64
 };
 
 struct PointLight
@@ -212,15 +212,16 @@ void main()
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
+    // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
         textureMat = texture(material.diffuse_map, TexCoord);
     }
     textureMat = pow(textureMat, gammaCorrection);
-    
     textureMat.a = material.diffuse_color.a; //Transparency
     
+    // Normals
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
@@ -231,14 +232,20 @@ void main()
         norm = normalize(space * norm);
 	}
     
+    // Metallic
     vec4 colorMetallic = texture(material.metallic_map, TexCoord);
-    float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
+    float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * 
+        material.metalness;
 
     vec3 Cd = textureMat.rgb*(1.0-metalnessMask);
     vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
-    float roughness = pow(1-material.smoothness,2) + EPSILON;
-    //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * (1.0 * colorMetallic.a)) + EPSILON;
 
+    // smoothness and roughness
+    float roughness = pow(1-material.smoothness,2) + EPSILON;
+    //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * 
+    //    (1.0 * colorMetallic.a)) + EPSILON;
+
+    // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
     if (num_point > 0)
