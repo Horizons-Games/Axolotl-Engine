@@ -41,18 +41,18 @@ Cubemap::Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes) : cubemapRes(cubem
 
 void Cubemap::SaveOptions(Json& json) const
 {
-    Json jsonSkybox = json["Cubemap"];
+    Json jsonCubemap = json["Cubemap"];
 
-    jsonSkybox["cubemapUID"] = cubemapRes->GetUID();
-    jsonSkybox["cubemapAssetPath"] = cubemapRes->GetAssetsPath().c_str();
+    jsonCubemap["cubemapUID"] = cubemapRes->GetUID();
+    jsonCubemap["cubemapAssetPath"] = cubemapRes->GetAssetsPath().c_str();
 }
 
 void Cubemap::LoadOptions(Json& json)
 {
-    Json jsonSkybox = json["Cubemap"];
+    Json jsonCubemap = json["Cubemap"];
 
-    UID resUID = jsonSkybox["cubemapUID"];
-    std::string resPath = jsonSkybox["cubemapAssetPath"];
+    UID resUID = jsonCubemap["cubemapUID"];
+    std::string resPath = jsonCubemap["cubemapAssetPath"];
 
 #ifdef ENGINE
     cubemapRes = App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>(resPath);
