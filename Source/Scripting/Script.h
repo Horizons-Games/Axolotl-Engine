@@ -2,7 +2,6 @@
 #include "ObjectInterfacePerModule.h"
 #include "IScript.h"
 #include "InterfacesIds.h"
-#include "SystemTable.h"
 #include "ISimpleSerializer.h"
 
 #include "GameObject/GameObject.h"
