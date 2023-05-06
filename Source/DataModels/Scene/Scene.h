@@ -6,14 +6,13 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
-#include "Cubemap/Cubemap.h"
-
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class GameObject;
 class Quadtree;
 class Skybox;
+class Cubemap;
 class Updatable;
 
 enum class Premade3D
@@ -193,11 +192,6 @@ inline Skybox* Scene::GetSkybox() const
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
-}
-
-inline void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)
-{
-	this->cubemap = std::move(cubemap);
 }
 
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const

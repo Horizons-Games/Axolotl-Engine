@@ -555,6 +555,11 @@ void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
 	this->skybox = std::move(skybox);
 }
 
+void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)
+{
+	this->cubemap = std::move(cubemap);
+}
+
 std::unique_ptr<Quadtree> Scene::GiveOwnershipOfQuadtree()
 {
 	return std::move(rootQuadtree);
