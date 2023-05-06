@@ -663,6 +663,46 @@ bool GameObject::IsAChild(const GameObject* child)
 	return false;
 }
 
+void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction)
+{
+	auto childrenVectorBegin = std::begin(children);
+	auto childrenVectorEnd = std::end(children);
+
+	auto childIterator = std::find_if(childrenVectorBegin, childrenVectorEnd,
+		[child](const std::unique_ptr<GameObject>& otherChild)
+		{
+			return otherChild.get() == child;
+		});
+	if (childIterator == childrenVectorEnd)
+	{
+		ENGINE_LOG("Object being moved (%s) is not a child of this (%s)",
+			child->GetName().c_str(), this->GetName().c_str());
+		return;
+	}
+	
+	auto childToSwap = childrenVectorEnd;
+	if (direction == HierarchyDirection::UP)
+	{
+		if (childIterator == childrenVectorBegin)
+		{
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			return;
+		}
+		childToSwap = std::prev(childIterator);
+	}
+	else
+	{
+		if (childIterator == std::prev(childrenVectorEnd))
+		{
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			return;
+		}
+		childToSwap = std::next(childIterator);
+	}
+
+	std::iter_swap(childIterator, childToSwap);
+}
+
 bool GameObject::IsADescendant(const GameObject* descendant)
 {
 	assert(descendant != nullptr);
@@ -690,34 +730,14 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 	return familyObjects;
 }
 
-void GameObject::MoveUpChild(GameObject* childToMove)
+void GameObject::MoveUpChild(const GameObject* childToMove)
 {
-	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
-		it != std::end(children);
-		++it)
-	{
-		if ((*it).get() == childToMove)
-		{
-			std::iter_swap(it - 1, it);
-			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it - 1)).get());
-			break;
-		}
-	}
+	MoveChild(childToMove, HierarchyDirection::UP);
 }
 
-void GameObject::MoveDownChild(GameObject* childToMove)
+void GameObject::MoveDownChild(const GameObject* childToMove)
 {
-	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
-		it != std::end(children);
-		++it)
-	{
-		if ((*it).get() == childToMove)
-		{
-			std::iter_swap(it, it + 1);
-			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it + 1)).get());
-			break;
-		}
-	}
+	MoveChild(childToMove, HierarchyDirection::DOWN);
 }
 
 void GameObject::SetParentAsChildSelected()
