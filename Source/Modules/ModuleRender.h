@@ -11,6 +11,7 @@ struct SDL_Renderer;
 struct SDL_Rect;
 
 class Skybox;
+class Program;
 
 class ModuleRender : public Module
 {
@@ -46,11 +47,15 @@ public:
 
 private:
 	void UpdateProgram();
+	
 	bool CheckIfTransparent(const GameObject* gameObject);
+
 	void DrawGameObject(const GameObject* gameObject);
 	void DrawSelectedHighlightGameObject(GameObject* gameObject);
 	void DrawSelectedAndChildren(GameObject* gameObject);
 	void DrawHighlight(GameObject* gameObject);
+
+	void BindCameraToProgram(Program* program);
 
 	void* context;
 	float4 backgroundColor;

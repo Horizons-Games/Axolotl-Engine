@@ -206,6 +206,7 @@ update_status ModuleRender::PreUpdate()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
+
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -239,21 +240,9 @@ update_status ModuleRender::Update()
 		AddToRenderList(goSelected);
 	}
 	
-	Program* program = App->program->GetProgram(ProgramType::DEFAULT);
-	program->Activate();
-
-	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
-	float3 viewPos = App->camera->GetCamera()->GetPosition();
-
-	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
-	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	
-	program->BindUniformFloat3("viewPos", viewPos);
-
-	program->Deactivate();
+	// Bind camera info to the shaders
+	BindCameraToProgram(App->program->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(App->program->GetProgram(ProgramType::SPECULAR));
 
 	AddToRenderList(goSelected);
 	
@@ -554,7 +543,8 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected && (!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
+		if (goSelected->GetParent() != nullptr && gameObject == goSelected && 
+			(!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
 			DrawSelectedHighlightGameObject(goSelected);
 		}
@@ -572,6 +562,7 @@ void ModuleRender::DrawSelectedHighlightGameObject(GameObject* gameObject)
 	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 	glStencilMask(0xFF); // enable writing to the stencil buffer
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 	DrawSelectedAndChildren(gameObject);
 
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
@@ -625,6 +616,24 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 			mesh->DrawHighlight();
 		}
 	}
+}
+
+void ModuleRender::BindCameraToProgram(Program* program)
+{
+	program->Activate();
+
+	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
+	float3 viewPos = App->camera->GetCamera()->GetPosition();
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
+	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	program->BindUniformFloat3("viewPos", viewPos);
+
+	program->Deactivate();
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)

@@ -149,7 +149,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 				glUniform1i(5, 0); //has_diffuse_map
 			}
 
-			/*const float3& specularColor = material->GetSpecularColor();
+			const float3& specularColor = material->GetSpecularColor();
 			glUniform3f(4, specularColor.x, specularColor.y, specularColor.z); //specular_color
 			texture = material->GetSpecular();
 			if (texture)
@@ -175,7 +175,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 			else
 			{
 				glUniform1i(8, 0); //has_specular_map
-			}*/
+			}
 
 			texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
 			if (texture)

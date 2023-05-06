@@ -27,9 +27,6 @@ defaultMaterial(new ResourceMaterial(0, "", "", "")),
 mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	//initialize buffers
-	CreateVAO();
-
 	if (flags & HAS_METALLIC)
 	{
 		program = App->program->GetProgram(ProgramType::DEFAULT);
@@ -39,6 +36,9 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 	{
 		program = App->program->GetProgram(ProgramType::SPECULAR);
 	}
+
+	//initialize buffers
+	CreateVAO();
 }
 
 GeometryBatch::~GeometryBatch()
@@ -422,11 +422,10 @@ void GeometryBatch::DeleteComponent(const ComponentMeshRenderer* componentToDele
 std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMeshRenderer* componentToDelete)
 {
 	componentToMove.clear();
-	int val = 0;
+
 	bool findMaterial = false;
 	for (ComponentMeshRenderer* compare : componentsInBatch)
 	{
-
 		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get())
 		{
 			findMaterial = true;
@@ -452,8 +451,6 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 			{
 				resourcesMaterial.erase(it);
 			}
-			val++;
-			ENGINE_LOG("Material delete = %d", val);
 			findMaterial = false;
 		}
 	}
@@ -467,6 +464,7 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 	instanceData.clear();
 
 	reserveModelSpace = true;
+	fillMaterials = true;
 	dirtyBatch = true;
 
 	return componentToMove;
@@ -483,6 +481,8 @@ void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelet
 
 void GeometryBatch::BindBatch()
 {
+	program->Activate();
+
 	frame = (frame + 1) % DOUBLE_BUFFERS;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
@@ -562,7 +562,6 @@ void GeometryBatch::BindBatch()
 	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
-	program->Activate();
 	glBindVertexArray(vao);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
@@ -570,6 +569,7 @@ void GeometryBatch::BindBatch()
 	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
+
 	program->Deactivate();
 }
 
@@ -633,6 +633,7 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &tangentsBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
+
 	return true;
 }
 

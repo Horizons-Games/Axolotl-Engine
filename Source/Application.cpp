@@ -72,44 +72,47 @@ bool Application::Start()
 
 update_status Application::Update()
 {
-	float ms;
-#ifdef ENGINE
-	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
-#else
-	ms = appTimer.Read();
-#endif // ENGINE
+	bool playMode = isOnPlayMode;
+	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
-	update_status ret = update_status::UPDATE_CONTINUE;
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PreUpdate();
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->Update();
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PostUpdate();
-
-	float dt;
-#ifdef ENGINE
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) : dt = (appTimer.Read() - ms);
-#else
-	dt = (appTimer.Read() - ms);
-#endif // ENGINE
-
-	if (dt < (1000.0f / GetMaxFrameRate()))
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		update_status result = module->PreUpdate();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
+}
+
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		update_status result = module->Update();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
 	}
 
-#ifdef ENGINE
-	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#else
-	deltaTime = (appTimer.Read() - ms) / 1000.0f;
-#endif // ENGINE
-	
-	return ret;
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		update_status result = module->PostUpdate();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
+	}
+
+	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
+	float minframeTime = 1000.0f / GetMaxFrameRate();
+
+	if (dt < minframeTime)
+	{
+		SDL_Delay((Uint32)(minframeTime - dt));
+	}
+
+	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
+
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool Application::CleanUp()
