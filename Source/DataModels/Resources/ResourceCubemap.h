@@ -22,7 +22,7 @@ public:
 	void SaveLoadOptions(Json& meta) override {};
 	void LoadLoadOptions(Json& meta) override {};
 
-	const std::shared_ptr<ResourceTexture>& GetHDRTexture() const;
+	std::shared_ptr<ResourceTexture> GetHDRTexture() const;
 
 	void SetHDRTexture(const std::shared_ptr<ResourceTexture>& textures);
 
@@ -41,7 +41,7 @@ inline ResourceType ResourceCubemap::GetType() const
 	return ResourceType::Cubemap;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceCubemap::GetHDRTexture() const
+inline std::shared_ptr<ResourceTexture> ResourceCubemap::GetHDRTexture() const
 {
 	return hdrTexture;
 }
