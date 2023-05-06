@@ -226,13 +226,14 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
+		Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 		glActiveTexture(GL_TEXTURE8);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap()->GetIrradiance());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 		glActiveTexture(GL_TEXTURE9);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap()->GetPrefiltered());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
 		glActiveTexture(GL_TEXTURE10);
-		glBindTexture(GL_TEXTURE_2D, App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap()->GetEnvironmentBRDF());
-		program->BindUniformInt("numLevels_IBL", App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap()->GetNumMiMaps());
+		glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
+		program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
 	}
 }
 
