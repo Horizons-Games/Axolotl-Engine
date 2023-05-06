@@ -41,7 +41,7 @@ void PlayerRotationScript::Rotate()
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
 	float3 direction = (points[1] - points[0]).Normalized();
-	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.5f))
+	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.15f))
 	{
 		float deltaTime = App->GetDeltaTime();
 		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));

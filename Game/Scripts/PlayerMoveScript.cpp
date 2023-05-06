@@ -55,12 +55,11 @@ void PlayerMoveScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 
-	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 
 	math::vec points[8];
-	trans->GetObjectOBB().GetCornerPoints(points);
+	componentTransform->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
 
 	float3 direction = (points[1] - points[0]).Normalized();
@@ -114,7 +113,7 @@ void PlayerMoveScript::Move()
 	if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
 	{
 		isCrouch = true;
-		trans->SetScale(trans->GetScale() / 2);
+		componentTransform->SetScale(componentTransform->GetScale() / 2);
 		std::vector<GameObject*> children = owner->GetChildren();
 		for (auto child : children)
 		{
@@ -130,7 +129,7 @@ void PlayerMoveScript::Move()
 	else if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
 	{
 		isCrouch = false;
-		trans->SetScale(trans->GetScale() * 2);
+		componentTransform->SetScale(componentTransform->GetScale() * 2);
 		std::vector<GameObject*> children = owner->GetChildren();
 		for (auto child : children)
 		{
@@ -156,7 +155,7 @@ void PlayerMoveScript::Move()
 		}
 
 		forceVector += direction;
-		jumpVector += trans->GetGlobalForward().Normalized();
+		jumpVector += componentTransform->GetGlobalForward().Normalized();
 
 		if (sizeForce == 0.0f)
 		{
@@ -164,10 +163,10 @@ void PlayerMoveScript::Move()
 		}
 		if (sizeJump == 0.0f)
 		{
-			jumpVector += -trans->GetGlobalForward().Normalized();
+			jumpVector += -componentTransform->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -175,7 +174,7 @@ void PlayerMoveScript::Move()
 			}
 			if (sizeJump != 0.0f)
 			{
-				jumpVector += -trans->GetGlobalForward().Normalized();
+				jumpVector += -componentTransform->GetGlobalForward().Normalized();
 			}
 		}
 	}
@@ -190,7 +189,7 @@ void PlayerMoveScript::Move()
 		}
 
 		forceVector += -direction;
-		jumpVector += -trans->GetGlobalForward().Normalized();
+		jumpVector += -componentTransform->GetGlobalForward().Normalized();
 
 		if (sizeForce == 0.0f)
 		{
@@ -199,10 +198,10 @@ void PlayerMoveScript::Move()
 
 		if (sizeJump == 0.0f)
 		{
-			jumpVector += trans->GetGlobalForward().Normalized();
+			jumpVector += componentTransform->GetGlobalForward().Normalized();
 		}
 
-		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -211,7 +210,7 @@ void PlayerMoveScript::Move()
 
 			if (sizeJump != 0.0f)
 			{
-				jumpVector += trans->GetGlobalForward().Normalized();
+				jumpVector += componentTransform->GetGlobalForward().Normalized();
 			}
 		}
 	}
@@ -226,7 +225,7 @@ void PlayerMoveScript::Move()
 		}
 
 		forceVector += -sideDirection;
-		jumpVector += -trans->GetGlobalRight().Normalized();
+		jumpVector += -componentTransform->GetGlobalRight().Normalized();
 
 		if (sizeForce == 0.0f)
 		{
@@ -235,10 +234,10 @@ void PlayerMoveScript::Move()
 
 		if (sizeJump == 0.0f)
 		{
-			jumpVector += trans->GetGlobalRight().Normalized();
+			jumpVector += componentTransform->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -247,7 +246,7 @@ void PlayerMoveScript::Move()
 
 			if (sizeJump != 0.0f)
 			{
-				jumpVector += trans->GetGlobalRight().Normalized();;
+				jumpVector += componentTransform->GetGlobalRight().Normalized();;
 			}
 		}
 	}
@@ -262,7 +261,7 @@ void PlayerMoveScript::Move()
 		}
 
 		forceVector += sideDirection;
-		jumpVector += -trans->GetGlobalRight().Normalized();
+		jumpVector += -componentTransform->GetGlobalRight().Normalized();
 
 		if (sizeForce == 0.0f)
 		{
@@ -271,10 +270,10 @@ void PlayerMoveScript::Move()
 
 		if (sizeJump == 0.0f)
 		{
-			jumpVector += trans->GetGlobalRight().Normalized();
+			jumpVector += componentTransform->GetGlobalRight().Normalized();
 		}
 
-		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, trans->GetLocalAABB().Size().y * 0.15f))
+		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
 		{
 			if (sizeForce != 0.0f)
 			{
@@ -283,7 +282,7 @@ void PlayerMoveScript::Move()
 
 			if (sizeJump != 0.0f)
 			{
-				jumpVector += trans->GetGlobalRight().Normalized();
+				jumpVector += componentTransform->GetGlobalRight().Normalized();
 			}
 		}
 	}
@@ -326,7 +325,7 @@ void PlayerMoveScript::Move()
 	}
 
 
-	trans->UpdateTransformMatrices();
+	componentTransform->UpdateTransformMatrices();
 
 	//bottom
 	float maxHeight = -math::inf;
@@ -335,7 +334,7 @@ void PlayerMoveScript::Move()
 	collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
 	for (float3 bottomPoint : extraPoints)
 	{
-		bottomPoint.y += math::Abs(trans->GetEncapsuledAABB().MinY() - trans->GetPosition().y) / 5;
+		bottomPoint.y += math::Abs(componentTransform->GetEncapsuledAABB().MinY() - componentTransform->GetPosition().y) / 5;
 		Ray ray(bottomPoint, -float3::unitY);
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		bool hasHit = Physics::Raycast(line, hit, owner);

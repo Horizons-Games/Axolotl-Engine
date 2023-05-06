@@ -8813,6 +8813,22 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerMobilityScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": false,
+                            "removed": true,
+                            "constructName": "PlayerMoveScript",
                             "fields": [
                                 {
                                     "name": "Speed",
@@ -8821,7 +8837,7 @@
                                 },
                                 {
                                     "name": "JumpParameter",
-                                    "value": 120.0,
+                                    "value": 200.0,
                                     "type": 0
                                 },
                                 {
@@ -8839,9 +8855,11 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
+                            "type": "Component_Script",
+                            "active": false,
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": null
                         }
                     }
                 ]

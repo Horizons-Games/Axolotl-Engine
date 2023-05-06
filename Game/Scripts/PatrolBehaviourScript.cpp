@@ -36,7 +36,7 @@ void PatrolBehaviourScript::Start()
 
 void PatrolBehaviourScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%s", "Now patrolling...");
+	//ENGINE_LOG("%s", "Now patrolling...");
 
 	// When this behaviour is triggered, the enemy will patrol between its waypoints
 	// (This can be modularized into any amout when the scripts can accept vectors)

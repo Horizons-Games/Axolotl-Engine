@@ -63,14 +63,14 @@ void PlayerMobilityScript::PreUpdate(float deltaTime)
 	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
 		&& !SDL_ShowCursor(SDL_QUERY))
 	{
-		if (moveScript)
-		{
-			moveScript->PreUpdate();
-		}
-
 		if (rotateScript)
 		{
-			rotateScript->PreUpdate();
+			rotateScript->GetScript()->PreUpdate(deltaTime);
+		}
+
+		if (moveScript)
+		{
+			moveScript->GetScript()->PreUpdate(deltaTime);
 		}
 	}
 }
