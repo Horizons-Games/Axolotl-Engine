@@ -1,0 +1,13 @@
+{
+    "UID": 13965352747798177442,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Carreta.Scene.049_0.mesh",
+        "Assets/Meshes/Carreta.Scene.049_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CarretaTank_Biohazard.002_0.mat",
+        "Assets/Materials/CarretaBarrow_Material.001_1.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,0 +1,15 @@
+{
+    "UID": 2293525153946156708,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/vix.Mesh.001_0.mesh",
+        "Assets/Meshes/vix.Mesh.003_0.mesh",
+        "Assets/Meshes/vix.Cube.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/vixFace_0.mat",
+        "Assets/Materials/vixBody_0.mat",
+        "Assets/Materials/vixGlass_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

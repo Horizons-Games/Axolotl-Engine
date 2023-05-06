@@ -1,0 +1,11 @@
+{
+    "UID": 3875131703787416649,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/StartingRoom.Cube.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/StartingRoomBase.018_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

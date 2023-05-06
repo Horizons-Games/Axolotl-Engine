@@ -1,0 +1,11 @@
+{
+    "UID": 3936298661686457061,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/DoorNormal.Scene.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/DoorNormalBase.013_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

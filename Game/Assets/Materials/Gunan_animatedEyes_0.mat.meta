@@ -1,0 +1,17 @@
+{
+    "UID": 5755457856453918936,
+    "Type": "Materials",
+    "diffuseColor_x": 1.0,
+    "diffuseColor_y": 1.0,
+    "diffuseColor_z": 0.0,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
+    "normalStrength": 1.0,
+    "smoothness": 0.5,
+    "metalness": 0.0,
+    "DiffuseAssetPath": "Assets/Textures/eye_diff_u1_v1.tif",
+    "NormalAssetPath": "Assets/Textures/eye_normal_u1_v1.tif",
+    "OcclusionAssetPath": "",
+    "SpecularAssetPath": "Assets/Textures/eye_spec_u1_v1.tif"
+}

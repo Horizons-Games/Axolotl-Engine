@@ -1,0 +1,11 @@
+{
+    "UID": 3964708278345864855,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CanFBX.Circle_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CanFBXMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

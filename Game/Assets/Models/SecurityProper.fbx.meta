@@ -1,0 +1,35 @@
+{
+    "UID": 12096583124059767147,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/SecurityProper.Scene.020_0.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_1.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_2.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_3.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_4.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_5.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_6.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_7.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_8.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_9.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_10.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_11.mesh",
+        "Assets/Meshes/SecurityProper.Scene.020_12.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/SecurityProperBase.014_0.mat",
+        "Assets/Materials/SecurityProperLight.008_1.mat",
+        "Assets/Materials/SecurityProperBlack_thingy.005_2.mat",
+        "Assets/Materials/SecurityProperTable Material.001_3.mat",
+        "Assets/Materials/SecurityPropermachineBody.001_4.mat",
+        "Assets/Materials/SecurityPropermachineLight.001_5.mat",
+        "Assets/Materials/SecurityPropermachineKeyboard.001_6.mat",
+        "Assets/Materials/SecurityPropermachineScreen.001_7.mat",
+        "Assets/Materials/SecurityProperairvent_Material.002_8.mat",
+        "Assets/Materials/SecurityProperclosetTopBottom.001_9.mat",
+        "Assets/Materials/SecurityProperclosetBody.001_10.mat",
+        "Assets/Materials/SecurityProperclosetLight.001_11.mat",
+        "Assets/Materials/SecurityProperChair_Material.001_12.mat"
+    ],
+    "AnimAssetPaths": null
+}

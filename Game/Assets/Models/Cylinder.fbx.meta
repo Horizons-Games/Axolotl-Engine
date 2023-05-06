@@ -1,0 +1,11 @@
+{
+    "UID": 18245749855313593823,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cylinder.Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CylinderDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

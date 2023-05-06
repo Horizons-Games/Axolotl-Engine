@@ -1,0 +1,11 @@
+{
+    "UID": 12765966547993480621,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_SpaceShipLanded.Mesh.013_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_SpaceShipLandedStarShip Landed_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

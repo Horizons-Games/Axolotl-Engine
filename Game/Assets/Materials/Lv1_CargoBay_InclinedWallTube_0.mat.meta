@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWallTube_Base.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWallTube_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWallTube_MaskMap.png"
+    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWallTube_MaskMap.png",
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWallTube_MaskMap.png"
 }
