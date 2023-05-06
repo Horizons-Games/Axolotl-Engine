@@ -246,13 +246,6 @@ update_status ModuleRender::Update()
 
 	AddToRenderList(goSelected);
 	
-#ifndef ENGINE
-	if (!App->IsDebuggingGame())
-	{
-		return update_status::UPDATE_CONTINUE;
-	}
-#endif //ENGINE
-
 	if (App->debug->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(App->scene->GetLoadedScene()->GetRootQuadtree());
