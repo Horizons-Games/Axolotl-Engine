@@ -7,7 +7,6 @@
 #include "ModuleInput.h"
 
 #include "DataModels/Scene/Scene.h"
-#include "DataStructures/Quadtree.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "FileSystem/Json.h"
