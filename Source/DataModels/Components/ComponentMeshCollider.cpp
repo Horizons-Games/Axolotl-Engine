@@ -107,6 +107,31 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints, flo
 	return false;
 }
 
+bool ComponentMeshCollider::IsRotationColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize) const
+{
+	std::vector<float3> points;
+	startingPoints[0].y += 0.25f;
+	startingPoints[1].y -= 0.25f;
+	startingPoints[2].y += 0.25f;
+	startingPoints[3].y -= 0.25f;
+
+	GetMinMaxPoints(startingPoints, points, stepSize);
+
+	for (float3 point : points)
+	{
+		Ray ray(point, direction);
+		LineSegment line(ray, size);
+		bool hasHit = Physics::RaycastFirst(line, owner);
+
+		if (hasHit) {
+			return true;
+		}
+
+	}
+
+	return false;
+}
+
 void ComponentMeshCollider::GetMinMaxPoints(const std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const
 {
 	points = startingPoints;

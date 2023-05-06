@@ -25,10 +25,10 @@ PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 										canDoubleJump(true), jumps(0), isCrouch(false),
 										nextDash(0)
 {
-	REGISTER_FIELD(Speed, float);
-	REGISTER_FIELD(JumpParameter, float);
-	REGISTER_FIELD(DashForce, float);
-	REGISTER_FIELD(CanDash, bool);
+	REGISTER_FIELD(speed, float);
+	REGISTER_FIELD(jumpParameter, float);
+	REGISTER_FIELD(dashForce, float);
+	REGISTER_FIELD(canDash, bool);
 }
 
 void PlayerMoveScript::Start()
