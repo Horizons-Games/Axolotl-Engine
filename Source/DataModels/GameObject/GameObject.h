@@ -223,7 +223,7 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 
 	for (const std::unique_ptr<Component>& component : this->components)
 	{
-		if (component->GetType() == type)
+		if (component && component->GetType() == type)
 		{
 			components.push_back(dynamic_cast<T*>(component.get()));
 		}
