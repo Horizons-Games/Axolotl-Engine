@@ -8,7 +8,6 @@
 #include "LogSystem.h"
 #include "RuntimeObjectSystem.h"
 #include "Script.h"
-#include "SystemTable.h"
 #include <conio.h>
 
 #if defined _WINDOWS_ && defined GetObject

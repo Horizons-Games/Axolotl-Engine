@@ -36,7 +36,7 @@ void ComponentMeshCollider::LoadOptions(Json& meta)
 	canBeRemoved = (bool) meta["removed"];
 }
 
-bool ComponentMeshCollider::Move(Direction direction, float size, RaycastHit& hit, float stepSize)
+bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize)
 {
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float3 position = trans->GetPosition();
@@ -101,7 +101,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints,
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		bool hasHit = Physics::RaycastFirst(line);
+		bool hasHit = Physics::RaycastFirst(line, owner);
 
 		if (hasHit)
 		{

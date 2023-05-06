@@ -1,5 +1,7 @@
 #include "ComponentWindow.h"
 
+#include <sstream>
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
@@ -40,6 +42,10 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "ModuleScene.h"
+
+#include "Commands/CommandComponentEnabled.h"
+#include "ComponentWindow.h"
+#include "ModuleCommand.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -129,9 +135,10 @@ void ComponentWindow::DrawEnableComponent()
 		ImGui::Text("Enabled");
 		ImGui::SameLine();
 		bool enable = component->IsEnabled();
-		ImGui::Checkbox(ss.str().c_str(), &enable);
-
-		(enable) ? component->Enable() : component->Disable();
+		if (ImGui::Checkbox(ss.str().c_str(), &enable))
+		{
+			App->GetModule<ModuleCommand>()->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
+		}
 	}
 }
 

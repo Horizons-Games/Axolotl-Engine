@@ -1,6 +1,7 @@
 #pragma once
-
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script performs what it was recommended that a basic script should do in the Gameplay Systems PPT
 
@@ -11,12 +12,6 @@ public:
 	~HelloWorldScript() override = default;
 
 	void Update(float deltaTime) override;
-
-	std::string GetHelloWorld() const;
-	void SetHelloWorld(const std::string& helloWorld);
-
-	GameObject* GetMovingGameObject() const;
-	void SetMovingGameObject(GameObject* movingGameObject);
 
 private:
 	std::string helloWorld;

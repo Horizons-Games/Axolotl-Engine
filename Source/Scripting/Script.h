@@ -3,7 +3,6 @@
 #include "ISimpleSerializer.h"
 #include "InterfacesIds.h"
 #include "ObjectInterfacePerModule.h"
-#include "SystemTable.h"
 
 #include "Application.h"
 #include "GameObject/GameObject.h"

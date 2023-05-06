@@ -11,7 +11,8 @@
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
 	ComponentWindow("TRANSFORM", component),
-	bbdraw(component->IsDrawBoundingBoxes())
+	bbdraw(component->IsDrawBoundingBoxes()),
+	uniformScale(component->IsUniformScale())
 {
 }
 
@@ -187,6 +188,7 @@ void WindowComponentTransform::DrawTransformTable()
 		if (ImGui::DragFloat("##XScale", &currentScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::X;
 		}
 		ImGui::PopStyleVar();
 		ImGui::SameLine();
@@ -198,6 +200,7 @@ void WindowComponentTransform::DrawTransformTable()
 		if (ImGui::DragFloat("##YScale", &currentScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::Y;
 		}
 		ImGui::PopStyleVar();
 		ImGui::SameLine();
@@ -209,9 +212,13 @@ void WindowComponentTransform::DrawTransformTable()
 		if (ImGui::DragFloat("##ZScale", &currentScale.z, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::Z;
 		}
 		ImGui::PopStyleVar();
-
+		ImGui::TableNextColumn();
+		ImGui::Checkbox("", &uniformScale);
+		ImGui::SameLine();
+		ImGui::Text("Maintain scale");
 		ImGui::EndTable();
 	}
 }
@@ -234,22 +241,14 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0)
+			if (uniformScale)
 			{
-				currentScale.x = 0.0001f;
+				asTransform->SetUniformScale(currentScale, modifiedScaleAxis);
 			}
-
-			if (currentScale.y <= 0)
+			else
 			{
-				currentScale.y = 0.0001f;
+				asTransform->SetScale(currentScale);
 			}
-
-			if (currentScale.z <= 0)
-			{
-				currentScale.z = 0.0001f;
-			}
-
-			asTransform->SetScale(currentScale);
 		}
 
 		if (scaleModified || rotationModified || translationModified)

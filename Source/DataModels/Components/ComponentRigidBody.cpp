@@ -235,6 +235,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["useRotationController"] = (bool) GetUseRotationController();
 	meta["KpForce"] = (float) GetKpForce();
 	meta["KpTorque"] = (float) GetKpTorque();
+	meta["gravity.Y"] = (float) GetGravity().y;
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -250,4 +251,5 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetUseRotationController((bool) meta["useRotationController"]);
 	SetKpForce((float) meta["KpForce"]);
 	SetKpTorque((float) meta["KpTorque"]);
+	g.y = (float) meta["gravity.Y"];
 }

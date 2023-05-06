@@ -11,7 +11,22 @@
 class GameObject;
 class Application;
 
-#define REGISTER_FIELD(Name, Type)                                           \
+// The parameter name must be the exact name of the field inside the class
+#define REGISTER_FIELD(name, Type)                                     \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,    \
+										   Field<Type>(                \
+											   #name,                  \
+											   [this]                  \
+											   {                       \
+												   return this->name;  \
+											   },                      \
+											   [this](Type value)      \
+											   {                       \
+												   this->name = value; \
+											   })));
+
+// The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
+#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                            \
 	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,          \
 										   Field<Type>(                      \
 											   #Name,                        \

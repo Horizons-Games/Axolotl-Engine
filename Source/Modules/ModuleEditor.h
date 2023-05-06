@@ -35,11 +35,6 @@ public:
 	std::pair<float, float> GetAvailableRegion();
 
 private:
-	void CopyAnObject();
-	void PasteAnObject();
-	void CutAnObject();
-	void DuplicateAnObject();
-
 	std::vector<std::unique_ptr<EditorWindow>> windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
@@ -48,7 +43,6 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	std::unique_ptr<GameObject> copyObject;
 	std::string StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;

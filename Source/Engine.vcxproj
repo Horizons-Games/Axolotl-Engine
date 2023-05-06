@@ -397,6 +397,7 @@
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp" />
+    <ClCompile Include="Modules\ModuleCommand.cpp" />
     <ClCompile Include="Modules\ModuleDebugDraw.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
@@ -446,7 +447,10 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
+    <ClInclude Include="DataModels\Commands\Command.h" />
+    <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
@@ -707,6 +711,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\Module.h" />
     <ClInclude Include="Modules\ModuleAudio.h" />
+    <ClInclude Include="Modules\ModuleCommand.h" />
     <ClInclude Include="Modules\ModuleDebugDraw.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
       </ExcludedFromBuild>
@@ -747,7 +752,6 @@
     <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
-    <ClInclude Include="Scripting\SystemTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

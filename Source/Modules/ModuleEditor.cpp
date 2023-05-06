@@ -40,7 +40,7 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
+ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
 {
 }
 
@@ -176,34 +176,6 @@ update_status ModuleEditor::Update()
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
-	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
-		 App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN) &&
-		App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-	{
-		CopyAnObject();
-	}
-
-	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
-		 App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN) &&
-		App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-	{
-		PasteAnObject();
-	}
-
-	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
-		 App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN) &&
-		App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-	{
-		CutAnObject();
-	}
-
-	if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
-		 App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN) &&
-		App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-	{
-		DuplicateAnObject();
-	}
-
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
 
@@ -295,66 +267,6 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 #ifdef ENGINE
 	this->inspector->SetResource(resource);
 #endif
-}
-
-void ModuleEditor::CopyAnObject()
-{
-	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
-		App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
-	{
-		copyObject = std::make_unique<GameObject>(*App->GetModule<ModuleScene>()->GetSelectedGameObject());
-	}
-}
-
-void ModuleEditor::PasteAnObject()
-{
-	if (copyObject)
-	{
-		if (App->GetModule<ModuleScene>()->GetSelectedGameObject())
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(
-				copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetSelectedGameObject());
-		}
-		else
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(
-				copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-		}
-	}
-}
-
-void ModuleEditor::CutAnObject()
-{
-	CopyAnObject();
-
-	GameObject* gameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed,
-																				   // change the focus to its parent
-	App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(
-		gameObject->GetParent());
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(gameObject);
-}
-
-void ModuleEditor::DuplicateAnObject()
-{
-	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() &&
-		App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
-		App->GetModule<ModuleScene>()->GetSelectedGameObject() !=
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
-	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(
-			App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetName(),
-			App->GetModule<ModuleScene>()->GetSelectedGameObject(),
-			App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetParent());
-	}
 }
 
 void ModuleEditor::RefreshInspector() const
