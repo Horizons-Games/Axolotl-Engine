@@ -8,7 +8,6 @@
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentScript.h"
-#include "SystemTable.h"
 #include <conio.h>
 
 

@@ -8756,7 +8756,8 @@
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 0.0,
-                            "KpTorque": 0.0
+                            "KpTorque": 0.0,
+                            "gravity.Y": -9.0
                         }
                     },
                     {
@@ -26152,7 +26153,8 @@
                             "usePositionController": true,
                             "useRotationController": false,
                             "KpForce": 0.75,
-                            "KpTorque": 2.0
+                            "KpTorque": 2.0,
+                            "gravity.Y": -9.0
                         }
                     },
                     {

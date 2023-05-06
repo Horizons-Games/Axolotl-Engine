@@ -84,8 +84,8 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-	void MoveUpChild(GameObject* childToMove);
-	void MoveDownChild(GameObject* childToMove);
+	void MoveUpChild(const GameObject* childToMove);
+	void MoveDownChild(const GameObject* childToMove);
 	
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
@@ -102,6 +102,13 @@ private:
 			   bool staticObject);
 
 	bool IsAChild(const GameObject* child);
+
+	enum class HierarchyDirection
+	{
+		UP,
+		DOWN
+	};
+	void MoveChild(const GameObject* child, HierarchyDirection direction);
 
 private:
 	UID uid;

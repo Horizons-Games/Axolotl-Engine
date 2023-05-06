@@ -445,6 +445,7 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
@@ -747,7 +748,6 @@
     <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
-    <ClInclude Include="Scripting\SystemTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

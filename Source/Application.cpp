@@ -146,7 +146,7 @@ void Application::OnPlay()
 	isOnPlayMode = true;
 	ModulePlayer* player = GetModule<ModulePlayer>();
 	player->LoadNewPlayer();
-	if (!player->IsLoadPlayer())
+	if (!player->GetPlayer())
 	{
 		isOnPlayMode = false;
 	}
