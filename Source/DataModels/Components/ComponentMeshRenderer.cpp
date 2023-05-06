@@ -457,6 +457,15 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 #else
 
+	UID uidMaterial = meta["materialUID"];
+	std::shared_ptr<ResourceMaterial> resourceMaterial =
+		App->resources->SearchResource<ResourceMaterial>(uidMaterial);
+
+	if (resourceMaterial)
+	{
+		SetMaterial(resourceMaterial);
+	}
+
 	UID uidMesh = meta["meshUID"];
 	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->resources->SearchResource<ResourceMesh>(uidMesh);
@@ -466,14 +475,6 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		SetMesh(resourceMesh);
 	}
 
-	UID uidMaterial = meta["materialUID"];
-	std::shared_ptr<ResourceMaterial> resourceMaterial =
-		App->resources->SearchResource<ResourceMaterial>(uidMaterial);
-
-	if (resourceMaterial)
-	{
-		SetMaterial(resourceMaterial);
-	}
 
 #endif
 }
