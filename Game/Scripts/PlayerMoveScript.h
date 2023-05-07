@@ -23,21 +23,6 @@ public:
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
 
-	float GetSpeed() const;
-	void SetSpeed(float speed);
-
-	float GetJumpParameter() const;
-	void SetJumpParameter(float jumpParameter);
-
-	float GetDashForce() const;
-	void SetDashForce(float dashForce);
-
-	bool GetCanDash() const;
-	void SetCanDash(bool canDash);
-
-	bool GetCanDoubleJump() const;
-	void SetCanDoubleJump(bool canDoubleJump);
-
 private:
 	void Move();
 
