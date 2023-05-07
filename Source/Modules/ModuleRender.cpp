@@ -293,7 +293,6 @@ update_status ModuleRender::Update()
 			batchManager->DrawTransparent();
 		}
 
-
 	glDisable(GL_BLEND);
 
 #ifndef ENGINE
@@ -302,7 +301,6 @@ update_status ModuleRender::Update()
 		return update_status::UPDATE_CONTINUE;
 	}
 #endif //ENGINE
-
 
 	return update_status::UPDATE_CONTINUE;
 }

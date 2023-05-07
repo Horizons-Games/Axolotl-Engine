@@ -539,26 +539,30 @@ void GeometryBatch::BindBatch()
 	for (auto component : componentsInBatch)
 	{
 		assert(component);
-		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
-		ResourceMesh* resource = resourceInfo->resourceMesh;
-		//find position in components vector
-		auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-		unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+		if (component->GetOwner()->IsEnabled())
+		{
+			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
+			ResourceMesh* resource = resourceInfo->resourceMesh;
+			//find position in components vector
+			auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-		transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
-			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-			
-		//do a for for all the instaces existing
-		Command newCommand = { 
-			resource->GetNumIndexes(),	// Number of indices in the mesh
-			1,							// Number of instances to render
-			resourceInfo->indexOffset,	// Index offset in the EBO
-			resourceInfo->vertexOffset,	// Vertex offset in the VBO
-			instanceIndex				// Instance Index
-		};
-		commands.push_back(newCommand);
-		drawCount++;
+			unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+
+			transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			//do a for for all the instaces existing
+			Command newCommand = {
+				resource->GetNumIndexes(),	// Number of indices in the mesh
+				1,							// Number of instances to render
+				resourceInfo->indexOffset,	// Index offset in the EBO
+				resourceInfo->vertexOffset,	// Vertex offset in the VBO
+				instanceIndex				// Instance Index
+			};
+			commands.push_back(newCommand);
+			drawCount++;
+		}
 	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
