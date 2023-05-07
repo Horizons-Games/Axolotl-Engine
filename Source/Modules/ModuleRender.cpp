@@ -229,7 +229,7 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	//FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
@@ -279,19 +279,15 @@ update_status ModuleRender::Update()
 
 	//Draw opaque
 	glDepthFunc(GL_LEQUAL);
-		for (auto batchAndComponents : renderMapOpaque)
-		{
-			batchManager->DrawOpaque();
-		}
 
-		// Draw Transparent
+	batchManager->DrawOpaque();
+
+	// Draw Transparent
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		for (auto batchAndComponents : renderMapTransparent)
-		{
-			batchManager->DrawTransparent();
-		}
+
+	batchManager->DrawTransparent();
 
 	glDisable(GL_BLEND);
 
