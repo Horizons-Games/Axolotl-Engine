@@ -102,7 +102,7 @@ float GGXNormalDistribution(float dotNH, float roughness)
     float squareNH = dotNH*dotNH;
 
 
-    return squareRoughness/(M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2));
+    return squareRoughness/max((M_PI*pow(squareNH*(squareRoughness-1.0)+1.0,2)),EPSILON);
 }
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
