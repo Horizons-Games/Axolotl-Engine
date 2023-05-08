@@ -174,7 +174,7 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	}
 #else
 	UID uidState = meta["stateUID"];
-	resourceState = App->resources->SearchResource<ResourceStateMachine>(uidState);
+	resourceState = App->GetModule<ModuleResources>()->SearchResource<ResourceStateMachine>(uidState);
 
 #endif
 	if (resourceState)
