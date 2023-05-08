@@ -3,7 +3,8 @@
 
 WindowLoading::WindowLoading() : EditorWindow("Loading")
 {
-	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove;
+	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking;
 }
 
 WindowLoading::~WindowLoading()
@@ -22,7 +23,7 @@ void WindowLoading::ResetWaitingOn()
 
 void WindowLoading::DrawWindowContents()
 {
-	ImGui::SetWindowPos(ImGui::GetWindowViewport()->Pos);
+	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());
 	ImGui::SetWindowCollapsed(false);
 	ImGui::SetWindowFocus();
 	

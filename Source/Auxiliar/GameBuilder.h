@@ -9,6 +9,7 @@ namespace builder
 	};
 	void BuildGame(BuildType buildType);
 
+	void Terminate();
 	bool Compiling();
 	bool Zipping();
 }

@@ -150,6 +150,7 @@ bool ModuleEditor::CleanUp()
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);	
 	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	builder::Terminate();
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -246,6 +247,7 @@ update_status ModuleEditor::Update()
 
 void ModuleEditor::DrawLoadingBuild()
 {
+#ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
 	bool gameBuilding = gameCompiling || zipping;
@@ -262,6 +264,7 @@ void ModuleEditor::DrawLoadingBuild()
 	{
 		buildGameLoading->ResetWaitingOn();
 	}
+#endif
 }
 
 update_status ModuleEditor::PostUpdate()

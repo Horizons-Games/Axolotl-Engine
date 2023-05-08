@@ -1,6 +1,9 @@
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
+#ifndef ENGINE
+#include <assert.h>
+#endif
 
 ModuleFileSystem::ModuleFileSystem()
 {
@@ -13,12 +16,18 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Init()
 {
     PHYSFS_init(nullptr);
-#ifdef ENGINE
 	PHYSFS_mount(".", nullptr, 0);
+#ifdef ENGINE
 	PHYSFS_mount("..", nullptr, 0);
 	PHYSFS_setWriteDir(".");
 #else // ENGINE
+    if (!Exists("Assets.zip"))
+    {
+        assert(false && "Binary zip not found!");
+        return false;
+    }
     PHYSFS_mount("Assets.zip", nullptr, 0);
+    PHYSFS_unmount(".");
 #endif // GAME
     return true;
 }

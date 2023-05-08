@@ -75,6 +75,20 @@ namespace builder
 		zipThread = std::async(std::launch::async, &CreateZip);
 	}
 
+	void Terminate()
+	{
+		if (Compiling())
+		{
+			ENGINE_LOG("For now, you can't exit the engine while the game is compiling. Waiting on compilation to finish.");
+			compileThread.get();
+		}
+		if (Zipping())
+		{
+			ENGINE_LOG("For now, you can't exit the engine while the binaries are being zipped. Waiting on zipping to finish.");
+			zipThread.get();
+		}
+	}
+
 	bool Compiling()
 {
 		return compileThread.valid() && !compileThread._Is_ready();
