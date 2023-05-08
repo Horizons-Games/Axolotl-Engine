@@ -8,4 +8,7 @@ namespace builder
 		RELEASE_GAME
 	};
 	void BuildGame(BuildType buildType);
+
+	bool DoneCompiling();
+	bool DoneCreatingZip();
 }
