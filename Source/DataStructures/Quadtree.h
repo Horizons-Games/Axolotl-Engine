@@ -80,6 +80,11 @@ private:
 	bool isFreezed;
 };
 
+inline bool Quadtree::IsLeaf() const
+{
+	return frontLeftNode == nullptr;
+}
+
 inline bool Quadtree::IsFreezed() const
 {
 	return isFreezed;

@@ -25,30 +25,29 @@ bool CameraGameObject::Update()
 	projectionMatrix = frustum->ProjectionMatrix();
 	viewMatrix = frustum->ViewMatrix();
 
-	if (App->input->GetInFocus())
+	if (App->GetModule<ModuleInput>()->GetInFocus())
 	{
-#ifdef ENGINE
-		UpdateCameraWithMousePos();
-#else // ENGINE
-		if (!App->player->IsStatic())
+		if (!App->GetModule<ModulePlayer>()->IsStatic() && !SDL_ShowCursor(SDL_QUERY))
 		{
 			UpdateCameraWithMousePos();
 		}
-#endif
 	}
 	return true;
 }
 
 void CameraGameObject::UpdateCameraWithMousePos()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
-	App->input->SetMouseMotionX(float(mouseX - lastMouseX));
-	App->input->SetMouseMotionY(float(mouseY - lastMouseY));
+	input->SetMouseMotionX(float(mouseX - lastMouseX));
+	input->SetMouseMotionY(float(mouseY - lastMouseY));
 
 	int width, height;
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
-	SDL_WarpMouseInWindow(App->window->GetWindow(), width / 2, height / 2);
+	SDL_Window* sdlWindow = App->GetModule<ModuleWindow>()->GetWindow();
+	SDL_GetWindowSize(sdlWindow, &width, &height);
+	SDL_WarpMouseInWindow(sdlWindow, width / 2, height / 2);
 
 	lastMouseX = width / 2;
 	lastMouseY = height / 2;

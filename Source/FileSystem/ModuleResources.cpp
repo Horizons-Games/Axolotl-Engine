@@ -16,8 +16,6 @@
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
-#include <future>
-
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
@@ -40,7 +38,7 @@ bool ModuleResources::Init()
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
-	CreateAssetAndLibFolders();
+	CreateAssetAndLibFolders();	
 
 #ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
@@ -66,7 +64,7 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	{
 	case ResourceType::Material:
 		assetsPath += MATERIAL_EXTENSION;
-		App->fileSystem->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
 		ImportResource(assetsPath);
 		break;
 	default:
@@ -82,15 +80,15 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	{
 		ENGINE_LOG("Extension not supported");
 	}
-	std::string fileName = App->fileSystem->GetFileName(originalPath);
-	std::string extension = App->fileSystem->GetFileExtension(originalPath);
+	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(originalPath);
+	std::string extension = App->GetModule<ModuleFileSystem>()->GetFileExtension(originalPath);
 	std::string assetsPath = originalPath;
 
 	assetsPath = CreateAssetsPath(fileName + extension, type);
 
-	bool resourceExists = App->fileSystem->Exists(assetsPath.c_str());
+	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetsPath.c_str());
 	if (!resourceExists)
-		App->fileSystem->CopyFileInAssets(originalPath, assetsPath);
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets(originalPath, assetsPath);
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
@@ -98,18 +96,13 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	return importedRes;
 }
 
-std::shared_ptr<Resource> ModuleResources::ImportThread(const std::string& originalPath)
+std::future<std::shared_ptr<Resource>> ModuleResources::ImportThread(const std::string& originalPath)
 {
-	std::promise<std::shared_ptr<Resource>> p;
-	std::future<std::shared_ptr<Resource>> f = p.get_future();
-	std::thread importThread = std::thread(
-		[&]() 
+	return std::async(std::launch::async,
+		[=]()
 		{
-			p.set_value(ImportResource(originalPath));
-		}
-	);
-	importThread.detach();
-	return f.get();
+			return RequestResource(originalPath);
+		});
 }
 
 std::shared_ptr<Resource> ModuleResources::CreateNewResource(const std::string& fileName,
@@ -191,8 +184,8 @@ void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterfa
 
 	std::string libPath = resToDelete->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
 	std::string metaPath = resToDelete->GetLibraryPath() + META_EXTENSION;
-	App->fileSystem->Delete(metaPath.c_str());
-	App->fileSystem->Delete(libPath.c_str());
+	App->GetModule<ModuleFileSystem>()->Delete(metaPath.c_str());
+	App->GetModule<ModuleFileSystem>()->Delete(libPath.c_str());
 
 	if (resToDelete)
 	{
@@ -206,7 +199,7 @@ void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterfa
 		}
 		else if (resToDelete->GetType() == ResourceType::Mesh) //mesh should not have an asset
 		{
-			App->fileSystem->Delete(resToDelete->GetAssetsPath().c_str());
+			App->GetModule<ModuleFileSystem>()->Delete(resToDelete->GetAssetsPath().c_str());
 		}
 	}
 
@@ -215,25 +208,25 @@ void ModuleResources::DeleteResource(const std::shared_ptr<EditorResourceInterfa
 
 std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePath, const char* fileNameToStore)
 {
-	std::vector<std::string> files = App->fileSystem->ListFiles(filePath);
+	std::vector<std::string> files = App->GetModule<ModuleFileSystem>()->ListFiles(filePath);
 	for (size_t i = 0; i < files.size(); i++)
 	{
 		std::string path (filePath);
 		path += '/' +  files[i];
 		const char* file = path.c_str();
-		if (App->fileSystem->IsDirectory(file))
+		if (App->GetModule<ModuleFileSystem>()->IsDirectory(file))
 		{
 			std::shared_ptr<Resource> resource = LoadResourceStored(file, fileNameToStore);
 			if (resource) return resource;
 		}
 		else 
 		{
-			if (App->fileSystem->GetFileName(file) == fileNameToStore)
+			if (App->GetModule<ModuleFileSystem>()->GetFileName(file) == fileNameToStore)
 			{
-				std::string fileName = App->fileSystem->GetFileName(file);
+				std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(file);
 				UID uid = std::stoull(fileName.c_str(), NULL, 0);
 				ResourceType type = FindTypeByFolder(file);
-				std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->fileSystem->GetPathWithoutExtension(file), type);
+				std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileName, "", App->GetModule<ModuleFileSystem>()->GetPathWithoutExtension(file), type);
 
 				ImportResourceFromLibrary(resource);
 
@@ -249,12 +242,12 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 {
 	std::string libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
 
-	if (resource->GetType() != ResourceType::Unknown && App->fileSystem->Exists(libPath.c_str()))
+	if (resource->GetType() != ResourceType::Unknown && App->GetModule<ModuleFileSystem>()->Exists(libPath.c_str()))
 	{
 		if (resource != nullptr)
 		{
 			char* binaryBuffer = {};
-			App->fileSystem->Load(libPath.c_str(), binaryBuffer);
+			App->GetModule<ModuleFileSystem>()->Load(libPath.c_str(), binaryBuffer);
 
 			switch (resource->GetType())
 			{
@@ -301,10 +294,10 @@ void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resour
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 
-	if (!resource->IsChanged() && App->fileSystem->Exists(metaPath.c_str()))
+	if (!resource->IsChanged() && App->GetModule<ModuleFileSystem>()->Exists(metaPath.c_str()))
 	{
 		char* metaBuffer = {};
-		App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+		App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 		meta.fromBuffer(metaBuffer);
 		delete metaBuffer;
 		resource = CreateResourceOfType(meta["UID"],resource->GetFileName(),resource->GetAssetsPath(),
@@ -320,7 +313,7 @@ void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resour
 		resource->SaveLoadOptions(meta);
 		rapidjson::StringBuffer buffer;
 		meta.toBuffer(buffer);
-		App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+		App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 	}
 }
 
@@ -355,15 +348,15 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 
 void ModuleResources::CreateAssetAndLibFolders()
 {
-	bool assetsFolderNotCreated = !App->fileSystem->Exists(ASSETS_PATH);
+	bool assetsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(ASSETS_PATH);
 	if (assetsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(ASSETS_PATH);
+		App->GetModule<ModuleFileSystem>()->CreateDirectory(ASSETS_PATH);
 	}
-	bool libraryFolderNotCreated = !App->fileSystem->Exists(LIB_PATH);
+	bool libraryFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(LIB_PATH);
 	if (libraryFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(LIB_PATH);
+		App->GetModule<ModuleFileSystem>()->CreateDirectory(LIB_PATH);
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill:
@@ -374,23 +367,24 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox };
+												  ResourceType::SkyBox,												  
+	};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
 
 		std::string assetsFolderOfType = ASSETS_PATH + folderOfType;
-		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
+		bool assetsFolderOfTypeNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(assetsFolderOfType.c_str());
 		if (assetsFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
+			App->GetModule<ModuleFileSystem>()->CreateDirectory(assetsFolderOfType.c_str());
 		}
 
 		std::string libraryFolderOfType = LIB_PATH + folderOfType;
-		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
+		bool libraryFolderOfTypeNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(libraryFolderOfType.c_str());
 		if (libraryFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
+			App->GetModule<ModuleFileSystem>()->CreateDirectory(libraryFolderOfType.c_str());
 		}
 	}
 }
@@ -411,23 +405,23 @@ void ModuleResources::MonitorResources()
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh &&
-					!App->fileSystem->Exists(resource->GetAssetsPath().c_str()))
+					!App->GetModule<ModuleFileSystem>()->Exists(resource->GetAssetsPath().c_str()))
 				{
 					toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(resource));
 				}
 				else
 				{
 					std::string libraryPathWithExtension =
-						App->fileSystem->GetPathWithExtension(resource->GetLibraryPath());
+						App->GetModule<ModuleFileSystem>()->GetPathWithExtension(resource->GetLibraryPath());
 
 					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
-						!App->fileSystem->Exists(libraryPathWithExtension.c_str()) ||
+						!App->GetModule<ModuleFileSystem>()->Exists(libraryPathWithExtension.c_str()) ||
 						resource->IsChanged())
 					{
 						toCreateLib.push_back(resource);
 						resource->SetChanged(false);
 					}
-					if (!App->fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
+					if (!App->GetModule<ModuleFileSystem>()->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
 					{
 						toCreateMeta.push_back(resource);
 					}
@@ -436,9 +430,9 @@ void ModuleResources::MonitorResources()
 						resource->GetType() != ResourceType::Material)
 					{
 						long long assetTime =
-							App->fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
+							App->GetModule<ModuleFileSystem>()->GetModificationDate(resource->GetAssetsPath().c_str());
 						long long libTime =
-							App->fileSystem->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
+							App->GetModule<ModuleFileSystem>()->GetModificationDate((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
 						if (assetTime > libTime)
 						{
 							toImport.push_back(resource);
@@ -491,18 +485,18 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
 
-	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallicMap();
+	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
 	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
 	unsigned int size = 0;
 
-	App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
+	App->GetModule<ModuleFileSystem>()->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string materialPath = materialResource->GetAssetsPath();
 
 	std::string metaPath = materialResource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -511,13 +505,13 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	meta["DiffuseAssetPath"] = materialResource->GetDiffuse() ? materialResource->GetDiffuse()->GetAssetsPath().c_str() : "";
 	meta["NormalAssetPath"] = materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] = materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] = materialResource->GetMetallicMap() ? materialResource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+	meta["SpecularAssetPath"] = materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
+	meta["MetallicAssetPath"] = materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
-	App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), fileBuffer, size);
 	delete fileBuffer;
 }
 
@@ -539,7 +533,7 @@ bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath
 
 ResourceType ModuleResources::FindTypeByFolder(const std::string& path)
 {
-	std::string pathWithOutFile = App->fileSystem->GetPathWithoutFile(path);
+	std::string pathWithOutFile = App->GetModule<ModuleFileSystem>()->GetPathWithoutFile(path);
 	std::string::size_type libPathPos = pathWithOutFile.find(LIB_PATH);
 	
 	if (libPathPos != std::string::npos) 
@@ -553,7 +547,7 @@ ResourceType ModuleResources::FindTypeByFolder(const std::string& path)
 
 ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 {
-	std::string fileExtension = App->fileSystem->GetFileExtension(path);
+	std::string fileExtension = App->GetModule<ModuleFileSystem>()->GetFileExtension(path);
 	std::string normalizedExtension = "";
 
 	for(int i = 0; i < fileExtension.size(); ++i) 
@@ -606,7 +600,7 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 	case ResourceType::Material:
 		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox";
+		return "SkyBox";	
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";

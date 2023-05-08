@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}">
+	<Events>
+		<WorkUnit Name="NPC" ID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" OwnerID="{AA397C40-3770-4439-AC7E-10F711A90387}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="sfx_dron_shot_01" ID="{34B3CF60-0CEC-420F-BE9C-5E9B0DC231CE}">
+					<ChildrenList>
+						<Action Name="" ID="{2F63D42A-E610-4845-9EE6-1622352C44C4}" ShortID="260986510">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_dron_shot_01" ID="{67C099E8-D86A-4289-BDFD-EE05986663FD}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

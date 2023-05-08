@@ -11,27 +11,25 @@ public:
 	ModulePlayer();
 	~ModulePlayer() override;
 
-	bool Init() override;
 	bool Start() override;
 
-	update_status PreUpdate();
-	update_status Update();
-
-	void Move();
-	void Rotate();
-
 	GameObject* GetPlayer();
-	void SetPlayer(std::unique_ptr<GameObject> player);
+	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
 
 	void LoadNewPlayer();
+	void UnloadNewPlayer();
 
 	bool IsStatic();
 
 private:
-	std::unique_ptr <GameObject>  player;
+	GameObject*  player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
-	float speed = 3;
+
+	float speed;
+
+	bool bootsOnGround = false;
 	
 };
+

@@ -1,6 +1,3 @@
-#pragma warning (disable: 26495)
-#pragma warning (disable: 6386)
-
 #include "ModelImporter.h"
 
 #include "Application.h"
@@ -45,7 +42,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 		char* buffer{};
 		unsigned int size;
 		Save(resource, buffer, size);
-		App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
+		App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str() , buffer, size);
 
 		delete buffer;
 	}
@@ -61,7 +58,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -113,7 +110,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 #endif
 }
 
@@ -123,7 +120,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	//Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -151,7 +148,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	{
 		std::string meshPath = jsonMeshes[i];
 		meshes.push_back
-		(App->resources->RequestResource<ResourceMesh>(meshPath));
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(meshPath));
 	}
 
 	Json jsonMat = meta["MatAssetPaths"];
@@ -159,7 +156,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	{
 		std::string matPath = jsonMat[i];
 		materials.push_back
-		(App->resources->RequestResource<ResourceMaterial>(matPath));
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(matPath));
 	}
 #else
 	UID* meshesPointer = new UID[resource->GetNumMeshes()];
@@ -169,7 +166,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	delete[] meshesPointer;
 	for (int i = 0; i < meshesUIDs.size(); i++)
 	{
-		meshes.push_back(App->resources->SearchResource<ResourceMesh>(meshesUIDs[i]));
+		meshes.push_back(App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(meshesUIDs[i]));
 	}
 
 	fileBuffer += bytes;
@@ -181,7 +178,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	delete[] materialsPointer;
 	for (int i = 0; i < materialsUIDs.size(); i++)
 	{
-		materials.push_back(App->resources->SearchResource<ResourceMaterial>(materialsUIDs[i]));
+		materials.push_back(App->GetModule<ModuleResources>()->SearchResource<ResourceMaterial>(materialsUIDs[i]));
 	}
 #endif
 
@@ -218,20 +215,8 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 				pathTextures[0] = diffusePath;
 			}
 		}
-		//Getting the specular texture
-		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
-		{
-			std::string specularPath = "";
 
-			CheckPathMaterial(filePath, file, specularPath);
-
-			if (specularPath != "")
-			{
-				pathTextures[1] = specularPath;
-			}
-		}
-
-		if (scene->mMaterials[i]->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
+		if (material->GetTexture(aiTextureType_NORMALS, 0, &file) == AI_SUCCESS)
 		{
 			std::string normalPath = "";
 
@@ -243,16 +228,40 @@ void ModelImporter::ImportMaterials(const aiScene* scene, const char* filePath,
 			}
 		}
 
+		if (material->GetTexture(aiTextureType_LIGHTMAP, 0, &file) == AI_SUCCESS)
+		{
+			std::string occlusionPath = "";
+
+			CheckPathMaterial(filePath, file, occlusionPath);
+
+			if (occlusionPath != "")
+			{
+				pathTextures[2] = occlusionPath;
+			}
+		}
+		
+		if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+		{
+			std::string specularPath = "";
+
+			CheckPathMaterial(filePath, file, specularPath);
+
+			if (specularPath != "")
+			{
+				pathTextures[3] = specularPath;
+			}
+		}
+
 		char* fileBuffer{};
 		unsigned int size = 0;
 
-		App->fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
+		App->GetModule<ModuleFileSystem>()->SaveInfoMaterial(pathTextures, fileBuffer, size);
 		std::string materialPath = MATERIAL_PATH + resource->GetFileName() + "_" + std::to_string(i)
 			+ MATERIAL_EXTENSION;
 
-		App->fileSystem->Save(materialPath.c_str(), fileBuffer, size);
+		App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceMaterial> resourceMaterial =
-			std::dynamic_pointer_cast<ResourceMaterial>(App->resources->ImportResource(materialPath));
+			std::dynamic_pointer_cast<ResourceMaterial>(App->GetModule<ModuleResources>()->ImportResource(materialPath));
 		materials.push_back(resourceMaterial);
 		
 		delete fileBuffer;
@@ -275,8 +284,8 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 		SaveInfoMesh(ourMesh, fileBuffer, size);
 		std::string meshPath = MESHES_PATH + resource->GetFileName() + "_" + std::to_string(i) + MESH_EXTENSION;
 
-		App->fileSystem->Save(meshPath.c_str(),fileBuffer,size);
-		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->resources->ImportResource(meshPath));
+		App->GetModule<ModuleFileSystem>()->Save(meshPath.c_str(),fileBuffer,size);
+		std::shared_ptr<ResourceMesh> resourceMesh = std::dynamic_pointer_cast<ResourceMesh>(App->GetModule<ModuleResources>()->ImportResource(meshPath));
 		meshes.push_back(resourceMesh);
 	}
 	resource->SetMeshes(meshes);
@@ -285,13 +294,13 @@ void ModelImporter::ImportMeshes(const aiScene* scene, const char* filePath, std
 void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file, std::string& dataBuffer)
 {
 	struct stat buffer {};
-	std::string name = App->fileSystem->GetFileName(file.data);
-	name += App->fileSystem->GetFileExtension(file.data);
+	std::string name = App->GetModule<ModuleFileSystem>()->GetFileName(file.data);
+	name += App->GetModule<ModuleFileSystem>()->GetFileExtension(file.data);
 	
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
-		std::string path = App->fileSystem->GetPathWithoutFile(filePath);
+		std::string path = App->GetModule<ModuleFileSystem>()->GetPathWithoutFile(filePath);
 		//Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{
