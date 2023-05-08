@@ -7,6 +7,7 @@
 #include "Auxiliar/Reflection/TypeToEnum.h"
 #include <variant>
 #include <optional>
+#include "Math/float3.h"
 
 class GameObject;
 class Application;

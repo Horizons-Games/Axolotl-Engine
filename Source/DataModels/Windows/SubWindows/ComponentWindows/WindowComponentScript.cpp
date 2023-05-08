@@ -5,6 +5,7 @@
 #include "Modules/ModuleScene.h"
 #include "ScriptFactory.h"
 #include "IScript.h"
+#include "Math/float3.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component)
@@ -76,6 +77,17 @@ void WindowComponentScript::DrawWindowContents()
 					Field<float> floatField = std::get<Field<float>>(member);
 					float value = floatField.getter();
 					if (ImGui::DragFloat(floatField.name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
+					{
+						floatField.setter(value);
+					}
+					break;
+				}
+
+				case FieldType::VECTOR3:
+				{
+					Field<float3> floatField = std::get<Field<float3>>(member);
+					float3 value = floatField.getter();
+					if(ImGui::InputFloat3(floatField.name.c_str(), (&value[2], &value[1], &value[0]), "%.2f"))
 					{
 						floatField.setter(value);
 					}

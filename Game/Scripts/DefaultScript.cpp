@@ -5,9 +5,10 @@
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons"), character(nullptr), check(true)
+DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1,1.2,1.4), sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(Value, float);
+	REGISTER_FIELD(Vector3, float3);
 	REGISTER_FIELD(Sentence, std::string);
 	REGISTER_FIELD(Character, GameObject*);
 	REGISTER_FIELD(Check, bool);
@@ -16,6 +17,7 @@ DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons"), char
 void DefaultScript::Update(float deltaTime)
 {
 	ENGINE_LOG("%f", value);
+	ENGINE_LOG("%f %f %f ", vec3[2], vec3[1], vec3[0]);
 	ENGINE_LOG("%s", sentence.c_str());
 
 	if (character != nullptr)
@@ -34,6 +36,16 @@ float DefaultScript::GetValue() const
 void DefaultScript::SetValue(float value)
 {
 	this->value = value;
+}
+
+float3 DefaultScript::GetVector3() const
+{
+	return vec3;
+}
+
+void DefaultScript::SetVector3(float3 vec3)
+{
+	this->vec3 = vec3;
 }
 
 std::string DefaultScript::GetSentence() const
