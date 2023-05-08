@@ -369,6 +369,7 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
+
 	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
@@ -378,7 +379,12 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
+					const ComponentTransform* transform =
+						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+					float dist = Length(cameraPos - transform->GetGlobalPosition());
+
 					gameObjectsInFrustrum.insert(gameObject);
+					objectsInFrustrumDistances[gameObject] = dist;
 				}
 			}
 		}
@@ -388,7 +394,12 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsEnabled())
 				{
+					const ComponentTransform* transform =
+						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+					float dist = Length(cameraPos - transform->GetGlobalPosition());
+
 					gameObjectsInFrustrum.insert(gameObject);
+					objectsInFrustrumDistances[gameObject] = dist;
 				}
 			}
 			FillRenderList(quadtree->GetFrontRightNode()); //And also call all the children to render
@@ -426,7 +437,12 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
+			const ComponentTransform* transform =
+				static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+			float dist = Length(cameraPos - transform->GetGlobalPosition());
+
 			gameObjectsInFrustrum.insert(gameObject);
+			objectsInFrustrumDistances[gameObject] = dist;
 		}
 	}
 

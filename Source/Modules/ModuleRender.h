@@ -76,6 +76,7 @@ private:
 	const std::vector<std::string> modelTypes;
 
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
+	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapOpaque;
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapTransparent;
