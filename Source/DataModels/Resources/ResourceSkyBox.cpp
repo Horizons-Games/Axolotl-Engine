@@ -33,16 +33,16 @@ void ResourceSkyBox::InternalLoad()
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, textI->GetInternalFormat(), textI->GetWidth(),
                 textI->GetHeight(), 0, textI->GetFormat(), textI->GetImageType(), &(aux[0]));
         }
-
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-        LoadVBO();
-        CreateVAO();
     }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    LoadVBO();
+    CreateVAO();
 }
 
 void ResourceSkyBox::InternalUnload()
@@ -50,7 +50,11 @@ void ResourceSkyBox::InternalUnload()
     //this will keep the capacity to 6
     textures.clear();
     glDeleteTextures(1, &glTexture);
+    glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &vao);
     glTexture = 0;
+    vbo = 0;
+    vao = 0;
 }
 
 bool ResourceSkyBox::ChildChanged() const

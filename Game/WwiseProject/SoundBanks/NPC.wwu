@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{74039175-F023-4FC0-AEC2-13FD25C9DCE4}" SchemaVersion="110" RootDocumentID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" ParentDocumentID="{905B81AD-AAA2-4634-A711-F88DE74275A5}">
+	<SoundBanks>
+		<WorkUnit Name="NPC" ID="{74039175-F023-4FC0-AEC2-13FD25C9DCE4}" OwnerID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" PersistMode="Nested">
+			<ChildrenList>
+				<SoundBank Name="NPC" ID="{9D4E166F-B943-4A05-9FC1-865C736599C5}">
+					<ObjectInclusionList>
+						<ObjectRef Name="sfx_dron_shot_01" ID="{67C099E8-D86A-4289-BDFD-EE05986663FD}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

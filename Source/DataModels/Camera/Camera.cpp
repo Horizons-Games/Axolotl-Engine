@@ -23,14 +23,14 @@
 #include "Geometry/Triangle.h"
 
 Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), focusFlag(false), isFocusing(false)
+	: type(type), mouseWarped(false), isUsingProportionalController(false), isFocusing(false), frustum(new Frustum())
 {
-	frustum = std::make_unique <Frustum>();
 }
 
 Camera::Camera(Camera& camera)
 	: type(type),
 	position(camera.position),
+	rotation(camera.rotation),
 	projectionMatrix(camera.projectionMatrix),
 	viewMatrix(camera.viewMatrix),
 	aspectRatio(camera.aspectRatio),
@@ -41,13 +41,17 @@ Camera::Camera(Camera& camera)
 	frustumOffset(camera.frustumOffset),
 	viewPlaneDistance(camera.viewPlaneDistance),
 	frustumMode(camera.frustumMode),
-	mouseWarped(camera.mouseWarped),
-	focusFlag(camera.focusFlag),
 	isFocusing(camera.isFocusing),
+	isUsingProportionalController(camera.isUsingProportionalController),
+	KpPosition(camera.KpPosition),
+	KpRotation(camera.KpRotation),
+	interpolationTime(camera.interpolationTime),
+	interpolationDuration(camera.interpolationDuration),
+	mouseWarped(camera.mouseWarped),
 	lastMouseX(camera.lastMouseX),
 	lastMouseY(camera.lastMouseY),
 	mouseState(camera.mouseState),
-	frustum(std::move(camera.frustum))
+	frustum(std::unique_ptr<Frustum>(new Frustum(*camera.frustum)))
 {
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -58,6 +62,7 @@ Camera::Camera(Camera& camera)
 Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	: type(type),
 	position(camera->position),
+	rotation(camera->rotation),
 	projectionMatrix(camera->projectionMatrix),
 	viewMatrix(camera->viewMatrix),
 	aspectRatio(camera->aspectRatio),
@@ -68,13 +73,17 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	frustumOffset(camera->frustumOffset),
 	viewPlaneDistance(camera->viewPlaneDistance),
 	frustumMode(camera->frustumMode),
-	mouseWarped(camera->mouseWarped),
-	focusFlag(camera->focusFlag),
 	isFocusing(camera->isFocusing),
+	isUsingProportionalController(camera->isUsingProportionalController),
+	KpPosition(camera->KpPosition),
+	KpRotation(camera->KpRotation),
+	interpolationTime(camera->interpolationTime),
+	interpolationDuration(camera->interpolationDuration),
+	mouseWarped(camera->mouseWarped),
 	lastMouseX(camera->lastMouseX),
 	lastMouseY(camera->lastMouseY),
 	mouseState(camera->mouseState),
-	frustum(std::move(camera->frustum))
+	frustum(new Frustum(*camera->frustum))
 {
 	//frustum = std::make_unique <Frustum>();
 	if (frustumMode == EFrustumMode::offsetFrustum)
@@ -90,7 +99,7 @@ Camera::~Camera()
 bool Camera::Init()
 {
 	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &w, &h);
 	aspectRatio = float(w) / h;
 
 	viewPlaneDistance = DEFAULT_FRUSTUM_DISTANCE;
@@ -106,10 +115,16 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-
+	
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
+	rotation = Quat::identity;
+
+	interpolationDuration = 0.5f;
+	interpolationTime = 0.0f;
+	KpPosition = 5.0f;
+	KpRotation = 0.05f;
 
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
@@ -126,12 +141,53 @@ bool Camera::Start()
 
 void Camera::ApplyRotation(const float3x3& rotationMatrix)
 {
-	vec oldFront = frustum->Front().Normalized();
-	vec oldUp = frustum->Up().Normalized();
+	float3 oldFront = frustum->Front().Normalized();
+	float3 oldUp = frustum->Up().Normalized();
 
 	frustum->SetFront(rotationMatrix.MulDir(oldFront));
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
+
+	rotation = rotationMatrix.ToQuat();
+	
 }
+
+void Camera::ApplyRotation(const Quat& rotationQuat)
+{
+	float3 oldFront = frustum->Front().Normalized();
+	float3 oldUp = frustum->Up().Normalized();
+
+	frustum->SetFront(rotationQuat.Transform(oldFront));
+	frustum->SetUp(rotationQuat.Transform(oldUp));
+
+	rotation = rotationQuat;
+}
+
+void Camera::ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const float3& fixedUp)
+{
+	float3 oldFront = frustum->Front().Normalized();
+
+	float3 newFront = rotationMatrix.MulDir(oldFront);
+	float3 newRight = fixedUp.Cross(newFront).Normalized();
+	float3 newUp = newFront.Cross(newRight);
+
+	frustum->SetFront(newFront);
+	frustum->SetUp(newUp);
+
+	rotation = rotationMatrix.ToQuat();
+}
+
+void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp)
+{
+	float3 newFront = rotationQuat.Transform(frustum->Front().Normalized());
+	float3 newRight = fixedUp.Cross(newFront).Normalized();
+	float3 newUp = newFront.Cross(newRight);
+
+	frustum->SetFront(newFront);
+	frustum->SetUp(newUp);
+
+	rotation = rotationQuat;
+}
+
 
 void Camera::Run()
 {
@@ -149,22 +205,24 @@ void Camera::KeyboardRotate()
 
 	float rotationAngle = RadToDeg(frustum->Front().Normalized().AngleBetween(float3::unitY));
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	if (input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
 	{
 		if (rotationAngle + rotationSpeed * acceleration < 180)
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_DOWN) != KeyState::IDLE)
 	{
 		if (rotationAngle - rotationSpeed * acceleration > 0)
 			pitch = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_LEFT) != KeyState::IDLE)
 		yaw = math::DegToRad(DEFAULT_ROTATION_DEGREE);
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_RIGHT) != KeyState::IDLE)
 		yaw = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
 
 	float deltaTime = App->GetDeltaTime();
@@ -180,33 +238,18 @@ void Camera::KeyboardRotate()
 
 void Camera::FreeLook()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
 	float deltaTime = App->GetDeltaTime();
 	float mouseSpeedPercentage = 0.05f;
-	float xrel = -App->input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	float yrel = -App->input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float xrel = -input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	float yrel = -input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
+	
+	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
+	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
+	Quat combinedRotation = rotationY * rotationX;
 
-	float3x3 x = float3x3(Cos(xrel), 0.0f, Sin(xrel), 0.0f, 1.0f, 0.0f, -Sin(xrel), 0.0f, Cos(xrel));
-	float3x3 y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
-	float3x3 xy = x * y;
-
-	vec oldUp = frustum->Up().Normalized();
-	vec oldFront = frustum->Front().Normalized();
-
-	float3 newUp = xy.MulDir(oldUp);
-
-	if (newUp.y > 0.f)
-	{
-		frustum->SetUp(xy.MulDir(oldUp));
-		frustum->SetFront(xy.MulDir(oldFront));
-	}
-	else
-	{
-		y = float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), 0);
-		xy = x * y;
-
-		frustum->SetUp(xy.MulDir(oldUp));
-		frustum->SetFront(xy.MulDir(oldFront));
-	}
+	ApplyRotationWithFixedUp(combinedRotation, float3::unitY);
 }
 
 bool Camera::IsInside(const AABB& aabb)
@@ -343,30 +386,12 @@ void Camera::SetOrientation(const float3& orientation)
 	frustum->SetUp(orientation);
 }
 
-void Camera::SetLookAt(const float3& lookAt, bool& isSameRotation)
-{
-	float3 targetDirection = (lookAt - position).Normalized();
-	float3 currentDirection = frustum->Front().Normalized();
-
-	if (targetDirection.AngleBetween(currentDirection) == 0.0f)
-	{
-		isSameRotation = true;
-	}
-	else 
-	{
-		float3 nextDirection = Quat::SlerpVector(currentDirection, targetDirection, App->GetDeltaTime() * rotationSpeed * 2);
-		Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
-		float3x3 rotationMatrix = float3x3::FromQuat(nextRotation);
-		ApplyRotation(rotationMatrix);
-	}
-
-}
-
 void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 {
 	if (gameObject != nullptr)
 	{
-		App->scene->ChangeSelectedGameObject(gameObject);
-		App->scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
+		ModuleScene* scene = App->GetModule<ModuleScene>();
+		scene->ChangeSelectedGameObject(gameObject);
+		scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

@@ -3,7 +3,7 @@
     "Type": "Materials",
     "diffuseColor_x": 0.6850808262825012,
     "diffuseColor_y": 0.8970588445663452,
-    "diffuseColor_z": 0.24185410141944889,
+    "diffuseColor_z": 0.24185410141944888,
     "specularColor_x": 0.0,
     "specularColor_y": 0.0,
     "specularColor_z": 0.0,
@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }

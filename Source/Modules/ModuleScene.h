@@ -17,8 +17,10 @@ public:
 
 	bool Init() override;
 	bool Start() override;
+	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
+	bool CleanUp() override;
 
 	Scene* GetLoadedScene() const;
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
@@ -26,6 +28,7 @@ public:
 	void SetSelectedGameObject(GameObject* gameObject);
 	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
+	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
@@ -37,9 +40,6 @@ public:
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(GameObject* object);
 
-
-
-	void UpdateGameObjectAndDescendants(GameObject* gameObject) const;
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
@@ -72,4 +72,9 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
+}
+
+inline void ModuleScene::OnPause()
+{
+	ENGINE_LOG("Pause pressed");
 }

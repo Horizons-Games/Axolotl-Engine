@@ -1,6 +1,8 @@
 #include "WindowMaterialInput.h"
 
 #include "Application.h"
+#include "Components/ComponentMeshRenderer.h"
+
 #include "FileSystem/ModuleResources.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
@@ -22,8 +24,9 @@ void WindowMaterialInput::DoThisIfOk()
 {
 	if (componentMeshRenderer)
 	{
+		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceMaterial> material = App->resources->RequestResource<ResourceMaterial>(filePath);
+		std::shared_ptr<ResourceMaterial> material = App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(filePath);
 		componentMeshRenderer->SetMaterial(material);
 	}
 }

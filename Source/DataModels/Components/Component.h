@@ -12,11 +12,16 @@ enum class ComponentType
 	LIGHT, 
 	CAMERA,
 	PLAYER,
+	ANIMATION,
 	CANVAS,
 	IMAGE,
 	BUTTON,
 	RIGIDBODY,
-	MOCKSTATE
+	MOCKSTATE,
+	AUDIOSOURCE,
+	AUDIOLISTENER,
+	MESHCOLLIDER,
+	SCRIPT
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -32,23 +37,19 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void Init(); // In case any component needs an init to do something once created
-
-	virtual void Update() = 0; // Abstract because each component will perform its own Update
-
-	virtual void Draw();
-
 	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
 	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+
+	virtual void OnTransformChanged();
 
 	virtual void Enable();
 	virtual void Disable();
 
-	bool GetActive();
-	ComponentType GetType();
+	bool IsEnabled() const;
+	ComponentType GetType() const;
 
-	GameObject* GetOwner();
-	bool GetCanBeRemoved();
+	GameObject* GetOwner() const;
+	bool CanBeRemoved() const;
 
 	void SetOwner(GameObject* owner);
 
@@ -76,10 +77,6 @@ inline Component::~Component()
 {
 }
 
-inline void Component::Init()
-{
-}
-
 inline void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
@@ -96,26 +93,26 @@ inline void Component::Disable()
 	}
 }
 
-inline void Component::Draw()
+inline void Component::OnTransformChanged()
 {
 }
 
-inline bool Component::GetActive()
+inline bool Component::IsEnabled() const
 {
 	return active;
 }
 
-inline ComponentType Component::GetType()
+inline ComponentType Component::GetType() const
 {
 	return type;
 }
 
-inline GameObject* Component::GetOwner()
+inline GameObject* Component::GetOwner() const
 {
 	return owner;
 }
 
-inline bool Component::GetCanBeRemoved()
+inline bool Component::CanBeRemoved() const
 {
 	return canBeRemoved;
 }
@@ -139,6 +136,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_Camera";
 	case ComponentType::PLAYER:
 		return "Component_Player";
+	case ComponentType::ANIMATION:
+		return "Component_Animation";
 	case ComponentType::CANVAS:
 		return "Component_Canvas";
 	case ComponentType::TRANSFORM2D:
@@ -151,6 +150,14 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_RigidBody";
 	case ComponentType::MOCKSTATE:
 		return "Component_MockState";
+	case ComponentType::AUDIOSOURCE:
+		return "Component_AudioSource";
+	case ComponentType::AUDIOLISTENER:
+		return "Component_AudioListener";
+	case ComponentType::MESHCOLLIDER:
+		return "Component_MeshCollider";
+	case ComponentType::SCRIPT:
+		return "Component_Script";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -213,6 +220,31 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::MOCKSTATE;
 	}
+
+	if (typeName == "Component_AudioSource")
+	{
+		return ComponentType::AUDIOSOURCE;
+	}
+
+	if (typeName == "Component_AudioListener")
+	{
+		return ComponentType::AUDIOLISTENER;
+	}
 	
+	if (typeName == "Component_Script")
+	{
+		return ComponentType::SCRIPT;
+	}
+	
+	if (typeName == "Component_MeshCollider")
+	{
+		return ComponentType::MESHCOLLIDER;
+	}
+	
+	if (typeName == "Component_Animation")
+	{
+		return ComponentType::ANIMATION;
+	}
+
 	return ComponentType::UNKNOWN;
 }

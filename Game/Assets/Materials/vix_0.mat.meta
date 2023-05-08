@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Vix_Face_AlbedoTransparency.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }

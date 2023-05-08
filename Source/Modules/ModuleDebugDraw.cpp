@@ -596,8 +596,7 @@ ModuleDebugDraw::~ModuleDebugDraw()
 bool ModuleDebugDraw::Init()
 {
     implementation = new DDRenderInterfaceCoreGL;
-    dd::initialize(implementation);
-    return true;
+    return dd::initialize(implementation);;
 }
 
 bool ModuleDebugDraw::CleanUp()
@@ -612,7 +611,7 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-    GameObject* selectedGameObject = App->scene->GetSelectedGameObject();
+    GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
     ComponentTransform* selectedTransform =
         static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
 
@@ -658,14 +657,4 @@ void ModuleDebugDraw::DrawBoundingBox(const OBB& obb)
 void ModuleDebugDraw::DrawFrustum(const Frustum& frustum)
 {
     dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::AliceBlue);
-}
-
-void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
-{
-    this->showBoundingBoxes = showBoundingBoxes;
-}
-
-bool ModuleDebugDraw::IsShowingBoundingBoxes() const
-{
-    return showBoundingBoxes;
 }

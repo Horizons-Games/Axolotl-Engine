@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
 #include "Scene/Scene.h"
@@ -24,16 +26,15 @@ ModuleInput::~ModuleInput()
 bool ModuleInput::Init()
 {
     ENGINE_LOG("Init SDL input event system");
-	bool ret = true;
 	SDL_Init(0);
 
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
         ENGINE_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
+		return false;
 	}
 
-    #ifdef ENGINE
+#ifdef ENGINE
         freeLookSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_FREELOOKSURFACE));
         orbitSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_ORBITSURFACE));
         moveSurface = std::unique_ptr<SDL_Surface, SDLSurfaceDestroyer>(SDL_LoadBMP(BMP_MOVESURFACE));
@@ -51,12 +52,11 @@ bool ModuleInput::Init()
                         std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>(SDL_GetCursor());
         this->defaultCursor = std::unique_ptr<SDL_Cursor, SDLCursorDestroyer>
                         (defaultCursor.get());
-
-    #else  // ENGINE
+#else  // ENGINE
     SetShowCursor(false);
-    #endif // GAMEMODE
+#endif // GAMEMODE
 
-	return ret;
+	return true;
 }
 
 update_status ModuleInput::Update()
@@ -64,8 +64,6 @@ update_status ModuleInput::Update()
 #ifdef DEBUG
     OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
 #endif // DEBUG
-
-    update_status status = update_status::UPDATE_CONTINUE;
 
     mouseMotion = float2::zero;
     mouseWheelScrolled = false;
@@ -96,13 +94,6 @@ update_status ModuleInput::Update()
 
     SDL_PumpEvents();
 
-    const Uint8* keyboard = SDL_GetKeyboardState(NULL);
-
-    if (keyboard[SDL_SCANCODE_ESCAPE]) 
-    {
-        status = update_status::UPDATE_STOP;
-    }
-
     SDL_Event sdlEvent;
 
     while (SDL_PollEvent(&sdlEvent) != 0)
@@ -126,9 +117,10 @@ update_status ModuleInput::Update()
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
                 sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
-                App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-                App->renderer->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
-                App->userInterface->RecalculateCanvasSizeAndScreenFactor();
+                App->GetModule<ModuleRender>()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModule<ModuleRender>()->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+                App->GetModule<ModuleUI>()->RecalculateCanvasSizeAndScreenFactor();
+                App->GetModule<ModuleCamera>()->RecalculateOrthoProjectionMatrix();
             }
             if (sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) 
             {
@@ -167,12 +159,12 @@ update_status ModuleInput::Update()
             break;
 
         case SDL_DROPFILE:
-            char* droppedFilePath = sdlEvent.drop.file;
+            char* droppedFilePathAsChar = sdlEvent.drop.file;
 
-            std::string dropFilePath(droppedFilePath);
-            std::replace(dropFilePath.begin(), dropFilePath.end(), '\\', '/'); 
-            App->scene->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePath);
-            SDL_free(droppedFilePath);    // Free dropped_filedir memory
+            std::string droppedFilePathString(droppedFilePathAsChar);
+            std::replace(droppedFilePathString.begin(), droppedFilePathString.end(), '\\', '/'); 
+            App->GetModule<ModuleScene>()->GetLoadedScene()->ConvertModelIntoGameObject(droppedFilePathString);
+            SDL_free(droppedFilePathAsChar);    // Free dropped_filedir memory
             break;
         }
 
@@ -190,15 +182,35 @@ update_status ModuleInput::Update()
     }
 
 #ifdef ENGINE
-    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN){
-        App->editor->GetMainMenu()->ShortcutSave();}
-#endif
-    return status;
-}
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            App->OnStop();
+        }
+    }
 
-void ModuleInput::SetShowCursor(bool set)
-{
-    set ? SDL_ShowCursor(SDL_ENABLE) : SDL_ShowCursor(SDL_DISABLE);
+    if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT
+        || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN)
+        && keysState[SDL_SCANCODE_A] == KeyState::DOWN)
+    {
+        if (App->IsOnPlayMode())
+        {
+            SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
+        }
+    }
+
+    if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT 
+        && keysState[SDL_SCANCODE_S] == KeyState::DOWN
+        && SDL_ShowCursor(SDL_QUERY))
+    {
+        App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+    }
+#endif
+
+    return update_status::UPDATE_CONTINUE;
 }
 
 bool ModuleInput::CleanUp()
