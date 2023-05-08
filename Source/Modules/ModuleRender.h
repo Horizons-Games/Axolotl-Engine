@@ -5,6 +5,7 @@
 #include <DataModels/Batch/BatchManager.h>
 
 #include <unordered_map>
+#include <unordered_set>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -42,7 +43,9 @@ public:
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
 
+	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 	bool IsSupportedPath(const std::string& modelPath);
+
 	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
@@ -71,6 +74,9 @@ private:
 	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
+
+	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
+
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapOpaque;
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapTransparent;
 
@@ -112,4 +118,9 @@ inline const std::string& ModuleRender::GetFragmentShader() const
 inline BatchManager* ModuleRender::GetBatchManager() const
 {
 	return batchManager;
+}
+
+inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
+{
+	return gameObjectsInFrustrum.find(gameObject) != gameObjectsInFrustrum.end();
 }

@@ -528,7 +528,6 @@ void GeometryBatch::BindBatch()
 		FillMaterial();
 	}
 
-
 	std::vector<Command> commands;
 	commands.reserve(componentsInBatch.size());
 	
@@ -540,7 +539,8 @@ void GeometryBatch::BindBatch()
 	{
 		assert(component);
 
-		if (component->GetOwner()->IsEnabled())
+
+		if (App->renderer->IsObjectInsideFrustrum(component->GetOwner()))
 		{
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo->resourceMesh;
@@ -564,6 +564,7 @@ void GeometryBatch::BindBatch()
 			drawCount++;
 		}
 	}
+	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
 	glBindVertexArray(vao);
