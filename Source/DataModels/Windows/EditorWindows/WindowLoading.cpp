@@ -11,16 +11,6 @@ WindowLoading::~WindowLoading()
 {
 }
 
-void WindowLoading::AddWaitingOn(const std::string& waitingCondition)
-{
-    waitingOn.push_back(waitingCondition);
-}
-
-void WindowLoading::ResetWaitingOn()
-{
-    waitingOn.clear();
-}
-
 void WindowLoading::DrawWindowContents()
 {
 	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());

@@ -20,3 +20,12 @@ private:
 	std::vector<std::string> waitingOn;
 };
 
+inline void WindowLoading::AddWaitingOn(const std::string& waitingCondition)
+{
+	waitingOn.push_back(waitingCondition);
+}
+
+inline void WindowLoading::ResetWaitingOn()
+{
+	waitingOn.clear();
+}
