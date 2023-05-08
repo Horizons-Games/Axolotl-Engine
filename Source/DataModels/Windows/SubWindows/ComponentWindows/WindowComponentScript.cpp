@@ -123,7 +123,9 @@ void WindowComponentScript::DrawWindowContents()
 
 					label = gameObjectSlot;
 					finalLabel = label + separator + thisID;
+					ImGui::BeginDisabled();
 					ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
+					ImGui::EndDisabled();
 
 					if (ImGui::BeginDragDropTarget())
 					{
