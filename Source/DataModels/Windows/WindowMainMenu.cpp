@@ -180,38 +180,31 @@ void WindowMainMenu::BuildGame(GameBuildType buildType)
 		ENGINE_LOG("No command processor available, not building");
 		return;
 	}
-	std::string buildConfig;
+	std::string buildScriptPath = "..\\Source\\BuildScripts\\";
+	std::string buildScript = buildScriptPath;
 	switch (buildType)
 	{
 	case WindowMainMenu::GameBuildType::DEBUG_GAME:
 		ENGINE_LOG("Building DebugGame...\n");
-		buildConfig = "DebugGame";
+		buildScript += "buildDebug";
 		break;
 	case WindowMainMenu::GameBuildType::RELEASE_GAME:
 		ENGINE_LOG("Building ReleaseGame...\n");
-		buildConfig = "ReleaseGame";
+		buildScript += "buildRelease";
 		break;
 	}
-	std::string appName = "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
-		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe";
-	std::string msbuildPath = "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2019"
-		"\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
-	
-	std::string solutionPath = "..\\Source\\Engine.sln";
-	std::string configurationParameter = "/p:Configuration=" + buildConfig;
-	std::string platformParameter = "/p:Platform=x64";
+	buildScript += ".bat";
 
-	std::string commandArgs = msbuildPath + " " + solutionPath + " " + configurationParameter + " " + platformParameter;
-	
 	STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
 	PROCESS_INFORMATION processInfo = {};
-	BOOL success = CreateProcess(
-		appName.c_str(), // lpApplicationName
-		commandArgs.data(), // lpCommandLine
+	
+	BOOL success = CreateProcessA(
+		buildScript.c_str(), // lpApplicationName
+		NULL, // lpCommandLine
 		NULL, // lpProcessAttributes
 		NULL, // lpThreadAttributes
 		TRUE, // bInheritHandles
-		0, // dwCreationFlags
+		CREATE_NO_WINDOW, // dwCreationFlags
 		NULL, // lpEnvironment
 		NULL, // lpCurrentDirectory
 		&startupInfo,
