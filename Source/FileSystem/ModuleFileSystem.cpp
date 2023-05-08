@@ -17,7 +17,7 @@ bool ModuleFileSystem::Init()
 	PHYSFS_mount(".", nullptr, 0);
 	PHYSFS_mount("..", nullptr, 0);
 	PHYSFS_setWriteDir(".");
-#else
+#else // ENGINE
     PHYSFS_mount("Assets.zip", nullptr, 0);
 #endif // GAME
     return true;
@@ -36,14 +36,14 @@ void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const s
     }
 }
 
-bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* destinationFilePath)
+bool ModuleFileSystem::CopyFromOutside(const std::string& sourceFilePath, const std::string& destinationFilePath) const
 {
     FILE* src, * dst;
     char buffer[4096];
     size_t n;
 
-    src = fopen(sourceFilePath, "rb");
-    dst = fopen(destinationFilePath, "wb");
+    src = fopen(sourceFilePath.c_str(), "rb");
+    dst = fopen(destinationFilePath.c_str(), "wb");
 
     while ((n = fread(buffer, 1, sizeof buffer, src)) > 0)
     {
@@ -54,7 +54,7 @@ bool ModuleFileSystem::CopyFromOutside(const char* sourceFilePath, const char* d
     return true;
 }
 
-bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationFilePath)
+bool ModuleFileSystem::Copy(const std::string& sourceFilePath, const std::string& destinationFilePath) const
 {
     char* buffer = nullptr;
     unsigned int size = Load(sourceFilePath, buffer);
@@ -73,9 +73,9 @@ bool  ModuleFileSystem::Delete(const char* filePath)
    
 }
 
-unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
+unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) const
 {
-    PHYSFS_File * file = PHYSFS_openRead(filePath);
+    PHYSFS_File * file = PHYSFS_openRead(filePath.c_str());
     if (file == NULL)
     {
         ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), filePath);
@@ -94,9 +94,9 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
     return (unsigned int)size;
 }
 
-unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
+unsigned int ModuleFileSystem::Save(const std::string& filePath, const void* buffer, unsigned int size, bool append /*= false*/) const
 {
-    PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
+    PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
     if (file == NULL)
     {
         ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);

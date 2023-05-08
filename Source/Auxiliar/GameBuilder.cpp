@@ -29,7 +29,6 @@ namespace builder
 
 		STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
 		PROCESS_INFORMATION processInfo = {};
-
 		BOOL success = CreateProcess(
 			buildScript.c_str(), // lpApplicationName
 			NULL, // lpCommandLine
@@ -46,6 +45,14 @@ namespace builder
 		CloseHandle(processInfo.hThread);
 		CloseHandle(processInfo.hProcess);
 
-		App->GetModule<ModuleFileSystem>()->ZipLibFolder();
+		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+
+		std::vector<std::string> scenes = fileSystem->ListFiles(SCENE_PATH);
+		for (const std::string& sceneFileName : scenes)
+		{
+			fileSystem->Copy(SCENE_PATH + sceneFileName, "Lib/Scenes/" + sceneFileName);
+		}
+
+		fileSystem->ZipLibFolder();
 	}
 }

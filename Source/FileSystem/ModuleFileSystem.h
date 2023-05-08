@@ -12,10 +12,10 @@ public:
 	bool CleanUp() override;
 
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
-	unsigned int Load(const char* filePath, char*& buffer) const;
-	unsigned int Save(const char* filePath, const void* buffer, unsigned int size, bool append = false) const;
-	bool Copy(const char* sourceFilePath, const char* destinationFilePath);
-	bool CopyFromOutside(const char* sourceFilePath, const char* destinationFilePath);
+	unsigned int Load(const std::string& filePath, char*& buffer) const;
+	unsigned int Save(const std::string& filePath, const void* buffer, unsigned int size, bool append = false) const;
+	bool Copy(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
+	bool CopyFromOutside(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
 	bool Delete(const char* filePath);
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
