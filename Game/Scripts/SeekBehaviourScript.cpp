@@ -11,7 +11,7 @@ REGISTERCLASS(SeekBehaviourScript);
 
 SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
 {
-	REGISTER_FIELD(Target, GameObject*);
+	REGISTER_FIELD_WITH_ACCESSORS(Target, GameObject*);
 }
 
 void SeekBehaviourScript::Start()

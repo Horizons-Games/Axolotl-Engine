@@ -113,35 +113,35 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
-	gameObject->MoveParent(parent);
+	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
-	ComponentTransform* childTransform = static_cast<ComponentTransform*>
+	ComponentTransform* transform = static_cast<ComponentTransform*>
 		(gameObject->GetComponent(ComponentType::TRANSFORM));
-	childTransform->UpdateTransformMatrices();
-
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
-
-	//Quadtree treatment
-	if (!rootQuadtree->InQuadrant(gameObject))
+	if (transform)
 	{
-		if (!rootQuadtree->IsFreezed())
-		{
-			rootQuadtree->ExpandToFit(gameObject);
-			FillQuadtree(sceneGameObjects);
-		}
-		else
-		{
-			App->GetModule<ModuleRender>()->AddToRenderList(gameObject);
-		}
+		transform->UpdateTransformMatrices();
 	}
 	else
 	{
-		rootQuadtree->Add(gameObject);
+		ComponentTransform2D* transform2D = static_cast<ComponentTransform2D*>
+			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		if (transform2D)
+		{
+			transform2D->CalculateMatrices();
+		}
 	}
-	App->GetModule<ModuleScene>()->AddGameObjectAndChildren(App->GetModule<ModuleScene>()->GetSelectedGameObject());
-	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject);
-	App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
+
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
+
+	if (newObject->IsStatic())
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+	}
+	else
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+	}
 
 	return gameObject;
 }
@@ -235,9 +235,11 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 	return gameObject;
 }
 
-void Scene::DestroyGameObject(GameObject* gameObject)
+void Scene::DestroyGameObject(const GameObject* gameObject)
 {
 	RemoveFatherAndChildren(gameObject);
+	rootQuadtree->RemoveGameObjectAndChildren(gameObject);
+	RemoveNonStaticObject(gameObject);
 	delete gameObject->GetParent()->UnlinkChild(gameObject);
 }
 
@@ -291,34 +293,52 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
-void Scene::RemoveFatherAndChildren(const GameObject* father)
+void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 {
-	for (GameObject* child : father->GetChildren())
+	for (GameObject* child : gameObject->GetChildren())
 	{
 		RemoveFatherAndChildren(child);
 	}
 
-	{
-		Component* component = father->GetComponent(ComponentType::CAMERA);
-		if (component)
-		{
-			sceneCameras.erase(
-				std::remove_if(std::begin(sceneCameras),
-					std::end(sceneCameras),
-					[&component](ComponentCamera* camera)
-					{
-						return camera == component;
-					}),
-				std::end(sceneCameras));
-		}
-	}
+	sceneCameras.erase(
+		std::remove_if(std::begin(sceneCameras), std::end(sceneCameras),
+			[gameObject](const ComponentCamera* camera)
+			{
+				return camera->GetOwner() == gameObject;
+			}),
+		std::end(sceneCameras));
+
+	sceneCanvas.erase(
+		std::remove_if(std::begin(sceneCanvas), std::end(sceneCanvas),
+			[gameObject](const ComponentCanvas* canvas)
+			{
+				return canvas->GetOwner() == gameObject;
+			}),
+		std::end(sceneCanvas));
+
+	sceneInteractableComponents.erase(
+		std::remove_if(std::begin(sceneInteractableComponents), std::end(sceneInteractableComponents),
+			[gameObject](const Component* interactible)
+			{
+				return interactible->GetOwner() == gameObject;
+			}),
+		std::end(sceneInteractableComponents));
+	
+	sceneUpdatableObjects.erase(
+		std::remove_if(std::begin(sceneUpdatableObjects), std::end(sceneUpdatableObjects),
+			[gameObject](const Updatable* updatable)
+			{
+				const Component* component = dynamic_cast<const Component*>(updatable);
+				return component == nullptr || component->GetOwner() == gameObject;
+			}),
+		std::end(sceneUpdatableObjects));
 
 	sceneGameObjects.erase(
 		std::remove_if(std::begin(sceneGameObjects),
 			std::end(sceneGameObjects),
-			[&father](GameObject* gameObject)
+			[&gameObject](GameObject* gameObjectToDelete)
 			{
-				return gameObject == father;
+				return gameObjectToDelete == gameObject;
 			}),
 		std::end(sceneGameObjects));
 }
@@ -597,7 +617,7 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 }
 
 
-void Scene::RemoveNonStaticObject(GameObject* gameObject)
+void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 {
 	nonStaticObjects.erase(
 		std::remove_if(std::begin(nonStaticObjects),
