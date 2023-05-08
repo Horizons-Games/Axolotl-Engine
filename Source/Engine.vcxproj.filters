@@ -361,6 +361,9 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Auxiliar\GameBuilder.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -729,6 +732,9 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\AddComponentAction.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\GameBuilder.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1466,9 +1472,6 @@
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\SystemTable.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClCompile Include="Scripting\ScriptFactory.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
@@ -1838,9 +1841,6 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
@@ -1900,32 +1900,8 @@
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Resources">
-      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
-      <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Scene">
-      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Program">
-      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
-      <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Commands">
-      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Camera">
-      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataModels\Resources\EditorResource">
       <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
