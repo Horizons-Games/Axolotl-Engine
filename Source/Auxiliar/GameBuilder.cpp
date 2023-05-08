@@ -43,10 +43,20 @@ namespace builder
 		{
 			const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-			std::vector<std::string> scenes = fileSystem->ListFiles(SCENE_PATH);
-			for (const std::string& sceneFileName : scenes)
 			{
-				fileSystem->Copy(SCENE_PATH + sceneFileName, "Lib/Scenes/" + sceneFileName);
+				std::vector<std::string> scenes = fileSystem->ListFiles(SCENE_PATH);
+				for (const std::string& sceneFileName : scenes)
+				{
+					fileSystem->Copy(SCENE_PATH + sceneFileName, "Lib/Scenes/" + sceneFileName);
+				}
+			}
+			{
+				std::vector<std::string> shaders = fileSystem->ListFiles("Source/Shaders/");
+				fileSystem->CreateDirectory("Lib/Shaders/");
+				for (const std::string& shader : shaders)
+				{
+					fileSystem->Copy("Source/Shaders/" + shader, "Lib/Shaders/" + shader);
+				}
 			}
 
 			fileSystem->ZipLibFolder();

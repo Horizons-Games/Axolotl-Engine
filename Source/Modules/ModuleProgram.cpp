@@ -8,7 +8,11 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
+#ifdef ENGINE
 const std::string ModuleProgram::rootPath = "Source/Shaders/";
+#else
+const std::string ModuleProgram::rootPath = "Lib/Shaders/";
+#endif
 
 ModuleProgram::ModuleProgram()
 {
