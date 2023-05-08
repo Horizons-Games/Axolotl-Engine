@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/vix_glasses_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/vix_glasses_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }

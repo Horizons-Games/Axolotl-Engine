@@ -12,6 +12,7 @@ class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
 class Json;
+class ResourceModel;
 
 enum class ComponentType;
 enum class LightType;
@@ -46,6 +47,7 @@ public:
 	std::string GetName() const;
 	std::string GetTag() const;
 	GameObject* GetParent() const;
+	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
 	const std::vector<GameObject*> GetChildren() const;
@@ -67,6 +69,8 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
+	void MoveParent(GameObject* newParent);
+	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -90,6 +94,8 @@ public:
 	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
+
+	GameObject* FindGameObject(const std::string& name);
 
 private:
 	GameObject(const std::string& name,
@@ -121,6 +127,7 @@ private:
 	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
+	GameObject* root;
 	std::vector<std::unique_ptr<GameObject>> children;
 
 	friend class WindowInspector;
@@ -158,9 +165,19 @@ inline void GameObject::SetName(const std::string& newName)
 	name = newName;
 }
 
+inline void GameObject::SetRootGO(GameObject* newRootGO)
+{
+	root = newRootGO;
+}
+
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline GameObject* GameObject::GetRootGO() const
+{
+	return root;
 }
 
 inline StateOfSelection GameObject::GetStateOfSelection() const

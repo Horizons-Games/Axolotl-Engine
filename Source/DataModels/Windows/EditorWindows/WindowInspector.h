@@ -41,6 +41,8 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+	void AddComponentAnimation();
+
 	void AddComponentRigidBody();
 	void AddComponentMockState();
 	void AddComponentAudioSource();

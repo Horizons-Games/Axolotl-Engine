@@ -10,9 +10,7 @@ ResourceModel::ResourceModel(UID resourceUID,
 							 const std::string& fileName,
 							 const std::string& assetsPath,
 							 const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath),
-	numMaterials(0),
-	numMeshes(0)
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 
@@ -23,7 +21,7 @@ ResourceModel::~ResourceModel()
 
 void ResourceModel::InternalLoad()
 {
-	for (std::shared_ptr<Resource> material : materials)
+	/*for (std::shared_ptr<Resource> material : materials)
 	{
 		if (material)
 		{
@@ -37,12 +35,12 @@ void ResourceModel::InternalLoad()
 		{
 			mesh->Load();
 		}
-	}
+	}*/
 }
 
 void ResourceModel::InternalUnload()
 {
-	for (std::shared_ptr<Resource> material : materials)
+	/*for (std::shared_ptr<Resource> material : materials)
 	{
 		if (material)
 		{
@@ -56,5 +54,5 @@ void ResourceModel::InternalUnload()
 		{
 			mesh->Unload();
 		}
-	}
+	}*/
 }

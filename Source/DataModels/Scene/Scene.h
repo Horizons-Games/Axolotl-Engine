@@ -3,6 +3,9 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
+#include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
+
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
@@ -92,6 +95,8 @@ public:
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
 private:
+	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
+	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;

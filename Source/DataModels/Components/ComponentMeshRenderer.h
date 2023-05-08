@@ -1,15 +1,23 @@
 #pragma once
-#include "Auxiliar/Generics/Drawable.h"
+
 #include "Component.h"
-
 #include "Globals.h"
-
 #include "ModuleProgram.h"
+
+#include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
+
+#include "Components/Component.h"
 
 #include "FileSystem/UniqueID.h"
 
 #include "Math/float3.h"
 #include "Math/float4.h"
+#include "Math/float4x4.h"
+
+#include "Program/Program.h"
+
+#include <memory>
 
 class ResourceMesh;
 class ResourceMaterial;
@@ -19,12 +27,16 @@ class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component, public Drawable
+class ComponentMeshRenderer : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
+
+	void InitBones();
+
+	void Update() override;
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
@@ -38,6 +50,7 @@ public:
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
+	void SetBones(const std::vector<GameObject*>& bones);
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
@@ -77,8 +90,16 @@ private:
 	mutable std::shared_ptr<ResourceMesh> mesh;
 	mutable std::shared_ptr<ResourceMaterial> material;
 
+	std::vector<GameObject*> bones;
+	std::vector<float4x4> skinPalette;
+
 	WindowMeshInput* inputMesh;
 };
+
+inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)
+{
+	this->bones = bones;
+}
 
 inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 {

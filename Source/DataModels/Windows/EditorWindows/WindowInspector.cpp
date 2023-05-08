@@ -94,6 +94,15 @@ WindowInspector::WindowInspector() :
 										 std::bind(&WindowInspector::AddComponentScript, this),
 										 ComponentFunctionality::GAMEPLAY));
 
+	actions.push_back(AddComponentAction(
+		"Create Animation Component",
+		std::bind(&WindowInspector::AddComponentAnimation, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::ANIMATION);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -361,6 +370,11 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentAnimation()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
 }
 
 void WindowInspector::ResetSelectedGameObject()

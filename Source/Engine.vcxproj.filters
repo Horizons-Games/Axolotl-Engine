@@ -283,8 +283,38 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAnimation.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Animation\AnimationController.cpp">
+      <Filter>DataModels\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceStateMachine.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentMeshCollider.cpp">
       <Filter>DataModels\Components</Filter>
@@ -691,9 +721,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
@@ -1418,11 +1445,23 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\Importers\AnimationImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAnimation.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentAnimation.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceAnimation.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Animation\AnimationController.h">
+      <Filter>DataModels\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\SystemTable.h">
-      <Filter>Scripting</Filter>
     </ClInclude>
     <ClCompile Include="Scripting\ScriptFactory.cpp">
       <Filter>Scripting</Filter>
@@ -1773,14 +1812,26 @@
     <ClInclude Include="DataModels\Components\ComponentScript.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\Field.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceStateMachine.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\StateMachineImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowStateMachineInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\Generics\Updatable.h">
       <Filter>Auxiliar\Generics</Filter>
     </ClInclude>
@@ -1837,32 +1888,8 @@
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Resources">
-      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
-      <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Scene">
-      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Program">
-      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
-      <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Commands">
-      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Camera">
-      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DataModels\Resources\EditorResource">
       <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
@@ -1933,6 +1960,9 @@
     </Filter>
     <Filter Include="DataModels\Components\UI">
       <UniqueIdentifier>{bb57abca-f8ed-42cd-9832-f92e00d02a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Animation">
+      <UniqueIdentifier>{87b4ca48-8d47-439b-bb9d-3de254b79ee7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scripting">
       <UniqueIdentifier>{bc030c15-1dfc-463d-97b4-05025d05b0c7}</UniqueIdentifier>

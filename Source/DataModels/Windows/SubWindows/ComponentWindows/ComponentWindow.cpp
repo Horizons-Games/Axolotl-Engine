@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
@@ -24,6 +25,7 @@
 
 #include "Application.h"
 #include "Components/ComponentAmbient.h"
+#include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
@@ -68,6 +70,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 			case ComponentType::PLAYER:
 				return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
+			case ComponentType::ANIMATION:
+				return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 			case ComponentType::CANVAS:
 				return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
 			case ComponentType::IMAGE:
@@ -87,7 +91,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			case ComponentType::SCRIPT:
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 			case ComponentType::LIGHT:
-
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())
 				{

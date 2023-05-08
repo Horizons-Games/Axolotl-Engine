@@ -170,6 +170,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			}
 			return;
 		}
+
 		ImGui::EndPopup();
 	}
 	ImGui::PopID();
