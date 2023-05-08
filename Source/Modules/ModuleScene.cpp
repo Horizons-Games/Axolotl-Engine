@@ -1,13 +1,21 @@
 #include "ModuleScene.h"
 
 #include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "ModulePlayer.h"
+#include "ModuleRender.h"
 
-#include "Scene/Scene.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentAnimation.h"
+#include "Components/UI/ComponentCanvas.h"
+
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+
 #include "ModulePlayer.h"
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
@@ -16,6 +24,8 @@
 #include "Components/ComponentScript.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
+
+#include "Scene/Scene.h"
 
 #include "ScriptFactory.h"
 #include "IScript.h"
@@ -370,10 +380,10 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		{
 			//Quadtree treatment
 			AddGameObject(obj);
-
 		}
-
 	}
+
+	SetSceneRootAnimObjects(loadedObjects);
 
 	App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
 
@@ -385,6 +395,24 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 	loadedScene->InitLights();
+}
+
+void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
+{
+	for (GameObject* go : gameObjects)
+	{
+		if (go->GetComponent(ComponentType::ANIMATION) != nullptr)
+		{
+			GameObject* rootGo = go;
+
+			go->SetRootGO(rootGo);
+
+			for (GameObject* child : go->GetGameObjectsInside())
+			{
+				child->SetRootGO(rootGo);
+			}
+		}
+	}
 }
 
 /*
