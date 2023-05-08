@@ -44,6 +44,22 @@ void WindowComponentScript::DrawWindowContents()
 			ChangeScript(script, constructors[current_item]);
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
+
+		label = "Create Script##";
+		finalLabel = label + thisID;
+		if (ImGui::Button(finalLabel.c_str()))
+		{
+			ImGui::OpenPopup("Create new script");
+		}
+
+		ImGui::SetNextWindowSize(ImVec2(280, 75));
+
+		if (ImGui::BeginPopupModal("Create new script", nullptr,
+			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
+		{
+			CreateNewScript();
+			ImGui::EndPopup();
+		}
 	}
 
 	else
@@ -183,4 +199,23 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	Iscript->SetGameObject(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
+}
+
+void WindowComponentScript::CreateNewScript() const
+{
+	static char name[FILENAME_MAX] = "NewScript";
+	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
+	ImGui::NewLine();
+
+	ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+	if (ImGui::Button("Save", ImVec2(50, 20)))
+	{
+		ImGui::CloseCurrentPopup();
+	}
+
+	ImGui::SameLine(ImGui::GetWindowWidth() - 60);
+	if (ImGui::Button("Cancel"))
+	{
+		ImGui::CloseCurrentPopup();
+	}
 }

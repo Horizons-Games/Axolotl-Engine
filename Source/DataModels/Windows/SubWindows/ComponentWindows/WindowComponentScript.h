@@ -18,6 +18,9 @@ protected:
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
+
+	void CreateNewScript() const;
+
 	UID windowUID;
 };
 
