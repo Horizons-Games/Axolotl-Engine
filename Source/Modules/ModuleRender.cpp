@@ -218,6 +218,7 @@ update_status ModuleRender::Update()
 
 	//opaqueGOToDraw.clear();
 	//transparentGOToDraw.clear();
+	gameObjectsInFrustrum.clear();
 
 	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
 	if (skybox)
@@ -225,20 +226,23 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
+	const GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	//FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
-
+	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
+	
+	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
+	}
+	
 #ifndef ENGINE
 	AddToRenderList(App->player->GetPlayer());
 #endif // !ENGINE
 
-	/*if (isRoot) 
-	{
-		AddToRenderList(goSelected);
-	}*/
+	AddToRenderList(goSelected);
 	
 	// Bind camera info to the shaders
 	BindCameraToProgram(App->program->GetProgram(ProgramType::DEFAULT));
@@ -256,12 +260,6 @@ update_status ModuleRender::Update()
 
 	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
 		App->camera->GetCamera()->GetProjectionMatrix(), w, h);
-
-	/*std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
-	for (GameObject* nonStaticObj : nonStaticsGOs)
-	{
-		AddToRenderList(nonStaticObj);
-	}*/
 
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -290,8 +288,6 @@ update_status ModuleRender::Update()
 	batchManager->DrawTransparent();
 
 	glDisable(GL_BLEND);
-
-	gameObjectsInFrustrum.clear();
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -410,7 +406,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 	}
 }
 
-void ModuleRender::AddToRenderList(GameObject* gameObject)
+void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
 	float3 cameraPos = App->camera->GetCamera()->GetPosition();
 
@@ -430,31 +426,9 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 	{
 		if (gameObject->IsEnabled())
 		{
-			ComponentMeshRenderer* component = static_cast<ComponentMeshRenderer*>(
-				gameObject->GetComponent(ComponentType::MESHRENDERER));
-			if (component && component->GetBatch())
-			{
-				if (!CheckIfTransparent(gameObject))
-				{
-					renderMapOpaque[component->GetBatch()].push_back(component);
-				}
-				else
-				{
-					const ComponentTransform* transform =
-						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-					float dist = Length(cameraPos - transform->GetGlobalPosition());
-					while (transparentGOToDraw[dist] != nullptr) 
-					{
-						float addDistance = 0.0001f;
-						dist += addDistance;
-					}
-					transparentGOToDraw[dist] = component;
-					renderMapTransparent[transparentGOToDraw[dist]->GetBatch()].push_back(transparentGOToDraw[dist]);
-				}
-			}
+			gameObjectsInFrustrum.insert(gameObject);
 		}
 	}
-	
 
 	if (!gameObject->GetChildren().empty())
 	{

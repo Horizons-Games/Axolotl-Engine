@@ -41,7 +41,7 @@ public:
 	BatchManager* GetBatchManager() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
+	void AddToRenderList(const GameObject* gameObject);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 	bool IsSupportedPath(const std::string& modelPath);
