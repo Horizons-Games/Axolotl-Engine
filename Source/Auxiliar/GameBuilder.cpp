@@ -12,25 +12,25 @@ namespace builder
 {
 	void BuildGame(BuildType buildType)
 	{
-		std::string buildScriptPath = "..\\Source\\BuildScripts\\";
-		std::string buildScript = buildScriptPath;
+		std::wstring buildScriptPath = L"..\\Source\\BuildScripts\\";
+		std::wstring buildScript = buildScriptPath;
 		switch (buildType)
 		{
 		case BuildType::DEBUG_GAME:
 			ENGINE_LOG("Building DebugGame...\n");
-			buildScript += "buildDebug";
+			buildScript += L"buildDebug";
 			break;
 		case BuildType::RELEASE_GAME:
 			ENGINE_LOG("Building ReleaseGame...\n");
-			buildScript += "buildRelease";
+			buildScript += L"buildRelease";
 			break;
 		}
-		buildScript += ".bat";
+		buildScript += L".bat";
 
 		STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
 		PROCESS_INFORMATION processInfo = {};
 
-		BOOL success = CreateProcessA(
+		BOOL success = CreateProcess(
 			buildScript.c_str(), // lpApplicationName
 			NULL, // lpCommandLine
 			NULL, // lpProcessAttributes
@@ -45,5 +45,7 @@ namespace builder
 		WaitForSingleObject(processInfo.hProcess, INFINITE);
 		CloseHandle(processInfo.hThread);
 		CloseHandle(processInfo.hProcess);
+
+		App->GetModule<ModuleFileSystem>()->ZipLibFolder();
 	}
 }
