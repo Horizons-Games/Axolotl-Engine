@@ -20,12 +20,6 @@ public:
 	void ShortcutSave();
 
 private:
-	enum class GameBuildType
-	{
-		DEBUG_GAME,
-		RELEASE_GAME
-	};
-
 	void DrawWindowMenu();
 	void DrawFileMenu();
 	void DrawHelpMenu();
@@ -33,8 +27,6 @@ private:
 	void DrawPopup();
 	void CreateNewScene();
 	void Exit();
-
-	void BuildGame(GameBuildType buildType);
 
 	static bool defaultEnabled;
 

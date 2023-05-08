@@ -15,17 +15,11 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Init()
 {
     PHYSFS_init(nullptr);
-    PHYSFS_mount(".", nullptr, 0);
-    PHYSFS_mount("..", nullptr, 0);
-    PHYSFS_setWriteDir(".");
-#ifndef ENGINE
-    if (!Exists("Assets.zip"))
-    {
-        struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
-        ZipFolder(zip, "Lib");
-        zip_close(zip);
-    }
-    PHYSFS_unmount(".");
+#ifdef ENGINE
+	PHYSFS_mount(".", nullptr, 0);
+	PHYSFS_mount("..", nullptr, 0);
+	PHYSFS_setWriteDir(".");
+#else
     PHYSFS_mount("Assets.zip", nullptr, 0);
 #endif // GAME
     return true;
@@ -146,7 +140,7 @@ bool ModuleFileSystem::CleanUp() {
     return true;
 }
 
-std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath)
+std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath) const
 {
     std::vector< std::string> files;
     char **rc = PHYSFS_enumerateFiles(directoryPath);
@@ -281,7 +275,7 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
 }
 
-void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
+void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path) const
 {
     std::vector<std::string> files = ListFiles(path);
     for (int i = 0; i < files.size(); ++i)
@@ -305,4 +299,11 @@ void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path)
             zip_entry_close(zip);
         }
     }
+}
+
+void ModuleFileSystem::ZipLibFolder() const
+{
+	struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
+	ZipFolder(zip, "Lib");
+	zip_close(zip);
 }

@@ -19,7 +19,7 @@ public:
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath);
-	std::vector<std::string> ListFiles(const char* directoryPath);
+	std::vector<std::string> ListFiles(const char* directoryPath) const;
 	long long GetModificationDate(const char* filePath) const;
 	const std::string GetPathWithoutFile(const std::string& pathWithFile);
 	const std::string GetPathWithoutExtension(const std::string& pathWithExtension);
@@ -28,6 +28,7 @@ public:
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
 
 	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
-	void ZipFolder(struct zip_t* zip, const char* path);
+	void ZipFolder(struct zip_t* zip, const char* path) const;
+	void ZipLibFolder() const;
 };
 

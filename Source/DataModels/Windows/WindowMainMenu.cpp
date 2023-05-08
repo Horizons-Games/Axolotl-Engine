@@ -4,10 +4,9 @@
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "Auxiliar/GameBuilder.h"
 
 #include "SDL.h"
-
-#include <windows.h>
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
@@ -163,54 +162,12 @@ void WindowMainMenu::DrawBuildGameMenu()
 	{
 		if (ImGui::MenuItem("Debug"))
 		{
-			BuildGame(GameBuildType::DEBUG_GAME);
+			builder::BuildGame(builder::BuildType::DEBUG_GAME);
 		}
 		if (ImGui::MenuItem("Release"))
 		{
-			BuildGame(GameBuildType::RELEASE_GAME);
+			builder::BuildGame(builder::BuildType::RELEASE_GAME);
 		}
 		ImGui::EndMenu();
 	}
-}
-
-void WindowMainMenu::BuildGame(GameBuildType buildType)
-{
-	if (!system(nullptr))
-	{
-		ENGINE_LOG("No command processor available, not building");
-		return;
-	}
-	std::string buildScriptPath = "..\\Source\\BuildScripts\\";
-	std::string buildScript = buildScriptPath;
-	switch (buildType)
-	{
-	case WindowMainMenu::GameBuildType::DEBUG_GAME:
-		ENGINE_LOG("Building DebugGame...\n");
-		buildScript += "buildDebug";
-		break;
-	case WindowMainMenu::GameBuildType::RELEASE_GAME:
-		ENGINE_LOG("Building ReleaseGame...\n");
-		buildScript += "buildRelease";
-		break;
-	}
-	buildScript += ".bat";
-
-	STARTUPINFO startupInfo = { sizeof(STARTUPINFO) };
-	PROCESS_INFORMATION processInfo = {};
-	
-	BOOL success = CreateProcessA(
-		buildScript.c_str(), // lpApplicationName
-		NULL, // lpCommandLine
-		NULL, // lpProcessAttributes
-		NULL, // lpThreadAttributes
-		TRUE, // bInheritHandles
-		CREATE_NO_WINDOW, // dwCreationFlags
-		NULL, // lpEnvironment
-		NULL, // lpCurrentDirectory
-		&startupInfo,
-		&processInfo);
-	assert(success);
-	WaitForSingleObject(processInfo.hProcess, INFINITE);
-	CloseHandle(processInfo.hThread);
-	CloseHandle(processInfo.hProcess);
 }
