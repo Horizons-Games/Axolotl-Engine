@@ -8,6 +8,7 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentAnimation.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
@@ -460,6 +461,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(true, this);
+			break;
+		}
+		
 		case ComponentType::CANVAS:
 		{
 			newComponent = std::make_unique<ComponentCanvas>(true, this);
@@ -612,6 +619,27 @@ Component* GameObject::GetComponent(ComponentType type) const
 		}
 	}
 	
+	return nullptr;
+}
+
+GameObject* GameObject::FindGameObject(const std::string& name)
+{
+	if (this->name == name)
+	{
+		return this;
+	}
+	else
+	{
+		for (std::unique_ptr<GameObject>& child : children)
+		{
+			GameObject* returnedGO = child->FindGameObject(name);
+
+			if (returnedGO)
+			{
+				return returnedGO;
+			}
+		}
+	}
 	return nullptr;
 }
 

@@ -66,7 +66,7 @@ uniform int numLevels_IBL;
 
 uniform Light light;
 
-in vec3 fragTangent;
+in vec3 FragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
@@ -174,7 +174,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
 	vec3 norm = Normal;
-    vec3 tangent = fragTangent;
+    vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);

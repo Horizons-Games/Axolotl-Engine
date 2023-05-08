@@ -1,16 +1,17 @@
 {
-    "UID": 15713706821490620210,
+    "UID": 17042984207870838338,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/rodian_0.mesh",
-        "Assets/Meshes/rodian_1.mesh",
-        "Assets/Meshes/rodian_2.mesh",
-        "Assets/Meshes/rodian_3.mesh"
+        "Assets/Meshes/Head_0.mesh",
+        "Assets/Meshes/Head_1.mesh",
+        "Assets/Meshes/Head_2.mesh",
+        "Assets/Meshes/Head_3.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/rodian_0.mat",
-        "Assets/Materials/rodian_1.mat",
-        "Assets/Materials/rodian_2.mat",
-        "Assets/Materials/rodian_3.mat"
-    ]
+        "Assets/Materials/Head_0.mat",
+        "Assets/Materials/Torso_1.mat",
+        "Assets/Materials/Down_2.mat",
+        "Assets/Materials/Hands and Arms_3.mat"
+    ],
+    "AnimAssetPaths": null
 }

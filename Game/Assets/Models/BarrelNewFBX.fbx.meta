@@ -1,0 +1,11 @@
+{
+    "UID": 15676623095599289197,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Circle.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Material_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
