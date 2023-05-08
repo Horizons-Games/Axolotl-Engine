@@ -41,11 +41,8 @@ void WindowComponentScript::DrawWindowContents()
 	{
 		if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
-			if (script->GetConstructName() != constructors[current_item])
-			{
-				ChangeScript(script, constructors[current_item]);
-				ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
-			}
+			ChangeScript(script, constructors[current_item]);
+			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
 	}
 
@@ -67,14 +64,14 @@ void WindowComponentScript::DrawWindowContents()
 			ImGui::SameLine();
 		}
 
-		label = "Reset Script##";
+		label = "Remove Script##";
 		finalLabel = label + thisID;
 		if (ImGui::Button(finalLabel.c_str()))
 		{
-			ComponentScript* newScript = static_cast<ComponentScript*>(component);
+			ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
 
-			ChangeScript(newScript, newScript->GetConstructName().c_str());
-			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
+			script->SetScript(nullptr); // This deletes the script itself
+			script->SetConstuctor("");	// And this makes that it is also deleted from the serialization
 		}
 
 		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
