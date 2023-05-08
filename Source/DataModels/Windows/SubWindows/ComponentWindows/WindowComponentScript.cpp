@@ -35,17 +35,21 @@ void WindowComponentScript::DrawWindowContents()
 	std::string thisID = std::to_string(windowUID);
 	std::string finalLabel = label + separator + thisID;
 
-	if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), (int)(constructors.size()), 5))
+	const IScript* scriptObject = script->GetScript();
+
+	if (!scriptObject)
 	{
-		if (script->GetConstructName() != constructors[current_item])
+		if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
-			ChangeScript(script, constructors[current_item]);
-			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
+			if (script->GetConstructName() != constructors[current_item])
+			{
+				ChangeScript(script, constructors[current_item]);
+				ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
+			}
 		}
 	}
 
-	const IScript* scriptObject = script->GetScript();
-	if (scriptObject)
+	else
 	{
 		ImGui::Separator();
 
@@ -54,7 +58,7 @@ void WindowComponentScript::DrawWindowContents()
 		std::string fullScriptName = scriptName + scriptExtension;
 		ImGui::Text(fullScriptName.c_str());
 
-		if (ImGui::GetWindowWidth() > (float)fullScriptName.size() * 13.0f)
+		if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
 		{
 			ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
 		}
@@ -99,7 +103,7 @@ void WindowComponentScript::DrawWindowContents()
 				
 					label = stringField.name;
 					finalLabel = label + separator + thisID;
-					if (ImGui::InputText(finalLabel.c_str(), (char*)(value.c_str()), 24))
+					if (ImGui::InputText(finalLabel.c_str(), const_cast<char*>(value.c_str()), 24))
 					{
 						stringField.setter(value);
 					}
@@ -109,7 +113,7 @@ void WindowComponentScript::DrawWindowContents()
 				case FieldType::GAMEOBJECT:
 				{
 					Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-					GameObject* value = gameObjectField.getter();
+					const GameObject* value = gameObjectField.getter();
 
 					std::string gameObjectSlot = "Drag a GameObject here";
 					if (value != nullptr)
@@ -125,7 +129,7 @@ void WindowComponentScript::DrawWindowContents()
 					{
 						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
 						{
-							UID draggedGameObjectID = *(UID*)payload->Data;
+							UID draggedGameObjectID = *(static_cast<UID*>(payload->Data));
 							GameObject* draggedGameObject =
 								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
