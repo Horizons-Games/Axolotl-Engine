@@ -35,6 +35,7 @@ public:
 
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
+	void InsertToRenderList(GameObject* gameObject);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
