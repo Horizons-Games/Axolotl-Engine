@@ -19,7 +19,8 @@ protected:
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
 
-	void CreateNewScript() const;
+	void CreateNewScript();
+	void AddNewScriptToProject(const std::string& scriptName);
 
 	UID windowUID;
 };

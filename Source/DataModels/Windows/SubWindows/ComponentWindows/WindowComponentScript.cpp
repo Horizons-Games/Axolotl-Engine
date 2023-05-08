@@ -1,8 +1,13 @@
 #include "WindowComponentScript.h"
-#include "Components/ComponentScript.h"
+
 #include "Application.h"
 #include "Scene/Scene.h"
+
 #include "Modules/ModuleScene.h"
+#include "FileSystem/ModuleFileSystem.h"
+
+#include "Components/ComponentScript.h"
+
 #include "ScriptFactory.h"
 #include "IScript.h"
 
@@ -201,7 +206,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	newScript->SetScript(Iscript);
 }
 
-void WindowComponentScript::CreateNewScript() const
+void WindowComponentScript::CreateNewScript()
 {
 	static char name[FILENAME_MAX] = "NewScript";
 	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
@@ -210,6 +215,7 @@ void WindowComponentScript::CreateNewScript() const
 	ImGui::SameLine(ImGui::GetWindowWidth() - 120);
 	if (ImGui::Button("Save", ImVec2(50, 20)))
 	{
+		AddNewScriptToProject(name);
 		ImGui::CloseCurrentPopup();
 	}
 
@@ -218,4 +224,23 @@ void WindowComponentScript::CreateNewScript() const
 	{
 		ImGui::CloseCurrentPopup();
 	}
+}
+
+void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
+{
+	ENGINE_LOG("New script %s created", scriptName.c_str());
+
+	char* headerBuffer = nullptr;
+	char* sourceBuffer = nullptr;
+
+	unsigned int headerBufferSize = App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	unsigned int sourceBufferSize = App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+
+	std::string scriptsPath = "Scripts/";
+
+	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
+	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
+
+	App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferSize);
+	App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferSize);
 }
