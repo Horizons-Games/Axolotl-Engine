@@ -44,7 +44,7 @@ void WindowComponentScript::DrawWindowContents()
 		}
 	}
 
-	IScript* scriptObject = script->GetScript();
+	const IScript* scriptObject = script->GetScript();
 	if (scriptObject)
 	{
 		ImGui::Separator();
