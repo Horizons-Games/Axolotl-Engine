@@ -14,6 +14,7 @@
 #include "Windows/WindowMainMenu.h"
 #include "Windows/WindowDebug.h"
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
+#include "Windows/EditorWindows/WindowLoading.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -24,6 +25,7 @@
 #include "Windows/EditorWindows/WindowResources.h"
 #include "Windows/EditorWindows/WindowAssetFolder.h"
 #include "Resources/ResourceStateMachine.h"
+#include "Auxiliar/GameBuilder.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -117,6 +119,8 @@ bool ModuleEditor::Init()
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
+	buildGameLoading = std::make_unique<WindowLoading>();
+
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -176,7 +180,7 @@ update_status ModuleEditor::Update()
 #endif // DEBUG
 
 #ifdef ENGINE
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -223,7 +227,11 @@ update_status ModuleEditor::Update()
 	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
-	for (int i = 0; i < windows.size(); ++i) {
+
+	DrawLoadingBuild();
+
+	for (int i = 0; i < windows.size(); ++i) 
+	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
@@ -234,6 +242,26 @@ update_status ModuleEditor::Update()
 #endif
 
 	return update_status::UPDATE_CONTINUE;
+}
+
+void ModuleEditor::DrawLoadingBuild()
+{
+	bool gameCompiling = builder::Compiling();
+	bool zipping = builder::Zipping();
+	bool gameBuilding = gameCompiling || zipping;
+	if (gameCompiling)
+	{
+		buildGameLoading->AddWaitingOn("Game is being compiled...");
+	}
+	if (zipping)
+	{
+		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+	}
+	buildGameLoading->Draw(gameBuilding);
+	if (gameBuilding)
+	{
+		buildGameLoading->ResetWaitingOn();
+	}
 }
 
 update_status ModuleEditor::PostUpdate()

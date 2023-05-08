@@ -3,21 +3,41 @@
 
 WindowLoading::WindowLoading() : EditorWindow("Loading")
 {
-	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
+	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove;
 }
 
 WindowLoading::~WindowLoading()
 {
 }
 
+void WindowLoading::AddWaitingOn(const std::string& waitingCondition)
+{
+    waitingOn.push_back(waitingCondition);
+}
+
+void WindowLoading::ResetWaitingOn()
+{
+    waitingOn.clear();
+}
+
 void WindowLoading::DrawWindowContents()
 {
-	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());
+	ImGui::SetWindowPos(ImGui::GetWindowViewport()->Pos);
 	ImGui::SetWindowCollapsed(false);
 	ImGui::SetWindowFocus();
 	
-	ImGui::TextUnformatted("Loading...");
-	DrawSpinner("##spinner", 15, 6, col);
+	if (waitingOn.empty())
+    {
+	    ImGui::TextUnformatted("Loading...");
+		DrawSpinner("##spinner", 15, 6, col);
+        return;
+    }
+
+    for (const std::string& waitingCondition : waitingOn)
+    {
+		ImGui::TextUnformatted(waitingCondition.c_str());
+		DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+    }
 }
 
 //from: https://github.com/ocornut/imgui/issues/1901

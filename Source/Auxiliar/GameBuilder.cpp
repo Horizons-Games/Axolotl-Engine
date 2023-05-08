@@ -75,14 +75,14 @@ namespace builder
 		zipThread = std::async(std::launch::async, &CreateZip);
 	}
 
-	bool DoneCompiling()
-	{
-		return compileThread.valid() && compileThread._Is_ready();
+	bool Compiling()
+{
+		return compileThread.valid() && !compileThread._Is_ready();
 	}
 
-	bool DoneCreatingZip()
-	{
-		return zipThread.valid() && zipThread._Is_ready();
+	bool Zipping()
+{
+		return zipThread.valid() && !zipThread._Is_ready();
 	}
 
 }

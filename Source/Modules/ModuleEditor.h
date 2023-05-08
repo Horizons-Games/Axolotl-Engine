@@ -7,6 +7,7 @@ class WindowDebug;
 class WindowScene;
 class WindowInspector;
 class WindowStateMachineEditor;
+class WindowLoading;
 class Resource;
 class ResourceStateMachine;
 class GameObject;
@@ -54,6 +55,9 @@ private:
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;
+	
+	void DrawLoadingBuild();
+	std::unique_ptr<WindowLoading> buildGameLoading = nullptr;
 };
 
 inline void ModuleEditor::Resized()
