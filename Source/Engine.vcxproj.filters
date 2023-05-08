@@ -331,7 +331,7 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="ModulePhysics.cpp">
+    <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -704,7 +704,7 @@
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="ModulePhysics.h">
+    <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1842,9 +1842,6 @@
     </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
-      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
