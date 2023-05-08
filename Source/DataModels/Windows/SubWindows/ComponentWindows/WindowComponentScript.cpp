@@ -233,14 +233,25 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	char* headerBuffer = nullptr;
 	char* sourceBuffer = nullptr;
 
-	unsigned int headerBufferSize = App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
-	unsigned int sourceBufferSize = App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+	unsigned int headerBufferSize = 
+		App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	unsigned int sourceBufferSize = 
+		App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
 
 	std::string scriptsPath = "Scripts/";
 
 	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
 	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
 
-	App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferSize);
-	App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferSize);
+	// Both header and source have the same name, so only checking the header is enough
+	if (!App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
+	{
+		App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferSize);
+		App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferSize);
+	}
+
+	else
+	{
+		ENGINE_LOG("That name is already in use, please use a different one");
+	}
 }
