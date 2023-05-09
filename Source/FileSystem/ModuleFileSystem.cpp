@@ -135,7 +135,7 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath) const
 
 std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath) const
 {
-    std::vector< std::string> files;
+    std::vector<std::string> files;
     char **rc = PHYSFS_enumerateFiles(directoryPath);
     char **i;
     for (i = rc; *i != NULL; i++)
@@ -143,6 +143,16 @@ std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath) 
         files.push_back(*i);
     }
     PHYSFS_freeList(rc);
+    return files;
+}
+
+std::vector<std::string> ModuleFileSystem::ListFilesWithPath(const char* directoryPath)
+{
+    std::vector<std::string> files = ListFiles(directoryPath);
+    for (int i = 0; i < files.size(); i++)
+    {
+        files[i] = directoryPath + files[i];
+    }
     return files;
 }
 

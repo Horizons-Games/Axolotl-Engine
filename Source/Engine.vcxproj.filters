@@ -97,9 +97,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -170,9 +167,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
@@ -283,6 +277,12 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Cubemap\Cubemap.cpp">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceCubemap.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
@@ -363,6 +363,9 @@
     </ClCompile>
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -477,9 +480,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -556,9 +556,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -730,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\FieldType.h">
       <Filter>Enums</Filter>
@@ -1839,6 +1839,15 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Cubemap\Cubemap.h">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceCubemap.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceStateMachine.h">
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
@@ -1993,6 +2002,9 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Cubemap">
+      <UniqueIdentifier>{e6de1d9d-d6ec-4f99-957d-b73e5d0acbd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts">
       <UniqueIdentifier>{c67e2114-139e-40b9-86b5-db58ee12ffda}</UniqueIdentifier>
