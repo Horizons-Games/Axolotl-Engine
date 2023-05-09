@@ -16,6 +16,9 @@ class TextureImporter;
 class MeshImporter;
 class MaterialImporter;
 class SkyBoxImporter;
+class CubemapImporter;
+class AnimationImporter;
+class StateMachineImporter;
 
 class ResourceMaterial;
 class EditorResourceInterface;
@@ -97,6 +100,9 @@ private:
 	std::unique_ptr<MeshImporter> meshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
+	std::unique_ptr<CubemapImporter> cubemapImporter;
+	std::unique_ptr<AnimationImporter> animationImporter;
+	std::unique_ptr<StateMachineImporter> stateMachineImporter;
 
 	std::thread monitorThread;
 	bool monitorResources;

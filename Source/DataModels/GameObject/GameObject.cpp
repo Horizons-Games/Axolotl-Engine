@@ -4,11 +4,11 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentLight.h"
-#include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentAnimation.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
@@ -461,6 +461,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(true, this);
+			break;
+		}
+		
 		case ComponentType::CANVAS:
 		{
 			newComponent = std::make_unique<ComponentCanvas>(true, this);
@@ -537,10 +543,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	switch (lightType)
 	{
-	case LightType::AMBIENT:
-		newComponent = std::make_unique<ComponentAmbient>(float3(0.05f), this);
-		break;
-
 	case LightType::DIRECTIONAL:
 		newComponent = std::make_unique<ComponentDirLight>(float3(1.0f), 1.0f, this);
 		break;
@@ -617,6 +619,27 @@ Component* GameObject::GetComponent(ComponentType type) const
 		}
 	}
 	
+	return nullptr;
+}
+
+GameObject* GameObject::FindGameObject(const std::string& name)
+{
+	if (this->name == name)
+	{
+		return this;
+	}
+	else
+	{
+		for (std::unique_ptr<GameObject>& child : children)
+		{
+			GameObject* returnedGO = child->FindGameObject(name);
+
+			if (returnedGO)
+			{
+				return returnedGO;
+			}
+		}
+	}
 	return nullptr;
 }
 
