@@ -194,10 +194,34 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                                                                          // of the UID of the dragged GameObject
             GameObject* draggedGameObject =
                 loadedScene->SearchGameObjectByID(draggedGameObjectID);
+
             if (draggedGameObject)
             {
+                GameObject* parentGameObject =
+                    draggedGameObject->GetParent();
+
+                GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
+                if (selectedGameObject && selectedGameObject->GetParent())
+                {
+                    std::list<GameObject*> listSGO = selectedGameObject->GetGameObjectsInside();
+                    bool actualParentSelected = std::find(listSGO.begin(), listSGO.end(), 
+                                                parentGameObject) != listSGO.end();
+                    bool newParentSelected = std::find(listSGO.begin(), listSGO.end(), gameObject) != listSGO.end();
+
+                    if(actualParentSelected && !newParentSelected)
+                    {
+                        moduleScene->AddGameObjectAndChildren(draggedGameObject);
+                    }
+                    else if (!actualParentSelected && newParentSelected)
+                    {
+                        moduleScene->RemoveGameObjectAndChildren(draggedGameObject);
+                    }
+                }
+
                 draggedGameObject->SetParent(gameObject);
             }
+
+
         }
 
         ImGui::EndDragDropTarget();
