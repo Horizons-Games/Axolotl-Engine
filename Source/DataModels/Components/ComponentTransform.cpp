@@ -193,7 +193,7 @@ void ComponentTransform::CalculateBoundingBoxes()
 // CalculateLocalFromNewGlobal
 // This will calculate the new local that the object needs to be iin order not to move with the change of father
 //
-void ComponentTransform::CalculateLocalFromNewGlobal(float4x4 nglobalMatrix)
+void ComponentTransform::CalculateLocalFromNewGlobal(const float4x4& nglobalMatrix)
 {
 	float3 nPos,nSca;
 	float4x4 nRot;

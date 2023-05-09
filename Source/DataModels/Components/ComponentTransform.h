@@ -63,7 +63,7 @@ public:
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* vertices, unsigned numVertices);
 
-	void CalculateLocalFromNewGlobal( float4x4 globalMatrix );
+	void CalculateLocalFromNewGlobal(const float4x4& globalMatrix );
 
 private:
 	float3 pos;
