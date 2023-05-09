@@ -206,7 +206,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	newScript->SetScript(Iscript);
 }
 
-void WindowComponentScript::CreateNewScript()
+void WindowComponentScript::OpenCreateNewScriptPopUp()
 {
 	static char name[FILENAME_MAX] = "NewScript";
 	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
@@ -233,10 +233,17 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	char* headerBuffer = nullptr;
 	char* sourceBuffer = nullptr;
 
-	unsigned int headerBufferSize = 
-		App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
-	unsigned int sourceBufferSize = 
-		App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+
+	std::string headerBufferAsString = headerBuffer;
+	std::string sourceBufferAsString = sourceBuffer;
+
+	ReplaceSubstringsInString(headerBufferAsString, "{0}", scriptName);
+	ReplaceSubstringsInString(sourceBufferAsString, "{0}", scriptName);
+
+	headerBuffer = headerBufferAsString.data();
+	sourceBuffer = sourceBufferAsString.data();
 
 	std::string scriptsPath = "Scripts/";
 
@@ -246,12 +253,28 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	// Both header and source have the same name, so only checking the header is enough
 	if (!App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
 	{
-		App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferSize);
-		App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferSize);
+		App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
+		App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
 	}
 
 	else
 	{
 		ENGINE_LOG("That name is already in use, please use a different one");
+	}
+}
+
+void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
+	const std::string& from, const std::string& to)
+{
+	if (from.empty())
+	{
+		return;
+	}
+
+	size_t startPos = 0;
+	while ((startPos = stringToReplace.find(from, startPos)) != std::string::npos)
+	{
+		stringToReplace.replace(startPos, from.length(), to);
+		startPos += to.length();
 	}
 }
