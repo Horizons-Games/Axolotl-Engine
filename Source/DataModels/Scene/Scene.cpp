@@ -32,7 +32,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/UI/ComponentCanvas.h"
 
-#include "DataStructures/Quadtree.h" //TODO look
+#include "DataStructures/Quadtree.h"
 
 Scene::Scene() : root(nullptr), directionalLight(nullptr), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
 rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
