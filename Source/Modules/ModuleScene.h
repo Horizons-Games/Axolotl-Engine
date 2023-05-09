@@ -28,6 +28,7 @@ public:
 	void SetSelectedGameObject(GameObject* gameObject);
 	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
+	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveSceneToJson(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);

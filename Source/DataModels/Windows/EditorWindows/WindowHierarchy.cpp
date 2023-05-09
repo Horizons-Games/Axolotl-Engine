@@ -111,7 +111,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
     {
-        if(gameObject->GetComponent(ComponentType::TRANSFORM) != nullptr)
+        if (gameObject->GetComponent(ComponentType::TRANSFORM) != nullptr)
         {
             if (ImGui::MenuItem("Create Empty child"))
             {
@@ -173,6 +173,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             }
             return;
         }
+
         ImGui::EndPopup();
     }
     ImGui::PopID();
