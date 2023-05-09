@@ -455,11 +455,7 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
 		{
-			if (light->GetLightType() == LightType::AMBIENT)
-			{
-				ambientLight = obj;
-			}
-			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			if (light->GetLightType() == LightType::DIRECTIONAL)
 			{
 				directionalLight = obj;
 			}
@@ -468,7 +464,6 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 		{
 			//Quadtree treatment
 			AddGameObject(obj);
-
 		}
 
 	}
