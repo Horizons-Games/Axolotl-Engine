@@ -68,6 +68,7 @@ bool ModuleFileSystem::Copy(const std::string& sourceFilePath, const std::string
     char* buffer = nullptr;
     unsigned int size = Load(sourceFilePath, buffer);
     Save(destinationFilePath, buffer, size, false);
+    delete buffer;
     return true;
 }
 
