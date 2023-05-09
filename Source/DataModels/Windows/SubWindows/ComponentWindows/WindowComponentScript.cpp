@@ -100,7 +100,7 @@ void WindowComponentScript::DrawWindowContents()
 				
 					label = stringField.name;
 					finalLabel = label + separator + thisID;
-					if (ImGui::InputText(finalLabel.c_str(), const_cast<char*>(value.c_str()), 24))
+					if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
 					{
 						stringField.setter(value);
 					}
