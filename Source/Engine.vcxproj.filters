@@ -364,6 +364,9 @@
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModulePhysics.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -730,6 +733,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModulePhysics.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1466,9 +1472,6 @@
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\SystemTable.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClCompile Include="Scripting\ScriptFactory.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
@@ -1911,9 +1914,6 @@
     </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
-      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
