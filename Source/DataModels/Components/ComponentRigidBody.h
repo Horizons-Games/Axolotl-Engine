@@ -1,191 +1,129 @@
 #pragma once
 #include "Component.h"
+#include "ComponentTransform.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Bullet/LinearMath/btVector3.h"
+#include <functional>
+#include <vector>
 
-#include "Math/float3.h"
-#include "Math/Quat.h"
-
-
-enum class ForceMode
-{
-	Force,
-	Acceleration,
-	Impulse,
-	VelocityChange
-};
-
-class ComponentTransform;
+class btRigidBody;
+struct btDefaultMotionState;
+class btCollisionShape;
 
 class ComponentRigidBody : public Component, public Updatable
 {
 public:
-	ComponentRigidBody(bool active, GameObject* owner);
-	ComponentRigidBody(const ComponentRigidBody& componentRigidBody);
-	~ComponentRigidBody() override;
 
-	void Update() override;
+    enum class SHAPE
+    {
+        NONE = 0,
+        BOX = 1,
+        SPHERE = 2,
+        CAPSULE = 3,
+        CYLINDER = 4,
+        CONE = 5,
+        CONVEX_HULL = 6,
+        TRIANGLE_MESH = 7,
+        TERRAIN = 8
+    };
 
-	void AddForce(const float3& force, ForceMode mode = ForceMode::Force);
-	void AddTorque(const float3& torque, ForceMode mode = ForceMode::Force);
+    ComponentRigidBody(const bool active, GameObject* owner);
+    ~ComponentRigidBody();
 
-	void SetPositionTarget(const float3& targetPos);
-	void SetRotationTarget(const Quat& targetRot);
-	void DisablePositionController();
-	void DisableRotationController();
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+    void OnCollisionEnter(ComponentRigidBody* other);
 
-	bool GetIsKinematic() const;
-	void SetIsKinematic(bool newIsKinematic);
-	
-	float GetMass() const;
-	void SetMass(float newMass);
+    void OnCollisionStay(ComponentRigidBody* other);
 
-	float3 GetGravity() const;
-	void SetGravity(float3 newGravity);
+    void OnCollisionExit(ComponentRigidBody* other);
 
-	bool IsOnGround() const;
-	
-	bool GetUsePositionController() const;
-	void SetUsePositionController(bool newUsePositionController);
-	
-	bool GetUseRotationController() const;
-	void SetUseRotationController(bool newUsePositionController);
-	
-	float GetKpForce() const;
-	void SetKpForce(float newKpForce);
-	
-	float GetKpTorque() const;
-	void SetKpTorque(float newKpForce);
-	
-	void SetBottomHitPoint(float height);
+    void Update() override;
+
+    uint32_t GetID() const { return id; }
+
+    void SaveOptions(Json& meta) override;
+    void LoadOptions(Json& meta) override;
+
+    bool GetIsKinematic() const;
+    bool GetIsStatic() const;
+    int GetShape() const;
+
+    void SetIsKinematic(bool isKinematic);
+    void SetIsStatic(bool isStatic);
+
+    void SetupMobility();
+
+    void SetCollisionShape(SHAPE newShape);
+
+    void SetVelocity(const float3& force);
+
+    void SetMass(float newMass);
+    
+    void SetGravity(btVector3 newGravity);
+
+    void SetLinearDamping(float newDamping);
+
+    void SetAngularDamping(float newDamping);
+
+    void SetRestitution(float restitution);
+
+    void RemoveRigidBodyFromSimulation();
+
+    btRigidBody* GetRigidBody() const { return rigidBody; }
+
+    template <typename T>
+    void AddCollisionEnterDelegate(void (T::* func)(ComponentRigidBody*), T* obj) {
+        delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
+    }
+
 
 private:
-	ComponentTransform* transform;
-	bool isKinematic;
-	float mass;
 
-	float3 x;
-	Quat q;
-	float3 g;
-	float3 v0;
-	float3 w0;
+    btRigidBody* rigidBody = nullptr;
+    btDefaultMotionState* motionState = nullptr;
+    btCollisionShape* shape = nullptr;
 
-	float height;
-	bool bootsOnGround = false;
+    btVector3 gravity = { 0, -9.81f, 0 };
+    float linearDamping = 0.1f;
+    float angularDamping = 0.1f;
+    float mass = 100.0f;
+    float restitution = 0.f;
 
-	float3 targetPosition;
-	Quat targetRotation;
-	bool usePositionController = false;
-	bool useRotationController = false;
-	float KpForce = 5.0f;
-	float KpTorque = 0.05f;
-	float3 externalForce = float3::zero;
-	float3 externalTorque = float3::zero;
+    bool isKinematic = false;
+    bool isStatic = false;
 
-	void ApplyForce();
-	void ApplyTorque();
+    int currentShape = 0;
+
+    ComponentTransform* transform;
+
+    uint32_t id = 0;
+
+    //Delegate for collision enter event the parameter is the other collider
+    std::vector<std::function<void(ComponentRigidBody*)>> delegateCollisionEnter;
+
 };
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {
-	return isKinematic;
+    return isKinematic;
+}
+
+inline bool ComponentRigidBody::GetIsStatic() const
+{
+    return isStatic;
+}
+
+inline int ComponentRigidBody::GetShape() const
+{
+    return currentShape;
 }
 
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
 {
-	isKinematic = newIsKinematic;
+    isKinematic = newIsKinematic;
 }
 
-inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
+inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 {
-	targetPosition = targetPos;
-	usePositionController = true;
-}
-
-inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
-{
-	targetRotation = targetRot;
-	useRotationController = true;
-}
-
-inline void ComponentRigidBody::DisablePositionController()
-{
-	usePositionController = false;
-}
-
-inline void ComponentRigidBody::DisableRotationController()
-{
-	useRotationController = false;
-}
-
-inline void ComponentRigidBody::SetBottomHitPoint(float height)
-{
-	this->height = height;
-}
-
-inline bool ComponentRigidBody::IsOnGround() const
-{
-	return bootsOnGround;
-}
-
-inline float ComponentRigidBody::GetMass() const
-{
-	return mass;
-}
-
-inline void ComponentRigidBody::SetMass(float newMass)
-{
-	mass = newMass;
-}
-
-inline float3 ComponentRigidBody::GetGravity() const
-{
-	return g;
-}
-
-inline void ComponentRigidBody::SetGravity(float3 newGravity)
-{
-	g = newGravity;
-}
-
-inline bool ComponentRigidBody::GetUsePositionController() const
-{
-	return usePositionController;
-}
-
-inline void ComponentRigidBody::SetUsePositionController(bool newUsePositionController)
-{
-	usePositionController = newUsePositionController;
-}
-
-inline bool ComponentRigidBody::GetUseRotationController() const
-{
-	return useRotationController;
-}
-
-inline void ComponentRigidBody::SetUseRotationController(bool newUseRotationController)
-{
-	useRotationController = newUseRotationController;
-}
-
-inline float ComponentRigidBody::GetKpForce() const
-{
-	return KpForce;
-}
-
-inline void ComponentRigidBody::SetKpForce(float newKpForce)
-{
-	KpForce = newKpForce;
-}
-
-inline float ComponentRigidBody::GetKpTorque() const
-{
-	return KpTorque;
-}
-
-inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
-{
-	KpTorque = newKpTorque;
+    isStatic = newIsStatic;
 }
