@@ -14,6 +14,10 @@ class ComponentRigidBody;
 class ModulePhysics : public Module
 {
 public:
+
+	ModulePhysics();
+	~ModulePhysics() override;
+
 	bool Init() override;
 	update_status PreUpdate() override;
 
