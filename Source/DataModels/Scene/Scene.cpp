@@ -22,8 +22,6 @@
 #include <stack>
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentPointLight.h"
-#include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentImage.h"
