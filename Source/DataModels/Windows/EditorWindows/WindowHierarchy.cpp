@@ -6,7 +6,8 @@
 #include "ModulePlayer.h"
 #include "Scene/Scene.h"
 #include "ModuleInput.h"
-#include "GameObject/GameObject.h"
+
+#include "DataStructures/Quadtree.h"
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -291,7 +292,6 @@ bool WindowHierarchy::IsModifiable(const GameObject* gameObject) const
     Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
     return gameObject != loadedScene->GetRoot() &&
-        gameObject != loadedScene->GetAmbientLight() &&
         gameObject != loadedScene->GetDirectionalLight();
 }
 

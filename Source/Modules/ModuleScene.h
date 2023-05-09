@@ -9,7 +9,6 @@
 class GameObject;
 class Quadtree;
 class Scene;
-class Skybox;
 
 
 class ModuleScene : public Module
@@ -58,7 +57,6 @@ private:
 
 private:
 	std::unique_ptr<Scene> loadedScene;
-	std::unique_ptr<Skybox> skybox;
 	GameObject* selectedGameObject;
 	std::string sceneToLoad;
 

@@ -23,7 +23,10 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentScript.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Resources/ResourceCubemap.h"
+#include "DataStructures/Quadtree.h"
 
 #include "Scene/Scene.h"
 
@@ -54,13 +57,7 @@ bool ModuleScene::Start()
 	{
 		loadedScene = CreateEmptyScene();
 	}
-	std::shared_ptr<ResourceSkyBox> resourceSkybox =
-		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
-
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
-	}
+	
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
@@ -180,7 +177,6 @@ update_status ModuleScene::PostUpdate()
 bool ModuleScene::CleanUp()
 {
 	loadedScene = nullptr;
-	skybox = nullptr;
 	return true;
 }
 
@@ -284,6 +280,9 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	const Skybox* skybox = loadedScene->GetSkybox();
 	skybox->SaveOptions(jsonScene);
 
+	const Cubemap* cubemap = loadedScene->GetCubemap();
+	cubemap->SaveOptions(jsonScene);
+
 	rapidjson::StringBuffer buffer;
 	jsonScene.toBuffer(buffer);
 
@@ -368,13 +367,16 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	Skybox* skybox = loadedScene->GetSkybox();
 	skybox->LoadOptions(json);
 
+	loadedScene->SetCubemap(std::make_unique<Cubemap>());
+	Cubemap* cubemap = loadedScene->GetCubemap();
+	cubemap->LoadOptions(json);
+
 	Json gameObjects = json["GameObjects"];
 	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects);
 
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
-	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
@@ -397,11 +399,7 @@ void ModuleScene::SetSceneFromJson(Json& json)
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
 		{
-			if (light->GetLightType() == LightType::AMBIENT)
-			{
-				ambientLight = obj;
-			}
-			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			if (light->GetLightType() == LightType::DIRECTIONAL)
 			{
 				directionalLight = obj;
 			}
@@ -422,7 +420,6 @@ void ModuleScene::SetSceneFromJson(Json& json)
 	loadedScene->SetSceneCameras(loadedCameras);
 	loadedScene->SetSceneCanvas(loadedCanvas);
 	loadedScene->SetSceneInteractable(loadedInteractable);
-	loadedScene->SetAmbientLight(ambientLight);
 	loadedScene->SetDirectionalLight(directionalLight);
 	loadedScene->InitLights();
 }
@@ -458,11 +455,7 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 		for (ComponentLight* light : lightsOfObj)
 		{
-			if (light->GetLightType() == LightType::AMBIENT)
-			{
-				ambientLight = obj;
-			}
-			else if (light->GetLightType() == LightType::DIRECTIONAL)
+			if (light->GetLightType() == LightType::DIRECTIONAL)
 			{
 				directionalLight = obj;
 			}
@@ -471,7 +464,6 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 		{
 			//Quadtree treatment
 			AddGameObject(obj);
-
 		}
 
 	}

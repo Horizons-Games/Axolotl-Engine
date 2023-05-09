@@ -8,6 +8,7 @@
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
+#include "FileSystem/Importers/CubemapImporter.h"
 #include "FileSystem/Importers/AnimationImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
 
@@ -15,6 +16,7 @@
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceAnimation.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
@@ -40,6 +42,7 @@ bool ModuleResources::Init()
 	meshImporter = std::make_unique<MeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
+	cubemapImporter = std::make_unique<CubemapImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
 	CreateAssetAndLibFolders();
@@ -152,6 +155,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	case ResourceType::SkyBox:
 		res = std::shared_ptr<EditorResource<ResourceSkyBox>>(new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
+	case ResourceType::Cubemap:
+		res = std::shared_ptr<EditorResource<ResourceCubemap>>(new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	case ResourceType::Animation:
 		res = std::shared_ptr<EditorResource<ResourceAnimation>>(new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
@@ -179,6 +185,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::SkyBox:
 		return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::Cubemap:
+		return std::make_shared<ResourceCubemap>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::Animation:
 		return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::StateMachine:
@@ -289,6 +297,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::SkyBox:
 				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 				break;
+			case ResourceType::Cubemap:
+				cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
+				break;
 			case ResourceType::Animation:
 				animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
 				break;
@@ -376,6 +387,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 	case ResourceType::SkyBox:
 		skyboxImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceSkyBox>(resource));
 		break;
+	case ResourceType::Cubemap:
+		cubemapImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceCubemap>(resource));
+		break;
 	case ResourceType::Animation:
 		animationImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceAnimation>(resource));
 		break;
@@ -403,14 +417,19 @@ void ModuleResources::CreateAssetAndLibFolders()
 	//(actually there is a library that looks really clean but might be overkill:
 	// https://github.com/Neargye/magic_enum)
 	//ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,
-												  ResourceType::Mesh,
-												  ResourceType::Model,
-												  ResourceType::Scene,
-												  ResourceType::Texture,
-												  ResourceType::SkyBox,
-												  ResourceType::Animation,
-												  ResourceType::StateMachine};
+	std::vector<ResourceType> allResourceTypes = 
+	{	
+		ResourceType::Material,
+		ResourceType::Mesh,
+		ResourceType::Model,
+		ResourceType::Scene,
+		ResourceType::Texture,
+		ResourceType::SkyBox,
+		ResourceType::Cubemap,
+		ResourceType::Animation,
+		ResourceType::StateMachine
+	};
+	
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -468,8 +487,7 @@ void ModuleResources::MonitorResources()
 						toCreateMeta.push_back(resource);
 					}
 					//these type's assets are binary files changed in runtime
-					else if (resource->GetType() != ResourceType::Mesh &&
-						resource->GetType() != ResourceType::Material)
+					else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
 					{
 						long long assetTime =
 							App->GetModule<ModuleFileSystem>()->GetModificationDate(resource->GetAssetsPath().c_str());
@@ -611,13 +629,17 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	}
 	else if (normalizedExtension == JPG_TEXTURE_EXTENSION || normalizedExtension == PNG_TEXTURE_EXTENSION || 
 			normalizedExtension == TIF_TEXTURE_EXTENSION || normalizedExtension == DDS_TEXTURE_EXTENSION || 
-			normalizedExtension == TGA_TEXTURE_EXTENSION) 
+			normalizedExtension == TGA_TEXTURE_EXTENSION || normalizedExtension == HDR_TEXTURE_EXTENSION)
 	{
 		return ResourceType::Texture;
 	}
 	else if(normalizedExtension == SKYBOX_EXTENSION)
 	{
 		return ResourceType::SkyBox;
+	}
+	else if (normalizedExtension == CUBEMAP_EXTENSION)
+	{
+		return ResourceType::Cubemap;
 	}
 	else if (normalizedExtension == SCENE_EXTENSION) 
 	{
@@ -659,6 +681,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 		return "Materials";
 	case ResourceType::SkyBox:
 		return "SkyBox";
+	case ResourceType::Cubemap:
+		return "Cubemaps";
 	case ResourceType::Animation:
 		return "Animation";
 	case ResourceType::StateMachine:
@@ -672,21 +696,41 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 {
 	if (typeName == "Models")
+	{
 		return ResourceType::Model;
+	}
 	if (typeName == "Textures")
+	{
 		return ResourceType::Texture;
+	}
 	if (typeName == "Meshes")
+	{
 		return ResourceType::Mesh;
+	}
 	if (typeName == "Scenes")
+	{
 		return ResourceType::Scene;
+	}
 	if (typeName == "Materials")
+	{
 		return ResourceType::Material;
+	}
 	if (typeName == "SkyBox")
+	{
 		return ResourceType::SkyBox;
+	}
+	if (typeName == "Cubemaps")
+	{
+		return ResourceType::Cubemap;
+	}
 	if (typeName == "Animation")
+	{
 		return ResourceType::Animation;
+	}
 	if (typeName == "StateMachine")
+	{
 		return ResourceType::StateMachine;
+	}
 	return ResourceType::Unknown;
 }
 
