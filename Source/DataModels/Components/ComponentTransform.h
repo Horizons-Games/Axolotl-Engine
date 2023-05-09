@@ -29,10 +29,10 @@ public:
 	const float3& GetRotationXYZ() const;
 	const float4x4& GetGlobalRotation() const;
 	const float3& GetScale() const;
-	const float3& GetLocalForward() const;
-	const float3& GetGlobalForward() const;
-	const float3& GetGlobalUp() const;
-	const float3& GetGlobalRight() const;
+	float3 GetLocalForward() const;
+	float3 GetGlobalForward() const;
+	float3 GetGlobalUp() const;
+	float3 GetGlobalRight() const;
 	const float3& GetGlobalScale() const;
 
 	const float4x4& GetLocalMatrix() const;
@@ -53,6 +53,7 @@ public:
 	void SetDrawBoundingBoxes(bool newDraw);
 
 	void CalculateMatrices();
+	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices();
 
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
@@ -118,22 +119,22 @@ inline const float3& ComponentTransform::GetGlobalScale() const
 	return globalSca;
 }
 
-inline const float3& ComponentTransform::GetLocalForward() const
+inline float3 ComponentTransform::GetLocalForward() const
 {
 	return localMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalForward() const
+inline float3 ComponentTransform::GetGlobalForward() const
 {
 	return globalMatrix.WorldZ();
 }
 
-inline const float3& ComponentTransform::GetGlobalUp() const
+inline float3 ComponentTransform::GetGlobalUp() const
 {
 	return globalMatrix.WorldY();
 }
 
-inline const float3& ComponentTransform::GetGlobalRight() const
+inline float3 ComponentTransform::GetGlobalRight() const
 {
 	return globalMatrix.WorldX();
 }

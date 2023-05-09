@@ -15,6 +15,7 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
+#include "ModuleCommand.h"
 #include "ScriptFactory.h"
 
 #include <ranges>
@@ -37,6 +38,7 @@ Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
 	modules[static_cast<int>(ModuleToEnum<ModuleUI>::value)] = std::make_unique<ModuleUI>();
 	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
 	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
+	modules[static_cast<int>(ModuleToEnum<ModuleCommand>::value)] = std::make_unique<ModuleCommand>();
 }
 
 Application::~Application()

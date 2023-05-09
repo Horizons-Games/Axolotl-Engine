@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "",
     "NormalAssetPath": "Assets/Textures/PanelKeyWhite_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }

@@ -13,6 +13,8 @@ class Resource;
 enum class LightType;
 class ComponentWindow;
 
+struct AddComponentAction;
+
 class WindowInspector : public EditorWindow
 {
 public:
@@ -39,6 +41,8 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type);
 	void AddComponentPlayer();
+	void AddComponentAnimation();
+
 	void AddComponentRigidBody();
 	void AddComponentMockState();
 	void AddComponentAudioSource();
@@ -63,7 +67,9 @@ private:
 
 	UID lastSelectedObjectUID;
 	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
+	std::vector<AddComponentAction> actions;
 };
+
 
 inline bool WindowInspector::MousePosIsInWindow()
 {

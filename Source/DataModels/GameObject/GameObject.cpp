@@ -9,6 +9,7 @@
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
+#include "../Components/ComponentAnimation.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentButton.h"
@@ -55,13 +56,13 @@ GameObject::GameObject(const GameObject& gameObject) :
 {
 	for (auto component : gameObject.GetComponents())
 	{
-		CopyComponent(component->GetType(), component);
+		CopyComponent(component);
 	}
 
 	for (auto child : gameObject.GetChildren())
 	{
-		GameObject* newChild = new GameObject(static_cast<GameObject&>(*child));
-		newChild->SetParent(this);
+		GameObject* newChild = new GameObject(*child);
+		newChild->parent = this;
 		LinkChild(newChild);
 	}
 }
@@ -168,7 +169,7 @@ void GameObject::InitNewEmptyGameObject(bool is3D)
 	}
 }
 
-void GameObject::MoveParent(GameObject* newParent)
+void GameObject::SetParent(GameObject* newParent)
 {
 	assert(newParent);
 
@@ -178,7 +179,10 @@ void GameObject::MoveParent(GameObject* newParent)
 		return;
 	}
 
-	newParent->LinkChild(parent->UnlinkChild(this));
+	// it's fine to ignore the return value in this case
+	// since the pointer returned will be "this"
+	std::ignore = parent->UnlinkChild(this);
+	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
@@ -244,15 +248,15 @@ void GameObject::SetComponents(std::vector<std::unique_ptr<Component>>& componen
 	}
 }
 
-void GameObject::CopyComponent(ComponentType type, Component* component)
+void GameObject::CopyComponent(Component* component)
 {
 	std::unique_ptr<Component> newComponent;
 
+	ComponentType type = component->GetType();
 	switch (type)
 	{
 	case ComponentType::TRANSFORM:
 	{
-		
 		newComponent = std::make_unique<ComponentTransform>(static_cast<ComponentTransform&>(*component));
 		break;
 	}
@@ -295,8 +299,44 @@ void GameObject::CopyComponent(ComponentType type, Component* component)
 		break;
 	}
 
+	case ComponentType::AUDIOLISTENER:
+	{
+		newComponent = std::make_unique<ComponentAudioListener>(*static_cast<ComponentAudioListener*>(component));
+		break;
+	}
+
+	case ComponentType::AUDIOSOURCE:
+	{
+		newComponent = std::make_unique<ComponentAudioSource>(*static_cast<ComponentAudioSource*>(component));
+		break;
+	}
+
+	case ComponentType::IMAGE:
+	{
+		newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
+		break;
+	}
+
+	case ComponentType::BUTTON:
+	{
+		newComponent = std::make_unique<ComponentButton>(*static_cast<ComponentButton*>(component));
+		break;
+	}
+
+	case ComponentType::TRANSFORM2D:
+	{
+		newComponent = std::make_unique<ComponentTransform2D>(*static_cast<ComponentTransform2D*>(component));
+		break;
+	}
+
+	case ComponentType::CANVAS:
+	{
+		newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
+		break;
+	}
+
 	default:
-		assert(false && "Wrong component type introduced");
+		ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -422,6 +462,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(true, this);
+			break;
+		}
+		
 		case ComponentType::CANVAS:
 		{
 			newComponent = std::make_unique<ComponentCanvas>(true, this);
@@ -581,6 +627,27 @@ Component* GameObject::GetComponent(ComponentType type) const
 	return nullptr;
 }
 
+GameObject* GameObject::FindGameObject(const std::string& name)
+{
+	if (this->name == name)
+	{
+		return this;
+	}
+	else
+	{
+		for (std::unique_ptr<GameObject>& child : children)
+		{
+			GameObject* returnedGO = child->FindGameObject(name);
+
+			if (returnedGO)
+			{
+				return returnedGO;
+			}
+		}
+	}
+	return nullptr;
+}
+
 bool GameObject::IsAChild(const GameObject* child)
 {
 	assert(child != nullptr);
@@ -594,6 +661,46 @@ bool GameObject::IsAChild(const GameObject* child)
 	}
 
 	return false;
+}
+
+void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction)
+{
+	auto childrenVectorBegin = std::begin(children);
+	auto childrenVectorEnd = std::end(children);
+
+	auto childIterator = std::find_if(childrenVectorBegin, childrenVectorEnd,
+		[child](const std::unique_ptr<GameObject>& otherChild)
+		{
+			return otherChild.get() == child;
+		});
+	if (childIterator == childrenVectorEnd)
+	{
+		ENGINE_LOG("Object being moved (%s) is not a child of this (%s)",
+			child->GetName().c_str(), this->GetName().c_str());
+		return;
+	}
+	
+	auto childToSwap = childrenVectorEnd;
+	if (direction == HierarchyDirection::UP)
+	{
+		if (childIterator == childrenVectorBegin)
+		{
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			return;
+		}
+		childToSwap = std::prev(childIterator);
+	}
+	else
+	{
+		if (childIterator == std::prev(childrenVectorEnd))
+		{
+			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			return;
+		}
+		childToSwap = std::next(childIterator);
+	}
+
+	std::iter_swap(childIterator, childToSwap);
 }
 
 bool GameObject::IsADescendant(const GameObject* descendant)
@@ -623,34 +730,14 @@ std::list<GameObject*> GameObject::GetGameObjectsInside()
 	return familyObjects;
 }
 
-void GameObject::MoveUpChild(GameObject* childToMove)
+void GameObject::MoveUpChild(const GameObject* childToMove)
 {
-	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
-		it != std::end(children);
-		++it)
-	{
-		if ((*it).get() == childToMove)
-		{
-			std::iter_swap(it - 1, it);
-			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it - 1)).get());
-			break;
-		}
-	}
+	MoveChild(childToMove, HierarchyDirection::UP);
 }
 
-void GameObject::MoveDownChild(GameObject* childToMove)
+void GameObject::MoveDownChild(const GameObject* childToMove)
 {
-	for (std::vector<std::unique_ptr<GameObject>>::iterator it = std::begin(children);
-		it != std::end(children);
-		++it)
-	{
-		if ((*it).get() == childToMove)
-		{
-			std::iter_swap(it, it + 1);
-			App->GetModule<ModuleScene>()->SetSelectedGameObject((*(it + 1)).get());
-			break;
-		}
-	}
+	MoveChild(childToMove, HierarchyDirection::DOWN);
 }
 
 void GameObject::SetParentAsChildSelected()
