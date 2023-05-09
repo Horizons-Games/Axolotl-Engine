@@ -62,7 +62,7 @@ void WindowComponentScript::DrawWindowContents()
 		if (ImGui::BeginPopupModal("Create new script", nullptr,
 			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
 		{
-			CreateNewScript();
+			OpenCreateNewScriptPopUp();
 			ImGui::EndPopup();
 		}
 	}
@@ -228,6 +228,18 @@ void WindowComponentScript::OpenCreateNewScriptPopUp()
 
 void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 {
+	std::string scriptsPath = "Scripts/";
+
+	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
+	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
+
+	// Both header and source have the same name, so only checking the header is enough
+	if (App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
+	{
+		ENGINE_LOG("That name is already in use, please use a different one");
+		return;
+	}
+
 	ENGINE_LOG("New script %s created", scriptName.c_str());
 
 	char* headerBuffer = nullptr;
@@ -245,22 +257,8 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	headerBuffer = headerBufferAsString.data();
 	sourceBuffer = sourceBufferAsString.data();
 
-	std::string scriptsPath = "Scripts/";
-
-	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
-	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
-
-	// Both header and source have the same name, so only checking the header is enough
-	if (!App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
-	{
-		App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
-		App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
-	}
-
-	else
-	{
-		ENGINE_LOG("That name is already in use, please use a different one");
-	}
+	App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
+	App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
 }
 
 void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
