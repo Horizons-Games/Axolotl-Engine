@@ -128,7 +128,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children) 
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -144,7 +144,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = false;
 		trans->SetScale(trans->GetScale() * 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))

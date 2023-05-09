@@ -1,11 +1,11 @@
 #pragma once
 
 #include <list>
-#include <unordered_map>
+#include <memory>
+#include <ranges>
+#include <functional>
 
 #include "../../FileSystem/UniqueID.h"
-#include <memory>
-#include <iterator>
 #include "MathGeoLib/Include/Math/vec2d.h"
 
 class Component;
@@ -26,6 +26,9 @@ enum class StateOfSelection
 class GameObject
 {
 public:
+	using GameObjectView = std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>, std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+	using ComponentView = std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>, std::function<Component*(const std::unique_ptr<Component>&)>>;
+
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
 	GameObject(const std::string& name, GameObject* parent);
@@ -48,10 +51,10 @@ public:
 	GameObject* GetParent() const;
 
 	StateOfSelection GetStateOfSelection() const;
-	const std::vector<GameObject*> GetChildren() const;
+	GameObjectView GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
-	const std::vector<Component*> GetComponents() const;
+	ComponentView GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
@@ -184,16 +187,11 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline const std::vector<GameObject*> GameObject::GetChildren() const
+inline GameObject::GameObjectView GameObject::GetChildren() const
 {
-	std::vector<GameObject*> rawChildren;
-	rawChildren.reserve(children.size());
-
-	if(!children.empty())
-		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
-
-	return rawChildren;
+	// I haven't found a way allow for an anonymous function
+	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda = [](const std::unique_ptr<GameObject>& go) { return go.get(); };
+	return std::ranges::transform_view(children, lambda);
 }
 
 inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& children)
@@ -205,14 +203,11 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 	}
 }
 
-inline const std::vector<Component*> GameObject::GetComponents() const
+inline GameObject::ComponentView GameObject::GetComponents() const
 {
-	std::vector<Component*> rawComponent;
-	rawComponent.reserve(components.size());
-	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
-		[](const std::unique_ptr<Component>& c) { return c.get(); });
-
-	return rawComponent;
+	// I haven't found a way allow for an anonymous function
+	std::function<Component* (const std::unique_ptr<Component>&)> lambda = [](const std::unique_ptr<Component>& c) { return c.get(); };
+	return std::ranges::transform_view(components, lambda);
 }
 
 template <typename T,
