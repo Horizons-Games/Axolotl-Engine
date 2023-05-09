@@ -44,134 +44,134 @@ void WindowComponentScript::DrawWindowContents()
 			ChangeScript(script, constructors[current_item]);
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
+
+		return;
+	}
+
+	ImGui::Separator();
+
+	std::string scriptName = script->GetConstructName().c_str();
+	std::string scriptExtension = ".cpp:";
+	std::string fullScriptName = scriptName + scriptExtension;
+	ImGui::Text(fullScriptName.c_str());
+
+	if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
+	{
+		ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
 	}
 
 	else
 	{
-		ImGui::Separator();
+		ImGui::SameLine();
+	}
 
-		std::string scriptName = script->GetConstructName().c_str();
-		std::string scriptExtension = ".cpp:";
-		std::string fullScriptName = scriptName + scriptExtension;
-		ImGui::Text(fullScriptName.c_str());
+	label = "Remove Script##";
+	finalLabel = label + thisID;
+	if (ImGui::Button(finalLabel.c_str()))
+	{
+		ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
 
-		if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
+		script->SetScript(nullptr); // This deletes the script itself
+		script->SetConstuctor("");	// And this makes that it is also deleted from the serialization
+	}
+
+	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+	{
+		ValidFieldType member = enumAndMember.second;
+		switch (enumAndMember.first)
 		{
-			ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
-		}
-		else
-		{
-			ImGui::SameLine();
-		}
-
-		label = "Remove Script##";
-		finalLabel = label + thisID;
-		if (ImGui::Button(finalLabel.c_str()))
-		{
-			ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
-
-			script->SetScript(nullptr); // This deletes the script itself
-			script->SetConstuctor("");	// And this makes that it is also deleted from the serialization
-		}
-
-		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
-		{
-			ValidFieldType member = enumAndMember.second;
-			switch (enumAndMember.first)
+			case FieldType::FLOAT:
 			{
-				case FieldType::FLOAT:
+				Field<float> floatField = std::get<Field<float>>(member);
+				float value = floatField.getter();
+
+				label = floatField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
 				{
-					Field<float> floatField = std::get<Field<float>>(member);
-					float value = floatField.getter();
-
-					label = floatField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
-					{
-						floatField.setter(value);
-					}
-					break;
+					floatField.setter(value);
 				}
-
-				case FieldType::STRING:
-				{
-					Field<std::string> stringField = std::get<Field<std::string>>(member);
-					std::string value = stringField.getter();
-				
-					label = stringField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
-					{
-						stringField.setter(value);
-					}
-					break;
-				}
-
-				case FieldType::GAMEOBJECT:
-				{
-					Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-					const GameObject* value = gameObjectField.getter();
-
-					std::string gameObjectSlot = "Drag a GameObject here";
-					if (value != nullptr)
-					{
-						gameObjectSlot = value->GetName().c_str();
-					}
-
-					label = gameObjectSlot;
-					finalLabel = label + separator + thisID;
-					ImGui::BeginDisabled();
-					ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
-					ImGui::EndDisabled();
-
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-						{
-							UID draggedGameObjectID = *(static_cast<UID*>(payload->Data));
-							GameObject* draggedGameObject =
-								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-
-							if (draggedGameObject)
-							{
-								gameObjectField.setter(draggedGameObject);
-							}
-						}
-
-						ImGui::EndDragDropTarget();
-					}
-
-					ImGui::SameLine(0.0f, 3.0f);
-					ImGui::Text(gameObjectField.name.c_str());
-					ImGui::SameLine();
-
-					label = "Remove GO##";
-					finalLabel = label + thisID;
-					if (ImGui::Button(finalLabel.c_str()))
-					{
-						gameObjectField.setter(nullptr);
-					}
-
-					break;
-				}
-
-				case FieldType::BOOLEAN:
-				{
-					Field<bool> booleanField = std::get<Field<bool>>(member);
-					bool value = booleanField.getter();
-
-					label = booleanField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::Checkbox(finalLabel.c_str(), &value))
-					{
-						booleanField.setter(value);
-					}
-					break;
-				}
-
-				default:
-					break;
+				break;
 			}
+
+			case FieldType::STRING:
+			{
+				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				std::string value = stringField.getter();
+
+				label = stringField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
+				{
+					stringField.setter(value);
+				}
+				break;
+			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				const GameObject* value = gameObjectField.getter();
+
+				std::string gameObjectSlot = "Drag a GameObject here";
+				if (value != nullptr)
+				{
+					gameObjectSlot = value->GetName().c_str();
+				}
+
+				label = gameObjectSlot;
+				finalLabel = label + separator + thisID;
+				ImGui::BeginDisabled();
+				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
+				ImGui::EndDisabled();
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+					{
+						UID draggedGameObjectID = *(static_cast<UID*>(payload->Data));
+						GameObject* draggedGameObject =
+							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+
+						if (draggedGameObject)
+						{
+							gameObjectField.setter(draggedGameObject);
+						}
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+
+				ImGui::SameLine(0.0f, 3.0f);
+				ImGui::Text(gameObjectField.name.c_str());
+				ImGui::SameLine();
+
+				label = "Remove GO##";
+				finalLabel = label + thisID;
+				if (ImGui::Button(finalLabel.c_str()))
+				{
+					gameObjectField.setter(nullptr);
+				}
+
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				Field<bool> booleanField = std::get<Field<bool>>(member);
+				bool value = booleanField.getter();
+
+				label = booleanField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::Checkbox(finalLabel.c_str(), &value))
+				{
+					booleanField.setter(value);
+				}
+				break;
+			}
+
+			default:
+				break;
 		}
 	}
 }
