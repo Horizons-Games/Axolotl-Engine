@@ -85,11 +85,11 @@ void WindowComponentScript::DrawWindowContents()
 
 				case FieldType::VECTOR3:
 				{
-					Field<float3> floatField = std::get<Field<float3>>(member);
-					float3 value = floatField.getter();
-					if(ImGui::InputFloat3(floatField.name.c_str(), (&value[2], &value[1], &value[0]), "%.2f"))
+					Field<float3> float3Field = std::get<Field<float3>>(member);
+					float3 value = float3Field.getter();
+					if(ImGui::InputFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), "%.2f"))
 					{
-						floatField.setter(value);
+						float3Field.setter(value);
 					}
 					break;
 				}

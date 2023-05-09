@@ -1,0 +1,199 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "prueba",
+                "tag": "",
+                "uid": 2441546620257839208,
+                "parentUID": 0,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ambient_Light",
+                "tag": "",
+                "uid": 11557554747148683554,
+                "parentUID": 2441546620257839208,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.05000000074505806,
+                            "color_light_Y": 0.05000000074505806,
+                            "color_light_Z": 0.05000000074505806,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 16865920972964409569,
+                "parentUID": 2441546620257839208,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 9166354737125290255,
+                "parentUID": 2441546620257839208,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "DefaultScript",
+                            "fields": [
+                                {
+                                    "name": "Value",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "Vector3",
+                                    "value x": 55.0,
+                                    "value y": 1.2200000286102295,
+                                    "value z": 4.659999847412109,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "Sentence",
+                                    "value": "Horizons",
+                                    "type": 1
+                                },
+                                {
+                                    "name": "Character",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Check",
+                                    "value": true,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -25.0,
+                "y": -10.0,
+                "z": -25.0
+            },
+            "MaxPoint": {
+                "x": 25.0,
+                "y": 10.0,
+                "z": 25.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 2819121758081834511,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    }
+}
