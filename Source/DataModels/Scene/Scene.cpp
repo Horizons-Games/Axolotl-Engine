@@ -774,3 +774,25 @@ void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 			}),
 		std::end(nonStaticObjects));
 }
+
+
+void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
+{
+	sceneGameObjects.insert(std::end(sceneGameObjects), std::begin(gameObjects), std::end(gameObjects));
+}
+
+void Scene::AddSceneCameras(const std::vector<ComponentCamera*>& cameras)
+{
+	sceneCameras.insert(std::end(sceneCameras), std::begin(cameras), std::end(cameras));
+}
+
+
+void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
+{
+	sceneCanvas.insert(std::end(sceneCanvas), std::begin(canvas), std::end(canvas));
+}
+
+void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
+{
+	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
