@@ -363,6 +363,7 @@
     </ClCompile>
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <Filter>Auxiliar</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -738,6 +739,7 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <Filter>Auxiliar</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
