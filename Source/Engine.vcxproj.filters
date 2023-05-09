@@ -728,6 +728,12 @@
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\Field.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1890,9 +1896,6 @@
     </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
-      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
