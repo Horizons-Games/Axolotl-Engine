@@ -190,3 +190,20 @@ void ComponentTransform::CalculateBoundingBoxes()
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
+// CalculateLocalFromNewGlobal
+// This will calculate the new local that the object needs to be iin order not to move with the change of father
+//
+void ComponentTransform::CalculateLocalFromNewGlobal(float4x4 nglobalMatrix)
+{
+	float3 nPos,nSca;
+	float4x4 nRot;
+	nglobalMatrix.Decompose(nPos, nRot, nSca);
+	
+	
+	pos = globalPos - nPos;
+	rotXYZ = RadToDeg(globalRot.ToEulerXYZ()) - RadToDeg(nRot.ToEulerXYZ());
+	rot = float4x4::FromEulerXYZ(DegToRad(rotXYZ.x), DegToRad(rotXYZ.y), DegToRad(rotXYZ.z));
+
+	sca = float3(globalSca.x / nSca.x, globalSca.y / nSca.y, globalSca.z / nSca.z);
+	CalculateMatrices();
+}
