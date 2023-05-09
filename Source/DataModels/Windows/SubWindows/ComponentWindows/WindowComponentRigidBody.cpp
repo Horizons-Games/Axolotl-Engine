@@ -30,8 +30,8 @@ void WindowComponentRigidBody::DrawWindowContents()
 
 		if (ImGui::Checkbox("Kinematic", &isKinematic))
 		{
-			asRigidBody->SetupMobility();
             asRigidBody->SetIsKinematic(isKinematic);
+            asRigidBody->SetupMobility();
 		}
 
 		bool isStatic = asRigidBody->GetIsStatic();
@@ -43,8 +43,8 @@ void WindowComponentRigidBody::DrawWindowContents()
 				isKinematic = false;
                 asRigidBody->SetIsKinematic(false);
 			}
-			asRigidBody->SetupMobility();
             asRigidBody->SetIsStatic(isStatic);
+			asRigidBody->SetupMobility();
 		}
 
         // Shape

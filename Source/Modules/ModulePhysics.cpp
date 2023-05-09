@@ -59,9 +59,13 @@ void ModulePhysics::Reset()
 
 update_status ModulePhysics::PreUpdate()
 {
-	dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
-	ManageCollisions();
-	return update_status::UPDATE_CONTINUE;
+    if(App->IsOnPlayMode())
+    {
+        dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
+        ManageCollisions();
+    }
+    
+    return update_status::UPDATE_CONTINUE;
 }
 
 
