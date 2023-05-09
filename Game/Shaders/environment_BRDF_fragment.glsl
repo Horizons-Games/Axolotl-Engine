@@ -3,6 +3,8 @@
 
 #include "/Common/Functions/ibl_functions.glsl"
 
+#define EPSILON 1e-5
+
 in vec2 uv;
 out vec4 fragColor;
 
@@ -18,10 +20,10 @@ void main()
 		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
 		vec3 H = hemisphereSampleGGX(rand_value[0], rand_value[1], roughness);
 		vec3 L = reflect(-V, H);
-		float NdotL = max(dot(N, L), 0.0);
-		float NdotH = max(dot(N, H), 0.0);
-		float VdotH = max(dot(V, H), 0.0);
-		if (NdotL > 0.0)
+		float NdotL = max(dot(N, L), EPSILON);
+		float NdotH = max(dot(N, H), EPSILON);
+		float VdotH = max(dot(V, H), EPSILON);
+		if (NdotL > EPSILON)
 		{
 			float V_pdf = SmithVisibility(NdotL, NdotV, roughness) * VdotH * NdotL / NdotH;
 			float Fc = pow(1.0 - VdotH, 5.0); // note: VdotH = LdotH

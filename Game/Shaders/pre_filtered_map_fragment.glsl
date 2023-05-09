@@ -3,6 +3,8 @@
 
 #include "/Common/Functions/ibl_functions.glsl"
 
+#define EPSILON 1e-5
+
 uniform samplerCube environment;
 
 in vec3 texcoords;
@@ -24,11 +26,11 @@ void main()
 		vec2 rand_value = hammersley2D(i, NUM_SAMPLES);
 		vec3 H = normalize(tangentSpace * hemisphereSampleGGX(rand_value[0], rand_value[1], roughness));
 		vec3 L = reflect(-V, H);
-		float NdotL = max(dot(N, L), 0.0);
-		if (NdotL > 0)
+		float NdotL = max(dot(N, L), EPSILON);
+		if (NdotL > EPSILON)
 		{
-			float NdotH = max(dot(N, H), 0.0);
-			float VdotH = max(dot(V, H), 0.0);
+			float NdotH = max(dot(N, H), EPSILON);
+			float VdotH = max(dot(V, H), EPSILON);
 
 			float D = GGXNormalDistribution(NdotH, roughness);
 			float pdf = (D * NdotH / (4.0 * VdotH)) + 0.0001;
