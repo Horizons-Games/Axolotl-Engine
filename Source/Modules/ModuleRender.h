@@ -37,6 +37,7 @@ public:
 	unsigned int GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
+	float GetObjectDistance(const GameObject* gameObject);
 
 	BatchManager* GetBatchManager() const;
 
@@ -123,4 +124,9 @@ inline BatchManager* ModuleRender::GetBatchManager() const
 inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
 {
 	return gameObjectsInFrustrum.find(gameObject) != gameObjectsInFrustrum.end();
+}
+
+inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
+{
+	return objectsInFrustrumDistances[gameObject];
 }

@@ -87,6 +87,7 @@ public:
 	bool IsFillMaterials() const;
 
 	void SetFillMaterials(const bool fillMaterials);
+	void SortByDistance();
 
 	const int GetFlags() const;
 
