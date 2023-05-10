@@ -19,20 +19,11 @@ public:
 	void PostUpdate(float deltaTime) override {};
 	void CleanUp() override {};
 
-	float GetValue() const;
-	void SetValue(float value);
-
 	float3 GetVector3() const;
 	void SetVector3(float3 vec3);
-
-	std::string GetSentence() const;
-	void SetSentence(const std::string& sentence);
-
+	
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
-
-	bool GetCheck() const;
-	void SetCheck(bool check);
 
 private:
 	float value;

@@ -23,7 +23,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->Init();
 	}
@@ -31,7 +31,7 @@ void ComponentScript::Init()
 
 void ComponentScript::Start()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->Start();
 	}
@@ -39,7 +39,7 @@ void ComponentScript::Start()
 
 void ComponentScript::PreUpdate()
 {
-	if (script)
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -47,7 +47,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (script)
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -55,7 +55,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (script)
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -63,7 +63,7 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::CleanUp()
 {
-	if (script)
+	if (IsEnabled() && script)
 	{
 		script->CleanUp();
 	}
@@ -156,7 +156,7 @@ void ComponentScript::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 	constructName = meta["constructName"];
-	script = App->scriptFactory->ConstructScript(constructName.c_str());
+	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
 
 	if (script == nullptr)
 	{
@@ -214,7 +214,7 @@ void ComponentScript::LoadOptions(Json& meta)
 					UID fieldUID = field["value"];
 					if (fieldUID != 0)
 					{
-						optField.value().setter(App->scene->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+						optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
 					}
 
 					else

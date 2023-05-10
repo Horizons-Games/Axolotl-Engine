@@ -10,8 +10,8 @@ REGISTERCLASS(HelloWorldScript);
 
 HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movingGameObject(nullptr)
 {
-	REGISTER_FIELD(HelloWorld, std::string);
-	REGISTER_FIELD(MovingGameObject, GameObject*);
+	REGISTER_FIELD(helloWorld, std::string);
+	REGISTER_FIELD(movingGameObject, GameObject*);
 }
 
 void HelloWorldScript::Update(float deltaTime)
@@ -31,31 +31,12 @@ void HelloWorldScript::Update(float deltaTime)
 	}
 
 	// When pressing a key, a new GameObject is created
-	GameObject* sceneRoot = App->scene->GetLoadedScene()->GetRoot();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	GameObject* sceneRoot = loadedScene->GetRoot();
 
 	// If you press P 3 times, the engine explodes, but that has nothing to do with Scripting (IMO)
-	if (App->input->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
 	{
-		App->scene->GetLoadedScene()->Create3DGameObject("Empty Capsule", sceneRoot, Premade3D::CAPSULE);
+		loadedScene->Create3DGameObject("Empty Capsule", sceneRoot, Premade3D::CAPSULE);
 	}
-}
-
-std::string HelloWorldScript::GetHelloWorld() const
-{
-	return helloWorld;
-}
-
-void HelloWorldScript::SetHelloWorld(const std::string& helloWorld)
-{
-	this->helloWorld = helloWorld;
-}
-
-GameObject* HelloWorldScript::GetMovingGameObject() const
-{
-	return movingGameObject;
-}
-
-void HelloWorldScript::SetMovingGameObject(GameObject* movingGameObject)
-{
-	this->movingGameObject = movingGameObject;
 }

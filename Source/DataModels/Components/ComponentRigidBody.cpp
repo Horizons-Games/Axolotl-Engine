@@ -32,7 +32,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 	height = -math::inf;
 	x = transform->GetPosition();
 	q = transform->GetRotation().RotatePart().ToQuat();
-	g = float3(0.0f, -2.81f, 0.0f);
+	g = float3(0.0f, -9.00f, 0.0f);
 	v0 = float3(0.0f, 0.0f, 0.0f);
 	w0 = float3(0.0f, 0.0f, 0.0f);
 }
@@ -123,6 +123,8 @@ void ComponentRigidBody::Update()
 
 			//Update Transform
 			transform->SetPosition(x);
+
+			transform->UpdateTransformMatrices();
 		}
 
 #ifdef ENGINE
@@ -130,11 +132,6 @@ void ComponentRigidBody::Update()
 
 	
 #endif
-}
-
-void ComponentRigidBody::Draw()
-{
-	
 }
 
 void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
@@ -181,13 +178,10 @@ void ComponentRigidBody::ApplyForce()
 	if (usePositionController)
 	{
 		float deltaTime = App->GetDeltaTime();
-		float3 position = transform->GetPosition();
 
-		float3 positionError = targetPosition - position;
+		float3 positionError = targetPosition - x;
 		float3 velocityPosition = positionError * KpForce;
-		float3 nextPos = position + velocityPosition * deltaTime;
-
-		transform->SetPosition(nextPos);
+		x += + velocityPosition * deltaTime;
 	}
 }
 
@@ -201,25 +195,30 @@ void ComponentRigidBody::ApplyTorque()
 		Quat rotationError = targetRotation * q.Normalized().Inverted();
 		rotationError.Normalize();
 
-		float3 axis;
-		float angle;
-		rotationError.ToAxisAngle(axis, angle);
-		axis.Normalize();
+		if (!rotationError.Equals(Quat::identity, 0.05f))
+		{
+			float3 axis;
+			float angle;
+			rotationError.ToAxisAngle(axis, angle);
+			axis.Normalize();
 
-		float3 velocityRotation = axis * angle * KpTorque + externalTorque;
-		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-		Quat wq_0 = angularVelocityQuat * q;
+			float3 velocityRotation = axis * angle * KpTorque + externalTorque;
+			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+			Quat wq_0 = angularVelocityQuat * q;
 
-		float deltaValue = 0.5f * deltaTime;
-		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+			float deltaValue = 0.5f * deltaTime;
+			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
-		Quat nextRotation(q.x + deltaRotation.x,
-			q.y + deltaRotation.y,
-			q.z + deltaRotation.z,
-			q.w + deltaRotation.w);
-		nextRotation.Normalize();
+			Quat nextRotation(q.x + deltaRotation.x,
+				q.y + deltaRotation.y,
+				q.z + deltaRotation.z,
+				q.w + deltaRotation.w);
+			nextRotation.Normalize();
 
-		q = nextRotation;
+			q = nextRotation;
+		}
+
+		
 	}
 	else 
 	{
@@ -254,6 +253,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["useRotationController"] = (bool)GetUseRotationController();
 	meta["KpForce"] = (float)GetKpForce();
 	meta["KpTorque"] = (float)GetKpTorque();
+	meta["gravity.Y"] = (float)GetGravity().y;
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -269,4 +269,5 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
 	SetKpTorque((float)meta["KpTorque"]);
+	g.y = (float)meta["gravity.Y"];
 }

@@ -18,6 +18,10 @@ public:
         getter(getter),
         setter(setter)
     {
+        if (!name.empty())
+        {
+            this->name.front() = std::toupper(this->name.front());
+        }
     }
 
 	~Field() = default;

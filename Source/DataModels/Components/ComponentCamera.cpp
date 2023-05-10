@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ComponentCamera.h"
 
 #include "Application.h"
@@ -26,8 +24,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	Update();
 }
 
-ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera):
-	Component(componentCamera)
+ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera): Component(componentCamera)
 {
 	DuplicateCamera(componentCamera.camera.get());
 }
@@ -51,12 +48,12 @@ void ComponentCamera::Update()
 	}
 }
 
-void ComponentCamera::Draw()
+void ComponentCamera::Draw() const
 {
 
 #ifdef ENGINE
 	if(camera->IsDrawFrustum())
-		App->debug->DrawFrustum(*camera->GetFrustum());
+		App->GetModule<ModuleDebugDraw>()->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
 
 }
@@ -83,11 +80,6 @@ void ComponentCamera::LoadOptions(Json& meta)
 	camera->SetFrustumOffset((float)meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool)meta["drawFrustum"]);
 	//frustumMode = GetFrustumModeByName(meta["frustumMode"]);
-}
-
-CameraGameObject* ComponentCamera::GetCamera()
-{
-	return camera.get();
 }
 
 void ComponentCamera::DuplicateCamera(CameraGameObject* camera)

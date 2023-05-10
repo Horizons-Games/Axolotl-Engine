@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -42,22 +40,17 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
-{
-	// Empty for now
-}
-
-void ComponentTransform::Draw()
+void ComponentTransform::Draw() const
 {
 #ifndef ENGINE
-	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
 	{
-		App->debug->DrawBoundingBox(objectOBB);
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
 	}
 #endif //ENGINE
 	if (drawBoundingBoxes)
 	{
-		App->debug->DrawBoundingBox(objectOBB);
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
 	}
 }
 
@@ -129,7 +122,9 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
-	GetOwner()->Update();
+	for(Component* components : GetOwner()->GetComponents()) {
+		components->OnTransformChanged();
+	}
 
 	if (GetOwner()->GetChildren().empty())
 		return;
@@ -151,22 +146,22 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 	{
 	case LightType::DIRECTIONAL:
 		if (rotationModified)
-			App->scene->GetLoadedScene()->RenderDirectionalLight();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
 		break;
 
 	case LightType::POINT:
 		if (translationModified)
 		{
-			App->scene->GetLoadedScene()->UpdateScenePointLights();
-			App->scene->GetLoadedScene()->RenderPointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
 		}
 		break;
 
 	case LightType::SPOT:
 		if (translationModified || rotationModified)
 		{
-			App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-			App->scene->GetLoadedScene()->RenderSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 		}
 		break;
 	}
@@ -179,7 +174,3 @@ void ComponentTransform::CalculateBoundingBoxes()
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
-void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
-{
-	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
-}

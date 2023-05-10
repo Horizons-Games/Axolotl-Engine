@@ -35,13 +35,12 @@ public:
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta);
 
-	void Update();
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D=true);
 
 	void LinkChild(GameObject* child);
-	GameObject* UnlinkChild(const GameObject* child);
+	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;
@@ -54,7 +53,7 @@ public:
 
 	const std::vector<Component*> GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
-	void CopyComponent(ComponentType type, Component* component);
+	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
 	template <typename T,
@@ -69,7 +68,6 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -86,8 +84,8 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-	void MoveUpChild(GameObject* childToMove);
-	void MoveDownChild(GameObject* childToMove);
+	void MoveUpChild(const GameObject* childToMove);
+	void MoveDownChild(const GameObject* childToMove);
 	
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
@@ -95,11 +93,25 @@ public:
 	bool CompareTag(const std::string& commingTag) const;
 
 private:
+	GameObject(const std::string& name,
+			   GameObject* parent,
+			   UID uid,
+			   bool enabled,
+			   bool active,
+			   StateOfSelection selection,
+			   bool staticObject);
+
 	bool IsAChild(const GameObject* child);
+
+	enum class HierarchyDirection
+	{
+		UP,
+		DOWN
+	};
+	void MoveChild(const GameObject* child, HierarchyDirection direction);
 
 private:
 	UID uid;
-	UID parentUID;
 
 	bool enabled;
 	bool active;
@@ -145,11 +157,6 @@ inline std::string GameObject::GetName() const
 inline void GameObject::SetName(const std::string& newName)
 {
 	name = newName;
-}
-
-inline void GameObject::SetParent(GameObject* newParent)
-{
-	parent = newParent;
 }
 
 inline GameObject* GameObject::GetParent() const

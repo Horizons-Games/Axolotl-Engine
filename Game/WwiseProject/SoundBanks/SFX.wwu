@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" SchemaVersion="110">
+	<SoundBanks>
+		<WorkUnit Name="SFX" ID="{905B81AD-AAA2-4634-A711-F88DE74275A5}" PersistMode="Standalone">
+			<ChildrenList>
+				<WorkUnit Name="UI" ID="{B5DF0E7D-A142-4743-8E4C-E1C14C4EE6E9}" PersistMode="Reference"/>
+				<WorkUnit Name="NPC" ID="{74039175-F023-4FC0-AEC2-13FD25C9DCE4}" PersistMode="Reference"/>
+				<WorkUnit Name="Player" ID="{ABEE521F-1435-4CA9-AC67-96AF8888F2D1}" PersistMode="Reference"/>
+				<WorkUnit Name="Ambient" ID="{958BFFF7-1ED3-46AD-926D-912BF41D7A09}" PersistMode="Reference"/>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

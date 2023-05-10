@@ -1,11 +1,13 @@
 #pragma once
 #include "Application.h"
+
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleAudio.h"
 #include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
@@ -13,26 +15,30 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
+#include "ModuleCommand.h"
 #include "ScriptFactory.h"
+
+#include <ranges>
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : appTimer(Timer()), maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
-								isOnPlayMode(false), onPlayTimer(Timer())
+Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false)
 {
-	// Order matters: they will Init/start/update in this order
-	modules.push_back(std::unique_ptr<ModuleWindow>(window = new ModuleWindow()));
-	modules.push_back(std::unique_ptr<ModuleFileSystem>(fileSystem = new ModuleFileSystem()));
-	modules.push_back(std::unique_ptr<ModuleEditor>(editor = new ModuleEditor()));
-	modules.push_back(std::unique_ptr<ModuleInput>(input = new ModuleInput()));
-	modules.push_back(std::unique_ptr<ModuleProgram>(program = new ModuleProgram()));	
-	modules.push_back(std::unique_ptr<ModuleCamera>(camera = new ModuleCamera()));
-	modules.push_back(std::unique_ptr<ModuleScene>(scene = new ModuleScene()));
-	modules.push_back(std::unique_ptr<ModulePlayer>(player = new ModulePlayer()));
-	modules.push_back(std::unique_ptr<ModuleRender>(renderer = new ModuleRender()));
-	modules.push_back(std::unique_ptr<ModuleUI>(userInterface = new ModuleUI()));
-	modules.push_back(std::unique_ptr<ModuleResources>(resources = new ModuleResources()));
-	modules.push_back(std::unique_ptr<ModuleDebugDraw>(debug = new ModuleDebugDraw()));
+	modules.resize(static_cast<int>(ModuleType::LAST));
+	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
+	modules[static_cast<int>(ModuleToEnum<ModuleFileSystem>::value)] = std::make_unique<ModuleFileSystem>();
+	modules[static_cast<int>(ModuleToEnum<ModuleEditor>::value)] = std::make_unique<ModuleEditor>();
+	modules[static_cast<int>(ModuleToEnum<ModuleInput>::value)] = std::make_unique<ModuleInput>();
+	modules[static_cast<int>(ModuleToEnum<ModuleProgram>::value)] = std::make_unique<ModuleProgram>();
+	modules[static_cast<int>(ModuleToEnum<ModuleCamera>::value)] = std::make_unique<ModuleCamera>();
+	modules[static_cast<int>(ModuleToEnum<ModuleAudio>::value)] = std::make_unique<ModuleAudio>();
+	modules[static_cast<int>(ModuleToEnum<ModuleScene>::value)] = std::make_unique<ModuleScene>();
+	modules[static_cast<int>(ModuleToEnum<ModulePlayer>::value)] = std::make_unique<ModulePlayer>();
+	modules[static_cast<int>(ModuleToEnum<ModuleRender>::value)] = std::make_unique<ModuleRender>();
+	modules[static_cast<int>(ModuleToEnum<ModuleUI>::value)] = std::make_unique<ModuleUI>();
+	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
+	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
+	modules[static_cast<int>(ModuleToEnum<ModuleCommand>::value)] = std::make_unique<ModuleCommand>();
 }
 
 Application::~Application()
@@ -42,92 +48,123 @@ Application::~Application()
 
 bool Application::Init()
 {
+#ifndef ENGINE
+	isOnPlayMode = true;
+#endif // !ENGINE
+
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
-	bool ret = true;
 
-	for (int i = 0; i < modules.size() && ret; ++i)
-		ret = modules[i]->Init();
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		if (!module->Init())
+		{
+			return false;
+		}
+	}
 
-	return ret;
+	return true;
 }
 
 bool Application::Start()
 {
-	bool ret = true;
-
 	appTimer.Start();
 
-	for (int i = 0; i < modules.size() && ret; ++i)
-		ret = modules[i]->Start();
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		if (!module->Start())
+		{
+			return false;
+		}
+	}
 
-	return ret;
+	return true;
 }
 
 update_status Application::Update()
 {
-	float ms;
-	(isOnPlayMode) ? ms = onPlayTimer.Read() : ms = appTimer.Read();
+	bool playMode = isOnPlayMode;
+	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
-	update_status ret = update_status::UPDATE_CONTINUE;
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PreUpdate();
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->Update();
-
-	for (int i = 0; i < modules.size() && ret == update_status::UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PostUpdate();
-
-	float dt;
-	(isOnPlayMode) ? dt = (onPlayTimer.Read() - ms) / 1000.0f : dt = (appTimer.Read() - ms) / 1000.0f;
-
-	if (dt < 1000.0f / GetMaxFrameRate())
+	for (const std::unique_ptr<Module>& module : modules)
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		update_status result = module->PreUpdate();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
 	}
 
-	(isOnPlayMode) ?
-		deltaTime = (onPlayTimer.Read() - ms) / 1000.0f : deltaTime = (appTimer.Read() - ms) / 1000.0f;
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		update_status result = module->Update();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
+	}
 
-	return ret;
+	for (const std::unique_ptr<Module>& module : modules)
+	{
+		update_status result = module->PostUpdate();
+		if (result != update_status::UPDATE_CONTINUE)
+		{
+			return result;
+		}
+	}
+
+	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
+	float minframeTime = 1000.0f / GetMaxFrameRate();
+
+	if (dt < minframeTime)
+	{
+		SDL_Delay((Uint32)(minframeTime - dt));
+	}
+
+	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
+
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool Application::CleanUp()
 {
-	bool ret = true;
+	std::ranges::reverse_view reverseModules = std::ranges::reverse_view{ modules };
+	for (const std::unique_ptr<Module>& module : reverseModules)
+	{
+		if (!module->CleanUp())
+		{
+			return false;
+		}
+	}
 
-	for (int i = (int)(modules.size() - 1); i >= 0; --i)
-		ret = modules[i]->CleanUp();
-
-	return ret;
+	return true;
 }
 
 void Application::OnPlay()
 {
 	onPlayTimer.Start();
 	isOnPlayMode = true;
+	ModulePlayer* player = GetModule<ModulePlayer>();
 	player->LoadNewPlayer();
-	if (!player->GetIsLoadPlayer())
+	if (!player->GetPlayer())
 	{
 		isOnPlayMode = false;
 	}
-	
+
 	//Active Scripts
-	scene->OnPlay();
+	GetModule<ModuleScene>()->OnPlay();
 }
 
 void Application::OnStop()
 {
 	isOnPlayMode = false;
-	input->SetShowCursor(true);
-	player->UnloadNewPlayer();
+	GetModule<ModuleInput>()->SetShowCursor(true);
+	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
-	scene->OnStop();
+	GetModule<ModuleScene>()->OnStop();
 }
 
 void Application::OnPause()
 {
-	scene->OnPause();
+	GetModule<ModuleScene>()->OnPause();
 }

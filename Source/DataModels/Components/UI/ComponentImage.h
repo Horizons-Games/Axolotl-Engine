@@ -1,27 +1,27 @@
 #pragma once
-#include "../Component.h"
+#include "DataModels/Components/Component.h"
+#include "Auxiliar/Generics/Drawable.h"
+
 #include "Math/float4.h"
 #include <memory>
 
 class ResourceTexture;
 class ResourceMesh;
 
-class ComponentImage :
-	public Component
+class ComponentImage : public Component, public Drawable
 {
 public:
 	ComponentImage(bool active, GameObject* owner);
 	~ComponentImage() override;
 
-	void Update() override;
-	void Draw() override;
+	void Draw() const override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	float4 GetFullColor();
+	float4 GetFullColor() const;
 
-	std::shared_ptr<ResourceTexture>& GetImage();
+	std::shared_ptr<ResourceTexture> GetImage() const;
 	float4 GetColor() const;
 
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
@@ -32,7 +32,7 @@ private:
 	float4 color;
 };
 
-inline std::shared_ptr<ResourceTexture>& ComponentImage::GetImage()
+inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
 {
 	return image;
 }
