@@ -25,6 +25,16 @@ void DefaultScript::Update(float deltaTime)
 	ENGINE_LOG("%s", std::to_string(check).c_str());
 }
 
+float3 DefaultScript::GetVector3() const
+{
+	return vec3;
+}
+
+void DefaultScript::SetVector3(float3 vec3)
+{
+	this->vec3 = vec3;
+}
+
 GameObject* DefaultScript::GetCharacter() const
 {
 	return character;
