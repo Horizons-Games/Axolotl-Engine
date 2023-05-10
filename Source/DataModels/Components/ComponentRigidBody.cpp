@@ -7,6 +7,7 @@
 #include <ImGui/imgui.h>
 #include "debugdraw.h"
 #include "Math/Quat.h"
+#include "Math/float3x3.h"
 #include "FileSystem/Json.h"
 
 ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
@@ -33,6 +34,13 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
 
     transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
+    /*btTransform worldTransform;
+    float3 pos = transform->GetGlobalPosition();
+    worldTransform.setOrigin({ pos.x, pos.y, pos.z });
+    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+    rigidBody->setWorldTransform(worldTransform);
+    motionState->setWorldTransform(worldTransform);*/
 }
 
 ComponentRigidBody::~ComponentRigidBody()

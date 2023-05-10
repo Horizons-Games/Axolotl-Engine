@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "test",
+                "name": "testBullet",
                 "tag": "",
                 "uid": 4591715972776205839,
                 "parentUID": 0,
@@ -126,15 +126,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 2.950840950012207,
-                            "localPos_Z": 5.76141357421875,
-                            "localRot_X": -26.583045959472656,
+                            "localPos_X": 5.960464477539063e-8,
+                            "localPos_Y": -6.1665358543396,
+                            "localPos_Z": 14.017877578735352,
+                            "localRot_X": -90.32691192626953,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 8.489667892456055,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 10.161260604858398
+                            "localSca_Y": 1.048230767250061,
+                            "localSca_Z": 10.161261558532715
                         }
                     },
                     {
@@ -154,7 +154,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": true,
+                            "isStatic": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -181,15 +181,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 13.455446243286133,
-                            "localPos_Z": 9.321020126342773,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localPos_X": -2.812929630279541,
+                            "localPos_Y": 21.7095947265625,
+                            "localPos_Z": 22.215002059936523,
+                            "localRot_X": 54.45417022705078,
+                            "localRot_Y": 15.49783706665039,
+                            "localRot_Z": -79.1913833618164,
+                            "localSca_X": 3.0399999618530273,
+                            "localSca_Y": 3.0399999618530273,
+                            "localSca_Z": 11.40404224395752
                         }
                     },
                     {
@@ -208,7 +208,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isStatic": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -236,12 +236,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": -31.634689331054688,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": -33.19851303100586,
+                            "localPos_Y": 13.205375671386719,
+                            "localPos_Z": 0.9390156269073486,
+                            "localRot_X": 51.1806640625,
+                            "localRot_Y": 80.24703216552734,
+                            "localRot_Z": -50.77263259887695,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
