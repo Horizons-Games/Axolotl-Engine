@@ -25,14 +25,13 @@ class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component, public Drawable
+class ComponentMeshRenderer : public Component
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
 	ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer);
 	~ComponentMeshRenderer() override;
 
-	void Draw() const override;
 	void DrawMeshes(Program* program) const;
 	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
