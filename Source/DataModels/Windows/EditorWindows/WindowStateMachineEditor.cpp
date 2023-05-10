@@ -17,7 +17,7 @@ static const char* conditionNamesFloat[] = { "Greater", "Less", "Equal", "NotEqu
 static const char* conditionNamesBool[] = { "True", "False"};
 static int boolNamesOffset = IM_ARRAYSIZE(conditionNamesFloat);
 
-WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("StateMachineEditor"),
+WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("State Machine Editor"),
 stateIdSelected(-1), transitionIdSelected(-1), creatingTransition(false), openContextMenu(false), sizeState(200, 50), inputResource(std::make_unique<WindowResourceInput>())
 {
 }
