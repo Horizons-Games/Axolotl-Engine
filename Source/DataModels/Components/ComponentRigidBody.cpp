@@ -191,15 +191,17 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetIsKinematic((bool)meta["isKinematic"]);
 	SetIsStatic((bool)meta["isStatic"]);
 	SetMass((float)meta["mass"]);
+    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>((int)meta["currentShape"]));
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
+    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
     SetRestitution((float)meta["restitution"]);
-    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>((int)meta["currentShape"]));
 	/*SetUsePositionController((bool)meta["usePositionController"]);
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
 	SetKpTorque((float)meta["KpTorque"]);*/
-    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
+    
+    SetupMobility();
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
