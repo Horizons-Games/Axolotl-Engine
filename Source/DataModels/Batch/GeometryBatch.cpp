@@ -623,7 +623,14 @@ void GeometryBatch::BindBatch(bool selected)
 	}
 	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	if (commands.size() > 0)
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	}
+	else
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
+	}
 	glBindVertexArray(vao);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
