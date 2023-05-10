@@ -30,6 +30,19 @@ struct SpotLight
     vec2  padding2;     //8  //56 --> 64
 };
 
+struct AreaLightSphere
+{
+    vec4 position;  	//16 //16   // xyz position+w radius
+	vec4 color; 		//16 //32   // rgb colour+alpha intensity
+};
+
+struct AreaLightTube
+{
+	vec3 positionA;     //16 //16
+	vec3 positionB;     //16 //32
+	vec4 color; 		//16 //48   // rgb colour+alpha intensity
+};
+
 layout(std140, binding=1) uniform Directional
 {
 	vec3 directionalDir;  	//12	//0
@@ -46,6 +59,18 @@ readonly layout(std430, binding=3) buffer SpotLights
 {
 	uint num_spot;
 	SpotLight spots[];
+};
+
+readonly layout(std430, binding=4) buffer AreaLightsSphere
+{
+	uint num_spheres;
+	AreaLightSphere areaSphere[];
+};
+
+readonly layout(std430, binding=5) buffer AreaLightsTube
+{
+	uint num_tubes;
+	AreaLightTube areaTube[];
 };
 
 struct Light {
@@ -170,6 +195,78 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
     return Lo;
 }
+
+vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_spheres; ++i)
+    {
+        vec3 pos = areaSphere[i].position.xyz;
+        vec3 color = areaSphere[i].color.rgb;
+        float radius = areaSphere[i].position.w;
+        float intensity = areaSphere[i].color.a;
+
+        //TODO calculate Light
+
+        vec3 L = normalize(FragPos-pos);
+        vec3 H = (-L+V)/length(-L+V);
+        float dotNL = max(dot(N,-L), EPSILON);
+
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
+
+        // Attenuation
+        float distance = dot(FragPos - pos, aim);
+        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+
+        float C = dot(L, aim);
+
+        vec3 Li = color*intensity*attenuation;
+            
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+    }
+
+    return Lo;
+}
+
+vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_tubes; ++i)
+    {
+        vec3 posA = areaTube[i].positionA;
+        vec3 posB = areaTube[i].positionB;
+        vec3 color = areaTube[i].color.rgb;
+        float intensity = areaTube[i].color.a;
+
+        //TODO calculate Light
+
+        vec3 L = normalize(FragPos-pos);
+        vec3 H = (-L+V)/length(-L+V);
+        float dotNL = max(dot(N,-L), EPSILON);
+
+        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
+
+        // Attenuation
+        float distance = dot(FragPos - pos, aim);
+        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+
+        float C = dot(L, aim);
+
+        vec3 Li = color*intensity*attenuation;
+            
+        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+    }
+
+    return Lo;
+}
   
 void main()
 {
@@ -215,6 +312,16 @@ void main()
     if (num_spot > 0)
     {
         Lo += calculateSpotLights(norm, viewDir, Cd, f0, roughness);
+    }
+
+    if (num_spheres > 0)
+    {
+        Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness);
+    }
+
+    if (num_tubes > 0)
+    {
+        Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness);
     }
 
     vec3 R = reflect(-viewDir, norm);
