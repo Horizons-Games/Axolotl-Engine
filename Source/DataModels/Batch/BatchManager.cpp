@@ -99,13 +99,13 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-void BatchManager::DrawOpaque()
+void BatchManager::DrawOpaque(bool selected)
 {
 	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
 	{
 		if (!geometryBatch->IsEmpty())
 		{
-			DrawBatch(geometryBatch);
+			DrawBatch(geometryBatch, selected);
 		}
 		else
 		{
@@ -115,13 +115,13 @@ void BatchManager::DrawOpaque()
 	}
 }
 
-void BatchManager::DrawTransparent()
+void BatchManager::DrawTransparent(bool selected)
 {
 	for (GeometryBatch* geometryBatch : geometryBatchesTransparent)
 	{
 		if (!geometryBatch->IsEmpty())
 		{
-			DrawBatch(geometryBatch);
+			DrawBatch(geometryBatch, selected);
 		}
 		else
 		{
@@ -131,7 +131,7 @@ void BatchManager::DrawTransparent()
 	}
 }
 
-void BatchManager::DrawBatch(GeometryBatch* batch)
+void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 {
 	if (batch->dirtyBatch)
 	{
@@ -141,5 +141,5 @@ void BatchManager::DrawBatch(GeometryBatch* batch)
 		batch->dirtyBatch = false;
 
 	}
-	batch->BindBatch();
+	batch->BindBatch(selected);
 }

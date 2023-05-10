@@ -77,7 +77,7 @@ public:
 	void DeleteMaterial(const ComponentMeshRenderer* componentToDelete);
 	std::vector< ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
 
-	void BindBatch();
+	void BindBatch(bool selected);
 	void FillMaterial();
 	void ReserveModelSpace();
 

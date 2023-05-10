@@ -54,7 +54,6 @@ private:
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawGameObject(const GameObject* gameObject);
-	void DrawSelectedHighlightGameObject(GameObject* gameObject);
 	void DrawSelectedAndChildren(GameObject* gameObject);
 	void DrawHighlight(GameObject* gameObject);
 

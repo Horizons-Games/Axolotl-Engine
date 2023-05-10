@@ -17,9 +17,9 @@ public:
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
-	void DrawOpaque();
-	void DrawTransparent();
-	void DrawBatch(GeometryBatch* batch);
+	void DrawOpaque(bool selected);
+	void DrawTransparent(bool selected);
+	void DrawBatch(GeometryBatch* batch, bool selected);
 
 	void CleanBatches();
 

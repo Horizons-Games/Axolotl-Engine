@@ -16,6 +16,7 @@
 #include "Resources/ResourceTexture.h"
 
 #include "Modules/ModuleRender.h"
+#include "Modules/ModuleScene.h"
 
 #include "Math/float2.h"
 
@@ -481,14 +482,16 @@ void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelet
 	//dirtyBatch = true;
 }
 
-void GeometryBatch::BindBatch()
+void GeometryBatch::BindBatch(bool selected)
 {
 	program->Activate();
 
 	frame = (frame + 1) % DOUBLE_BUFFERS;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+
 	WaitBuffer();
+	
 	if (createBuffers)
 	{
 		//Redo info
@@ -537,13 +540,66 @@ void GeometryBatch::BindBatch()
 
 	float4x4* transformsAux = static_cast<float4x4*>(transformData[frame]);
 
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	bool isRoot = selectedGo->GetParent() == nullptr;
+
 	for (auto component : componentsInBatch)
 	{
 		assert(component);
 
+		const GameObject* owner = component->GetOwner();
 
-		if (App->renderer->IsObjectInsideFrustrum(component->GetOwner()))
+		if (App->renderer->IsObjectInsideFrustrum(owner))
 		{
+#ifdef ENGINE
+			bool draw = false;
+
+			if (!isRoot)
+			{
+				if (!selected) //(selected && (owner == selectedGo || selectedGo->IsADescendant(owner))))
+				{
+					if (owner != selectedGo && !selectedGo->IsADescendant(owner))
+					{
+						draw = true;
+					}
+				}
+				else if (selected)
+				{
+					if (owner == selectedGo || selectedGo->IsADescendant(owner))
+					{
+						draw = true;
+					}
+				}
+			}
+			else
+			{
+				draw = true;
+			}
+
+			if (draw)
+			{
+				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
+				ResourceMesh* resource = resourceInfo->resourceMesh;
+				//find position in components vector
+				auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
+
+				unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+
+				transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+				//do a for for all the instaces existing
+				Command newCommand = {
+					resource->GetNumIndexes(),	// Number of indices in the mesh
+					1,							// Number of instances to render
+					resourceInfo->indexOffset,	// Index offset in the EBO
+					resourceInfo->vertexOffset,	// Vertex offset in the VBO
+					instanceIndex				// Instance Index
+				};
+				commands.push_back(newCommand);
+				drawCount++;
+			}
+#else
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo->resourceMesh;
 			//find position in components vector
@@ -564,6 +620,7 @@ void GeometryBatch::BindBatch()
 			};
 			commands.push_back(newCommand);
 			drawCount++;
+#endif //ENGINE
 		}
 	}
 	

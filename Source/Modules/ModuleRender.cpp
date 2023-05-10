@@ -149,9 +149,6 @@ bool ModuleRender::Init()
 
 	glEnable(GL_TEXTURE_2D);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 #ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
@@ -216,8 +213,6 @@ update_status ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
-	//opaqueGOToDraw.clear();
-	//transparentGOToDraw.clear();
 	gameObjectsInFrustrum.clear();
 
 	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
@@ -226,7 +221,7 @@ update_status ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	const GameObject* goSelected = App->scene->GetSelectedGameObject();
+	GameObject* goSelected = App->scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
@@ -275,19 +270,56 @@ update_status ModuleRender::Update()
 	
 	drawnGameObjects.clear();
 
-	//Draw opaque
-	glDepthFunc(GL_LEQUAL);
+	// -------- SCENE BATCH RENDERING -----------
 
-	batchManager->DrawOpaque();
-
-	// Draw Transparent
+	// Draw opaque objects
 	glDepthFunc(GL_LEQUAL);
+	batchManager->DrawOpaque(false);
+
+	if (!App->IsOnPlayMode() && !isRoot)
+	{
+		// Draw selected opaque
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		batchManager->DrawOpaque(true);
+
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_STENCIL_TEST);
+	}
+
+	// Draw Transparent objects
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	batchManager->DrawTransparent();
+	batchManager->DrawTransparent(false);
 
-	glDisable(GL_BLEND);
+	if (!App->IsOnPlayMode() && !isRoot)
+	{
+		// Draw selected transparent
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		batchManager->DrawTransparent(true);
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glLineWidth(25);
+		glPolygonMode(GL_FRONT, GL_LINE);
+
+		// Draw Highliht for selected objects
+		DrawHighlight(goSelected);
+
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_STENCIL_TEST);
+
+		glDisable(GL_BLEND);
+	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -487,7 +519,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 		if (goSelected->GetParent() != nullptr && gameObject == goSelected && 
 			(!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
 		{
-			DrawSelectedHighlightGameObject(goSelected);
+			//DrawSelectedHighlightGameObject(goSelected);
 		}
 		else
 		{
@@ -495,24 +527,6 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 			drawnGameObjects.push_back(gameObject->GetUID());
 		}
 	}
-}
-
-void ModuleRender::DrawSelectedHighlightGameObject(GameObject* gameObject)
-{
-	glEnable(GL_STENCIL_TEST);
-	glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-	glStencilMask(0xFF); // enable writing to the stencil buffer
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-
-	DrawSelectedAndChildren(gameObject);
-
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-	glLineWidth(25);
-	glPolygonMode(GL_FRONT, GL_LINE);
-	DrawHighlight(gameObject);
-	glPolygonMode(GL_FRONT, GL_FILL);
-	glLineWidth(1);
-	glDisable(GL_STENCIL_TEST);
 }
 
 void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
