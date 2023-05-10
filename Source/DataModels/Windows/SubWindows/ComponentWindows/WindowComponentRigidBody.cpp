@@ -28,19 +28,20 @@ void WindowComponentRigidBody::DrawWindowContents()
 
 		bool isKinematic = asRigidBody->GetIsKinematic();
 
-		if (ImGui::Checkbox("Kinematic", &isKinematic))
-		{
+        ImGui::Text("Is Kinematic"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Is Kinematic", &isKinematic))
+        {
             asRigidBody->SetIsKinematic(isKinematic);
             asRigidBody->SetupMobility();
 		}
 
 		bool isStatic = asRigidBody->GetIsStatic();
-		//imgui to change isstaic
-		if (ImGui::Checkbox("Static", &isStatic))
+
+        ImGui::Text("Is Static"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Is Static", &isStatic))
 		{
 			if (isStatic)
 			{
-				isKinematic = false;
                 asRigidBody->SetIsKinematic(false);
 			}
             asRigidBody->SetIsStatic(isStatic);
