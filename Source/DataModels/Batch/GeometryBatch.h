@@ -4,7 +4,6 @@
 #include "Math/float2.h"
 
 #include <vector>
-#include <map>
 #include <unordered_map>
 
 #include "GL/glew.h"
@@ -75,7 +74,7 @@ public:
 
 	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
 
-	void DeleteComponent(const ComponentMeshRenderer* componentToDelete);
+	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
 	void DeleteMaterial(const ComponentMeshRenderer* componentToDelete);
 	std::vector< ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
 
@@ -84,14 +83,13 @@ public:
 	void ReserveModelSpace();
 
 	bool IsEmpty() const;
-	bool IsFillMaterials() const;
+	bool IsDirty() const;
 
 	void SetFillMaterials(const bool fillMaterials);
 	void SortByDistance();
+	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;
-
-	bool dirtyBatch;
 
 private:
 	void FillBuffers();
@@ -106,11 +104,11 @@ private:
 	void WaitBuffer();
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
-	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
-	std::vector<int> instanceData;
-	std::vector<ComponentMeshRenderer*> componentToMove;
 	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
+	std::vector<ResourceInfo*> resourcesInfo;
+	std::vector<int> instanceData;
+
 
 	unsigned int ebo;
 	unsigned int vao;
@@ -125,6 +123,7 @@ private:
 
 	bool createBuffers;
 	bool reserveModelSpace;
+	bool dirtyBatch;
 
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
@@ -170,7 +169,7 @@ inline bool GeometryBatch::IsEmpty() const
 	return componentsInBatch.empty();
 }
 
-inline bool GeometryBatch::IsFillMaterials() const
+inline bool GeometryBatch::IsDirty() const
 {
-	return fillMaterials;
+	return dirtyBatch;
 }

@@ -44,7 +44,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 	if (mesh)
 	{
-		batch->DeleteComponent(this);
+		batch = nullptr;
 		mesh->Unload();
 	}
 	if (material)

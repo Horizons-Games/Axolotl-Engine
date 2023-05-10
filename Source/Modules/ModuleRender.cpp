@@ -1,31 +1,29 @@
+#include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "ModulePlayer.h"
+#include "ModuleProgram.h"
 #include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleWindow.h"
+
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentTransform.h"
+
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Skybox/Skybox.h"
+
+#include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
+
+#include "Program/Program.h"
+
+#include "Scene/Scene.h"
 
 #include <queue>
 
-#include "Application.h"
-#include "FileSystem/ModuleResources.h"
-#include "ModuleWindow.h"
-#include "ModuleCamera.h"
-#include "ModuleProgram.h"
-#include "ModuleEditor.h"
-#include "ModuleScene.h"
-#include "ModulePlayer.h"
-
-#include "FileSystem/ModuleFileSystem.h"
-#include "DataModels/Skybox/Skybox.h"
-#include "Scene/Scene.h"
-#include "Components/ComponentTransform.h"
-#include "DataModels/Resources/ResourceMaterial.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Program/Program.h"
-
-#include "GameObject/GameObject.h"
-
-#include "Components/ComponentTransform.h"
 #ifdef DEBUG
 #include "optick.h"
 #endif // DEBUG
-
 
 void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, 
 GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -179,8 +177,6 @@ bool ModuleRender::Start()
 {
 	ENGINE_LOG("--------- Render Start ----------");
 
-	//UpdateProgram();
-
 	return true;
 }
 
@@ -190,7 +186,6 @@ update_status ModuleRender::PreUpdate()
 
 	renderMapOpaque.clear();
 	renderMapTransparent.clear();
-	//opaqueGOToDraw.clear();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -228,6 +223,7 @@ update_status ModuleRender::Update()
 	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
 	
 	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
 		AddToRenderList(nonStaticObj);
@@ -317,9 +313,9 @@ update_status ModuleRender::Update()
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
-
-		glDisable(GL_BLEND);
 	}
+
+	glDisable(GL_BLEND);
 
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
@@ -509,51 +505,6 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
 #endif // ENGINE
-}
-
-void ModuleRender::DrawGameObject(const GameObject* gameObject)
-{
-	if (std::find(std::begin(drawnGameObjects), std::end(drawnGameObjects), gameObject->GetUID()) !=
-		std::end(drawnGameObjects))
-	{
-		return;
-	}
-
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
-
-	if (gameObject != nullptr && gameObject->IsActive())
-	{
-		if (goSelected->GetParent() != nullptr && gameObject == goSelected && 
-			(!App->IsOnPlayMode() || SDL_ShowCursor(SDL_QUERY)))
-		{
-			//DrawSelectedHighlightGameObject(goSelected);
-		}
-		else
-		{
-			gameObject->Draw();
-			drawnGameObjects.push_back(gameObject->GetUID());
-		}
-	}
-}
-
-void ModuleRender::DrawSelectedAndChildren(GameObject* gameObject)
-{
-	std::queue<GameObject*> gameObjectQueue;
-	gameObjectQueue.push(gameObject);
-	while (!gameObjectQueue.empty())
-	{
-		const GameObject* currentGo = gameObjectQueue.front();
-		gameObjectQueue.pop();
-		for (GameObject* child : currentGo->GetChildren())
-		{
-			if (child->IsEnabled())
-			{
-				gameObjectQueue.push(child);
-			}
-		}
-		currentGo->Draw();
-		drawnGameObjects.push_back(gameObject->GetUID());
-	}
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)

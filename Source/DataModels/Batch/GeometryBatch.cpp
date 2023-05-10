@@ -18,8 +18,6 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "Math/float2.h"
-
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
@@ -50,10 +48,11 @@ GeometryBatch::~GeometryBatch()
 	{
 		delete resourceInfo;
 	}
-	//resourcesInfo.clear();
+	resourcesInfo.clear();
+
 	componentsInBatch.clear();
-	//resourcesMaterial.clear();
-	//instanceData.clear();
+	objectIndexes.clear();
+	instanceData.clear();
 
 	CleanUp();
 	
@@ -324,17 +323,13 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
-	//glDeleteVertexArrays(1, &vao);
-	//glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
-	//glDeleteBuffers(1, &verticesBuffer);
-	//glDeleteBuffers(1, &textureBuffer);
-	//glDeleteBuffers(1, &normalsBuffer);
-	//glDeleteBuffers(1, &tangentsBuffer);
+	
 	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
 		glDeleteBuffers(1, &transforms[i]);
 	}
+	
 	glDeleteBuffers(1, &materials);
 }
 
@@ -359,7 +354,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 	}
 }
 
-void GeometryBatch::DeleteComponent(const ComponentMeshRenderer* componentToDelete)
+void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 {
 	bool findMesh = false;
 	bool findMaterial = false;
@@ -416,6 +411,8 @@ void GeometryBatch::DeleteComponent(const ComponentMeshRenderer* componentToDele
 	fillMaterials = true;
 	reserveModelSpace = true;
 	dirtyBatch = true;
+	componentToDelete->SetBatch(nullptr);
+
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
 	}
@@ -424,11 +421,12 @@ void GeometryBatch::DeleteComponent(const ComponentMeshRenderer* componentToDele
 
 std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMeshRenderer* componentToDelete)
 {
-	componentToMove.clear();
+	std::vector<ComponentMeshRenderer*> componentToMove;
 
-	bool findMaterial = false;
 	for (ComponentMeshRenderer* compare : componentsInBatch)
 	{
+		bool findMaterial = false;
+
 		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get())
 		{
 			findMaterial = true;
@@ -454,7 +452,6 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 			{
 				resourcesMaterial.erase(it);
 			}
-			findMaterial = false;
 		}
 	}
 
@@ -556,14 +553,14 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (!isRoot)
 			{
-				if (!selected) //(selected && (owner == selectedGo || selectedGo->IsADescendant(owner))))
+				if (!selected)
 				{
 					if (owner != selectedGo && !selectedGo->IsADescendant(owner))
 					{
 						draw = true;
 					}
 				}
-				else if (selected)
+				else
 				{
 					if (owner == selectedGo || selectedGo->IsADescendant(owner))
 					{
@@ -602,6 +599,7 @@ void GeometryBatch::BindBatch(bool selected)
 #else
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo->resourceMesh;
+
 			//find position in components vector
 			unsigned int instanceIndex = objectIndexes[component];
 
@@ -735,6 +733,11 @@ bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRender
 void GeometryBatch::SortByDistance()
 {
 	std::sort(componentsInBatch.begin(), componentsInBatch.end(), SortComponent);
+}
+
+void GeometryBatch::SetDirty(const bool dirty)
+{
+	dirtyBatch = dirty;
 }
 
 void GeometryBatch::LockBuffer()

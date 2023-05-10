@@ -1,8 +1,12 @@
 #pragma once
+
 #include "Module.h"
+
 #include "DataStructures/Quadtree.h"
+
 #include "GL/glew.h"
-#include <DataModels/Batch/BatchManager.h>
+
+#include "DataModels/Batch/BatchManager.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -49,18 +53,15 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
-private:
-	void UpdateProgram();
-	
+private:	
 	bool CheckIfTransparent(const GameObject* gameObject);
 
-	void DrawGameObject(const GameObject* gameObject);
-	void DrawSelectedAndChildren(GameObject* gameObject);
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCameraToProgram(Program* program);
 
 	void* context;
+
 	float4 backgroundColor;
 
 	BatchManager* batchManager;
@@ -68,11 +69,10 @@ private:
 	unsigned uboCamera;
 	unsigned vbo;
 	
-	std::vector<ComponentMeshRenderer*> opaqueGOToDraw;
 	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
 	std::vector<ComponentMeshRenderer*> transparentComponents;
-	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;
+
 	const std::vector<std::string> modelTypes;
 
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;

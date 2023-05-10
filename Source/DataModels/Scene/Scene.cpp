@@ -24,6 +24,8 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/UI/ComponentCanvas.h"
 
+#include "Batch/BatchManager.h"
+
 #include <GL/glew.h>
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -513,6 +515,8 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
+	App->renderer->GetBatchManager()->CleanBatches();
+
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 

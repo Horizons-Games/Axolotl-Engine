@@ -1,10 +1,9 @@
 #include "BatchManager.h"
 
-#include "DataModels/Batch/GeometryBatch.h"
-#include "DataModels/Components/ComponentMeshRenderer.h"
-#include "DataModels/Resources/ResourceMesh.h"
-#include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchFlags.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
 #include <assert.h>
 
@@ -14,17 +13,7 @@ BatchManager::BatchManager()
 
 BatchManager::~BatchManager()
 {
-	for (GeometryBatch* batch : geometryBatchesOpaques)
-	{
-		delete batch;
-	}
-	geometryBatchesOpaques.clear();
-
-	for (GeometryBatch* batch : geometryBatchesTransparent)
-	{
-		delete batch;
-	}
-	geometryBatchesTransparent.clear();
+	CleanBatches();
 }
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
@@ -134,13 +123,32 @@ void BatchManager::DrawTransparent(bool selected)
 
 void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 {
-	if (batch->dirtyBatch)
+	if (batch->IsDirty())
 	{
 		batch->ClearBuffer();
 		batch->CreateVAO();
 		batch->UpdateBatchComponents();
-		batch->dirtyBatch = false;
+		batch->SetDirty(false);
 
 	}
 	batch->BindBatch(selected);
+}
+
+void BatchManager::CleanBatches()
+{
+#ifndef ENGINE
+	App->resources->CleanResourceBin();
+#endif // !ENGINE
+
+	for (GeometryBatch* batch : geometryBatchesOpaques)
+	{
+		delete batch;
+	}
+	geometryBatchesOpaques.clear();
+
+	for (GeometryBatch* batch : geometryBatchesTransparent)
+	{
+		delete batch;
+	}
+	geometryBatchesTransparent.clear();
 }

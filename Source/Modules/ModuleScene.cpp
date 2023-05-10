@@ -290,6 +290,8 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
+	App->renderer->GetBatchManager()->CleanBatches();
+
 	std::string fileName = App->fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE
@@ -324,8 +326,6 @@ void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 
 void ModuleScene::SetSceneFromJson(Json& json)
 {
-	App->renderer->GetBatchManager()->CleanBatches();
-
 	loadedScene = std::make_unique<Scene>();
 
 	loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));

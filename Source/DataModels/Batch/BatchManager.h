@@ -29,12 +29,3 @@ private:
 	std::vector<GeometryBatch*> geometryBatchesOpaques;
 	std::vector<GeometryBatch*> geometryBatchesTransparent;
 };
-
-inline void BatchManager::CleanBatches()
-{
-#ifndef ENGINE
-	App->resources->CleanResourceBin();
-#endif // !ENGINE
-	geometryBatchesOpaques.clear();
-	geometryBatchesTransparent.clear();
-}
