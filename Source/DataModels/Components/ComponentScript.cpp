@@ -99,10 +99,12 @@ void ComponentScript::SaveOptions(Json& meta)
 			}
 			case FieldType::VECTOR3:
 			{
-				field["name"] = std::get<Field<float3>>(enumAndValue.second).name.c_str();
-				field["value x"] = std::get<Field<float3>>(enumAndValue.second).getter()[0];
-				field["value y"] = std::get<Field<float3>>(enumAndValue.second).getter()[1];
-				field["value z"] = std::get<Field<float3>>(enumAndValue.second).getter()[2];
+				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				field["name"] = fieldInstance.name.c_str();
+				float3 fieldValue = fieldInstance.getter();
+				field["value x"] = fieldValue[0];
+				field["value y"] = fieldValue[1];
+				field["value z"] = fieldValue[2];
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
