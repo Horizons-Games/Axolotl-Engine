@@ -6,6 +6,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "debugdraw.h"
 
 ModulePhysics::ModulePhysics()
 {
@@ -40,6 +41,9 @@ bool ModulePhysics::Init()
 
 	dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
+    dynamicsWorld->setDebugDrawer(&DebugDrawer);
+    dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawContactPoints | btIDebugDraw::DBG_DrawWireframe);
+
     return true;
 }
 
@@ -63,6 +67,11 @@ update_status ModulePhysics::PreUpdate()
     {
         dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
         ManageCollisions();
+
+        if (App->IsOnPlayMode())
+        {
+            dynamicsWorld->debugDrawWorld();
+        }
     }
     
     return update_status::UPDATE_CONTINUE;
@@ -174,4 +183,45 @@ void ModulePhysics::RemoveRigidBody(ComponentRigidBody* rb, btRigidBody* body)
         dynamicsWorld->removeRigidBody(body);
     }
     rigidBodyComponents.erase(rb->GetID());
+}
+
+
+void GLDebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& fromColor, const btVector3& toColor)
+{
+    dd::line(reinterpret_cast<ddVec3_In>(from), reinterpret_cast<ddVec3_In>(to), reinterpret_cast<ddVec3_In>(fromColor));
+}
+
+void GLDebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+{
+    dd::line(reinterpret_cast<ddVec3_In>(from), reinterpret_cast<ddVec3_In>(to), reinterpret_cast<ddVec3_In>(color));
+}
+
+void GLDebugDrawer::drawSphere(const btVector3& p, btScalar radius, const btVector3& color)
+{
+    dd::sphere(reinterpret_cast<ddVec3_In>(p), reinterpret_cast<ddVec3_In>(color), radius);
+}
+
+void GLDebugDrawer::drawTriangle(const btVector3& a, const btVector3& b, const btVector3& c, const btVector3& color, btScalar alpha)
+{
+    ENGINE_LOG("drawTriangle not implemented");
+}
+
+void GLDebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+{
+    dd::sphere(reinterpret_cast<ddVec3_In>(PointOnB), reinterpret_cast<ddVec3_In>(color), 0.1f, 5000);
+}
+
+void GLDebugDrawer::drawAabb(const btVector3& from, const btVector3& to, const btVector3& color)
+{
+    dd::aabb(reinterpret_cast<ddVec3_In>(from), reinterpret_cast<ddVec3_In>(to), reinterpret_cast<ddVec3_In>(color));
+}
+
+void GLDebugDrawer::reportErrorWarning(const char* warningString)
+{
+    ENGINE_LOG(warningString);
+}
+
+void GLDebugDrawer::draw3dText(const btVector3& location, const char* textString)
+{
+    dd::screenText(textString, reinterpret_cast<ddVec3_In>(location), dd::colors::White, 1, 100);
 }
