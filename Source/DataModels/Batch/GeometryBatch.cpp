@@ -350,7 +350,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		}
 		
 		CreateInstanceResourceMesh(meshShared.get());
-		CreateInstanceResourceMaterial(materialShared);
+		objectIndexes[newComponent] = CreateInstanceResourceMaterial(materialShared);
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
 		fillMaterials = true;
@@ -518,11 +518,11 @@ void GeometryBatch::BindBatch(bool selected)
 		{
 			if (component->GetMaterial())
 			{
-				CreateInstanceResourceMaterial(component->GetMaterial());
+				objectIndexes[component] = CreateInstanceResourceMaterial(component->GetMaterial());
 			}
 			else
 			{
-				CreateInstanceResourceMaterial(defaultMaterial);
+				objectIndexes[component] = CreateInstanceResourceMaterial(defaultMaterial);
 			}
 		}
 		reserveModelSpace = false;
@@ -603,9 +603,7 @@ void GeometryBatch::BindBatch(bool selected)
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
 			ResourceMesh* resource = resourceInfo->resourceMesh;
 			//find position in components vector
-			auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
-
-			unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+			unsigned int instanceIndex = objectIndexes[component];
 
 			transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
@@ -653,7 +651,7 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 	createBuffers = true;
 }
 
-void GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material)
+int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material)
 {
 	auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), material);
 	int index;
@@ -671,6 +669,8 @@ void GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resourc
 		index = static_cast<int>(resourcesMaterial.size()) - 1;
 		instanceData.push_back(index);
 	}
+	
+	return instanceData.size() - 1;
 }
 
 ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
@@ -715,6 +715,19 @@ void GeometryBatch::UpdateBatchComponents()
 		CreateInstanceResourceMesh(meshShared.get());
 		reserveModelSpace = true;
 	}
+}
+
+bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
+{
+	float firstDistance = App->renderer->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->renderer->GetObjectDistance(second->GetOwner());
+
+	return (firstDistance > secondDistance);
+}
+
+void GeometryBatch::SortByDistance()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), SortComponent);
 }
 
 void GeometryBatch::LockBuffer()

@@ -4,6 +4,8 @@
 #include "Math/float2.h"
 
 #include <vector>
+#include <map>
+#include <unordered_map>
 
 #include "GL/glew.h"
 
@@ -95,7 +97,7 @@ private:
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
-	void CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material);
+	int CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material);
 
 	ResourceInfo* FindResourceInfo(const ResourceMesh* mesh);
 
@@ -107,6 +109,7 @@ private:
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::vector<int> instanceData;
 	std::vector<ComponentMeshRenderer*> componentToMove;
+	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
 
 	unsigned int ebo;
 	unsigned int vao;
