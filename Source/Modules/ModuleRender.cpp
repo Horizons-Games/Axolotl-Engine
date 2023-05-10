@@ -321,6 +321,13 @@ update_status ModuleRender::Update()
 		glDisable(GL_BLEND);
 	}
 
+	// ---- DRAW ALL COMPONENTS IN THE FRUSTRUM ----
+
+	for (const GameObject* go : gameObjectsInFrustrum)
+	{
+		go->Draw();
+	}
+
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{

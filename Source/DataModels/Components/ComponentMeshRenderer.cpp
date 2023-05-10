@@ -55,7 +55,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Draw() const
 {
-	if (material)
+	/*if (material)
 	{
 		Program* program = App->program->GetProgram
 		(ProgramType(material->GetShaderType()));
@@ -69,7 +69,7 @@ void ComponentMeshRenderer::Draw() const
 		}
 
 		program->Deactivate();
-	}
+	}*/
 }
 
 void ComponentMeshRenderer::DrawMeshes(Program* program) const
