@@ -59,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 387.0,
-                            "worldAABB_min_y": 272.5,
-                            "worldAABB_max_x": 387.0,
-                            "worldAABB_max_y": 272.5
+                            "worldAABB_min_x": 428.0,
+                            "worldAABB_min_y": 225.0,
+                            "worldAABB_max_x": 428.0,
+                            "worldAABB_max_y": 225.0
                         }
                     },
                     {
@@ -146,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 387.0,
-                            "worldAABB_min_y": 272.5,
-                            "worldAABB_max_x": 387.0,
-                            "worldAABB_max_y": 272.5
+                            "worldAABB_min_x": 428.0,
+                            "worldAABB_min_y": 225.0,
+                            "worldAABB_max_x": 428.0,
+                            "worldAABB_max_y": 225.0
                         }
                     },
                     {
@@ -157,7 +157,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 17454258005042640098,
+                            "imageUID": 4599968731874848130,
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -198,10 +198,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 326.53125,
-                            "worldAABB_min_y": 267.6625061035156,
-                            "worldAABB_max_x": 447.46875,
-                            "worldAABB_max_y": 293.4624938964844
+                            "worldAABB_min_x": 365.5,
+                            "worldAABB_min_y": 220.0,
+                            "worldAABB_max_x": 490.5,
+                            "worldAABB_max_y": 246.66665649414063
                         }
                     },
                     {
@@ -209,7 +209,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 6451604834349348989,
+                            "imageUID": 4287003694431370157,
                             "assetPathImage": "Assets/Textures/Play.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -365,10 +365,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 326.53125,
-                            "worldAABB_min_y": 308.78125,
-                            "worldAABB_max_x": 447.46875,
-                            "worldAABB_max_y": 332.96875
+                            "worldAABB_min_x": 365.5,
+                            "worldAABB_min_y": 262.5,
+                            "worldAABB_max_x": 490.5,
+                            "worldAABB_max_y": 287.5
                         }
                     },
                     {
@@ -376,7 +376,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 12381334507103116347,
+                            "imageUID": 277128539073698761,
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -449,10 +449,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 326.53125,
-                            "worldAABB_min_y": 349.09375,
-                            "worldAABB_max_x": 447.46875,
-                            "worldAABB_max_y": 373.28125
+                            "worldAABB_min_x": 365.5,
+                            "worldAABB_min_y": 304.1666564941406,
+                            "worldAABB_max_x": 490.5,
+                            "worldAABB_max_y": 329.1666564941406
                         }
                     },
                     {
@@ -460,7 +460,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4732762423350190893,
+                            "imageUID": 752072817853939133,
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -533,10 +533,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 387.0,
-                            "worldAABB_min_y": 103.1875,
-                            "worldAABB_max_x": 387.0,
-                            "worldAABB_max_y": 103.1875
+                            "worldAABB_min_x": 428.0,
+                            "worldAABB_min_y": 50.0,
+                            "worldAABB_max_x": 428.0,
+                            "worldAABB_max_y": 50.0
                         }
                     },
                     {
@@ -544,7 +544,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 1728187983658496405,
+                            "imageUID": 5301224845558633285,
                             "assetPathImage": "Assets/Textures/Group 13.png",
                             "color_x": 0.6627451181411743,
                             "color_y": 0.6470588445663452,
@@ -585,10 +585,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 387.0,
-                            "worldAABB_min_y": 139.46875,
-                            "worldAABB_max_x": 387.0,
-                            "worldAABB_max_y": 139.46875
+                            "worldAABB_min_x": 428.0,
+                            "worldAABB_min_y": 87.5,
+                            "worldAABB_max_x": 428.0,
+                            "worldAABB_max_y": 87.5
                         }
                     },
                     {
@@ -596,7 +596,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4949353886511826929,
+                            "imageUID": 12482094565042769980,
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -623,11 +623,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 2819121758081834511,
+        "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 15512669924688363963,
+        "cubemapUID": 7447300617433258815,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

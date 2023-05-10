@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_FloorHill_Albedo.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_FloorHill_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_FloorHill_Metallic.png"
+    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_FloorHill_Metallic.png",
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_FloorHill_Metallic.png"
 }
