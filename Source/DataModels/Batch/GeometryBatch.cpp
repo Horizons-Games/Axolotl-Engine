@@ -583,7 +583,7 @@ void GeometryBatch::BindBatch(bool selected)
 				//find position in components vector
 				auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-				unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+				unsigned int instanceIndex = objectIndexes[component];
 
 				transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
 					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();

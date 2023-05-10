@@ -121,6 +121,7 @@ void BatchManager::DrawTransparent(bool selected)
 	{
 		if (!geometryBatch->IsEmpty())
 		{
+			geometryBatch->SortByDistance();
 			DrawBatch(geometryBatch, selected);
 		}
 		else
