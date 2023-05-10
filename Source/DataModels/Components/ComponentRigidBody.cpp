@@ -3,14 +3,14 @@
 #include "GameObject/GameObject.h"
 #include "ModulePhysics.h"
 #include "Application.h"
-#include "Bullet/btBulletDynamicsCommon.h"
 #include "Geometry/Sphere.h"
 #include <ImGui/imgui.h>
 #include "debugdraw.h"
 #include "Math/Quat.h"
+#include "FileSystem/Json.h"
 
 ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
-    : Component(ComponentType::RIGIDBODY, active, owner, false)
+    : Component(ComponentType::RIGIDBODY, active, owner, true)
 {
     static uint32_t nextId = 1;
 
@@ -160,79 +160,49 @@ void ComponentRigidBody::SetCollisionShape(SHAPE newShape)
     }
 }
 
-void ComponentRigidBody::SetVelocity(const float3& velocity)
+void ComponentRigidBody::SaveOptions(Json& meta)
 {
-    if (rigidBody && shape)
-    {
-        rigidBody->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
-    }
+	// Do not delete these
+    meta["type"] = GetNameByType(type).c_str();
+    meta["active"] = (bool)active;
+    meta["removed"] = (bool)canBeRemoved;
+
+	meta["isKinematic"] = (bool)GetIsKinematic();
+	meta["isStatic"] = (bool)GetIsStatic();
+	meta["mass"] = (float)GetMass();
+	meta["linearDamping"] = (float)GetLinearDamping();
+	meta["angularDamping"] = (float)GetAngularDamping();
+	meta["restitution"] = (float)GetRestitution();
+	meta["currentShape"] = (int)GetShape();
+	/*meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["useRotationController"] = (bool)GetUseRotationController();
+	meta["KpForce"] = (float)GetKpForce();
+	meta["KpTorque"] = (float)GetKpTorque();*/
+    meta["gravity_Y"] = (float)GetGravity().getY();
 }
 
-void ComponentRigidBody::SetMass(float newMass)
+void ComponentRigidBody::LoadOptions(Json& meta)
 {
-    //rigidBody->setMassProps(newMass, rigidBody->getLocalInertia());
-    mass = newMass;
-}
+	// Do not delete these
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	canBeRemoved = (bool)meta["removed"];
 
-void ComponentRigidBody::SetGravity(btVector3 newGravity)
-{
-    rigidBody->setGravity(newGravity);
-    gravity = newGravity;
-}
-
-void ComponentRigidBody::SetRestitution(float newRestitution) 
-{
-    rigidBody->setRestitution(newRestitution);
-    restitution = newRestitution;
-}
-
-void ComponentRigidBody::SetLinearDamping(float newDamping)
-{
-    rigidBody->setDamping(newDamping, rigidBody->getAngularDamping());
-    linearDamping = newDamping;
-}
-
-void ComponentRigidBody::SetAngularDamping(float newDamping)
-{
-    rigidBody->setDamping(rigidBody->getLinearDamping(), newDamping);
-    angularDamping = newDamping;
+	SetIsKinematic((bool)meta["isKinematic"]);
+	SetIsStatic((bool)meta["isStatic"]);
+	SetMass((float)meta["mass"]);
+    SetLinearDamping((float)meta["linearDamping"]);
+    SetAngularDamping((float)meta["angularDamping"]);
+    SetRestitution((float)meta["restitution"]);
+    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>((int)meta["currentShape"]));
+	/*SetUsePositionController((bool)meta["usePositionController"]);
+	SetUseRotationController((bool)meta["useRotationController"]);
+	SetKpForce((float)meta["KpForce"]);
+	SetKpTorque((float)meta["KpTorque"]);*/
+    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
-}
-
-
-
-void ComponentRigidBody::SaveOptions(Json& meta)
-{
-	//// Do not delete these
-	//meta["type"] = GetNameByType(type).c_str();
-	//meta["active"] = (bool)active;
-	//meta["removed"] = (bool)canBeRemoved;
-
-	//meta["isKinematic"] = (bool)GetIsKinematic();
-	//meta["mass"] = (float)GetMass();
-	//meta["usePositionController"] = (bool)GetUsePositionController();
-	//meta["useRotationController"] = (bool)GetUseRotationController();
-	//meta["KpForce"] = (float)GetKpForce();
-	//meta["KpTorque"] = (float)GetKpTorque();
-	//meta["gravity.Y"] = (float)GetGravity().y;
-}
-
-void ComponentRigidBody::LoadOptions(Json& meta)
-{
-	//// Do not delete these
-	//type = GetTypeByName(meta["type"]);
-	//active = (bool)meta["active"];
-	//canBeRemoved = (bool)meta["removed"];
-
-	//SetIsKinematic((bool)meta["isKinematic"]);
-	//SetMass((float)meta["mass"]);
-	//SetUsePositionController((bool)meta["usePositionController"]);
-	//SetUseRotationController((bool)meta["useRotationController"]);
-	//SetKpForce((float)meta["KpForce"]);
-	//SetKpTorque((float)meta["KpTorque"]);
-	//g.y = (float)meta["gravity.Y"];
 }

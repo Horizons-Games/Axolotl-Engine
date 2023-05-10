@@ -1,0 +1,330 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "test",
+                "tag": "",
+                "uid": 4591715972776205839,
+                "parentUID": 0,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ambient_Light",
+                "tag": "",
+                "uid": 16178554156084545901,
+                "parentUID": 4591715972776205839,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.05000000074505806,
+                            "color_light_Y": 0.05000000074505806,
+                            "color_light_Z": 0.05000000074505806,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 2318647668599735644,
+                "parentUID": 4591715972776205839,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube_Static",
+                "tag": "",
+                "uid": 12526853656164671260,
+                "parentUID": 4591715972776205839,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.950840950012207,
+                            "localPos_Z": 5.76141357421875,
+                            "localRot_X": -26.583045959472656,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 8.489667892456055,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 10.161260604858398
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7356052530050122696,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "gravity_Y": -9.8100004196167
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube_Kinematic",
+                "tag": "",
+                "uid": 4811585640644948436,
+                "parentUID": 4591715972776205839,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 13.455446243286133,
+                            "localPos_Z": 9.321020126342773,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7356052530050122696,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isStatic": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "gravity_Y": -9.8100004196167
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Character",
+                "tag": "",
+                "uid": 13959325402923989875,
+                "parentUID": 4591715972776205839,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -31.634689331054688,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14017933946843485505,
+                            "assetPathMesh": "Assets/Meshes/David.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 6035476797738650670,
+                "parentUID": 13959325402923989875,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -25.0,
+                "y": -10.0,
+                "z": -25.0
+            },
+            "MaxPoint": {
+                "x": 25.0,
+                "y": 10.0,
+                "z": 25.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 8827808863826909032,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    }
+}

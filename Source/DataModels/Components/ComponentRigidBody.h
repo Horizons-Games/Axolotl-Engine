@@ -5,6 +5,7 @@
 #include "Bullet/LinearMath/btVector3.h"
 #include <functional>
 #include <vector>
+#include "Bullet/btBulletDynamicsCommon.h"
 
 class btRigidBody;
 struct btDefaultMotionState;
@@ -44,28 +45,34 @@ public:
     void SaveOptions(Json& meta) override;
     void LoadOptions(Json& meta) override;
 
-    bool GetIsKinematic() const;
-    bool GetIsStatic() const;
-    int GetShape() const;
-
     void SetIsKinematic(bool isKinematic);
+    bool GetIsKinematic() const;
+
     void SetIsStatic(bool isStatic);
-
-    void SetupMobility();
-
-    void SetCollisionShape(SHAPE newShape);
-
-    void SetVelocity(const float3& force);
-
-    void SetMass(float newMass);
+    bool GetIsStatic() const;
     
+    float GetMass() const;
+    void SetMass(float newMass);
+
+    btVector3 GetGravity() const;
     void SetGravity(btVector3 newGravity);
 
+    float GetLinearDamping() const;
     void SetLinearDamping(float newDamping);
 
+    float GetAngularDamping() const;
     void SetAngularDamping(float newDamping);
 
+    int GetShape() const;
+    void SetCollisionShape(SHAPE newShape);
+
+    btVector3 GetVelocity() const;
+    void SetVelocity(const float3& force);
+
+    btScalar GetRestitution() const;
     void SetRestitution(float restitution);
+
+    void SetupMobility();
 
     void RemoveRigidBodyFromSimulation();
 
@@ -108,9 +115,19 @@ inline bool ComponentRigidBody::GetIsKinematic() const
     return isKinematic;
 }
 
+inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
+{
+    isKinematic = newIsKinematic;
+}
+
 inline bool ComponentRigidBody::GetIsStatic() const
 {
     return isStatic;
+}
+
+inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
+{
+    isStatic = newIsStatic;
 }
 
 inline int ComponentRigidBody::GetShape() const
@@ -118,12 +135,71 @@ inline int ComponentRigidBody::GetShape() const
     return currentShape;
 }
 
-inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
+inline float ComponentRigidBody::GetMass() const
 {
-    isKinematic = newIsKinematic;
+    return mass;
 }
 
-inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
+inline void ComponentRigidBody::SetMass(float newMass)
 {
-    isStatic = newIsStatic;
+    //rigidBody->setMassProps(newMass, rigidBody->getLocalInertia());
+    mass = newMass;
 }
+
+inline float ComponentRigidBody::GetLinearDamping() const
+{
+    return linearDamping;
+}
+
+inline void ComponentRigidBody::SetLinearDamping(float newDamping)
+{
+    rigidBody->setDamping(newDamping, rigidBody->getAngularDamping());
+    linearDamping = newDamping;
+}
+
+inline float ComponentRigidBody::GetAngularDamping() const
+{
+    return angularDamping;
+}
+
+inline void ComponentRigidBody::SetAngularDamping(float newDamping)
+{
+    rigidBody->setDamping(rigidBody->getLinearDamping(), newDamping);
+    angularDamping = newDamping;
+}
+
+inline btVector3 ComponentRigidBody::GetGravity() const
+{
+    return gravity;
+}
+
+inline void ComponentRigidBody::SetGravity(btVector3 newGravity)
+{
+    rigidBody->setGravity(newGravity);
+    gravity = newGravity;
+}
+
+inline btVector3 ComponentRigidBody::GetVelocity() const
+{
+    return rigidBody->getLinearVelocity();
+}
+
+inline void ComponentRigidBody::SetVelocity(const float3& velocity)
+{
+    if (rigidBody && shape)
+    {
+        rigidBody->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
+    }
+}
+
+inline btScalar ComponentRigidBody::GetRestitution() const
+{
+    return rigidBody->getRestitution();
+}
+
+inline void ComponentRigidBody::SetRestitution(float newRestitution)
+{
+    rigidBody->setRestitution(newRestitution);
+    restitution = newRestitution;
+}
+
