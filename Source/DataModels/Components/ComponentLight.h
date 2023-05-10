@@ -11,7 +11,8 @@ enum class LightType
 	UNKNOWN, 
 	DIRECTIONAL, 
 	POINT, 
-	SPOT
+	SPOT,
+	AREA
 };
 
 const static std::string GetNameByLightType(LightType type);
