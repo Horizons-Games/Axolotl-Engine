@@ -126,15 +126,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 5.960464477539063e-8,
-                            "localPos_Y": 17.62566375732422,
-                            "localPos_Z": 13.88212776184082,
-                            "localRot_X": -90.32691192626953,
+                            "localPos_X": -0.00025081634521484375,
+                            "localPos_Y": 9.475822448730469,
+                            "localPos_Z": 12.703572273254395,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 8.489667892456055,
-                            "localSca_Y": 1.048230767250061,
-                            "localSca_Z": 10.161261558532715
+                            "localSca_X": 42.900142669677734,
+                            "localSca_Y": 1.8868153095245361,
+                            "localSca_Z": 48.112552642822266
                         }
                     },
                     {
@@ -154,7 +154,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
+                            "isStatic": true,
                             "mass": 5.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -181,9 +181,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 2.3830506801605225,
-                            "localPos_Y": 37.851226806640625,
-                            "localPos_Z": 17.480093002319336,
+                            "localPos_X": -1.7891769409179688,
+                            "localPos_Y": 30.831134796142578,
+                            "localPos_Z": 16.06936264038086,
                             "localRot_X": 13.757482528686523,
                             "localRot_Y": 4.1018476486206055,
                             "localRot_Z": -120.31420135498047,
@@ -225,7 +225,7 @@
             "GameObject": {
                 "name": "Character",
                 "tag": "",
-                "uid": 13959325402923989875,
+                "uid": 15943370777869966351,
                 "parentUID": 4591715972776205839,
                 "enabled": true,
                 "active": true,
@@ -236,12 +236,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -33.19851303100586,
-                            "localPos_Y": 13.205375671386719,
-                            "localPos_Z": 0.9390156269073486,
-                            "localRot_X": 51.1806640625,
-                            "localRot_Y": 80.24703216552734,
-                            "localRot_Z": -50.77263259887695,
+                            "localPos_X": 17.065113067626953,
+                            "localPos_Y": 38.227291107177734,
+                            "localPos_Z": -10.956171035766602,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -252,10 +252,25 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 0,
-                            "assetPathMesh": "",
+                            "meshUID": 5578450929882929551,
+                            "assetPathMesh": "Assets/Meshes/David.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "gravity_Y": -1.0
                         }
                     },
                     {
@@ -266,6 +281,36 @@
                             "static": false,
                             "mouse": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMobilityScript",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 6.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 80.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 3
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -274,8 +319,8 @@
             "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
-                "uid": 6035476797738650670,
-                "parentUID": 13959325402923989875,
+                "uid": 7626092155101769798,
+                "parentUID": 15943370777869966351,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -286,8 +331,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": 4.049248695373535,
+                            "localPos_Z": -5.61811637878418,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -302,7 +347,7 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": false
+                            "drawFrustum": true
                         }
                     }
                 ]

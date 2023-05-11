@@ -78,11 +78,14 @@ public:
 
     btRigidBody* GetRigidBody() const { return rigidBody; }
 
+    void UpdateRigidBody();
+
     template <typename T>
     void AddCollisionEnterDelegate(void (T::* func)(ComponentRigidBody*), T* obj) {
         delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
     }
 
+    bool isDirty = false;
 
 private:
 
