@@ -2,7 +2,6 @@
 
 #include <sstream>
 
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
@@ -25,7 +24,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "Components/ComponentAmbient.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
@@ -94,8 +92,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
-			case LightType::AMBIENT:
-				return std::make_unique<WindowComponentAmbient>(static_cast<ComponentAmbient*>(component));
 			case LightType::DIRECTIONAL:
 				return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
 			case LightType::POINT:
