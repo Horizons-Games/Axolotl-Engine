@@ -24,10 +24,6 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 
 		GeometryBatch* batch = CheckBatchCompatibility(newComponent, flags);
 
-		//adapt the batch to the good one before adding the component
-		std::vector<GeometryBatch*>& geometryBatches =
-			newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
-
 		if (batch)
 		{
 			batch->AddComponentMeshRenderer(newComponent);
@@ -35,6 +31,10 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 		else
 		{
 			batch = new GeometryBatch(flags);
+
+			std::vector<GeometryBatch*>& geometryBatches =
+				newComponent->GetMaterial() && newComponent->GetMaterial()->IsTransparent() ? 
+				    geometryBatchesTransparent : geometryBatchesOpaques;
 
 			batch->AddComponentMeshRenderer(newComponent);
 			geometryBatches.push_back(batch);
@@ -47,19 +47,22 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	std::shared_ptr<ResourceMesh> mesh = newComponent->GetMesh();
 	std::shared_ptr<ResourceMaterial> material = newComponent->GetMaterial();
 
-	if (mesh->GetNormals().size() != 0)
+	if (mesh)
 	{
-		flags |= HAS_NORMALS;
-	}
+		if (mesh->GetNormals().size() != 0)
+		{
+			flags |= HAS_NORMALS;
+		}
 
-	if (mesh->GetTextureCoords().size() != 0)
-	{
-		flags |= HAS_TEXTURE_COORDINATES;
-	}
+		if (mesh->GetTextureCoords().size() != 0)
+		{
+			flags |= HAS_TEXTURE_COORDINATES;
+		}
 
-	if (mesh->GetTangents().size() != 0)
-	{
-		flags |= HAS_TANGENTS;
+		if (mesh->GetTangents().size() != 0)
+		{
+			flags |= HAS_TANGENTS;
+		}
 	}
 
 	if (material)
@@ -76,7 +79,7 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 	//verify if it's transparent or opaque
 	std::vector<GeometryBatch*>& geometry_batches = 
-		newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
+		material && newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
 
 	for (GeometryBatch* geometryBatch : geometry_batches)
 	{

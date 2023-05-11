@@ -52,12 +52,20 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		if (newMaterial)
 		{
 			asMeshRenderer->SetMaterial(material);
-			asMeshRenderer->GetBatch()->ReserveModelSpace();
-			if (asMeshRenderer->IsTransparent() != isTransparent || asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
+			if (asMeshRenderer->GetBatch())
 			{
-				asMeshRenderer->RemoveFromBatch();
+				asMeshRenderer->GetBatch()->ReserveModelSpace();
+				
+				if (asMeshRenderer->IsTransparent() != isTransparent || asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
+				{
+					asMeshRenderer->RemoveFromBatch();
+				}
+			}
+			else
+			{
 				App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
 			}
+
 			InitMaterialValues();
 			newMaterial = false;
 		}
@@ -415,7 +423,10 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 		}
 		if (updateMaterials)
 		{
-			asMeshRenderer->GetBatch()->SetFillMaterials(true);
+			if (asMeshRenderer->GetBatch())
+			{
+				asMeshRenderer->GetBatch()->SetFillMaterials(true);
+			}
 			//asMeshRenderer->GetBatch()->FillMaterial();
 		}
 	}

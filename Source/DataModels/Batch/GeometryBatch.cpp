@@ -28,14 +28,16 @@ defaultMaterial(new ResourceMaterial(0, "", "", "")),
 mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (flags & HAS_METALLIC)
-	{
-		program = App->program->GetProgram(ProgramType::DEFAULT);
-	}
-	
-	else if (flags & HAS_SPECULAR)
+	// Setting the default framgent as the METALLIC (in case the mesh didn't had a material)
+	this->flags |= (flags & HAS_SPECULAR || flags & HAS_METALLIC) ? 0 : HAS_METALLIC;
+
+	if (this->flags & HAS_SPECULAR)
 	{
 		program = App->program->GetProgram(ProgramType::SPECULAR);
+	}
+	else 
+	{
+		program = App->program->GetProgram(ProgramType::DEFAULT);
 	}
 
 	//initialize buffers
