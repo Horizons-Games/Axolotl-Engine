@@ -1,11 +1,8 @@
-#pragma warning (disable: 26495)
-
 #include "ModuleRender.h"
 
 #include <queue>
 
 #include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
@@ -13,14 +10,14 @@
 #include "ModuleScene.h"
 #include "ModulePlayer.h"
 
-#include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataStructures/Quadtree.h"
 #include "Components/ComponentMeshRenderer.h"
 
-#include "GameObject/GameObject.h"
+#include "DataModels/GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
@@ -100,7 +97,8 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+	depthStencilRenderbuffer(0),
+	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
 
@@ -120,7 +118,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	context = SDL_GL_CreateContext(App->window->GetWindow());
+	context = SDL_GL_CreateContext(App->GetModule<ModuleWindow>()->GetWindow());
 
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
@@ -145,6 +143,7 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -155,21 +154,12 @@ bool ModuleRender::Init()
 #endif // ENGINE
 	glGenRenderbuffers(1, &depthStencilRenderbuffer);
 
-	std::pair<int, int> windowSize = App->window->GetWindowSize();
+	std::pair<int, int> windowSize = App->GetModule<ModuleWindow>()->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
 	// Set the list of draw buffers.
 	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
-
-	return true;
-}
-
-bool ModuleRender::Start()
-{
-	ENGINE_LOG("--------- Render Start ----------");
-
-	//UpdateProgram();
 
 	return true;
 }
@@ -182,7 +172,7 @@ update_status ModuleRender::PreUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	SDL_GetWindowSize(App->window->GetWindow(), &width, &height);
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
 	glViewport(0, 0, width, height);
 
@@ -199,35 +189,32 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
-
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
-	const Skybox* skybox = App->scene->GetLoadedScene()->GetSkybox();
+	const Skybox* skybox = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox();
 	if (skybox)
 	{
 		skybox->Draw();
 	}
 
-
-	if (App->debug->IsShowingBoundingBoxes())
+	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->scene->GetLoadedScene()->GetRootQuadtree());
+		DrawQuadtree(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	}
 
 	int w, h;
-	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &w, &h);
 
-	App->debug->Draw(App->camera->GetCamera()->GetViewMatrix(),
-		App->camera->GetCamera()->GetProjectionMatrix(), w, h);
+	App->GetModule<ModuleDebugDraw>()->Draw(App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix(),
+		App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix(), w, h);
 
-
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
+	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->scene->GetLoadedScene()->GetRootQuadtree());
-	std::vector<GameObject*> nonStaticsGOs = App->scene->GetLoadedScene()->GetNonStaticObjects();
+	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
 		AddToRenderList(nonStaticObj);
@@ -236,12 +223,12 @@ update_status ModuleRender::Update()
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 	{
-		AddToRenderList(App->player->GetPlayer());
+		AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
 	}
 #else
-	if (App->player->GetPlayer())
+	if (App->GetModule<ModulePlayer>()->GetPlayer())
 	{
-		AddToRenderList(App->player->GetPlayer());
+		AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
 	}
 #endif // !ENGINE
 	
@@ -286,7 +273,7 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_GL_SwapWindow(App->window->GetWindow());
+	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
@@ -299,16 +286,19 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &vbo);
-	
+#ifdef ENGINE
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderedTexture);
+#endif // ENGINE
+	glDeleteRenderbuffers(1, &depthStencilRenderbuffer);
 	return true;
 }
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	App->camera->GetCamera()->SetAspectRatio(float(width) / height);
+	App->GetModule<ModuleCamera>()->GetCamera()->SetAspectRatio(float(width) / height);
 #ifdef ENGINE
-	App->editor->Resized();
+	App->GetModule<ModuleEditor>()->Resized();
 #endif // ENGINE
 }
 
@@ -354,9 +344,9 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	float3 cameraPos = App->camera->GetCamera()->GetPosition();
+	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 
-	if (App->camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
+	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf()) 
@@ -421,7 +411,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
-	float3 cameraPos = App->camera->GetCamera()->GetPosition();
+	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -435,7 +425,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
@@ -471,7 +461,7 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #ifdef ENGINE
 	if (quadtree->IsLeaf())
 	{
-		App->debug->DrawBoundingBox(quadtree->GetBoundingBox());
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(quadtree->GetBoundingBox());
 	}
 	else
 	{
@@ -491,7 +481,7 @@ void ModuleRender::DrawGameObject(const GameObject* gameObject)
 		return;
 	}
 
-	GameObject* goSelected = App->scene->GetSelectedGameObject();
+	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (gameObject != nullptr && gameObject->IsActive())
 	{

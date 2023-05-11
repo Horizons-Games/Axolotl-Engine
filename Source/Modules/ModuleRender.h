@@ -1,15 +1,17 @@
 #pragma once
-#pragma warning (disable: 26495)
-
 #include "Module.h"
-#include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include "Math/float4.h"
+
+#include <map>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Cubemap;
+class Quadtree;
+class GameObject;
 
 class ModuleRender : public Module
 {
@@ -18,12 +20,12 @@ public:
 	~ModuleRender() override;
 
 	bool Init() override;
-	bool Start() override;
-	bool CleanUp() override;
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	
+	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);
@@ -54,8 +56,6 @@ private:
 	void* context;
 	float4 backgroundColor;
 
-	unsigned vbo;
-	
 	std::vector<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	//to avoid gameobjects being drawn twice

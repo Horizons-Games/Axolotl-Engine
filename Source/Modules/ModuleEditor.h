@@ -6,7 +6,9 @@ class WindowMainMenu;
 class WindowDebug;
 class WindowScene;
 class WindowInspector;
+class WindowStateMachineEditor;
 class Resource;
+class ResourceStateMachine;
 class GameObject;
 
 class ModuleEditor : public Module
@@ -25,6 +27,9 @@ public:
 
 	void Resized();
 
+	void SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource);
+	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
+
 	const WindowScene* GetScene() const;
 		  WindowMainMenu* GetMainMenu() const;
 	const WindowDebug* GetDebugOptions() const;
@@ -35,25 +40,26 @@ public:
 	std::pair<float, float> GetAvailableRegion();
 
 private:
-	void CopyAnObject();
-	void PasteAnObject();
-	void CutAnObject();
-	void DuplicateAnObject();
-
 	std::vector<std::unique_ptr<EditorWindow> > windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
+	std::unique_ptr<WindowStateMachineEditor> stateMachineEditor = nullptr;
+	bool stateMachineWindowEnable;
 
 	WindowInspector* inspector;
 	WindowScene* scene;
 	bool windowResized;
 
-	std::unique_ptr<GameObject> copyObject;
 	std::string StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;
 };
+
+inline void ModuleEditor::Resized()
+{
+	windowResized = true;
+}
 
 inline const WindowScene* ModuleEditor::GetScene() const
 {
@@ -69,3 +75,5 @@ inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
 }
+
+

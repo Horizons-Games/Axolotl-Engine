@@ -1,25 +1,42 @@
-#pragma warning (disable: 26495)
-
 #include "ResourceMesh.h"
 
 #include "GL/glew.h"
+
 #include "Math/float2.h"
 #include "Math/float4x4.h"
+#include "Math/float4.h"
+
 #include "Geometry/Triangle.h"
 
 ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath),
-	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), materialIndex(0)
+	vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), numBones(0), materialIndex(0)
 {
 }
 
 ResourceMesh::~ResourceMesh()
 {
 	Unload();
+
+	bones.clear();
+	attaches.clear();
+}
+
+unsigned int ResourceMesh::GetBonesPerVertex() {
+	return bonesPerVertex;
 }
 
 void ResourceMesh::InternalLoad()
 {
+	glGenBuffers(1, &ssboPalette);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * bones.size(),
+		nullptr, GL_DYNAMIC_DRAW);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, ssboPalette);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
 	CreateVBO();
 	CreateEBO();
 	CreateVAO();
@@ -47,6 +64,10 @@ void ResourceMesh::CreateVBO()
 	{
 		vertexSize += sizeof(float) * 3;
 	}
+
+	vertexSize += sizeof(unsigned int) * 4;
+	vertexSize += sizeof(float) * 4;
+
 	//unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
 	GLuint bufferSize = vertexSize * numVertices;
 
@@ -72,13 +93,35 @@ void ResourceMesh::CreateVBO()
 	unsigned normalsSize = sizeof(float) * 3 * numVertices;
 	glBufferSubData(GL_ARRAY_BUFFER, normalsOffset, normalsSize, &normals[0]);
 
+	unsigned tangentsOffset = positionSize + uvSize + normalsSize;
+	unsigned tangentsSize = sizeof(float) * 3 * numVertices;
 	if (tangents.size() != 0)
 	{
-		unsigned tangentsOffset = positionSize + uvSize + normalsSize;
-		unsigned tangentsSize = sizeof(float) * 3 * numVertices;
 		glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, &tangents[0]);
 	}
 
+	unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
+	unsigned weightSize = sizeof(float) * 4 * numVertices;
+	unsigned boneOffset = positionSize + uvSize + normalsSize + tangentsSize;
+	unsigned weightOffset = positionSize + uvSize + normalsSize + tangentsSize + bonesSize;
+
+	typedef struct { unsigned int x, y, z, w; } uint4;
+
+	std::vector<uint4> bones;
+	bones.reserve(numVertices);
+	std::vector<float4> weights;
+	weights.reserve(numVertices);
+	for (unsigned int i = 0; i < numVertices; ++i)
+	{
+		bones.push_back(uint4(attaches[i].bones[0], attaches[i].bones[1],
+			                  attaches[i].bones[2], attaches[i].bones[3]));
+
+		weights.push_back(float4(attaches[i].weights[0], attaches[i].weights[1], 
+							     attaches[i].weights[2], attaches[i].weights[3]));
+	}
+
+	glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);
 }
 
 void ResourceMesh::CreateEBO()
@@ -129,6 +172,15 @@ void ResourceMesh::CreateVAO()
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
+
+	//bone indices and weights
+	glEnableVertexAttribArray(4);
+	glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, 
+		(void*)(sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
+
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
+		(void*)((sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4) * numVertices));
 }
 
 // For mouse-picking purposes

@@ -1,6 +1,7 @@
 #include "ComponentWindow.h"
 
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
+#include <sstream>
+
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
@@ -10,6 +11,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
@@ -22,7 +24,6 @@
 
 #include "Application.h"
 #include "ModuleScene.h"
-#include "Components/ComponentAmbient.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
@@ -30,6 +31,7 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
@@ -40,6 +42,10 @@
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
+
+#include "ComponentWindow.h"
+#include "ModuleCommand.h"
+#include "Commands/CommandComponentEnabled.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -62,6 +68,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
 		case ComponentType::PLAYER:
 			return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
+		case ComponentType::ANIMATION:
+			return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 		case ComponentType::CANVAS:
 			return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
 		case ComponentType::IMAGE:
@@ -81,12 +89,9 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 		case ComponentType::SCRIPT:
 			return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 		case ComponentType::LIGHT:
-		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
-			case LightType::AMBIENT:
-				return std::make_unique<WindowComponentAmbient>(static_cast<ComponentAmbient*>(component));
 			case LightType::DIRECTIONAL:
 				return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
 			case LightType::POINT:
@@ -128,9 +133,10 @@ void ComponentWindow::DrawEnableComponent()
 
 		ImGui::Text("Enabled"); ImGui::SameLine();
 		bool enable = component->IsEnabled();
-		ImGui::Checkbox(ss.str().c_str(), &enable);
-
-		(enable) ? component->Enable() : component->Disable();
+		if (ImGui::Checkbox(ss.str().c_str(), &enable))
+		{
+			App->GetModule<ModuleCommand>()->CreateAndExecuteCommand<CommandComponentEnabled>(component, enable);
+		}
 	}
 }
 
@@ -143,7 +149,7 @@ void ComponentWindow::DrawDeleteComponent()
 
 		if (ImGui::Button(ss.str().c_str(), ImVec2(90, 20)))
 		{
-			if (!App->scene->GetSelectedGameObject()->RemoveComponent(component))
+			if (!App->GetModule<ModuleScene>()->GetSelectedGameObject()->RemoveComponent(component))
 			{
 				assert(false && "Trying to delete a non-existing component");
 			}

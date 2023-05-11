@@ -7,8 +7,8 @@ REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr)
 {
-	REGISTER_FIELD(WayPointOne, GameObject*);
-	REGISTER_FIELD(WayPointTwo, GameObject*);
+	REGISTER_FIELD_WITH_ACCESSORS(WayPointOne, GameObject*);
+	REGISTER_FIELD_WITH_ACCESSORS(WayPointTwo, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()

@@ -1,7 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4005)
-
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 #include "Camera/Camera.h"
@@ -58,6 +55,10 @@ private:
 	float4x4 orthoProjectionMatrix;
 };
 
+inline Camera* ModuleCamera::GetCamera()
+{
+	return selectedCamera;
+}
 
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {
