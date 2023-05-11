@@ -36,152 +36,154 @@ void WindowComponentScript::DrawWindowContents()
 	std::string thisID = std::to_string(windowUID);
 	std::string finalLabel = label + separator + thisID;
 
-	if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), (int)(constructors.size()), 5))
+	const IScript* scriptObject = script->GetScript();
+
+	if (!scriptObject)
 	{
-		if (script->GetConstructName() != constructors[current_item])
+		if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
 			ChangeScript(script, constructors[current_item]);
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
+
+		return;
 	}
 
-	IScript* scriptObject = script->GetScript();
-	if (scriptObject)
+	ImGui::Separator();
+
+	std::string scriptName = script->GetConstructName().c_str();
+	std::string scriptExtension = ".cpp:";
+	std::string fullScriptName = scriptName + scriptExtension;
+	ImGui::Text(fullScriptName.c_str());
+
+	if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
 	{
-		ImGui::Separator();
+		ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
+	}
 
-		std::string scriptName = script->GetConstructName().c_str();
-		std::string scriptExtension = ".cpp:";
-		std::string fullScriptName = scriptName + scriptExtension;
-		ImGui::Text(fullScriptName.c_str());
+	else
+	{
+		ImGui::SameLine();
+	}
 
-		if (ImGui::GetWindowWidth() > (float)fullScriptName.size() * 13.0f)
+	label = "Remove Script##";
+	finalLabel = label + thisID;
+	if (ImGui::Button(finalLabel.c_str()))
+	{
+		ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
+
+		script->SetScript(nullptr); // This deletes the script itself
+		script->SetConstuctor("");	// And this makes that it is also deleted from the serialization
+	}
+
+	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+	{
+		ValidFieldType member = enumAndMember.second;
+		switch (enumAndMember.first)
 		{
-			ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
-		}
-		else
-		{
-			ImGui::SameLine();
-		}
-
-		label = "Reset Script##";
-		finalLabel = label + thisID;
-		if (ImGui::Button(finalLabel.c_str()))
-		{
-			ComponentScript* newScript = static_cast<ComponentScript*>(component);
-
-			ChangeScript(newScript, newScript->GetConstructName().c_str());
-			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
-		}
-
-		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
-		{
-			ValidFieldType member = enumAndMember.second;
-			switch (enumAndMember.first)
+			case FieldType::FLOAT:
 			{
-				case FieldType::FLOAT:
+				Field<float> floatField = std::get<Field<float>>(member);
+				float value = floatField.getter();
+
+				label = floatField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
 				{
-					Field<float> floatField = std::get<Field<float>>(member);
-					float value = floatField.getter();
-
-					label = floatField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
-					{
-						floatField.setter(value);
-					}
-					break;
+					floatField.setter(value);
 				}
-
-				case FieldType::VECTOR3:
-				{
-					Field<float3> float3Field = std::get<Field<float3>>(member);
-					float3 value = float3Field.getter();
-					if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-					{
-						float3Field.setter(value);
-					}
-					break;
-				}
-
-				case FieldType::STRING:
-				{
-					Field<std::string> stringField = std::get<Field<std::string>>(member);
-					std::string value = stringField.getter();
-				
-					label = stringField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::InputText(finalLabel.c_str(), (char*)(value.c_str()), 24))
-					{
-						stringField.setter(value);
-					}
-					break;
-				}
-
-				case FieldType::GAMEOBJECT:
-				{
-					Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-					GameObject* value = gameObjectField.getter();
-
-					std::string gameObjectSlot = "Drag a GameObject here";
-					if (value != nullptr)
-					{
-						gameObjectSlot = value->GetName().c_str();
-					}
-
-					label = gameObjectSlot;
-					finalLabel = label + separator + thisID;
-					ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
-
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-						{
-							UID draggedGameObjectID = *(UID*)payload->Data;
-							GameObject* draggedGameObject =
-								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-
-							if (draggedGameObject)
-							{
-								gameObjectField.setter(draggedGameObject);
-							}
-						}
-
-						ImGui::EndDragDropTarget();
-					}
-
-					ImGui::SameLine(0.0f, 3.0f);
-					ImGui::Text(gameObjectField.name.c_str());
-					ImGui::SameLine();
-
-					label = "Remove GO##";
-					finalLabel = label + thisID;
-					if (ImGui::Button(finalLabel.c_str()))
-					{
-						gameObjectField.setter(nullptr);
-					}
-
-					break;
-				}
-
-				case FieldType::BOOLEAN:
-				{
-					Field<bool> booleanField = std::get<Field<bool>>(member);
-					bool value = booleanField.getter();
-
-					label = booleanField.name;
-					finalLabel = label + separator + thisID;
-					if (ImGui::Checkbox(finalLabel.c_str(), &value))
-					{
-						booleanField.setter(value);
-					}
-					break;
-				}
-
-				default:
-					break;
+				break;
 			}
+
+			case FieldType::VECTOR3:
+			{
+				Field<float3> float3Field = std::get<Field<float3>>(member);
+				float3 value = float3Field.getter();
+				if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+				{
+					float3Field.setter(value);
+				}
+				break;
+			}
+
+			case FieldType::STRING:
+			{
+				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				std::string value = stringField.getter();
+			
+				label = stringField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::InputText(finalLabel.c_str(), (char*)(value.c_str()), 24))
+				{
+					stringField.setter(value);
+				}
+				break;
+			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				GameObject* value = gameObjectField.getter();
+
+				std::string gameObjectSlot = "Drag a GameObject here";
+				if (value != nullptr)
+				{
+					gameObjectSlot = value->GetName().c_str();
+				}
+
+				label = gameObjectSlot;
+				finalLabel = label + separator + thisID;
+				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+					{
+						UID draggedGameObjectID = *(UID*)payload->Data;
+						GameObject* draggedGameObject =
+							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+
+						if (draggedGameObject)
+						{
+							gameObjectField.setter(draggedGameObject);
+						}
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+
+				ImGui::SameLine(0.0f, 3.0f);
+				ImGui::Text(gameObjectField.name.c_str());
+				ImGui::SameLine();
+
+				label = "Remove GO##";
+				finalLabel = label + thisID;
+				if (ImGui::Button(finalLabel.c_str()))
+				{
+					gameObjectField.setter(nullptr);
+				}
+
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				Field<bool> booleanField = std::get<Field<bool>>(member);
+				bool value = booleanField.getter();
+
+				label = booleanField.name;
+				finalLabel = label + separator + thisID;
+				if (ImGui::Checkbox(finalLabel.c_str(), &value))
+				{
+					booleanField.setter(value);
+				}
+				break;
+			}
+
+			default:
+				break;
 		}
+
 	}
 }
 
