@@ -17,31 +17,31 @@ struct Material {
     int has_metallic_map;       //location 9
 };
 
-layout(std140, binding=1) uniform Directional
+layout(std140, binding=0) uniform Directional
 {
 	vec3 directionalDir;  	//12	//0
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
 };
 
-readonly layout(std430, binding=2) buffer PointLights
+readonly layout(std430, binding=1) buffer PointLights
 {
 	uint num_point;			//4		//0
 	PointLight points[]; 	//32	//16
 };
 
-readonly layout(std430, binding=3) buffer SpotLights
+readonly layout(std430, binding=2) buffer SpotLights
 {
 	uint num_spot;
 	SpotLight spots[];
 };
 
-readonly layout(std430, binding=4) buffer AreaLightsSphere
+readonly layout(std430, binding=3) buffer AreaLightsSphere
 {
 	uint num_spheres;
 	AreaLightSphere areaSphere[];
 };
 
-readonly layout(std430, binding=5) buffer AreaLightsTube
+readonly layout(std430, binding=4) buffer AreaLightsTube
 {
 	uint num_tubes;
 	AreaLightTube areaTube[];

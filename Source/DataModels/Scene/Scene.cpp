@@ -510,7 +510,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
-	const unsigned bindingDirectional = 1;
+	const unsigned bindingDirectional = 0;
 
 	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -523,7 +523,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingPoint = 2;
+	const unsigned bindingPoint = 1;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -536,7 +536,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingSpot = 3;
+	const unsigned bindingSpot = 2;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
