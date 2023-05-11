@@ -50,7 +50,12 @@ GeometryBatch::~GeometryBatch()
 	}
 	resourcesInfo.clear();
 
+	for (ComponentMeshRenderer* component : componentsInBatch)
+	{
+		component->SetBatch(nullptr);
+	}
 	componentsInBatch.clear();
+
 	objectIndexes.clear();
 	instanceData.clear();
 
