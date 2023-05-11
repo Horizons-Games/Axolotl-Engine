@@ -218,7 +218,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 
 void WindowComponentScript::OpenCreateNewScriptPopUp()
 {
-	static char name[FILENAME_MAX] = "NewScript";
+	char name[FILENAME_MAX] = "NewScript";
 	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
 	ImGui::NewLine();
 
@@ -243,20 +243,20 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
 	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
 
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+
 	// Both header and source have the same name, so only checking the header is enough
-	if (App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
+	if (fileSystem->Exists(scriptHeaderPath.c_str()))
 	{
 		ENGINE_LOG("That name is already in use, please use a different one");
 		return;
 	}
 
-	ENGINE_LOG("New script %s created", scriptName.c_str());
-
 	char* headerBuffer = nullptr;
 	char* sourceBuffer = nullptr;
 
-	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
-	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+	fileSystem->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	fileSystem->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
 
 	std::string headerBufferAsString = headerBuffer;
 	std::string sourceBufferAsString = sourceBuffer;
@@ -267,8 +267,10 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	headerBuffer = headerBufferAsString.data();
 	sourceBuffer = sourceBufferAsString.data();
 
-	App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
-	App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
+	fileSystem->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
+	fileSystem->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
+
+	ENGINE_LOG("New script %s created", scriptName.c_str());
 }
 
 void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
