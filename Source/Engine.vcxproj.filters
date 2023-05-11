@@ -361,9 +361,6 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="HealthSystem.cpp">
-      <Filter>UserScripts\Health System</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
@@ -372,6 +369,9 @@
     </ClCompile>
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
+      <Filter>UserScripts\Health System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -728,9 +728,6 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="HealthSystem.h">
-      <Filter>UserScripts\Health System</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
@@ -748,6 +745,9 @@
     </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HealthSystem.h">
+      <Filter>UserScripts\Health System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -942,9 +942,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -1015,9 +1012,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
@@ -1260,9 +1254,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1339,9 +1330,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -1865,9 +1853,6 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
