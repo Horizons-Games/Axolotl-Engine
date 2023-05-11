@@ -214,7 +214,15 @@ void ComponentScript::LoadOptions(Json& meta)
 					UID fieldUID = field["value"];
 					if (fieldUID != 0)
 					{
-						optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+						UID newFieldUID;
+						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+						{
+							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
+						}
+						else 
+						{
+							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+						}
 					}
 
 					else

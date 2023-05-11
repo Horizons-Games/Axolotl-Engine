@@ -1,0 +1,11 @@
+{
+    "UID": 13897272862338245485,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cube.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Material.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

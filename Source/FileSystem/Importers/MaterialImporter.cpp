@@ -220,7 +220,7 @@ void MaterialImporter::Save
 	float3 specularColor[1] = { resource->GetSpecularColor() };
 	
 	size = sizeof(texturesUIDs) + sizeof(diffuseColor) 
-		+ sizeof(specularColor)  + sizeof(float) + sizeof(bool) + sizeof(unsigned int);
+		+ sizeof(specularColor)  + sizeof(float) * 3 + sizeof(bool) + sizeof(unsigned int);
 
 	char* cursor = new char[size];
 
@@ -253,6 +253,16 @@ void MaterialImporter::Save
 
 	bytes = sizeof(bool);
 	memcpy(cursor, &resource->GetTransparent(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float);
+	memcpy(cursor, &resource->GetSmoothness(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float);
+	memcpy(cursor, &resource->GetMetalness(), bytes);
 }
 
 void MaterialImporter::Load
@@ -402,6 +412,18 @@ void MaterialImporter::Load
 	resource->SetTransparent(*isTransparent);
 
 	fileBuffer += sizeof(bool);
+
+	float smoothness;
+	memcpy(&smoothness, fileBuffer, sizeof(float));
+	resource->SetSmoothness(smoothness);
+
+	fileBuffer += sizeof(float);
+
+	float metalness;
+	memcpy(&metalness, fileBuffer, sizeof(float));
+	resource->SetMetalness(metalness);
+
+	fileBuffer += sizeof(float);
 
 	delete shaderType;
 	delete normalStrenght;

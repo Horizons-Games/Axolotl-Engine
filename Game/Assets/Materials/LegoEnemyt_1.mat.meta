@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/helmet_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/helmet_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }
