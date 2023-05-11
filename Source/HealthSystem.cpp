@@ -21,18 +21,18 @@ void HealthSystem::Update(float deltaTime)
 {
 	if (health <= 0)
 	{
-		ENGINE_LOG("Murió :(");
+		ENGINE_LOG("Die *sad mishito* :(");
 	}
 }
 
 void HealthSystem::TakeDamage(float damage)
 {
-	health - damage;
+	health = health - damage;
 }
 
 void HealthSystem::HealLife(float amountHealed)
 {
-	health + amountHealed;
+	health = health + amountHealed;
 
 	if (health > maxHealth) 
 	{
