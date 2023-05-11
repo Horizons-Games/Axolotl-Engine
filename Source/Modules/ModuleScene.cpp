@@ -433,7 +433,6 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
-	GameObject* ambientLight = nullptr;
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
@@ -471,8 +470,6 @@ void ModuleScene::ImportSceneFromJson(Json& json)
 	loadedScene->AddSceneCameras(loadedCameras);
 	loadedScene->AddSceneCanvas(loadedCanvas);
 	loadedScene->AddSceneInteractable(loadedInteractable);
-	RemoveGameObject(ambientLight);
-	loadedScene->DestroyGameObject(ambientLight);
 	RemoveGameObject(directionalLight);
 	loadedScene->DestroyGameObject(directionalLight);
 	loadedScene->InitLights();
