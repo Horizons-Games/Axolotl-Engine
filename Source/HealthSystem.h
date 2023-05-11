@@ -8,11 +8,17 @@ public:
 	HealthSystem();
 	~HealthSystem() override = default;
 
+	void Start() override;
 	void Update(float deltaTime) override;
 
-	std::string GetHelloWorld() const;
-	void SetHelloWorld(const std::string & helloWorld);
+	float GetHealth() const;
+	void SetHealth(float health);
+
+	void TakeDamage(float damage) { health - damage; };
+	void HealLife(float amountHealed) { amountHealed == health; };
+
 
 private:
-	std::string helloWorld;
+	float health;
+	float maxHealth;
 };

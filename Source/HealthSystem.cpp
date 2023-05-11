@@ -6,23 +6,30 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), helloWorld("Hello World")
+HealthSystem::HealthSystem() : Script(), health(100)
 {
-	REGISTER_FIELD(HelloWorld, std::string);
+	REGISTER_FIELD(Health, float);
+}
+
+void HealthSystem::Start()
+{
+	maxHealth = health;
 }
 
 void HealthSystem::Update(float deltaTime)
 {
-	// Print "Hello World" each frame
-	ENGINE_LOG("%s", helloWorld.c_str());
+	if (health <= 0) {
+		ENGINE_LOG("Murió :(");
+	}
 }
 
-std::string HealthSystem::GetHelloWorld() const
+
+float HealthSystem::GetHealth() const
 {
-	return helloWorld;
+	return health;
 }
 
-void HealthSystem::SetHelloWorld(const std::string& helloWorld)
+void HealthSystem::SetHealth(float health) 
 {
-	this->helloWorld = helloWorld;
+	this->health = health;
 }
