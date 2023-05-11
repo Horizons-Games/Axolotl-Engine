@@ -206,7 +206,8 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                     std::list<GameObject*> listSGO = selectedGameObject->GetGameObjectsInside();
                     bool actualParentSelected = std::find(std::begin(listSGO), std::end(listSGO),
                                                 parentGameObject) != std::end(listSGO);
-                    bool newParentSelected = std::find(std::begin(listSGO), std::end(listSGO), gameObject) != std::end(listSGO);
+                    bool newParentSelected = std::find(std::begin(listSGO), std::end(listSGO), 
+                                                gameObject) != std::end(listSGO);
 
                     if(actualParentSelected && !newParentSelected)
                     {
