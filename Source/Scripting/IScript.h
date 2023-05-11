@@ -28,7 +28,6 @@ class Application;
         [this](Type value) { this->Set##Name(value); } \
     )));
 
-//for now only allow floats, strings, GameObjects and booleans
 using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 

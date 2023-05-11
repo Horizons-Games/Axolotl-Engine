@@ -2,7 +2,7 @@
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1,1.2,1.4), sentence("Horizons"), character(nullptr), check(true)
+DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f,1.2f,1.4f), sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
@@ -25,12 +25,12 @@ void DefaultScript::Update(float deltaTime)
 	ENGINE_LOG("%s", std::to_string(check).c_str());
 }
 
-float3 DefaultScript::GetVector3() const
+const float3& DefaultScript::GetVector3() const
 {
 	return vec3;
 }
 
-void DefaultScript::SetVector3(float3 vec3)
+void DefaultScript::SetVector3(const float3& vec3)
 {
 	this->vec3 = vec3;
 }

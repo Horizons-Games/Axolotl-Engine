@@ -97,7 +97,7 @@ void WindowComponentScript::DrawWindowContents()
 				{
 					Field<float3> float3Field = std::get<Field<float3>>(member);
 					float3 value = float3Field.getter();
-					if(ImGui::InputFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), "%.2f"))
+					if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
 					{
 						float3Field.setter(value);
 					}
