@@ -1,8 +1,13 @@
 #include "WindowComponentScript.h"
-#include "Components/ComponentScript.h"
+
 #include "Application.h"
 #include "Scene/Scene.h"
+
 #include "Modules/ModuleScene.h"
+#include "FileSystem/ModuleFileSystem.h"
+
+#include "Components/ComponentScript.h"
+
 #include "ScriptFactory.h"
 #include "IScript.h"
 #include "Math/float3.h"
@@ -46,6 +51,21 @@ void WindowComponentScript::DrawWindowContents()
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
 
+		label = "Create Script##";
+		finalLabel = label + thisID;
+		if (ImGui::Button(finalLabel.c_str()))
+		{
+			ImGui::OpenPopup("Create new script");
+		}
+
+		ImGui::SetNextWindowSize(ImVec2(280, 75));
+
+		if (ImGui::BeginPopupModal("Create new script", nullptr,
+			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
+		{
+			OpenCreateNewScriptPopUp();
+			ImGui::EndPopup();
+		}
 		return;
 	}
 
@@ -194,4 +214,75 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	Iscript->SetGameObject(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
+}
+
+void WindowComponentScript::OpenCreateNewScriptPopUp()
+{
+	static char name[FILENAME_MAX] = "NewScript";
+	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
+	ImGui::NewLine();
+
+	ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+	if (ImGui::Button("Save", ImVec2(50, 20)))
+	{
+		AddNewScriptToProject(name);
+		ImGui::CloseCurrentPopup();
+	}
+
+	ImGui::SameLine(ImGui::GetWindowWidth() - 60);
+	if (ImGui::Button("Cancel"))
+	{
+		ImGui::CloseCurrentPopup();
+	}
+}
+
+void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
+{
+	std::string scriptsPath = "Scripts/";
+
+	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
+	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
+
+	// Both header and source have the same name, so only checking the header is enough
+	if (App->GetModule<ModuleFileSystem>()->Exists(scriptHeaderPath.c_str()))
+	{
+		ENGINE_LOG("That name is already in use, please use a different one");
+		return;
+	}
+
+	ENGINE_LOG("New script %s created", scriptName.c_str());
+
+	char* headerBuffer = nullptr;
+	char* sourceBuffer = nullptr;
+
+	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	App->GetModule<ModuleFileSystem>()->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+
+	std::string headerBufferAsString = headerBuffer;
+	std::string sourceBufferAsString = sourceBuffer;
+
+	ReplaceSubstringsInString(headerBufferAsString, "{0}", scriptName);
+	ReplaceSubstringsInString(sourceBufferAsString, "{0}", scriptName);
+
+	headerBuffer = headerBufferAsString.data();
+	sourceBuffer = sourceBufferAsString.data();
+
+	App->GetModule<ModuleFileSystem>()->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
+	App->GetModule<ModuleFileSystem>()->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
+}
+
+void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
+	const std::string& from, const std::string& to)
+{
+	if (from.empty())
+	{
+		return;
+	}
+
+	size_t startPos = 0;
+	while ((startPos = stringToReplace.find(from, startPos)) != std::string::npos)
+	{
+		stringToReplace.replace(startPos, from.length(), to);
+		startPos += to.length();
+	}
 }
