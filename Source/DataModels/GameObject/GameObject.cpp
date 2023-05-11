@@ -189,7 +189,7 @@ void GameObject::SetParent(GameObject* newParent)
 		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
 	if (transform && newParentTransform)
 	{
-		transform->CalculateLocalFromNewGlobal(newParentTransform->GetGlobalMatrix());
+		transform->CalculateLocalFromNewGlobal(newParentTransform);
 	}
 	newParent->LinkChild(this);
 
