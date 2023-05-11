@@ -27,8 +27,12 @@ enum class StateOfSelection
 class GameObject
 {
 public:
-	using GameObjectView = std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>, std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
-	using ComponentView = std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>, std::function<Component*(const std::unique_ptr<Component>&)>>;
+	using GameObjectView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
+			std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+	using ComponentView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
+			std::function<Component*(const std::unique_ptr<Component>&)>>;
 
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
@@ -207,7 +211,11 @@ inline bool GameObject::IsActive() const
 inline GameObject::GameObjectView GameObject::GetChildren() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda = [](const std::unique_ptr<GameObject>& go) { return go.get(); };
+	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda =
+		[](const std::unique_ptr<GameObject>& go)
+		{
+			return go.get();
+		};
 	return std::ranges::transform_view(children, lambda);
 }
 
@@ -223,7 +231,11 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 inline GameObject::ComponentView GameObject::GetComponents() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<Component* (const std::unique_ptr<Component>&)> lambda = [](const std::unique_ptr<Component>& c) { return c.get(); };
+	std::function<Component* (const std::unique_ptr<Component>&)> lambda =
+		[](const std::unique_ptr<Component>& c)
+		{
+			return c.get();
+		};
 	return std::ranges::transform_view(components, lambda);
 }
 
