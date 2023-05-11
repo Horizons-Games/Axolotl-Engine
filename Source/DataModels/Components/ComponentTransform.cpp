@@ -195,21 +195,21 @@ void ComponentTransform::CalculateBoundingBoxes()
 //
 void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom)
 {
-	/*const float4x4& nglobalMatrix = newTransformFrom->GetGlobalMatrix();
+	const float4x4& nglobalMatrix = newTransformFrom->GetGlobalMatrix();
 	float3 nPos,nSca;
 	float4x4 nRot;
-	nglobalMatrix.Decompose(nPos, nRot, nSca);*/
+	nglobalMatrix.Decompose(nPos, nRot, nSca);
 
 	localMatrix = newTransformFrom->GetGlobalMatrix().Inverted().Mul(globalMatrix);
-	
-	/*pos = (globalPos - nPos);
-	rotXYZ = RadToDeg(globalRot.ToEulerXYZ()) - RadToDeg(nRot.ToEulerXYZ());
-	rot = float4x4::FromEulerXYZ(DegToRad(rotXYZ.x), DegToRad(rotXYZ.y), DegToRad(rotXYZ.z));
-	sca = float3(globalSca.x / nSca.x, globalSca.y / nSca.y, globalSca.z / nSca.z);*/
 	pos = localMatrix.TranslatePart();
 	rot = static_cast<float4x4>(localMatrix.RotatePart());
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
-	//sca = localMatrix.GetScale();
+	sca = localMatrix.GetScale();
 
-	CalculateMatrices();
+	//sca = float3(globalSca.x / nSca.x, globalSca.y / nSca.y, globalSca.z / nSca.z);
+	/*pos = (globalPos - nPos);
+	rotXYZ = RadToDeg(globalRot.ToEulerXYZ()) - RadToDeg(nRot.ToEulerXYZ());
+	rot = float4x4::FromEulerXYZ(DegToRad(rotXYZ.x), DegToRad(rotXYZ.y), DegToRad(rotXYZ.z));*/
+
+	//CalculateMatrices();
 }
