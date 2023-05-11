@@ -8,6 +8,7 @@
 #include "debugdraw.h"
 #include "Math/Quat.h"
 #include "Math/float3x3.h"
+#include "Math/float4x4.h"
 #include "FileSystem/Json.h"
 
 ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
@@ -33,14 +34,14 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     SetAngularDamping(angularDamping);
 
     transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-
-    /*btTransform worldTransform;
-    float3 pos = transform->GetGlobalPosition();
+  
+    btTransform worldTransform;
+    float3 pos = transform->GetPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
     Quat rot = transform->GetRotation().RotatePart().ToQuat();
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
-    motionState->setWorldTransform(worldTransform);*/
+    motionState->setWorldTransform(worldTransform);
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -73,9 +74,37 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::Update()
 {
-    if (rigidBody && !rigidBody->isStaticOrKinematicObject())
+    //if (rigidBody->isStaticOrKinematicObject())
+    //{
+    //    //used to detect collisions between fixed time steps
+    //    rigidBody->setCcdMotionThreshold(0.1);
+    //    rigidBody->setCcdSweptSphereRadius(0.1f);
+
+    //    btTransform trans;
+    //    trans = rigidBody->getWorldTransform();
+    //    btQuaternion rot = trans.getRotation();
+    //    Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
+    //    transform->SetRotation(currentRot.ToEulerXYZ());
+    //    btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
+    //    float3 centerPoint = transform->GetLocalAABB().CenterPoint();
+    //    btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
+    //    transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+    //    transform->UpdateTransformMatrices();
+    //}
+
+    /*btTransform worldTransform;
+    float3 pos = transform->GetGlobalPosition();
+    worldTransform.setOrigin({ pos.x, pos.y, pos.z });
+    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+    rigidBody->setWorldTransform(worldTransform);
+    motionState->setWorldTransform(worldTransform);*/
+
+    //used to detect collisions between fixed time steps
+
+
+    if (!rigidBody->isStaticOrKinematicObject())
     {
-        //used to detect collisions between fixed time steps
         rigidBody->setCcdMotionThreshold(0.1);
         rigidBody->setCcdSweptSphereRadius(0.1f);
 
@@ -83,13 +112,15 @@ void ComponentRigidBody::Update()
         trans = rigidBody->getWorldTransform();
         btQuaternion rot = trans.getRotation();
         Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
-        transform->SetRotation(currentRot.ToEulerXYZ());
+        float4x4 rotationMatrix = float4x4::FromQuat(currentRot);
+        transform->SetRotation(rotationMatrix);
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
         transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
         transform->UpdateTransformMatrices();
     }
+    
 }
 
 

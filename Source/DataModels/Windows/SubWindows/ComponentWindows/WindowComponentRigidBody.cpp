@@ -68,7 +68,6 @@ void WindowComponentRigidBody::DrawWindowContents()
         {
             // Mass
             float mass = rigidBody->getMass();
-            mass = 1.0f / rigidBody->getInvMass();
             if (ImGui::DragFloat("Mass", &mass, 0.1f, 0.0f, FLT_MAX))
             {
                 btVector3 local_inertia;

@@ -127,8 +127,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 5.960464477539063e-8,
-                            "localPos_Y": -6.1665358543396,
-                            "localPos_Z": 14.017877578735352,
+                            "localPos_Y": 17.62566375732422,
+                            "localPos_Z": 13.88212776184082,
                             "localRot_X": -90.32691192626953,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -155,12 +155,12 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": false,
-                            "mass": 100.0,
+                            "mass": 5.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "gravity_Y": -9.8100004196167
+                            "gravity_Y": -1.0
                         }
                     }
                 ]
@@ -181,12 +181,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -2.812929630279541,
-                            "localPos_Y": 21.7095947265625,
-                            "localPos_Z": 22.215002059936523,
-                            "localRot_X": 54.45417022705078,
-                            "localRot_Y": 15.49783706665039,
-                            "localRot_Z": -79.1913833618164,
+                            "localPos_X": 2.3830506801605225,
+                            "localPos_Y": 37.851226806640625,
+                            "localPos_Z": 17.480093002319336,
+                            "localRot_X": 13.757482528686523,
+                            "localRot_Y": 4.1018476486206055,
+                            "localRot_Z": -120.31420135498047,
                             "localSca_X": 3.0399999618530273,
                             "localSca_Y": 3.0399999618530273,
                             "localSca_Z": 11.40404224395752
@@ -252,8 +252,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 14017933946843485505,
-                            "assetPathMesh": "Assets/Meshes/David.mesh",
+                            "meshUID": 0,
+                            "assetPathMesh": "",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
