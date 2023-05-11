@@ -5,6 +5,7 @@
 #include "Modules/ModuleScene.h"
 #include "ScriptFactory.h"
 #include "IScript.h"
+#include "Math/float3.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component), windowUID(UniqueID::GenerateUID())
@@ -94,14 +95,25 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
+			case FieldType::VECTOR3:
+			{
+				Field<float3> float3Field = std::get<Field<float3>>(member);
+				float3 value = float3Field.getter();
+				if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+				{
+					float3Field.setter(value);
+				}
+				break;
+			}
+
 			case FieldType::STRING:
 			{
 				Field<std::string> stringField = std::get<Field<std::string>>(member);
 				std::string value = stringField.getter();
-
+			
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
-				if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
+				if (ImGui::InputText(finalLabel.c_str(), (char*)(value.c_str()), 24))
 				{
 					stringField.setter(value);
 				}
@@ -111,7 +123,7 @@ void WindowComponentScript::DrawWindowContents()
 			case FieldType::GAMEOBJECT:
 			{
 				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-				const GameObject* value = gameObjectField.getter();
+				GameObject* value = gameObjectField.getter();
 
 				std::string gameObjectSlot = "Drag a GameObject here";
 				if (value != nullptr)
@@ -121,15 +133,13 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = gameObjectSlot;
 				finalLabel = label + separator + thisID;
-				ImGui::BeginDisabled();
 				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
-				ImGui::EndDisabled();
 
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
 					{
-						UID draggedGameObjectID = *(static_cast<UID*>(payload->Data));
+						UID draggedGameObjectID = *(UID*)payload->Data;
 						GameObject* draggedGameObject =
 							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
@@ -173,6 +183,7 @@ void WindowComponentScript::DrawWindowContents()
 			default:
 				break;
 		}
+
 	}
 }
 

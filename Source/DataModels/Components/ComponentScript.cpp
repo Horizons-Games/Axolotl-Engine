@@ -10,6 +10,7 @@
 
 #include "Scene/Scene.h"
 #include "Modules/ModuleScene.h"
+#include "Math/float3.h"
 
 ComponentScript::ComponentScript(bool active, GameObject* owner) : 
 	Component(ComponentType::SCRIPT, active, owner, true), script(nullptr)
@@ -96,6 +97,17 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
+			case FieldType::VECTOR3:
+			{
+				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				field["name"] = fieldInstance.name.c_str();
+				float3 fieldValue = fieldInstance.getter();
+				field["value x"] = fieldValue[0];
+				field["value y"] = fieldValue[1];
+				field["value z"] = fieldValue[2];
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
 
 			case FieldType::STRING:
 			{
@@ -167,6 +179,17 @@ void ComponentScript::LoadOptions(Json& meta)
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+			case FieldType::VECTOR3:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				if (optField)
+				{
+					float3 vec3(field["value x"], field["value y"], field["value z"]);
+					optField.value().setter(vec3);
 				}
 				break;
 			}
