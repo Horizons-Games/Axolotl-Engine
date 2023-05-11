@@ -218,7 +218,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 
 void WindowComponentScript::OpenCreateNewScriptPopUp()
 {
-	char name[FILENAME_MAX] = "NewScript";
+	static char name[FILENAME_MAX] = "NewScript";
 	ImGui::InputText("Script Name", name, IM_ARRAYSIZE(name));
 	ImGui::NewLine();
 
@@ -226,6 +226,8 @@ void WindowComponentScript::OpenCreateNewScriptPopUp()
 	if (ImGui::Button("Save", ImVec2(50, 20)))
 	{
 		AddNewScriptToProject(name);
+		// reset the input string contents
+		strcpy_s(name, "NewScript");
 		ImGui::CloseCurrentPopup();
 	}
 
@@ -243,7 +245,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	std::string scriptHeaderPath = scriptsPath + scriptName + ".h";
 	std::string scriptSourcePath = scriptsPath + scriptName + ".cpp";
 
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
 	// Both header and source have the same name, so only checking the header is enough
 	if (fileSystem->Exists(scriptHeaderPath.c_str()))
@@ -255,20 +257,19 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	char* headerBuffer = nullptr;
 	char* sourceBuffer = nullptr;
 
-	fileSystem->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
-	fileSystem->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
+	unsigned int headerBufferSize = fileSystem->Load("Source/PreMades/TemplateHeaderScript", headerBuffer);
+	unsigned int sourceBufferSize = fileSystem->Load("Source/PreMades/TemplateSourceScript", sourceBuffer);
 
-	std::string headerBufferAsString = headerBuffer;
-	std::string sourceBufferAsString = sourceBuffer;
+	std::string headerString(headerBuffer, headerBufferSize);
+	delete headerBuffer;
+	std::string sourceString(sourceBuffer, sourceBufferSize);
+	delete sourceBuffer;
 
-	ReplaceSubstringsInString(headerBufferAsString, "{0}", scriptName);
-	ReplaceSubstringsInString(sourceBufferAsString, "{0}", scriptName);
+	ReplaceSubstringsInString(headerString, "{0}", scriptName);
+	ReplaceSubstringsInString(sourceString, "{0}", scriptName);
 
-	headerBuffer = headerBufferAsString.data();
-	sourceBuffer = sourceBufferAsString.data();
-
-	fileSystem->Save(scriptHeaderPath.c_str(), headerBuffer, headerBufferAsString.size());
-	fileSystem->Save(scriptSourcePath.c_str(), sourceBuffer, sourceBufferAsString.size());
+	fileSystem->Save(scriptHeaderPath.c_str(), headerString.c_str(), headerString.size());
+	fileSystem->Save(scriptSourcePath.c_str(), sourceString.c_str(), sourceString.size());
 
 	ENGINE_LOG("New script %s created", scriptName.c_str());
 }
