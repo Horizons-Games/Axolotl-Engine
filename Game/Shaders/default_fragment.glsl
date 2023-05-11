@@ -3,6 +3,10 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Structs/lights.glsl"
+
+#include "/Common/Uniforms/lights_uniform.glsl"
+
 struct Material {
     vec4 diffuse_color;         //location 3
     int has_diffuse_map;        //location 4
@@ -11,36 +15,6 @@ struct Material {
     int has_normal_map;         //location 7
     float metalness;            //location 8
     int has_metallic_map;       //location 9
-};
-
-struct PointLight
-{
-	vec4 position;  	//16 //16	// xyz position+w radius
-	vec4 color; 		//16 //16   // rgb colour+alpha intensity
-};
-
-struct SpotLight
-{
-	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16	// rgb colour+alpha intensity
-	vec3 aim;			//12 //32
-	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48 
-    float padding1;     //4  //52
-    vec2  padding2;     //8  //56 --> 64
-};
-
-struct AreaLightSphere
-{
-    vec4 position;  	//16 //16   // xyz position+w radius
-	vec4 color; 		//16 //32   // rgb colour+alpha intensity
-};
-
-struct AreaLightTube
-{
-	vec3 positionA;     //16 //16
-	vec3 positionB;     //16 //32
-	vec4 color; 		//16 //48   // rgb colour+alpha intensity
 };
 
 layout(std140, binding=1) uniform Directional
@@ -73,11 +47,6 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 	AreaLightTube areaTube[];
 };
 
-struct Light {
-    vec3 position;
-    vec3 color;
-};
-
 layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D normal_map;
@@ -88,8 +57,6 @@ layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
 layout(binding = 10) uniform sampler2D environmentBRDF;
 uniform int numLevels_IBL;
-
-uniform Light light;
 
 in vec3 FragTangent;
 in vec3 Normal;
@@ -202,37 +169,46 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 
     for (int i = 0; i < num_spheres; ++i)
     {
-        vec3 pos = areaSphere[i].position.xyz;
+        vec3 sP = areaSphere[i].position.xyz;
         vec3 color = areaSphere[i].color.rgb;
-        float radius = areaSphere[i].position.w;
+        float sR = areaSphere[i].position.w;
         float intensity = areaSphere[i].color.a;
 
-        //TODO calculate Light
+        // calculate closest point light specular
+        vec3 oldL = normalize(sP - FragPos);
+        vec3 R = reflect(V, N);
+        vec3 centerToRay = FragPos - dot(oldL, R) * R - sP;
+        vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
 
-        vec3 L = normalize(FragPos-pos);
+        vec3 L = normalize(FragPos - closest);
         vec3 H = (-L+V)/length(-L+V);
-        float dotNL = max(dot(N,-L), EPSILON);
+        float specularDotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
+        // calculate closest point light diffuse
+        closest = sP;
+
+        L = normalize(FragPos-closest);
+        float diffuseDotNL = max(dot(N,-L), EPSILON);
+
         // Attenuation
-        float distance = dot(FragPos - pos, aim);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float distance = length(FragPos-closest);
+        float maxValue = pow(max(1-pow(distance/sR,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
-        float C = dot(L, aim);
-
         vec3 Li = color*intensity*attenuation;
-            
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+        vec3 LoSpecular = 0.25 * FS * SV * GGXND * Li * specularDotNL;
+        vec3 LoDiffuse = (Cd * (1 - f0)) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
     }
 
     return Lo;
 }
 
-vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
 
@@ -243,26 +219,45 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 color = areaTube[i].color.rgb;
         float intensity = areaTube[i].color.a;
 
-        //TODO calculate Light
+        // calculate closest point light specular
+        vec3 PA = posA-FragPos;
+        vec3 AB = posB-posA;
+        vec3 R = reflect(V, N);
+        float dotABDir = dot(AB, R);
+        float num = dot(R, PA)* dotABDir-dot(AB, PA);
+        float denom = dot(AB, AB)-dotABDir*dotABDir;
+        float t = clamp(num/denom, 0.0f, 1.0f);
+        vec3 closest = posA + AB * t;
 
-        vec3 L = normalize(FragPos-pos);
+        vec3 L = normalize(FragPos-closest);
         vec3 H = (-L+V)/length(-L+V);
-        float dotNL = max(dot(N,-L), EPSILON);
+        float specularDotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+        float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
+        // calculate closest point light diffuse
+        float a = length(posA-FragPos);
+        float b = length(posB-FragPos);
+        AB = posB - posA;
+        float c = length(AB);
+        float x = (c * a)/(b + a);
+        closest = posA + AB * x;
+
+        L = normalize(FragPos-closest);
+        float diffuseDotNL = max(dot(N,-L), EPSILON);
+
         // Attenuation
-        float distance = dot(FragPos - pos, aim);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+        float distance = length(FragPos-closest);
+        float radius = length(AB);
+        float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
-        float C = dot(L, aim);
-
-        vec3 Li = color*intensity*attenuation;
-            
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+        vec3 Li = color * intensity * attenuation;
+        vec3 LoSpecular = (0.25 * FS * SV * GGXND) * Li * specularDotNL;
+        vec3 LoDiffuse = (Cd * (1 - f0)) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
     }
 
     return Lo;
