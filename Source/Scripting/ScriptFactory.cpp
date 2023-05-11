@@ -153,7 +153,8 @@ IScript* ScriptFactory::GetScript(const char* name)
 	return it == std::end(allScripts) ? nullptr : it->second;
 }
 
-void ScriptFactory::IncludeDirs() {
+void ScriptFactory::IncludeDirs() 
+{
 	FileSystemUtils::Path basePath = pRuntimeObjectSystem->FindFile(__FILE__).ParentPath().ParentPath().ParentPath() / "Source";
 	FileSystemUtils::Path source = basePath;
 	pRuntimeObjectSystem->AddIncludeDir(source.c_str());
