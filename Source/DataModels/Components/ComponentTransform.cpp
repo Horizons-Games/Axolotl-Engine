@@ -201,15 +201,6 @@ void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* n
 	nglobalMatrix.Decompose(nPos, nRot, nSca);
 
 	localMatrix = newTransformFrom->GetGlobalMatrix().Inverted().Mul(globalMatrix);
-	pos = localMatrix.TranslatePart();
-	rot = static_cast<float4x4>(localMatrix.RotatePart());
+	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
-	sca = localMatrix.GetScale();
-
-	//sca = float3(globalSca.x / nSca.x, globalSca.y / nSca.y, globalSca.z / nSca.z);
-	/*pos = (globalPos - nPos);
-	rotXYZ = RadToDeg(globalRot.ToEulerXYZ()) - RadToDeg(nRot.ToEulerXYZ());
-	rot = float4x4::FromEulerXYZ(DegToRad(rotXYZ.x), DegToRad(rotXYZ.y), DegToRad(rotXYZ.z));*/
-
-	//CalculateMatrices();
 }
