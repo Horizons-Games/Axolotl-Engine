@@ -16,14 +16,30 @@ void HealthSystem::Start()
 	maxHealth = health;
 }
 
+
 void HealthSystem::Update(float deltaTime)
 {
-	if (health <= 0) {
+	if (health <= 0)
+	{
 		ENGINE_LOG("Murió :(");
 	}
 }
 
+void HealthSystem::TakeDamage(float damage)
+{
+	health - damage;
+}
 
+void HealthSystem::HealLife(float amountHealed)
+{
+	health + amountHealed;
+
+	if (health > maxHealth) 
+	{
+		health = maxHealth;
+	}
+}
+ 
 float HealthSystem::GetHealth() const
 {
 	return health;

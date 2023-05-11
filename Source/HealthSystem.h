@@ -14,8 +14,8 @@ public:
 	float GetHealth() const;
 	void SetHealth(float health);
 
-	void TakeDamage(float damage) { health - damage; };
-	void HealLife(float amountHealed) { amountHealed == health; };
+	void TakeDamage(float damage);
+	void HealLife(float amountHealed);
 
 
 private:
