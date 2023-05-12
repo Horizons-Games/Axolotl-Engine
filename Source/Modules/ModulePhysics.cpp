@@ -66,7 +66,7 @@ update_status ModulePhysics::PreUpdate()
 #ifdef ENGINE
     if (App->IsOnPlayMode())
     {
-        dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
+        dynamicsWorld->stepSimulation(App->GetDeltaTime());
         ManageCollisions();
 
         if (App->IsOnPlayMode())
