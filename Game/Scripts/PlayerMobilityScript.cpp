@@ -74,18 +74,41 @@ void PlayerMobilityScript::Move()
 
 	// Dash pressing E during 0.2 sec
 	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+
+	btVector3 force(0, 0, 0);
+
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		
-		//trans->UpdateTransformMatrices();
-		//rigidBody->isDirty = true;
-		btRigidBody* btRb = rigidBody->GetRigidBody();
-		btRb->applyCentralImpulse(btVector3(0.0f, 100.0f, 0.0f));
+		force += btVector3(0, 0, 1);
 	}
 
-	
-	
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	{
+		force += btVector3(0, 0, -1);
+	}
+
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	{
+
+		force += btVector3(-1, 0, 0);
+	}
+
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		force += btVector3(1, 0, 0);
+	}
+
+	if (!force.isZero())
+	{
+		/*btRb->setFriction(1.0);
+		btRb->setDamping(0.9, 0.9);*/
+		btRb->applyCentralImpulse(force*speed);
+		
+	}
 }
 
 void PlayerMobilityScript::Rotate()

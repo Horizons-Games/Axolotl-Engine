@@ -124,7 +124,7 @@ void ComponentRigidBody::SetupMobility()
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_DYNAMIC_OBJECT);
-        rigidBody->setActivationState(ACTIVE_TAG);
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
         btVector3 localInertia;
         rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
         rigidBody->setMassProps(mass, localInertia);
