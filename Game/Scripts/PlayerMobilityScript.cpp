@@ -50,9 +50,11 @@ void PlayerMobilityScript::Start()
 
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+
+	isDashing = false;
 }
 
-void PlayerMobilityScript::PreUpdate(float deltaTime)
+void PlayerMobilityScript::Update(float deltaTime)
 {
 	
 	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
@@ -67,76 +69,90 @@ void PlayerMobilityScript::PreUpdate(float deltaTime)
 void PlayerMobilityScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
-
-	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-
-
-	// Dash pressing E during 0.2 sec
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ModuleInput* input = App->GetModule<ModuleInput>();
-
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
-	btVector3 force(0, 0, 0);
-
+	btVector3 movement (0,0,0);
+	float3 direction = float3::zero;
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		force += btVector3(0, 0, 1);
+		direction = objectTransform->GetLocalForward().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		force += btVector3(0, 0, -1);
+		direction = -objectTransform->GetLocalForward().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 
-		force += btVector3(-1, 0, 0);
+		direction = -objectTransform->GetGlobalRight().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
-		force += btVector3(1, 0, 0);
+		direction = objectTransform->GetGlobalRight().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 	}
 
-	if (!force.isZero())
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
-		/*btRb->setFriction(1.0);
-		btRb->setDamping(0.9, 0.9);*/
-		btRb->applyCentralImpulse(force*speed);
+		if (!isDashing) 
+		{
+			if (!movement.isZero()) {
+				btRb->applyCentralImpulse(movement.normalized() * dashForce);
+				isDashing = true;
+			}
+		}
 		
+	}
+	else 
+	{
+		btVector3 newVelocity(movement.getX(), 0, movement.getZ());
+		btVector3 currentVelocity = btRb->getLinearVelocity();
+
+		if (!isDashing) 
+		{
+			newVelocity.setY(currentVelocity.getY());
+			btRb->setLinearVelocity(newVelocity);
+		}
+		else 
+		{
+			btVector3 currentVelocity = btRb->getLinearVelocity();
+			if (math::Abs(currentVelocity.getX()) < 0.5f && math::Abs(currentVelocity.getZ()) < 0.5f)
+			{
+				isDashing = false;
+			}
+
+		}
 	}
 }
 
 void PlayerMobilityScript::Rotate()
 {
-	//float deltaTime = App->GetDeltaTime();
-	//ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	//float3 newRot = trans->GetRotationXYZ();
-	//ModuleInput* input = App->GetModule<ModuleInput>();
-	//newRot.y += -input->GetMouseMotion().x * deltaTime;
-	//trans->SetRotation(newRot);
-	//trans->UpdateTransformMatrices();
+	float deltaTime = App->GetDeltaTime();
+	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	btRigidBody* btRb = rigidBody->GetRigidBody();
 
+	float horizontalMotion = input->GetMouseMotion().x;
+	btVector3 angularVelocity(0, 0, 0);
 
-	////Corroborate that you don't fuse with a owner
-	//ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
-	//math::vec points[8];
-	//trans->GetObjectOBB().GetCornerPoints(points);
-	//std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
-	//float3 direction = (points[1] - points[0]).Normalized();
-	//if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.5f))
-	//{
-	//	float deltaTime = App->GetDeltaTime();
-	//	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	//	float3 newRot = trans->GetRotationXYZ();
-	//	newRot.y += input->GetMouseMotion().x * deltaTime;
-	//	trans->SetRotation(newRot);
-	//	trans->UpdateTransformMatrices();
-	//}
+	if (horizontalMotion != 0)
+	{
+		btRb->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+		angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
+	}
+
+	btRb->setAngularVelocity(angularVelocity);
 }
 
 float PlayerMobilityScript::GetSpeed() const

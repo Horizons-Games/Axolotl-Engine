@@ -276,7 +276,7 @@
                             "isStatic": false,
                             "mass": 100.0,
                             "linearDamping": 0.8999999761581421,
-                            "angularDamping": 0.10000000149011612,
+                            "angularDamping": 0.5,
                             "restitution": 0.0,
                             "currentShape": 2,
                             "gravity_Y": -9.8100004196167
@@ -291,7 +291,7 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 20.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -301,7 +301,7 @@
                                 },
                                 {
                                     "name": "DashForce",
-                                    "value": 50.0,
+                                    "value": 3000.0,
                                     "type": 0
                                 },
                                 {

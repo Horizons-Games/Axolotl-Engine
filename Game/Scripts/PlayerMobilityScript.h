@@ -22,7 +22,7 @@ public:
 	~PlayerMobilityScript();
 
 	void Start() override;
-	void PreUpdate(float deltaTime) override;
+	void Update(float deltaTime) override;
 
 	void Move();
 	void Rotate();
@@ -52,6 +52,8 @@ private:
 	bool canDoubleJump;
 	bool isCrouch;
 	unsigned int jumps;
+
+	bool isDashing;
 
 	ComponentAudioSource* componentAudio;
 	PlayerActions playerState;
