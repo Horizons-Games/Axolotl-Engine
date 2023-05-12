@@ -17,10 +17,15 @@ private:
 	void Update(float deltaTime) override;
 
 	void PerformAttack();
+	bool isAttackAvailable();
 
+	float attackCooldown;
+	float lastAttackTime;
 
 	ComponentAudioSource* componentAudio;
 
 	ModuleInput* input;
+
+
 
 };
