@@ -225,7 +225,7 @@
             "GameObject": {
                 "name": "Character",
                 "tag": "",
-                "uid": 15943370777869966351,
+                "uid": 1926291865407278355,
                 "parentUID": 4591715972776205839,
                 "enabled": true,
                 "active": true,
@@ -236,9 +236,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 17.065113067626953,
-                            "localPos_Y": 38.227291107177734,
-                            "localPos_Z": -10.956171035766602,
+                            "localPos_X": 11.021012306213379,
+                            "localPos_Y": 22.56465721130371,
+                            "localPos_Z": -12.05789566040039,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -252,25 +252,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5578450929882929551,
+                            "meshUID": 16366434336221141457,
                             "assetPathMesh": "Assets/Meshes/David.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": false,
-                            "isStatic": false,
-                            "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 1,
-                            "gravity_Y": -1.0
                         }
                     },
                     {
@@ -284,6 +269,21 @@
                     },
                     {
                         "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.8999999761581421,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "gravity_Y": -9.8100004196167
+                        }
+                    },
+                    {
+                        "Component": {
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
@@ -291,7 +291,7 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 6.0,
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -319,8 +319,8 @@
             "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
-                "uid": 7626092155101769798,
-                "parentUID": 15943370777869966351,
+                "uid": 5753350519172800483,
+                "parentUID": 1926291865407278355,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -331,11 +331,11 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 4.049248695373535,
-                            "localPos_Z": -5.61811637878418,
-                            "localRot_X": 0.0,
+                            "localPos_Y": 1.84649658203125,
+                            "localPos_Z": -3.522552490234375,
+                            "localRot_X": 8.538000106811523,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -347,7 +347,7 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": true
+                            "drawFrustum": false
                         }
                     }
                 ]
