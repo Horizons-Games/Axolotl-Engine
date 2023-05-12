@@ -14,7 +14,7 @@
 #include "Windows/WindowMainMenu.h"
 #include "Windows/WindowDebug.h"
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
-#include "Windows/EditorWindows/WindowLoading.h"
+#include "Windows/PopUpWindows/WindowLoading.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"

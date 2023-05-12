@@ -373,6 +373,12 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -749,6 +755,12 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -840,6 +852,9 @@
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Windows\PopUpWindows">
+      <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -939,9 +954,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -1012,9 +1024,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
@@ -1144,9 +1153,6 @@
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\ModuleCommand.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1257,9 +1263,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1336,9 +1339,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -1603,9 +1603,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1682,9 +1679,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -1874,14 +1868,8 @@
     <ClInclude Include="Modules\ModuleCommand.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{63d396b9-4239-47e8-b629-8ccdfeb9ed44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{c91453bb-e0c9-4c12-a995-0c020d2586ef}</UniqueIdentifier>
     </Filter>
@@ -1918,13 +1906,6 @@
     <Filter Include="External\ImGuiFileDialog\stb">
       <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Enums">
-      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataStructures">
-      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>

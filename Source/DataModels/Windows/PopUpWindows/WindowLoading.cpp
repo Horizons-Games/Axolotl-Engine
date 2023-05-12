@@ -1,10 +1,8 @@
-#include "WindowLoading.h"
+#include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 
-WindowLoading::WindowLoading() : EditorWindow("Loading")
+WindowLoading::WindowLoading() : PopUpWindow("Loading")
 {
-	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove
-        | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking;
 }
 
 WindowLoading::~WindowLoading()
@@ -13,10 +11,6 @@ WindowLoading::~WindowLoading()
 
 void WindowLoading::DrawWindowContents()
 {
-	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());
-	ImGui::SetWindowCollapsed(false);
-	ImGui::SetWindowFocus();
-	
 	if (waitingOn.empty())
     {
 	    ImGui::TextUnformatted("Loading...");
