@@ -198,24 +198,10 @@ void ModuleScene::OnPlay()
 
 	Json jsonScene(tmpDoc, tmpDoc);
 
-	Json jsonGameObjects = jsonScene["GameObjects"];
-	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
-	{
-		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
-	}
-
-	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
-	rootQuadtree->SaveOptions(jsonScene);
-
-	const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);
-
-	rapidjson::StringBuffer buffer;
-	jsonScene.toBuffer(buffer);
+	SaveSceneToJson(jsonScene);
 
 	//First Init
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 		{
@@ -224,7 +210,7 @@ void ModuleScene::OnPlay()
 	}
 
 	//Then Start
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 		{
@@ -237,7 +223,7 @@ void ModuleScene::OnStop()
 {
 	ENGINE_LOG("Stop pressed");
 
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
 		{
@@ -248,6 +234,7 @@ void ModuleScene::OnStop()
 	Json Json(tmpDoc, tmpDoc);
 
 	SetSceneFromJson(Json);
+
 	//clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
 }
@@ -259,7 +246,7 @@ std::unique_ptr<Scene> ModuleScene::CreateEmptyScene() const
 	return newScene;
 }
 
-void ModuleScene::SaveSceneToJson(const std::string& name)
+void ModuleScene::SaveScene(const std::string& name)
 {
 	rapidjson::Document doc;
 	Json jsonScene(doc, doc);
@@ -267,6 +254,18 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 	GameObject* root = loadedScene->GetRoot();
 	root->SetName(App->GetModule<ModuleFileSystem>()->GetFileName(name).c_str());
 
+	SaveSceneToJson(jsonScene);
+
+	rapidjson::StringBuffer buffer;
+	jsonScene.toBuffer(buffer);
+
+	std::string path = SCENE_PATH + name;
+
+	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+}
+
+void ModuleScene::SaveSceneToJson(Json& jsonScene)
+{
 	Json jsonGameObjects = jsonScene["GameObjects"];
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
@@ -282,13 +281,6 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
-
-	rapidjson::StringBuffer buffer;
-	jsonScene.toBuffer(buffer);
-
-	std::string path = SCENE_PATH + name;
-
-	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
 }
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)

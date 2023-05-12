@@ -33,7 +33,7 @@ public:
 	bool hasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
-	void SaveSceneToJson(const std::string& name);
+	void SaveScene(const std::string& name);
 	void LoadSceneFromJson(const std::string& name);
 	void ImportFromJson(const std::string& name);
 
@@ -47,6 +47,7 @@ public:
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
+	void SaveSceneToJson(Json& jsonScene);
 	void SetSceneFromJson(Json& json);
 	void ImportSceneFromJson(Json& json);
 	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
