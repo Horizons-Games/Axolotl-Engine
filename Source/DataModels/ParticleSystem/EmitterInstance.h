@@ -37,6 +37,7 @@ public:
 
 private:
 	std::vector<Particle> particles;
+
 	ParticleEmitter* emitter;
 	ComponentParticleSystem* owner;
 	ShapeType shape;

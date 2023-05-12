@@ -45,6 +45,7 @@ private:
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();
 	void AddComponentScript();
+	void AddComponentParticle();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;

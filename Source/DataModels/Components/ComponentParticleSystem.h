@@ -10,11 +10,12 @@ class ResourceParticleSystem;
 class ComponentParticleSystem : public Component
 {
 public:
-	ComponentParticleSystem(GameObject* owner);
-	~ComponentParticleSystem();
+	ComponentParticleSystem(const bool active, GameObject* owner);
+	~ComponentParticleSystem() override;
 
-	void Save();
-	void Load();
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 	void Update();
 	void Reset();
 

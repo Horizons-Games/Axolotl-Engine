@@ -174,6 +174,11 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				AddComponentScript();
 			}
+
+			if (ImGui::MenuItem("Create Particle Component"))
+			{
+				AddComponentParticle();
+			}
 		}
 
 		else
@@ -374,4 +379,9 @@ void WindowInspector::AddComponentMeshCollider()
 void WindowInspector::AddComponentScript()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+}
+
+void WindowInspector::AddComponentParticle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PARTICLE);
 }

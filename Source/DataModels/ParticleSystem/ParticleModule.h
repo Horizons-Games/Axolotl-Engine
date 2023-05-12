@@ -10,8 +10,8 @@ public:
 	ParticleModule(ModuleType type);
 	virtual ~ParticleModule();
 
-	virtual void Spawn(EmitterInstance*);
-	virtual void Update(EmitterInstance*);
+	virtual void Spawn(EmitterInstance* emitter) {};
+	virtual void Update(EmitterInstance* emitter) {};
 	
 	void Save();
 	void Load();
@@ -21,6 +21,7 @@ public:
 private:
 	ModuleType type;
 };
+
 
 inline const ModuleType ParticleModule::GetType() const
 {

@@ -356,6 +356,9 @@
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -748,6 +751,9 @@
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

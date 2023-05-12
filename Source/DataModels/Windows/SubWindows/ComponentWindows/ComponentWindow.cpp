@@ -19,6 +19,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -40,6 +41,7 @@
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -80,8 +82,9 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 		case ComponentType::SCRIPT:
 			return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
+		case ComponentType::PARTICLE:
+			return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 		case ComponentType::LIGHT:
-		
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())
 			{
@@ -97,7 +100,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			default:
 				return std::make_unique<WindowComponentLight>(asLight);
 			}
-		
 		}
 	}
 	return nullptr;

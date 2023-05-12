@@ -19,6 +19,7 @@
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentScript.h"
+#include "../Components/ComponentParticleSystem.h"
 
 #include "Application.h"
 
@@ -470,6 +471,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");

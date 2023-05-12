@@ -1,7 +1,7 @@
 #include "ComponentParticleSystem.h"
 
-ComponentParticleSystem::ComponentParticleSystem(GameObject* owner) : 
-	Component(ComponentType::PARTICLE, true, owner, false)
+ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
+	Component(ComponentType::PARTICLE, active, owner, false), resource(nullptr)
 {
 }
 
@@ -16,3 +16,20 @@ ComponentParticleSystem::~ComponentParticleSystem()
 
 	delete resource;
 }
+
+void ComponentParticleSystem::SaveOptions(Json& meta)
+{
+}
+
+void ComponentParticleSystem::LoadOptions(Json& meta)
+{
+}
+
+void ComponentParticleSystem::Update()
+{
+}
+
+void ComponentParticleSystem::Reset()
+{
+}
+

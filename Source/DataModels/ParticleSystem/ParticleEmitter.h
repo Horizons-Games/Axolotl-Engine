@@ -2,8 +2,9 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-class ModuleParticle;
+class ParticleModule;
 class ResourceTexture;
 
 class ParticleEmitter
@@ -17,12 +18,12 @@ public:
 
 	void SetName(const std::string& name);
 
-	ModuleParticle* AddModule();
+	ParticleModule* AddModule();
 
 private:
 	std::string name;
-	std::vector<ModuleParticle> modules;
+	std::vector<ParticleModule*> modules;
 
-	ResourceTexture* particleTexture;
+	std::shared_ptr<ResourceTexture> particleTexture;
 };
 

@@ -8,7 +8,7 @@ public:
 	ModuleBase();
 	~ModuleBase() override;
 
-	void Spawn(EmitterInstance*) override;
-	void Update(EmitterInstance*) override;
+	void Spawn(EmitterInstance* emitter) override;
+	void Update(EmitterInstance* emitter) override;
 };
 

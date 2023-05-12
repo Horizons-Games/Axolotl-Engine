@@ -1,7 +1,7 @@
 #pragma once
 #include "Resource.h"
 
-class Emitter;
+class ParticleEmitter;
 
 class ResourceParticleSystem : virtual public Resource
 {
@@ -12,20 +12,20 @@ public:
 		const std::string& libraryPath);
 	~ResourceParticleSystem();
 
-	std::vector<Emitter> GetEmitters() const;
+	std::vector<ParticleEmitter*> GetEmitters() const;
 
-	void SetEmitters(const std::vector<Emitter>& emitters);
+	void SetEmitters(const std::vector<ParticleEmitter*>& emitters);
 
 private:
-    std::vector<Emitter> emitters;
+    std::vector<ParticleEmitter*> emitters;
 };
 
-inline std::vector<Emitter> ResourceParticleSystem::GetEmitters() const
+inline std::vector<ParticleEmitter*> ResourceParticleSystem::GetEmitters() const
 {
 	return emitters;
 }
 
-inline void ResourceParticleSystem::SetEmitters(const std::vector<Emitter>& emitters)
+inline void ResourceParticleSystem::SetEmitters(const std::vector<ParticleEmitter*>& emitters)
 {
 	this->emitters = emitters;
 }
