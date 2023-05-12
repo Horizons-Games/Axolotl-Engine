@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{0DFD9651-BFB6-3635-C869-584F955EA7E5}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{D6596D2F-DCC8-9FC9-6610-0CBD6E942AB9}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -65,7 +65,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{CBD3374A-B8FC-EF6F-CBD5-B9ADE735673B}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{434CE934-E5FF-A25A-7B11-5B29500DF95B}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -82,7 +82,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{8F887826-3296-93C7-8C95-604D583BE794}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{9AF1BA18-39CE-2F01-A681-90927C7B6B5D}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -557,5 +557,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{70190A1E-EBD8-34F9-F864-90454A2BD54A}</FileHash>
+	<FileHash>{7498835D-6049-0D45-A835-68803B67368A}</FileHash>
 </SoundBanksInfo>

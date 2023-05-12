@@ -8,7 +8,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	829913711	Matrix Reverb (Custom)	Wwise Matrix Reverb			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	106158711	cantina_music	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
-	347047974	First_Level_Sewers__v1	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\First_Level_Sewers__v1		7690336
-	652056130	sfx_ambient_crowd_talking_01	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
+	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
+	347047974	First_Level_Sewers__v1	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\First_Level_Sewers__v1		7690336
+	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
 
