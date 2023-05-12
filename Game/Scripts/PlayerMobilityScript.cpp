@@ -316,27 +316,27 @@ void PlayerMobilityScript::Move()
 
 	//rigidBody->AddForce(forceVector * forceParameter);
 
-	// Jump
-	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
-	{
-		sizeJump = deltaTime * jumpParameter;
-		jumps -= 1;
-		if (rigidBody->IsOnGround() || jumps > 0)
-		{
-			rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
-		}
+	//// Jump
+	//if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+	//{
+	//	sizeJump = deltaTime * jumpParameter;
+	//	jumps -= 1;
+	//	if (rigidBody->IsOnGround() || jumps > 0)
+	//	{
+	//		rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
+	//	}
 
-	}
-	
-	// Control Double Jump
-	if (rigidBody->IsOnGround() && canDoubleJump)
-	{
-		jumps = 2;
-	}
-	else if (rigidBody->IsOnGround() && !canDoubleJump)
-	{
-		jumps = 1;
-	}
+	//}
+	//
+	//// Control Double Jump
+	//if (rigidBody->IsOnGround() && canDoubleJump)
+	//{
+	//	jumps = 2;
+	//}
+	//else if (rigidBody->IsOnGround() && !canDoubleJump)
+	//{
+	//	jumps = 1;
+	//}
 	
 
 	trans->UpdateTransformMatrices();
@@ -359,7 +359,7 @@ void PlayerMobilityScript::Move()
 		}
 	}
 
-	rigidBody->SetBottomHitPoint(maxHeight);
+	//rigidBody->SetBottomHitPoint(maxHeight);
 
 	//top
 	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))

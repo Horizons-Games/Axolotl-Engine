@@ -22,7 +22,7 @@ public:
 	~PlayerMobilityScript();
 
 	void Start() override;
-	void Update(float deltaTime) override;
+	void PreUpdate(float deltaTime) override;
 
 	void Move();
 	void Rotate();
