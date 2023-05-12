@@ -174,6 +174,8 @@
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
+    <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
     <ClCompile Include="DataModels\Camera\Camera.cpp" />
     <ClCompile Include="DataModels\Camera\CameraEngine.cpp">
@@ -182,7 +184,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Camera\CameraGameObject.cpp" />
     <ClCompile Include="DataModels\Camera\CameraGod.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAudioSource.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceCubemap.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
@@ -217,6 +219,10 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -288,10 +294,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -482,6 +484,8 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
+    <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
     <ClInclude Include="DataModels\Camera\CameraEngine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -490,7 +494,6 @@
     <ClInclude Include="DataModels\Camera\CameraGameObject.h" />
     <ClInclude Include="DataModels\Camera\CameraGod.h" />
     <ClInclude Include="DataModels\Components\Component.h" />
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h" />
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h" />
     <ClInclude Include="DataModels\Components\ComponentAudioSource.h" />
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
@@ -515,6 +518,7 @@
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h" />
     <ClInclude Include="DataModels\Resources\Resource.h" />
+    <ClInclude Include="DataModels\Resources\ResourceCubemap.h" />
     <ClInclude Include="DataModels\Resources\ResourceAnimation.h" />
     <ClInclude Include="DataModels\Resources\ResourceMaterial.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
@@ -530,6 +534,10 @@
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMaterialInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -603,10 +611,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>

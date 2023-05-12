@@ -1,6 +1,7 @@
 #pragma once
 #include "FileSystem/Importers/Importer.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
+
+class ResourceSkyBox;
 
 class SkyBoxImporter : public Importer<ResourceSkyBox>
 {

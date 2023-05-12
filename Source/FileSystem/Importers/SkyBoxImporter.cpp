@@ -4,6 +4,8 @@
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/Json.h"
+
+#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
 SkyBoxImporter::SkyBoxImporter()
