@@ -455,6 +455,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="NewPlayerMobilityTest.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
@@ -792,6 +793,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="NewPlayerMobilityTest.h" />
     <ClInclude Include="Physics\Physics.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />

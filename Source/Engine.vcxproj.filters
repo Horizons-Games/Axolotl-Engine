@@ -364,6 +364,9 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="NewPlayerMobilityTest.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -736,6 +739,9 @@
     </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="NewPlayerMobilityTest.h">
+      <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1841,9 +1847,6 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
-    <ClInclude Include="Auxiliar\Reflection\TypeToEnum.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
