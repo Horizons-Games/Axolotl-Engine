@@ -68,11 +68,6 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::Update()
 {
-    if (isDirty)
-    {
-        UpdateRigidBody();
-        isDirty = false;
-    }
     if (!rigidBody->isStaticOrKinematicObject())
     {
         rigidBody->setCcdMotionThreshold(0.1);
@@ -90,16 +85,11 @@ void ComponentRigidBody::Update()
         transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
         transform->UpdateTransformMatrices();
     }
-
-    
-    
 }
 
 
 void ComponentRigidBody::UpdateRigidBody() 
 {
-    
-
     btTransform worldTransform;
     float3 pos = transform->GetPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
@@ -107,9 +97,6 @@ void ComponentRigidBody::UpdateRigidBody()
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
-
-    btTransform trans;
-    trans = rigidBody->getWorldTransform();
 }
 void ComponentRigidBody::SetupMobility()
 {

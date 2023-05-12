@@ -79,7 +79,9 @@ void PlayerMobilityScript::Move()
 	{
 		
 		//trans->UpdateTransformMatrices();
-		rigidBody->isDirty = true;
+		//rigidBody->isDirty = true;
+		btRigidBody* btRb = rigidBody->GetRigidBody();
+		btRb->applyCentralImpulse(btVector3(0.0f, 100.0f, 0.0f));
 	}
 
 	
