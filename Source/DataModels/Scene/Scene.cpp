@@ -205,6 +205,9 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	case Premade3D::CUBE:
 		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
 		break;
+	case Premade3D::SPHERE:
+		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
+		break;
 	case Premade3D::PLANE:
 		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
 		break;

@@ -21,6 +21,7 @@ class Updatable;
 enum class Premade3D
 {
 	CUBE,
+	SPHERE,
 	PLANE,
 	CYLINDER,
 	CAPSULE,

@@ -267,6 +267,10 @@ void WindowHierarchy::Create3DObjectMenu(GameObject* gameObject)
 		{
             loadedScene->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
 		}
+        if (ImGui::MenuItem("Sphere"))
+        {
+            loadedScene->Create3DGameObject("Sphere", gameObject, Premade3D::SPHERE);
+        }
 		if (ImGui::MenuItem("Plane"))
 		{
             loadedScene->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
