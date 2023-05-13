@@ -22,8 +22,13 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
 
     btTransform startTransform;
     startTransform.setIdentity();
+    transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+    float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    
+    currentShape = 1;
     motionState = new btDefaultMotionState(startTransform);
-    shape = new btBoxShape({ 0, 0, 0 });
+    shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
+    
     rigidBody = new btRigidBody(100, motionState, shape);
     
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
@@ -33,9 +38,6 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
 
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
-
-    transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(SHAPE::BOX));
 
     UpdateRigidBody();
 }
@@ -205,7 +207,6 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetIsKinematic((bool)meta["isKinematic"]);
 	SetIsStatic((bool)meta["isStatic"]);
 	SetMass((float)meta["mass"]);
-    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>((int)meta["currentShape"]));
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
@@ -214,6 +215,13 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
 	SetKpTorque((float)meta["KpTorque"]);*/
+
+    int currentShape = (int)meta["currentShape"];
+
+    if (currentShape != 0)
+    {
+        SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+    }
     
     SetupMobility();
 }
