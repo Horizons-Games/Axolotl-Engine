@@ -337,9 +337,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	}
 
 	Json gameObjects = json["GameObjects"];
-	std::vector<GameObject*> loadedObjects;
-
-	loadedObjects = CreateHierarchyFromJson(gameObjects, mantainActualScene);
+	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects, mantainActualScene);
 
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
@@ -378,10 +376,12 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	}
 
 	SetSceneRootAnimObjects(loadedObjects);
-	App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
+	selectedGameObject = loadedScene->GetRoot();
+	App->GetModule<ModuleEditor>()->RefreshInspector();
 
 	if(!mantainActualScene)
 	{
+		App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
 		loadedScene->SetSceneCameras(loadedCameras);
 		loadedScene->SetSceneCanvas(loadedCanvas);
 		loadedScene->SetSceneInteractable(loadedInteractable);
@@ -395,9 +395,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		RemoveGameObject(directionalLight);
 		loadedScene->DestroyGameObject(directionalLight);
 	}
-
-	selectedGameObject = loadedScene->GetRoot();
-	App->GetModule<ModuleEditor>()->RefreshInspector();
+	
 	loadedScene->InitLights();
 }
 
