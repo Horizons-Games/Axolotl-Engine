@@ -1,0 +1,31 @@
+{
+    "UID": 6369105005705487565,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/AllJoint.Cube.001_0.mesh",
+        "Assets/Meshes/AllJoint.Mesh.001_0.mesh",
+        "Assets/Meshes/AllJoint.Mesh.003_0.mesh",
+        "Assets/Meshes/AllJoint.Cylinder.002_0.mesh",
+        "Assets/Meshes/AllJoint.Cylinder.002_1.mesh",
+        "Assets/Meshes/AllJoint.Cylinder.003_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/AllJointGlasses_0.mat",
+        "Assets/Materials/AllJointFace_0.mat",
+        "Assets/Materials/AllJointBody_0.mat",
+        "Assets/Materials/AllJointLightSaber.001_0.mat",
+        "Assets/Materials/AllJointLightSaberEmission_1.mat",
+        "Assets/Materials/AllJointLightSaber.001_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/AllJoint.StartWalkingCantina.anim",
+        "Assets/Animation/AllJoint.Idle.anim",
+        "Assets/Animation/AllJoint.Running.anim",
+        "Assets/Animation/AllJoint.UseForce.anim",
+        "Assets/Animation/AllJoint.Roll.anim",
+        "Assets/Animation/AllJoint.IdleSaber.anim",
+        "Assets/Animation/AllJoint.Jumping.anim",
+        "Assets/Animation/AllJoint.Attack.anim",
+        "Assets/Animation/AllJoint.Armature_Idle.anim"
+    ]
+}
