@@ -5,6 +5,7 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentMeshCollider.h"
 
 #include "GameObject/GameObject.h"
 
@@ -12,19 +13,22 @@
 
 REGISTERCLASS(BixAttackScript);
 
-BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), componentAudio(nullptr), input(nullptr)
+BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
+									attackColliderGO(nullptr), input(nullptr), attackCollider(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
+	REGISTER_FIELD(attackColliderGO, GameObject*);
 }
 
 void BixAttackScript::Start()
 {
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	attackCollider = static_cast<ComponentMeshCollider*>(attackColliderGO->GetComponent(ComponentType::MESHCOLLIDER));
 
 	input = App->GetModule<ModuleInput>();
 
-	componentAudio->PostEvent(audio::SFX_PLAYER_LIGHTSABER_OPEN);
-	componentAudio->PostEvent(audio::SFX_PLAYER_LIGHTSABER_HUM);
+	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_OPEN);
+	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_HUM);
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -41,7 +45,11 @@ void BixAttackScript::PerformAttack()
 	if (isAttackAvailable())
 	{
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
-		componentAudio->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
+
+		//if (attackCollider->IsColliding())
+		
+
 	}
 }
 
