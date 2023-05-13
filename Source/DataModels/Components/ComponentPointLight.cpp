@@ -3,6 +3,9 @@
 
 #include "FileSystem/Json.h"
 
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #ifndef ENGINE
 #include "Modules/ModuleEditor.h"
 #include "Modules/ModuleDebugDraw.h"
@@ -10,8 +13,9 @@
 #include "Windows/WindowDebug.h"
 #endif //ENGINE
 
-#include "debugdraw.h"
 #include "Application.h"
+
+#include "debugdraw.h"
 
 ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true), radius (1.0f)
 {
@@ -40,9 +44,15 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 
 ComponentPointLight::~ComponentPointLight()
 {
+	Scene* currentScene = App->scene->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
-void ComponentPointLight::Draw()
+void ComponentPointLight::Draw() const
 {
 #ifndef ENGINE
 	if (!App->editor->GetDebugOptions()->GetDrawPointLight())
@@ -50,7 +60,7 @@ void ComponentPointLight::Draw()
 		return;
 	}
 #endif //ENGINE
-	if (this->GetActive())
+	if (IsEnabled() && GetOwner() == App->scene->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(GetOwner()

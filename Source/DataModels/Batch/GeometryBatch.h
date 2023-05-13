@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Math/float3.h"
+#include "Math/float2.h"
 
 #include <vector>
+#include <unordered_map>
 
 #include "GL/glew.h"
+
+#define DOUBLE_BUFFERS 2
 
 class ComponentMeshRenderer;
 class ResourceMesh;
@@ -21,19 +25,33 @@ struct Command
 	GLuint  baseInstance;	// Instance Index
 };
 
-struct Material {
-	float3 diffuse_color = float3::zero;	//0 //12
-	float normal_strength = 0;				//12 //4
-	int has_diffuse_map = 0;				//16 //4
-	int has_normal_map = 0;					//20 //4
-	float smoothness = 0;					//24 //4
-	int has_metallic_alpha = 0;				//28 //4
-	float metalness = 0;					//32 //4
-	int has_metallic_map = 0;				//36 //4
-	uint64_t diffuse_map;					//40 //8
-	uint64_t normal_map;					//48 //8
-	uint64_t metallic_map;					//56 //8	//-->64
+struct MaterialMetallic {
+	float4 diffuse_color = float4::zero; //0 //16
+	int has_diffuse_map = 0;			 //20 //4
+	int has_normal_map = 0;				 //24 //4
+	int has_metallic_map = 0;			 //36 //4
+	float smoothness = 0;				 //28 //4
+	float metalness = 0;				 //32 //4
+	float normal_strength = 0;			 //16 //4
+	uint64_t diffuse_map;				 //40 //8
+	uint64_t normal_map;				 //48 //8
+	uint64_t metallic_map;				 //56 //8 -->64
 };
+
+struct MaterialSpecular {
+	float4 diffuse_color = float4::zero;  //0  //16
+	float3 specular_color = float3::zero; //16 //16       
+	int has_diffuse_map = 0;              //32 //4
+	int has_normal_map = 0;               //36 //4
+	int has_specular_map = 0;             //40 //4
+	float smoothness = 0;                 //44 //4
+	float normal_strength = 0;            //48 //4
+	uint64_t diffuse_map;				  //48 //8
+	uint64_t normal_map;				  //56 //8
+	uint64_t specular_map;				  //64 //8    
+	float2 padding = float2::zero;		  //72 //8 --> 80
+};
+
 
 struct ResourceInfo
 {
@@ -45,40 +63,52 @@ struct ResourceInfo
 class GeometryBatch
 {
 public:
-	GeometryBatch();
+	GeometryBatch(int flag);
 	~GeometryBatch();
+
+	void CreateVAO();
+	void ClearBuffer();
+	bool CleanUp();
+
+	void UpdateBatchComponents();
+
+	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
+
+	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
+	void DeleteMaterial(const ComponentMeshRenderer* componentToDelete);
+	std::vector< ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
+
+	void BindBatch(bool selected);
+	void FillMaterial();
+	void ReserveModelSpace();
+
+	bool IsEmpty() const;
+	bool IsDirty() const;
+
+	void SetFillMaterials(const bool fillMaterials);
+	void SortByDistance();
+	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;
 
-	void CreateVAO();
-
-	void AddComponentMeshRenderer(ComponentMeshRenderer* newComponent);
-	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
-	
-	void DeleteMaterial(ComponentMeshRenderer* componentToDelete);
-
-	void BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender);
-
-	void FillMaterial();
-
-	void ReserveModelSpace();
-
-	bool CleanUp();
-
 private:
-
 	void FillBuffers();
 	void FillEBO();
 
 	void CreateInstanceResourceMesh(ResourceMesh* mesh);
-	void CreateInstanceResourceMaterial(ResourceMaterial* material);
+	int CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material);
 
-	ResourceInfo* FindResourceInfo(ResourceMesh* mesh);
+	ResourceInfo* FindResourceInfo(const ResourceMesh* mesh);
+
+	void LockBuffer();
+	void WaitBuffer();
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
+	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
+	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
-	std::vector<ResourceMaterial*> resourcesMaterial;
 	std::vector<int> instanceData;
+
 
 	unsigned int ebo;
 	unsigned int vao;
@@ -88,22 +118,41 @@ private:
 	unsigned int textureBuffer;
 	unsigned int normalsBuffer;
 	unsigned int tangentsBuffer;
-	unsigned int transforms;
+	unsigned int transforms[DOUBLE_BUFFERS];
 	unsigned int materials;
 
 	bool createBuffers;
 	bool reserveModelSpace;
+	bool dirtyBatch;
 
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
 
-	ResourceMaterial* defaultMaterial;
+	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };
+
+	const GLuint bindingPointModel = 10;
+	const GLuint bindingPointMaterial = 11;
+
+	GLbitfield mapFlags;
+	GLbitfield createFlags;
+	float4x4* transformData[DOUBLE_BUFFERS];
+	MaterialMetallic* metallicMaterialData;
+	MaterialSpecular* specularMaterialData;
+	unsigned int frame = 0;
+
+	std::shared_ptr<ResourceMaterial> defaultMaterial;
 
 	Program* program;
 
 	int flags;
+	bool fillMaterials;
 };
+
+inline void GeometryBatch::SetFillMaterials(const bool fillMaterials)
+{
+	this->fillMaterials = fillMaterials;
+}
 
 inline const int GeometryBatch::GetFlags() const
 {
@@ -113,4 +162,14 @@ inline const int GeometryBatch::GetFlags() const
 inline void GeometryBatch::ReserveModelSpace()
 {
 	reserveModelSpace = true;
+}
+
+inline bool GeometryBatch::IsEmpty() const
+{
+	return componentsInBatch.empty();
+}
+
+inline bool GeometryBatch::IsDirty() const
+{
+	return dirtyBatch;
 }

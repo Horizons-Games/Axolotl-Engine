@@ -1,5 +1,3 @@
-#pragma warning (disable: 4804)
-
 #include "Quadtree.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
@@ -205,7 +203,9 @@ bool Quadtree::SmartRemove()
 
 bool Quadtree::InQuadrant(GameObject* gameObject)
 {
-	const AABB& objectAABB = gameObject->GetEncapsuledAABB();
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	const AABB& objectAABB = transform->GetEncapsuledAABB();
 	return boundingBox.minPoint.x <= objectAABB.maxPoint.x &&
 		boundingBox.minPoint.y <= objectAABB.maxPoint.y &&
 		boundingBox.minPoint.z <= objectAABB.maxPoint.z &&
@@ -216,7 +216,9 @@ bool Quadtree::InQuadrant(GameObject* gameObject)
 
 bool Quadtree::EntireInQuadrant(GameObject* gameObject)
 {
-	const AABB& objectAABB = gameObject->GetEncapsuledAABB();
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	const AABB& objectAABB = transform->GetEncapsuledAABB();
 	return boundingBox.minPoint.x <= objectAABB.minPoint.x &&
 		boundingBox.minPoint.y <= objectAABB.minPoint.y &&
 		boundingBox.minPoint.z <= objectAABB.minPoint.z &&
@@ -313,7 +315,9 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 	float3 newMaxPoint = GetBoundingBox().maxPoint;
 	float3 newMinPoint = GetBoundingBox().minPoint;
 
-	const AABB& gameObjectAABB = gameObject->GetEncapsuledAABB();
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	const AABB& gameObjectAABB = transform->GetEncapsuledAABB();
 	float3 gameObjectMaxPoint = gameObjectAABB.maxPoint;
 	float3 gameObjectMinPoint = gameObjectAABB.minPoint;
 
@@ -441,6 +445,12 @@ void Quadtree::AddGameObjectAndChildren(GameObject* gameObject)
 	{
 		return;
 	}
+	//If an object doesn't have transform component it can't be at the quadtree
+	if (static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM)) == nullptr)
+	{
+		return;
+	}
+
 	std::list<GameObject*> familyObjects = {};
 	std::list<GameObject*> objects = GetAllGameObjects(gameObject);
 	familyObjects.insert(familyObjects.end(), objects.begin(), objects.end());

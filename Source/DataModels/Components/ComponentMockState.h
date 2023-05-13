@@ -10,9 +10,6 @@ public:
 	ComponentMockState(bool active, GameObject* owner);
 	~ComponentMockState() override;
 
-	void Update() override;
-	void Draw() override;
-
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
@@ -22,8 +19,8 @@ public:
 	void SetIsWinState(bool isWinState);
 	void SetIsFailState(bool isFailState);
 
-	const char* GetSceneName() const;
-	void SetSceneName(const char* newTag);
+	std::string GetSceneName() const;
+	void SetSceneName(const std::string& newTag);
 
 private:
 
@@ -52,13 +49,12 @@ inline void ComponentMockState::SetIsFailState(bool isFailState)
 	this->isFailState = isFailState;
 }
 
-inline const char* ComponentMockState::GetSceneName() const
+inline std::string ComponentMockState::GetSceneName() const
 {
-	return sceneName.c_str();
+	return sceneName;
 }
 
-inline void ComponentMockState::SetSceneName(const char* newSceneName)
+inline void ComponentMockState::SetSceneName(const std::string& newTag)
 {
-	sceneName = newSceneName;
+	sceneName = newTag;
 }
-

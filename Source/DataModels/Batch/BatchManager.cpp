@@ -1,9 +1,9 @@
 #include "BatchManager.h"
 
-#include "DataModels/Batch/GeometryBatch.h"
-#include "DataModels/Components/ComponentMeshRenderer.h"
-#include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Batch/BatchFlags.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Resources/ResourceMesh.h"
 
 #include <assert.h>
 
@@ -13,14 +13,16 @@ BatchManager::BatchManager()
 
 BatchManager::~BatchManager()
 {
-	geometryBatches.clear();
+	CleanBatches();
 }
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 {
 	if (newComponent)
 	{
-		GeometryBatch* batch = CheckBatchCompatibility(newComponent);
+		int flags = 0;
+
+		GeometryBatch* batch = CheckBatchCompatibility(newComponent, flags);
 
 		if (batch)
 		{
@@ -28,35 +30,58 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 		}
 		else
 		{
-			batch = new GeometryBatch();
+			batch = new GeometryBatch(flags);
+
+			std::vector<GeometryBatch*>& geometryBatches =
+				newComponent->GetMaterial() && newComponent->GetMaterial()->IsTransparent() ? 
+				    geometryBatchesTransparent : geometryBatchesOpaques;
 
 			batch->AddComponentMeshRenderer(newComponent);
-			batch->CreateVAO();
 			geometryBatches.push_back(batch);
 		}
 	}
 }
 
-GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent)
+GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags)
 {
-	int flags = 0;
+	std::shared_ptr<ResourceMesh> mesh = newComponent->GetMesh();
+	std::shared_ptr<ResourceMaterial> material = newComponent->GetMaterial();
 
-	if (newComponent->GetMesh()->GetNormals().size() != 0)
+	if (mesh)
 	{
-		flags |= HAS_NORMALS;
+		if (mesh->GetNormals().size() != 0)
+		{
+			flags |= HAS_NORMALS;
+		}
+
+		if (mesh->GetTextureCoords().size() != 0)
+		{
+			flags |= HAS_TEXTURE_COORDINATES;
+		}
+
+		if (mesh->GetTangents().size() != 0)
+		{
+			flags |= HAS_TANGENTS;
+		}
 	}
 
-	if (newComponent->GetMesh()->GetTextureCoords().size() != 0)
+	if (material)
 	{
-		flags |= HAS_TEXTURE_COORDINATES;
+		if (material->GetShaderType() == 0)
+		{
+			flags |= HAS_METALLIC;
+		}
+		else if (material->GetShaderType() == 1)
+		{
+			flags |= HAS_SPECULAR;
+		}
 	}
 
-	if (newComponent->GetMesh()->GetTangents().size() != 0)
-	{
-		flags |= HAS_TANGENTS;
-	}
+	//verify if it's transparent or opaque
+	std::vector<GeometryBatch*>& geometry_batches = 
+		material && newComponent->GetMaterial()->IsTransparent() ? geometryBatchesTransparent : geometryBatchesOpaques;
 
-	for (GeometryBatch* geometryBatch : geometryBatches)
+	for (GeometryBatch* geometryBatch : geometry_batches)
 	{
 		if (geometryBatch->GetFlags() == flags)
 		{
@@ -66,7 +91,67 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 	return nullptr;
 }
 
-void BatchManager::DrawBatch(GeometryBatch* batch, const std::vector<ComponentMeshRenderer*>& componentsToRender)
+void BatchManager::DrawOpaque(bool selected)
 {
-	batch->BindBatch(componentsToRender);
+	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
+	{
+		if (!geometryBatch->IsEmpty())
+		{
+			DrawBatch(geometryBatch, selected);
+		}
+		else
+		{
+			erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+			delete geometryBatch;
+		}
+	}
+}
+
+void BatchManager::DrawTransparent(bool selected)
+{
+	for (GeometryBatch* geometryBatch : geometryBatchesTransparent)
+	{
+		if (!geometryBatch->IsEmpty())
+		{
+			geometryBatch->SortByDistance();
+			DrawBatch(geometryBatch, selected);
+		}
+		else
+		{
+			erase_if(geometryBatchesTransparent, [](auto const& pi) { return pi->IsEmpty(); });
+			delete geometryBatch;
+		}
+	}
+}
+
+void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
+{
+	if (batch->IsDirty())
+	{
+		batch->ClearBuffer();
+		batch->CreateVAO();
+		batch->UpdateBatchComponents();
+		batch->SetDirty(false);
+
+	}
+	batch->BindBatch(selected);
+}
+
+void BatchManager::CleanBatches()
+{
+#ifndef ENGINE
+	App->resources->CleanResourceBin();
+#endif // !ENGINE
+
+	for (GeometryBatch* batch : geometryBatchesOpaques)
+	{
+		delete batch;
+	}
+	geometryBatchesOpaques.clear();
+
+	for (GeometryBatch* batch : geometryBatchesTransparent)
+	{
+		delete batch;
+	}
+	geometryBatchesTransparent.clear();
 }

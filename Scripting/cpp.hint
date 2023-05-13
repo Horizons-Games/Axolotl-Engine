@@ -1,0 +1,2 @@
+#define SCRIPTING_API __declspec(dllexport)
+#define SCRIPTING_API __declspec(dllimport)

@@ -1,6 +1,4 @@
 #pragma once
-#pragma warning (disable: 4172)
-
 #include "Module.h"
 
 #include <map>
@@ -79,7 +77,7 @@ private:
 								  ResourceType type);
 
 	//folder and file management
-	void CreateAssetAndLibFolders();
+	void CreateAssetAndLibFolders();	
 	void MonitorResources();
 	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
@@ -95,7 +93,7 @@ private:
 	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
 
 	static const std::string assetsFolder;
-	static const std::string libraryFolder;
+	static const std::string libraryFolder;	
 	std::map<UID, std::weak_ptr<Resource> > resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;

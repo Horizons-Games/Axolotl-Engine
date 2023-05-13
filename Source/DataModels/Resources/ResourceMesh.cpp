@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ResourceMesh.h"
 
 #include "GL/glew.h"
@@ -141,6 +139,7 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 
 	// Vertices
 	std::vector<float3> vertices;
+	vertices.reserve(numVertices);
 	for (unsigned i = 0; i < numVertices; ++i) 
 	{
 		// Adapt the mesh vertices to the model matrix of its gameobject transform

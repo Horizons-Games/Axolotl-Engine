@@ -20,15 +20,6 @@ ComponentMockState::~ComponentMockState()
 {
 }
 
-void ComponentMockState::Update()
-{
-}
-
-void ComponentMockState::Draw()
-{
-
-}
-
 void ComponentMockState::SaveOptions(Json& meta)
 {
 	// Do not delete these
@@ -37,7 +28,7 @@ void ComponentMockState::SaveOptions(Json& meta)
 	meta["removed"] = (bool)canBeRemoved;
 	meta["isWinState"] = (bool)GetIsWinState();
 	meta["isFailState"] = (bool)GetIsFailState();
-	meta["sceneName"] = GetSceneName();
+	meta["sceneName"] = GetSceneName().c_str();
 }
 
 void ComponentMockState::LoadOptions(Json& meta)

@@ -6,49 +6,70 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 
+#include "DataModels/Batch/BatchFlags.h"
+#include "DataModels/Program/Program.h"
+
 #include "GameObject/GameObject.h"
 
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 
-#include "DataModels/Batch/BatchFlags.h"
-#include "DataModels/Program/Program.h"
-
-#include "Math/float2.h"
+#include "Modules/ModuleRender.h"
+#include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE
 
-GeometryBatch::GeometryBatch() : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
-createBuffers(true), reserveModelSpace(true), flags(0), defaultMaterial(new ResourceMaterial(0, "", "", ""))
+GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
+createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), 
+defaultMaterial(new ResourceMaterial(0, "", "", "")), 
+mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
+createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
+	// Setting the default framgent as the METALLIC (in case the mesh didn't had a material)
+	this->flags |= (flags & HAS_SPECULAR || flags & HAS_METALLIC) ? 0 : HAS_METALLIC;
+
+	if (this->flags & HAS_SPECULAR)
+	{
+		program = App->program->GetProgram(ProgramType::SPECULAR);
+	}
+	else 
+	{
+		program = App->program->GetProgram(ProgramType::DEFAULT);
+	}
+
 	//initialize buffers
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &ebo);
-	glGenBuffers(1, &indirectBuffer);
-	glGenBuffers(1, &transforms);
-	glGenBuffers(1, &verticesBuffer);
-	glGenBuffers(1, &textureBuffer);
-	glGenBuffers(1, &normalsBuffer);
-	glGenBuffers(1, &tangentsBuffer);
-	glGenBuffers(1, &materials);
-	program = App->program->GetProgram(ProgramType::MESHSHADER);
+	CreateVAO();
 }
 
 GeometryBatch::~GeometryBatch()
 {
-	componentsInBatch.clear();
 	for (ResourceInfo* resourceInfo : resourcesInfo)
 	{
 		delete resourceInfo;
 	}
 	resourcesInfo.clear();
-	resourcesMaterial.clear();
+
+	for (ComponentMeshRenderer* component : componentsInBatch)
+	{
+		component->SetBatch(nullptr);
+	}
+	componentsInBatch.clear();
+
+	objectIndexes.clear();
 	instanceData.clear();
-	delete defaultMaterial;
+
 	CleanUp();
+	
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		if (gSync[i])
+		{
+			glDeleteSync(gSync[i]);
+		}
+	}
 }
 
 void GeometryBatch::FillBuffers()
@@ -105,46 +126,80 @@ void GeometryBatch::FillBuffers()
 
 void GeometryBatch::FillMaterial()
 {
-	std::vector<Material> materialToRender;
-	materialToRender.reserve(instanceData.size());
+	fillMaterials = false;
+
 	for (int i = 0; i < instanceData.size(); i++)
 	{
 		int materialIndex = instanceData[i];
-		ResourceMaterial* resourceMaterial = resourcesMaterial[materialIndex];
-		Material newMaterial =
-		{
-		resourceMaterial->GetDiffuseColor(),
-		resourceMaterial->GetNormalStrength(),
-		resourceMaterial->HasDiffuse(),
-		resourceMaterial->HasNormal(),
-		resourceMaterial->GetSmoothness(),
-		resourceMaterial->HasMetallicAlpha(),
-		resourceMaterial->GetMetalness(),
-		resourceMaterial->HasMetallicMap(),
-		};
+		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
 
-		std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
-		if (texture)
+		if (flags & HAS_METALLIC)
 		{
-			newMaterial.diffuse_map = texture->GetHandle();
+			MaterialMetallic newMaterial =
+			{
+				resourceMaterial->GetDiffuseColor(),
+				resourceMaterial->HasDiffuse(),
+				resourceMaterial->HasNormal(),
+				resourceMaterial->HasMetallic(),
+				resourceMaterial->GetSmoothness(),
+				resourceMaterial->GetMetalness(),
+				resourceMaterial->GetNormalStrength()
+			};
+
+			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
+			if (texture)
+			{
+				newMaterial.diffuse_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetNormal();
+			if (texture)
+			{
+				newMaterial.normal_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetMetallic();
+			if (texture)
+			{
+				newMaterial.metallic_map = texture->GetHandle();
+			}
+			metallicMaterialData[i] = newMaterial;
 		}
 
-		texture = resourceMaterial->GetNormal();
-		if (texture)
+		else if (flags & HAS_SPECULAR)
 		{
-			newMaterial.normal_map = texture->GetHandle();
-		}
+			MaterialSpecular newMaterial =
+			{
+				resourceMaterial->GetDiffuseColor(),
+				resourceMaterial->GetSpecularColor(),
+				resourceMaterial->HasDiffuse(),
+				resourceMaterial->HasNormal(),
+				resourceMaterial->HasSpecular(),
+				resourceMaterial->GetSmoothness(),
+				resourceMaterial->GetMetalness(),
+				resourceMaterial->GetNormalStrength()
+			};
 
-		texture = resourceMaterial->GetMetallicMap();
-		if (texture)
-		{
-			newMaterial.metallic_map = texture->GetHandle();
-		}
+			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
+			if (texture)
+			{
+				newMaterial.diffuse_map = texture->GetHandle();
+			}
 
-		materialToRender.push_back(newMaterial);
+			texture = resourceMaterial->GetNormal();
+			if (texture)
+			{
+				newMaterial.normal_map = texture->GetHandle();
+			}
+
+			texture = resourceMaterial->GetSpecular();
+			if (texture)
+			{
+				newMaterial.specular_map = texture->GetHandle();
+			}
+			specularMaterialData[i] = newMaterial;
+		}
 	}
-
-	glNamedBufferData(materials, materialToRender.size() * sizeof(Material), &materialToRender[0], GL_STATIC_DRAW);
 }
 
 void GeometryBatch::FillEBO()
@@ -159,7 +214,7 @@ void GeometryBatch::FillEBO()
 
 	for (auto info : resourcesInfo)
 	{
-		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); ++i)
+		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); i++)
 		{
 			assert(info->resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
 			*(indices++) = info->resourceMesh->GetFacesIndices()[i][0];
@@ -172,48 +227,117 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
+	if (!glIsBuffer(vao))
+	{
+		glGenVertexArrays(1, &vao);
+	}
 	glBindVertexArray(vao);
+
 	//verify which data to send in buffer
-	
+	if (!glIsBuffer(ebo))
+	{
+		glGenBuffers(1, &ebo);
+	}
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	//vertices
+	if (!glIsBuffer(verticesBuffer))
+	{
+		glGenBuffers(1, &verticesBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	//texture
+	if (!glIsBuffer(textureBuffer))
+	{
+		glGenBuffers(1, &textureBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(1);
 
 	//normals
+	if (!glIsBuffer(normalsBuffer))
+	{
+		glGenBuffers(1, &normalsBuffer);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(2);
 
 	//tangents
+	if (!glIsBuffer(tangentsBuffer))
+	{
+		glGenBuffers(1, &tangentsBuffer);
+	}
 	if (flags & HAS_TANGENTS)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(3);
 	}
 
 	//indirect
+	if (!glIsBuffer(indirectBuffer))
+	{
+		glGenBuffers(1, &indirectBuffer);
+	}
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferData(GL_DRAW_INDIRECT_BUFFER, 500 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 
-	const GLuint bindingPointModel = 10;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms);
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		if (!glIsBuffer(transforms[i]))
+		{
+			glGenBuffers(1, &transforms[i]);
+		}
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[i], 0, 
+			componentsInBatch.size() * sizeof(float4x4));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(float4x4), nullptr, createFlags);
+
+		transformData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+			componentsInBatch.size() * sizeof(float4x4), mapFlags));
+	}
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	if (!glIsBuffer(materials))
+	{
+		glGenBuffers(1, &materials);
+	}
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, 
+		componentsInBatch.size() * sizeof(float4x4));
+
+	if (flags & HAS_METALLIC)
+	{
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialMetallic), nullptr, createFlags);
+
+		metallicMaterialData = static_cast<MaterialMetallic*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
+			.size() * sizeof(float4x4), mapFlags));
+	}
 	
-	const GLuint bindingPointMaterial = 11;
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	else if (flags & HAS_SPECULAR)
+	{
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialSpecular), nullptr, createFlags);
+
+		specularMaterialData = static_cast<MaterialSpecular*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
+			.size() * sizeof(float4x4), mapFlags));
+	}
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void GeometryBatch::ClearBuffer()
+{
+	glDeleteBuffers(1, &indirectBuffer);
+	
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	{
+		glDeleteBuffers(1, &transforms[i]);
+	}
+	
+	glDeleteBuffers(1, &materials);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -228,9 +352,12 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		}
 		
 		CreateInstanceResourceMesh(meshShared.get());
+		objectIndexes[newComponent] = CreateInstanceResourceMaterial(materialShared);
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
+		fillMaterials = true;
 		reserveModelSpace = true;
+		dirtyBatch = true;
 	}
 }
 
@@ -239,13 +366,13 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	bool findMesh = false;
 	bool findMaterial = false;
 
-	for (ComponentMeshRenderer* compare : componentsInBatch)
+	for (const ComponentMeshRenderer* compare : componentsInBatch)
 	{
-		if (compare->GetMesh() == componentToDelete->GetMesh() && compare != componentToDelete)
+		if (compare->GetMesh().get() == componentToDelete->GetMesh().get() && compare != componentToDelete)
 		{
 			findMesh = true;
 		}
-		if (compare->GetMaterial() == componentToDelete->GetMaterial() && compare != componentToDelete)
+		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get() && compare != componentToDelete)
 		{
 			findMaterial = true;
 		}
@@ -259,7 +386,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMesh)
 	{
 #ifdef ENGINE
-		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
+		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++) {
 			if ((*it)->resourceMesh == componentToDelete->GetMesh().get())
 			{
 				delete (*it);
@@ -275,31 +402,100 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMaterial)
 	{
 #ifdef ENGINE
-		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get());
+		auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial());
 		// If element was found
 		if (it != resourcesMaterial.end())
 		{
 			resourcesMaterial.erase(it);
 		}
 	}
+
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
+	resourcesInfo.clear();
+	resourcesMaterial.clear();
+	instanceData.clear();
+
+	fillMaterials = true;
 	reserveModelSpace = true;
+	dirtyBatch = true;
+	componentToDelete->SetBatch(nullptr);
+
 #else
 		App->resources->FillResourceBin(componentToDelete->GetMaterial());
 	}
 #endif //ENGINE
 }
 
-
-void GeometryBatch::DeleteMaterial(ComponentMeshRenderer* componentToDelete)
+std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMeshRenderer* componentToDelete)
 {
-	resourcesMaterial.erase(
-			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial().get()));
+	std::vector<ComponentMeshRenderer*> componentToMove;
+
+	for (ComponentMeshRenderer* compare : componentsInBatch)
+	{
+		bool findMaterial = false;
+
+		if (compare->GetMaterial().get() == componentToDelete->GetMaterial().get())
+		{
+			findMaterial = true;
+		}
+
+		if (findMaterial)
+		{
+			componentToMove.push_back(compare);
+			for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++)
+			{
+				if ((*it)->resourceMesh == compare->GetMesh().get())
+				{
+					delete (*it);
+					resourcesInfo.erase(it);
+					break;
+				}
+			}
+			createBuffers = true;
+
+			auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), compare->GetMaterial());
+			// If element was found
+			if (it != resourcesMaterial.end())
+			{
+				resourcesMaterial.erase(it);
+			}
+		}
+	}
+
+	for (ComponentMeshRenderer* compare : componentToMove)
+	{
+		componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), compare));
+	}
+	resourcesInfo.clear();
+	resourcesMaterial.clear();
+	instanceData.clear();
+
 	reserveModelSpace = true;
+	fillMaterials = true;
+	dirtyBatch = true;
+
+	return componentToMove;
 }
 
-void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& componentsToRender)
+
+void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelete)
 {
+	resourcesMaterial.erase(
+			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial()));
+	reserveModelSpace = true;
+	//dirtyBatch = true;
+}
+
+void GeometryBatch::BindBatch(bool selected)
+{
+	program->Activate();
+
+	frame = (frame + 1) % DOUBLE_BUFFERS;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+
+	WaitBuffer();
+	
 	if (createBuffers)
 	{
 		//Redo info
@@ -319,97 +515,145 @@ void GeometryBatch::BindBatch(const std::vector<ComponentMeshRenderer*>& compone
 
 	if (reserveModelSpace)
 	{
-		glNamedBufferData(transforms, componentsInBatch.size() * sizeof(float4x4), NULL, GL_DYNAMIC_DRAW);
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
-		for (ComponentMeshRenderer* component : componentsInBatch)
+		for (const ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
 			{
-				CreateInstanceResourceMaterial(component->GetMaterial().get());
+				objectIndexes[component] = CreateInstanceResourceMaterial(component->GetMaterial());
 			}
 			else
 			{
-				CreateInstanceResourceMaterial(defaultMaterial);
+				objectIndexes[component] = CreateInstanceResourceMaterial(defaultMaterial);
 			}
 		}
-		FillMaterial();
 		reserveModelSpace = false;
 	}
 
+	if (fillMaterials)
+	{
+		FillMaterial();
+	}
+
 	std::vector<Command> commands;
-	commands.reserve(componentsToRender.size());
+	commands.reserve(componentsInBatch.size());
 	
 	int drawCount = 0;
 
-	std::vector<float4x4> modelMatrices (componentsInBatch.size());
+	float4x4* transformsAux = static_cast<float4x4*>(transformData[frame]);
 
-	for (auto component : componentsToRender)
+	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	bool isRoot = selectedGo->GetParent() == nullptr;
+
+	for (auto component : componentsInBatch)
 	{
 		assert(component);
-		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
-		ResourceMesh* resource = resourceInfo->resourceMesh;
-		//find position in components vector
-		auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
-		unsigned int instanceIndex = static_cast<int>(it - componentsInBatch.begin());
+		const GameObject* owner = component->GetOwner();
 
-		modelMatrices[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
-			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
-			
-		//do a for for all the instaces existing
-		Command newCommand = { 
-			resource->GetNumIndexes(),	// Number of indices in the mesh
-			1,							// Number of instances to render
-			resourceInfo->indexOffset,	// Index offset in the EBO
-			resourceInfo->vertexOffset,	// Vertex offset in the VBO
-			instanceIndex				// Instance Index
-		};
-		commands.push_back(newCommand);
-		drawCount++;
+		if (App->renderer->IsObjectInsideFrustrum(owner))
+		{
+#ifdef ENGINE
+			bool draw = false;
+
+			if (!isRoot)
+			{
+				if (!selected)
+				{
+					if (owner != selectedGo && !selectedGo->IsADescendant(owner))
+					{
+						draw = true;
+					}
+				}
+				else
+				{
+					if (owner == selectedGo || selectedGo->IsADescendant(owner))
+					{
+						draw = true;
+					}
+				}
+			}
+			else
+			{
+				draw = true;
+			}
+
+			if (draw)
+			{
+				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
+				ResourceMesh* resource = resourceInfo->resourceMesh;
+				//find position in components vector
+				auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
+
+				unsigned int instanceIndex = objectIndexes[component];
+
+				transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+					->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+				//do a for for all the instaces existing
+				Command newCommand = {
+					resource->GetNumIndexes(),	// Number of indices in the mesh
+					1,							// Number of instances to render
+					resourceInfo->indexOffset,	// Index offset in the EBO
+					resourceInfo->vertexOffset,	// Vertex offset in the VBO
+					instanceIndex				// Instance Index
+				};
+				commands.push_back(newCommand);
+				drawCount++;
+			}
+#else
+			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
+			ResourceMesh* resource = resourceInfo->resourceMesh;
+
+			//find position in components vector
+			unsigned int instanceIndex = objectIndexes[component];
+
+			transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
+				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			//do a for for all the instaces existing
+			Command newCommand = {
+				resource->GetNumIndexes(),	// Number of indices in the mesh
+				1,							// Number of instances to render
+				resourceInfo->indexOffset,	// Index offset in the EBO
+				resourceInfo->vertexOffset,	// Vertex offset in the VBO
+				instanceIndex				// Instance Index
+			};
+			commands.push_back(newCommand);
+			drawCount++;
+#endif //ENGINE
+		}
 	}
 	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
-	glBufferSubData(GL_DRAW_INDIRECT_BUFFER, 0, drawCount * sizeof(Command), &commands[0]);
-	
-	glNamedBufferSubData(transforms, 0, modelMatrices.size() * sizeof(float4x4), &modelMatrices[0]);
-
-	program->Activate();
+	if (commands.size() > 0)
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	}
+	else
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
+	}
 	glBindVertexArray(vao);
 
 	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
+	LockBuffer();
 	
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
+
 	program->Deactivate();
 }
 
 void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 {
-	for (ResourceInfo* info : resourcesInfo)
+	for (const ResourceInfo* info : resourcesInfo)
 	{
 		if (info->resourceMesh == mesh)
 		{
 			return;
-		}
-	}
-
-	if (flags == 0)
-	{
-		if (mesh->GetNormals().size() != 0)
-		{
-			flags |= HAS_NORMALS;
-		}
-
-		if (mesh->GetTextureCoords().size() != 0)
-		{
-			flags |= HAS_TEXTURE_COORDINATES;
-		}
-
-		if (mesh->GetTangents().size() != 0)
-		{
-			flags |= HAS_TANGENTS;
 		}
 	}
 
@@ -419,7 +663,7 @@ void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
 	createBuffers = true;
 }
 
-void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
+int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material)
 {
 	auto it = std::find(resourcesMaterial.begin(), resourcesMaterial.end(), material);
 	int index;
@@ -437,9 +681,11 @@ void GeometryBatch::CreateInstanceResourceMaterial(ResourceMaterial* material)
 		index = static_cast<int>(resourcesMaterial.size()) - 1;
 		instanceData.push_back(index);
 	}
+	
+	return instanceData.size() - 1;
 }
 
-ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
+ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
 {
 	for (auto info : resourcesInfo)
 	{
@@ -454,15 +700,73 @@ ResourceInfo* GeometryBatch::FindResourceInfo(ResourceMesh* mesh)
 
 bool GeometryBatch::CleanUp()
 {
-	glDeleteVertexArrays(1,&vao);
-	glDeleteBuffers(1,&ebo);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &verticesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
 	glDeleteBuffers(1, &normalsBuffer);
 	glDeleteBuffers(1, &tangentsBuffer);
-	glDeleteBuffers(1, &transforms);
+	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
 
 	return true;
+}
+
+void GeometryBatch::UpdateBatchComponents()
+{
+	for (const ComponentMeshRenderer* component : componentsInBatch)
+	{
+		std::shared_ptr<ResourceMesh> meshShared = component->GetMesh();
+		std::shared_ptr<ResourceMaterial> materialShared = component->GetMaterial();
+		if (!meshShared)
+		{
+			return;
+		}
+
+		CreateInstanceResourceMesh(meshShared.get());
+		reserveModelSpace = true;
+	}
+}
+
+bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
+{
+	float firstDistance = App->renderer->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->renderer->GetObjectDistance(second->GetOwner());
+
+	return (firstDistance > secondDistance);
+}
+
+void GeometryBatch::SortByDistance()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), SortComponent);
+}
+
+void GeometryBatch::SetDirty(const bool dirty)
+{
+	dirtyBatch = dirty;
+}
+
+void GeometryBatch::LockBuffer()
+{
+	if (gSync[frame])
+	{
+		glDeleteSync(gSync[frame]);
+	}
+	gSync[frame] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+}
+
+void GeometryBatch::WaitBuffer()
+{
+	if (gSync[frame])
+	{
+		while (1)
+		{
+			GLenum waitReturn = glClientWaitSync(gSync[frame], GL_SYNC_FLUSH_COMMANDS_BIT, 1000);
+			if (waitReturn == GL_ALREADY_SIGNALED || waitReturn == GL_CONDITION_SATISFIED)
+			{
+				return;
+			}
+		}
+	}
 }

@@ -1,5 +1,3 @@
-#pragma warning (disable: 26495)
-
 #include "ComponentCamera.h"
 
 #include "Application.h"
@@ -26,8 +24,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner)
 	Update();
 }
 
-ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera):
-	Component(componentCamera)
+ComponentCamera::ComponentCamera(const ComponentCamera& componentCamera): Component(componentCamera)
 {
 	DuplicateCamera(componentCamera.camera.get());
 }
@@ -41,7 +38,7 @@ void ComponentCamera::Update()
 	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	camera->SetPosition((float3)trans->GetGlobalPosition());
 
-	float3x3 rotationMatrix = float3x3::FromQuat((Quat)trans->GetGlobalRotation());
+	float3x3 rotationMatrix = trans->GetGlobalRotation().Float3x3Part();
 	camera->GetFrustum()->SetFront(rotationMatrix * float3::unitZ);
 	camera->GetFrustum()->SetUp(rotationMatrix * float3::unitY);
 
@@ -51,7 +48,7 @@ void ComponentCamera::Update()
 	}
 }
 
-void ComponentCamera::Draw()
+void ComponentCamera::Draw() const
 {
 
 #ifdef ENGINE

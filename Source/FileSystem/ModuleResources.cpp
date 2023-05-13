@@ -40,7 +40,7 @@ bool ModuleResources::Init()
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 
-	CreateAssetAndLibFolders();
+	CreateAssetAndLibFolders();	
 
 #ifdef ENGINE
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
@@ -96,7 +96,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
-	ImportResourceFromSystem(originalPath, importedRes, importedRes->GetType());
+	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
 	return importedRes;
 }
 
@@ -367,12 +367,12 @@ void ModuleResources::CreateAssetAndLibFolders()
 	bool assetsFolderNotCreated = !App->fileSystem->Exists(ASSETS_PATH);
 	if (assetsFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(ASSETS_PATH);
+		App->fileSystem->CreateDirectory(ASSETS_PATH);
 	}
 	bool libraryFolderNotCreated = !App->fileSystem->Exists(LIB_PATH);
 	if (libraryFolderNotCreated)
 	{
-		App->fileSystem->CreateDirectoryA(LIB_PATH);
+		App->fileSystem->CreateDirectory(LIB_PATH);
 	}
 	//seems there is no easy way to iterate over enum classes in C++ :/
 	//(actually there is a library that looks really clean but might be overkill:
@@ -383,7 +383,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 												  ResourceType::Model,
 												  ResourceType::Scene,
 												  ResourceType::Texture,
-												  ResourceType::SkyBox };
+												  ResourceType::SkyBox,												  
+	};
 	for (ResourceType type : allResourceTypes)
 	{
 		std::string folderOfType = GetFolderOfType(type);
@@ -392,14 +393,14 @@ void ModuleResources::CreateAssetAndLibFolders()
 		bool assetsFolderOfTypeNotCreated = !App->fileSystem->Exists(assetsFolderOfType.c_str());
 		if (assetsFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(assetsFolderOfType.c_str());
+			App->fileSystem->CreateDirectory(assetsFolderOfType.c_str());
 		}
 
 		std::string libraryFolderOfType = LIB_PATH + folderOfType;
 		bool libraryFolderOfTypeNotCreated = !App->fileSystem->Exists(libraryFolderOfType.c_str());
 		if (libraryFolderOfTypeNotCreated)
 		{
-			App->fileSystem->CreateDirectoryA(libraryFolderOfType.c_str());
+			App->fileSystem->CreateDirectory(libraryFolderOfType.c_str());
 		}
 	}
 }
@@ -500,7 +501,7 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
 
-	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallicMap();
+	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
 	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
 
 	char* fileBuffer{};
@@ -520,8 +521,8 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	meta["DiffuseAssetPath"] = materialResource->GetDiffuse() ? materialResource->GetDiffuse()->GetAssetsPath().c_str() : "";
 	meta["NormalAssetPath"] = materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] = materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	//meta["SpecularAssetPath"] = resource->GetSpecular() ? resource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] = materialResource->GetMetallicMap() ? materialResource->GetMetallicMap()->GetAssetsPath().c_str() : "";
+	meta["SpecularAssetPath"] = materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
+	meta["MetallicAssetPath"] = materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
@@ -615,7 +616,7 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 	case ResourceType::Material:
 		return "Materials";
 	case ResourceType::SkyBox:
-		return "SkyBox";
+		return "SkyBox";	
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";
