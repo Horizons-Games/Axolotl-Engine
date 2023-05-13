@@ -39,6 +39,7 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
 
+    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(SHAPE::BOX));
     UpdateRigidBody();
 }
 
