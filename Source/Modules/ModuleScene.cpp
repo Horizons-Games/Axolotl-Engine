@@ -61,7 +61,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadSceneFromJson("Lib/Scenes/CantinaScriptsVS2.axolotl");
+		LoadScene("Lib/Scenes/CantinaScriptsVS2.axolotl", false);
 	}
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
