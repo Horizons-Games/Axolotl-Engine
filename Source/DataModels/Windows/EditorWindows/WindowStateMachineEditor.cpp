@@ -203,6 +203,8 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		}
 		else
 		{
+			ImGui::Checkbox("Loop", &state->loop);
+
 			ImGui::Text(state->resource->GetFileName().c_str());
 			ImGui::SameLine();
 			if (ImGui::Button("x"))
@@ -225,8 +227,10 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 		std::string title2 = stateAsShared->GetState(it->second.destinationState)->name.c_str();
 		ImGui::Text((title + " -> " + title2).c_str());
 
+		ImGui::Checkbox("Wait Exit", &it->second.waitUntilFinish);
+
 		double duration = it->second.transitionDuration;
-		if (ImGui::InputDouble("Duration:", &duration))
+		if (ImGui::InputDouble("Duration", &duration))
 		{
 			stateAsShared->SetDurationTransition(transitionIdSelected, duration);
 		}

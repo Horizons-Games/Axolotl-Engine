@@ -64,24 +64,31 @@ void ComponentAnimation::Update()
 		if(actualState == nextState)
 		{
 			State* state = stateMachine->GetState(actualState);
-			if (state && controller->GetPlay())
+			if (state)
 			{
-				std::list<GameObject*> children = owner->GetGameObjectsInside();
-
-				for (auto child : children)
+				if (controller->GetPlay())
 				{
-					float3 pos;
-					Quat rot;
+					std::list<GameObject*> children = owner->GetGameObjectsInside();
 
-					if (controller->GetTransform(&child->GetName()[0], pos, rot))
+					for (auto child : children)
 					{
-						ComponentTransform* transform =
-							static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-						transform->SetPosition(pos);
-						transform->SetRotation(float4x4(rot));
+						float3 pos;
+						Quat rot;
+
+						if (controller->GetTransform(&child->GetName()[0], pos, rot))
+						{
+							ComponentTransform* transform =
+								static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+							transform->SetPosition(pos);
+							transform->SetRotation(float4x4(rot));
+						}
 					}
+					static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
 				}
-				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+				else if (state->resource && state->loop)
+				{
+					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				}
 			}
 
 			Transition foundTransition;
@@ -93,10 +100,10 @@ void ComponentAnimation::Update()
 		else 
 		{
 			actualState = nextState;
-			State* state = stateMachine->GetState(actualState);
+			const State* state = stateMachine->GetState(actualState);
 			if(state->resource) 
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), true);
+				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
 			}
 			else
 			{
@@ -233,6 +240,11 @@ bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 		
 		if (conditionCheck) 
 		{
+			if(actualTransition.waitUntilFinish && controller->GetPlay()) 
+			{
+				return false;
+			}
+
 			transition = actualTransition;
 			return true;
 		}
