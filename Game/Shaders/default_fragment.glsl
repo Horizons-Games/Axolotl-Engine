@@ -250,7 +250,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         // Attenuation
         float distance = length(FragPos-closest);
-        float radius = length(AB);
+        float radius = length(AB)/2;
         float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
