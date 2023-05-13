@@ -25,6 +25,7 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     motionState = new btDefaultMotionState(startTransform);
     shape = new btBoxShape({ 0, 0, 0 });
     rigidBody = new btRigidBody(100, motionState, shape);
+    
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
     SetupMobility();
 
@@ -34,6 +35,7 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     SetAngularDamping(angularDamping);
 
     transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(SHAPE::BOX));
 
     UpdateRigidBody();
 }
