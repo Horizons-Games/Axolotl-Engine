@@ -2,10 +2,10 @@
 
 #include "Scripting\Script.h"
 
+#include "Components/ComponentTransform.h"
+
 class ComponentAudioSource;
-class ComponentMeshCollider;
 class ModuleInput;
-class GameObject;
 
 class BixAttackScript : public Script
 {
@@ -23,11 +23,10 @@ private:
 
 	float attackCooldown;
 	float lastAttackTime;
-
-	GameObject* attackColliderGO;
+	float rayAttackSize;
 
 	ComponentAudioSource* audioSource;
-	ComponentMeshCollider* attackCollider;
+	ComponentTransform* transform;
 
 	ModuleInput* input;
 
