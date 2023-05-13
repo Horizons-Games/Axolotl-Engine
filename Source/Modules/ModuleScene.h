@@ -48,8 +48,7 @@ private:
 
 	void SaveSceneToJson(Json& jsonScene);
 	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
-	std::vector<GameObject*> InsertHierarchyFromJson(Json& jsonGameObjects);
+	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(GameObject* object);
