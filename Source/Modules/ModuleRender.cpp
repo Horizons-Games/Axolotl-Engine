@@ -108,6 +108,8 @@ ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuf
 ModuleRender::~ModuleRender()
 {
 	delete batchManager;
+	objectsInFrustrumDistances.clear();
+	gameObjectsInFrustrum.clear();
 }
 
 bool ModuleRender::Init()
