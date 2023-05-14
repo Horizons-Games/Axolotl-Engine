@@ -17,7 +17,7 @@ void MaterialImporter::Import
 {
 	char* bufferPaths;
 
-	App->fileSystem->Load(filePath, bufferPaths);
+	App->GetModule<ModuleFileSystem>()->Load(filePath, bufferPaths);
 
 	unsigned int header[4];
 	memcpy(header, bufferPaths, sizeof(header));
@@ -36,7 +36,7 @@ void MaterialImporter::Import
 		{
 			resourceTexture.push_back
 			(std::dynamic_pointer_cast<ResourceTexture>
-				(App->resources->ImportResource(path)));
+				(App->GetModule<ModuleResources>()->ImportResource(path)));
 		}
 		else
 		{
@@ -86,7 +86,7 @@ void MaterialImporter::Import
 	unsigned int size;
 
 	Save(resource, buffer, size);
-	App->fileSystem->Save
+	App->GetModule<ModuleFileSystem>()->Save
 		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
 			buffer, size);
 
@@ -103,7 +103,7 @@ void MaterialImporter::Save
 	char* metaBuffer = {};
 	rapidjson::Document doc;
 
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 
@@ -172,7 +172,7 @@ void MaterialImporter::Save
 	rapidjson::StringBuffer buffer;
 
 	meta.toBuffer(buffer);
-	App->fileSystem->
+	App->GetModule<ModuleFileSystem>()->
 		Save(metaPath.c_str(), buffer.GetString(), 
 			static_cast<unsigned int>(buffer.GetSize()));
 
@@ -220,7 +220,7 @@ void MaterialImporter::Save
 	float3 specularColor[1] = { resource->GetSpecularColor() };
 	
 	size = sizeof(texturesUIDs) + sizeof(diffuseColor) 
-		+ sizeof(specularColor)  + sizeof(float) + sizeof(bool) + sizeof(unsigned int);
+		+ sizeof(specularColor)  + sizeof(float) * 3 + sizeof(bool) + sizeof(unsigned int);
 
 	char* cursor = new char[size];
 
@@ -253,6 +253,16 @@ void MaterialImporter::Save
 
 	bytes = sizeof(bool);
 	memcpy(cursor, &resource->IsTransparent(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float);
+	memcpy(cursor, &resource->GetSmoothness(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float);
+	memcpy(cursor, &resource->GetMetalness(), bytes);
 }
 
 void MaterialImporter::Load
@@ -276,7 +286,7 @@ void MaterialImporter::Load
 	char* metaBuffer = {};
 	rapidjson::Document doc;
 
-	App->fileSystem->Load(metaPath.c_str(), metaBuffer);
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 
@@ -287,7 +297,7 @@ void MaterialImporter::Load
 	if (assetPath != "") 
 	{ 
 		resource->SetDiffuse
-		(App->resources->RequestResource<ResourceTexture>(assetPath));
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["NormalAssetPath"];
@@ -295,7 +305,7 @@ void MaterialImporter::Load
 	if (assetPath != "")
 	{
 		resource->SetNormal
-		(App->resources->RequestResource<ResourceTexture>(assetPath));
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["OcclusionAssetPath"];
@@ -303,7 +313,7 @@ void MaterialImporter::Load
 	if (assetPath != "")
 	{ 
 		resource->SetOcclusion
-		(App->resources->RequestResource<ResourceTexture>(assetPath));
+		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
 	}
 
 	assetPath = meta["SpecularAssetPath"];
@@ -315,14 +325,14 @@ void MaterialImporter::Load
 			case 0:
 
 				resource->SetMetallic
-				(App->resources->RequestResource<ResourceTexture>(assetPath));
+				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
 
 				break;
 
 			case 1:
 
 				resource->SetSpecular
-				(App->resources->RequestResource<ResourceTexture>(assetPath));
+				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
 
 				break;
 		}
@@ -333,21 +343,21 @@ void MaterialImporter::Load
 	if (texturesUIDs[0] != 0)
 	{
 		resource->SetDiffuse
-			(App->resources->SearchResource<ResourceTexture>
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
 												(texturesUIDs[0]));
 	}
 
 	if (texturesUIDs[1] != 0)
 	{
 		resource->SetNormal
-			(App->resources->SearchResource<ResourceTexture>
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
 												(texturesUIDs[1]));
 	}
 		
 	if (texturesUIDs[2] != 0)
 	{
 		resource->SetOcclusion
-			(App->resources->SearchResource<ResourceTexture>
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
 												(texturesUIDs[2]));
 	}
 		
@@ -358,7 +368,7 @@ void MaterialImporter::Load
 		case 0:
 
 			resource->SetMetallic
-			(App->resources->SearchResource<ResourceTexture>
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
 				(texturesUIDs[3]));
 
 			break;
@@ -366,7 +376,7 @@ void MaterialImporter::Load
 		case 1:
 
 			resource->SetSpecular
-			(App->resources->SearchResource<ResourceTexture>
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
 				(texturesUIDs[3]));
 
 			break;
@@ -402,6 +412,18 @@ void MaterialImporter::Load
 	resource->SetTransparent(*isTransparent);
 
 	fileBuffer += sizeof(bool);
+
+	float smoothness;
+	memcpy(&smoothness, fileBuffer, sizeof(float));
+	resource->SetSmoothness(smoothness);
+
+	fileBuffer += sizeof(float);
+
+	float metalness;
+	memcpy(&metalness, fileBuffer, sizeof(float));
+	resource->SetMetalness(metalness);
+
+	fileBuffer += sizeof(float);
 
 	delete shaderType;
 	delete normalStrenght;

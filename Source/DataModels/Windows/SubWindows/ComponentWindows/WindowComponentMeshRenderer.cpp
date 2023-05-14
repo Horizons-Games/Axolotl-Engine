@@ -91,7 +91,8 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
 				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
 				std::shared_ptr<ResourceMesh> newMesh =
-					App->resources->SearchResource<ResourceMesh>(draggedMeshUID);
+					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>
+														(draggedMeshUID);
 				//And then this should be RequestResource not SearchResource
 
 				if (newMesh)
@@ -400,7 +401,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
 
-				App->resources->ReimportResource(materialResource->GetUID());
+				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());
+
 				updateMaterials = true;
 			}
 		}

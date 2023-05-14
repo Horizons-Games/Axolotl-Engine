@@ -52,6 +52,7 @@ bool ModuleWindow::Init()
 			//Get window surface
 			screenSurface = SDL_GetWindowSurface(window.get());
 		}
+		SetResizable(true);
 	}
 
 	return ret;
@@ -135,15 +136,6 @@ void ModuleWindow::SetVsync(bool vsyncactive)
 {
 	vsync = vsyncactive;
 	SDL_GL_SetSwapInterval(vsyncactive);
-}
-
-SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
-{
-	if (boolVal)
-	{
-		return SDL_TRUE;
-	}
-	return SDL_FALSE;
 }
 
 

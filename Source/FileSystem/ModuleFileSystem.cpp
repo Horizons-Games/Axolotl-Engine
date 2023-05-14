@@ -119,16 +119,6 @@ unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, un
     return 0;
 }
 
-bool ModuleFileSystem::Exists(const char* filePath) const
-{
-    return PHYSFS_exists(filePath);
-}
-
-bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
-{
-    return PHYSFS_isDirectory(directoryPath);
-}
-
 bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
     if(!PHYSFS_mkdir(directoryPath)) 
@@ -139,14 +129,9 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
     return true;
 }
 
-bool ModuleFileSystem::CleanUp() {
-    PHYSFS_deinit();
-    return true;
-}
-
 std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath)
 {
-    std::vector< std::string> files;
+    std::vector<std::string> files;
     char **rc = PHYSFS_enumerateFiles(directoryPath);
     char **i;
     for (i = rc; *i != NULL; i++)
@@ -154,6 +139,16 @@ std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath)
         files.push_back(*i);
     }
     PHYSFS_freeList(rc);
+    return files;
+}
+
+std::vector<std::string> ModuleFileSystem::ListFilesWithPath(const char* directoryPath)
+{
+    std::vector<std::string> files = ListFiles(directoryPath);
+    for (int i = 0; i < files.size(); i++)
+    {
+        files[i] = directoryPath + files[i];
+    }
     return files;
 }
 

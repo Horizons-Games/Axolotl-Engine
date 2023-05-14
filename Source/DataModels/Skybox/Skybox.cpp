@@ -26,16 +26,19 @@ Skybox::~Skybox()
 void Skybox::Draw() const
 {
 
-    Program* program = App->program->GetProgram(ProgramType::SKYBOX);
+    Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
     if (program && skyboxRes) 
     {
-        skyboxRes->Load();
+        if (!skyboxRes->IsLoaded())
+        {
+            skyboxRes->Load();
+        }
         glDepthMask(GL_FALSE);
 
         program->Activate();
 
-        program->BindUniformFloat4x4("view", (const float*)&App->camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-        program->BindUniformFloat4x4("proj", (const float*)&App->camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("view", (const float*)&App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix(), GL_TRUE);
+        program->BindUniformFloat4x4("proj", (const float*)&App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
         glBindVertexArray(skyboxRes->GetVAO());
         glActiveTexture(GL_TEXTURE0);
@@ -66,8 +69,8 @@ void Skybox::LoadOptions(Json& json)
     std::string resPath = jsonSkybox["skyboxAssetPath"];
 
 #ifdef ENGINE
-    skyboxRes = App->resources->RequestResource<ResourceSkyBox>(resPath);
+    skyboxRes = App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>(resPath);
 #else
-    skyboxRes = App->resources->SearchResource<ResourceSkyBox>(resUID);
+    skyboxRes = App->GetModule<ModuleResources>()->SearchResource<ResourceSkyBox>(resUID);
 #endif // ENGINE
 }
