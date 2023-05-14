@@ -62,6 +62,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     assert(gameObject);
 
     ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+    ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
     Scene* loadedScene = moduleScene->GetLoadedScene();
     
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
@@ -162,7 +163,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
         MoveObjectMenu(gameObject, children);
 
-        if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != App->GetModule<ModulePlayer>()->GetPlayer())
+        if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != modulePlayer->GetPlayer())
         {
             DeleteGameObject(gameObject);
             ImGui::EndPopup();

@@ -110,6 +110,7 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 
 GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
 {
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
@@ -136,11 +137,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	if (newObject->IsStatic())
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+		loadedScene->AddStaticObject(gameObject);
 	}
 	else
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		loadedScene->AddNonStaticObject(gameObject);
 	}
 
 	return gameObject;

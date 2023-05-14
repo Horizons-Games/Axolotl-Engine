@@ -36,6 +36,7 @@ void WindowComponentPointLight::DrawWindowContents()
 		if (ImGui::BeginTable("PointLightTable", 2))
 		{
 			ModuleScene* scene = App->GetModule<ModuleScene>();
+			Scene* loadedScene = scene->GetLoadedScene();
 			ImGui::TableNextColumn();
 			ImGui::Text("Type"); ImGui::SameLine();
 
@@ -59,8 +60,8 @@ void WindowComponentPointLight::DrawWindowContents()
 
 							asPointLight->GetOwner()->RemoveComponent(asPointLight);
 
-							scene->GetLoadedScene()->UpdateSceneSpotLights();
-							scene->GetLoadedScene()->RenderSpotLights();
+							loadedScene->UpdateSceneSpotLights();
+							loadedScene->RenderSpotLights();
 
 							modified = true;
 							App->GetModule<ModuleEditor>()->RefreshInspector();
@@ -122,8 +123,8 @@ void WindowComponentPointLight::DrawWindowContents()
 
 			if (modified)
 			{
-				scene->GetLoadedScene()->UpdateScenePointLights();
-				scene->GetLoadedScene()->RenderPointLights();
+				loadedScene->UpdateScenePointLights();
+				loadedScene->RenderPointLights();
 			}
 
 			ImGui::EndTable();

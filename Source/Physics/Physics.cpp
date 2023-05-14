@@ -79,12 +79,15 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit)
 {
 	std::map<float, const GameObject*> hitGameObjects;
 	ModuleScene* scene = App->GetModule<ModuleScene>();
-
+	Scene* loadedScene = scene->GetLoadedScene();
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	auto nonStaticObjects = loadedScene->GetNonStaticObjects();
+	GameObject* selectedGameObject = scene->GetSelectedGameObject();
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, selectedGameObject);
 #endif
-	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionQuadtree(hitGameObjects, ray, rootQuadtree);
+	AddIntersectionDynamicObjects(hitGameObjects, ray, nonStaticObjects);
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit);
 
@@ -100,12 +103,16 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 {
 	std::map<float, const GameObject*> hitGameObjects;
 	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	auto nonStaticObjects = loadedScene->GetNonStaticObjects();
+	GameObject* selectedGameObject = scene->GetSelectedGameObject();
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, selectedGameObject);
 #endif
-	AddIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionQuadtree(hitGameObjects, ray, rootQuadtree);
+	AddIntersectionDynamicObjects(hitGameObjects, ray, nonStaticObjects);
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit, exceptionGameObject);
 
@@ -121,17 +128,21 @@ bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
 	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	auto nonStaticObjects = loadedScene->GetNonStaticObjects();
+	GameObject* selectedGameObject = scene->GetSelectedGameObject();
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, scene->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, selectedGameObject);
 #endif
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, scene->GetLoadedScene()->GetRootQuadtree());
+		AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, rootQuadtree);
 	}
 	if (hitGameObjects.size() == 0)
 	{
-		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, scene->GetLoadedScene()->GetNonStaticObjects());
+		AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, nonStaticObjects);
 	}
 
 	if (hitGameObjects.size() != 0)
@@ -145,13 +156,18 @@ bool Physics::RaycastFirst(const LineSegment& ray)
 bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObject)
 {
 	std::map<float, const GameObject*> hitGameObjects;
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	auto nonStaticObjects = loadedScene->GetNonStaticObjects();
+	GameObject* selectedGameObject = scene->GetSelectedGameObject();
 
 #ifdef ENGINE
-	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	AddIntersectionGameObject(hitGameObjects, ray, selectedGameObject);
 #endif
 
-	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	AddFirstFoundIntersectionQuadtree(hitGameObjects, ray, rootQuadtree);
+	AddFirstFoundIntersectionDynamicObjects(hitGameObjects, ray, nonStaticObjects);
 	
 
 	if (hitGameObjects.size() != 0)
@@ -362,12 +378,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			{
 				bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
 
-				if (!hit)
-				{
-					continue;
-				}
-
-				if (thisDistance >= minCurrentDistance)
+				if (!hit || thisDistance >= minCurrentDistance)
 				{
 					continue;
 				}
@@ -442,7 +453,6 @@ void Physics::AddFirstFoundIntersectionQuadtree(std::map<float, const GameObject
 			quadtreeQueue.push(currentQuadtree->GetFrontLeftNode());
 			quadtreeQueue.push(currentQuadtree->GetBackRightNode());
 			quadtreeQueue.push(currentQuadtree->GetBackLeftNode());
-
 		}
 
 	}

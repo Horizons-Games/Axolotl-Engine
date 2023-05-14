@@ -136,11 +136,12 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetDrawlist();
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
+
 		ModuleCamera* camera = App->GetModule<ModuleCamera>();
+		ModuleInput* input = App->GetModule<ModuleInput>();
 
 		float4x4 viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
 		float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
-		ModuleInput* input = App->GetModule<ModuleInput>();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));

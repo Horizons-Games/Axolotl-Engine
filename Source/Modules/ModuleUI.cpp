@@ -33,7 +33,9 @@ update_status ModuleUI::Update()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
-	for (Component* interactable : scene->GetLoadedScene()->GetSceneInteractable())
+	Scene* loadedScene = scene->GetLoadedScene();
+
+	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ComponentTransform2D* transform =
@@ -58,7 +60,7 @@ update_status ModuleUI::Update()
 		}
 	}
 
-	std::vector<ComponentCanvas*> canvasScene = scene->GetLoadedScene()->GetSceneCanvas();
+	std::vector<ComponentCanvas*> canvasScene = loadedScene->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 	
@@ -67,8 +69,11 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	camera->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	Camera* camera = moduleCamera->GetCamera();
+	Frustum* frustum = camera->GetFrustum();
+
+	frustum->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -89,8 +94,7 @@ update_status ModuleUI::Update()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	camera->GetCamera()->GetFrustum()->
-		SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetCamera()->GetAspectRatio());
+	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -123,13 +127,15 @@ update_status ModuleUI::PostUpdate()
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
-	std::vector<ComponentCanvas*> canvasScene = scene->GetLoadedScene()->GetSceneCanvas();
+	Scene* loadedScene = scene->GetLoadedScene();
+	std::vector<ComponentCanvas*> canvasScene = loadedScene->GetSceneCanvas();
+
 	for (ComponentCanvas* canvas : canvasScene)
 	{
 		canvas->RecalculateSizeAndScreenFactor();
 	}
 
-	for (Component* interactable : scene->GetLoadedScene()->GetSceneInteractable())
+	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
 		ComponentTransform2D* transform = 
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));

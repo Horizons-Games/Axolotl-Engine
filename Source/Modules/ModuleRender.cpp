@@ -197,9 +197,14 @@ update_status ModuleRender::Update()
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
-	ModulePlayer* player = App->GetModule<ModulePlayer>();
+	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+	
+	GameObject* player = modulePlayer->GetPlayer();
+	
+	Scene* loadedScene = scene->GetLoadedScene();
+	
+	const Skybox* skybox = loadedScene->GetSkybox();
 
-	const Skybox* skybox =scene->GetLoadedScene()->GetSkybox();
 	if (skybox)
 	{
 		skybox->Draw();
@@ -207,7 +212,7 @@ update_status ModuleRender::Update()
 
 	if (debug->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(scene->GetLoadedScene()->GetRootQuadtree());
+		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
 	int w, h;
@@ -220,8 +225,8 @@ update_status ModuleRender::Update()
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(scene->GetLoadedScene()->GetRootQuadtree());
-	std::vector<GameObject*> nonStaticsGOs = scene->GetLoadedScene()->GetNonStaticObjects();
+	FillRenderList(loadedScene->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = loadedScene->GetNonStaticObjects();
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
 		AddToRenderList(nonStaticObj);
@@ -230,12 +235,12 @@ update_status ModuleRender::Update()
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 	{
-		AddToRenderList(player->GetPlayer());
+		AddToRenderList(player);
 	}
 #else
-	if (player->GetPlayer())
+	if (player)
 	{
-		AddToRenderList(player->GetPlayer());
+		AddToRenderList(player);
 	}
 #endif // !ENGINE
 	

@@ -55,9 +55,10 @@ Camera* ModulePlayer::GetCameraPlayer()
 void ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
-	std::vector<ComponentCamera*> cameras = scene->GetLoadedScene()->GetSceneCameras();
+	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
@@ -67,7 +68,7 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
 			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
-			scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
 			scene->RemoveGameObjectAndChildren(parentOfOwner);
 #endif // ENGINE			
