@@ -98,9 +98,9 @@ void ComponentRigidBody::Update()
         float3 x = transform->GetPosition();
         float3 positionError = targetPosition - x;
         float3 velocityPosition = positionError * KpForce;
-        x += velocityPosition * deltaTime;
-        transform->SetPosition(x);
-        transform->UpdateTransformMatrices();
+
+        btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+        rigidBody->setLinearVelocity(velocity);
     }
 
     if (useRotationController)
@@ -132,9 +132,9 @@ void ComponentRigidBody::Update()
             q = nextRotation;
         }
 
-        float4x4 rotationMatrix = float4x4::FromQuat(q);
-        transform->SetRotation(rotationMatrix);
-        transform->UpdateTransformMatrices();
+        float3 rotationEuler(q.ToEulerXYZ());
+        btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
+        rigidBody->setAngularVelocity(rotation);
     }
 }
 

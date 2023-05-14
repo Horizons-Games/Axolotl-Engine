@@ -119,6 +119,10 @@
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 0.0,
+                            "KpTorque": 0.0,
                             "gravity_Y": -9.8100004196167
                         }
                     }
@@ -174,7 +178,55 @@
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
+                            "usePositionController": true,
+                            "useRotationController": true,
+                            "KpForce": 0.5,
+                            "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDroneScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 713070167268345268,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 7571780710750150096,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "SeekBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "Target",
+                                    "value": 11849898933350220152,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -195,9 +247,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 1.862645149230957e-9,
+                            "localPos_X": 17.204618453979492,
                             "localPos_Y": 10.876994132995605,
-                            "localPos_Z": -7.450580596923828e-9,
+                            "localPos_Z": -1.3138951063156128,
                             "localRot_X": -0.0,
                             "localRot_Y": -85.63286590576172,
                             "localRot_Z": -0.0,
@@ -238,6 +290,10 @@
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 0.0,
+                            "KpTorque": 0.0,
                             "gravity_Y": -9.8100004196167
                         }
                     },
@@ -307,6 +363,64 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "way1",
+                "tag": "",
+                "uid": 713070167268345268,
+                "parentUID": 2883067823298620766,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 8.0,
+                            "localPos_Z": 32.12529754638672,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "way2",
+                "tag": "",
+                "uid": 7571780710750150096,
+                "parentUID": 2883067823298620766,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 8.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
