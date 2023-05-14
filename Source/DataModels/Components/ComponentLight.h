@@ -15,6 +15,15 @@ enum class LightType
 	AREA
 };
 
+enum class AreaType
+{
+	SPHERE,
+	TUBE,
+	QUAD,
+	DISC,
+	NONE
+};
+
 const static std::string GetNameByLightType(LightType type);
 const static LightType GetLightTypeByName(const std::string& name);
 
@@ -100,6 +109,8 @@ inline const std::string GetNameByLightType(LightType type)
 		return "LightType_Point";
 	case LightType::SPOT:
 		return "LightType_Spot";
+	case LightType::AREA:
+		return "LightType_Area";
 	default:
 		assert(false && "Wrong light type introduced");
 		return "";
@@ -121,6 +132,11 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Spot")
 	{
 		return LightType::SPOT;
+	}
+
+	if (typeName == "LightType_Area")
+	{
+		return LightType::AREA;
 	}
 	return LightType::UNKNOWN;
 }

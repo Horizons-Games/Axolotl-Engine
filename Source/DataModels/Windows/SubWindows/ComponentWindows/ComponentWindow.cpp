@@ -6,6 +6,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAreaLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
@@ -27,6 +28,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
@@ -98,6 +100,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentPointLight>(static_cast<ComponentPointLight*>(component));
 			case LightType::SPOT:
 				return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
+			case LightType::AREA:
+				return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
 			case LightType::UNKNOWN:
 			default:
 				return std::make_unique<WindowComponentLight>(asLight);

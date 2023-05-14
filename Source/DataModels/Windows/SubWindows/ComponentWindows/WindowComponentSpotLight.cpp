@@ -52,7 +52,7 @@ void WindowComponentSpotLight::DrawWindowContents()
 						{
 							ComponentPointLight* newPoint =
 								static_cast<ComponentPointLight*>(asSpotLight->GetOwner()
-									->CreateComponentLight(LightType::POINT));
+									->CreateComponentLight(LightType::POINT, AreaType::NONE));
 
 							newPoint->SetColor(asSpotLight->GetColor());
 							newPoint->SetIntensity(asSpotLight->GetIntensity());

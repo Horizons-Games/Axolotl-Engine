@@ -143,6 +143,18 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
                 }
+                if (ImGui::BeginMenu("Area Light"))
+                {
+                    if (ImGui::MenuItem("Sphere"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::SPHERE);
+                    }
+                    if (ImGui::MenuItem("Tube"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::TUBE);
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMenu();
             }
             

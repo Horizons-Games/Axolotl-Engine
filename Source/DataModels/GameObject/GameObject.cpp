@@ -5,6 +5,7 @@
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentLight.h"
 #include "../Components/ComponentPointLight.h"
+#include "../Components/ComponentAreaLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentPlayer.h"
@@ -129,7 +130,7 @@ void GameObject::LoadOptions(Json& meta)
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType);
+				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
 			}
 			else
 			{
@@ -358,6 +359,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 	case LightType::SPOT:
 		newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
 		break;
+	case LightType::AREA:
+		newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
+		break;
 	}
 
 	if (newComponent)
@@ -537,7 +541,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return nullptr;
 }
 
-Component* GameObject::CreateComponentLight(LightType lightType)
+Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -553,6 +557,9 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	case LightType::SPOT:
 		newComponent = std::make_unique<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
+		break;
+	case LightType::AREA:
+		newComponent = std::make_unique<ComponentAreaLight>(areaType, this);
 		break;
 	}
 
@@ -594,7 +601,12 @@ bool GameObject::RemoveComponent(const Component* component)
 					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 
 					break;
-				}
+				case LightType::AREA:
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaLights();
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaLights();
+
+					break;
+				}	
 			}
 
 			else
