@@ -167,7 +167,7 @@ update_status ModuleScene::PostUpdate()
 
 	if (!sceneToLoad.empty())
 	{
-		LoadScene(sceneToLoad, false);
+		LoadScene(sceneToLoad);
 		sceneToLoad = "";
 	}
 
