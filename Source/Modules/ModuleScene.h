@@ -34,7 +34,7 @@ public:
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveScene(const std::string& name);
-	void LoadScene(const std::string& name, bool mantainActualScene);
+	void LoadScene(const std::string& name, bool mantainActualScene = false);
 
 	void OnPlay();
 	void OnPause();
