@@ -73,6 +73,8 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::Update()
 {
+    float deltaTime = App->GetDeltaTime();
+
     if (!rigidBody->isStaticOrKinematicObject())
     {
         rigidBody->setCcdMotionThreshold(0.1);
@@ -88,6 +90,50 @@ void ComponentRigidBody::Update()
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
         transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+        transform->UpdateTransformMatrices();
+    }
+
+    if (usePositionController)
+    {
+        float3 x = transform->GetPosition();
+        float3 positionError = targetPosition - x;
+        float3 velocityPosition = positionError * KpForce;
+        x += velocityPosition * deltaTime;
+        transform->SetPosition(x);
+        transform->UpdateTransformMatrices();
+    }
+
+    if (useRotationController)
+    {
+        Quat q = transform->GetRotation().RotatePart().ToQuat();
+        Quat rotationError = targetRotation * q.Normalized().Inverted();
+        rotationError.Normalize();
+
+        if (!rotationError.Equals(Quat::identity, 0.05f))
+        {
+            float3 axis;
+            float angle;
+            rotationError.ToAxisAngle(axis, angle);
+            axis.Normalize();
+
+            float3 velocityRotation = axis * angle * KpTorque;
+            Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+            Quat wq_0 = angularVelocityQuat * q;
+
+            float deltaValue = 0.5f * deltaTime;
+            Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+            Quat nextRotation(q.x + deltaRotation.x,
+                q.y + deltaRotation.y,
+                q.z + deltaRotation.z,
+                q.w + deltaRotation.w);
+            nextRotation.Normalize();
+
+            q = nextRotation;
+        }
+
+        float4x4 rotationMatrix = float4x4::FromQuat(q);
+        transform->SetRotation(rotationMatrix);
         transform->UpdateTransformMatrices();
     }
 }
@@ -191,10 +237,10 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["angularDamping"] = (float)GetAngularDamping();
 	meta["restitution"] = (float)GetRestitution();
 	meta["currentShape"] = (int)GetShape();
-	/*meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["usePositionController"] = (bool)GetUsePositionController();
 	meta["useRotationController"] = (bool)GetUseRotationController();
 	meta["KpForce"] = (float)GetKpForce();
-	meta["KpTorque"] = (float)GetKpTorque();*/
+	meta["KpTorque"] = (float)GetKpTorque();
     meta["gravity_Y"] = (float)GetGravity().getY();
 }
 
@@ -212,10 +258,10 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     SetAngularDamping((float)meta["angularDamping"]);
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
     SetRestitution((float)meta["restitution"]);
-	/*SetUsePositionController((bool)meta["usePositionController"]);
+	SetUsePositionController((bool)meta["usePositionController"]);
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
-	SetKpTorque((float)meta["KpTorque"]);*/
+	SetKpTorque((float)meta["KpTorque"]);
 
     int currentShape = (int)meta["currentShape"];
 

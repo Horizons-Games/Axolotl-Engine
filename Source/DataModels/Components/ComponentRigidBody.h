@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include "Bullet/btBulletDynamicsCommon.h"
+#include "Math/Quat.h"
 
 class btRigidBody;
 struct btDefaultMotionState;
@@ -72,6 +73,26 @@ public:
     btScalar GetRestitution() const;
     void SetRestitution(float restitution);
 
+    bool GetUsePositionController() const;
+    void SetUsePositionController(bool newUsePositionController);
+
+    bool GetUseRotationController() const;
+    void SetUseRotationController(bool newUsePositionController);
+
+    float GetKpForce() const;
+    void SetKpForce(float newKpForce);
+
+    float GetKpTorque() const;
+    void SetKpTorque(float newKpForce);
+
+    void SetPositionTarget(const float3& targetPos);
+    void SetRotationTarget(const Quat& targetRot);
+
+    void DisablePositionController();
+    void DisableRotationController();
+
+    
+
     void SetupMobility();
 
     void RemoveRigidBodyFromSimulation();
@@ -101,6 +122,13 @@ private:
     bool isStatic = false;
 
     int currentShape = 0;
+
+    float3 targetPosition;
+    Quat targetRotation;
+    bool usePositionController = false;
+    bool useRotationController = false;
+    float KpForce = 5.0f;
+    float KpTorque = 0.05f;
 
     ComponentTransform* transform;
 
@@ -204,3 +232,64 @@ inline void ComponentRigidBody::SetRestitution(float newRestitution)
     restitution = newRestitution;
 }
 
+inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
+{
+    targetPosition = targetPos;
+    usePositionController = true;
+}
+
+inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
+{
+    targetRotation = targetRot;
+    useRotationController = true;
+}
+
+inline void ComponentRigidBody::DisablePositionController()
+{
+    usePositionController = false;
+}
+
+inline void ComponentRigidBody::DisableRotationController()
+{
+    useRotationController = false;
+}
+
+inline bool ComponentRigidBody::GetUsePositionController() const
+{
+    return usePositionController;
+}
+
+inline void ComponentRigidBody::SetUsePositionController(bool newUsePositionController)
+{
+    usePositionController = newUsePositionController;
+}
+
+inline bool ComponentRigidBody::GetUseRotationController() const
+{
+    return useRotationController;
+}
+
+inline void ComponentRigidBody::SetUseRotationController(bool newUseRotationController)
+{
+    useRotationController = newUseRotationController;
+}
+
+inline float ComponentRigidBody::GetKpForce() const
+{
+    return KpForce;
+}
+
+inline void ComponentRigidBody::SetKpForce(float newKpForce)
+{
+    KpForce = newKpForce;
+}
+
+inline float ComponentRigidBody::GetKpTorque() const
+{
+    return KpTorque;
+}
+
+inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
+{
+    KpTorque = newKpTorque;
+}
