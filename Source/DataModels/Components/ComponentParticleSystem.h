@@ -3,6 +3,7 @@
 #include "Component.h"
 
 #include <vector>
+#include <memory>
 
 class EmitterInstance;
 class ResourceParticleSystem;
@@ -19,8 +20,21 @@ public:
 	void Update();
 	void Reset();
 
+	bool isEmpty() const;
+
+	std::vector<EmitterInstance*> GetEmitters() const;
+
 private:
 	std::vector<EmitterInstance*> emitters;
-	ResourceParticleSystem* resource;
+	std::shared_ptr<ResourceParticleSystem> resource;
 };
 
+inline bool ComponentParticleSystem::isEmpty() const
+{
+	return emitters.empty();
+}
+
+inline std::vector<EmitterInstance*> ComponentParticleSystem::GetEmitters() const
+{
+	return emitters;
+}

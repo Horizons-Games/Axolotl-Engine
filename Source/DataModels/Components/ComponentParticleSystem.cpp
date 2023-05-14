@@ -13,8 +13,6 @@ ComponentParticleSystem::~ComponentParticleSystem()
 	}
 
 	emitters.clear();
-
-	delete resource;
 }
 
 void ComponentParticleSystem::SaveOptions(Json& meta)
@@ -32,4 +30,3 @@ void ComponentParticleSystem::Update()
 void ComponentParticleSystem::Reset()
 {
 }
-

@@ -13,7 +13,6 @@ EmitterInstance::~EmitterInstance()
 	particles.clear();
 }
 
-void EmitterInstance::SetShape(ShapeType shape)
+void EmitterInstance::DrawParticles()
 {
-	this->shape = shape;
 }

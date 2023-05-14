@@ -22,8 +22,3 @@ void ParticleEmitter::Save()
 void ParticleEmitter::Load()
 {
 }
-
-void ParticleEmitter::SetName(const std::string& name)
-{
-	this->name = name;
-}
