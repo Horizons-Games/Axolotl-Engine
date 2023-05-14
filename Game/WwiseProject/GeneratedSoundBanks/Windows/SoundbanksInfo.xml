@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{D6596D2F-DCC8-9FC9-6610-0CBD6E942AB9}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{F9E11A83-709C-4D2A-FCEB-0CA0CD4BF1D1}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -64,6 +64,9 @@
 					</MediaRefs>
 				</Event>
 			</Events>
+			<GameParameters>
+				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
+			</GameParameters>
 		</SoundBank>
 		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{434CE934-E5FF-A25A-7B11-5B29500DF95B}">
 			<ShortName>NPC</ShortName>
@@ -82,10 +85,18 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{9AF1BA18-39CE-2F01-A681-90927C7B6B5D}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{1560ED26-FAC4-B025-AB43-8A36106B2C76}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
+				<File Id="87008145" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_force-001.wav</ShortName>
+					<CachePath>SFX/sfx_force-001_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="137412610" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_doubleJump_whoosh-001.wav</ShortName>
+					<CachePath>SFX/sfx_doubleJump_whoosh-001_10C4C929.wem</CachePath>
+				</File>
 				<File Id="205229415" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_swing_02.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaber_swing_02_10C4C929.wem</CachePath>
@@ -102,6 +113,10 @@
 					<ShortName>sfx_footsteps_walk_01.wav</ShortName>
 					<CachePath>SFX/sfx_footsteps_walk_01_C5579977.wem</CachePath>
 				</File>
+				<File Id="580951369" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_jump_whoosh-001.wav</ShortName>
+					<CachePath>SFX/sfx_jump_whoosh-001_10C4C929.wem</CachePath>
+				</File>
 				<File Id="595687169" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaberLoop_01.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaberLoop_01_D79FB2B7.wem</CachePath>
@@ -114,6 +129,14 @@
 					<ShortName>sfx_lightsaber_close_01.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaber_close_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="759745302" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_dash_whoosh-001.wav</ShortName>
+					<CachePath>SFX/sfx_dash_whoosh-001_10C4C929.wem</CachePath>
+				</File>
+				<File Id="883987314" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_forceWoosh-001.wav</ShortName>
+					<CachePath>SFX/sfx_forceWoosh-001_10C4C929.wem</CachePath>
+				</File>
 				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
 					<CachePath>SFX/sfx_lightsaber_swing_01_10C4C929.wem</CachePath>
@@ -125,6 +148,16 @@
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="1494651949" Name="sfx_dash_01">
+					<MediaRefs>
+						<MediaRef Id="759745302"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2967609084" Name="sfx_doubleJump_01">
+					<MediaRefs>
+						<MediaRef Id="137412610"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2355582310" Name="sfx_footsteps_run_01">
 					<MediaRefs>
 						<MediaRef Id="268604586"/>
@@ -143,6 +176,17 @@
 				<Event Id="1430818805" Name="sfx_footsteps_walk_stop">
 					<MediaRefs>
 						<MediaRef Id="545082851"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="977301039" Name="sfx_force_play">
+					<MediaRefs>
+						<MediaRef Id="87008145"/>
+						<MediaRef Id="883987314"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4115447157" Name="sfx_jump_01">
+					<MediaRefs>
+						<MediaRef Id="580951369"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1792116364" Name="sfx_lightsaber_clash">
@@ -188,7 +232,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2BDDD8A0-6B48-299F-BD9B-FA51575B0925}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{343C6143-4CA8-A73C-3006-206991983A39}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -253,6 +297,9 @@
 				</AuxBus>
 				<AuxBus Id="3545700988" Name="Reverbs"/>
 			</AuxBusses>
+			<GameParameters>
+				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
+			</GameParameters>
 			<StateGroups>
 				<StateGroup Id="444815956" Name="PlayerLife">
 					<States>
@@ -557,5 +604,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7498835D-6049-0D45-A835-68803B67368A}</FileHash>
+	<FileHash>{832B62D3-701C-2733-AC19-D64F1C9D3B63}</FileHash>
 </SoundBanksInfo>

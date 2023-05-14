@@ -4,6 +4,9 @@ Event	ID	Name			Wwise Object Path	Notes
 	3000297385	sewersMusic			\SFX\Ambient\sewersMusic	
 	3747747529	ambient_cantina_stop			\SFX\Ambient\ambient_cantina_stop	
 
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2427480993	ListenerOrientation			\Default Work Unit\ListenerOrientation	
+
 Effect plug-ins	ID	Name	Type				Notes
 	829913711	Matrix Reverb (Custom)	Wwise Matrix Reverb			
 
