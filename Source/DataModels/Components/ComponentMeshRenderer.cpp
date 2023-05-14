@@ -115,7 +115,7 @@ void ComponentMeshRenderer::Draw() const
 			program->Activate();
 
 			DrawMaterial(program);
-			DrawMeshes(program);
+			//DrawMeshes(program);
 		}
 
 		program->Deactivate();
@@ -186,117 +186,117 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 void ComponentMeshRenderer::DrawMaterial(Program* program) const
 {
 
-#ifdef ENGINE
+//#ifdef ENGINE
 
 	//this should be in an EditorComponent class, or something of the like
 	//but for now have it here
-	if (material && 
-		std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
-	{
-		material = nullptr;
-	}
-
-#endif
-
-	if (material)
-	{
-		const float4& diffuseColor = material->GetDiffuseColor();
-
-		glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z,
-			diffuseColor.w);
-
-		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
-
-		if (texture)
-		{
-			if (!texture->IsLoaded())
-			{
-				texture->Load();
-			}
-
-			glUniform1i(4, 1);
-
-			glActiveTexture(GL_TEXTURE5);
-			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-		}
-		else
-		{
-			glUniform1i(4, 0);
-		}
-
-		glUniform1f(5, material->GetSmoothness());
-		glUniform1f(6, material->GetNormalStrength());
-
-		texture =
-			std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
-
-		if (texture)
-		{
-			if (!texture->IsLoaded())
-			{
-				texture->Load();
-			}
-
-			glActiveTexture(GL_TEXTURE6);
-			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			glUniform1i(7, 1);
-		}
-		else
-		{
-			glUniform1i(7, 0);
-		}
-
-		switch (material->GetShaderType())
-		{
-		case 0:
-
-			glUniform1f(8, material->GetMetalness());
-
-			texture = material->GetMetallic();
-			if (texture)
-			{
-				if (!texture->IsLoaded())
-				{
-					texture->Load();
-				}
-
-				glUniform1i(9, 1);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			}
-			else
-			{
-				glUniform1i(9, 0);
-			}
-
-			break;
-
-		case 1:
-
-			const float3 & specularColor = material->GetSpecularColor();
-			glUniform3f
-			(8, specularColor.x, specularColor.y, specularColor.z);
-
-			texture = material->GetSpecular();
-
-			if (texture)
-			{
-				if (!texture->IsLoaded())
-				{
-					texture->Load();
-				}
-
-				glUniform1i(9, 1);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			}
-			else
-			{
-				glUniform1i(9, 0);
-			}
-
-			break;
-		}
+//	if (material && 
+//		std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+//	{
+//		material = nullptr;
+//	}
+//
+//#endif
+//
+//	if (material)
+//	{
+//		const float4& diffuseColor = material->GetDiffuseColor();
+//
+//		glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z,
+//			diffuseColor.w);
+//
+//		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
+//
+//		if (texture)
+//		{
+//			if (!texture->IsLoaded())
+//			{
+//				texture->Load();
+//			}
+//
+//			glUniform1i(4, 1);
+//
+//			glActiveTexture(GL_TEXTURE5);
+//			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+//		}
+//		else
+//		{
+//			glUniform1i(4, 0);
+//		}
+//
+//		glUniform1f(5, material->GetSmoothness());
+//		glUniform1f(6, material->GetNormalStrength());
+//
+//		texture =
+//			std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+//
+//		if (texture)
+//		{
+//			if (!texture->IsLoaded())
+//			{
+//				texture->Load();
+//			}
+//
+//			glActiveTexture(GL_TEXTURE6);
+//			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+//			glUniform1i(7, 1);
+//		}
+//		else
+//		{
+//			glUniform1i(7, 0);
+//		}
+//
+//		switch (material->GetShaderType())
+//		{
+//		case 0:
+//
+//			glUniform1f(8, material->GetMetalness());
+//
+//			texture = material->GetMetallic();
+//			if (texture)
+//			{
+//				if (!texture->IsLoaded())
+//				{
+//					texture->Load();
+//				}
+//
+//				glUniform1i(9, 1);
+//				glActiveTexture(GL_TEXTURE7);
+//				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+//			}
+//			else
+//			{
+//				glUniform1i(9, 0);
+//			}
+//
+//			break;
+//
+//		case 1:
+//
+//			const float3 & specularColor = material->GetSpecularColor();
+//			glUniform3f
+//			(8, specularColor.x, specularColor.y, specularColor.z);
+//
+//			texture = material->GetSpecular();
+//
+//			if (texture)
+//			{
+//				if (!texture->IsLoaded())
+//				{
+//					texture->Load();
+//				}
+//
+//				glUniform1i(9, 1);
+//				glActiveTexture(GL_TEXTURE7);
+//				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+//			}
+//			else
+//			{
+//				glUniform1i(9, 0);
+//			}
+//
+//			break;
+//		}
 
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
@@ -308,7 +308,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 		glActiveTexture(GL_TEXTURE10);
 		glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 		program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
-	}
+	//}
 }
 
 void ComponentMeshRenderer::DrawHighlight() const
