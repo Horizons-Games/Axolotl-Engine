@@ -61,10 +61,6 @@ readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
 };
 
-layout(binding = 5) uniform sampler2D diffuse_map;
-layout(binding = 6) uniform sampler2D normal_map;
-layout(binding = 7) uniform sampler2D specular_map;
-
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
@@ -194,7 +190,7 @@ void main()
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(diffuse_map, TexCoord); 
+        textureMat = texture(material.diffuse_map, TexCoord); 
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = pow(textureMat, gammaCorrection);
@@ -204,7 +200,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, TexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -214,7 +210,7 @@ void main()
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(specular_map, TexCoord));
+        specularMat = vec4(texture(material.specular_map, TexCoord));
     }
 
     vec3 f0 = specularMat.rgb;

@@ -6,6 +6,8 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 
+#include "Cubemap/Cubemap.h"
+
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 
@@ -538,6 +540,7 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
@@ -545,6 +548,15 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	program->BindUniformFloat3("viewPos", viewPos);
+
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
+
+	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
 
 	program->Deactivate();
 }
