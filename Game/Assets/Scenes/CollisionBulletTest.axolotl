@@ -2,9 +2,9 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "testBullet",
+                "name": "CollisionBulletTest",
                 "tag": "",
-                "uid": 4591715972776205839,
+                "uid": 2883067823298620766,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
@@ -31,51 +31,10 @@
         },
         {
             "GameObject": {
-                "name": "Ambient_Light",
-                "tag": "",
-                "uid": 16178554156084545901,
-                "parentUID": 4591715972776205839,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05000000074505806,
-                            "color_light_Y": 0.05000000074505806,
-                            "color_light_Z": 0.05000000074505806,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
-                "uid": 2318647668599735644,
-                "parentUID": 4591715972776205839,
+                "uid": 7701087650340962820,
+                "parentUID": 2883067823298620766,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -113,10 +72,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_Static",
+                "name": "Cube",
                 "tag": "",
-                "uid": 12526853656164671260,
-                "parentUID": 4591715972776205839,
+                "uid": 15065288772557792217,
+                "parentUID": 2883067823298620766,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -126,15 +85,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.00025081634521484375,
-                            "localPos_Y": 9.475822448730469,
-                            "localPos_Z": 12.703572273254395,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 6.68842887878418,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 42.900142669677734,
-                            "localSca_Y": 1.8868153095245361,
-                            "localSca_Z": 48.112552642822266
+                            "localRot_Z": 0.0,
+                            "localSca_X": 207.12188720703125,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 76.89745330810547
                         }
                     },
                     {
@@ -155,12 +114,12 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": true,
-                            "mass": 5.0,
+                            "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "gravity_Y": -1.0
+                            "gravity_Y": -9.8100004196167
                         }
                     }
                 ]
@@ -168,10 +127,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_Kinematic",
+                "name": "Cube",
                 "tag": "",
-                "uid": 4811585640644948436,
-                "parentUID": 4591715972776205839,
+                "uid": 14053287225497153009,
+                "parentUID": 2883067823298620766,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -181,15 +140,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.7891769409179688,
-                            "localPos_Y": 30.831134796142578,
-                            "localPos_Z": 16.06936264038086,
-                            "localRot_X": 13.757482528686523,
-                            "localRot_Y": 4.1018476486206055,
-                            "localRot_Z": -120.31420135498047,
-                            "localSca_X": 3.0399999618530273,
-                            "localSca_Y": 3.0399999618530273,
-                            "localSca_Z": 11.40404224395752
+                            "localPos_X": -64.46504211425781,
+                            "localPos_Y": 24.13405990600586,
+                            "localPos_Z": 22.341636657714844,
+                            "localRot_X": 0.0000013542630767915398,
+                            "localRot_Y": 23.598804473876953,
+                            "localRot_Z": -33.14801025390625,
+                            "localSca_X": 1.3047610521316528,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 6.718080043792725
                         }
                     },
                     {
@@ -225,8 +184,8 @@
             "GameObject": {
                 "name": "Character",
                 "tag": "",
-                "uid": 1926291865407278355,
-                "parentUID": 4591715972776205839,
+                "uid": 11849898933350220152,
+                "parentUID": 2883067823298620766,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -236,12 +195,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 11.021012306213379,
-                            "localPos_Y": 22.56465721130371,
-                            "localPos_Z": -12.05789566040039,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": 1.862645149230957e-9,
+                            "localPos_Y": 10.876994132995605,
+                            "localPos_Z": -7.450580596923828e-9,
+                            "localRot_X": -0.0,
+                            "localRot_Y": -85.63286590576172,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -252,7 +211,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16366434336221141457,
+                            "meshUID": 7878115935070326056,
                             "assetPathMesh": "Assets/Meshes/David.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
@@ -275,10 +234,10 @@
                             "isKinematic": false,
                             "isStatic": false,
                             "mass": 100.0,
-                            "linearDamping": 0.8999999761581421,
-                            "angularDamping": 0.5,
+                            "linearDamping": 0.75,
+                            "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 2,
+                            "currentShape": 1,
                             "gravity_Y": -9.8100004196167
                         }
                     },
@@ -287,11 +246,11 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerMobilityScript",
+                            "constructName": "NewPlayerMobilityTest",
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 1000.0,
+                                    "value": 500.0,
                                     "type": 0
                                 },
                                 {
@@ -319,8 +278,8 @@
             "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
-                "uid": 5753350519172800483,
-                "parentUID": 1926291865407278355,
+                "uid": 8399764441242010784,
+                "parentUID": 11849898933350220152,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -330,12 +289,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 1.84649658203125,
-                            "localPos_Z": -3.522552490234375,
-                            "localRot_X": 8.538000106811523,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localPos_X": -0.721375584602356,
+                            "localPos_Y": 2.173062324523926,
+                            "localPos_Z": -2.7646732330322266,
+                            "localRot_X": 25.92799949645996,
+                            "localRot_Y": -0.00003052240936085582,
+                            "localRot_Z": -0.000013020046026213095,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -371,5 +330,9 @@
     "Skybox": {
         "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 13881553922914957835,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
