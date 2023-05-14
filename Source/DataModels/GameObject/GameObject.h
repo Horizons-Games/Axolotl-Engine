@@ -1,17 +1,18 @@
 #pragma once
 
 #include <list>
-#include <unordered_map>
+#include <memory>
+#include <ranges>
+#include <functional>
 
 #include "../../FileSystem/UniqueID.h"
-#include <memory>
-#include <iterator>
 #include "MathGeoLib/Include/Math/vec2d.h"
 
 class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
 class Json;
+class ResourceModel;
 
 enum class ComponentType;
 enum class LightType;
@@ -26,6 +27,13 @@ enum class StateOfSelection
 class GameObject
 {
 public:
+	using GameObjectView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
+			std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+	using ComponentView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
+			std::function<Component*(const std::unique_ptr<Component>&)>>;
+
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
 	GameObject(const std::string& name, GameObject* parent);
@@ -46,12 +54,13 @@ public:
 	std::string GetName() const;
 	std::string GetTag() const;
 	GameObject* GetParent() const;
+	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
-	const std::vector<GameObject*> GetChildren() const;
+	GameObjectView GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
-	const std::vector<Component*> GetComponents() const;
+	ComponentView GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
@@ -68,6 +77,8 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
+	void MoveParent(GameObject* newParent);
+	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
@@ -84,13 +95,15 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-	void MoveUpChild(GameObject* childToMove);
-	void MoveDownChild(GameObject* childToMove);
+	void MoveUpChild(const GameObject* childToMove);
+	void MoveDownChild(const GameObject* childToMove);
 	
 	bool IsADescendant(const GameObject* descendant);
 	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
+
+	GameObject* FindGameObject(const std::string& name);
 
 private:
 	GameObject(const std::string& name,
@@ -102,6 +115,13 @@ private:
 			   bool staticObject);
 
 	bool IsAChild(const GameObject* child);
+
+	enum class HierarchyDirection
+	{
+		UP,
+		DOWN
+	};
+	void MoveChild(const GameObject* child, HierarchyDirection direction);
 
 private:
 	UID uid;
@@ -115,6 +135,7 @@ private:
 	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
+	GameObject* root;
 	std::vector<std::unique_ptr<GameObject>> children;
 
 	friend class WindowInspector;
@@ -152,9 +173,19 @@ inline void GameObject::SetName(const std::string& newName)
 	name = newName;
 }
 
+inline void GameObject::SetRootGO(GameObject* newRootGO)
+{
+	root = newRootGO;
+}
+
 inline GameObject* GameObject::GetParent() const
 {
 	return parent;
+}
+
+inline GameObject* GameObject::GetRootGO() const
+{
+	return root;
 }
 
 inline StateOfSelection GameObject::GetStateOfSelection() const
@@ -177,16 +208,15 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline const std::vector<GameObject*> GameObject::GetChildren() const
+inline GameObject::GameObjectView GameObject::GetChildren() const
 {
-	std::vector<GameObject*> rawChildren;
-	rawChildren.reserve(children.size());
-
-	if(!children.empty())
-		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
-
-	return rawChildren;
+	// I haven't found a way allow for an anonymous function
+	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda =
+		[](const std::unique_ptr<GameObject>& go)
+		{
+			return go.get();
+		};
+	return std::ranges::transform_view(children, lambda);
 }
 
 inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& children)
@@ -198,14 +228,15 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 	}
 }
 
-inline const std::vector<Component*> GameObject::GetComponents() const
+inline GameObject::ComponentView GameObject::GetComponents() const
 {
-	std::vector<Component*> rawComponent;
-	rawComponent.reserve(components.size());
-	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
-		[](const std::unique_ptr<Component>& c) { return c.get(); });
-
-	return rawComponent;
+	// I haven't found a way allow for an anonymous function
+	std::function<Component* (const std::unique_ptr<Component>&)> lambda =
+		[](const std::unique_ptr<Component>& c)
+		{
+			return c.get();
+		};
+	return std::ranges::transform_view(components, lambda);
 }
 
 template <typename T,
@@ -216,7 +247,7 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 
 	for (const std::unique_ptr<Component>& component : this->components)
 	{
-		if (component->GetType() == type)
+		if (component && component->GetType() == type)
 		{
 			components.push_back(dynamic_cast<T*>(component.get()));
 		}

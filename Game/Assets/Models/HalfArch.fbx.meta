@@ -1,0 +1,15 @@
+{
+    "UID": 7367532104313814532,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HalfArch.Scene.101.mesh",
+        "Assets/Meshes/HalfArch.Scene.101.mesh",
+        "Assets/Meshes/HalfArch.Scene.101.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HalfArch.Base.021.mat",
+        "Assets/Materials/HalfArch.Light.012.mat",
+        "Assets/Materials/HalfArch.Black_thingy.007.mat"
+    ],
+    "AnimAssetPaths": null
+}

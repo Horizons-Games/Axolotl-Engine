@@ -26,10 +26,10 @@ PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr
 												canDoubleJump(true) , jumps(0), isCrouch(false),
 												componentAudio(nullptr), playerState(PlayerActions::IDLE)
 {
-	REGISTER_FIELD(Speed, float);
-	REGISTER_FIELD(JumpParameter, float);
-	REGISTER_FIELD(DashForce, float);
-	REGISTER_FIELD(CanDash, bool);
+	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
+	REGISTER_FIELD_WITH_ACCESSORS(JumpParameter, float);
+	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
+	REGISTER_FIELD_WITH_ACCESSORS(CanDash, bool);
 }
 
 PlayerMobilityScript::~PlayerMobilityScript()
@@ -128,7 +128,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children) 
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -144,7 +144,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = false;
 		trans->SetScale(trans->GetScale() * 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))

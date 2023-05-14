@@ -3,7 +3,6 @@
 #include <queue>
 
 #include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
@@ -11,14 +10,14 @@
 #include "ModuleScene.h"
 #include "ModulePlayer.h"
 
-#include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataStructures/Quadtree.h"
 #include "Components/ComponentMeshRenderer.h"
 
-#include "GameObject/GameObject.h"
+#include "DataModels/GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
@@ -98,7 +97,8 @@ GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 }
 
 ModuleRender::ModuleRender() : context(nullptr), modelTypes({ "FBX" }), frameBuffer(0), renderedTexture(0), 
-	depthStencilRenderbuffer(0), vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
+	depthStencilRenderbuffer(0),
+	vertexShader("default_vertex.glsl"), fragmentShader("default_fragment.glsl")
 {
 }
 
@@ -144,6 +144,7 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -189,7 +190,6 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
-
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
@@ -298,8 +298,11 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &vbo);
-	
+#ifdef ENGINE
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderedTexture);
+#endif // ENGINE
+	glDeleteRenderbuffers(1, &depthStencilRenderbuffer);
 	return true;
 }
 

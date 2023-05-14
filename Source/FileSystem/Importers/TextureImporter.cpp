@@ -34,90 +34,60 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
 
-	if (FAILED(result))
+	if (FAILED(result)) // DDS failed try with TGA
 	{
 		result = DirectX::LoadFromTGAFile(path, &md, img);
 
-		if (FAILED(result))
+		if (FAILED(result)) // TGA failed try with WIC
 		{
 			result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &md, img);
-
-			imgResult = &img;
-			if(options.flipVertical && options.flipHorizontal)
+			if (FAILED(result)) // WIC failed try with HDR
 			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipVertical)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-
-				if(!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-		}
-		else
-		{
-			imgResult = &img;
-			if (options.flipVertical && options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipVertical)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
-			}
-			else if (options.flipHorizontal)
-			{
-				result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-					DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
-
-				if (!FAILED(result)) imgResult = &flippedImg;
+				result = DirectX::LoadFromHDRFile(path, &md, img);
+				if (FAILED(result))
+				{
+					ENGINE_LOG("Cannot load the texture.");
+				}
 			}
 		}
 	}
-	else
+	else // DDS success
 	{
 		result = DirectX::Decompress(img.GetImages(), img.GetImageCount(),
 			md, DXGI_FORMAT_UNKNOWN, dcmprsdImg);
 
-		imgResult = &dcmprsdImg;
+		img = std::move(dcmprsdImg);
+	}
 
-		if (options.flipVertical && options.flipHorizontal)
+	imgResult = &img;
+	if (options.flipVertical && options.flipHorizontal)
+	{
+		result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+			DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
+
+		if (!FAILED(result))
 		{
-			result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_ROTATE180, flippedImg);
-
-			if (!FAILED(result)) imgResult = &flippedImg;
+			imgResult = &flippedImg;
 		}
-		else if (options.flipVertical)
-		{
-			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(),
-				dcmprsdImg.GetMetadata(), DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
-			
-			if (!FAILED(result)) imgResult = &flippedImg;
-		}
-		else if (options.flipHorizontal)
-		{
-			result = DirectX::FlipRotate(dcmprsdImg.GetImages(), dcmprsdImg.GetImageCount(), dcmprsdImg.GetMetadata(),
-				DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
+	}
+	else if (options.flipVertical)
+	{
+		result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+			DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, flippedImg);
 
-			if (!FAILED(result)) imgResult = &flippedImg;
+		if (!FAILED(result))
+		{
+			imgResult = &flippedImg;
+		}
+	}
+	else if (options.flipHorizontal)
+	{
+		result = DirectX::FlipRotate(img.GetImages(), img.GetImageCount(), img.GetMetadata(),
+			DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_HORIZONTAL, flippedImg);
+
+		if (!FAILED(result))
+		{
+			imgResult = &flippedImg;
 		}
 	}
 
@@ -130,6 +100,11 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	switch (imgResult->GetMetadata().format)
 	{
+	case DXGI_FORMAT_R32G32B32A32_FLOAT:
+		internalFormat = GL_RGBA16F;
+		format = GL_RGBA;
+		type = GL_FLOAT;
+		break;
 	case DXGI_FORMAT_R8_UNORM:
 		internalFormat = GL_R8;
 		format = GL_RED;

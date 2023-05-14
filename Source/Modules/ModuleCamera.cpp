@@ -1,30 +1,14 @@
 #include "Application.h"
 
 #include "ModuleCamera.h"
-#include "ModuleWindow.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "ModulePlayer.h"
 
-
 #include "Scene/Scene.h"
 
-#include "GameObject/GameObject.h"
-
-#include "Components/ComponentTransform.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentCamera.h"
-
-#include "Resources/ResourceMesh.h"
-
-#include "Windows/EditorWindows/WindowScene.h"
-
-#include "Math/float3x3.h"
-#include "Math/Quat.h"
-#include "Geometry/Sphere.h"
-#include "Geometry/Triangle.h"
 
 #ifdef ENGINE
 #include "Camera/CameraEngine.h"
@@ -32,9 +16,8 @@
 #include "Camera/CameraGod.h"
 #include "Camera/CameraGameObject.h"
 
-
-
-ModuleCamera::ModuleCamera() {};
+ModuleCamera::ModuleCamera() {
+};
 
 ModuleCamera::~ModuleCamera() {
 };

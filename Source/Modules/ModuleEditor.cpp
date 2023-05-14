@@ -13,6 +13,7 @@
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/WindowDebug.h"
+#include "Windows/EditorWindows/WindowStateMachineEditor.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -22,6 +23,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 #include "Windows/EditorWindows/WindowAssetFolder.h"
+#include "Resources/ResourceStateMachine.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -40,7 +42,11 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false)
+ModuleEditor::ModuleEditor() : 
+	mainMenu(nullptr), 
+	scene(nullptr), 
+	stateMachineWindowEnable(true),
+	stateMachineEditor(nullptr)
 {
 }
 
@@ -110,6 +116,7 @@ bool ModuleEditor::Init()
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
+	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -222,6 +229,7 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
+	stateMachineEditor->Draw(stateMachineWindowEnable);
 #else
 	debugOptions->Draw();
 #endif
@@ -247,6 +255,21 @@ update_status ModuleEditor::PostUpdate()
 	}
 
 	return update_status::UPDATE_CONTINUE;
+}
+
+void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
+{
+#ifdef ENGINE
+	this->stateMachineEditor->SetStateMachine(resource);
+	stateMachineWindowEnable = true;
+#endif
+}
+
+void ModuleEditor::SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource)
+{
+#ifdef ENGINE
+	stateMachineEditor->SetResourceOnState(resource);
+#endif
 }
 
 bool ModuleEditor::IsSceneFocused() const
