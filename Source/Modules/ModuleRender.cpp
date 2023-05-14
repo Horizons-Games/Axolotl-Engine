@@ -229,7 +229,7 @@ update_status ModuleRender::Update()
 	}
 	
 #ifndef ENGINE
-	AddToRenderList(App->player->GetPlayer());
+	AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
 #endif // !ENGINE
 
 	AddToRenderList(goSelected);

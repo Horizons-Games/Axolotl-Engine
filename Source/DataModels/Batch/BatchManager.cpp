@@ -140,7 +140,7 @@ void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 void BatchManager::CleanBatches()
 {
 #ifndef ENGINE
-	App->resources->CleanResourceBin();
+	App->GetModule<ModuleResources>()->CleanResourceBin();
 #endif // !ENGINE
 
 	for (GeometryBatch* batch : geometryBatchesOpaques)

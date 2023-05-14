@@ -396,7 +396,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		}
 		createBuffers = true;
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMesh());
+		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMesh());
 #endif //ENGINE
 	}
 	if (!findMaterial)
@@ -421,7 +421,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	componentToDelete->SetBatch(nullptr);
 
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMaterial());
+		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMaterial());
 	}
 #endif //ENGINE
 }
