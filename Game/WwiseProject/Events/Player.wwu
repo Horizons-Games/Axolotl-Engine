@@ -122,7 +122,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="sfx_force_play" ID="{E1F63349-D8DA-4AF5-9079-CEFCA5C6F7E4}">
+				<Event Name="sfx_force" ID="{E1F63349-D8DA-4AF5-9079-CEFCA5C6F7E4}">
 					<ChildrenList>
 						<Action Name="" ID="{D5626103-42F1-4628-94B8-8CE7358517CD}" ShortID="98686601">
 							<ReferenceList>
@@ -168,6 +168,20 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="sfx_dash_whoosh-001" ID="{243ADB21-8CF4-47B0-BE59-0D20C02A3BC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_force_stop" ID="{B3F7F965-3429-4F75-BB58-C03474627351}">
+					<ChildrenList>
+						<Action Name="" ID="{0079261E-1BAC-4CC9-A969-C7F46A6BB0E8}" ShortID="786056521">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_force-001" ID="{552C53EC-6E42-42E6-81EB-BE2FE8DC2D83}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
