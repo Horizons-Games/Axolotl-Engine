@@ -30,10 +30,12 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 	{
 		return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LIGHT);
 	};
+
 	actions.push_back(AddComponentAction("Create Spot Light Component",
 		std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT),
 		isNotALight,
 		ComponentFunctionality::GRAPHICS));
+
 	actions.push_back(AddComponentAction("Create Point Light Component",
 		std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT),
 		isNotALight,

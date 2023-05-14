@@ -560,6 +560,20 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+
+		switch (lightType)
+		{
+		case LightType::POINT:
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			break;
+
+		case LightType::SPOT:
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			break;
+		}
+		
 		return referenceBeforeMove;
 	}
 
