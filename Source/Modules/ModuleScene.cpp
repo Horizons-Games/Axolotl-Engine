@@ -293,7 +293,7 @@ void ModuleScene::SaveSceneToJson(const std::string& name)
 
 void ModuleScene::LoadSceneFromJson(const std::string& filePath)
 {
-	App->renderer->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
 
 	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
 	char* buffer{};

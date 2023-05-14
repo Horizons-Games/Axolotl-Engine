@@ -671,7 +671,7 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
-	App->renderer->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();

@@ -58,7 +58,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 				asMeshRenderer->RemoveFromBatch();
 			}
 
-			App->renderer->GetBatchManager()->AddComponent(asMeshRenderer);
+			App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(asMeshRenderer);
 
 			InitMaterialValues();
 			newMaterial = false;
@@ -413,7 +413,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			componentToMove = asMeshRenderer->ChangeOfBatch();
 			for (ComponentMeshRenderer* component : componentToMove)
 			{
-				App->renderer->GetBatchManager()->AddComponent(component);
+				App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(component);
 			}
 			changeBatch = false;
 		}

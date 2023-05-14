@@ -1,16 +1,22 @@
 #version 460
+
+#extension GL_ARB_bindless_texture : require
 #extension GL_ARB_shading_language_include : require
 
 #include "/Common/Functions/pbr_functions.glsl"
 
 struct Material {
-    vec4 diffuse_color;         //location 3
-    int has_diffuse_map;        //location 4
-    float smoothness;           //location 5
-    float normal_strength;      //location 6
-    int has_normal_map;         //location 7
-    vec3 specular_color;        //location 8
-    int has_specular_map;       //location 9
+    vec4 diffuse_color;         //0  //16
+    vec3 specular_color;        //16 //16       
+    int has_diffuse_map;        //32 //4
+    int has_normal_map;         //36 //4
+    int has_specular_map;       //40 //4
+    float smoothness;           //44 //4
+    float normal_strength;      //48 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D specular_map;     //64 //8    
+    vec2 padding;               //72 //8 --> 80
 };
 
 struct PointLight
@@ -51,7 +57,10 @@ struct Light {
     vec3 color;
 };
 
-layout(location = 3) uniform Material material; // 0-9
+readonly layout(std430, binding = 11) buffer Materials {
+    Material materials[];
+};
+
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D normal_map;
 layout(binding = 7) uniform sampler2D specular_map;
@@ -60,6 +69,7 @@ layout(binding = 7) uniform sampler2D specular_map;
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
 layout(binding = 10) uniform sampler2D environmentBRDF;
+
 uniform int numLevels_IBL;
 
 uniform Light light;
@@ -68,8 +78,9 @@ in vec3 FragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
-
 in vec2 TexCoord;
+
+in flat int InstanceIndex;
 
 out vec4 outColor;
 
@@ -172,6 +183,8 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
   
 void main()
 {
+    Material material = materials[InstanceIndex];
+
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -211,10 +224,6 @@ void main()
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     
     // Lights
-    vec3 R = reflect(-viewDir, norm);
-    float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL);
-
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 
     if (num_point > 0)
@@ -226,6 +235,12 @@ void main()
     {
         Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
     }
+
+    vec3 R = reflect(-viewDir, norm);
+    float NdotV = max(dot(norm, viewDir), EPSILON);
+    
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
+        environmentBRDF, numLevels_IBL);
 
     vec3 color = ambient + Lo;
     

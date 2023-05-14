@@ -5,9 +5,6 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
-#define M_PI 3.1415926535897932384626433832795
-#define EPSILON 1e-5
-
 struct Material {
     vec4 diffuse_color;         //0 //16
     int has_diffuse_map;        //16 //4       
@@ -61,7 +58,9 @@ struct Light {
     vec3 color;
 };
 
-layout(location = 3) uniform Material material; // 0-9
+readonly layout(std430, binding = 11) buffer Materials {
+    Material materials[];
+};
 
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
@@ -243,7 +242,9 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL);
+    
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF,
+        numLevels_IBL);
     vec3 color = ambient + Lo;
     
 	//hdr rendering

@@ -391,22 +391,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	canBeRemoved = static_cast<bool>(meta["removed"]);
 
 #ifdef ENGINE
-
-	std::string path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
-
-	if (meshExists)
-	{
-		std::shared_ptr<ResourceMesh> resourceMesh = 
-			App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(path);
-
-		if (resourceMesh)
-		{
-			SetMesh(resourceMesh);
-		}
-	}
-
-	path = meta["assetPathMaterial"];
+	std::string path = meta["assetPathMaterial"];
 	bool materialExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
@@ -420,12 +405,12 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		}
 	}
 	 path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->fileSystem->Exists(path.c_str());
+	bool meshExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
 	{
 		std::shared_ptr<ResourceMesh> resourceMesh =
-			App->resources->RequestResource<ResourceMesh>(path);
+			App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(path);
 
 		if (resourceMesh)
 		{
@@ -467,7 +452,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 
 		transform->Encapsule
 		(mesh->GetVertices().data(), mesh->GetNumVertices());
-		App->renderer->GetBatchManager()->AddComponent(this);
+		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 	}
 	else
 	{

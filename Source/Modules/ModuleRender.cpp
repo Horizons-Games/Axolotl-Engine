@@ -231,8 +231,8 @@ update_status ModuleRender::Update()
 	AddToRenderList(goSelected);
 	
 	// Bind camera info to the shaders
-	BindCameraToProgram(App->program->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(App->program->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
 
 	//AddToRenderList(goSelected);
 	
@@ -535,9 +535,9 @@ void ModuleRender::BindCameraToProgram(Program* program)
 {
 	program->Activate();
 
-	const float4x4& view = App->camera->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->camera->GetCamera()->GetProjectionMatrix();
-	float3 viewPos = App->camera->GetCamera()->GetPosition();
+	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);

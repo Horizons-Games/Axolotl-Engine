@@ -33,11 +33,11 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 
 	if (this->flags & HAS_SPECULAR)
 	{
-		program = App->program->GetProgram(ProgramType::SPECULAR);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
 	}
 	else 
 	{
-		program = App->program->GetProgram(ProgramType::DEFAULT);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
 	}
 
 	//initialize buffers
@@ -544,7 +544,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 	float4x4* transformsAux = static_cast<float4x4*>(transformData[frame]);
 
-	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 	bool isRoot = selectedGo->GetParent() == nullptr;
 
 	for (auto component : componentsInBatch)
@@ -553,7 +553,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 		const GameObject* owner = component->GetOwner();
 
-		if (App->renderer->IsObjectInsideFrustrum(owner))
+		if (App->GetModule<ModuleRender>()->IsObjectInsideFrustrum(owner))
 		{
 #ifdef ENGINE
 			bool draw = false;
@@ -685,7 +685,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 	return instanceData.size() - 1;
 }
 
-ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
+GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
 {
 	for (auto info : resourcesInfo)
 	{
@@ -731,8 +731,8 @@ void GeometryBatch::UpdateBatchComponents()
 
 bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
 {
-	float firstDistance = App->renderer->GetObjectDistance(first->GetOwner());
-	float secondDistance = App->renderer->GetObjectDistance(second->GetOwner());
+	float firstDistance = App->GetModule<ModuleRender>()->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->GetModule<ModuleRender>()->GetObjectDistance(second->GetOwner());
 
 	return (firstDistance > secondDistance);
 }
