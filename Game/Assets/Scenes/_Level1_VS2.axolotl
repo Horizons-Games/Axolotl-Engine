@@ -53377,7 +53377,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 22.833152770996094,
+                            "localPos_X": 24.504165649414063,
                             "localPos_Y": 0.758792519569397,
                             "localPos_Z": 67.75370025634766,
                             "localRot_X": 90.0,
@@ -53386,6 +53386,15 @@
                             "localSca_X": 0.003000000026077032,
                             "localSca_Y": 0.0029999997932463884,
                             "localSca_Z": 0.0029999997932463884
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": true,
+                            "mouse": false
                         }
                     }
                 ]
@@ -53602,9 +53611,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -2.384185791015625e-7,
-                            "localPos_Z": 0.00000762939453125,
+                            "localPos_X": -0.0032501220703125,
+                            "localPos_Y": -4.76837158203125e-7,
+                            "localPos_Z": 0.00652313232421875,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -65377,6 +65386,44 @@
                             "assetPathMesh": "Assets/Meshes/David.mesh",
                             "materialUID": 376003058138779741,
                             "assetPathMaterial": "Assets/Materials/Color 06.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 3198568977868057854,
+                "parentUID": 7868212286900033178,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -814.6572265625,
+                            "localPos_Z": -437.57611083984375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
                         }
                     }
                 ]
