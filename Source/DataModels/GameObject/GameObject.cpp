@@ -4,7 +4,6 @@
 #include "../Components/ComponentMeshRenderer.h"
 #include "../Components/ComponentCamera.h"
 #include "../Components/ComponentLight.h"
-#include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentSpotLight.h"
@@ -51,15 +50,15 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 }
 
 GameObject::GameObject(const GameObject& gameObject) :
-	GameObject(gameObject.GetName(), gameObject.GetParent(), UniqueID::GenerateUID(), true, true,
+	GameObject(gameObject.name, gameObject.parent, UniqueID::GenerateUID(), true, true,
 		StateOfSelection::NO_SELECTED, gameObject.staticObject)
 {
-	for (auto component : gameObject.GetComponents())
+	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
-		CopyComponent(component);
+		CopyComponent(component.get());
 	}
 
-	for (auto child : gameObject.GetChildren())
+	for (const std::unique_ptr<GameObject>& child : gameObject.children)
 	{
 		GameObject* newChild = new GameObject(*child);
 		newChild->parent = this;
@@ -553,10 +552,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	switch (lightType)
 	{
-	case LightType::AMBIENT:
-		newComponent = std::make_unique<ComponentAmbient>(float3(0.05f), this);
-		break;
-
 	case LightType::DIRECTIONAL:
 		newComponent = std::make_unique<ComponentDirLight>(float3(1.0f), 1.0f, this);
 		break;
@@ -760,7 +755,7 @@ void GameObject::SetParentAsChildSelected()
 
 void GameObject::SpreadStatic()
 {
-	for (GameObject* child : GetChildren())
+	for (const std::unique_ptr<GameObject>& child : children)
 	{
 		child->SetStatic(staticObject);
 		child->SpreadStatic();
