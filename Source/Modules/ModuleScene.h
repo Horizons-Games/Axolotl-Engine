@@ -33,9 +33,8 @@ public:
 	bool hasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
-	void SaveSceneToJson(const std::string& name);
-	void LoadSceneFromJson(const std::string& name);
-	void ImportFromJson(const std::string& name);
+	void SaveScene(const std::string& name);
+	void LoadScene(const std::string& name, bool mantainActualScene = false);
 
 	void OnPlay();
 	void OnPause();
@@ -47,10 +46,9 @@ public:
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
-	void SetSceneFromJson(Json& json);
-	void ImportSceneFromJson(Json& json);
-	std::vector<GameObject*> CreateHierarchyFromJson(Json& jsonGameObjects);
-	std::vector<GameObject*> InsertHierarchyFromJson(Json& jsonGameObjects);
+	void SaveSceneToJson(Json& jsonScene);
+	void LoadSceneFromJson(Json& json, bool mantainActualScene);
+	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(GameObject* object);

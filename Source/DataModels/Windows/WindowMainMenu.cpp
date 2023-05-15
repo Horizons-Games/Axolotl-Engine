@@ -85,7 +85,7 @@ void WindowMainMenu::DrawPopup()
 		std::string filePathName = scene->GetLoadedScene()->GetRoot()->GetName();
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			if (filePathName != "New Scene") scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") scene->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
@@ -120,7 +120,7 @@ void WindowMainMenu::DrawFileMenu()
 			std::string filePathName = scene->GetLoadedScene()->GetRoot()->GetName();
 			// We should find a way to check if the scene has already been saved
 			// Using "New Scene" is a patch
-			if (filePathName != "New Scene") scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") scene->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
@@ -163,7 +163,7 @@ void WindowMainMenu::ShortcutSave()
 	
 	if (filePathName != "New Scene") 
 	{ 
-		scene->SaveSceneToJson(filePathName + SCENE_EXTENSION); 
+		scene->SaveScene(filePathName + SCENE_EXTENSION); 
 	}
 	else 
 	{ 
