@@ -1,0 +1,21 @@
+{
+    "UID": 17274904811273125959,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/BixWithSkeleton.Cube.001_0.mesh",
+        "Assets/Meshes/BixWithSkeleton.Mesh.001_0.mesh",
+        "Assets/Meshes/BixWithSkeleton.Mesh.003_0.mesh",
+        "Assets/Meshes/BixWithSkeleton.Cylinder.002_0.mesh",
+        "Assets/Meshes/BixWithSkeleton.Cylinder.002_1.mesh",
+        "Assets/Meshes/BixWithSkeleton.Cylinder.003_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/BixWithSkeletonGlasses_0.mat",
+        "Assets/Materials/BixWithSkeletonFace_0.mat",
+        "Assets/Materials/BixWithSkeletonBody_0.mat",
+        "Assets/Materials/BixWithSkeletonLightSaber.001_0.mat",
+        "Assets/Materials/BixWithSkeletonLightSaberEmission_1.mat",
+        "Assets/Materials/BixWithSkeletonLightSaber.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
