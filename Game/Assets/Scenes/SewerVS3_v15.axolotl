@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "SewerVS3_v14",
+                "name": "SewerVS3_v15",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -104,6 +104,47 @@
                             "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ambient_Light",
+                "tag": "",
+                "uid": 1518028370349053460,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 8.478012084960938,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.05882352590560913,
+                            "color_light_Y": 0.05876415967941284,
+                            "color_light_Z": 0.05853517726063728,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Ambient"
                         }
                     }
                 ]
@@ -34378,7 +34419,7 @@
                 "uid": 12769067459470303078,
                 "parentUID": 1041844826710653546,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -34418,7 +34459,7 @@
                 "uid": 12548954113086358769,
                 "parentUID": 1041844826710653546,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -38768,7 +38809,7 @@
                 "uid": 6015625886809893829,
                 "parentUID": 15794519238647564000,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -44635,7 +44676,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 16063.6484375,
+                            "localPos_X": 15995.2890625,
                             "localPos_Y": -0.0075874924659729,
                             "localPos_Z": 120801.0,
                             "localRot_X": 0.0,
@@ -44715,8 +44756,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -16533.8125,
-                            "localPos_Y": -279.6889953613281,
+                            "localPos_X": -16533.8203125,
+                            "localPos_Y": -279.68896484375,
                             "localPos_Z": 130642.625,
                             "localRot_X": -0.0,
                             "localRot_Y": 180.0,
@@ -45020,7 +45061,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -45087,9 +45128,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -45156,9 +45197,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -45285,7 +45326,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -45352,9 +45393,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -45421,9 +45462,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -45550,7 +45591,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -45617,9 +45658,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -45686,9 +45727,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -45815,7 +45856,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -45882,9 +45923,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -45951,9 +45992,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -46080,7 +46121,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -46147,9 +46188,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -46216,9 +46257,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -46345,7 +46386,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -46412,9 +46453,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -46481,9 +46522,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -46610,7 +46651,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -46677,9 +46718,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -46746,9 +46787,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -46875,7 +46916,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -46942,9 +46983,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -47011,9 +47052,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -47140,7 +47181,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -47207,9 +47248,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -47276,9 +47317,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -47405,7 +47446,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -47472,9 +47513,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -47541,9 +47582,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -47670,7 +47711,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -47737,9 +47778,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -47806,9 +47847,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -47935,7 +47976,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -48002,9 +48043,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -48071,9 +48112,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -48200,7 +48241,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -48267,9 +48308,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -48336,9 +48377,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -48585,7 +48626,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -48652,9 +48693,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -48721,9 +48762,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -48850,7 +48891,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -48917,9 +48958,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -48986,9 +49027,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -49115,7 +49156,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -49182,9 +49223,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -49251,9 +49292,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -49380,7 +49421,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -49447,9 +49488,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -49516,9 +49557,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -49645,7 +49686,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -49712,9 +49753,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -49781,9 +49822,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -49910,7 +49951,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -49977,9 +50018,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -50046,9 +50087,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -50175,7 +50216,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -50242,9 +50283,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -50311,9 +50352,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -50527,7 +50568,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -50594,9 +50635,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -50663,9 +50704,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -50792,7 +50833,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -50859,9 +50900,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -50928,9 +50969,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -51438,7 +51479,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -51505,9 +51546,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -51574,9 +51615,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -51703,7 +51744,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -51770,9 +51811,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -51839,9 +51880,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -51968,7 +52009,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -52035,9 +52076,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -52104,9 +52145,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -52233,7 +52274,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -52300,9 +52341,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -52369,9 +52410,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -52625,7 +52666,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -52692,9 +52733,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -52761,9 +52802,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -53217,7 +53258,7 @@
                             "removed": true,
                             "meshUID": 11022264974900343579,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
+                            "materialUID": 2038747594753632752,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -53284,9 +53325,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8568754802703941999,
+                            "meshUID": 1072092096421199837,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
-                            "materialUID": 7730460513469168607,
+                            "materialUID": 271937396394983908,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat"
                         }
                     }
@@ -53353,9 +53394,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10018582500095417745,
+                            "meshUID": 1351380275345875693,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
-                            "materialUID": 14429248045758443736,
+                            "materialUID": 3544699377696152112,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
@@ -56667,9 +56708,5 @@
     "Skybox": {
         "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
-    },
-    "Cubemap": {
-        "cubemapUID": 15512669924688363963,
-        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
