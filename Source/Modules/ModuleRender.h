@@ -4,6 +4,7 @@
 #include "Math/float4.h"
 
 #include <map>
+#include <set>
 
 struct SDL_Texture;
 struct SDL_Renderer;
