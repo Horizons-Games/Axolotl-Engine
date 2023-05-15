@@ -76,7 +76,7 @@ void WindowComponentAreaLight::DrawWindowContents()
 							else if (lightTypes[i] == "TUBE")
 							{
 								modified = true;
-								asAreaLight->SetAreaType(AreaType::SPHERE);
+								asAreaLight->SetAreaType(AreaType::TUBE);
 							}
 						}
 					}
