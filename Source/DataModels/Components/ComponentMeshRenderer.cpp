@@ -286,6 +286,20 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 			break;
 		}
 
+		texture =
+			std::dynamic_pointer_cast<ResourceTexture>(material->GetEmission());
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE11);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(10, 1);
+		}
+
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
 		Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
