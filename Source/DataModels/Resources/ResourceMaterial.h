@@ -25,11 +25,12 @@ public:
 	void SaveLoadOptions(Json& meta) override;
 	void LoadLoadOptions(Json& meta) override;
 
-	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
-	const std::shared_ptr<ResourceTexture>& GetNormal() const;
-	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
-	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
-	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetDiffuse() const;
+	std::shared_ptr<ResourceTexture> GetNormal() const;
+	std::shared_ptr<ResourceTexture> GetOcclusion() const;
+	std::shared_ptr<ResourceTexture> GetMetallic() const;
+	std::shared_ptr<ResourceTexture> GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetEmission() const;
 	const float4& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float& GetNormalStrength() const;
@@ -51,6 +52,7 @@ public:
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmission(const std::shared_ptr<ResourceTexture>& emission);
 	void SetDiffuseColor(const float4& diffuseColor);
 	void SetSpecularColor(const float3& specularColor);
 	void SetNormalStrength(const float normalStrength);
@@ -70,6 +72,7 @@ private:
 	std::shared_ptr<ResourceTexture> occlusion;
 	std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
+	std::shared_ptr<ResourceTexture> emission;
 
 	float4 diffuseColor;
 	float4 oldDiffuseColor;
@@ -88,29 +91,34 @@ inline ResourceType ResourceMaterial::GetType() const
 	return ResourceType::Material;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetDiffuse() const
 {
 	return diffuse;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetNormal() const
 {
 	return normal;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetOcclusion() const
 {
 	return occlusion;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallic() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetMetallic() const
 {
 	return metallic;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetSpecular() const
 {
 	return specular;
+}
+
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetEmission() const
+{
+	return emission;
 }
 
 inline const float4& ResourceMaterial::GetDiffuseColor() const
@@ -202,6 +210,12 @@ inline void ResourceMaterial::SetSpecular(const std::shared_ptr<ResourceTexture>
 {
 	this->specular = specular;
 }
+
+inline void ResourceMaterial::SetEmission(const std::shared_ptr<ResourceTexture>& emission)
+{
+	this->emission = emission;
+}
+
 
 inline void ResourceMaterial::SetDiffuseColor(const float4& diffuseColor)
 {
