@@ -52,8 +52,6 @@ void ComponentBreakable::SubscribeToOnCollisionEnter()
 	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 	{
 		rb->AddCollisionEnterDelegate(&ComponentBreakable::OnCollisionEnter, this);
-		suscribed = true;
-		//rb->AddCollisionEnterDelegate(&ComponentBreakable::OnCollisionEnter, this);
 		subscribed = true;
 	}
 }
