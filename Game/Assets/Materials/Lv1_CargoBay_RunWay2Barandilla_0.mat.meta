@@ -10,7 +10,7 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/substanceBarandilla_Barandilla.002_BaseColor.png",
+    "DiffuseAssetPath": "",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": ""
