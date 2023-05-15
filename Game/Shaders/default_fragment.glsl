@@ -11,6 +11,7 @@ struct Material {
     int has_normal_map;         //location 7
     float metalness;            //location 8
     int has_metallic_map;       //location 9
+    int has_emission_map;       //location 10
 };
 
 struct PointLight
@@ -57,11 +58,12 @@ layout(location = 3) uniform Material material; // 0-9
 layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D normal_map;
 layout(binding = 7) uniform sampler2D metallic_map;
-
+layout(binding = 11) uniform sampler2D emission_map;
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
 layout(binding = 10) uniform sampler2D environmentBRDF;
+
 uniform int numLevels_IBL;
 
 uniform Light light;
@@ -230,6 +232,11 @@ void main()
 	//hdr rendering
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/gammaCorrection));
+
+
+    if (material.has_emission_map == 1) {
+        color += vec3(texture(emission_map, TexCoord));
+    }
    
     outColor = vec4(color, textureMat.a);
 }
