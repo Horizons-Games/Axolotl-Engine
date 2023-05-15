@@ -9,12 +9,17 @@
 
 #include "SDL.h"
 
+#include "EditorWindows/WindowAbout.h"
+#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "EditorWindows/ImporterWindows/WindowImportScene.h"
+
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
 WindowMainMenu::WindowMainMenu(Json &json) :
 	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
-	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
+	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>()), importScene(std::make_unique<WindowImportScene>())
 {		
 	about = std::make_unique<WindowAbout>();	
 	
@@ -78,7 +83,7 @@ void WindowMainMenu::DrawPopup()
 		std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
@@ -105,12 +110,13 @@ void WindowMainMenu::DrawFileMenu()
 			action = Actions::NEW_SCENE;
 		}
 		loadScene->DrawWindowContents();
+		importScene->DrawWindowContents();
 		if (ImGui::Button((ConvertU8String(ICON_IGFD_SAVE) + " Save Scene").c_str()))
 		{
 			std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
 			// We should find a way to check if the scene has already been saved
 			// Using "New Scene" is a patch
-			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
@@ -149,7 +155,7 @@ void WindowMainMenu::DrawHelpMenu()
 void WindowMainMenu::ShortcutSave()
 {
 	std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
-	if (filePathName != "New Scene") { App->GetModule<ModuleScene>()->SaveSceneToJson(filePathName + SCENE_EXTENSION); }
+	if (filePathName != "New Scene") { App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION); }
 	else { isSaving = true; }
 }
 

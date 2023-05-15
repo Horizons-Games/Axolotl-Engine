@@ -126,7 +126,7 @@ void ComponentAnimation::DrawBones(GameObject* parent) const
 	ComponentTransform* parentTransform = 
 		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
-	std::vector<GameObject*> children = parent->GetChildren();
+	GameObject::GameObjectView children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
 		ComponentTransform* childTransform =
@@ -174,7 +174,7 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	}
 #else
 	UID uidState = meta["stateUID"];
-	resourceState = App->resources->SearchResource<ResourceStateMachine>(uidState);
+	resourceState = App->GetModule<ModuleResources>()->SearchResource<ResourceStateMachine>(uidState);
 
 #endif
 	if (resourceState)

@@ -59,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 246.0,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 246.0
                         }
                     },
                     {
@@ -146,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 246.0,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 246.0
                         }
                     },
                     {
@@ -157,53 +157,12 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 17454258005042640098,
+                            "imageUID": 834674342351959529,
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
                             "color_w": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Ambient_Light",
-                "tag": "",
-                "uid": 915180966066979072,
-                "parentUID": 16986399840152337944,
-                "enabled": true,
-                "active": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Light",
-                            "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05000000074505806,
-                            "color_light_Y": 0.05000000074505806,
-                            "color_light_Z": 0.05000000074505806,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
                         }
                     }
                 ]
@@ -239,10 +198,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.0,
-                            "worldAABB_min_y": 239.59999084472656,
-                            "worldAABB_max_x": 407.0,
-                            "worldAABB_max_y": 263.066650390625
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 241.53125,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 265.3645935058594
                         }
                     },
                     {
@@ -250,7 +209,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 6451604834349348989,
+                            "imageUID": 16758026405339201727,
                             "assetPathImage": "Assets/Textures/Play.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -271,7 +230,7 @@
                             "colorClicked_y": 0.43529412150382996,
                             "colorClicked_z": 0.43529412150382996,
                             "colorClicked_w": 1.0,
-                            "sceneName": "CantinaSewersVS1"
+                            "sceneName": "_Level1_VS2"
                         }
                     }
                 ]
@@ -383,10 +342,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.0,
-                            "worldAABB_min_y": 277.0,
-                            "worldAABB_max_x": 407.0,
-                            "worldAABB_max_y": 299.0
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 279.515625,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 301.859375
                         }
                     },
                     {
@@ -394,7 +353,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 12381334507103116347,
+                            "imageUID": 1244445192499312729,
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -451,10 +410,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.0,
-                            "worldAABB_min_y": 313.66668701171875,
-                            "worldAABB_max_x": 407.0,
-                            "worldAABB_max_y": 335.66668701171875
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 316.7552185058594,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 339.0989685058594
                         }
                     },
                     {
@@ -462,7 +421,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4732762423350190893,
+                            "imageUID": 6874901856716404634,
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -519,10 +478,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 90.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 90.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 89.59375,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 89.59375
                         }
                     },
                     {
@@ -530,7 +489,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 1728187983658496405,
+                            "imageUID": 16635162597891272610,
                             "assetPathImage": "Assets/Textures/Group 13.png",
                             "color_x": 0.6627451181411743,
                             "color_y": 0.6470588445663452,
@@ -571,10 +530,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 123.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 123.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 123.109375,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 123.109375
                         }
                     },
                     {
@@ -582,7 +541,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4949353886511826929,
+                            "imageUID": 14327651251713807887,
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -609,7 +568,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 2819121758081834511,
+        "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 14344113435770444604,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
