@@ -1,10 +1,11 @@
 {
-    "UID": 3408497387515861987,
+    "UID": 7766261344259849495,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_Switch_0.mesh"
+        "Assets/Meshes/Lv1_CargoBay_Switch.Cylinder.005_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_Switch_0.mat"
-    ]
+        "Assets/Materials/Lv1_CargoBay_SwitchMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
 }

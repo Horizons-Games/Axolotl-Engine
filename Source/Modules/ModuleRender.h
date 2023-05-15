@@ -1,13 +1,17 @@
 #pragma once
 #include "Module.h"
-#include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include "Math/float4.h"
+
+#include <map>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Cubemap;
+class Quadtree;
+class GameObject;
 
 class ModuleRender : public Module
 {

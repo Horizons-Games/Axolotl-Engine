@@ -86,6 +86,14 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		std::bind(&WindowInspector::AddComponentScript, this),
 		ComponentFunctionality::GAMEPLAY));
 
+	actions.push_back(AddComponentAction("Create Animation Component",
+		std::bind(&WindowInspector::AddComponentAnimation, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::ANIMATION);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -158,7 +166,6 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 
 		if (lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
 			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
@@ -169,7 +176,6 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (WindowRightClick() &&
 		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() &&
 		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
@@ -350,6 +356,11 @@ void WindowInspector::AddComponentLight(LightType type)
 void WindowInspector::AddComponentPlayer()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentAnimation()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
 }
 
 void WindowInspector::ResetSelectedGameObject()
