@@ -22,6 +22,10 @@ public:
 	void OnCollisionEnter(class ComponentRigidBody* other);
 	bool GetSubscribed();
 
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
+
 private:
 
 	bool subscribed = false;

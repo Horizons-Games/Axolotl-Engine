@@ -14,6 +14,7 @@
 #include "../Components/UI/ComponentButton.h"
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentRigidBody.h"
+#include "ComponentBreakable.h"
 #include "../Components/ComponentMockState.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentAudioListener.h"
@@ -458,6 +459,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
+		case ComponentType::BREAKABLE:
+		{
+			newComponent = std::make_unique<ComponentBreakable>(true, this);
 			break;
 		}
 
