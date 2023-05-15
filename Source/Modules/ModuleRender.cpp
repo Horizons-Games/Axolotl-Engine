@@ -467,7 +467,7 @@ void ModuleRender::InsertToRenderList(GameObject* goSelected)
 		{
 			continue;
 		}
-		if (gameObject->IsEnabled())
+		if (gameObject->IsActive())
 		{
 			if (!CheckIfTransparent(gameObject))
 				opaqueGOToDraw.insert(gameObject);
