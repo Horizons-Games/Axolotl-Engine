@@ -75,6 +75,7 @@ public:
     void SetupMobility();
 
     void RemoveRigidBodyFromSimulation();
+    void UpdateNonSimulatedTransform();
 
     btRigidBody* GetRigidBody() const { return rigidBody; }
 

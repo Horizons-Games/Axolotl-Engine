@@ -231,3 +231,14 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
 }
+
+void ComponentRigidBody::UpdateNonSimulatedTransform()
+{
+    btTransform worldTransform;
+    float3 pos = transform->GetGlobalPosition();
+    worldTransform.setOrigin({ pos.x, pos.y, pos.z });
+    Quat rot = transform->GetGlobalRotation().RotatePart().ToQuat();
+    worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+    rigidBody->setWorldTransform(worldTransform);
+    motionState->setWorldTransform(worldTransform);
+}

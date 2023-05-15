@@ -18,6 +18,9 @@ public:
 
 	void OnCollisionEnter(class ComponentRigidBody* other);
 
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 
 private:
 
