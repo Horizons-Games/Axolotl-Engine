@@ -185,11 +185,6 @@ void main()
     }
     textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
     
-    if(textureMat.a < 0.01)
-    {
-        discard;
-    }
-
     textureMat.a = material.diffuse_color.a; //Transparency
     
 	if (material.has_normal_map == 1)

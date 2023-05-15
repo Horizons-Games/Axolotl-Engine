@@ -126,7 +126,7 @@ void ComponentAnimation::DrawBones(GameObject* parent) const
 	ComponentTransform* parentTransform = 
 		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
 
-	GameObject::GameObjectView children = parent->GetChildren();
+	std::vector<GameObject*> children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
 		ComponentTransform* childTransform =

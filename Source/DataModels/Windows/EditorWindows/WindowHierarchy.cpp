@@ -71,7 +71,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
-    GameObject::GameObjectView children = gameObject->GetChildren();
+    std::vector<GameObject*> children = gameObject->GetChildren();
 
     if (gameObject == loadedScene->GetRoot())
     {

@@ -65,53 +65,7 @@ void PlayerMobilityScript::PreUpdate(float deltaTime)
 
 		if (moveScript)
 		{
-			canDash = false;
-			nextDash += 5000;
-		}	
-	}
-
-	// Cooldown Dash
-	if (nextDash > 0 && nextDash < SDL_GetTicks())
-	{
-		canDash = true;
-		nextDash = 0;
-	}
-
-	// Run, duplicate the speed
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-	{
-		size *= 2;
-	}
-
-	// Crouch
-	if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
-	{
-		isCrouch = true;
-		trans->SetScale(trans->GetScale() / 2);
-		GameObject::GameObjectView children = owner->GetChildren();
-		for (auto child : children) 
-		{
-			if (child->GetComponent(ComponentType::CAMERA))
-			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-				childTrans->SetScale(childTrans->GetScale() * 2);
-			}
-
-		}
-		size /= 4.f;
-	}
-	else if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
-	{
-		isCrouch = false;
-		trans->SetScale(trans->GetScale() * 2);
-		GameObject::GameObjectView children = owner->GetChildren();
-		for (auto child : children)
-		{
-			if (child->GetComponent(ComponentType::CAMERA))
-			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-				childTrans->SetScale(childTrans->GetScale() / 2);
-			}
+			moveScript->GetScript()->PreUpdate(deltaTime);
 		}
 	}
 }

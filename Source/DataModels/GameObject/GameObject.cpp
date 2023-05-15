@@ -50,15 +50,15 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 }
 
 GameObject::GameObject(const GameObject& gameObject) :
-	GameObject(gameObject.name, gameObject.parent, UniqueID::GenerateUID(), true, true,
+	GameObject(gameObject.GetName(), gameObject.GetParent(), UniqueID::GenerateUID(), true, true,
 		StateOfSelection::NO_SELECTED, gameObject.staticObject)
 {
-	for (const std::unique_ptr<Component>& component : gameObject.components)
+	for (auto component : gameObject.GetComponents())
 	{
-		CopyComponent(component.get());
+		CopyComponent(component);
 	}
 
-	for (const std::unique_ptr<GameObject>& child : gameObject.children)
+	for (auto child : gameObject.GetChildren())
 	{
 		GameObject* newChild = new GameObject(*child);
 		newChild->parent = this;
@@ -746,7 +746,7 @@ void GameObject::SetParentAsChildSelected()
 
 void GameObject::SpreadStatic()
 {
-	for (const std::unique_ptr<GameObject>& child : children)
+	for (GameObject* child : GetChildren())
 	{
 		child->SetStatic(staticObject);
 		child->SpreadStatic();

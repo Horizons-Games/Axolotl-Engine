@@ -429,7 +429,7 @@ const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectN
 	
 	boneHierarchy.push_back(gameObjectNode);
 
-	GameObject::GameObjectView children = gameObjectNode->GetChildren();
+	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
 
 	for (GameObject* child : children)
 	{
