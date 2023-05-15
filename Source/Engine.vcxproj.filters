@@ -370,8 +370,8 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentBreakable.cpp">
-      <Filter>DataModels\Components</Filter>
+    <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
+      <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -746,8 +746,8 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentBreakable.h">
-      <Filter>DataModels\Components</Filter>
+    <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
+      <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -939,6 +939,9 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -1009,6 +1012,9 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
@@ -1251,6 +1257,9 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1327,6 +1336,9 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">

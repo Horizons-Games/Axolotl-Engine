@@ -1,259 +1,201 @@
 #include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
-#include "ComponentMockState.h"
-#include "ComponentTransform.h"
-
-#include "ModuleScene.h"
-#include "ModulePlayer.h"
-#include "Scene/Scene.h"
-#include "DataStructures/Quadtree.h"
-#include "Geometry/Frustum.h"
-#include "Math/float3x3.h"
-
 #include "GameObject/GameObject.h"
+#include "ModulePhysics.h"
 #include "Application.h"
-
+#include "Geometry/Sphere.h"
+#include <ImGui/imgui.h>
+#include "debugdraw.h"
+#include "Math/Quat.h"
+#include "Math/float3x3.h"
+#include "Math/float4x4.h"
 #include "FileSystem/Json.h"
 
-#include "Geometry/LineSegment.h"
-#include "Geometry/Ray.h"
-#include "Physics/Physics.h"
-
-#include <iostream>
-
-
-ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
-	: Component(ComponentType::RIGIDBODY, active, owner, true)
+ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
+    : Component(ComponentType::RIGIDBODY, active, owner, true)
 {
-	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	isKinematic = true;
-	mass = 1.0f;
+    static uint32_t nextId = 1;
 
-	height = -math::inf;
-	x = transform->GetPosition();
-	q = transform->GetRotation().RotatePart().ToQuat();
-	g = float3(0.0f, -9.00f, 0.0f);
-	v0 = float3(0.0f, 0.0f, 0.0f);
-	w0 = float3(0.0f, 0.0f, 0.0f);
+    assert(nextId != 0); //if this assert triggers, we have reached the maximum number of rigidbodies 2^32 - 1. This is a very unlikely scenario.
+
+    id = nextId++;
+
+    btTransform startTransform;
+    startTransform.setIdentity();
+    transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+    float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    
+    currentShape = 1;
+    motionState = new btDefaultMotionState(startTransform);
+    shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
+    
+    rigidBody = new btRigidBody(100, motionState, shape);
+    
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+    SetupMobility();
+
+    rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+
+    SetLinearDamping(linearDamping);
+    SetAngularDamping(angularDamping);
+
+    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(SHAPE::BOX));
+    UpdateRigidBody();
 }
-
-ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& componentRigidBody)
-	: Component(componentRigidBody),
-	transform(componentRigidBody.transform),
-	isKinematic(componentRigidBody.isKinematic), 
-	mass(componentRigidBody.mass),
-	height(componentRigidBody.height),
-	x(componentRigidBody.x),
-	q(componentRigidBody.q),
-	g(componentRigidBody.g), 
-	v0(componentRigidBody.v0),
-	w0(componentRigidBody.w0)
-{
-}
-
 
 ComponentRigidBody::~ComponentRigidBody()
 {
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
 }
+
+
+void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
+{
+    assert(other);
+    //delegate to notify other components
+    for (auto& delegate : delegateCollisionEnter)
+        delegate(other);
+
+}
+
+void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
+{
+    //TODO: Implement delegate for this
+    assert(other);
+}
+
+void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
+{
+    //TODO: Implement delegate for this
+    assert(other);
+}
+
 
 void ComponentRigidBody::Update()
 {
+    if (!rigidBody->isStaticOrKinematicObject())
+    {
+        rigidBody->setCcdMotionThreshold(0.1);
+        rigidBody->setCcdSweptSphereRadius(0.1f);
 
-#ifdef ENGINE
-	if (App->IsOnPlayMode())
-	{
-#endif
-		if (isKinematic)
-		{
-			float deltaTime = App->GetDeltaTime();
-
-			x = transform->GetPosition();
-			q = transform->GetRotation().RotatePart().ToQuat();
-
-			float verticalDistanceToFeet = math::Abs(transform->GetEncapsuledAABB().MinY() - x.y);
-
-			// Combine gravity and external forces
-			float3 totalAcceleration = g + externalForce;
-
-			//Velocity
-			v0 += totalAcceleration * deltaTime;
-			x += v0 * deltaTime + 0.5f * totalAcceleration * deltaTime * deltaTime;
-
-			externalForce = float3::zero;
-
-			//Apply gravity
-			if (x.y <= height + verticalDistanceToFeet)
-			{
-				x.y = height + verticalDistanceToFeet;
-				v0 = float3::zero;
-				bootsOnGround = true;
-			}
-			else 
-			{
-				bootsOnGround = false;
-			}
-
-			if (useRotationController)
-			{
-				//Rotation
-				Quat angularVelocityQuat(w0.x, w0.y, w0.z, 0.0f);
-				Quat wq_0 = angularVelocityQuat * q;
-
-
-				float deltaValue = 0.5f * deltaTime;
-				Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-				Quat nextRotation(q.x + deltaRotation.x,
-					q.y + deltaRotation.y,
-					q.z + deltaRotation.z,
-					q.w + deltaRotation.w);
-				nextRotation.Normalize();
-
-				q = nextRotation;
-
-				ApplyTorque();
-
-				float4x4 rotationMatrix = float4x4::FromQuat(q);
-				transform->SetRotation(rotationMatrix);
-			}
-
-
-			//Apply proportional controllers
-			ApplyForce();
-
-			//Update Transform
-			transform->SetPosition(x);
-
-			transform->UpdateTransformMatrices();
-		}
-
-#ifdef ENGINE
-	}
-
-	
-#endif
-}
-
-void ComponentRigidBody::AddForce(const float3& force, ForceMode mode)
-{
-	switch (mode)
-	{
-	case ForceMode::Force:
-		externalForce += force / mass;
-		break;
-	case ForceMode::Acceleration:
-		externalForce += force;
-		break;
-	case ForceMode::Impulse:
-		//TO DO
-		break;
-	case ForceMode::VelocityChange:
-		v0 += force;
-		break;
-	}
-}
-
-void ComponentRigidBody::AddTorque(const float3& torque, ForceMode mode)
-{
-	switch (mode)
-	{
-	case ForceMode::Force:
-		externalTorque += torque / mass;
-		break;
-	case ForceMode::Acceleration:
-		externalTorque += torque;
-		break;
-	case ForceMode::Impulse:
-		//TO DO
-		break;
-	case ForceMode::VelocityChange:
-		w0 += torque;
-		break;
-	}
+        btTransform trans;
+        trans = rigidBody->getWorldTransform();
+        btQuaternion rot = trans.getRotation();
+        Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
+        float4x4 rotationMatrix = float4x4::FromQuat(currentRot);
+        transform->SetRotation(rotationMatrix);
+        btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
+        float3 centerPoint = transform->GetLocalAABB().CenterPoint();
+        btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
+        transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+        transform->UpdateTransformMatrices();
+    }
 }
 
 
-void ComponentRigidBody::ApplyForce()
+void ComponentRigidBody::UpdateRigidBody() 
 {
-	if (usePositionController)
-	{
-		float deltaTime = App->GetDeltaTime();
-
-		float3 positionError = targetPosition - x;
-		float3 velocityPosition = positionError * KpForce;
-		x += + velocityPosition * deltaTime;
-	}
+    btTransform worldTransform;
+    float3 pos = transform->GetPosition();
+    worldTransform.setOrigin({ pos.x, pos.y, pos.z });
+    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+    rigidBody->setWorldTransform(worldTransform);
+    motionState->setWorldTransform(worldTransform);
+}
+void ComponentRigidBody::SetupMobility()
+{
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+    if (isKinematic)
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
+        rigidBody->setMassProps(0, { 0, 0, 0 }); //Toreview: is this necessary here?
+        isStatic = false;
+    }
+    else if (isStatic)
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
+        rigidBody->setMassProps(0, { 0, 0, 0 }); //static objects have no mass to avoid collision pushes
+        isKinematic = false;
+    }
+    else
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_DYNAMIC_OBJECT);
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
+        btVector3 localInertia;
+        rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
+        rigidBody->setMassProps(mass, localInertia);
+    }
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
 }
 
-
-void ComponentRigidBody::ApplyTorque()
+void ComponentRigidBody::SetCollisionShape(SHAPE newShape)
 {
-	float deltaTime = App->GetDeltaTime();
-	if (useRotationController)
-	{
+    delete shape;
 
-		Quat rotationError = targetRotation * q.Normalized().Inverted();
-		rotationError.Normalize();
+    switch (static_cast<int>(newShape))
+    {
+    case 1: // Box
+    {
+        float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+        shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
+        break;
+    }
+    case 2: // Sphere
+        shape = new btSphereShape(transform->GetLocalAABB().MinimalEnclosingSphere().Diameter() * .5f);
+        break;
+        /*
+        case 3: // Capsule
+            shape = new btCapsuleShape(1, 2);
+            break;
+        case 4: // Cylinder
+            shape = new btCylinderShape(btVector3(1, 1, 1));
+            break;
+        case 54: // Cone
+            shape = new btConeShape(1, 2);
+            break;
+            */
+    }
 
-		if (!rotationError.Equals(Quat::identity, 0.05f))
-		{
-			float3 axis;
-			float angle;
-			rotationError.ToAxisAngle(axis, angle);
-			axis.Normalize();
-
-			float3 velocityRotation = axis * angle * KpTorque + externalTorque;
-			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-			Quat wq_0 = angularVelocityQuat * q;
-
-			float deltaValue = 0.5f * deltaTime;
-			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-			Quat nextRotation(q.x + deltaRotation.x,
-				q.y + deltaRotation.y,
-				q.z + deltaRotation.z,
-				q.w + deltaRotation.w);
-			nextRotation.Normalize();
-
-			q = nextRotation;
-		}
-
-		
-	}
-	else 
-	{
-		Quat angularVelocityQuat(externalTorque.x, externalTorque.y, externalTorque.z, 0.0f);
-		Quat wq_0 = angularVelocityQuat * q;
-
-		float deltaValue = 0.5f * deltaTime;
-		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-		Quat nextRotation(q.x + deltaRotation.x,
-			q.y + deltaRotation.y,
-			q.z + deltaRotation.z,
-			q.w + deltaRotation.w);
-		nextRotation.Normalize();
-
-		q = nextRotation;
-
-	}
-	externalTorque = float3::zero;
+    if (shape)
+    {
+        currentShape = static_cast<int>(newShape);
+        rigidBody->setCollisionShape(shape);
+        //inertia for local rotation
+        btVector3 localInertia;
+        rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
+        rigidBody->setMassProps(mass, localInertia);
+        rigidBody->updateInertiaTensor();
+    }
 }
 
 void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+    meta["type"] = GetNameByType(type).c_str();
+    meta["active"] = (bool)active;
+    meta["removed"] = (bool)canBeRemoved;
 
 	meta["isKinematic"] = (bool)GetIsKinematic();
+	meta["isStatic"] = (bool)GetIsStatic();
 	meta["mass"] = (float)GetMass();
-	meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["linearDamping"] = (float)GetLinearDamping();
+	meta["angularDamping"] = (float)GetAngularDamping();
+	meta["restitution"] = (float)GetRestitution();
+	meta["currentShape"] = (int)GetShape();
+	/*meta["usePositionController"] = (bool)GetUsePositionController();
 	meta["useRotationController"] = (bool)GetUseRotationController();
 	meta["KpForce"] = (float)GetKpForce();
-	meta["KpTorque"] = (float)GetKpTorque();
-	meta["gravity.Y"] = (float)GetGravity().y;
+	meta["KpTorque"] = (float)GetKpTorque();*/
+    meta["gravity_Y"] = (float)GetGravity().getY();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -264,10 +206,28 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	canBeRemoved = (bool)meta["removed"];
 
 	SetIsKinematic((bool)meta["isKinematic"]);
+	SetIsStatic((bool)meta["isStatic"]);
 	SetMass((float)meta["mass"]);
-	SetUsePositionController((bool)meta["usePositionController"]);
+    SetLinearDamping((float)meta["linearDamping"]);
+    SetAngularDamping((float)meta["angularDamping"]);
+    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
+    SetRestitution((float)meta["restitution"]);
+	/*SetUsePositionController((bool)meta["usePositionController"]);
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
-	SetKpTorque((float)meta["KpTorque"]);
-	g.y = (float)meta["gravity.Y"];
+	SetKpTorque((float)meta["KpTorque"]);*/
+
+    int currentShape = (int)meta["currentShape"];
+
+    if (currentShape != 0)
+    {
+        SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+    }
+    
+    SetupMobility();
+}
+
+void ComponentRigidBody::RemoveRigidBodyFromSimulation()
+{
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
 }

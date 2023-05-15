@@ -53,6 +53,8 @@ private:
 	bool isCrouch;
 	unsigned int jumps;
 
+	bool isDashing;
+
 	ComponentAudioSource* componentAudio;
 	PlayerActions playerState;
 };
