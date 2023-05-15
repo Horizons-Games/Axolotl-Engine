@@ -1,6 +1,7 @@
 #include "WindowComponentRigidBody.h"
 
 #include "Components/ComponentRigidBody.h"
+#include "Bullet/btBulletDynamicsCommon.h"
 
 WindowComponentRigidBody::WindowComponentRigidBody(ComponentRigidBody* component) :
 	ComponentWindow("RIGID BODY", component)
@@ -18,79 +19,92 @@ void WindowComponentRigidBody::DrawWindowContents()
 	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 	
 	ComponentRigidBody* asRigidBody = static_cast<ComponentRigidBody*>(component);
+    
 
 	if (asRigidBody)
 	{
+        btRigidBody* rigidBody = asRigidBody -> GetRigidBody();
 		ImGui::Text("");
 
 		bool isKinematic = asRigidBody->GetIsKinematic();
 
-		ImGui::Text("Is Kinematic"); ImGui::SameLine();
-		if (ImGui::Checkbox("##Is Kinematic", &isKinematic))
-		{
-			asRigidBody->SetIsKinematic(isKinematic);
+        ImGui::Text("Is Kinematic"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Is Kinematic", &isKinematic))
+        {
+            asRigidBody->SetIsKinematic(isKinematic);
+            asRigidBody->SetupMobility();
 		}
-		
-		float mass = asRigidBody->GetMass();
 
-		ImGui::Text("Mass:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		if (ImGui::DragFloat("##Mass", &mass, 0.1f, 1.0f, 100.0f, "%.2f"))
+		bool isStatic = asRigidBody->GetIsStatic();
+
+        ImGui::Text("Is Static"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Is Static", &isStatic))
 		{
-			if (mass < 1.0f)
+			if (isStatic)
 			{
-				mass = 1.0f;
+                asRigidBody->SetIsKinematic(false);
 			}
-
-			asRigidBody->SetMass(mass);
+            asRigidBody->SetIsStatic(isStatic);
+			asRigidBody->SetupMobility();
 		}
 
-		float3 g = -asRigidBody->GetGravity();
+        // Shape
+        const char* shapeTypes[] = { "None", "Box", "Sphere"/*, "Capsule", "Cylinder", "Cone"*/ };
 
-		ImGui::Text("Gravity:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		if (ImGui::DragFloat("##Gravity", &g.y, 0.1f, 1.0f, 10.0f, "%.2f"))
-		{
-			if (g.y < 1.0f)
-			{
-				g.y = 1.0f;
-			}
+        int currentShape = asRigidBody->GetShape();
+        if (ImGui::Combo("Shape", &currentShape, shapeTypes, IM_ARRAYSIZE(shapeTypes)))
+        {
+            asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+        }
+        if (currentShape > 0)
+        {
+            btVector3 minPoint, maxPoint;
+            rigidBody->getAabb(minPoint, maxPoint);
+            ImGui::Text("AABB: Min: %f, %f, %f", minPoint.x(), minPoint.y(), minPoint.z());
+            ImGui::Text("AABB: Max: %f, %f, %f", maxPoint.x(), maxPoint.y(), maxPoint.z());
+        }
 
-			g.y = -g.y;
-			asRigidBody->SetGravity(g);
-		}
+        if (!isStatic)
+        {
+            // Mass
+            float mass = rigidBody->getMass();
+            if (ImGui::DragFloat("Mass", &mass, 0.1f, 0.0f, FLT_MAX))
+            {
+                btVector3 local_inertia;
+                rigidBody->getCollisionShape()->calculateLocalInertia(mass, local_inertia);
+                rigidBody->setMassProps(mass, local_inertia);
+                asRigidBody->SetMass(mass);
+            }
+        }
+        // Gravity
+        btVector3 gravity = rigidBody->getGravity();
+        if (ImGui::DragFloat3("Gravity", gravity.m_floats, 0.1f))
+        {
+            asRigidBody->SetGravity(gravity);
+        }
 
-		float KpForce = asRigidBody->GetKpForce();
-		float KpTorque = asRigidBody->GetKpTorque();
-		bool isUsingPositionController = asRigidBody->GetUsePositionController();
-		bool isUsingRotationController = asRigidBody->GetUseRotationController();
+        // Linear damping
+        float linearDamping = rigidBody->getLinearDamping();
+        if (ImGui::DragFloat("Linear Damping", &linearDamping, 0.01f, 0.0f, 1.0f))
+        {
+            //rigidBody->setDamping(linearDamping, rigidBody->getAngularDamping());
+            asRigidBody->SetLinearDamping(linearDamping);
+        }
 
-		ImGui::Text("Use Position Controller"); ImGui::SameLine();
-		if (ImGui::Checkbox("##Use Position Controller", &isUsingPositionController))
-		{
-			asRigidBody->SetUsePositionController(isUsingPositionController);
-		}
+        // Angular damping
+        float angularDamping = rigidBody->getAngularDamping();
+        if (ImGui::DragFloat("Angular Damping", &angularDamping, 0.01f, 0.0f, 1.0f))
+        {
+            //rigidBody->setDamping(rigidBody->getLinearDamping(), angularDamping);
+            asRigidBody->SetAngularDamping(angularDamping);
+        }
 
-		if (isUsingPositionController)
-		{
-			if (ImGui::SliderFloat("KP Position", &KpForce, 0.5f, 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
-			{
-				asRigidBody->SetKpForce(KpForce);
-			}
-		}
-
-		ImGui::Text("Use Rotation Controller"); ImGui::SameLine();
-		if (ImGui::Checkbox("##Use Rotation Controller", &isUsingRotationController))
-		{
-			asRigidBody->SetUseRotationController(isUsingRotationController);
-		}
-
-		if (isUsingRotationController)
-		{
-			if (ImGui::SliderFloat("KP Rotation", &KpTorque, 0.05f, 2.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
-			{
-				asRigidBody->SetKpTorque(KpTorque);
-			}
-		}
+        // Restitution
+        float restitution = rigidBody->getRestitution();
+        if (ImGui::DragFloat("Restitution", &restitution, 0.01f, 0.0f, 1.0f))
+        {
+            //rigidBody->setRestitution(restitution);
+            asRigidBody->SetRestitution(angularDamping);
+        }
 	}
 }
