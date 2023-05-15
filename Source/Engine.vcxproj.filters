@@ -370,7 +370,7 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="NewPlayerMobilityTest.cpp">
+    <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -746,7 +746,7 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="NewPlayerMobilityTest.h">
+    <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
