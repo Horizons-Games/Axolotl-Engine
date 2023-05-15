@@ -12,15 +12,23 @@ public:
 
 	void Update() override;
 
-	void SuscribeToOnCollisionEnter();
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
 
+	void SubscribeToOnCollisionEnter();
+	void UnsubscribeToOnCollisionEnter();
 	//TODO:Unsuscribe on destroy
 
 	void OnCollisionEnter(class ComponentRigidBody* other);
-
+	bool GetSubscribed();
 
 private:
 
-	bool suscribed = false;
+	bool subscribed = false;
 };
+
+inline bool ComponentBreakable::GetSubscribed()
+{
+	return subscribed;
+}
 

@@ -231,3 +231,8 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
 }
+
+void ComponentRigidBody::ClearCollisionEnterDelegate()
+{
+    delegateCollisionEnter.clear();
+}

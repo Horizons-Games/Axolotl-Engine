@@ -21,6 +21,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
+#include "WindowComponentBreakable.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -42,6 +43,7 @@
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentScript.h"
+#include "ComponentBreakable.h"
 
 #include "ComponentWindow.h"
 #include "ModuleCommand.h"
@@ -88,6 +90,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 			return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 		case ComponentType::SCRIPT:
 			return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
+		case ComponentType::BREAKABLE:
+			return std::make_unique<WindowComponentBreakable>(static_cast<ComponentBreakable*>(component));
 		case ComponentType::LIGHT:
 			ComponentLight* asLight = static_cast<ComponentLight*>(component);
 			switch (asLight->GetLightType())

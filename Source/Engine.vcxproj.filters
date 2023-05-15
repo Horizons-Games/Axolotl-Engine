@@ -376,6 +376,9 @@
     <ClCompile Include="ComponentBreakable.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="WindowComponentBreakable.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -754,6 +757,9 @@
     </ClInclude>
     <ClInclude Include="ComponentBreakable.h">
       <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowComponentBreakable.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1597,9 +1603,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1676,9 +1679,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">

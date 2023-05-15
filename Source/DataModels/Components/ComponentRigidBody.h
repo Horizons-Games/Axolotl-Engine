@@ -85,6 +85,8 @@ public:
         delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
     }
 
+    void ClearCollisionEnterDelegate();
+
 private:
 
     btRigidBody* rigidBody = nullptr;
