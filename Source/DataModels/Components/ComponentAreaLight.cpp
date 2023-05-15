@@ -5,6 +5,8 @@
 
 #define SECTOR_SPHERE_COUNT 36
 #define STACK_SPHERE_COUNT 34
+#define SECTOR_TUBE_COUNT 36
+#define STACK_TUBE_COUNT 34
 
 ComponentAreaLight::ComponentAreaLight() : ComponentLight(LightType::AREA, true)
 {
@@ -177,8 +179,8 @@ void ComponentAreaLight::CreateSphere()
             normals.push_back(float3(nx, ny, nz));
 
             // vertex tex coord (s, t) range between [0, 1]
-            s = (float)j / SECTOR_SPHERE_COUNT;
-            t = (float)i / STACK_SPHERE_COUNT;
+            s = static_cast<float>(j) / SECTOR_SPHERE_COUNT;
+            t = static_cast<float>(i) / STACK_SPHERE_COUNT;
             texCoords.push_back(float2(s, t));
         }
     }
