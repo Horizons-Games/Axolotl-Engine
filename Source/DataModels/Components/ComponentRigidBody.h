@@ -51,6 +51,9 @@ public:
     void SetIsStatic(bool isStatic);
     bool GetIsStatic() const;
     
+    void SetDrawCollider(bool newDrawCollider, bool substract = true);
+    bool GetDrawCollider() const;
+    
     float GetMass() const;
     void SetMass(float newMass);
 
@@ -99,6 +102,7 @@ private:
 
     bool isKinematic = false;
     bool isStatic = false;
+    bool drawCollider = false;
 
     int currentShape = 0;
 
@@ -129,6 +133,11 @@ inline bool ComponentRigidBody::GetIsStatic() const
 inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 {
     isStatic = newIsStatic;
+}
+
+inline bool ComponentRigidBody::GetDrawCollider() const
+{
+    return drawCollider;
 }
 
 inline int ComponentRigidBody::GetShape() const

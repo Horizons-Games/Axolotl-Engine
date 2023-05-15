@@ -69,7 +69,7 @@ update_status ModulePhysics::PreUpdate()
         dynamicsWorld->stepSimulation(App->GetDeltaTime());
         ManageCollisions();
 
-        if (App->IsOnPlayMode())
+        if (App->IsOnPlayMode() && drawableRigidBodies > 0)
         {
             dynamicsWorld->debugDrawWorld();
         }
@@ -198,6 +198,10 @@ void ModulePhysics::RemoveRigidBody(ComponentRigidBody* rb, btRigidBody* body)
     rigidBodyComponents.erase(rb->GetID());
 }
 
+void ModulePhysics::UpdateDrawableRigidBodies(int value)
+{
+    drawableRigidBodies += value;
+}
 
 void GLDebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& fromColor, const btVector3& toColor)
 {

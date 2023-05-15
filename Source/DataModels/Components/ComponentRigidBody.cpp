@@ -28,13 +28,13 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     currentShape = 1;
     motionState = new btDefaultMotionState(startTransform);
     shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
-    
     rigidBody = new btRigidBody(100, motionState, shape);
     
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
     SetupMobility();
 
     rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+    rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
 
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
@@ -186,6 +186,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 
 	meta["isKinematic"] = (bool)GetIsKinematic();
 	meta["isStatic"] = (bool)GetIsStatic();
+    meta["drawCollider"] = (bool)GetDrawCollider();
 	meta["mass"] = (float)GetMass();
 	meta["linearDamping"] = (float)GetLinearDamping();
 	meta["angularDamping"] = (float)GetAngularDamping();
@@ -207,6 +208,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
 	SetIsKinematic((bool)meta["isKinematic"]);
 	SetIsStatic((bool)meta["isStatic"]);
+    SetDrawCollider((bool)meta["drawCollider"], false);
 	SetMass((float)meta["mass"]);
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
@@ -230,4 +232,27 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+}
+
+void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
+{
+    drawCollider = newDrawCollider;
+    int value = 0;
+
+    if (newDrawCollider)
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+        value = 1;
+    }
+    else
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+
+        if (substract)
+        {
+            value = -1;
+        }
+    }
+
+    App->GetModule<ModulePhysics>()->UpdateDrawableRigidBodies(value);
 }

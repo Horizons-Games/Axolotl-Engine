@@ -48,6 +48,16 @@ void WindowComponentRigidBody::DrawWindowContents()
 			asRigidBody->SetupMobility();
 		}
 
+        ImGui::Text("");
+
+        bool drawCollider = asRigidBody->GetDrawCollider();
+
+        ImGui::Text("Draw collider"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Draw collider", &drawCollider))
+        {
+            asRigidBody->SetDrawCollider(drawCollider);
+        }
+
         // Shape
         const char* shapeTypes[] = { "None", "Box", "Sphere"/*, "Capsule", "Cylinder", "Cone"*/ };
 
