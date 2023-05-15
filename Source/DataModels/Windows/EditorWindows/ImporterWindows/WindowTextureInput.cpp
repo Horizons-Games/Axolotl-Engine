@@ -28,6 +28,9 @@ WindowTextureInput::WindowTextureInput
 	case TextureType::SPECULAR:
 		title = "Load Specular";
 		break;
+	case TextureType::EMISSION:
+		title = "Load Emission";
+		break;
 	default:
 		break;
 	}
@@ -78,6 +81,11 @@ void WindowTextureInput::DoThisIfOk()
 		case TextureType::SPECULAR:
 
 			windowComponent->SetSpecular(texture);
+
+			break;
+		case TextureType::EMISSION:
+
+			windowComponent->SetEmission(texture);
 
 			break;
 		}
