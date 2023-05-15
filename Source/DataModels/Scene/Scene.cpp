@@ -748,7 +748,7 @@ void Scene::UpdateSceneAreaLights()
 				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
 					AreaLightTube tl;
-					float4x4 matrixRotation = transform->GetRotation();
+					float4x4 matrixRotation = transform->GetGlobalRotation();
 					float3 translation = transform->GetGlobalPosition();
 					float3 pointA = float3(0, areaLightComp->GetRadius(), 0);
 					float3 pointB = float3(0, -areaLightComp->GetRadius(), 0);
@@ -758,8 +758,8 @@ void Scene::UpdateSceneAreaLights()
 					pointB = (matrixRotation * float4(pointB, 1)).xyz();
 
 					// Apply translation
-					pointA = float3(translation.x * pointA.x, translation.y * pointA.y, translation.z * pointA.z);
-					pointB = float3(translation.x * pointB.x, translation.y * pointB.y, translation.z * pointB.z);
+					pointA = float3(translation.x + pointA.x, translation.y + pointA.y, translation.z + pointA.z);
+					pointB = float3(translation.x + pointB.x, translation.y + pointB.y, translation.z + pointB.z);
 
 					tl.positionA = pointA;
 					tl.positionB = pointB;
