@@ -2,9 +2,7 @@
 #include "ComponentLight.h"
 
 #include "Application.h"
-#include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
-
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleDebugDraw.h"
