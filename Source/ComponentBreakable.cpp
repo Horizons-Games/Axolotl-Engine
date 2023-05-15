@@ -99,20 +99,3 @@ Execercise:
 		}
 	}
 }
-
-void ComponentBreakable::SaveOptions(Json& meta)
-{
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
-}
-
-void ComponentBreakable::LoadOptions(Json& meta)
-{
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
-}
-

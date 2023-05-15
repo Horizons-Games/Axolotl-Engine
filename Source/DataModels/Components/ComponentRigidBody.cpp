@@ -242,7 +242,6 @@ void ComponentRigidBody::UpdateNonSimulatedTransform()
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
 }
-}
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
