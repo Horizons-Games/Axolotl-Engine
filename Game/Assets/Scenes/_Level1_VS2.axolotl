@@ -19978,7 +19978,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0040869563817977905,
+                            "localPos_X": -0.033456429839134216,
                             "localPos_Y": -0.2200000137090683,
                             "localPos_Z": 0.09089688956737518,
                             "localRot_X": 90.0,
@@ -20098,9 +20098,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.039086952805519104,
+                            "localPos_X": 0.027351126074790955,
                             "localPos_Y": -0.2200000137090683,
-                            "localPos_Z": 0.09089688211679459,
+                            "localPos_Z": 0.09089689701795578,
                             "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -25959,7 +25959,7 @@
                 "uid": 16162970569406212226,
                 "parentUID": 9156183955469704864,
                 "enabled": false,
-                "active": true,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -45894,7 +45894,7 @@
                 "uid": 212339498994705700,
                 "parentUID": 15493705646565030833,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -46041,8 +46041,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.136444091796875,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": 0.13641357421875,
+                            "localPos_Z": -1.1920928955078125e-7,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -65344,6 +65344,1403 @@
                             "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
                             "materialUID": 12797457484529632986,
                             "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 6462831015621400665,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.8007988929748535,
+                            "localPos_Y": -1.3667997121810913,
+                            "localPos_Z": 19.214750289916992,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.0000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 1842291582640480830,
+                "parentUID": 6462831015621400665,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 10808678142977366442,
+                "parentUID": 1842291582640480830,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 6700014876615916993,
+                "parentUID": 10808678142977366442,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 15606125055632270834,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.601435661315918,
+                            "localPos_Y": -0.007577180862426758,
+                            "localPos_Z": 49.97491455078125,
+                            "localRot_X": -0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.953000009059906,
+                            "localSca_Y": 0.9530001282691956,
+                            "localSca_Z": 0.9530001282691956
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 2255536292659198935,
+                "parentUID": 15606125055632270834,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 5525876062898899109,
+                "parentUID": 2255536292659198935,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 4583300179987623728,
+                "parentUID": 5525876062898899109,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 5249607510425846305,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.2813262939453125,
+                            "localPos_Y": -1.3265645503997803,
+                            "localPos_Z": 12.361299514770508,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 7619458539878710091,
+                "parentUID": 5249607510425846305,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 16583000082418039251,
+                "parentUID": 7619458539878710091,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 11388998117818286325,
+                "parentUID": 16583000082418039251,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0556640625,
+                            "localPos_Z": 0.18359375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 17147087720039324329,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.260181427001953,
+                            "localPos_Y": -1.3329336643218994,
+                            "localPos_Z": 7.487846374511719,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 10613090579505353541,
+                "parentUID": 17147087720039324329,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 8894321116961429000,
+                "parentUID": 10613090579505353541,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 10039866596618645874,
+                "parentUID": 8894321116961429000,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 576520914530114196,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -12.536643981933594,
+                            "localPos_Y": -1.3231709003448486,
+                            "localPos_Z": 7.487846374511719,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 14461647767899816326,
+                "parentUID": 576520914530114196,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 10771981294151967646,
+                "parentUID": 14461647767899816326,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 16604852317253372225,
+                "parentUID": 10771981294151967646,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 7246960231540147512,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -15.747035026550293,
+                            "localPos_Y": -1.099078893661499,
+                            "localPos_Z": 15.841998100280762,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 5339236602793298160,
+                "parentUID": 7246960231540147512,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 15215743168642502686,
+                "parentUID": 5339236602793298160,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 16011151129090659249,
+                "parentUID": 15215743168642502686,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 3311501139508354235,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -22.899625778198242,
+                            "localPos_Y": -0.45971131324768066,
+                            "localPos_Z": 22.479040145874023,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8677891815698819843,
+                "parentUID": 3311501139508354235,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 4134089206171167135,
+                "parentUID": 8677891815698819843,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 17944620270905278276,
+                "parentUID": 4134089206171167135,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 8357897748182454251,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 15.12458610534668,
+                            "localPos_Y": -0.09362943470478058,
+                            "localPos_Z": 28.700342178344727,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 5022848506535136427,
+                "parentUID": 8357897748182454251,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 8315920952347202815,
+                "parentUID": 5022848506535136427,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 3995596100338733858,
+                "parentUID": 8315920952347202815,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 7487572030690493173,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 12.596348762512207,
+                            "localPos_Y": 0.008928298950195313,
+                            "localPos_Z": 37.419193267822266,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 2511395769803377739,
+                "parentUID": 7487572030690493173,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 11093795848648255894,
+                "parentUID": 2511395769803377739,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 9425775574974318913,
+                "parentUID": 11093795848648255894,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 16497002748219858419,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.569164752960205,
+                            "localPos_Y": 0.008928298950195313,
+                            "localPos_Z": 37.419193267822266,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.949999988079071,
+                            "localSca_Y": 0.9500001072883606,
+                            "localSca_Z": 0.9500001072883606
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 16907987966241972850,
+                "parentUID": 16497002748219858419,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 14204456275829156277,
+                "parentUID": 16907987966241972850,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 16858388682733146438,
+                "parentUID": 14204456275829156277,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 17911847813382971141,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.9010396003723145,
+                            "localPos_Y": -0.009611546993255615,
+                            "localPos_Z": 48.89484405517578,
+                            "localRot_X": -0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.003000020980835,
+                            "localSca_Y": 1.0030001401901245,
+                            "localSca_Z": 1.0030001401901245
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 17051196746995062344,
+                "parentUID": 17911847813382971141,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa",
+                "tag": "",
+                "uid": 9772413940491924267,
+                "parentUID": 17051196746995062344,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.00009999999747378752,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 0.00009999999747378752
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Tapa.Tapa_0",
+                "tag": "",
+                "uid": 16067132560169193269,
+                "parentUID": 9772413940491924267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0546875,
+                            "localPos_Z": 0.1953125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17497170199500601963,
+                            "assetPathMesh": "Assets/Meshes/Tapa.Tapa_0.mesh",
+                            "materialUID": 6345999000561438764,
+                            "assetPathMaterial": "Assets/Materials/TapaDefaultMaterial_0.mat"
                         }
                     }
                 ]

@@ -1,5 +1,5 @@
 {
-    "UID": 7730460513469168607,
+    "UID": 6345999000561438764,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -10,9 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Base.png",
+    "DiffuseAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png"
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }
