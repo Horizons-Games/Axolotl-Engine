@@ -269,8 +269,8 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 		for (int i = 0; i < meshesUIDs.size(); i++)
 		{
-			std::shared_ptr<ResourceMesh> mesh = App->resources->SearchResource<ResourceMesh>(meshesUIDs[i]);
-			std::shared_ptr<ResourceMaterial> material = App->resources->SearchResource<ResourceMaterial>(materialsUIDs[i]);
+			std::shared_ptr<ResourceMesh> mesh = App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(meshesUIDs[i]);
+			std::shared_ptr<ResourceMaterial> material = App->GetModule<ModuleResources>()->SearchResource<ResourceMaterial>(materialsUIDs[i]);
 			nodes[i]->meshRenderers.push_back(std::make_pair(mesh, material));
 		}
 #endif
@@ -299,7 +299,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	fileBuffer += bytes;
 	for (int i = 0; i < animationsUIDs.size(); i++)
 	{
-		std::shared_ptr<ResourceAnimation> anim = App->resources->SearchResource<ResourceAnimation>(animationsUIDs[i]);
+		std::shared_ptr<ResourceAnimation> anim = App->GetModule<ModuleResources>()->SearchResource<ResourceAnimation>(animationsUIDs[i]);
 		animations.push_back(anim);
 	}
 #endif

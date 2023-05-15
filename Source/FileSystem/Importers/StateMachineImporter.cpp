@@ -360,7 +360,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 				UID resourcePointer;
 				bytes = sizeof(UID);
 				memcpy(&resourcePointer, fileBuffer, bytes);
-				std::shared_ptr<Resource> mesh = App->resources->SearchResource<Resource>(resourcePointer);
+				std::shared_ptr<Resource> mesh = App->GetModule<ModuleResources>()->SearchResource<Resource>(resourcePointer);
 				state->resource = resource;
 				fileBuffer += bytes;
 #endif

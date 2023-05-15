@@ -97,9 +97,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentAmbient.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\UniqueID.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -170,9 +167,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.cpp">
@@ -283,6 +277,12 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Cubemap\Cubemap.cpp">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceCubemap.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
@@ -360,6 +360,15 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModulePhysics.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -468,9 +477,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -547,9 +553,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -722,14 +725,23 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\FieldType.h">
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModulePhysics.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1466,9 +1478,6 @@
     <ClInclude Include="Modules\ModuleUI.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\SystemTable.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClCompile Include="Scripting\ScriptFactory.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
@@ -1824,6 +1833,15 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h">
       <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Cubemap\Cubemap.h">
+      <Filter>DataModels\Cubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceCubemap.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceStateMachine.h">
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
@@ -1900,35 +1918,8 @@
     <Filter Include="Source\Enums">
       <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DataModels\Resources">
-      <UniqueIdentifier>{723c4b8f-63bd-4abf-bf78-70b6e493a9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\EditorWindows\ImporterWindows">
-      <UniqueIdentifier>{392313ed-7570-4c5d-b78b-d9702fa420fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DataStructures">
       <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Scene">
-      <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Program">
-      <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Windows\SubWindows\ComponentWindows">
-      <UniqueIdentifier>{c4997fc7-23b3-4afa-a2b6-776614ce6ffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Commands">
-      <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Camera">
-      <UniqueIdentifier>{10b6afa6-8660-44d5-85d2-8c4661a6c259}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataModels\Resources\EditorResource">
-      <UniqueIdentifier>{15a2c529-7ad6-40c8-a00c-1cb20bf806b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
@@ -2008,6 +1999,9 @@
     </Filter>
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Cubemap">
+      <UniqueIdentifier>{e6de1d9d-d6ec-4f99-957d-b73e5d0acbd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts">
       <UniqueIdentifier>{c67e2114-139e-40b9-86b5-db58ee12ffda}</UniqueIdentifier>

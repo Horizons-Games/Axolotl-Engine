@@ -1,8 +1,12 @@
 #pragma once
 
-#include "EditorWindows/WindowAbout.h"
-#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
-#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "Window.h"
+
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
+class WindowLoadScene;
+class WindowSaveScene;
+class WindowImportScene;
+class WindowAbout;
 
 class Json;
 
@@ -32,6 +36,7 @@ private:
 	
 	std::unique_ptr<WindowLoadScene> loadScene;
 	std::unique_ptr<WindowSaveScene> saveScene;
+	std::unique_ptr<WindowImportScene> importScene;
 	std::unique_ptr<WindowAbout> about;
 
 	bool showAbout;
