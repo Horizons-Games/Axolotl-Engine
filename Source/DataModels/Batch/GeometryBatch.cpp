@@ -729,7 +729,7 @@ void GeometryBatch::UpdateBatchComponents()
 	}
 }
 
-bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
+bool CompareFarToClose(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
 {
 	float firstDistance = App->GetModule<ModuleRender>()->GetObjectDistance(first->GetOwner());
 	float secondDistance = App->GetModule<ModuleRender>()->GetObjectDistance(second->GetOwner());
@@ -737,10 +737,24 @@ bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRender
 	return (firstDistance > secondDistance);
 }
 
-void GeometryBatch::SortByDistance()
+bool CompareCloseToFar(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
 {
-	std::sort(componentsInBatch.begin(), componentsInBatch.end(), SortComponent);
+	float firstDistance = App->GetModule<ModuleRender>()->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->GetModule<ModuleRender>()->GetObjectDistance(second->GetOwner());
+
+	return (firstDistance < secondDistance);
 }
+
+void GeometryBatch::SortByDistanceFarToClose()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareFarToClose);
+}
+
+void GeometryBatch::SortByDistanceCloseToFar()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareCloseToFar);
+}
+
 
 void GeometryBatch::SetDirty(const bool dirty)
 {

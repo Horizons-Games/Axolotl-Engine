@@ -42,7 +42,8 @@ public:
 	bool IsDirty() const;
 
 	void SetFillMaterials(const bool fillMaterials);
-	void SortByDistance();
+	void SortByDistanceFarToClose();
+	void SortByDistanceCloseToFar();
 	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;
