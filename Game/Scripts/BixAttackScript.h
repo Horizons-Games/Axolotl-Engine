@@ -4,8 +4,10 @@
 
 #include "Components/ComponentTransform.h"
 
-class ComponentAudioSource;
 class ModuleInput;
+class ComponentAudioSource;
+class ComponentTransform;
+class ComponentAnimation;
 
 class BixAttackScript : public Script
 {
@@ -27,6 +29,8 @@ private:
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
+	ComponentAnimation* animation;
+	GameObject* animationGO;
 
 	ModuleInput* input;
 

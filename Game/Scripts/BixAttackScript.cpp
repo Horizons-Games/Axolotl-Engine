@@ -8,6 +8,8 @@
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentAnimation.h"
 
 #include "GameObject/GameObject.h"
 
@@ -20,17 +22,20 @@
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-									input(nullptr), rayAttackSize(3.0f),
-									transform(nullptr)
+input(nullptr), rayAttackSize(3.0f), animation(nullptr), animationGO(nullptr),
+transform(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
+	REGISTER_FIELD(animationGO, GameObject*);
 }
 
 void BixAttackScript::Start()
 {
 	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	if (animationGO)
+		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
 
 	input = App->GetModule<ModuleInput>();
 
@@ -54,10 +59,13 @@ void BixAttackScript::PerformAttack()
 {
 	if (isAttackAvailable())
 	{
+		if (animation)
+			animation->SetParameter("attack", true);
+
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
 		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
-		
+
 		Ray ray(transform->GetPosition(), transform->GetLocalForward());
 		LineSegment line(ray, rayAttackSize);
 		if (Physics::RaycastFirst(line, owner))
