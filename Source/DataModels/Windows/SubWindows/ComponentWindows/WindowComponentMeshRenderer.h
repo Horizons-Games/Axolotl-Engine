@@ -20,6 +20,7 @@ public:
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallicMap);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap);
+	void SetEmission(const std::shared_ptr<ResourceTexture>& emissionMap);
 
 protected:
 	void DrawWindowContents() override;
@@ -35,6 +36,7 @@ private:
 	std::shared_ptr<ResourceTexture> normalMap;
 	std::shared_ptr<ResourceTexture> metallicMap;
 	std::shared_ptr<ResourceTexture> specularMap;
+	std::shared_ptr<ResourceTexture> emissionMap;
 
 	float smoothness;
 	float metalness;
@@ -51,6 +53,7 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+	std::unique_ptr<WindowTextureInput> inputTextureEmission;
 };
 
 inline void WindowComponentMeshRenderer::SetDiffuse
@@ -75,4 +78,10 @@ inline void WindowComponentMeshRenderer::SetSpecular
 		(const std::shared_ptr<ResourceTexture>& specularMap)
 {
 	this->specularMap = specularMap;
+}
+
+inline void WindowComponentMeshRenderer::SetEmission
+(const std::shared_ptr<ResourceTexture>& emissionMap)
+{
+	this->emissionMap = emissionMap;
 }
