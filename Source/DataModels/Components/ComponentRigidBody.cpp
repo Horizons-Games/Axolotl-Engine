@@ -105,11 +105,15 @@ void ComponentRigidBody::Update()
 
     if (useRotationController)
     {
-        Quat q = transform->GetRotation().RotatePart().ToQuat();
+        btTransform trans;
+        trans = rigidBody->getWorldTransform();
+
+        btQuaternion bulletQ = trans.getRotation();
+        Quat q = Quat(bulletQ.getX(), bulletQ.getY(), bulletQ.getZ(), bulletQ.getW());
         Quat rotationError = targetRotation * q.Normalized().Inverted();
         rotationError.Normalize();
 
-        if (!rotationError.Equals(Quat::identity, 0.05f))
+        if (!rotationError.Equals(Quat::identity, 0.005f))
         {
             float3 axis;
             float angle;
@@ -130,11 +134,18 @@ void ComponentRigidBody::Update()
             nextRotation.Normalize();
 
             q = nextRotation;
+
+            float3 rotationEuler(q.ToEulerXYZ());
+            btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
+            rigidBody->setAngularVelocity(rotation);
         }
 
-        float3 rotationEuler(q.ToEulerXYZ());
-        btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
-        rigidBody->setAngularVelocity(rotation);
+        else 
+        {
+            rigidBody->setAngularVelocity(btVector3(0.0f,0.0f,0.0f));
+        }
+
+        
     }
 }
 
