@@ -6355,86 +6355,6 @@
         },
         {
             "GameObject": {
-                "name": "Drone_1",
-                "tag": "",
-                "uid": 14868193296283474606,
-                "parentUID": 10562123420646128895,
-                "enabled": true,
-                "active": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 18.74808120727539,
-                            "localPos_Y": 2.073698043823242,
-                            "localPos_Z": 42.66655349731445,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.17499999701976776,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 1714878422024313377,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 9333991942827640726,
-                            "assetPathMaterial": "Assets/Materials/Enemy.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Drone",
-                "tag": "",
-                "uid": 5470143796219519446,
-                "parentUID": 10562123420646128895,
-                "enabled": true,
-                "active": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 22.225542068481445,
-                            "localPos_Y": 2.073698043823242,
-                            "localPos_Z": 47.53107452392578,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.17499999701976776,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 1714878422024313377,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 9333991942827640726,
-                            "assetPathMaterial": "Assets/Materials/Enemy.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Box1",
                 "tag": "",
                 "uid": 3811431279605393030,
@@ -42004,7 +41924,7 @@
                             "localPos_Y": -0.08669910579919815,
                             "localPos_Z": -0.013009392656385899,
                             "localRot_X": -90.0,
-                            "localRot_Y": 89.98020935058594,
+                            "localRot_Y": 89.97201538085938,
                             "localRot_Z": 0.000005008951575291576,
                             "localSca_X": 0.003000000026077032,
                             "localSca_Y": 0.0029999997932463884,
@@ -45254,46 +45174,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 6039268700075764394,
-                "parentUID": 814993189199675990,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 6707647356654041712,
@@ -45512,46 +45392,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 12003799608486150162,
-                "parentUID": 14454135221550985990,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -45936,7 +45776,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.1364288330078125,
+                            "localPos_Y": 0.136444091796875,
                             "localPos_Z": -0.0004839897155761719,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -46053,8 +45893,8 @@
                 "tag": "",
                 "uid": 212339498994705700,
                 "parentUID": 15493705646565030833,
-                "enabled": true,
-                "active": true,
+                "enabled": false,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -46064,7 +45904,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -2.384185791015625e-7,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -46318,8 +46158,8 @@
                 "tag": "",
                 "uid": 17767265328744329648,
                 "parentUID": 10115466818739509051,
-                "enabled": true,
-                "active": true,
+                "enabled": false,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -46583,8 +46423,8 @@
                 "tag": "",
                 "uid": 15889517771909233453,
                 "parentUID": 690699177307331286,
-                "enabled": true,
-                "active": true,
+                "enabled": false,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -46592,9 +46432,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 0.01987457275390625,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -2.384185791015625e-7,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -46844,46 +46684,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 8199126533332597668,
-                "parentUID": 2111798489458971043,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 7195868871990696903,
@@ -47102,46 +46902,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 12594476472346286389,
-                "parentUID": 18431726238708275339,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -47374,46 +47134,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 18326419493744630541,
-                "parentUID": 17743825691558470967,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 11965321937723891129,
@@ -47632,46 +47352,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 3636787418094293525,
-                "parentUID": 12440875876435318915,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -48174,7 +47854,7 @@
                 "uid": 18261296719049373563,
                 "parentUID": 4079562872611930353,
                 "enabled": false,
-                "active": true,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -48812,46 +48492,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 160001359811752490,
-                "parentUID": 15325900268333523733,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 7.132584523006358e-10,
-                            "localRot_Y": 1.1538400457311582e-7,
-                            "localRot_Z": -0.7082400321960449,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -49614,46 +49254,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 8670777217400967023,
-                "parentUID": 17280262208304987680,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 3302916816607741968,
@@ -49879,46 +49479,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 6638137519046108418,
-                "parentUID": 13990228452898785367,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 5407627492016653199,
@@ -50137,46 +49697,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 114853294457547966,
-                "parentUID": 8758310425762539836,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -50496,46 +50016,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 9483222090631706673,
-                "parentUID": 3747940104548223998,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 4633554120336687461,
@@ -50754,46 +50234,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 16408049360161294324,
-                "parentUID": 12345749707345686233,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -51407,46 +50847,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 13677724680485230190,
-                "parentUID": 16754020957660056864,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 8018151107365305976,
@@ -51665,46 +51065,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 3817084891671243268,
-                "parentUID": 10789312852475581424,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -51937,46 +51297,6 @@
         },
         {
             "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 16566525513407845549,
-                "parentUID": 5691055778900005276,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Pasarela",
                 "tag": "",
                 "uid": 14116922666994792507,
@@ -52195,46 +51515,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 3751477420742948824,
-                "parentUID": 10110173610368233932,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -52587,46 +51867,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 17860588817595305017,
-                "parentUID": 1767893048625756686,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -53179,46 +52419,6 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_RunWay2.Barandilla.001_0",
-                "tag": "",
-                "uid": 17114948244252531915,
-                "parentUID": 14241360343927826792,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11022264974900343579,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.001_0.mesh",
-                            "materialUID": 15051348070569568744,
-                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
                 ]
@@ -55433,9 +54633,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.6822640299797058,
-                            "localPos_Y": -0.3131818175315857,
-                            "localPos_Z": 0.019643008708953857,
+                            "localPos_X": -0.0031412839889526367,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.019643068313598633,
                             "localRot_X": 90.0,
                             "localRot_Y": 180.0,
                             "localRot_Z": 180.0,
@@ -65424,6 +64624,726 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 6643614510307554319,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.6822640299797058,
+                            "localPos_Y": -0.3131818175315857,
+                            "localPos_Z": 0.019643008708953857,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 1604306493228122359,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.002780631184577942,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002690017223358,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 15291545862735374691,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.14492926001548767,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.01964305341243744,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 15850123669865679473,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.10743094980716705,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.01964305341243744,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 15899633293899006011,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.07006455957889557,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.019643060863018036,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 3657059156187476163,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.18175587058067322,
+                            "localPos_Y": -0.7778711318969727,
+                            "localPos_Z": 0.01964305341243744,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 17467745055877530739,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.005282416939735413,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 14367330620981607004,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.14436477422714233,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002690762281418,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 4132311744340645927,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.10747997462749481,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002690017223358,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 6270502345174669055,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.07012534141540527,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002690762281418,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 2210735946022639253,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.034241050481796265,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.019643060863018036,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 2672048816787603267,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03264020383358002,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002690762281418,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 2493914847388612258,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.181755930185318,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.09002689272165298,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 5750603127829397240,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.181755930185318,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 4172348333571211343,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.14419254660606384,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 495631625638683489,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.10617539286613464,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 17420424276267000768,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.06990575790405273,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "background_wall.Cube.001_0",
+                "tag": "",
+                "uid": 9601443289940865623,
+                "parentUID": 6275475639050170267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.032735466957092285,
+                            "localPos_Y": -0.7778710722923279,
+                            "localPos_Z": 0.15146830677986145,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.003120000008493662,
+                            "localSca_Y": 0.0031199997756630182,
+                            "localSca_Z": 0.0031199997756630182
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7309441706449549415,
+                            "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
+                            "materialUID": 12797457484529632986,
+                            "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
                         }
                     }
                 ]
