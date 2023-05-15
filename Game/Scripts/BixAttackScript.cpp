@@ -8,7 +8,6 @@
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentTransform.h"
 
 #include "GameObject/GameObject.h"
 
@@ -41,7 +40,6 @@ void BixAttackScript::Start()
 
 void BixAttackScript::Update(float deltaTime)
 {
-	//DEBUG:
 	Ray ray(transform->GetPosition(), transform->GetLocalForward());
 	dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
 

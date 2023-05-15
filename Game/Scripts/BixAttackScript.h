@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Scripting/Script.h"
+#include "Scripting\Script.h"
 
+#include "Components/ComponentTransform.h"
 
 class ComponentAudioSource;
 class ModuleInput;
-class ComponentTransform;
 
 class BixAttackScript : public Script
 {
