@@ -27,7 +27,9 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
+	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION))
+	
 {
 	InitMaterialValues();
 }
@@ -367,6 +369,25 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f,
 				std::numeric_limits<float>::max());
+			ImGui::Separator();
+
+			ImGui::Text("Emission Texture");
+			if (emissionMap)
+			{
+				emissionMap->Load();
+				ImGui::Image((void*)(intptr_t)emissionMap->GetGlTexture(),
+					ImVec2(100, 100));
+
+				if (ImGui::Button("Remove Texture Emission"))
+				{
+					emissionMap->Unload();
+					emissionMap = nullptr;
+				}
+			}
+			else
+			{
+				inputTextureEmission->DrawWindowContents();
+			}
 
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
@@ -386,6 +407,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetDiffuse(diffuseTexture);
 				materialResource->SetMetallic(metallicMap);
 				materialResource->SetNormal(normalMap);
+				materialResource->SetEmission(emissionMap);
 				materialResource->SetSmoothness(smoothness);
 				materialResource->SetMetalness(metalness);
 				materialResource->SetNormalStrength(normalStrength);
@@ -427,6 +449,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			metallicMap = materialResource->GetMetallic();
 			specularMap = materialResource->GetSpecular();
 			normalMap = materialResource->GetNormal();
+			emissionMap = materialResource->GetEmission();
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
