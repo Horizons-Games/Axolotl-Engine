@@ -43,14 +43,14 @@ ComponentTransform::~ComponentTransform()
 void ComponentTransform::Draw() const
 {
 #ifndef ENGINE
-	if (App->editor->GetDebugOptions()->GetDrawBoundingBoxes())
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
 	{
-		App->debug->DrawBoundingBox(objectOBB);
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
 	}
 #endif //ENGINE
 	if (drawBoundingBoxes)
 	{
-		App->debug->DrawBoundingBox(objectOBB);
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
 	}
 }
 
@@ -104,18 +104,35 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
-		parentTransform->CalculateMatrices();
-
-		// Set local matrix
-		//localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
-		globalPos = globalMatrix.TranslatePart();
-		globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
-		globalSca = globalMatrix.GetScale();
+		globalMatrix.Decompose(globalPos, globalRot, globalSca);
+	}
+	else
+	{
+		globalMatrix = localMatrix;
+	}
+}
+
+const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
+{
+	localMatrix = float4x4::FromTRS(pos, rot, sca);
+
+	const GameObject* parent = GetOwner()->GetParent();
+	const GameObject* root = GetOwner()->GetRootGO();
+
+	if (parent != root)
+	{
+		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
+
+		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
+	}
+	else
+	{
+		return localMatrix;
 	}
 }
 
@@ -128,7 +145,6 @@ void ComponentTransform::UpdateTransformMatrices()
 
 	if (GetOwner()->GetChildren().empty())
 		return;
-
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
@@ -146,22 +162,22 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 	{
 	case LightType::DIRECTIONAL:
 		if (rotationModified)
-			App->scene->GetLoadedScene()->RenderDirectionalLight();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
 		break;
 
 	case LightType::POINT:
 		if (translationModified)
 		{
-			App->scene->GetLoadedScene()->UpdateScenePointLights();
-			App->scene->GetLoadedScene()->RenderPointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
 		}
 		break;
 
 	case LightType::SPOT:
 		if (translationModified || rotationModified)
 		{
-			App->scene->GetLoadedScene()->UpdateSceneSpotLights();
-			App->scene->GetLoadedScene()->RenderSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
 		}
 		break;
 	}
@@ -174,7 +190,3 @@ void ComponentTransform::CalculateBoundingBoxes()
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
-void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
-{
-	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
-}

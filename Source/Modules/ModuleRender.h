@@ -2,12 +2,14 @@
 
 #include "Module.h"
 
+#include "DataModels/Batch/BatchManager.h"
+
 #include "DataStructures/Quadtree.h"
 
 #include "GL/glew.h"
+#include "Math/float4.h"
 
-#include "DataModels/Batch/BatchManager.h"
-
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -17,6 +19,8 @@ struct SDL_Rect;
 
 class Skybox;
 class Program;
+class Cubemap;
+class GameObject;
 
 class ModuleRender : public Module
 {
@@ -25,12 +29,12 @@ public:
 	~ModuleRender() override;
 
 	bool Init() override;
-	bool Start() override;
-	bool CleanUp() override;
 
 	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
+	
+	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
 	void UpdateBuffers(unsigned width, unsigned height);

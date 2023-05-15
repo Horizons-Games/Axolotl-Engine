@@ -16,50 +16,6 @@ class ResourceMaterial;
 class GameObject;
 class Program;
 
-struct Command
-{
-	GLuint  count;			// Number of indices in the mesh
-	GLuint  instanceCount;	// Number of instances to render
-	GLuint  firstIndex;		// Index offset in the EBO
-	GLuint  baseVertex;		// Vertex offset in the VBO
-	GLuint  baseInstance;	// Instance Index
-};
-
-struct MaterialMetallic {
-	float4 diffuse_color = float4::zero; //0 //16
-	int has_diffuse_map = 0;			 //20 //4
-	int has_normal_map = 0;				 //24 //4
-	int has_metallic_map = 0;			 //36 //4
-	float smoothness = 0;				 //28 //4
-	float metalness = 0;				 //32 //4
-	float normal_strength = 0;			 //16 //4
-	uint64_t diffuse_map;				 //40 //8
-	uint64_t normal_map;				 //48 //8
-	uint64_t metallic_map;				 //56 //8 -->64
-};
-
-struct MaterialSpecular {
-	float4 diffuse_color = float4::zero;  //0  //16
-	float3 specular_color = float3::zero; //16 //16       
-	int has_diffuse_map = 0;              //32 //4
-	int has_normal_map = 0;               //36 //4
-	int has_specular_map = 0;             //40 //4
-	float smoothness = 0;                 //44 //4
-	float normal_strength = 0;            //48 //4
-	uint64_t diffuse_map;				  //48 //8
-	uint64_t normal_map;				  //56 //8
-	uint64_t specular_map;				  //64 //8    
-	float2 padding = float2::zero;		  //72 //8 --> 80
-};
-
-
-struct ResourceInfo
-{
-	ResourceMesh* resourceMesh;
-	unsigned int vertexOffset;
-	unsigned int indexOffset;
-};
-
 class GeometryBatch
 {
 public:
@@ -86,10 +42,55 @@ public:
 	bool IsDirty() const;
 
 	void SetFillMaterials(const bool fillMaterials);
-	void SortByDistance();
+	void SortByDistanceFarToClose();
+	void SortByDistanceCloseToFar();
 	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;
+
+private:
+	struct Command
+	{
+		GLuint  count;			// Number of indices in the mesh
+		GLuint  instanceCount;	// Number of instances to render
+		GLuint  firstIndex;		// Index offset in the EBO
+		GLuint  baseVertex;		// Vertex offset in the VBO
+		GLuint  baseInstance;	// Instance Index
+	};
+
+	struct MaterialMetallic {
+		float4 diffuse_color = float4::zero; //0 //16
+		int has_diffuse_map = 0;			 //20 //4
+		int has_normal_map = 0;				 //24 //4
+		int has_metallic_map = 0;			 //36 //4
+		float smoothness = 0;				 //28 //4
+		float metalness = 0;				 //32 //4
+		float normal_strength = 0;			 //16 //4
+		uint64_t diffuse_map;				 //40 //8
+		uint64_t normal_map;				 //48 //8
+		uint64_t metallic_map;				 //56 //8 -->64
+	};
+
+	struct MaterialSpecular {
+		float4 diffuse_color = float4::zero;  //0  //16
+		float3 specular_color = float3::zero; //16 //16       
+		int has_diffuse_map = 0;              //32 //4
+		int has_normal_map = 0;               //36 //4
+		int has_specular_map = 0;             //40 //4
+		float smoothness = 0;                 //44 //4
+		float normal_strength = 0;            //48 //4
+		uint64_t diffuse_map;				  //48 //8
+		uint64_t normal_map;				  //56 //8
+		uint64_t specular_map;				  //64 //8    
+		float2 padding = float2::zero;		  //72 //8 --> 80
+	};
+
+	struct ResourceInfo
+	{
+		ResourceMesh* resourceMesh;
+		unsigned int vertexOffset;
+		unsigned int indexOffset;
+	};
 
 private:
 	void FillBuffers();

@@ -1,0 +1,15 @@
+{
+    "UID": 4940671310377433229,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Zombunny_0.mesh",
+        "Assets/Meshes/Zombunny_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ZombunnyMaterial_0.mat",
+        "Assets/Materials/EyesMaterial_1.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Take 001.anim"
+    ]
+}

@@ -33,11 +33,11 @@ createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 
 	if (this->flags & HAS_SPECULAR)
 	{
-		program = App->program->GetProgram(ProgramType::SPECULAR);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
 	}
 	else 
 	{
-		program = App->program->GetProgram(ProgramType::DEFAULT);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
 	}
 
 	//initialize buffers
@@ -396,7 +396,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 		}
 		createBuffers = true;
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMesh());
+		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMesh());
 #endif //ENGINE
 	}
 	if (!findMaterial)
@@ -421,7 +421,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	componentToDelete->SetBatch(nullptr);
 
 #else
-		App->resources->FillResourceBin(componentToDelete->GetMaterial());
+		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMaterial());
 	}
 #endif //ENGINE
 }
@@ -544,7 +544,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 	float4x4* transformsAux = static_cast<float4x4*>(transformData[frame]);
 
-	GameObject* selectedGo = App->scene->GetSelectedGameObject();
+	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 	bool isRoot = selectedGo->GetParent() == nullptr;
 
 	for (auto component : componentsInBatch)
@@ -553,7 +553,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 		const GameObject* owner = component->GetOwner();
 
-		if (App->renderer->IsObjectInsideFrustrum(owner))
+		if (App->GetModule<ModuleRender>()->IsObjectInsideFrustrum(owner))
 		{
 #ifdef ENGINE
 			bool draw = false;
@@ -685,7 +685,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 	return instanceData.size() - 1;
 }
 
-ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
+GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
 {
 	for (auto info : resourcesInfo)
 	{
@@ -729,18 +729,32 @@ void GeometryBatch::UpdateBatchComponents()
 	}
 }
 
-bool SortComponent(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
+bool CompareFarToClose(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
 {
-	float firstDistance = App->renderer->GetObjectDistance(first->GetOwner());
-	float secondDistance = App->renderer->GetObjectDistance(second->GetOwner());
+	float firstDistance = App->GetModule<ModuleRender>()->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->GetModule<ModuleRender>()->GetObjectDistance(second->GetOwner());
 
 	return (firstDistance > secondDistance);
 }
 
-void GeometryBatch::SortByDistance()
+bool CompareCloseToFar(const ComponentMeshRenderer* first, const ComponentMeshRenderer* second)
 {
-	std::sort(componentsInBatch.begin(), componentsInBatch.end(), SortComponent);
+	float firstDistance = App->GetModule<ModuleRender>()->GetObjectDistance(first->GetOwner());
+	float secondDistance = App->GetModule<ModuleRender>()->GetObjectDistance(second->GetOwner());
+
+	return (firstDistance < secondDistance);
 }
+
+void GeometryBatch::SortByDistanceFarToClose()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareFarToClose);
+}
+
+void GeometryBatch::SortByDistanceCloseToFar()
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareCloseToFar);
+}
+
 
 void GeometryBatch::SetDirty(const bool dirty)
 {

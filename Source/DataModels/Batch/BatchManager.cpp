@@ -97,6 +97,7 @@ void BatchManager::DrawOpaque(bool selected)
 	{
 		if (!geometryBatch->IsEmpty())
 		{
+			geometryBatch->SortByDistanceCloseToFar();
 			DrawBatch(geometryBatch, selected);
 		}
 		else
@@ -113,7 +114,7 @@ void BatchManager::DrawTransparent(bool selected)
 	{
 		if (!geometryBatch->IsEmpty())
 		{
-			geometryBatch->SortByDistance();
+			geometryBatch->SortByDistanceFarToClose();
 			DrawBatch(geometryBatch, selected);
 		}
 		else
@@ -140,7 +141,7 @@ void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 void BatchManager::CleanBatches()
 {
 #ifndef ENGINE
-	App->resources->CleanResourceBin();
+	App->GetModule<ModuleResources>()->CleanResourceBin();
 #endif // !ENGINE
 
 	for (GeometryBatch* batch : geometryBatchesOpaques)

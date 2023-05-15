@@ -13,7 +13,7 @@ void WindowResources::DrawWindowContents()
 
 	//in theory, since mapEntry is a reference to the one in the resources map,
 	//it should not increase reference count while iterating since it's not a new pointer
-	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : App->resources->resources)
+	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : App->GetModule<ModuleResources>()->resources)
 	{
 		std::shared_ptr<Resource> mapEntryAsShared = mapEntry.second.lock();
 		
@@ -25,7 +25,7 @@ void WindowResources::DrawWindowContents()
 
 	for (const std::shared_ptr<EditorResourceInterface>& uidToDelete : resourcesToDelete)
 	{
-		App->resources->DeleteResource(uidToDelete);
+		App->GetModule<ModuleResources>()->DeleteResource(uidToDelete);
 	}
 }
 
@@ -46,7 +46,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource,
 		ImGui::TextUnformatted(("LibPath: " + asShared->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
 		ImGui::TextUnformatted(("MetaPath: " + asShared->GetLibraryPath() + META_EXTENSION).c_str());
 		//a bit yucky I guess
-		ImGui::TextUnformatted(("Resource type: " + App->resources->GetNameOfType(asShared->GetType())).c_str());
+		ImGui::TextUnformatted(("Resource type: " + App->GetModule<ModuleResources>()->GetNameOfType(asShared->GetType())).c_str());
 		ImGui::TextUnformatted(("Reference count: " + std::to_string(referenceCountBeforeLock)).c_str());
 
 		ImGui::Separator();
@@ -77,7 +77,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource,
 
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 		{
-			App->editor->SetResourceOnInspector(resource);
+			App->GetModule<ModuleEditor>()->SetResourceOnInspector(resource);
 		}
 	}
 }
