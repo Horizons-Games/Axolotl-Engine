@@ -21,8 +21,8 @@ public:
         BOX = 1,
         SPHERE = 2,
         CAPSULE = 3,
-        CYLINDER = 4,
-        CONE = 5,
+        CONE = 4,
+        CYLINDER = 5,
         CONVEX_HULL = 6,
         TRIANGLE_MESH = 7,
         TERRAIN = 8
@@ -74,6 +74,20 @@ public:
 
     btScalar GetRestitution() const;
     void SetRestitution(float restitution);
+    
+    float3 GetBoxSize() const;
+    void SetBoxSize(float3 newBoxSize);
+
+    float GetRadius() const;
+    void SetRadius(float newRadius);
+    
+    float GetFactor() const;
+    void SetFactor(float newFactor);
+    
+    float GetHeight() const;
+    void SetHeight(float newHeight);
+
+    void SetDefaultSize(int resetShape);
 
     void SetupMobility();
 
@@ -99,6 +113,10 @@ private:
     float angularDamping = 0.1f;
     float mass = 100.0f;
     float restitution = 0.f;
+    float3 boxSize;
+    float radius;
+    float factor;
+    float height;
 
     bool isKinematic = false;
     bool isStatic = false;
@@ -213,3 +231,42 @@ inline void ComponentRigidBody::SetRestitution(float newRestitution)
     restitution = newRestitution;
 }
 
+inline float3 ComponentRigidBody::GetBoxSize() const
+{
+    return boxSize;
+}
+
+inline void ComponentRigidBody::SetBoxSize(float3 newBoxSize)
+{
+    boxSize = newBoxSize;
+}
+
+inline float ComponentRigidBody::GetRadius() const
+{
+    return radius;
+}
+
+inline void ComponentRigidBody::SetRadius(float newRadius)
+{
+    radius = newRadius;
+}
+
+inline float ComponentRigidBody::GetFactor() const
+{
+    return factor;
+}
+
+inline void ComponentRigidBody::SetFactor(float newFactor)
+{
+    factor = newFactor;
+}
+
+inline float ComponentRigidBody::GetHeight() const
+{
+    return height;
+}
+
+inline void ComponentRigidBody::SetHeight(float newHeight)
+{
+    height = newHeight;
+}

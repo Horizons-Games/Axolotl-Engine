@@ -23,7 +23,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 
 	if (asRigidBody)
 	{
-        btRigidBody* rigidBody = asRigidBody -> GetRigidBody();
+        btRigidBody* rigidBody = asRigidBody->GetRigidBody();
 		ImGui::Text("");
 
 		bool isKinematic = asRigidBody->GetIsKinematic();
@@ -59,13 +59,116 @@ void WindowComponentRigidBody::DrawWindowContents()
         }
 
         // Shape
-        const char* shapeTypes[] = { "None", "Box", "Sphere"/*, "Capsule", "Cylinder", "Cone"*/ };
+        const char* shapeTypes[] = { "None", "Box", "Sphere", "Capsule", "Cone"/*, "Cylinder", */ };
 
         int currentShape = asRigidBody->GetShape();
         if (ImGui::Combo("Shape", &currentShape, shapeTypes, IM_ARRAYSIZE(shapeTypes)))
         {
             asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
         }
+
+        ImGui::Text("Collider Size"); ImGui::SameLine();
+        if (ImGui::Button("Reset size", ImVec2(120, 0)))
+        {
+            asRigidBody->SetDefaultSize(currentShape);
+        }
+
+        // Box shape
+        if (currentShape == 1)
+        {
+            float3 boxSize = asRigidBody->GetBoxSize();
+            bool dirty = false;
+
+            ImGui::Text("x:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##XTrans", &boxSize.x, 0.5f))
+            {
+                dirty = true;
+            }
+
+            ImGui::SameLine();
+            ImGui::Text("y:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##YTrans", &boxSize.y, 0.5f))
+            {
+                dirty = true;
+            }
+            
+            ImGui::SameLine();
+            ImGui::Text("z:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##ZTrans", &boxSize.z, 0.5f))
+            {
+                dirty = true;
+            }
+
+            if (dirty)
+            {
+                asRigidBody->SetBoxSize(boxSize);
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+            }
+        }
+
+        // Sphere shape
+        if (currentShape == 2)
+        {
+            float radius = asRigidBody->GetRadius();
+            float factor = asRigidBody->GetFactor();
+            bool dirty = false;
+
+            ImGui::Text("Radius:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##Radius", &radius, 0.5f))
+            {
+                asRigidBody->SetRadius(radius);
+                dirty = true;
+            }
+
+            ImGui::Text("Factor:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##Factor", &factor, 0.5f))
+            {
+                asRigidBody->SetFactor(factor);
+                dirty = true;
+            }
+
+            if (dirty)
+            {
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+            }
+        }
+
+        // Capsule and Cone shape
+        if (currentShape == 3 || currentShape == 4)
+        {
+            float radius = asRigidBody->GetRadius();
+            float height = asRigidBody->GetHeight();
+            bool dirty = false;
+
+            ImGui::Text("Radius:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##Radius", &radius, 0.5f))
+            {
+                asRigidBody->SetRadius(radius);
+                dirty = true;
+            }
+
+            ImGui::Text("Height:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##Height", &height, 0.5f))
+            {
+                asRigidBody->SetHeight(height);
+                dirty = true;
+            }
+
+            if (dirty)
+            {
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+            }
+        }
+
+        // WIP: Cylinder shape
+
         if (currentShape > 0)
         {
             btVector3 minPoint, maxPoint;
@@ -73,6 +176,8 @@ void WindowComponentRigidBody::DrawWindowContents()
             ImGui::Text("AABB: Min: %f, %f, %f", minPoint.x(), minPoint.y(), minPoint.z());
             ImGui::Text("AABB: Max: %f, %f, %f", maxPoint.x(), maxPoint.y(), maxPoint.z());
         }
+
+        ImGui::Text("");
 
         if (!isStatic)
         {
