@@ -81,6 +81,13 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
 		ImportResource(assetsPath);
 		break;
+	case ResourceType::Emitter:
+		assetsPath += EMITTER_EXTENSION;
+		/*importedRes = CreateNewResource("DefaultEmitter", assetsPath, ResourceType::StateMachine);
+		emitterImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultEmitter.emit", assetsPath);
+		ImportResource(assetsPath);
+		break;
 	default:
 		break;
 	}

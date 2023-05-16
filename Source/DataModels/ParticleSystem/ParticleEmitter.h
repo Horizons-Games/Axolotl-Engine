@@ -10,7 +10,7 @@ class ResourceTexture;
 class ParticleEmitter
 {
 public:
-	enum class ShapeType { CIRCLE, CONE, BOX };
+	enum class ShapeType : int { CIRCLE = 0, CONE, BOX };
 
 public:
 	ParticleEmitter();
@@ -21,6 +21,8 @@ public:
 
 	void SetName(const std::string& name);
 	void SetShape(ShapeType shape);
+
+	ShapeType GetShape() const;
 
 	void AddModule(ParticleModule* module);
 
@@ -41,6 +43,11 @@ inline void ParticleEmitter::SetName(const std::string& name)
 inline void ParticleEmitter::SetShape(ShapeType shape)
 {
 	this->shape = shape;
+}
+
+inline ParticleEmitter::ShapeType ParticleEmitter::GetShape() const
+{
+	return shape;
 }
 
 inline void ParticleEmitter::AddModule(ParticleModule* module)

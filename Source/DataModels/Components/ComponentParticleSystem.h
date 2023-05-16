@@ -6,6 +6,7 @@
 #include <memory>
 
 class EmitterInstance;
+class ParticleEmitter;
 class ResourceParticleSystem;
 
 class ComponentParticleSystem : public Component
@@ -21,6 +22,7 @@ public:
 	void Reset();
 
 	void CreateEmitterInstance();
+	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);
 	void AddEmitterInstance(EmitterInstance* emitter);
 
 	bool IsEmittersEmpty() const;

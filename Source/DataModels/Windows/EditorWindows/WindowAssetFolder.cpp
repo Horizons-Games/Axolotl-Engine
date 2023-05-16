@@ -21,10 +21,21 @@ void WindowAssetFolder::DrawWindowContents()
 		name = "NewMaterial";
 	}
 
+	ImGui::SameLine(0.0f, -1.0f);
+
 	if (ImGui::Button("Create StateMachine"))
 	{
 		ImGui::OpenPopup("Select Name");
 		type = ResourceType::StateMachine;
+		name = "NewStateMachine";
+	}
+
+	ImGui::SameLine(0.0f, -1.0f);
+
+	if (ImGui::Button("Create ParticleEmitter"))
+	{
+		ImGui::OpenPopup("Select Name");
+		type = ResourceType::Emitter;
 		name = "NewStateMachine";
 	}
 
