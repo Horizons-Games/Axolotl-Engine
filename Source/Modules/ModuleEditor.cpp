@@ -13,6 +13,7 @@
 
 #include "Windows/WindowMainMenu.h"
 #include "Windows/WindowDebug.h"
+#include "Windows/EditorWindows/WindowStateMachineEditor.h"
 #ifdef ENGINE
 #include "Windows/EditorWindows/WindowConsole.h"
 #include "Windows/EditorWindows/WindowScene.h"
@@ -22,6 +23,7 @@
 #include "Windows/EditorWindows/WindowEditorControl.h"
 #include "Windows/EditorWindows/WindowResources.h"
 #include "Windows/EditorWindows/WindowAssetFolder.h"
+#include "Resources/ResourceStateMachine.h"
 #else
 #include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -40,7 +42,11 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : mainMenu(nullptr), scene(nullptr), windowResized(false), copyObject(nullptr)
+ModuleEditor::ModuleEditor() : 
+	mainMenu(nullptr), 
+	scene(nullptr), 
+	stateMachineWindowEnable(true),
+	stateMachineEditor(nullptr)
 {
 }
 
@@ -110,6 +116,7 @@ bool ModuleEditor::Init()
 	}
 	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
+	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -171,36 +178,6 @@ update_status ModuleEditor::Update()
 #ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
-	if (SDL_ShowCursor(SDL_QUERY))
-	{
-		if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
-			|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-		{
-			CopyAnObject();
-		}
-	
-		if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-		{
-			PasteAnObject();
-		}
-
-		if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-		{
-			CutAnObject();
-		}
-
-		if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-			|| App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-			&& App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-		{
-			DuplicateAnObject();
-		}
-	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -251,6 +228,7 @@ update_status ModuleEditor::Update()
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
+	stateMachineEditor->Draw(stateMachineWindowEnable);
 #else
 	debugOptions->Draw();
 #endif
@@ -278,6 +256,21 @@ update_status ModuleEditor::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
+void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
+{
+#ifdef ENGINE
+	this->stateMachineEditor->SetStateMachine(resource);
+	stateMachineWindowEnable = true;
+#endif
+}
+
+void ModuleEditor::SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource)
+{
+#ifdef ENGINE
+	stateMachineEditor->SetResourceOnState(resource);
+#endif
+}
+
 bool ModuleEditor::IsSceneFocused() const
 {
 #ifdef ENGINE
@@ -293,62 +286,6 @@ void ModuleEditor::SetResourceOnInspector(const std::weak_ptr<Resource>& resourc
 	this->inspector->SetResource(resource);
 #endif
 }
-
-void ModuleEditor::CopyAnObject()
-{
-	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() 
-		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight() 
-		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
-	{
-		copyObject = std::make_unique<GameObject>(*App->GetModule<ModuleScene>()->GetSelectedGameObject());
-	}
-	
-}
-
-void ModuleEditor::PasteAnObject()
-{
-	if(copyObject)
-	{
-		if (App->GetModule<ModuleScene>()->GetSelectedGameObject())
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetSelectedGameObject());
-		}
-		else
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->
-				DuplicateGameObject(copyObject->GetName(), copyObject.get(), App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-		}
-	}
-}
-
-void ModuleEditor::CutAnObject()
-{
-	CopyAnObject();
-
-	GameObject* gameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	App->GetModule<ModuleScene>()->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-																			// change the focus to its parent
-	App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->
-		RemoveGameObjectAndChildren(gameObject->GetParent());
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(gameObject);
-}
-
-void ModuleEditor::DuplicateAnObject()
-{
-	if (App->GetModule<ModuleScene>()->GetSelectedGameObject() 
-		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()
-		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetAmbientLight()
-		&& App->GetModule<ModuleScene>()->GetSelectedGameObject() != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
-	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->
-			DuplicateGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetName()
-				, App->GetModule<ModuleScene>()->GetSelectedGameObject(), App->GetModule<ModuleScene>()->GetSelectedGameObject()->GetParent());
-	}
-}
-
-
 
 void ModuleEditor::RefreshInspector() const
 {

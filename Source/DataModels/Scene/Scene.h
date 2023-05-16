@@ -3,6 +3,9 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
+#include "Resources/ResourceModel.h"
+#include "Resources/ResourceMesh.h"
+
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
@@ -12,6 +15,7 @@ class ComponentCanvas;
 class GameObject;
 class Quadtree;
 class Skybox;
+class Cubemap;
 class Updatable;
 
 enum class Premade3D
@@ -41,14 +45,13 @@ public:
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
-	void DestroyGameObject(GameObject* gameObject);
+	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
 	void GenerateLights();
 
-	void RenderAmbientLight() const;
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
@@ -57,7 +60,6 @@ public:
 	void UpdateSceneSpotLights();
 
 	GameObject* GetRoot() const;
-	const GameObject* GetAmbientLight() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
@@ -68,21 +70,28 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
+	Cubemap* GetCubemap() const;
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
 	void SetSkybox(std::unique_ptr<Skybox> skybox);
+	void SetCubemap(std::unique_ptr<Cubemap> cubemap);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
-	void SetAmbientLight(GameObject* ambientLight);
 	void SetDirectionalLight(GameObject* directionalLight);
+
+
+	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
+	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
+	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
+	void AddSceneInteractable(const std::vector<Component*>& interactable);
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
-	void RemoveNonStaticObject(GameObject* gameObject);
+	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 
 	void InitNewEmptyScene();
@@ -92,9 +101,14 @@ public:
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
 private:
+	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
+	const std::vector<GameObject*> CacheBoneHierarchy(
+		GameObject* gameObjectNode,
+		const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;
+	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
@@ -103,13 +117,11 @@ private:
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
-	GameObject* ambientLight;
 	GameObject* directionalLight;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
 
-	unsigned uboAmbient;
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
@@ -123,11 +135,6 @@ private:
 inline GameObject* Scene::GetRoot() const
 {
 	return root.get();
-}
-
-inline const GameObject* Scene::GetAmbientLight() const
-{
-	return ambientLight;
 }
 
 inline const GameObject* Scene::GetDirectionalLight() const
@@ -180,11 +187,6 @@ inline void Scene::SetSceneInteractable(const std::vector<Component*>& interacta
 	sceneInteractableComponents = interactable;
 }
 
-inline void Scene::SetAmbientLight(GameObject* ambientLight)
-{
-	this->ambientLight = ambientLight;
-}
-
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 {
 	this->directionalLight = directionalLight;
@@ -198,6 +200,11 @@ inline Quadtree* Scene::GetRootQuadtree() const
 inline Skybox* Scene::GetSkybox() const
 {
 	return skybox.get();
+}
+
+inline Cubemap* Scene::GetCubemap() const
+{
+	return cubemap.get();
 }
 
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const

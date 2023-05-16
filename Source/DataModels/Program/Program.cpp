@@ -35,4 +35,3 @@ Program::~Program()
 {
 	CleanUp();
 }
-
