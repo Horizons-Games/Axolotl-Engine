@@ -46,7 +46,7 @@ void ComponentBreakable::SubscribeToOnCollisionEnter()
 {
 	if (subscribed)
 	{
-		ENGINE_LOG("Already suscribed");
+		//ENGINE_LOG("Already suscribed");
 		return;
 	}
 	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
@@ -60,13 +60,13 @@ void ComponentBreakable::UnsubscribeToOnCollisionEnter()
 {
 	if (!subscribed)
 	{
-		ENGINE_LOG("Already unsuscribed");
+		//ENGINE_LOG("Already unsuscribed");
 		return;
 	}
-	if (auto rb = owner->GetComponent(ComponentType::RIGIDBODY))
+	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 	{
-		static_cast<ComponentRigidBody*>(rb)->ClearCollisionEnterDelegate();
-		subscribed = true;
+		rb->ClearCollisionEnterDelegate();
+		subscribed = false;
 	}
 }
 
