@@ -199,7 +199,10 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 draggedGameObject->SetParent(gameObject);
                 ImGui::EndDragDropTarget();
-                ImGui::TreePop();
+                if (nodeDrawn)
+                {
+                    ImGui::TreePop();
+                }
                 return false;
             }
         }
