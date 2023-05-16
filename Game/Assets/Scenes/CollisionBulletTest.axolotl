@@ -292,7 +292,7 @@
                             "localPos_X": -0.721375584602356,
                             "localPos_Y": 2.173062324523926,
                             "localPos_Z": -2.7646732330322266,
-                            "localRot_X": 25.92799949645996,
+                            "localRot_X": -2.996999979019165,
                             "localRot_Y": -0.00003052240936085582,
                             "localRot_Z": -0.000013020046026213095,
                             "localSca_X": 1.0,
@@ -314,39 +314,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
-                "tag": "",
-                "uid": 8038291256267006836,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_0",
                 "tag": "",
                 "uid": 3668851193790846456,
-                "parentUID": 8038291256267006836,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -383,39 +354,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell",
-                "tag": "",
-                "uid": 8857966646564967851,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -2.7785837650299072,
-                            "localPos_Y": -77.31040954589844,
-                            "localPos_Z": -52.92369079589844,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.006_0",
                 "tag": "",
                 "uid": 1238751264328931328,
-                "parentUID": 8857966646564967851,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -452,39 +394,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell.002",
-                "tag": "",
-                "uid": 5273180949379316869,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 49.417781829833984,
-                            "localPos_Y": -71.79098510742188,
-                            "localPos_Z": 48.969703674316406,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.001_0",
                 "tag": "",
                 "uid": 10756516795406752552,
-                "parentUID": 5273180949379316869,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -521,39 +434,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell.003",
-                "tag": "",
-                "uid": 12082007241360963147,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 7.61483907699585,
-                            "localPos_Y": 8.779644966125488,
-                            "localPos_Z": -65.70147705078125,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.002_0",
                 "tag": "",
                 "uid": 4548235126523859356,
-                "parentUID": 12082007241360963147,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -590,39 +474,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell.004",
-                "tag": "",
-                "uid": 9061553773600499542,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.9807994365692139,
-                            "localPos_Y": -0.4962310194969177,
-                            "localPos_Z": 25.994937896728516,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.003_0",
                 "tag": "",
                 "uid": 6235409451306163685,
-                "parentUID": 9061553773600499542,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -659,39 +514,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell.005",
-                "tag": "",
-                "uid": 17966199963699778782,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -19.475284576416016,
-                            "localPos_Y": 85.24776458740234,
-                            "localPos_Z": 24.458816528320313,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.004_0",
                 "tag": "",
                 "uid": 6852026471867630675,
-                "parentUID": 17966199963699778782,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -728,39 +554,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube_cell.001_cell",
-                "tag": "",
-                "uid": 10790010124858938512,
-                "parentUID": 12316275006243833428,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -65.16775512695313,
-                            "localPos_Y": 74.7384262084961,
-                            "localPos_Z": 86.08992767333984,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "breakable_cube.Cube_cell.001_cell.004_0",
                 "tag": "",
                 "uid": 4028448794671962443,
-                "parentUID": 10790010124858938512,
+                "parentUID": 12316275006243833428,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -811,14 +608,14 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -8.496806144714355,
-                            "localPos_Y": 12.692155838012695,
+                            "localPos_Y": 13.427613258361816,
                             "localPos_Z": -4.13051700592041,
-                            "localRot_X": 39.92237091064453,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 0.009999999776482582,
-                            "localSca_Y": 0.009999999776482582,
-                            "localSca_Z": 0.009999999776482582
+                            "localSca_X": 0.5,
+                            "localSca_Y": 0.5,
+                            "localSca_Z": 0.5
                         }
                     },
                     {
@@ -842,6 +639,61 @@
                             "active": true,
                             "removed": true,
                             "subscribed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 10966411693575809760,
+                "parentUID": 2883067823298620766,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.540700912475586,
+                            "localPos_Y": 12.07572078704834,
+                            "localPos_Z": -4.18299674987793,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.22499999403953552,
+                            "localSca_Y": 0.375,
+                            "localSca_Z": 0.15000000596046448
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7356052530050122696,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "gravity_Y": -9.8100004196167
                         }
                     }
                 ]

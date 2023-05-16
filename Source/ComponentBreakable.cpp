@@ -80,8 +80,8 @@ Execercise:
 */
 	ENGINE_LOG("player velocity %f %f",rigidbody->GetVelocity().getX(), rigidbody->GetVelocity().getZ());
 	ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
-	if (abs(rigidbody->GetVelocity().getX()) > 5.0f || abs(rigidbody->GetVelocity().getZ()) > 5.0f)
-	{
+	//if (abs(rigidbody->GetVelocity().getX()) > 5.0f || abs(rigidbody->GetVelocity().getZ()) > 5.0f)
+	//{
 		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
 			rb->RemoveRigidBodyFromSimulation();
@@ -96,8 +96,8 @@ Execercise:
 			if (auto rb = static_cast<ComponentRigidBody*>(child->CreateComponent(ComponentType::RIGIDBODY)))
 			{
 				rb->SetCollisionShape(ComponentRigidBody::SHAPE::BOX);
-				rb->UpdateNonSimulatedTransform();
 			}
 		}
-	}
+	//}
+
 }
