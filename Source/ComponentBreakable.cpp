@@ -7,7 +7,7 @@
 #include "Globals.h"
 #include "FileSystem/Json.h"
 
-#include "FileSystem/Json.h"
+
 
 ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner)
 	: Component(ComponentType::BREAKABLE, active, owner, true)
@@ -93,10 +93,7 @@ Execercise:
 			{
 				continue;
 			}
-			if (auto rb = static_cast<ComponentRigidBody*>(child->CreateComponent(ComponentType::RIGIDBODY)))
-			{
-				rb->SetCollisionShape(ComponentRigidBody::SHAPE::BOX);
-			}
+			child->CreateComponent(ComponentType::RIGIDBODY);
 		}
 	//}
 
