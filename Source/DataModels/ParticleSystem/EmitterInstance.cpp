@@ -1,16 +1,23 @@
 #include "EmitterInstance.h"
 
-EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSystem* owner) :
+EmitterInstance::EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner) :
 	emitter(emitter), owner(owner)
 {
 }
 
 EmitterInstance::~EmitterInstance()
 {
-	delete emitter;
-	delete owner;
+	owner = nullptr;
 
 	particles.clear();
+}
+
+void EmitterInstance::Init()
+{
+}
+
+void EmitterInstance::UpdateModules()
+{
 }
 
 void EmitterInstance::DrawParticles()

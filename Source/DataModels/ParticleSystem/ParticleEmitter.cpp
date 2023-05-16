@@ -2,7 +2,7 @@
 
 #include "ParticleModule.h"
 
-ParticleEmitter::ParticleEmitter() : name(""), particleTexture(nullptr)
+ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particleTexture(nullptr)
 {
 }
 

@@ -22,8 +22,7 @@ public:
 	void SetName(const std::string& name);
 	void SetShape(ShapeType shape);
 
-	ParticleModule* AddModule();
-
+	void AddModule(ParticleModule* module);
 
 private:
 	std::string name;
@@ -42,4 +41,9 @@ inline void ParticleEmitter::SetName(const std::string& name)
 inline void ParticleEmitter::SetShape(ShapeType shape)
 {
 	this->shape = shape;
+}
+
+inline void ParticleEmitter::AddModule(ParticleModule* module)
+{
+	return modules.push_back(module);
 }

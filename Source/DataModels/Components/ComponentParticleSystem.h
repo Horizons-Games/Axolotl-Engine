@@ -20,18 +20,27 @@ public:
 	void Update();
 	void Reset();
 
-	bool isEmpty() const;
+	void CreateEmitterInstance();
+	void AddEmitterInstance(EmitterInstance* emitter);
 
+	bool IsEmittersEmpty() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
+
+	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 
 private:
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
 };
 
-inline bool ComponentParticleSystem::isEmpty() const
+inline bool ComponentParticleSystem::IsEmittersEmpty() const
 {
 	return emitters.empty();
+}
+
+inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
+{
+	this->resource = resource;
 }
 
 inline std::vector<EmitterInstance*> ComponentParticleSystem::GetEmitters() const

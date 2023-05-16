@@ -1,5 +1,7 @@
 #include "ComponentParticleSystem.h"
 
+#include "ParticleSystem/EmitterInstance.h"
+
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, false), resource(nullptr)
 {
@@ -29,4 +31,15 @@ void ComponentParticleSystem::Update()
 
 void ComponentParticleSystem::Reset()
 {
+}
+
+void ComponentParticleSystem::CreateEmitterInstance()
+{
+	EmitterInstance* instance = new EmitterInstance(nullptr, this);
+	emitters.push_back(instance);
+}
+
+void ComponentParticleSystem::AddEmitterInstance(EmitterInstance* emitter)
+{
+	emitters.push_back(emitter);
 }

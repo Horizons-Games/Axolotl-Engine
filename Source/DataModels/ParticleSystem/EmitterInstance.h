@@ -24,17 +24,24 @@ public:
 	};
 
 public:
-	EmitterInstance(ParticleEmitter* emitter, ComponentParticleSystem* owner);
+	EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner);
 	~EmitterInstance();
 
 	void Init();
 	void UpdateModules();
 	void DrawParticles();
 
+	std::shared_ptr<ParticleEmitter> GetEmitter() const;
+
 private:
 	std::vector<Particle> particles;
 
-	ParticleEmitter* emitter;
+	std::shared_ptr<ParticleEmitter> emitter;
 	ComponentParticleSystem* owner;
 };
+
+inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
+{
+	return emitter;
+}
 
