@@ -25,15 +25,9 @@ void WindowHierarchy::DrawWindowContents()
 {
     GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
     assert(root);
-    std::vector<std::function<void(void)>> pendingActions;
-    DrawRecursiveHierarchy(root, pendingActions);
+    DrawRecursiveHierarchy(root);
 
-    for (auto functor : pendingActions)
-    {
-        functor();
-    }
-
-    const ModuleInput* input = App->GetModule<ModuleInput>();
+    ModuleInput* input = App->GetModule<ModuleInput>();
 
     if (SDL_ShowCursor(SDL_QUERY)
         && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
@@ -64,7 +58,7 @@ void WindowHierarchy::DrawWindowContents()
 	}
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, std::vector<std::function<void(void)>>& pendingActions)
+bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject);
 
@@ -178,7 +172,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, std::vector
             {
                 ImGui::TreePop();
             }
-            return;
+            return false;
         }
 
         ImGui::EndPopup();
@@ -203,11 +197,10 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, std::vector
                 loadedScene->SearchGameObjectByID(draggedGameObjectID);
             if (draggedGameObject)
             {
-                pendingActions.push_back(
-                    [draggedGameObject, gameObject]
-                    {
-                        draggedGameObject->SetParent(gameObject);
-                    });
+                draggedGameObject->SetParent(gameObject);
+                ImGui::EndDragDropTarget();
+                ImGui::TreePop();
+                return false;
             }
         }
 
@@ -218,10 +211,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, std::vector
     {
         for (GameObject* child : children)
         {
-            DrawRecursiveHierarchy(child, pendingActions);
+            if (!DrawRecursiveHierarchy(child))
+            {
+                ImGui::TreePop();
+                return false;
+            }
         }
         ImGui::TreePop();
     }
+
+    return true;
 }
 
 void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
