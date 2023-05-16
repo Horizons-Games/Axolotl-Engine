@@ -39,6 +39,7 @@ ComponentAreaLight::ComponentAreaLight(AreaType areaType, GameObject* parent) :
 	ComponentMeshRenderer* testComp = static_cast<ComponentMeshRenderer*>(owner->CreateComponent(ComponentType::MESHRENDERER));
 	test = std::make_shared<ResourceMesh>();
 	std::shared_ptr<ResourceMaterial> material = std::make_shared<ResourceMaterial>(0, "", "", "");
+	material.get()->SetDiffuseColor(float4(1, 1, 1, 1)); 
 	material.get()->SetShaderType(0);
 	float const* points = s->points;
 	float const* tcoords = s->tcoords;
@@ -109,6 +110,7 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Are
 	ComponentMeshRenderer* testComp = static_cast<ComponentMeshRenderer*>(owner->CreateComponent(ComponentType::MESHRENDERER));
 	test = std::make_shared<ResourceMesh>();
 	std::shared_ptr<ResourceMaterial> material = std::make_shared<ResourceMaterial>(0, "", "", "");
+	material.get()->SetDiffuseColor(float4(1, 1, 1, 1));
 	material.get()->SetShaderType(0);
 	float const* points = s->points;
 	float const* tcoords = s->tcoords;
