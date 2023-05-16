@@ -16,6 +16,8 @@
 
 #define SECTOR_SPHERE_COUNT 36
 #define STACK_SPHERE_COUNT 34
+#define SECTOR_TUBE_COUNT 36
+#define STACK_TUBE_COUNT 34
 
 ComponentAreaLight::ComponentAreaLight() : ComponentLight(LightType::AREA, true)
 {
