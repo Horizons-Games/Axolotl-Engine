@@ -22,12 +22,17 @@ public:
 	const float3& GetVector3() const;
 	void SetVector3(const float3& vec3);
 	
+	const std::vector<std::any>& GetVector() const;
+	//void SetVector(const std::vector<std::any>& vec);
+
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
 
 private:
 	float value;
 	float3 vec3;
+	std::vector<int> vec;
+	mutable std::vector<std::any> convertedVec;
 	std::string sentence;
 	GameObject* character;
 	bool check;

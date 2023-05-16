@@ -28,7 +28,7 @@ class Application;
         [this](Type value) { this->Set##Name(value); } \
     )));
 
-using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>>;
+using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::vector<std::any>>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -111,6 +111,15 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			{
 				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
 				float3 value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
+			case FieldType::VECTOR:
+			{
+				Field<std::vector<std::any>> field = std::get<Field<std::vector<std::any>>>(enumAndField.second);
+				std::vector<std::any> value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;

@@ -126,6 +126,17 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
+			//case FieldType::VECTOR:
+			//{
+			//	Field<std::vector<int>> vectorField = std::get<Field<std::vector<std::any>>>(member);
+			//	std::vector<int> value = vectorField.getter();
+			//	if (ImGui::DragInt3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+			//	{
+			//		vectorField.setter(value);
+			//	}
+			//	break;
+			//}
+
 			case FieldType::STRING:
 			{
 				Field<std::string> stringField = std::get<Field<std::string>>(member);

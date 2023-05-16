@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
+#include <vector>
+#include <any>
 
 enum class FieldType
 {
@@ -8,6 +10,7 @@ enum class FieldType
 	STRING,
 	GAMEOBJECT,
 	VECTOR3,
+	VECTOR,
 	BOOLEAN
 };
 
@@ -26,6 +29,12 @@ template<>
 struct TypeToEnum<float3>
 {
 	const static FieldType value = FieldType::VECTOR3;
+};
+
+template<>
+struct TypeToEnum<std::vector<std::any>>
+{
+	const static FieldType value = FieldType::VECTOR;
 };
 
 template<>
