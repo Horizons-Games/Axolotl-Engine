@@ -79,7 +79,7 @@ Execercise:
 - Apply a radial force to the pieces centered at the collision point
 */
 
-	ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName(), rigidbody->GetOwner()->GetName());
+	ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
 
 	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 	{
