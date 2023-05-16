@@ -112,36 +112,14 @@ void ComponentRigidBody::Update()
         Quat rotationError = targetRotation * q.Normalized().Inverted();
         rotationError.Normalize();
 
-        if (!rotationError.Equals(Quat::identity, 0.05f))
-        {
-            float3 axis;
-            float angle;
-            rotationError.ToAxisAngle(axis, angle);
-            axis.Normalize();
+        float3 axis;
+        float angle;
+        rotationError.ToAxisAngle(axis, angle);
+        axis.Normalize();
 
-            float3 velocityRotation = axis * angle * KpTorque;
-            Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-            Quat wq_0 = angularVelocityQuat * q;
-
-            float deltaValue = 0.5f * deltaTime;
-            Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-            Quat nextRotation(q.x + deltaRotation.x,
-                q.y + deltaRotation.y,
-                q.z + deltaRotation.z,
-                q.w + deltaRotation.w);
-            nextRotation.Normalize();
-
-            q = nextRotation;
-
-            
-        }
-
-        float3 rotationEuler(q.ToEulerXYZ());
-        btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
-        rigidBody->setAngularVelocity(rotation);
-
-        
+        float3 angularVelocity = axis * angle * KpTorque;
+        btVector3 bulletAngularVelocity(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+        rigidBody->setAngularVelocity(bulletAngularVelocity);
     }
 }
 

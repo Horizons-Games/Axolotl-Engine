@@ -85,7 +85,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 31.04351234436035,
                             "localPos_Y": 6.68842887878418,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -144,12 +144,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 100.88117218017578,
-                            "localPos_Y": 18.902795791625977,
-                            "localPos_Z": -13.826395034790039,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": 51.02068328857422,
+                            "localPos_Y": 46.27877426147461,
+                            "localPos_Z": 5.018324375152588,
+                            "localRot_X": -16.840816497802734,
+                            "localRot_Y": 23.874265670776367,
+                            "localRot_Z": 69.6982421875,
                             "localSca_X": 1.3047611713409424,
                             "localSca_Y": 1.0,
                             "localSca_Z": 3.6964242458343506
@@ -181,7 +181,7 @@
                             "usePositionController": true,
                             "useRotationController": true,
                             "KpForce": 0.5,
-                            "KpTorque": 0.05000000074505806,
+                            "KpTorque": 2.0,
                             "gravity_Y": -9.8100004196167
                         }
                     },
@@ -247,9 +247,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 92.22146606445313,
+                            "localPos_X": 150.0133514404297,
                             "localPos_Y": 7.688401699066162,
-                            "localPos_Z": 49.34065246582031,
+                            "localPos_Z": -3.13818097114563,
                             "localRot_X": 180.0,
                             "localRot_Y": -85.65579986572266,
                             "localRot_Z": 180.0,
@@ -306,7 +306,7 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 500.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -414,7 +414,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 8.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -36.1414794921875,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
