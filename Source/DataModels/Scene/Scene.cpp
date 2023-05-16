@@ -739,9 +739,10 @@ void Scene::UpdateSceneAreaLights()
 				{
 					AreaLightSphere sl;
 					float3 center = transform->GetGlobalPosition();
-					float radius = areaLightComp->GetRadius();
+					float radius = areaLightComp->GetShapeRadius();
 					sl.position = float4(center, radius);
 					sl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					sl.lightRadius = areaLightComp->GetLightRadius();
 
 					sphereLights.push_back(sl);
 				}
@@ -750,8 +751,8 @@ void Scene::UpdateSceneAreaLights()
 					AreaLightTube tl;
 					float4x4 matrixRotation = transform->GetGlobalRotation();
 					float3 translation = transform->GetGlobalPosition();
-					float3 pointA = float3(0, areaLightComp->GetRadius(), 0);
-					float3 pointB = float3(0, -areaLightComp->GetRadius(), 0);
+					float3 pointA = float3(0, areaLightComp->GetShapeRadius(), 0);
+					float3 pointB = float3(0, -areaLightComp->GetShapeRadius(), 0);
 
 					// Apply rotation
 					pointA = (matrixRotation * float4(pointA, 1)).xyz();
@@ -764,6 +765,7 @@ void Scene::UpdateSceneAreaLights()
 					tl.positionA = pointA;
 					tl.positionB = pointB;
 					tl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					tl.lightRadius = areaLightComp->GetLightRadius();
 
 					tubeLights.push_back(tl);
 				}

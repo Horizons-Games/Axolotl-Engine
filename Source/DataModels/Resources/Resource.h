@@ -51,6 +51,8 @@ protected:
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
 
+	Resource();
+
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
 
@@ -93,6 +95,10 @@ inline Resource::Resource(	UID resourceUID,
 	fileName(fileName),
 	assetsPath(assetsPath),
 	libraryPath(libraryPath)
+{
+}
+
+inline Resource::Resource()
 {
 }
 

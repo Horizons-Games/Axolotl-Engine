@@ -1,16 +1,17 @@
 #pragma once
 
+#include <memory>
 #include "ComponentLight.h"
 
-#include "Math/float3.h"
-#include "Math/float2.h"
-
-#include <vector>
+class ResourceMesh;
 
 struct AreaLightSphere
 {
 	float4 position;  	// xyz position+w radius
 	float4 color; 		// rgb colour+alpha intensity
+	float lightRadius;	// radius for attenuation
+	float padding1;
+	float2 padding2;
 };
 
 struct AreaLightTube
@@ -18,6 +19,9 @@ struct AreaLightTube
 	float3 positionA;	
 	float3 positionB;
 	float4 color; 		// rgb colour+alpha intensity
+	float lightRadius;	// radius for attenuation
+	float padding1;
+	float2 padding2;
 };
 
 class ComponentAreaLight : public ComponentLight
@@ -31,32 +35,18 @@ public:
 	~ComponentAreaLight();
 
 	const AreaType GetAreaType();
-	const float GetRadius();
+	const float GetShapeRadius();
+	const float GetLightRadius();
 
 	void SetAreaType(AreaType newType);
-	void SetRadius(float newRadius);
+	void SetShapeRadius(float newRadius);
+	void SetLightRadius(float newRadius);
 
 private:
-	void CreateVAO();
-	void CreateVBO();
-	void CreateEBO();
-
-	void CreateSphere();
-	void GenerateSphereTriangles();
-
 	AreaType areaType;
-	float radius;
-
-	std::vector<float3> vertices;
-	std::vector<float3> normals;
-	std::vector<float2> texCoords;
-
-	std::vector<std::vector<unsigned int>> facesIndices;
-	std::vector<int> lineIndices;
-
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ebo;
+	float shapeRadius;
+	float lightRadius;
+	std::shared_ptr<ResourceMesh> test;
 };
 
 inline const AreaType ComponentAreaLight::GetAreaType()
@@ -64,9 +54,14 @@ inline const AreaType ComponentAreaLight::GetAreaType()
 	return areaType;
 }
 
-inline const float ComponentAreaLight::GetRadius()
+inline const float ComponentAreaLight::GetShapeRadius()
 {
-	return radius;
+	return shapeRadius;
+}
+
+inline const float ComponentAreaLight::GetLightRadius()
+{
+	return lightRadius;
 }
 
 inline void ComponentAreaLight::SetAreaType(AreaType newType)
@@ -74,7 +69,12 @@ inline void ComponentAreaLight::SetAreaType(AreaType newType)
 	areaType = newType;
 }
 
-inline void ComponentAreaLight::SetRadius(float newRadius)
+inline void ComponentAreaLight::SetShapeRadius(float newRadius)
 {
-	radius = newRadius;
+	shapeRadius = newRadius;
+}
+
+inline void ComponentAreaLight::SetLightRadius(float newRadius)
+{
+	lightRadius = newRadius;
 }

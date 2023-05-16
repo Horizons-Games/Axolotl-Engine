@@ -14,6 +14,10 @@ ResourceMesh::ResourceMesh(UID resourceUID, const std::string& fileName, const s
 {
 }
 
+ResourceMesh::ResourceMesh() : Resource(), vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), numBones(0), materialIndex(0)
+{
+}
+
 ResourceMesh::~ResourceMesh()
 {
 	Unload();
@@ -212,4 +216,9 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 	}
 
 	return triangles;
+}
+
+void ResourceMesh::SetAttach(std::vector<Attach> att)
+{
+	attaches = att;
 }

@@ -29,6 +29,7 @@ public:
 		const std::string& fileName, 
 		const std::string& assetsPath, 
 		const std::string& libraryPath);
+	ResourceMesh();
 	virtual ~ResourceMesh() override;
 
 	ResourceType GetType() const override;
@@ -82,6 +83,8 @@ public:
 	void NormalizeWeights(const unsigned int attachId);
 
 	const std::vector<Triangle> RetrieveTriangles(const float4x4& modelMatrix);
+
+	void SetAttach(std::vector<Attach> att);
 
 protected:
 	void InternalLoad() override;

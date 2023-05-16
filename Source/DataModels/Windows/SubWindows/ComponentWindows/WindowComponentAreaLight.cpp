@@ -119,13 +119,24 @@ void WindowComponentAreaLight::DrawWindowContents()
 				modified = true;
 			}
 
-			ImGui::Text("Radius"); ImGui::SameLine();
+			ImGui::Text("Shape Radius"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float radius = asAreaLight->GetRadius();
-			if (ImGui::DragFloat("##Radius", &radius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
+			float shapeRadius = asAreaLight->GetShapeRadius();
+			if (ImGui::DragFloat("##ShapeRadius", &shapeRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
-				asAreaLight->SetRadius(radius);
+				asAreaLight->SetShapeRadius(shapeRadius);
+				modified = true;
+			}
+			ImGui::PopStyleVar();
+
+			ImGui::Text("Light Radius"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			float lightRadius = asAreaLight->GetLightRadius();
+			if (ImGui::DragFloat("##LightRadius", &lightRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
+			{
+				asAreaLight->SetLightRadius(lightRadius);
 				modified = true;
 			}
 			ImGui::PopStyleVar();
