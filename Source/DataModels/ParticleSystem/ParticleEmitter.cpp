@@ -14,6 +14,8 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particl
 	modules.push_back(base);
 	modules.push_back(spawn);
 	modules.push_back(position);
+
+	maxParticles = MAX_PARTICLES;
 }
 
 ParticleEmitter::~ParticleEmitter()

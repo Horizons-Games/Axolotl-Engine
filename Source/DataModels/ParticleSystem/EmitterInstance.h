@@ -18,8 +18,7 @@ public:
 		float3 size;
 		float3 color;
 		Quat rotation;
-
-		float lifetime;
+		float lifespan;
 		float distanceToCamera;
 	};
 

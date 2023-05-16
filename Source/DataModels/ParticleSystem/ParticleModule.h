@@ -16,14 +16,29 @@ public:
 	void Save();
 	void Load();
 
+	const bool IsEnabled() const;
 	const ModuleType GetType() const;
+
+	void SetEnabled(bool enabled);
 	
 private:
 	ModuleType type;
+
+	bool enabled;
 };
 
+
+inline const bool ParticleModule::IsEnabled() const
+{
+	return enabled;
+}
 
 inline const ModuleType ParticleModule::GetType() const
 {
 	return type;
+}
+
+inline void ParticleModule::SetEnabled(bool enabled)
+{
+	this->enabled = enabled;
 }

@@ -44,6 +44,8 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 
 	ImGui::PushID(id);
 
+	ImGui::Text("Configuration");
+
 	if (emitter)
 	{
 		ParticleEmitter::ShapeType shape = emitter->GetShape();
@@ -105,8 +107,17 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 
 			ImGui::EndCombo();
 		}
-		
+
+		int maxParticles = emitter->GetMaxParticles();
+
+		//TODO: Draw Particle Emitter base parameters
+		ImGui::InputInt("maxParticles", &maxParticles, 1, 5);
+
 		//TODO: Draw Emitter Modules
+		for (ParticleModule* module : emitter->GetModules())
+		{
+			
+		}
 
 		ImGui::Separator();
 	}
