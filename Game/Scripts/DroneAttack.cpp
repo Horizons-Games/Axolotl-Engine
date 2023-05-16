@@ -4,6 +4,9 @@
 
 #include "ModuleInput.h"
 
+#include "Scene/Scene.h"
+#include "ModuleScene.h"
+
 #include "Physics/Physics.h"
 
 #include "Components/ComponentAudioSource.h"
@@ -22,34 +25,33 @@
 REGISTERCLASS(DroneAttack);
 
 DroneAttack::DroneAttack() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(3.0f), animation(nullptr), animationGO(nullptr),
-transform(nullptr)
+							input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
+							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
-	REGISTER_FIELD(rayAttackSize, float);
 	REGISTER_FIELD(animationGO, GameObject*);
+	REGISTER_FIELD(bulletOriginGO, GameObject*);
 }
 
 void DroneAttack::Start()
 {
 	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+
+	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (animationGO)
 		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
+	if (bulletOriginGO)
+		bulletOrigin = static_cast<ComponentTransform*>(bulletOriginGO->GetComponent(ComponentType::TRANSFORM));
 
 	input = App->GetModule<ModuleInput>();
-
-	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_OPEN);
-	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_HUM);
 }
 
 void DroneAttack::Update(float deltaTime)
 {
-	Ray ray(transform->GetPosition(), transform->GetLocalForward());
-	dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
-
 	// Attack
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE)
 	{
 		PerformAttack();
 	}
@@ -62,16 +64,16 @@ void DroneAttack::PerformAttack()
 		if (animation)
 			animation->SetParameter("attack", true);
 
+		
+		GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
+		
+		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
+		
+		//bullet->position = bulletOrigin->position;
+
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
-
-		Ray ray(transform->GetPosition(), transform->GetLocalForward());
-		LineSegment line(ray, rayAttackSize);
-		if (Physics::RaycastFirst(line, owner))
-		{
-			audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
-		}
+		audioSource->PostEvent(audio::SFX_DRON_SHOT_01);
 	}
 }
 
